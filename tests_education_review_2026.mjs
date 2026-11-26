@@ -48,8 +48,8 @@ assert.equal(examByGrade('RO','13 seral').filter(e=>e.id==='bac').length,1,'Comp
 const university=EXAM_SPECS.find(x=>x.country==='RO'&&x.id==='university-course');
 assert.ok(university.advisory&&!university.universityAdmission);assert.equal(university.grades.length,3);assert.ok(university.subjects.includes('astronomy'));
 for(const script of [EDUCATION_LESSON_WORKSPACE_SCRIPT,EXAM_LESSON_PRACTICE_SCRIPT,SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT])new Function(script);
-assert.match(EDUCATION_LESSON_WORKSPACE_SCRIPT,/verdict Corect \/ Parțial corect \/ Incorect \/ Nedeterminabil/);
-assert.match(EDUCATION_LESSON_WORKSPACE_SCRIPT,/primul pas greșit/);
+assert.match(EDUCATION_LESSON_WORKSPACE_SCRIPT,/educationExerciseInstruction\(mode\)/);
+assert.doesNotMatch(EDUCATION_LESSON_WORKSPACE_SCRIPT,/theory:row.theory|workedExample:row.worked/,'no unrelated whole-lesson theory or solved example in the request');
 assert.match(EDUCATION_LESSON_WORKSPACE_SCRIPT,/reference:task.guide/);
 assert.match(EDUCATION_LESSON_WORKSPACE_SCRIPT,/request!==serial\|\|!box.isConnected/);
 assert.match(EXAM_LESSON_PRACTICE_SCRIPT,/mathFilters\[j.exam\]/);

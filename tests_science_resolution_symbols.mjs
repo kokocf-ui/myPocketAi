@@ -11,7 +11,7 @@ assert.ok(begin>0&&end>begin);
 for(const [term,reason] of [
  ["scienceShowResult(learningLabel('Exercițiu lipsă'","empty user input is acknowledged"],
  ["scienceShowResult(learningLabel('Chimie · date de verificat'","invalid input is acknowledged"],
- ["scienceShowResult(mode==='solve'","request starts with a visible status dialog"],
+ ["scienceShowResult((mode==='solve'","request starts with a visible status dialog"],
  ["scienceShowResult(learningLabel('Rezolvare indisponibilă'","request failures are visible"],
  ["if(scienceRequestController)","duplicate pending requests guarded"]
 ])assert.ok(run.includes(term),reason);

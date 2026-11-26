@@ -1,3 +1,4 @@
+import {educationExerciseInstruction} from './education_exercise_tutor.mjs';
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import frontend from './index.js';
@@ -56,7 +57,7 @@ class FakeElement{
 const journey={subject:'physics',topic:'kinematics',schoolStage:'lower',grade:'6'};
 const reviewState={language:'ro'};
 let networkCalls=0;
-const reviewEnv={
+const reviewEnv={educationExerciseInstruction,
  document:{createElement:tag=>new FakeElement(tag)},
  scienceJourney:journey,state:reviewState,
  scienceLowerTopicContent:()=>({exercise:'O bicicletă parcurge 200 m în 50 s. Viteza medie?',answer:'4 m/s'}),

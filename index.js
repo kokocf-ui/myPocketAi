@@ -1,3 +1,4 @@
+import {EDUCATION_EXERCISE_TUTOR_SCRIPT} from './education_exercise_tutor.mjs';
 import {SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT} from './science_review_supplements.mjs';
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
@@ -11595,11 +11596,7 @@ async function scienceWorkspaceRun(mode){
  const selectedSubject=learningLabel(subject?.ro||'',subject?.en||'');
  const selectedChapter=learningLabel(topic?.ro||'',topic?.en||'');
  const selectedLevel=learningLabel(level?.ro||'',level?.en||'');
- const instruction=mode==='solve'?
-  learningLabel('Explică și rezolvă pas cu pas, cu verificarea formulelor, unităților și ipotezelor. Nu inventa date. În chimie, conservă atomii și sarcinile și nu inventa condiții de laborator.',
-   'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
-  learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
-   'Teach the general method, definitions and necessary rules; do not invent measured values.');
+ const instruction=educationExerciseInstruction(mode==='solve'?'solve':'method');
  const activeTracks=scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
  const specialty=activeTracks.find(x=>x.id===scienceJourney.specialty);
  const specialtyContext=specialty?learningLabel('; Specializare: ','; Specialization: ')+learningLabel(specialty.ro,specialty.en):'';
@@ -11657,7 +11654,7 @@ async function scienceWorkspaceRun(mode){
  const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic,specialtyId=scienceJourney.specialty;
  const controller=new AbortController();scienceRequestController=controller;
  scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
- scienceShowResult(mode==='solve'?learningLabel('Chimie · Rezolvare','Chemistry · Solution'):learningLabel('Chimie · Metodă','Chemistry · Method'),learningLabel('Se pregătește răspunsul. Exercițiul rămâne salvat.','Preparing answer. Your exercise is preserved.'));
+ scienceShowResult((mode==='solve'?learningLabel('Rezolvare · ','Solution · '):learningLabel('Metodă · ','Method · '))+selectedSubject,learningLabel('Se pregătește răspunsul. Exercițiul rămâne salvat.','Preparing answer. Your exercise is preserved.'));
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{
    method:'POST',headers:{'Content-Type':'application/json'},
@@ -11670,7 +11667,7 @@ async function scienceWorkspaceRun(mode){
   if(controller.signal.aborted||scienceJourney.stage!==currentStage||
      scienceJourney.subject!==subjectId||scienceJourney.topic!==topicId||scienceJourney.specialty!==specialtyId)return;
   if(eduScopeReplyRouted(data.reply,source,()=>scienceWorkspaceRun(mode))){scienceStatus('');return}
-  scienceLastReply=data.reply.trim().slice(0,12000);
+  scienceLastReply=data.reply.trim().slice(0,24000);
   scienceStatus(learningLabel('Explicație disponibilă.','Explanation available.'));
   scienceShowResult(
    mode==='solve'?learningLabel('Rezolvare · ','Solution · ')+selectedSubject:
@@ -11875,7 +11872,7 @@ function scienceAttachLessonReview(dialog){
   const message=(ro?
    'Evaluează un răspuns școlar. Începe cu verdictul Corect / Parțial corect / Incorect / Nedeterminabil, apoi explică exact ce este bine, ce este greșit și cum se corectează. Nu inventa date și nu acorda un calificativ nesusținut.':
    'Assess a student answer. Start with Correct / Partly correct / Incorrect / Indeterminate and explain the specific merits, errors and improvements. Do not invent facts or award an unsupported grade.')+
-   ' '+(ro?'Țara: ':'Country: ')+educationCountrySelection.label+
+   ' '+educationExerciseInstruction('correction')+' '+(ro?'Țara: ':'Country: ')+educationCountrySelection.label+
    ', '+(ro?'clasa: ':'grade: ')+scienceJourney.grade+', '+
    (ro?'materia: ':'subject: ')+spec.subject+', '+(ro?'capitol: ':'topic: ')+spec.topic+'. '+
    (ro?'Exercițiu: ':'Question: ')+selectedExercise.prompt+'. '+
@@ -11890,7 +11887,7 @@ function scienceAttachLessonReview(dialog){
    const data=await response.json();
    if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
     throw Error('unavailable');
-   if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,4800);
+   if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,18000);
   }catch(error){
    if(!inflight.signal.aborted&&dialog.isConnected)status.textContent=ro?
     'Verificarea nu este disponibilă. Nu pot stabili dacă răspunsul este corect. Reper: '+selectedExercise.guide:
@@ -16051,6 +16048,7 @@ function litWorkspace(panel){
 
 
 ${LITERATURE_TASK_UI_SCRIPT}
+${EDUCATION_EXERCISE_TUTOR_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
 ${MATH_NATIONAL_PACKS_SCRIPT}
 ${SCIENCE_NATIONAL_PACKS_SCRIPT}
@@ -17053,23 +17051,17 @@ function mathPrimaryArithmeticLesson(source,grade){
  };
 }
 // General teaching is separate from working through the user's specific numbers.
-function mathMethodGuide(source){
- const example=mathDetailedArithmetic(source);
- if(!example)return null;
- const input=String(source||'').replace(/[−–]/g,'-').replace(/[×·]/g,'*').replaceAll('÷','/');
- const rules=[];
- const add=(title,text)=>rules.push({title,text});
- add(learningLabel('Recunoaștem exercițiul','Identify the problem'),
-  input.includes('=')?learningLabel('Este o egalitate: scopul este să verificăm dacă cele două membre au aceeași valoare. Semnul egal nu garantează că afirmația este adevărată.','It is an equality: check whether both sides are equal. The equals sign alone does not guarantee that it is true.'):learningLabel('Este o expresie numerică: vrem să îi calculăm valoarea, respectând ordinea operațiilor.','It is a numerical expression: calculate its value using the order of operations.'));
- add(learningLabel('Ordinea operațiilor','Order of operations'),learningLabel('Mai întâi parantezele, apoi înmulțirile și împărțirile de la stânga la dreapta, la final adunările și scăderile de la stânga la dreapta.','Parentheses first, then multiplication and division left to right, finally addition and subtraction left to right.'));
- if(input.includes('('))add(learningLabel('Parantezele','Parentheses'),learningLabel('Calculează întâi în interior, înlocuiește paranteza cu rezultatul ei și păstrează termenii din afară.','Calculate inside first, replace the parentheses with their value and preserve the outside terms.'));
- if(example.steps.some(step=>step.signRule))add(learningLabel('Regula semnelor','Sign rules'),learningLabel('La înmulțire sau împărțire, semnele diferite dau rezultat negativ; semnele identice dau pozitiv. De exemplu: 2 × (−3) = −6 și (−2) × (−3) = 6.','For multiplication or division, different signs give a negative result, the same signs a positive result. For example: 2 × (−3) = −6 and (−2) × (−3) = 6.'));
- if(input.includes('*')||input.includes('/'))add(learningLabel('Înmulțirea și împărțirea','Multiplication and division'),learningLabel('După paranteze, acestea au prioritate. Calculează-le de la stânga la dreapta, fără să elimini termenii rămași.','After parentheses, these have priority. Work left to right, keeping every remaining term.'));
- if(input.includes('+')||input.includes('-'))add(learningLabel('Adunarea și scăderea','Addition and subtraction'),learningLabel('Le efectuezi la final, de la stânga la dreapta, rescriind întreaga expresie.','Perform these last, left to right, rewriting the complete expression.'));
- if(input.includes('='))add(learningLabel('Verificarea','Verification'),learningLabel('Calculează separat fiecare membru. Dacă rezultatele sunt egale, egalitatea este adevărată; altfel este falsă.','Calculate each side separately. Matching values mean a true equality; otherwise it is false.'));
- return {heading:learningLabel('Cum abordăm exercițiile de acest tip','How to approach this type of problem'),
- intro:learningLabel('Învățăm regula generală, nu refacem aceeași rezolvare. Pentru calculul concret, alege „Rezolvă pas cu pas”.','Learn the general method instead of repeating the calculation. For the specific answer, use “Solve step by step”.'),
- rules,tip:learningLabel('Reține: la fiecare operație păstrează toate celelalte părți ale expresiei.','Remember: retain every other part of the expression when performing an operation.')};
+function mathAppliedMethod(lesson){
+ if(!lesson?.steps?.length)return null;
+ return {heading:learningLabel('Cum abordăm acest exercițiu','How to approach this exercise'),
+  intro:learningLabel('Alegem metoda și o aplicăm pe datele din enunț. Fiecare pas arată ce facem, de ce și ce obținem. ',
+   'Choose the method and apply it to the supplied data. Each step shows what we do, why, and what we obtain. ')+(lesson.intro||''),
+  rules:lesson.steps.map(step=>({title:step.label,text:[step.reason,step.operation,step.signRule,...(step.verificationSteps||[]),step.fullAfter].filter(Boolean).join(' ')})),
+  tip:lesson.conclusion||''};
+}
+function mathMethodGuide(source,grade){
+ // Reuse the verified working, not a disconnected list of topic rules.
+ return mathAppliedMethod((grade?mathPrimaryArithmeticLesson(source,grade):null)||mathDetailedArithmetic(source));
 }
 // Verified local solver for single-variable linear equations. The same parsed
 // coefficients drive the worked solution, the proof, and the general method.
@@ -19024,7 +19016,7 @@ function mathResultPage(index){
  if(session.topic==='arithmetic'&&session.mode!=='graph'&&!item.started){
   try{
    if(session.mode==='solve')item.detailed=mathPrimaryArithmeticLesson(item.text,session.grade)||mathDetailedArithmetic(item.text);
-   else if(session.mode==='explain')item.methodGuide=mathMethodGuide(item.text);
+   else if(session.mode==='explain')item.methodGuide=mathMethodGuide(item.text,session.grade);
    if(item.detailed||item.methodGuide){
     item.started=true;
     item.spokenReply=item.detailed?
@@ -19234,7 +19226,7 @@ async function mathFetchResult(item,session){
   return;
  }
  if(session.mode==='explain'){
-  const method=item.methodGuide||mathAlgebraLocal('explain',item.text)?.value;
+  const method=item.methodGuide||mathAppliedMethod(mathAlgebraLocal('solve',item.text)?.value);
   if(method){
    if(mathResultSession!==session)return;
    item.methodGuide=method;
@@ -19254,12 +19246,9 @@ async function mathFetchResult(item,session){
   }
  }
  const graph=Boolean(mathGraphModel(item.text));
- const prompt=session.mode==='explain'?learningLabel(
-  'Ești profesor de matematică. Predă numai METODA GENERALĂ pentru categoria acestui exercițiu, fără a-l rezolva numeric. Structură: tip de exercițiu, reguli, cum se începe, greșeli frecvente, cum verifici. Fără verdictul egalității, fără calcule ale exercițiului dat, fără repetiții și fără surse inventate.',
-  'Teach only the GENERAL METHOD for this type of math problem, without numerically solving the supplied exercise. Cover problem type, rules, where to start, common mistakes, verification. No true/false verdict, no worked solution, no repetition or invented sources.'
- ):learningLabel(
-  'Ești un profesor de matematică răbdător, care predă la clasă. Rezolvă DOAR exercițiul următor. Prezintă mai întâi ideea și regula folosită, explică de ce aplicăm fiecare regulă, apoi explică fiecare transformare intermediară în pași numerotați, fără a omite termeni sau operații. Afișează expresia completă după fiecare pas; respectă ordinea operațiilor și verifică explicit calculele la final. Dacă expresia conține un semn egal, evaluează ambele părți și spune explicit dacă egalitatea este adevărată sau falsă; nu ignora valoarea din dreapta. Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
-  'You are a patient classroom mathematics teacher. Solve ONLY this exercise. First explain the idea and rule being used, say why each rule applies, then explain every intermediate transformation in numbered steps, never dropping terms or operations. Show the complete expression after every step, respect operation precedence, and check the arithmetic explicitly. If the expression contains an equals sign, calculate both sides and explicitly say whether the equality is true or false; do not ignore the right side. Never cite videos, websites, or other references not supplied by the user. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
+ const prompt=educationExerciseInstruction(session.mode==='explain'?'method':'solve')+learningLabel(
+  ' Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Nu schimba exercițiul; pentru o egalitate verifică ambele membre, iar pentru o ecuație verifică soluția prin înlocuire. Nu desena grafice ASCII: aplicația reprezintă separat funcțiile compatibile.',
+  ' Do not invent videos, websites or other sources. Keep the original exercise. For an equality check both sides; for an equation check the solution by substitution. Do not draw ASCII graphs: supported functions are plotted separately.'
  );
  const requested=session.mode==='graph'?
   learningLabel('Accentuează reprezentarea grafică și intersecțiile cu axele.','Focus on the graph and axis intercepts.'):
@@ -19300,10 +19289,10 @@ async function mathFetchResult(item,session){
  const taskController=new AbortController();
  const cancelTask=()=>taskController.abort();
  session.controller.signal.addEventListener('abort',cancelTask,{once:true});
- const deadline=setTimeout(cancelTask,20000);
+ const deadline=setTimeout(cancelTask,45000);
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({message,language:state.language,module:'learning',history:[],location_requested:false}),
+   body:JSON.stringify({message,language:state.language,module:'learning',education_activity:session.mode==='explain'?'method':'solve',history:[],location_requested:false}),
    signal:taskController.signal});
   const payload=await response.json();
   if(!response.ok||payload.status!=='success'||typeof payload.reply!=='string'||!payload.reply.trim())
@@ -19313,7 +19302,7 @@ async function mathFetchResult(item,session){
  }catch(error){
   if(mathResultSession!==session||session.controller.signal.aborted)return;
   item.error=taskController.signal.aborted?
-   learningLabel('Rezolvarea a depășit 20 de secunde. Verifică conexiunea sau încearcă din nou.','The solution exceeded 20 seconds. Check the connection or try again.'):
+   learningLabel('Rezolvarea a depășit 45 de secunde. Verifică conexiunea sau încearcă din nou.','The solution exceeded 45 seconds. Check the connection or try again.'):
    learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
  }finally{
   clearTimeout(deadline);

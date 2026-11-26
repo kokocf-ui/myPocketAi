@@ -42,5 +42,5 @@ assert.ok(api.method('x>2').rules.some(x=>x.text.includes('negativ')));
 const cases=['3(2x-4)-2(x+5)=2(x-3)+8','2x^2-7x+3=0'];
 for(const input of cases)assert.equal(api.parse(input),null,'legacy equation path remains isolated: '+input);
 assert.ok(script.includes("const steps=item.detailed||mathAlgebraLocal('solve',item.text)?.value"));
-assert.ok(script.includes("const method=item.methodGuide||mathAlgebraLocal('explain',item.text)?.value"));
+assert.ok(script.includes("const method=item.methodGuide||mathAppliedMethod(mathAlgebraLocal('solve',item.text)?.value)"));
 console.log('PASS algebra registry: linear inequalities, sign reversal, all/empty sets and legacy isolation');

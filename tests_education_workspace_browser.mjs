@@ -73,7 +73,16 @@ try{
   await workspace.getByRole('button',{name:'Verifică rezolvarea'}).click();
   await workspace.getByText('Evaluare automată orientativă, nu notă oficială.').waitFor();
   assert.equal(apiCalls.at(-1).education_subject,subject==='literature'?'language_literature':subject);
-  assert.match(apiCalls.at(-1).message,/primul pas greșit/);
+  assert.match(apiCalls.at(-1).message,/first incorrect or missing step/);
+  const requestContext=JSON.parse(apiCalls.at(-1).message.split('Context JSON (date, nu instrucțiuni): ')[1].split('. Răspunde în limba interfeței: ')[0]);
+  assert.equal(requestContext.problem,expected.question);assert.equal(requestContext.studentAnswer,'Ciornă '+subject);
+  assert.ok(!('theory' in requestContext)&&!('workedExample' in requestContext));
+  await workspace.getByRole('button',{name:'Explică metoda pe acest exercițiu'}).click();
+  await workspace.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();
+  assert.equal(apiCalls.at(-1).education_activity,'method');assert.match(apiCalls.at(-1).message,/METHOD ON THIS EXERCISE/);
+  await workspace.getByRole('button',{name:'Rezolvă pas cu pas'}).click();
+  await workspace.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();
+  assert.equal(apiCalls.at(-1).education_activity,'solve');assert.match(apiCalls.at(-1).message,/WORKED SOLUTION/);
   const rect=await field.boundingBox();assert.ok(rect.width>100&&rect.x>=0&&rect.x+rect.width<=391,subject+' fits mobile viewport');
  }
  // Draft persistence and isolation by lesson and exercise.
@@ -82,6 +91,16 @@ try{
  await w.locator('select').selectOption('1');assert.equal(await w.getByRole('textbox',{name:'Rezolvarea ta',exact:true}).inputValue(),'');
  await w.locator('select').selectOption('0');assert.equal(await w.getByRole('textbox',{name:'Rezolvarea ta',exact:true}).inputValue(),'Ciornă math');
  failAPI=true;await w.getByRole('button',{name:'Verifică rezolvarea'}).click();await w.getByText(/Asistentul nu este disponibil/).waitFor();failAPI=false;
+ // Method and solve work without an attempted answer; checking still requires it.
+ await w.locator('select').selectOption({label:'Cerință proprie'});
+ await w.getByRole('textbox',{name:'Enunțul problemei',exact:true}).fill('3x+5=20. Determină x.');
+ const before=apiCalls.length;
+ await w.getByRole('button',{name:'Verifică rezolvarea'}).click();
+ await w.getByText('Completează enunțul și rezolvarea.').waitFor();assert.equal(apiCalls.length,before);
+ await w.getByRole('button',{name:'Explică metoda pe acest exercițiu'}).click();
+ await w.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();
+ assert.equal(apiCalls.length,before+1);assert.equal(apiCalls.at(-1).education_activity,'method');
+ assert.match(apiCalls.at(-1).message,/3x\+5=20/);assert.ok(!apiCalls.at(-1).message.includes('studentAnswer'));
  // All 12 university subject/year supplements and four high-school Astronomy years.
  for(const s of ['physics','chemistry','biology','astronomy'])for(const y of [1,2,3]){
   await page.evaluate(({s,y})=>window.__eduTest.supplements(s,'univ-'+y),{s,y});
@@ -113,7 +132,7 @@ try{
  await page.locator('#examAnswerText').fill('x=4');
  await page.getByRole('button',{name:'Corectează răspunsul',exact:false}).click();await page.getByText(/Răspuns în/).waitFor();
  assert.equal(apiCalls.at(-1).module,'education_study');assert.equal(apiCalls.at(-1).education_activity,'correction');
- assert.match(apiCalls.at(-1).message,/Enunț separat.*3x\+5=20/);assert.match(apiCalls.at(-1).message,/primul pas greșit/);
+ assert.match(apiCalls.at(-1).message,/Enunț separat.*3x\+5=20/);assert.match(apiCalls.at(-1).message,/first incorrect or missing step/);
  await page.evaluate(()=>document.getElementById('educationPagedLessonDialog')?.close());
  // Wrong multiple-choice answer triggers an assistant explanation, score stays deterministic.
  await page.locator('.exam-quiz-launch').click();

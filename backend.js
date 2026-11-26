@@ -1,3 +1,4 @@
+import {educationTutorResponse} from './education_exercise_tutor.mjs';
 import {litEssaySpec,litEssayQuality,litEssayWords} from "./literature_essay_contract.mjs";
 import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords,recipeSpeciesCompatible,humanizeRecipeDuration,humanizeRecipeServings} from "./culinary_intent.mjs";
 import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from "./social_feedback.mjs";
@@ -2533,11 +2534,14 @@ export default {
       }
     }
 
+    // Written work needs room for the question AND the student's working.
+    // Keep the existing short-chat ceiling unchanged outside education.
+    const educationInputLimit=['learning','education_study'].includes(data?.module)?32000:4000;
     if (
       !data ||
       typeof data.message !== "string" ||
       data.message.trim().length === 0 ||
-      data.message.length > 4000
+      data.message.length > educationInputLimit
     ) {
       return json({
         app: "Pocket AI",
@@ -2711,15 +2715,15 @@ export default {
       const locale=POCKET_LANGUAGE_NAMES[reqLearnLang]?reqLearnLang:'ro';
       const localeName=POCKET_LANGUAGE_NAMES[locale]||'Romanian';
       const methodOnly=/METODA GENERALĂ|GENERAL METHOD|Predă numai METODA|Teach only the GENERAL METHOD/i.test(message);
-      const activity=methodOnly?'method':'solve';
+      const activity=['method','solve','correction'].includes(data.education_activity)?data.education_activity:methodOnly?'method':'solve';
       const system='You are a careful classroom mathematics teacher. Respond in '+localeName+' (language code '+locale+
         '). Remain strictly within the supplied mathematics exercise and level. Do not interpret numbers as coordinates or destinations. '+
         educationDepthInstruction('math',activity);
       try{
-        const response=await evaTask({module:'learning',subject:'math',activity,message},{
+        const response=await educationTutorResponse(options=>evaTask({module:'learning',subject:'math',activity,message},options),{
           messages:[{role:'system',content:system},{role:'user',content:message}],
-          max_tokens:methodOnly?1550:2300,temperature:0.1
-        });
+          max_tokens:3200,temperature:0.1
+        },{activity});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'math_explanation_empty'},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,
@@ -2733,9 +2737,11 @@ export default {
       const reqAdmLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
       const locale=POCKET_LANGUAGE_NAMES[reqAdmLang]?reqAdmLang:'ro';
       const admLocaleName=POCKET_LANGUAGE_NAMES[locale]||'Romanian';
-      const activity=['lesson','examples','exercises','test','correction','analysis','write'].includes(data.education_activity)
+      const activity=['lesson','examples','exercises','test','correction','analysis','write','method','solve'].includes(data.education_activity)
         ?data.education_activity:'lesson';
       const instructions={
+        method:'Teach the method by applying it to the exact supplied exercise, with explained intermediate results.',
+        solve:'Solve the exact supplied exercise with justified steps and a concrete check.',
         lesson:'Teach the admission preparation topic in full: definitions, reasoning, relevant vocabulary, examples and worked methods.',
         examples:'Provide varied, clearly explained examples. For math include numbered calculations and checks.',
         exercises:'Set at least five original grade-appropriate problems in Hungarian. Include no solutions until the pupil replies.',
@@ -2755,7 +2761,7 @@ export default {
         'Only cite a source if supplied or independently verified; when uncertain, explain the limitation. '+
         'Use readable paragraphs and steps; no invented quoted literature, no unrelated maps, transit or GPS.';
       try{
-        const response=await evaTask({module:'education_study',subject:'school_admission',activity,message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('school_admission',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:2800});
+        const response=await educationTutorResponse(options=>evaTask({module:'education_study',subject:'school_admission',activity,message},options),{messages:[{role:'system',content:system+'\n'+educationDepthInstruction('school_admission',activity)},{role:'user',content:message}],temperature:0.2,max_tokens:3200},{activity});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:'school_admission'},503);
         if(/(?:nu am coordonate GPS|permite accesul la locație|departure address\/postcode|do not have usable GPS coordinates)/i.test(reply))
@@ -2771,7 +2777,7 @@ export default {
       const reqLitLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
       const locale=(POCKET_LANGUAGE_NAMES[reqLitLang]||['ja','zh','la'].includes(reqLitLang))?reqLitLang:'ro';
       const litLocaleName=POCKET_LANGUAGE_NAMES[locale]||({ja:'Japanese',zh:'Chinese',la:'Latin'}[locale]||'Romanian');
-      const activity=['lesson','examples','exercises','test','define','analysis','write','study','summary','essay','correction'].includes(data.education_activity)
+      const activity=['lesson','examples','exercises','test','define','analysis','write','study','summary','essay','correction','method','solve'].includes(data.education_activity)
         ?data.education_activity:'lesson';
       const instructions={
         lesson:'Teach the complete lesson with definitions, major subtopics, meaningful examples and explanations; do not return just a short introduction.',
@@ -2784,6 +2790,8 @@ export default {
         study:'Teach the selected literary work with its author, verifiable context, themes, structure, characters when relevant, and techniques. No fabricated quotations.',
         summary:'Produce a faithful, understandable summary of the selected literary work; distinguish information that cannot be verified.',
         essay:'Write the entire requested essay in fluent connected paragraphs, with substantive critical interpretation, distinct developed arguments and a grounded conclusion. Respect the user\'s requested length as closely as possible; never replace the actual essay with a template or outline. Do not invent textual quotes.',
+        method:'Demonstrate and explain the method on the exact supplied exercise, with evidence or calculations from it, not a general chapter.',
+        solve:'Solve the exact supplied exercise with explained intermediate steps and a concrete check.',
         correction:'Assess the learner answers against the exact questions supplied, identify each correct/incorrect response and explain the corrections constructively.'
       };
       const system='You are a patient and knowledgeable language and literature teacher. Respond in '+litLocaleName+' (language code '+locale+
@@ -2883,9 +2891,9 @@ export default {
             minimum_words:spec.minWords
           },503);
         }else{
-          const response=await evaTask({module:'education_study',subject:'language_literature',activity,message},
+          const response=await educationTutorResponse(options=>evaTask({module:'education_study',subject:'language_literature',activity,message},options),
             {messages:[{role:'system',content:system+'\n'+educationDepthInstruction('language_literature',activity)},
-              {role:'user',content:message}],temperature:0.2,max_tokens:2800});
+              {role:'user',content:message}],temperature:0.2,max_tokens:3200},{activity});
           reply=String(response?.response||response?.result?.response||'').trim();
         }
         // Safely correct the two exact malformed Romanian lesson-title tokens observed in production.
@@ -2905,16 +2913,17 @@ export default {
     // Route a user-selected school lesson directly to a bounded tutoring response.
     if(data.module==='education_study'&&['history','geography'].includes(data.education_subject)){
       const subject=data.education_subject;
+      const activity=['solve','method','correction','review','lesson','study','test','exercises'].includes(data.education_activity)?data.education_activity:'lesson';
       const reqHgLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
       const locale=POCKET_LANGUAGE_NAMES[reqHgLang]?reqHgLang:'ro';
       const localeName=POCKET_LANGUAGE_NAMES[locale]||'Romanian';
       const system='You are a careful school teacher of '+(subject==='history'?'history':'geography')+
         '. Answer the lesson request in '+localeName+' ('+locale+'). Never interpret a historical event, date or region as a geolocation, transport or nearby-place request. '+
-        'Present chronological context, causes, evidence and outcomes for history; for geography describe physical and human characteristics, using correct time and region context. '+
+        'For full lessons present chronological context, causes, evidence and outcomes for history, or physical and human characteristics for geography. For exercise work use only the context and evidence needed by the exact question. '+
         'Follow the country, grade, topic and curriculum caveats from the user request. Do not invent historical maps, official syllabi, citations or factual certainty. '+
         'Do not repeat complete paragraphs, preambles or exercises. Use readable headings and paragraphs, no raw markdown characters.';
       try{
-        const response=await evaTask({module:'education_study',subject,activity:data.education_activity||'lesson',message},{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(subject,'lesson')},{role:'user',content:message}],temperature:0.14,max_tokens:2900});
+        const response=await educationTutorResponse(options=>evaTask({module:'education_study',subject,activity,message},options),{messages:[{role:'system',content:system+'\n'+educationDepthInstruction(subject,activity)},{role:'user',content:message}],temperature:0.14,max_tokens:3200},{activity});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
         return json({app:'Pocket AI',version:API_VERSION,status:'success',reply,language:locale,education_subject:subject,ai_generated:true});
@@ -2926,7 +2935,7 @@ export default {
     // Domain-aware school material. Does not change ordinary Eva conversations,
     // local verified solvers, tests, or existing specialised educational routes.
     if(data.module==='education_study'&&
-       ['foreign_language','math','physics','chemistry','biology','astronomy','computing','practical'].includes(data.education_subject)){
+       ['foreign_language','math','physics','chemistry','biology','astronomy','computing','practical','exam_preparation'].includes(data.education_subject)){
       const subject=data.education_subject;
       const reqSciLang=typeof data.language==='string'?data.language.trim().toLowerCase().split(/[-_]/)[0]:'ro';
       const locale=(POCKET_LANGUAGE_NAMES[reqSciLang]||['ja','zh','la'].includes(reqSciLang))?reqSciLang:'ro';
@@ -2937,11 +2946,11 @@ export default {
         '). For foreign languages, provide ACTUAL examples in the target language specified in the request, and explain them in the interface language. '+
         educationDepthInstruction(subject,activity);
       try{
-        const maxTokens=activity==='lesson'||activity==='study'?3000:activity==='solve'||activity==='method'?2400:activity==='conversation'?900:2200;
-        const response=await evaTask({module:'education_study',subject,activity,message},{
+        const maxTokens=activity==='lesson'||activity==='study'?3000:['solve','method','correction','review'].includes(activity)?3200:activity==='conversation'?900:2200;
+        const response=await educationTutorResponse(options=>evaTask({module:'education_study',subject,activity,message},options),{
           messages:[{role:'system',content:system},{role:'user',content:message}],
           temperature:0.14,max_tokens:maxTokens
-        });
+        },{activity});
         const reply=String(response?.response||response?.result?.response||'').trim();
         if(!reply)return json({status:'unavailable',error:'education_text_empty',education_subject:subject},503);
         if(activity==='lesson'&&!educationDepthAudit(reply,subject,activity).sufficient)

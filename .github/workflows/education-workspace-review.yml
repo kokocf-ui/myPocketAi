@@ -3,6 +3,11 @@ on:
   pull_request:
     paths:
       - 'index.js'
+      - 'backend.js'
+      - 'computing_ui.mjs'
+      - 'education_exercise_tutor.mjs'
+      - 'education_lesson_depth.mjs'
+      - 'tests_education_exercise_tutor.mjs'
       - '*national*.mjs'
       - 'education_lesson_workspace.mjs'
       - 'education_pack_service.mjs'
@@ -31,6 +36,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Data, routing and existing course regressions
         run: |
+          node tests_education_exercise_tutor.mjs
           node tests_education_review_2026.mjs
           node tests_education_national_reader.mjs
           node tests_exam_curriculum_europe.mjs
