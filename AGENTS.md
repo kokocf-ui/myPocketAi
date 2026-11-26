@@ -16,10 +16,12 @@ progressfărăopțiuni, finalflightproviderunusable+groundincomplete+airportlist
 zerovariante. APK501887NUrezolvătransportulreal. Nucere încăunretestidentic.
 Investigheazăcauzaexecuție/surse, nudoarwarnings/UI. IpotezălimiteCFsubrequests/
 quota/requestsairportsinvalidenecunoscute, NUconfirmate. Nicioactivarepaid/HERE.
-Workflowmanualnou `transport-runtime-diagnostics.yml`: DOARprezențăbindings/
+Workflowmanualexistent `mixed-live-diagnostic.yml` (run_live=false): DOARprezențăbindings/
 flags+aggregateCFhourlyoutcomes+flighthealthaccountfărăsearchcredits; fără
 Exa/Brave/transport/livejourneyqueries/expunerikeys. Rezultatesanitizatenotices
-încheckannotations(artefacte/logredirectsblocate). Încănerulatlaînscriereanotei.
+încheckannotations(artefacte/logredirectsblocate). Noulworkflowseparatnuputea
+fi dispatch-uit înainte deprezențaped efaultbranch(404); mutatînexistent, nu
+crea/schimbaaltebranchuri. Încănerulatlaînscriereanotei.
 Nu elibera altAPK doar pentruverdeCI/mock; întâicauzareală și dovadărelevantă.
 
 
