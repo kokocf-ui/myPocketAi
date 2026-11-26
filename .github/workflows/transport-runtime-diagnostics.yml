@@ -1,0 +1,45 @@
+name: Inspect transport runtime configuration without provider searches
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inspect-runtime:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - name: Inspect binding presence, runtime analytics and no-credit flight health
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          node --input-type=module <<'JS'
+          const token=process.env.CLOUDFLARE_API_TOKEN,account=process.env.CLOUDFLARE_ACCOUNT_ID;
+          const notice=(title,value)=>console.log('::notice title='+title+'::'+JSON.stringify(value).replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A'));
+          const headers={Authorization:'Bearer '+token,'Content-Type':'application/json'};
+          const cf=async(path,options={})=>{
+            const r=await fetch('https://api.cloudflare.com/client/v4/'+path,{...options,headers,signal:AbortSignal.timeout(20000)});
+            const body=await r.json();
+            if(!r.ok||body.success===false){notice('runtime-api-status',{http:r.status,codes:body.errors?.map(e=>e.code)});return null}
+            return body;
+          };
+          const settings=await cf('accounts/'+account+'/workers/scripts/lifewise-ai-api/settings');
+          if(settings?.result){
+            const bindings=settings.result.bindings||[];
+            const names=['GEOAPIFY_API_KEY','EXA_API_KEY','BRAVE_API_KEY','SERPAPI_API_KEY','TFL_APP_KEY','TRANSCAPI_API_KEY','MOTIS_API_BASE_URL','RO_URBAN_API_TOKEN','RO_URBAN_VPC'];
+            const flags=['SERPAPI_FLIGHTS_PILOT_ENABLED','SERPAPI_FLIGHTS_TERMS_REVIEWED','HERE_TRANSIT_ENABLED','SMART_COUNTRY_REGISTRY_ENABLED'];
+            notice('transport-binding-presence',Object.fromEntries(names.map(name=>[name,bindings.some(b=>b.name===name)])));
+            notice('transport-runtime-flags',Object.fromEntries(flags.map(name=>[name,String(bindings.find(b=>b.name===name)?.text||'unset')])));
+            notice('transport-runtime-limits',{cpu_ms:settings.result.limits?.cpu_ms??null,usage_model:settings.result.usage_model??null,observability_enabled:settings.result.observability?.enabled??null});
+          }
+          const since=new Date(Date.now()-3600000).toISOString(),until=new Date().toISOString();
+          const query=`query { viewer { accounts(filter: {accountTag: "${account}"}) { workersInvocationsAdaptive(limit: 20, filter: {datetime_geq: "${since}", datetime_leq: "${until}", scriptName: "lifewise-ai-api"}) { dimensions { status } sum { requests errors subrequests } } } } }`;
+          const analytics=await cf('graphql',{method:'POST',body:JSON.stringify({query})});
+          if(analytics?.data)notice('transport-worker-hourly-outcomes',analytics.data.viewer?.accounts?.[0]?.workersInvocationsAdaptive||[]);
+          else if(analytics?.errors)notice('transport-analytics-unavailable',{codes:analytics.errors.map(e=>e.extensions?.code||'query_failed')});
+          try{
+            const r=await fetch('https://lifewise-ai-v2.kokocf.workers.dev/api/flight-source-status?probe=1',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(20000)});
+            const health=await r.json();
+            notice('flight-no-credit-health',{http:r.status,...Object.fromEntries(['status','keyConfigured','pilotEnabled','termsReviewed','pilotConfigured','freePlan','hasQuota','flightSearchActive','consumesSearchCredits'].map(k=>[k,health[k]??null]))});
+          }catch{notice('flight-no-credit-health',{status:'health_endpoint_unreachable'})}
+          JS

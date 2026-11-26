@@ -7,6 +7,22 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**RETEST FIZIC501887 NEGATIV (2026-11-26,21:07–21:08):**
+User7screenshots: public Grays→LiverpoolStreet list21:18→22:35, detaildestination
+4–6DevonshireRow, bus73boarding21:20/localwalk2min103m, c2c→FenchurchStreet și
+walk17min; userzicepublicNUfuncționează, simptomexactcerutînchatNUconfirmatîncă.
+NUdeclaraopublicsuccessdinlistă. Mixt03dec202603:07GPS→PiataUnirii1Oradea:
+progressfărăopțiuni, finalflightproviderunusable+groundincomplete+airportlist,
+zerovariante. APK501887NUrezolvătransportulreal. Nucere încăunretestidentic.
+Investigheazăcauzaexecuție/surse, nudoarwarnings/UI. IpotezălimiteCFsubrequests/
+quota/requestsairportsinvalidenecunoscute, NUconfirmate. Nicioactivarepaid/HERE.
+Workflowmanualnou `transport-runtime-diagnostics.yml`: DOARprezențăbindings/
+flags+aggregateCFhourlyoutcomes+flighthealthaccountfărăsearchcredits; fără
+Exa/Brave/transport/livejourneyqueries/expunerikeys. Rezultatesanitizatenotices
+încheckannotations(artefacte/logredirectsblocate). Încănerulatlaînscriereanotei.
+Nu elibera altAPK doar pentruverdeCI/mock; întâicauzareală și dovadărelevantă.
+
+
 **AUTORIZARE NOUĂ APKTEST + PREGĂTIRE v187 (2026-11-26, cea mai nouă etapă):**
 User: „Hai sa rezolvăm ce mai avem de făcut și să eliberăm un apk pentru testare”.
 Permite backendmatching+APKsemnatdetest pebranch, NUmainmerge/prodfrontend/Oracle/
