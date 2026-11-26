@@ -32,3 +32,9 @@ Cerere: utilizatorul autorizează explicit publicarea îmbunătățirilor server
 - Map/current-address/live-location/precisionactualizatecerințeipentrucodurineconfirmatePASS. Gatecomunextinspentruexpresiiledeauto-adresăexistenteînainteaexplicațiilorgenerale; clientnouNUtaieGPScererilorlegitime.
 - `npm run check`, bootsyntax, Wranglerv4.168backenddryrunPASS. Snapshotintermediar6980672B<8MB; cel final reverificat înainte de APK.
 - Publicarebackendmanualăautorizarăprininput`backend_only=true`, fărămainmerge/fărăfrontenddeploy. VersiuneaAPIv183; workflowincludepostdeployliveprobes cu scenariulsinteticCosti/meteoGrays/locație/conversație. Nu declarapublicareaînainteasuccesuluipașilor.
+
+### Server publicat, verificare live intermediară
+
+Run45846296656: preflight57PASS, deploybackendSUCCESS, verificaredeprecatOracle410PASS, frontendSKIPPED; smokeFAIL, deci run întregFAIL. Rețea directă sandboxCloudflareindisponibilă; logsrawGitHubhostexternEOF. Îmbunătățitraportulsmokecusavepartial+errorannotation șiadăugatverify_onlypentrunurepublicabackenduldoarpentrutest.
+
+Run45846797008verify_only: deploySKIPPED, preflightPASS; numeleCostiverificatv183, meteoactualproviderverificatv183cuhainegroaseînlocdejachetă la0,3°Cresimțite. Smoke a eșuat exclusiv pe aserțiunea prea strictă că punctul GPS SINTETIC51.479,0.29trebuiesăfieGrays; reverse live a returnat **South Ockendon**. Nu se forțează niciodatăGrayspe coordonate! Corectattestulcerândlocalitateprezentă/fărăsuburbie. Unitățile demonstreazăseparatcăadresa{town:Grays,suburb:SouthStifford}afișeazăGrays. Urmeazărerunverify-only,fărăunredeploy inutil. Nu declara că testul ar demonstra poziția fizică a utilizatorului.
