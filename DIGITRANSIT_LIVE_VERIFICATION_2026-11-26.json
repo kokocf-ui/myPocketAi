@@ -1,0 +1,95 @@
+{
+  "source": "GitHub check-run annotations 140068713407; full report is workflow artifact 15139533771",
+  "run": {
+    "conclusion": "success",
+    "createdAt": "2026-11-26T17:14:01Z",
+    "headSha": "9a8e50d7391dfc642416fbc66925a5c9d7792925",
+    "updatedAt": "2026-11-26T17:15:26Z",
+    "url": "https://github.com/kokocf-ui/myPocketAi/actions/runs/45865953463"
+  },
+  "countrywide_coverage_verified": false,
+  "physical_navigation_verified": false,
+  "frontend_deployed": false,
+  "apk_built": false,
+  "results": [
+    {
+      "id": "helsinki-local",
+      "country": "FI",
+      "status": "pass",
+      "version": "v185",
+      "reason": "national_itineraries_found",
+      "provider_status": {
+        "national": "ok",
+        "main": "ok",
+        "bus": "ok"
+      },
+      "itineraries": 3,
+      "modes": [
+        "walking",
+        "tram",
+        "bus"
+      ]
+    },
+    {
+      "id": "helsinki-tampere-intercity",
+      "country": "FI",
+      "status": "pass",
+      "version": "v185",
+      "reason": "national_itineraries_found",
+      "provider_status": {
+        "national": "ok",
+        "main": "ok",
+        "bus": "not_requested"
+      },
+      "itineraries": 3,
+      "modes": [
+        "walking",
+        "train"
+      ]
+    },
+    {
+      "id": "tallinn-local",
+      "country": "EE",
+      "status": "pass",
+      "version": "v185",
+      "reason": "national_itineraries_found",
+      "provider_status": {
+        "national": "ok",
+        "main": "ok",
+        "bus": "ok"
+      },
+      "itineraries": 3,
+      "modes": [
+        "walking",
+        "bus",
+        "tram"
+      ]
+    },
+    {
+      "id": "tallinn-tartu-intercity",
+      "country": "EE",
+      "status": "pass",
+      "version": "v185",
+      "reason": "national_itineraries_found",
+      "provider_status": {
+        "national": "ok",
+        "main": "ok",
+        "bus": "not_requested"
+      },
+      "itineraries": 3,
+      "modes": [
+        "walking",
+        "bus",
+        "train"
+      ]
+    },
+    {
+      "id": "finland-estonia-rejected",
+      "country": "FI",
+      "status": "pass",
+      "version": "v185",
+      "reason": "international_destination",
+      "itineraries": 0
+    }
+  ]
+}

@@ -1,5 +1,15 @@
 # Conectări naționale — primul adaptor nou și verificare fără prezență fizică
 
+> **Actualizare ulterioară, aceeași zi:** FI/EE au acum adaptor Digitransit și
+> backend **v185 activat cu acordul utilizatorului**, cu patru probe live locale/
+> interurbane reușite și FI→EE refuzat. Detalii în
+> `DIGITRANSIT_CONNECTION_SETUP_2026-11-26.md` și
+> `DIGITRANSIT_LIVE_VERIFICATION_2026-11-26.json`.
+> Sunt 5 profiluri cu adaptoare (RO/GB/NO/FI/EE), 44 fără adaptor; NO rămâne OFF.
+> Frontendul/APK-ul nu au fost publicate în această etapă. Secțiunile de mai jos
+> descriu etapa istorică Norvegia, nu starea actuală FI/EE sau backend v185.
+
+
 ## Cererea curentă
 
 Utilizatorul cere continuarea conectării pentru fiecare țară. Poate verifica

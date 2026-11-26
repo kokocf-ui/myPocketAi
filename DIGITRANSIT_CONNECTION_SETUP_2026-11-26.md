@@ -1,6 +1,49 @@
 # Digitransit — Finlanda și Estonia: integrare și obținerea cheii
 
-## Starea exactă
+## Actualizare după activarea autorizată — backend v185
+
+**Această secțiune înlocuiește starea istorică de mai jos.** Utilizatorul a
+confirmat salvarea secretului, utilizarea comercială, revizuirea termenilor și
+publicarea backendului/testele live. Nu a fost solicitată sau citită cheia.
+
+- **Backend v185 publicat și verificat**, commit `9a8e50d7391dfc642416fbc66925a5c9d7792925`.
+- [Workflow 45865953463 — SUCCESS](https://github.com/kokocf-ui/myPocketAi/actions/runs/45865953463).
+- `DIGITRANSIT_NATIONAL_ENABLED=true` și `DIGITRANSIT_TERMS_REVIEWED=true` în
+  configurația publicată; cheia este Secret în Workerul `lifewise-ai-api`.
+- Probe **live prin Workerul public**, cu coordonate de test, plecare ziua următoare
+  la 08:00 UTC, nu deplasare fizică cu telefonul:
+
+| Probă | Rezultat | Moduri returnate, pe lângă mers pe jos |
+|---|---|---|
+| Helsinki local | PASS, 3 itinerare | tramvai, autobuz |
+| Helsinki–Tampere | PASS, 3 itinerare | tren |
+| Tallinn local | PASS, 3 itinerare | autobuz, tramvai |
+| Tallinn–Tartu | PASS, 3 itinerare | autobuz, tren |
+| Finlanda→Estonia, modul național | PASS, refuz `international_destination` | niciun itinerar afișat |
+
+Validarea a cerut explicit versiunea v185, codul țării, toate stațiile verificate,
+fusul orar, atribuirea/data primirii și cel puțin o etapă de transport public.
+Regresii Eva/vreme/locație live și dezactivarea vechii comunicări CF: PASS.
+Metadatele persistate: `DIGITRANSIT_LIVE_VERIFICATION_2026-11-26.json`;
+raportul complet: artifact `digitransit-worker-live-smoke` (15139533771).
+
+Prima versiune v184 a avut erori de rețea în adaptor; trecerea de la redirect
+`error` la `manual` a rezolvat compatibilitatea Cloudflare. Redirecționările nu
+sunt urmate: orice 3xx este respins, cheia nu este trimisă către altă origine.
+10 teste adaptor (inclusiv redirecționări/diagnostic fără expunerea mesajului brut)
+și 5 Worker PASS, national/check/dryrun PASS, toate verificările predeploy PASS.
+Două fixture-uri vechi RO/culinary au fost actualizate fără schimbarea logicii
+produsului. Workflow-ul verify-only a separat propagarea versiunii de publicare.
+
+**Nu am publicat frontendul, nu am construit APK și nu am modificat Oracle.**
+APK 501884 rămâne cel livrat anterior; selectorul/UI din telefon nu devine nou
+prin actualizarea backendului. Este necesară separat livrarea frontendului/APK-ului
+cu acordul utilizatorului. Nu declarăm acceptanță Android sau acoperire în toate
+localitățile. NO rămâne neactivat; 44 de intrări încă fără adaptor național.
+Registry-ul păstrează eticheta conservatoare de contract; raportul de release
+este evidența separată a probelor live de aici.
+
+## Starea inițială — istoric, înainte de autorizarea/publicarea de mai sus
 
 - Adaptorul Digitransit Routing v2 este implementat pentru **două profiluri
   naționale distincte: FI și EE**, pe endpointul comun documentat de furnizor.

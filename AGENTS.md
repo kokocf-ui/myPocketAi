@@ -7,6 +7,38 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**REZULTAT LIVE DIGITRANSIT — 2026-11-26 (prevalează asupra notelor vechi):**
+User a creat abonament comercial, a salvat cheia în Worker și a autorizat explicit
+backend+activare+teste live și termenii. Backend **v185**, cod publicat
+9a8e50d7391dfc642416fbc66925a5c9d7792925 prin workflow backend_only
+**45865953463 SUCCESS**. Cheia rămâne numai în Cloudflare, nu a fost accesată.
+FI+EE ENABLED și TERMS_REVIEWED true în wrangler; NO încă OFF. Teste live public
+Worker prin workflow autorizat: Helsinki local3 (tram/bus), Helsinki–Tampere3
+(train), Tallinn local3 (bus/tram), Tallinn–Tartu3 (bus/train); fiecare verifică
+țară, stop_countries_verified, fus, atribuire și date. FI→EE refuzat corect.
+Toate pe v185, probe folosesc coordonate de test, NU prezență GPS fizică.
+Regresii Eva/weather/location LIVE PASS; legacycommunication410 PASS. Fără
+frontend/APK/Oracle/merge. APK existent501884 rămâne; UI din telefon NU este
+actualizat prin deploy backend. Nu promite selector FI/EE în APK vechi!
+Rapoarte: DIGITRANSIT_LIVE_VERIFICATION_2026-11-26.json (metadate extrase din
+check annotations140068713407), DIGITRANSIT_CONNECTION_SETUP_2026-11-26.md.
+Artifact live15139533771 și Eva15139558554 în runul de succes. Doar probe limitate,
+nu acoperire națională integrală/Android acceptat. Registry păstrează conservator
+validation_status contract_tests_only; evidența live este în raport, nu afirmă
+că orice configurație viitoare a abonamentului are aceleași rezultate.
+Istoric: run45865084267 oprit ÎNAINTE deploy de fixture RO vechi; actualizat test
+subset+asertări metadata. Test culinary evalua ${...} ca JS: injectate funcțiile
+farewell în fixture (nu schimbat produsul). Toate verificările predeploy PASS.
+Run45865489809 publicat v184, prima probă vedeav183 (propagare); verify-only
+45865666864 confirmă v184+EvaPASS, dar FI/EE network_error. Schimbat redirect:error
+în manual, respingere3xx fără urmărire, compatibil CF; 10teste adaptorPASS inclusiv
+no-key-forward/diagnostic fărămesaje brute. v185 confirmat4rute+frontierăPASS.
+Nu s-a făcut request direct din sandbox către hosturi nepermise; testele sunt
+workflow-ul de release autorizat către Workerul public, cu cheia folosită intern.
+Următor: continuare țări; frontend/APK separat numai cu acord. Nu repeta deploy
+pentru documentație. Fișiere/rapoarte vechi sunt istorice când spun defaultOFF.
+
+
 **ACTUALIZARE ACTIVARE AUTORIZATĂ DIGITRANSIT (2026-11-26):**
 Utilizatorul a confirmat că a salvat DIGITRANSIT_API_KEY în Cloudflare, a autorizat
 publicarea backendului/testele live FI+EE („Da, mergem mai departe”) și apoi a
