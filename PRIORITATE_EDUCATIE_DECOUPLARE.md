@@ -4,7 +4,7 @@
 
 Implementate36ateliere ghidate/6cursuri, caiete locale cu livrabile și verificări pe scenariu, stări de autoevaluare separate de citire/grilă și portofoliu final PDF. Toate materialele practice în6pachete canonice,271.439B, fără date editoriale în HTML/Worker; materialele vechi păstrate exact prin adaptoare. HTMLproducție6.937.763B (<8MB). Raport/teste/limite: `PRACTICAL_COURSES_REDESIGN_2026-11-26.md`. Nu este acreditare sau calificare profesională.
 
-Utilizatorul cere acum explicit APK. Se folosește release semnat de test al ramurii active, cheia permanentă și snapshotul UI+pachete, fără merge sau deployproducție. Publicare numai prerelease pentru link direct `.apk`; rezultatul efectiv va fi notat după build. Traducerea APK rămâne problema amânată, nu declarată reparată.
+Utilizatorul cere acum explicit APK. Se folosește release semnat de test al ramurii active, cheia permanentă și snapshotul UI+pachete, fără merge sau deployproducție. Publicare numai prerelease pentru link direct `.apk`; **Livrat:** prerelease `education-test-45815458856`, run success, commit24c2db8, versionCode501878, certificat comparat cu stabilul în CI; linkdirect https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45815458856/myPocketAI-signed-education-test.apk . Nu dezinstala aplicația pentru actualizare. Traducerea APK rămâne problema amânată, nu declarată reparată.
 
 
 ## Cerere ulterioară — Limbi străine, 26 noiembrie 2026

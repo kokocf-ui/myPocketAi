@@ -57,3 +57,17 @@ Se folosește jobul manual existent `signed-branch-preview` din `build-android-a
 Adăugat input manual `publish_signed_apk` (implicit false): numai la solicitare publică artefactul semnat într-un **prerelease de test**, cu link direct `.apk`, fără a marca prerelease-ul drept latest și fără deploy de producție. Cheia nu este expusă sau păstrată în repo; credențialele rămân în GitHub Actions. Starea și linkul buildului efectiv se consemnează după terminarea lui.
 
 Limitări: scenarii orientative, nu cursuri acreditate sau calificări de meserie. Meseriile sunt simulări nepericuloase, fără instrucțiuni de electricitate/gaze/structuri portante. Fără AI sau dispozitiv Android fizic verificat. Defectul raportat al traducerii din APK rămâne deschis; suportul audio/microfon WebView nu este garantat de testele Chromium.
+
+
+### APK livrat efectiv
+
+- Commit aplicație: **`24c2db8c23eeb2d01275f7e3e581d8811415cb16`** pe `arena/8ae2700b-mypocketai`.
+- Run **45815458856**: **success**; job `signed-branch-preview` success, `apk-debug` skipped. Verificarea certificatului/identității/versiunii/snapshoturilor și publicarea sunt confirmate success de API-ul Actions. Niciun deploy sau merge.
+- Release: **`education-test-45815458856`**, **prerelease**, nu latest, țintește exact commitul de mai sus.
+- **versionCode 501878** (release stabil de referință 501877); build tip **release**, semnătură permanentă comparată de CI cu APK-ul stabil. Se livrează pentru actualizare, fără dezinstalare.
+- Asset: `myPocketAI-signed-education-test.apk`, stare **uploaded**, **77.608.928 B** (~77,6 MB / 74,0 MiB).
+- Link direct verificat din metadata GitHub: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45815458856/myPocketAI-signed-education-test.apk
+- Digest raportat de GitHub pentru asset: `sha256:32b879b1eb22cab1b5cc21e52e039d0cefd199856e01b7460050d125c3050026` (metadata API, nu recalcul local al fișierului).
+- Run: https://github.com/kokocf-ui/myPocketAi/actions/runs/45815458856
+
+Descărcarea logului integral Actions a fost blocată de accesul sandbox la hostul de rezultate; nu s-a pretins o inspecție locală a certificatului din binar. Confirmările de verificare provin din pașii CI încheiați cu succes și metadata release/asset. Instalarea și comportamentul pe telefonul utilizatorului rămân de verificat, în special traducerea și permisiunile audio.
