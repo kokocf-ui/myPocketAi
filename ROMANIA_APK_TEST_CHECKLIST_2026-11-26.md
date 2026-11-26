@@ -1,9 +1,53 @@
 # myPocketAI — test Android în România
 
+## Retest ACTUAL — APK501887 + backend v187
+
+[**Descarcă APK-ul semnat 501887**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45894780817/myPocketAI-signed-education-test.apk)
+
+Publicat la 26 noiembrie 2026 din `f7ab634`. Buildul, certificatul de semnare
+(în CI) și backendul au trecut verificările. **Nu este încă validat fizic.**
+Instalează peste aplicația existentă, **fără dezinstalare/ștergerea datelor**,
+apoi închide și redeschide aplicația. Dacă actualizarea e refuzată, păstrează
+mesajul exact; nu dezinstala pentru a o forța.
+
+### Ce să verifici pe telefon
+
+1. **Grays → Victoria, transport local:** cronometrează până la prima variantă;
+   deschide-o imediat. Detaliile trebuie să apară fără să aștepte verificarea
+   mersului pe jos. Un eșec al mersului pe jos nu trebuie să șteargă itinerarul.
+2. **Transport mixt → adresa din Oradea, 4 decembrie, ora 04:00** (ora locală
+   afișată în selector): cronometrează prima variantă și încheierea căutării.
+   Dacă primești variante înainte de final, trebuie să poată fi deschise.
+3. Deschide prima variantă cât scrie **„Căutarea continuă…”**. Rezultatele noi
+   nu trebuie să te scoată din detalii. Revino: trebuie să găsești lista actualizată.
+4. Din listă, apasă Înapoi către calendar înainte să se termine căutarea.
+   Un răspuns întârziat nu trebuie să te readucă singur în rezultate. Verifică
+   atât butonul din aplicație, cât și Back al telefonului.
+5. Pentru o opțiune terestră, verifică operatorul/linkul, etapele locale și
+   eventualele schimburi. Ruta de pe pagina operatorului poate include schimburi;
+   nu trebuie numită „directă” sau legătură garantată fără dovadă. **Lipsa
+   accesului/continuării rămâne o lipsă funcțională de raportat**, nu un succes
+   doar fiindcă există avertisment. Păstrează captura și numele furnizorului.
+6. Pentru un zbor, verifică ambele legături terestre, nu numai aeroporturile.
+   Notează ce segment a fost primit și care lipsește; două zboruri fără legături
+   nu înseamnă că întregul drum este rezolvat.
+
+Pentru prietenul din România: aceeași versiune, un traseu local cunoscut și unul
+interurban, pe care le poate compara cu realitatea. Nu presupunem acoperire
+uniformă în toate orașele. Trimite versiunea, traseul/data/ora selectate, timpul
+până la prima variantă și capturi ale listei/detaliilor când ceva nu merge.
+
+HERE Germania rămâne OFF (0 cereri agent). Nu s-au activat servicii plătite.
+Raport: `MIXED_PROGRESSIVE_APK_TEST_RELEASE_2026-11-26.md`.
+
+---
+
+## Istoric — APK501886 (înlocuit pentru retest cu 501887)
+
 > **Rezultat retest APK 501886:** utilizatorul a confirmat probleme de latență,
 > verificare pietonală intermitentă și lipsa revenirii/legăturilor terestre în mixt.
-> Nu considera acest APK validat pentru trimitere în România. Corecțiile următoare
-> sunt doar pe ramură; vezi `TRANSIT_APK501886_RETEST_FIXES_2026-11-26.md`.
+> Nu considera acest APK validat pentru trimitere în România. Corecțiile sunt acum
+> incluse în 501887 de mai sus; istoricul lor este în `TRANSIT_APK501886_RETEST_FIXES_2026-11-26.md`.
 > Instrucțiunile de mai jos descriu livrarea istorică 501886, nu un APK nou.
 
 

@@ -39,4 +39,16 @@ No new paid provider or paid fallback was enabled. Existing query ceilings do no
 
 ## Release execution
 
-Pending at document creation: controlled backend-only workflow, then signed branch APK workflow after backend verification. Actual workflow IDs, outcomes and download digest will be recorded below; dry-run success is not deployment success.
+Completed, in order, from source **f7ab634b276c3486e50ba6979993a77d78dad67b**:
+
+1. Backend-only workflow **45894584636**, job **140165222413**: SUCCESS. Frontend deployment skipped. CI confirms actual deployment, progressive protocol through the existing frontend (no-provider invalid-input check), legacy communication 410, Eva/weather/location and FI/EE live smoke steps all succeeded. Independent GET of the public backend root also reports **v187 online**.
+2. Signed APK workflow **45894780817**, job **140165885178**: SUCCESS. Debug job skipped. CI confirms certificate equality with the published APK, package identity, incremented versionCode, bundled snapshots and prerelease publication.
+3. Published test **APK501887**, release **459896683**, asset **797677062**, size **77,654,992 bytes**. GitHub asset metadata reports SHA-256 **8be969d1e8d6d7d27fa29eb5986215e5ad06b06975d95979d04d90dc6cd794ad**.
+
+[Download signed APK501887](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45894780817/myPocketAI-signed-education-test.apk)
+
+[Backend workflow](https://github.com/kokocf-ui/myPocketAi/actions/runs/45894584636) · [APK workflow](https://github.com/kokocf-ui/myPocketAi/actions/runs/45894780817) · [Test release](https://github.com/kokocf-ui/myPocketAi/releases/tag/education-test-45894780817)
+
+Install as an update, without uninstalling or clearing data. Then close and reopen the application. Retest checklist: `ROMANIA_APK_TEST_CHECKLIST_2026-11-26.md` (new top section).
+
+Evidence limitation: CI logs/artifact downloads redirect to hosts blocked by this sandbox; direct downloads of those reports failed. Successful step statuses were independently retrieved via GitHub run/job APIs. The hash above is GitHub asset metadata, not a local APK rehash; certificate verification is the successful CI step, not independent local signature inspection. No physical device test has yet been performed. No repeated live mixed-provider search was run after release.

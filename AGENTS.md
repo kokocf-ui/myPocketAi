@@ -29,8 +29,19 @@ paidservices/HERE. Raportnou `MIXED_PROGRESSIVE_APK_TEST_RELEASE_2026-11-26.md`.
 - Backendversionpregătitv187 și CIassertionssync; no-providerprotocolsmokenou
   prinfrontenddupădeploy (emptyinvalidmessage, result400v187). CIexistentEva/
   weather/location/FI/EEsmokesneschimbatcaacoperire. HEREOFF0/max2.
-LaînscriereaacesteinoteîncăNUdeploy/APKnou; prodrămânev186/APK501886 pânăla
-confirmarearunurilor. Actualizeazăraportulșinota cuworkflowIDs/rezultate/digest.
+ELIBERATsourcef7ab634b276c3486e50ba6979993a77d78dad67b:
+Backendv187 deploy45894584636/job140165222413SUCCESS, frontendSKIPPED;
+progressprotocolzero-provider/legacy410/Evaweatherlocation/FI+EEsmokestepsSUCCESS.
+GETrootpublicindependentv187onlineconfirmat.
+APK501887 run45894780817/job140165885178SUCCESS, debugSKIPPED; CIcertmatch/
+identity/version/snapshotsSUCCESS. Release459896683/asset797677062/77654992bytes,
+GitHubdigestSHA256 8be969d1e8d6d7d27fa29eb5986215e5ad06b06975d95979d04d90dc6cd794ad.
+Download https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45894780817/myPocketAI-signed-education-test.apk
+Installupdatefărăuninstall/cleardata, închide-redeschide. ChecklistROactualizat.
+SandboxblockredirectAzure/actions.githubusercontent.com -> CIartifact/logdownload
+EOF; rezultatestepsprinGHAAPI, digestdinassetmetadataNUrehashlocal, certCI-only.
+ÎncăNUtestfizic501887/NUliveitinerarFlixBusdatat; HEREOFF0/max2, Oracle/prodfrontend/
+mainneschimbate, PR558DRAFT. Notelemai vechi„prodrămânev186”sunthistoriceacum.
 Nuconfunda progresulUIrezolvat cuorare/transferuricompleteFlixBusverificate.
 
 **IMPLEMENTARE INCREMENTALĂ MULTIRAMURĂ (2026-11-26, după confirmarea user):**
