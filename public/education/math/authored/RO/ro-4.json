@@ -1,0 +1,1221 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "4",
+ "version": "7c3d20beb6af2b3276afdec43b29d6c4312b2222733fc6aedd944c120d89c622",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Invatamant-Preuniversitar/2016/primar/OMEN_5003_2014_Matematica_III_IV.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Matematică, clasele a III-a – a IV-a, aprobată prin OMEN nr. 5003/02.12.2014 — clasa a IV-a: numere naturale 0–1 000 000, cifre romane I, V, X, L, C, D, M, rotunjire, adunarea și scăderea, înmulțirea (inclusiv cu un număr de două cifre), împărțirea la un număr de o cifră și la 10, 100, 1 000, ordinea operațiilor cu paranteze rotunde și pătrate, metode de rezolvare (reducerea la unitate, comparația, mersul invers, falsa ipoteză), fracții (subunitare, echiunitare, supraunitare, egale, comparare, adunare și scădere cu același numitor, fracție dintr-un număr), elemente de geometrie (paralele, perpendiculare, figuri plane, cerc, axa de simetrie, perimetru, aria prin pătrățele, corpuri și desfășurări), unități de măsură, organizarea datelor; unitățile urmează manualele aprobate de Matematică clasa a IV-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a IV-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Numerele naturale de la 0 la 1 000 000",
+   "keys": [
+    "eu-year-ro-beginner-4-l01",
+    "eu-year-ro-beginner-4-l02",
+    "eu-year-ro-beginner-4-l03",
+    "eu-year-ro-beginner-4-l04"
+   ]
+  },
+  {
+   "title": "Adunarea și scăderea până la 1 000 000",
+   "keys": [
+    "eu-year-ro-beginner-4-l05",
+    "eu-year-ro-beginner-4-l06",
+    "eu-year-ro-beginner-4-l07"
+   ]
+  },
+  {
+   "title": "Înmulțirea numerelor naturale",
+   "keys": [
+    "eu-year-ro-beginner-4-l08",
+    "eu-year-ro-beginner-4-l09",
+    "eu-year-ro-beginner-4-l10",
+    "eu-year-ro-beginner-4-l11"
+   ]
+  },
+  {
+   "title": "Împărțirea numerelor naturale",
+   "keys": [
+    "eu-year-ro-beginner-4-l12",
+    "eu-year-ro-beginner-4-l13",
+    "eu-year-ro-beginner-4-l14",
+    "eu-year-ro-beginner-4-l15"
+   ]
+  },
+  {
+   "title": "Metode de rezolvare a problemelor",
+   "keys": [
+    "eu-year-ro-beginner-4-l16",
+    "eu-year-ro-beginner-4-l17",
+    "eu-year-ro-beginner-4-l18",
+    "eu-year-ro-beginner-4-l19"
+   ]
+  },
+  {
+   "title": "Fracții",
+   "keys": [
+    "eu-year-ro-beginner-4-l20",
+    "eu-year-ro-beginner-4-l21",
+    "eu-year-ro-beginner-4-l22",
+    "eu-year-ro-beginner-4-l23"
+   ]
+  },
+  {
+   "title": "Elemente de geometrie",
+   "keys": [
+    "eu-year-ro-beginner-4-l24",
+    "eu-year-ro-beginner-4-l25",
+    "eu-year-ro-beginner-4-l26",
+    "eu-year-ro-beginner-4-l27",
+    "eu-year-ro-beginner-4-l28"
+   ]
+  },
+  {
+   "title": "Unități de măsură și organizarea datelor",
+   "keys": [
+    "eu-year-ro-beginner-4-l29",
+    "eu-year-ro-beginner-4-l30",
+    "eu-year-ro-beginner-4-l31",
+    "eu-year-ro-beginner-4-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-4-l01": {
+   "ro": {
+    "title": "Clase și ordine: formarea numerelor până la 1 000 000",
+    "theory": "Cifrele unui număr mare se grupează câte trei, de la dreapta: clasa unităților (unități, zeci, sute) și clasa miilor (unități de mii, zeci de mii, sute de mii). Zece sute de mii formează un milion: 1 000 000. Lăsăm un mic spațiu între clase ca să citim ușor: 347 205.",
+    "sample": "Un oraș are 284 560 de locuitori: 284 de mii și 560 de unități.",
+    "worked": "506 093: clasa miilor 506 (5 sute de mii, 0 zeci de mii, 6 unități de mii), clasa unităților 093 (0 sute, 9 zeci, 3 unități). Descompunere: 500 000 + 6 000 + 90 + 3.",
+    "exercises": [
+     "Scrie numărul format din 4 sute de mii, 2 zeci de mii, 7 mii, 3 sute și 5 unități.",
+     "Descompune 830 412.",
+     "Ce valoare are cifra 7 în 715 000 și în 1 700?",
+     "Scrie cel mai mic număr de șase cifre și cel mai mare număr de cinci cifre.",
+     "Câte mii are în total numărul 250 000?"
+    ],
+    "test": [
+     "Câte zeci de mii are 46 000?",
+     "Ce număr are 3 sute de mii și 3 unități?",
+     "Ce valoare are cifra 5 în 152 000?",
+     "Câte sute de mii are un milion?",
+     "Descompune 70 080."
+    ],
+    "steps": [
+     "Grupează cifrele câte trei de la dreapta.",
+     "Citește întâi clasa miilor, apoi clasa unităților.",
+     "Pune 0 acolo unde un ordin lipsește.",
+     "Greșeala frecventă: să scrii „trei sute de mii trei” ca 3003. Clasa miilor are 300, clasa unităților 003: 300 003."
+    ],
+    "answers": [
+     "4",
+     "300 003",
+     "50 000",
+     "10",
+     "70 000 + 80"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l02": {
+   "ro": {
+    "title": "Citirea, scrierea, compararea și ordonarea numerelor până la 1 000 000",
+    "theory": "Citim mai întâi numărul din clasa miilor urmat de cuvântul „mii”, apoi clasa unităților: 608 450 = „șase sute opt mii patru sute cincizeci”. Comparăm numărul de cifre, apoi cifrele de la stânga la dreapta, până la prima diferență.",
+    "sample": "Județul A are 612 431 de locuitori, iar județul B 621 341. Comparăm: 6 = 6, apoi 1 < 2, deci B are mai mulți.",
+    "worked": "Ordonăm crescător 98 765, 102 345, 99 999, 100 001: cele de cinci cifre sunt mai mici: 98 765 < 99 999; apoi cele de șase cifre: 100 001 < 102 345.",
+    "exercises": [
+     "Scrie cu cifre: nouă sute mii nouăzeci.",
+     "Scrie cu litere: 405 020.",
+     "Pune semnul: 345 678 ... 345 687.",
+     "Ordonează descrescător: 500 500, 505 000, 500 050.",
+     "Scrie succesorul și predecesorul lui 999 999."
+    ],
+    "test": [
+     "Scrie cu cifre: două sute mii două sute.",
+     "Care este mai mare: 99 999 sau 100 000?",
+     "Care este succesorul lui 459 999?",
+     "Scrie cu cifre: șaptezeci mii șapte.",
+     "Care este predecesorul lui 1 000 000?"
+    ],
+    "steps": [
+     "Desparte numărul în clase.",
+     "Citește fiecare clasă ca pe un număr de trei cifre, adăugând „mii” la prima.",
+     "Pentru comparare, mergi ordin cu ordin de la stânga.",
+     "Greșeala frecventă: să scrii „șaptezeci mii șapte” ca 707 sau 7 007. Clasa miilor este 70, clasa unităților 007: 70 007."
+    ],
+    "answers": [
+     "200 200",
+     "100 000",
+     "460 000",
+     "70 007",
+     "999 999"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l03": {
+   "ro": {
+    "title": "Rotunjirea numerelor și estimarea",
+    "theory": "Rotunjim la un ordin ales privind cifra imediat din dreapta lui: 0–4 rotunjim în jos, 5–9 în sus. Cifrele din dreapta devin 0. Estimăm un rezultat rotunjind termenii, ca să verificăm dacă un calcul este plauzibil.",
+    "sample": "Un stadion are 54 820 de locuri: rotunjit la mii, aproximativ 55 000.",
+    "worked": "Rotunjim 638 472 la zeci de mii: privim cifra miilor, 8 → 640 000. La sute de mii: privim cifra zecilor de mii, 3 → 600 000. Estimare: 398 120 + 201 900 ≈ 400 000 + 200 000 = 600 000.",
+    "exercises": [
+     "Rotunjește 457 382 la sute, la mii și la zeci de mii.",
+     "Rotunjește 949 999 la sute de mii.",
+     "Estimează: 123 456 + 276 789.",
+     "Estimează: 805 000 − 198 000.",
+     "Scrie trei numere care rotunjite la mii dau 25 000."
+    ],
+    "test": [
+     "Rotunjește 34 567 la mii.",
+     "Rotunjește 34 567 la zeci de mii.",
+     "Rotunjește 250 000 la sute de mii.",
+     "La rotunjirea la mii, ce cifră privești?",
+     "Estimează 49 800 + 50 300."
+    ],
+    "steps": [
+     "Alege ordinul la care rotunjești.",
+     "Privește cifra din dreapta lui.",
+     "Decide în jos (0–4) sau în sus (5–9) și scrie zerourile.",
+     "Greșeala frecventă: să rotunjești „în lanț”, cifră cu cifră (34 467 → 34 470 → 34 500 → 35 000). Privești doar cifra de lângă ordinul ales: 34 000."
+    ],
+    "answers": [
+     "35 000",
+     "30 000",
+     "300 000",
+     "Cifra sutelor",
+     "100 000"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l04": {
+   "ro": {
+    "title": "Cifrele romane: I, V, X, L, C, D, M",
+    "theory": "Pe lângă I = 1, V = 5 și X = 10, romanii foloseau L = 50, C = 100, D = 500, M = 1 000. O cifră mai mică așezată după una mai mare se adună (LX = 60), iar așezată înainte se scade (XL = 40, XC = 90, CD = 400, CM = 900). I, X, C, M se pot repeta de cel mult trei ori; V, L, D nu se repetă.",
+    "sample": "Anul 2026 se scrie MMXXVI, iar secolul al XIX-lea are cifrele romane XIX.",
+    "worked": "Scriem 1 948: 1 000 + 900 + 40 + 8 = M + CM + XL + VIII = MCMXLVIII. Citim CDXCIV: CD (400) + XC (90) + IV (4) = 494.",
+    "exercises": [
+     "Scrie cu cifre romane: 49, 99, 444.",
+     "Scrie cu cifre arabe: LXXVII, CCXL, MDCCC.",
+     "Scrie anul nașterii tale cu cifre romane.",
+     "Scrie cu cifre romane: 3 000.",
+     "Găsește greșeala: IC pentru 99."
+    ],
+    "test": [
+     "Cât valorează L?",
+     "Cât valorează D?",
+     "Scrie cu cifre romane: 90.",
+     "Cât este MMXX?",
+     "Scrie cu cifre romane: 400."
+    ],
+    "steps": [
+     "Descompune numărul în mii, sute, zeci și unități.",
+     "Scrie fiecare parte cu cifre romane (900 = CM, 400 = CD, 90 = XC, 40 = XL).",
+     "Alătură părțile de la cea mai mare la cea mai mică.",
+     "Greșeala frecventă: să scrii 99 ca IC. Se scrie separat zecile și unitățile: XC + IX = XCIX."
+    ],
+    "answers": [
+     "50",
+     "500",
+     "XC",
+     "2 020",
+     "CD"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l05": {
+   "ro": {
+    "title": "Adunarea numerelor naturale până la 1 000 000",
+    "theory": "Adunăm în coloană, aliniind numerele la dreapta, de la unități spre ordinele mari, cu transport la nevoie. Termenii se pot schimba între ei și grupa. Verificăm prin estimare sau prin probă.",
+    "sample": "Într-un an, o bibliotecă a împrumutat 128 457 de cărți, iar în anul următor 143 685. În total: 272 142 de cărți.",
+    "worked": "128 457 + 143 685: 7 + 5 = 12 (2, ține 1); 5 + 8 + 1 = 14 (4, ține 1); 4 + 6 + 1 = 11 (1, ține 1); 8 + 3 + 1 = 12 (2, ține 1); 2 + 4 + 1 = 7; 1 + 1 = 2. Rezultat 272 142. Estimare: 130 000 + 140 000 = 270 000.",
+    "exercises": [
+     "Calculează: 235 416 + 412 383.",
+     "Calculează: 456 789 + 287 654.",
+     "Calculează rapid: 125 000 + 348 000 + 75 000.",
+     "Calculează: 999 999 − 999 999 + 1.",
+     "Scrie o problemă pentru 34 500 + 65 500."
+    ],
+    "test": [
+     "Cât fac 400 000 + 250 000?",
+     "Cât fac 123 456 + 876 544?",
+     "Cât fac 99 999 + 1?",
+     "Cât fac 75 000 + 25 000 + 300?",
+     "Cât fac 310 000 + 90 000?"
+    ],
+    "steps": [
+     "Aliniază la dreapta.",
+     "Adună de la unități, cu transport.",
+     "Estimează pentru verificare.",
+     "Greșeala frecventă: să uiți transportul la ultima coloană. Scrie mic deasupra fiecărei coloane cifra „ținută”."
+    ],
+    "answers": [
+     "650 000",
+     "1 000 000",
+     "100 000",
+     "100 300",
+     "400 000"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l06": {
+   "ro": {
+    "title": "Scăderea numerelor naturale până la 1 000 000",
+    "theory": "Scădem în coloană de la unități. Când cifra de sus e mai mică, împrumutăm de la ordinul următor; dacă acolo e 0, împrumutul trece mai departe, iar zerourile devin 9. Proba scăderii se face prin adunare: rest + scăzător = descăzut.",
+    "sample": "Un avion zboară 1 000 000 m în aproximativ o oră și un sfert; după 637 500 m mai are 362 500 m.",
+    "worked": "400 000 − 156 238: toate zerourile devin 9 în afara ultimului, care devine 10: 3 9 9 9 9 10. 10 − 8 = 2, 9 − 3 = 6, 9 − 2 = 7, 9 − 6 = 3, 9 − 5 = 4, 3 − 1 = 2. Rezultat 243 762. Proba: 243 762 + 156 238 = 400 000.",
+    "exercises": [
+     "Calculează: 875 432 − 341 210.",
+     "Calculează și fă proba: 600 000 − 287 465.",
+     "Calculează: 1 000 000 − 1; 1 000 000 − 999 999.",
+     "Estimează, apoi calculează: 512 300 − 198 700.",
+     "Scrie o problemă pentru 250 000 − 75 000."
+    ],
+    "test": [
+     "Cât fac 900 000 − 300 000?",
+     "Cât fac 500 000 − 1?",
+     "Cât fac 765 432 − 65 432?",
+     "Cât fac 100 000 − 25 000?",
+     "Cum faci proba scăderii?"
+    ],
+    "steps": [
+     "Aliniază și scade de la unități.",
+     "Împrumută când cifra de sus e mai mică.",
+     "Fă proba prin adunare.",
+     "Greșeala frecventă: să scazi cifra mai mică din cea mai mare, indiferent de poziție (2 − 8 → 6). Când sus e mai mic, trebuie împrumut."
+    ],
+    "answers": [
+     "600 000",
+     "499 999",
+     "700 000",
+     "75 000",
+     "Adun restul cu scăzătorul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l07": {
+   "ro": {
+    "title": "Aflarea termenului necunoscut; probleme cu adunare și scădere",
+    "theory": "Termenul necunoscut = sumă − termen cunoscut. Descăzutul = rest + scăzător. Scăzătorul = descăzut − rest. Verificăm înlocuind. În probleme căutăm relații de tipul „cu ... mai mult/mai puțin”.",
+    "sample": "Două sate au împreună 12 500 de locuitori; unul are 5 780. Celălalt are 12 500 − 5 780 = 6 720.",
+    "worked": "x − 45 600 = 154 400 → x = 154 400 + 45 600 = 200 000. Verificare: 200 000 − 45 600 = 154 400.",
+    "exercises": [
+     "Află a: a + 238 450 = 500 000.",
+     "Află b: b − 99 999 = 1.",
+     "Află c: 750 000 − c = 125 000.",
+     "Un muzeu a avut 245 300 de vizitatori într-un an, cu 37 800 mai mulți decât anul anterior. Câți au fost anul anterior?",
+     "Diferența a două numere este 15 000, iar cel mic este 85 000. Care este cel mare?"
+    ],
+    "test": [
+     "Află a: a + 50 000 = 80 000.",
+     "Află b: b − 20 000 = 30 000.",
+     "Află c: 100 000 − c = 60 000.",
+     "Ce înseamnă „cu 500 mai puțin decât 2 000”?",
+     "Cum verifici un rezultat găsit?"
+    ],
+    "steps": [
+     "Stabilește ce rol are necunoscuta.",
+     "Folosește operația inversă.",
+     "Verifică prin înlocuire.",
+     "Greșeala frecventă: la 100 000 − c = 60 000 să aduni (c = 160 000). Scăzătorul se află scăzând: 40 000."
+    ],
+    "answers": [
+     "30 000",
+     "50 000",
+     "40 000",
+     "2 000 − 500 = 1 500",
+     "O înlocuiesc în exercițiu."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l08": {
+   "ro": {
+    "title": "Înmulțirea unui număr cu un număr de o cifră",
+    "theory": "Înmulțim în coloană fiecare cifră a numărului cu factorul de o cifră, de la unități, adăugând transportul. Putem verifica prin descompunere sau estimare.",
+    "sample": "Un tren de marfă are 7 vagoane a câte 12 450 kg: 87 150 kg.",
+    "worked": "12 450 × 7: 0 × 7 = 0; 5 × 7 = 35 (5, ține 3); 4 × 7 = 28 + 3 = 31 (1, ține 3); 2 × 7 = 14 + 3 = 17 (7, ține 1); 1 × 7 = 7 + 1 = 8. Rezultat 87 150. Estimare: 12 000 × 7 = 84 000.",
+    "exercises": [
+     "Calculează: 2 314 × 3; 4 506 × 6.",
+     "Calculează: 12 345 × 8.",
+     "Calculează: 99 999 × 9.",
+     "Estimează, apoi calculează: 4 980 × 5.",
+     "Un bilet de avion costă 1 250 de lei. Cât costă 4 bilete?"
+    ],
+    "test": [
+     "Cât fac 1 111 × 5?",
+     "Cât fac 2 500 × 4?",
+     "Cât fac 3 003 × 3?",
+     "Cât fac 12 500 × 8?",
+     "Cât fac 1 000 × 9?"
+    ],
+    "steps": [
+     "Scrie factorul de o cifră sub unități.",
+     "Înmulțește fiecare cifră, de la dreapta, adăugând transportul.",
+     "Verifică prin estimare.",
+     "Greșeala frecventă: să uiți zerourile din interior (3 003 × 3 = 99). Fiecare 0 dă 0 în rezultat: 9 009."
+    ],
+    "answers": [
+     "5 555",
+     "10 000",
+     "9 009",
+     "100 000",
+     "9 000"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l09": {
+   "ro": {
+    "title": "Înmulțirea cu 10, 100, 1 000 și cu numere care se termină cu zerouri",
+    "theory": "Pentru a înmulți cu 10, 100, 1 000 adăugăm unul, două sau trei zerouri. Când factorii se termină cu zerouri, înmulțim numerele fără zerouri și adăugăm toate zerourile la final: 300 × 40 = 12 și trei zerouri = 12 000.",
+    "sample": "O cutie are 250 de agrafe; 100 de cutii au 25 000 de agrafe.",
+    "worked": "600 × 500: 6 × 5 = 30, la care adăugăm 2 + 2 = 4 zerouri: 300 000 (atenție: 30 are deja un zero propriu).",
+    "exercises": [
+     "Calculează: 345 × 10; 345 × 100; 345 × 1 000.",
+     "Calculează: 70 × 80; 700 × 80.",
+     "Calculează: 250 × 40; 500 × 200.",
+     "Completează: 48 × ... = 48 000.",
+     "Un sac de ciment are 40 kg. Câte kilograme au 300 de saci?"
+    ],
+    "test": [
+     "Cât fac 56 × 100?",
+     "Cât fac 90 × 30?",
+     "Cât fac 400 × 500?",
+     "Cât fac 12 × 1 000?",
+     "Cât fac 20 × 50?"
+    ],
+    "steps": [
+     "Desprinde zerourile de la finalul factorilor.",
+     "Înmulțește numerele rămase.",
+     "Adaugă la rezultat toate zerourile desprinse.",
+     "Greșeala frecventă: la 20 × 50 să scrii 100 (2 × 5 = 10 plus un zero). Se adaugă două zerouri: 1 000."
+    ],
+    "answers": [
+     "5 600",
+     "2 700",
+     "200 000",
+     "12 000",
+     "1 000"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l10": {
+   "ro": {
+    "title": "Înmulțirea cu un număr de două cifre",
+    "theory": "Înmulțim cu fiecare cifră a factorului de două cifre separat și adunăm produsele parțiale: 234 × 26 = 234 × 6 + 234 × 20. În coloană, al doilea produs parțial se scrie mutat cu un loc spre stânga, pentru că înmulțim cu zeci.",
+    "sample": "O sală are 28 de rânduri a câte 35 de scaune: 35 × 28 = 980 de scaune.",
+    "worked": "234 × 26: 234 × 6 = 1 404; 234 × 2 zeci = 468 zeci = 4 680; suma: 1 404 + 4 680 = 6 084. Estimare: 200 × 30 = 6 000.",
+    "exercises": [
+     "Calculează: 45 × 23; 67 × 34.",
+     "Calculează: 312 × 15; 508 × 42.",
+     "Calculează: 1 234 × 12.",
+     "Estimează, apoi calculează: 49 × 51.",
+     "O carte are 96 de pagini. Câte pagini au 24 de cărți?"
+    ],
+    "test": [
+     "Cât fac 12 × 11?",
+     "Cât fac 25 × 12?",
+     "Cât fac 15 × 15?",
+     "Cât fac 100 × 25?",
+     "Cât fac 32 × 21?"
+    ],
+    "steps": [
+     "Înmulțește cu cifra unităților: primul produs parțial.",
+     "Înmulțește cu cifra zecilor și scrie rezultatul mutat un loc la stânga.",
+     "Adună produsele parțiale și estimează.",
+     "Greșeala frecventă: să nu muți al doilea produs (1 404 + 468 = 1 872). Al doilea produs reprezintă zeci, deci 4 680."
+    ],
+    "answers": [
+     "132",
+     "300",
+     "225",
+     "2 500",
+     "672"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l11": {
+   "ro": {
+    "title": "Proprietățile înmulțirii și calculul rapid",
+    "theory": "Înmulțirea este comutativă și asociativă; 1 este element neutru; 0 anulează produsul. Înmulțirea este distributivă față de adunare și scădere: a × (b + c) = a × b + a × c. Folosim perechile 2 × 5, 4 × 25, 8 × 125 care dau 10, 100, 1 000.",
+    "sample": "25 × 36 × 4 = (25 × 4) × 36 = 100 × 36 = 3 600.",
+    "worked": "47 × 99 = 47 × (100 − 1) = 4 700 − 47 = 4 653. 125 × 16 = 125 × 8 × 2 = 1 000 × 2 = 2 000. 38 × 7 + 38 × 3 = 38 × 10 = 380.",
+    "exercises": [
+     "Calculează rapid: 4 × 87 × 25.",
+     "Calculează rapid: 125 × 24.",
+     "Calculează rapid: 56 × 101.",
+     "Calculează rapid: 73 × 6 + 73 × 4.",
+     "Calculează rapid: 199 × 5."
+    ],
+    "test": [
+     "Cât fac 2 × 73 × 5?",
+     "Cât fac 12 × 99?",
+     "Cât fac 35 × 8 + 35 × 2?",
+     "Cât fac 8 × 125?",
+     "Cum se numește regula a × (b + c) = a × b + a × c?"
+    ],
+    "steps": [
+     "Caută perechi de factori care dau 10, 100 sau 1 000.",
+     "Caută un factor comun sau un număr apropiat de 10, 100.",
+     "Aplică proprietatea potrivită și calculează.",
+     "Greșeala frecventă: la 47 × 99 = 4 700 − 47 să scazi 1 în loc de 47. Se scade câte 1 pentru fiecare unitate din 47, adică 47."
+    ],
+    "answers": [
+     "730",
+     "1 188",
+     "350",
+     "1 000",
+     "Distributivitatea"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l12": {
+   "ro": {
+    "title": "Împărțirea la un număr de o cifră",
+    "theory": "Împărțim începând de la stânga: luăm cel mai mic grup de cifre care se împarte la împărțitor, aflăm câtul parțial, înmulțim, scădem, coborâm cifra următoare și repetăm. Restul trebuie să fie mai mic decât împărțitorul. Proba: cât × împărțitor + rest = deîmpărțit.",
+    "sample": "1 284 de cărți se împart egal la 6 biblioteci: 214 cărți fiecare.",
+    "worked": "1 284 : 6: 12 : 6 = 2 (2 × 6 = 12, rest 0); coborâm 8: 8 : 6 = 1 rest 2; coborâm 4: 24 : 6 = 4. Câtul 214. Proba: 214 × 6 = 1 284.",
+    "exercises": [
+     "Calculează: 846 : 2; 963 : 3.",
+     "Calculează: 1 575 : 5; 2 352 : 7.",
+     "Calculează cu rest: 1 000 : 7.",
+     "Fă proba: 4 560 : 8 = 570.",
+     "5 236 de lei se împart în mod egal la 4 persoane. Cât primește fiecare?"
+    ],
+    "test": [
+     "Cât fac 480 : 4?",
+     "Cât fac 636 : 6?",
+     "Cât fac 1 200 : 3?",
+     "Ce rest are 100 : 3?",
+     "Cât fac 945 : 5?"
+    ],
+    "steps": [
+     "Ia de la stânga cel mai mic grup de cifre care se împarte.",
+     "Află câtul parțial, înmulțește și scade.",
+     "Coboară cifra următoare și repetă; fă proba.",
+     "Greșeala frecventă: să uiți un 0 în cât când grupul coborât e prea mic (636 : 6 = 16). Când 3 nu se împarte la 6, scrii 0 în cât: 106."
+    ],
+    "answers": [
+     "120",
+     "106",
+     "400",
+     "1",
+     "189"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l13": {
+   "ro": {
+    "title": "Împărțirea la 10, 100, 1 000",
+    "theory": "Când un număr se termină cu zerouri, împărțirea la 10, 100 sau 1 000 se face tăind unul, două sau trei zerouri de la final: 45 000 : 100 = 450. Câtul este de 10, 100 sau 1 000 de ori mai mic.",
+    "sample": "25 000 de lei împărțiți în bancnote de 100 de lei: 25 000 : 100 = 250 de bancnote.",
+    "worked": "360 000 : 1 000 = 360 (tăiem trei zerouri). 4 800 : 10 = 480. 7 000 : 100 = 70.",
+    "exercises": [
+     "Calculează: 5 600 : 10; 5 600 : 100.",
+     "Calculează: 80 000 : 1 000; 80 000 : 10.",
+     "Completează: 230 000 : ... = 230.",
+     "Câte bancnote de 10 lei fac 3 500 de lei?",
+     "Câți kilometri sunt 47 000 m?"
+    ],
+    "test": [
+     "Cât fac 900 : 10?",
+     "Cât fac 4 000 : 100?",
+     "Cât fac 65 000 : 1 000?",
+     "Cât fac 1 000 000 : 1 000?",
+     "Cât fac 2 500 : 100?"
+    ],
+    "steps": [
+     "Numără zerourile împărțitorului.",
+     "Taie același număr de zerouri de la finalul deîmpărțitului.",
+     "Verifică prin înmulțire.",
+     "Greșeala frecventă: să adaugi zerouri în loc să le tai. Împărțirea micșorează numărul."
+    ],
+    "answers": [
+     "90",
+     "40",
+     "65",
+     "1 000",
+     "25"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l14": {
+   "ro": {
+    "title": "Ordinea operațiilor; parantezele rotunde și pătrate",
+    "theory": "Se calculează întâi parantezele rotunde, apoi cele pătrate. În interiorul lor și după ele: întâi înmulțiri și împărțiri, apoi adunări și scăderi, de la stânga la dreapta.",
+    "sample": "[(12 + 8) × 5 − 40] : 6 = [20 × 5 − 40] : 6 = [100 − 40] : 6 = 60 : 6 = 10.",
+    "worked": "500 − [3 × (45 − 15) + 20 × 4] = 500 − [3 × 30 + 80] = 500 − [90 + 80] = 500 − 170 = 330.",
+    "exercises": [
+     "Calculează: 72 : 8 + 6 × 9 − 15.",
+     "Calculează: [(30 − 6) : 4 + 4] × 10.",
+     "Calculează: 1 000 − [200 + 50 × (16 − 8)].",
+     "Calculează: (125 × 8 − 600) : 100.",
+     "Pune paranteze ca 10 + 20 × 3 − 5 să dea 85."
+    ],
+    "test": [
+     "Cât fac 20 − 12 : 4?",
+     "Cât fac (20 − 12) : 4?",
+     "Cât fac [5 + (3 × 2)] × 2?",
+     "Ce paranteze se calculează primele?",
+     "Cât fac 100 : 10 × 2?"
+    ],
+    "steps": [
+     "Calculează parantezele rotunde.",
+     "Calculează parantezele pătrate.",
+     "Fă înmulțirile și împărțirile, apoi adunările și scăderile, de la stânga la dreapta.",
+     "Greșeala frecventă: la 100 : 10 × 2 să înmulțești întâi (100 : 20 = 5). Operațiile de același rang se fac de la stânga: 10 × 2 = 20."
+    ],
+    "answers": [
+     "17",
+     "2",
+     "22",
+     "Cele rotunde",
+     "20"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l15": {
+   "ro": {
+    "title": "Probleme cu înmulțirea și împărțirea; media aritmetică",
+    "theory": "Folosim înmulțirea pentru „de n ori mai mult” și pentru totaluri din grupe egale, iar împărțirea pentru „de n ori mai puțin”, pentru împărțiri în grupe egale și pentru a afla câte grupe se pot forma. Media aritmetică a unor numere este suma lor împărțită la câte numere sunt.",
+    "sample": "Notele 8, 9 și 10 au media (8 + 9 + 10) : 3 = 9.",
+    "worked": "Un autocar parcurge 270 km în 3 ore, cu aceeași viteză. Câți km parcurge în 5 ore? Într-o oră: 270 : 3 = 90 km; în 5 ore: 90 × 5 = 450 km.",
+    "exercises": [
+     "Un fermier recoltează 1 260 kg de mere și le pune în lăzi de 15 kg. Câte lăzi umple?",
+     "Media a 4 numere este 25. Care este suma lor?",
+     "Temperaturi: 12°, 15°, 18°, 15°. Care este media?",
+     "Un muncitor face 48 de piese în 6 ore. Câte face în 9 ore, în același ritm?",
+     "Compune o problemă cu „de 8 ori mai puțin”."
+    ],
+    "test": [
+     "Media numerelor 4, 6 și 8?",
+     "Ce operație folosești la „de 5 ori mai puțin”?",
+     "Patru caiete costă 24 de lei. Cât costă 7 caiete?",
+     "Câte grupe de 12 se formează din 144 de elevi?",
+     "Media lui 100 și 200?"
+    ],
+    "steps": [
+     "Identifică relația dintre mărimi (grupe egale, de câte ori).",
+     "Află valoarea pentru o unitate, dacă e nevoie.",
+     "Calculează mărimea cerută.",
+     "Greșeala frecventă: la media aritmetică să împarți la 2 indiferent câte numere sunt. Împarți la numărul de termeni."
+    ],
+    "answers": [
+     "6",
+     "Împărțirea",
+     "42 de lei",
+     "12",
+     "150"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l16": {
+   "ro": {
+    "title": "Metoda reducerii la unitate",
+    "theory": "Când două mărimi cresc la fel (de două ori mai multe obiecte costă de două ori mai mult), aflăm întâi cât corespunde unei unități (un obiect, o oră), apoi înmulțim cu numărul cerut.",
+    "sample": "5 kg de mere costă 30 de lei. 1 kg costă 30 : 5 = 6 lei; 8 kg costă 8 × 6 = 48 de lei.",
+    "worked": "3 robinete umplu un bazin cu 360 l în aceeași oră. Câți litri curg din 7 robinete într-o oră? 1 robinet: 360 : 3 = 120 l; 7 robinete: 120 × 7 = 840 l.",
+    "exercises": [
+     "6 caiete costă 42 de lei. Cât costă 10 caiete?",
+     "Un automobil consumă 24 l de benzină la 400 km. Câți litri la 100 km?",
+     "4 muncitori fac 96 de piese pe zi. Câte piese fac 6 muncitori?",
+     "În 7 zile, o familie consumă 21 l de lapte. Câți litri în 30 de zile?",
+     "Compune o problemă cu reducerea la unitate."
+    ],
+    "test": [
+     "3 pixuri costă 12 lei. Cât costă un pix?",
+     "În aceeași problemă, cât costă 5 pixuri?",
+     "Care este primul pas al metodei?",
+     "8 bilete costă 80 de lei. Cât costă 3 bilete?",
+     "2 kg de brânză costă 50 de lei. Cât costă 6 kg?"
+    ],
+    "steps": [
+     "Scrie datele în două rânduri: ce știi și ce se cere.",
+     "Află valoarea pentru o unitate prin împărțire.",
+     "Înmulțește cu numărul de unități cerut.",
+     "Greșeala frecventă: să înmulțești direct (6 caiete → 42; 10 caiete → 42 × 10). Trebuie aflat întâi prețul unui caiet: 7 lei, apoi 70 de lei."
+    ],
+    "answers": [
+     "4 lei",
+     "20 de lei",
+     "Aflu cât corespunde unei unități.",
+     "30 de lei",
+     "150 de lei"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l17": {
+   "ro": {
+    "title": "Metoda comparației",
+    "theory": "Aplicăm metoda când avem două situații cu aceleași tipuri de obiecte, în cantități diferite. Aducem o mărime la aceeași valoare în ambele situații (sau scădem situațiile), iar diferența ne arată valoarea unei singure mărimi.",
+    "sample": "3 caiete și 2 pixuri costă 22 de lei; 3 caiete și 5 pixuri costă 31 de lei. Diferența: 3 pixuri = 9 lei, deci un pix 3 lei, iar un caiet (22 − 6) : 3 = 5 lei.",
+    "worked": "2 kg de mere și 3 kg de pere costă 27 de lei; 4 kg de mere și 1 kg de pere costă 29 de lei. Dublăm prima situație: 4 kg mere și 6 kg pere = 54 de lei. Scădem a doua: 5 kg pere = 25 de lei, deci 1 kg pere = 5 lei. Mere: (27 − 15) : 2 = 6 lei/kg.",
+    "exercises": [
+     "2 creioane și 3 radiere costă 13 lei; 2 creioane și 5 radiere costă 19 lei. Cât costă fiecare?",
+     "5 mingi și 2 rachete costă 190 de lei; 5 mingi și 4 rachete costă 290 de lei. Prețurile?",
+     "3 kg de roșii și 2 kg de ardei costă 34 de lei; 1 kg de roșii și 2 kg de ardei costă 22 de lei. Prețurile?",
+     "Verifică rezultatul problemei cu caiete și pixuri.",
+     "Compune o problemă cu metoda comparației."
+    ],
+    "test": [
+     "Ce reprezintă diferența celor două situații din exemplu?",
+     "Cât costă un pix în exemplu?",
+     "Ce faci dacă nicio mărime nu este egală în cele două situații?",
+     "Cum verifici rezultatul?",
+     "Cât costă un caiet în exemplu?"
+    ],
+    "steps": [
+     "Scrie cele două situații una sub alta.",
+     "Fă egale cantitățile unei mărimi (înmulțind o situație, dacă e nevoie).",
+     "Scade situațiile: rămâne o singură mărime; află-i valoarea.",
+     "Înlocuiește pentru a afla cealaltă mărime și verifică.",
+     "Greșeala frecventă: să scazi situațiile înainte ca una dintre mărimi să fie egală în ambele."
+    ],
+    "answers": [
+     "Prețul a 3 pixuri (9 lei).",
+     "3 lei",
+     "Înmulțesc o situație ca să egalez o mărime.",
+     "Înlocuiesc prețurile în ambele situații.",
+     "5 lei"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l18": {
+   "ro": {
+    "title": "Metoda mersului invers",
+    "theory": "Când știm rezultatul final și operațiile făcute asupra unui număr necunoscut, pornim de la sfârșit și facem operațiile inverse, în ordine inversă: adunarea devine scădere, înmulțirea devine împărțire și invers.",
+    "sample": "M-am gândit la un număr, l-am înmulțit cu 3, am adăugat 5 și am obținut 32. Invers: 32 − 5 = 27; 27 : 3 = 9.",
+    "worked": "Ana a cheltuit jumătate din bani pe o carte, apoi 10 lei pe un suc și i-au rămas 15 lei. Invers: înainte de suc avea 15 + 10 = 25 de lei; aceasta era jumătatea, deci avea 25 × 2 = 50 de lei. Verificare: 50 : 2 = 25; 25 − 10 = 15.",
+    "exercises": [
+     "M-am gândit la un număr, am scăzut 7, am împărțit la 4 și am obținut 6. Ce număr?",
+     "Un număr înmulțit cu 5, apoi micșorat cu 15, dă 85. Care este numărul?",
+     "Dan a dat a treia parte din timbre, apoi încă 4 și i-au rămas 12. Câte timbre avea?",
+     "Scrie schema mersului invers pentru prima problemă.",
+     "Compune o problemă cu mersul invers."
+    ],
+    "test": [
+     "Care este inversa adunării?",
+     "Care este inversa înmulțirii?",
+     "De unde pornești la mersul invers?",
+     "Un număr mărit cu 10 dă 30. Care este numărul?",
+     "Un număr împărțit la 2 dă 8. Care este numărul?"
+    ],
+    "steps": [
+     "Scrie operațiile în ordinea din problemă.",
+     "Pornește de la rezultat și parcurge operațiile de la coadă la cap.",
+     "Fă la fiecare pas operația inversă.",
+     "Verifică pornind de la numărul găsit.",
+     "Greșeala frecventă: să faci operațiile inverse în ordinea inițială (32 : 3, apoi − 5). Ordinea trebuie inversată."
+    ],
+    "answers": [
+     "Scăderea",
+     "Împărțirea",
+     "De la rezultatul final.",
+     "20",
+     "16"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l19": {
+   "ro": {
+    "title": "Metoda falsei ipoteze (cazuri simple)",
+    "theory": "Presupunem, „în mod fals”, că toate obiectele sunt de același fel, calculăm ce rezultat ar ieși și îl comparăm cu cel real. Diferența ne arată câte obiecte de celălalt fel sunt, împărțind la diferența dintre valorile lor.",
+    "sample": "Într-o curte sunt găini și iepuri: 10 capete și 28 de picioare. Dacă toate ar fi găini: 20 de picioare; lipsesc 8; fiecare iepure are cu 2 picioare mai mult, deci 8 : 2 = 4 iepuri și 6 găini.",
+    "worked": "20 de bancnote de 5 lei și 10 lei fac 140 de lei. Presupunem că toate sunt de 5 lei: 100 de lei. Diferența: 40 de lei. O bancnotă de 10 aduce 5 lei în plus: 40 : 5 = 8 bancnote de 10 lei, 12 de 5 lei. Verificare: 80 + 60 = 140.",
+    "exercises": [
+     "12 biciclete și tricicluri au 28 de roți. Câte sunt din fiecare?",
+     "15 monede de 10 și 50 de bani fac 3 lei și 10 bani. Câte din fiecare?",
+     "Într-o sală sunt 18 mese de 4 și 6 locuri, cu 84 de locuri. Câte mese de fiecare fel?",
+     "Verifică problema cu găini și iepuri.",
+     "Compune o problemă cu falsa ipoteză."
+    ],
+    "test": [
+     "Ce presupunem la început?",
+     "În exemplul cu găini, câte picioare ar fi dacă toate ar fi găini?",
+     "Câte picioare în plus are un iepure față de o găină?",
+     "Câți iepuri sunt?",
+     "Cum verifici?"
+    ],
+    "steps": [
+     "Presupune că toate obiectele sunt de același fel.",
+     "Calculează rezultatul ipotetic și diferența față de cel real.",
+     "Împarte diferența la diferența dintre valorile celor două feluri.",
+     "Află și celălalt fel și verifică.",
+     "Greșeala frecventă: să împarți diferența la valoarea unui obiect (8 : 4) în loc de diferența dintre valori (8 : 2)."
+    ],
+    "answers": [
+     "Că toate obiectele sunt de același fel.",
+     "20",
+     "2",
+     "4",
+     "Calculez capetele și picioarele pentru 6 găini și 4 iepuri."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l20": {
+   "ro": {
+    "title": "Fracții subunitare, echiunitare și supraunitare",
+    "theory": "Fracția arată părți egale dintr-un întreg. Dacă numărătorul este mai mic decât numitorul, fracția este subunitară (mai mică decât întregul: 3/5). Dacă sunt egali, fracția este echiunitară (egală cu 1: 5/5). Dacă numărătorul este mai mare, fracția este supraunitară (mai mare decât 1: 7/5).",
+    "sample": "Două pizza a câte 4 felii; mănânci 6 felii: 6/4, mai mult decât o pizza întreagă.",
+    "worked": "9/4: 4/4 face un întreg, încă 4/4 al doilea întreg, rămâne 1/4. Deci 9/4 = 2 întregi și 1/4.",
+    "exercises": [
+     "Clasifică: 2/7, 7/7, 9/7, 1/10, 10/10.",
+     "Desenează 5/3 folosind cercuri.",
+     "Scrie trei fracții echiunitare.",
+     "Câți întregi și ce rest de fracție are 11/5?",
+     "Scrie o fracție supraunitară cu numitorul 6."
+    ],
+    "test": [
+     "Este 4/9 subunitară sau supraunitară?",
+     "Cu cât este egală fracția 8/8?",
+     "Este 12/7 mai mare sau mai mică decât 1?",
+     "Ce fracție echiunitară are numitorul 3?",
+     "Câți întregi conține 6/2?"
+    ],
+    "steps": [
+     "Compară numărătorul cu numitorul.",
+     "Mai mic: subunitară; egal: echiunitară; mai mare: supraunitară.",
+     "Pentru supraunitare, scoate întregii împărțind numărătorul la numitor.",
+     "Greșeala frecventă: să crezi că o fracție nu poate fi mai mare decât 1. Fracțiile supraunitare depășesc întregul."
+    ],
+    "answers": [
+     "Subunitară",
+     "1",
+     "Mai mare",
+     "3/3",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l21": {
+   "ro": {
+    "title": "Fracții egale și compararea fracțiilor",
+    "theory": "Fracțiile egale reprezintă aceeași parte din întreg: 1/2 = 2/4 = 4/8. Comparăm fracții cu același numitor după numărători (mai mare numărătorul, mai mare fracția), iar fracții cu același numărător după numitori (mai mic numitorul, mai mare fracția).",
+    "sample": "Jumătate de ciocolată este cât două sferturi: 1/2 = 2/4.",
+    "worked": "Ordonăm crescător 3/8, 3/5, 3/10: numărători egali, deci cel cu numitorul cel mai mare e cel mai mic: 3/10 < 3/8 < 3/5. Comparăm 5/9 și 7/9: 5 < 7, deci 5/9 < 7/9.",
+    "exercises": [
+     "Desenează și arată că 1/3 = 2/6.",
+     "Compară: 4/7 ... 6/7; 2/5 ... 2/9.",
+     "Ordonează crescător: 5/12, 1/12, 11/12, 7/12.",
+     "Ordonează descrescător: 1/2, 1/6, 1/4, 1/3.",
+     "Scrie două fracții egale cu 1/5."
+    ],
+    "test": [
+     "Care este mai mare: 3/10 sau 7/10?",
+     "Care este mai mare: 1/3 sau 1/7?",
+     "Ce fracție cu numitorul 4 este egală cu 1/2?",
+     "Pune semnul: 5/5 ... 1.",
+     "Care este mai mare: 2/3 sau 2/8?"
+    ],
+    "steps": [
+     "Verifică dacă au același numitor sau același numărător.",
+     "Aplică regula potrivită.",
+     "Pentru fracții egale, desenează sau înmulțește numărătorul și numitorul cu același număr.",
+     "Greșeala frecventă: la 1/3 și 1/7 să alegi 1/7 pentru că 7 > 3. O șeptime este o bucată mai mică."
+    ],
+    "answers": [
+     "7/10",
+     "1/3",
+     "2/4",
+     "=",
+     "2/3"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l22": {
+   "ro": {
+    "title": "Adunarea și scăderea fracțiilor cu același numitor",
+    "theory": "Când fracțiile au același numitor, adunăm sau scădem numărătorii și păstrăm numitorul: 2/7 + 3/7 = 5/7; 6/9 − 4/9 = 2/9. Numitorul nu se adună, pentru că mărimea bucăților rămâne aceeași.",
+    "sample": "Ai mâncat 3/8 dintr-o pizza, iar fratele tău 2/8. Împreună: 5/8; a rămas 3/8.",
+    "worked": "Dintr-un drum, un excursionist a parcurs dimineața 2/9 și după-amiază 4/9. A parcurs 6/9; mai are 9/9 − 6/9 = 3/9 din drum.",
+    "exercises": [
+     "Calculează: 3/11 + 5/11; 9/10 − 3/10.",
+     "Calculează: 1/6 + 2/6 + 3/6.",
+     "Cât mai rămâne din întreg după 4/7?",
+     "Un elev citește în prima zi 2/10 din carte, în a doua 5/10. Ce fracție a citit? Ce mai are?",
+     "Află x: x + 3/8 = 7/8."
+    ],
+    "test": [
+     "Cât fac 1/5 + 2/5?",
+     "Cât fac 7/8 − 3/8?",
+     "Cât fac 4/9 + 5/9?",
+     "Cât fac 1 − 1/3?",
+     "Cât fac 6/10 − 6/10?"
+    ],
+    "steps": [
+     "Verifică dacă fracțiile au același numitor.",
+     "Adună sau scade numărătorii.",
+     "Păstrează numitorul; un întreg se scrie ca fracție echiunitară.",
+     "Greșeala frecventă: să aduni și numitorii (1/5 + 2/5 = 3/10). Bucățile rămân cincimi: 3/5."
+    ],
+    "answers": [
+     "3/5",
+     "4/8",
+     "9/9 = 1",
+     "2/3",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l23": {
+   "ro": {
+    "title": "Aflarea unei fracții dintr-un număr",
+    "theory": "Ca să aflăm o fracție dintr-un număr, împărțim numărul la numitor (aflăm o parte) și înmulțim cu numărătorul (câte părți luăm): 3/4 din 20 = 20 : 4 × 3 = 15.",
+    "sample": "O clasă are 28 de elevi; 3/7 sunt fete: 28 : 7 × 3 = 12 fete.",
+    "worked": "Un drum are 360 km. În prima zi s-au parcurs 2/9 din el: 360 : 9 = 40; 40 × 2 = 80 km. Mai rămân 360 − 80 = 280 km.",
+    "exercises": [
+     "Află 2/5 din 45 și 3/8 din 64.",
+     "Află 5/6 din 120.",
+     "Dintr-o sumă de 600 de lei s-au cheltuit 3/10. Câți lei au rămas?",
+     "Un sac de 50 kg de cartofi; s-au folosit 4/5. Câte kg au rămas?",
+     "Compune o problemă cu „2/3 din”."
+    ],
+    "test": [
+     "Cât este 1/4 din 40?",
+     "Cât este 3/4 din 40?",
+     "Cât este 2/3 din 30?",
+     "Cât este 7/10 din 100?",
+     "Cât este 5/5 din 37?"
+    ],
+    "steps": [
+     "Împarte numărul la numitor: afli o parte.",
+     "Înmulțește rezultatul cu numărătorul.",
+     "Dacă se cere ce rămâne, scade din întreg.",
+     "Greșeala frecventă: să împarți la numărător (3/4 din 40 = 40 : 3). Întregul se împarte în numitor părți: 40 : 4 × 3 = 30."
+    ],
+    "answers": [
+     "10",
+     "30",
+     "20",
+     "70",
+     "37"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l24": {
+   "ro": {
+    "title": "Drepte paralele și perpendiculare; unghiuri",
+    "theory": "Două drepte perpendiculare formează unghiuri drepte (le verificăm cu echerul). Două drepte paralele se află la aceeași distanță una de alta și nu se întâlnesc niciodată. Unghiurile pot fi drepte, ascuțite sau obtuze.",
+    "sample": "Șinele de tren sugerează drepte paralele, iar marginile unui colț de tablă drepte perpendiculare.",
+    "worked": "Construim o paralelă: așezăm echerul cu o latură pe dreapta dată și rigla lipită de cealaltă latură; glisăm echerul pe riglă și trasăm. Obținem o dreaptă paralelă cu prima.",
+    "exercises": [
+     "Desenează două drepte perpendiculare.",
+     "Desenează două drepte paralele folosind rigla și echerul.",
+     "Găsește în clasă trei exemple de paralele.",
+     "Ce fel de unghiuri are un dreptunghi?",
+     "Ce unghi formează acele ceasului la ora 6?"
+    ],
+    "test": [
+     "Ce unghi formează două drepte perpendiculare?",
+     "Se intersectează două drepte paralele?",
+     "Ce instrument verifică perpendicularitatea?",
+     "Ce fel de unghi este mai mic decât cel drept?",
+     "Câte unghiuri drepte are pătratul?"
+    ],
+    "steps": [
+     "Verifică unghiul format cu echerul.",
+     "Pentru paralele, verifică dacă distanța dintre drepte rămâne aceeași.",
+     "Folosește rigla și echerul la construcție.",
+     "Greșeala frecventă: să crezi că două drepte care nu se intersectează pe foaie sunt paralele. Ele se pot întâlni dacă le prelungești."
+    ],
+    "answers": [
+     "Unghi drept",
+     "Nu",
+     "Echerul",
+     "Ascuțit",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l25": {
+   "ro": {
+    "title": "Triunghiul, pătratul, dreptunghiul, rombul, paralelogramul și cercul",
+    "theory": "Pătratul are 4 laturi egale și 4 unghiuri drepte. Dreptunghiul are laturile opuse egale și 4 unghiuri drepte. Paralelogramul are laturile opuse paralele și egale. Rombul are 4 laturi egale. Triunghiurile se clasifică după laturi (echilateral, isoscel, oarecare). Cercul are toate punctele la aceeași distanță (raza) de centru; diametrul este de două ori raza.",
+    "sample": "Un zmeu are adesea formă de romb, iar o roată formă de cerc.",
+    "worked": "Construim un cerc cu raza 3 cm: deschidem compasul la 3 cm pe riglă, înfigem vârful în centrul O și rotim. Diametrul cercului este 6 cm.",
+    "exercises": [
+     "Desenează un pătrat, un dreptunghi și un romb.",
+     "Desenează un cerc cu raza 4 cm. Cât este diametrul?",
+     "Clasifică triunghiurile cu laturile: 5, 5, 5; 4, 4, 6; 3, 4, 5.",
+     "Ce au în comun pătratul și rombul?",
+     "Cu ce instrument trasezi un cerc?"
+    ],
+    "test": [
+     "Câte laturi egale are rombul?",
+     "Cât este diametrul dacă raza este 5 cm?",
+     "Cum se numește triunghiul cu toate laturile egale?",
+     "Ce unghiuri are dreptunghiul?",
+     "Ce este un pătrat: un dreptunghi cu ...?"
+    ],
+    "steps": [
+     "Numără laturile și compară lungimile lor.",
+     "Verifică unghiurile cu echerul.",
+     "Numește figura după proprietăți.",
+     "Greșeala frecventă: să crezi că pătratul nu este dreptunghi. Pătratul este un dreptunghi cu toate laturile egale."
+    ],
+    "answers": [
+     "4",
+     "10 cm",
+     "Echilateral",
+     "Drepte",
+     "toate laturile egale"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l26": {
+   "ro": {
+    "title": "Axa de simetrie",
+    "theory": "O figură are axă de simetrie dacă, îndoind-o pe o linie, cele două părți se suprapun perfect. Pătratul are 4 axe de simetrie, dreptunghiul 2, triunghiul echilateral 3, cercul o infinitate. Unele figuri nu au nicio axă.",
+    "sample": "Un fluture are o axă de simetrie pe mijlocul corpului; litera A are o axă verticală.",
+    "worked": "Îndoim o foaie, desenăm jumătate de inimă lângă îndoitură și decupăm. Deschizând, obținem o inimă cu axa de simetrie pe linia de îndoire.",
+    "exercises": [
+     "Desenează axele de simetrie ale unui dreptunghi.",
+     "Câte axe de simetrie are litera H? Dar litera F?",
+     "Completează simetric un desen pe hârtie cu pătrățele.",
+     "Ce figură are o infinitate de axe?",
+     "Decupează o figură simetrică și arată axa."
+    ],
+    "test": [
+     "Câte axe are pătratul?",
+     "Câte axe are dreptunghiul (nepătrat)?",
+     "Are litera M axă de simetrie?",
+     "Câte axe are triunghiul echilateral?",
+     "Ce se întâmplă cu cele două părți la îndoirea pe axă?"
+    ],
+    "steps": [
+     "Imaginează-ți că îndoi figura pe o linie.",
+     "Verifică dacă cele două părți se suprapun perfect.",
+     "Încearcă linii verticale, orizontale și oblice.",
+     "Greșeala frecventă: să crezi că diagonala dreptunghiului este axă de simetrie. Îndoind pe diagonală, părțile nu se suprapun."
+    ],
+    "answers": [
+     "4",
+     "2",
+     "Da, una verticală",
+     "3",
+     "Se suprapun perfect."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l27": {
+   "ro": {
+    "title": "Perimetrul și aria prin numărarea pătrățelelor",
+    "theory": "Perimetrul este lungimea conturului (suma laturilor). Aria arată câtă suprafață acoperă figura și se poate afla numărând câte pătrățele cu latura de 1 cm încap în ea (centimetri pătrați). Un dreptunghi de 5 cm pe 3 cm are 3 rânduri a câte 5 pătrățele: 15 pătrățele.",
+    "sample": "Pentru a pune gresie într-o bucătărie ne interesează aria; pentru plintă, perimetrul.",
+    "worked": "Dreptunghi 6 cm × 4 cm: perimetrul 2 × 6 + 2 × 4 = 20 cm; aria: 4 rânduri a 6 pătrățele = 24 de pătrățele de 1 cm.",
+    "exercises": [
+     "Calculează perimetrul unui pătrat cu latura 12 cm și numără aria în pătrățele.",
+     "Desenează pe caiet un dreptunghi de 7 × 3 pătrățele. Care sunt perimetrul și aria?",
+     "Desenează două figuri diferite cu aria de 12 pătrățele.",
+     "Un teren pătrat are perimetrul 100 m. Cât este latura?",
+     "Ce măsori pentru a cumpăra gard: perimetrul sau aria?"
+    ],
+    "test": [
+     "Perimetrul unui dreptunghi 5 × 2?",
+     "Câte pătrățele are un dreptunghi 5 × 2?",
+     "Perimetrul unui pătrat cu latura 7 cm?",
+     "Câte pătrățele de 1 cm are un pătrat cu latura 3 cm?",
+     "Ce exprimă aria?"
+    ],
+    "steps": [
+     "Pentru perimetru, adună toate laturile.",
+     "Pentru arie, numără rândurile și pătrățelele de pe un rând.",
+     "Înmulțește rândurile cu pătrățelele dintr-un rând.",
+     "Greșeala frecventă: să confunzi perimetrul cu aria. Conturul se măsoară în cm, suprafața în pătrățele (cm pătrați)."
+    ],
+    "answers": [
+     "14",
+     "10",
+     "28 cm",
+     "9",
+     "Câtă suprafață acoperă figura."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l28": {
+   "ro": {
+    "title": "Corpuri geometrice și desfășurarea lor",
+    "theory": "Cubul și paralelipipedul dreptunghic au 6 fețe, 12 muchii și 8 vârfuri. Cilindrul are două baze cerc; conul o bază cerc și un vârf; sfera nicio față plană. Desfășurarea unui corp este figura obținută „desfăcând” suprafața lui pe plan: cubul dă 6 pătrate, paralelipipedul 6 dreptunghiuri, cilindrul un dreptunghi și două cercuri.",
+    "sample": "O cutie de cereale desfăcută arată 6 dreptunghiuri, câte două la fel.",
+    "worked": "Construim un cub de 3 cm: desenăm o cruce din 6 pătrate cu latura 3 cm, adăugăm urechiușe de lipit, decupăm, îndoim pe muchii și lipim.",
+    "exercises": [
+     "Desenează desfășurarea unui cub.",
+     "Desenează desfășurarea unui cilindru.",
+     "Numără fețele, muchiile și vârfurile unei cutii de chibrituri.",
+     "Ce corp poți obține dintr-un dreptunghi rulat și două cercuri?",
+     "Clasifică: zar, minge, conservă, cornet de înghețată."
+    ],
+    "test": [
+     "Câte muchii are paralelipipedul?",
+     "Ce formă are desfășurarea feței unui cub?",
+     "Ce corp are o singură bază și un vârf?",
+     "Câte vârfuri are cilindrul?",
+     "Ce corp este o minge?"
+    ],
+    "steps": [
+     "Identifică fețele corpului (plane sau curbe).",
+     "Desenează fiecare față plană în desfășurare, legate între ele.",
+     "Verifică dacă desfășurarea se închide corect.",
+     "Greșeala frecventă: să desenezi 6 pătrate puse oricum. Nu orice aranjare de 6 pătrate se poate plia într-un cub."
+    ],
+    "answers": [
+     "12",
+     "Pătrat",
+     "Conul",
+     "Niciunul",
+     "Sferă"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l29": {
+   "ro": {
+    "title": "Transformări cu unitățile de lungime, capacitate și masă",
+    "theory": "Lungime: 1 km = 1 000 m; 1 m = 10 dm = 100 cm = 1 000 mm. Capacitate: 1 l = 10 dl = 100 cl = 1 000 ml; 1 hl = 100 l. Masă: 1 kg = 1 000 g; 1 t = 1 000 kg; 1 q (chintal) = 100 kg. Pentru calcul transformăm toate mărimile în aceeași unitate.",
+    "sample": "Un bidon de 5 l umple 20 de pahare de 250 ml (20 × 250 = 5 000 ml).",
+    "worked": "Adunăm 2 km 350 m + 1 km 800 m: 2 350 m + 1 800 m = 4 150 m = 4 km 150 m. 3 t 500 kg = 3 500 kg.",
+    "exercises": [
+     "Transformă: 7 km 40 m = ... m; 4 500 m = ... km ... m.",
+     "Transformă: 3 hl = ... l; 2 l 50 ml = ... ml.",
+     "Transformă: 5 q = ... kg; 2 t 30 kg = ... kg.",
+     "Un camion duce 4 t de mere în lăzi de 20 kg. Câte lăzi?",
+     "Câte sticle de 750 ml umplu 6 l?"
+    ],
+    "test": [
+     "Câți metri are 1 km?",
+     "Câți litri are un hectolitru?",
+     "Câte kilograme are un chintal?",
+     "Câte kilograme are o tonă?",
+     "Câți ml are 1 l?"
+    ],
+    "steps": [
+     "Scrie relația dintre unități.",
+     "Transformă toate mărimile în aceeași unitate (de obicei cea mai mică).",
+     "Calculează și, dacă e nevoie, transformă înapoi rezultatul.",
+     "Greșeala frecventă: să aduni direct 2 km 350 m + 1 km 800 m = 3 km 1 150 m și să lași așa. 1 150 m conțin încă 1 km: 4 km 150 m."
+    ],
+    "answers": [
+     "1 000",
+     "100",
+     "100",
+     "1 000",
+     "1 000"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l30": {
+   "ro": {
+    "title": "Unități de timp și calendarul",
+    "theory": "1 h = 60 min; 1 min = 60 s; 1 zi = 24 h; 1 săptămână = 7 zile; 1 an = 12 luni = 365 de zile (366 în anul bisect, cu 29 februarie). Deceniul are 10 ani, secolul 100, mileniul 1 000. Anul 1848 este în secolul al XIX-lea (secolul = cifrele din fața ultimelor două + 1).",
+    "sample": "Unirea Principatelor (1859) a avut loc în secolul al XIX-lea; anul 2026 este în secolul al XXI-lea și în mileniul al III-lea.",
+    "worked": "Un spectacol începe la 17:45 și durează 2 h 30 min: 17:45 + 2 h = 19:45; 19:45 + 30 min = 20:15. Câte ore are o săptămână? 7 × 24 = 168 de ore.",
+    "exercises": [
+     "Câte minute are o zi?",
+     "În ce secol a fost anul 1600? Dar 1601?",
+     "Un tren pleacă la 22:40 și ajunge a doua zi la 6:15. Cât durează?",
+     "Câte zile au lunile iulie și august împreună?",
+     "Câți ani au trecut de la 1918 până în 2026?"
+    ],
+    "test": [
+     "Câte minute au 3 h?",
+     "Câte zile are februarie într-un an bisect?",
+     "În ce secol este anul 1918?",
+     "Câți ani are un mileniu?",
+     "Câte secunde au 2 min?"
+    ],
+    "steps": [
+     "Transformă duratele în aceeași unitate.",
+     "Pentru ore, adună orele și minutele separat; 60 min = 1 h.",
+     "Pentru secole, aplică regula cu atenție la anii terminați în 00.",
+     "Greșeala frecventă: să spui că 1918 este în secolul al XIX-lea. Secolul al XX-lea cuprinde anii 1901–2000."
+    ],
+    "answers": [
+     "180",
+     "29",
+     "Secolul al XX-lea",
+     "1 000",
+     "120"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l31": {
+   "ro": {
+    "title": "Monede și bancnote; leul și euro",
+    "theory": "1 leu = 100 de bani; 1 euro = 100 de cenți. Pentru cumpărături calculăm costul total (preț × cantitate), restul și comparăm ofertele. Cursul de schimb ne spune câți lei primim pentru un euro; acesta se schimbă de la o zi la alta.",
+    "sample": "Dacă 1 euro valorează aproximativ 5 lei, 20 de euro valorează aproximativ 100 de lei.",
+    "worked": "Oferta A: 3 sucuri pentru 12 lei. Oferta B: 5 sucuri pentru 18 lei. Un suc: A = 4 lei, B = 18 : 5 = 3 lei și 60 de bani. Oferta B este mai avantajoasă.",
+    "exercises": [
+     "Cât costă 6 caiete a 4 lei și 50 de bani?",
+     "Plătești 3 produse de 27, 35 și 19 lei cu 100 de lei. Ce rest primești?",
+     "Compară: 4 kg pentru 22 de lei sau 5 kg pentru 26 de lei.",
+     "Câți bani sunt 12 lei și 5 bani?",
+     "Planifică cumpărăturile pentru o excursie cu un buget de 300 de lei."
+    ],
+    "test": [
+     "Câți bani are un leu?",
+     "Câți cenți are un euro?",
+     "2 lei și 50 de bani = ... bani?",
+     "Ai 50 de lei și cheltuiești 37. Rest?",
+     "5 bilete a 12 lei costă...?"
+    ],
+    "steps": [
+     "Calculează costul total al cumpărăturilor.",
+     "Scade din suma avută pentru a afla restul.",
+     "Pentru oferte, compară prețul pe bucată sau pe kilogram.",
+     "Greșeala frecventă: să alegi oferta cu prețul total mai mic fără să compari prețul pe unitate."
+    ],
+    "answers": [
+     "100",
+     "100",
+     "250 de bani",
+     "13 lei",
+     "60 de lei"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l32": {
+   "ro": {
+    "title": "Organizarea și interpretarea datelor: tabele, grafice, diagrame",
+    "theory": "Datele se adună prin observare sau sondaj, se organizează în tabele și se reprezintă prin grafice cu bare sau diagrame. Din ele aflăm cea mai mare și cea mai mică valoare, diferențe, totaluri și media.",
+    "sample": "Un sondaj în clasă: sport preferat — fotbal 9, baschet 5, înot 7, tenis 4. Fotbalul este cel mai preferat.",
+    "worked": "Vânzările unei librării (cărți): luni 45, marți 38, miercuri 52, joi 41, vineri 64. Total 240; media zilnică 240 : 5 = 48; cea mai bună zi vinerea, cu 64 − 38 = 26 de cărți mai mult decât marți.",
+    "exercises": [
+     "Fă un sondaj despre fructul preferat și organizează datele într-un tabel.",
+     "Desenează graficul cu bare pentru sporturile preferate.",
+     "Câți elevi au participat la sondajul despre sport?",
+     "Calculează media vânzărilor de luni până miercuri.",
+     "Formulează trei întrebări pe baza tabelului de vânzări."
+    ],
+    "test": [
+     "Ce sport au ales cei mai puțini elevi?",
+     "Câți elevi preferă baschet sau tenis?",
+     "Care zi a avut cele mai puține vânzări?",
+     "Cu câte cărți s-au vândut mai multe miercuri decât luni?",
+     "Ce reprezintă media zilnică?"
+    ],
+    "steps": [
+     "Citește titlul, categoriile și unitățile.",
+     "Extrage valorile necesare.",
+     "Calculează totaluri, diferențe sau medii.",
+     "Greșeala frecventă: să citești greșit scara graficului (de exemplu, să crezi că fiecare linie valorează 1 când valorează 5)."
+    ],
+    "answers": [
+     "Tenis",
+     "9",
+     "Marți (38)",
+     "Cu 7",
+     "Câte cărți s-au vândut, în medie, pe zi."
+    ]
+   }
+  }
+ }
+}
