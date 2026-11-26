@@ -26,7 +26,8 @@ assert.match(build,/showVoiceDeleteOptions\(message,peer,trash\)/,'Trash stays i
 assert.match(build,/showVoiceSaveOptions\(message,peer,more\)/,'Download stays in a bar-level overflow menu');
 assert.match(build,/play\.textContent='❚❚'/,'Playback changes Play to Pause');
 assert.match(build,/audio\.pause\(\)/,'Playback can be paused');
-assert.match(build,/receiptType:'played'/,'Only actual playback reports listened receipts');
+assert.match(build,/noteVoicePlayback\(message,peer\)/,'Actual playback queues an authenticated receipt');
+assert.match(build,/comm-voice-receipt-footer/,'Voice notes now retain timestamp and receipt outside their controls');
 assert.doesNotMatch(build,/audio\.controls=true|comm-inline-audio-tools/,
  'No second row of buttons or built-in mute control');
 
@@ -48,7 +49,7 @@ assert.match(refresh,/transcript\.insertBefore\(wanted,current\)/);
 assert.doesNotMatch(refresh,/transcript\.replaceChildren\(\.\.\.nodes\)/,
  'Refreshing chat must not stop current playback');
 assert.match(refresh,/if\(isAudio\)\{\s*inlineVoiceRows\.set\(message\.id,row\);\s*\}else\{/,
- 'Voice notes do not have a second footer or three-dot button');
+ 'Voice receipt footer is built once with its stable player; no duplicate action menu');
 assert.doesNotMatch(build,/saveMedia\(/,'Inline player does not open the old attachment viewer');
 assert.match(source,/const target=audio\.parentElement\?\.querySelector\('\.comm-voice-bar'\)\|\|audio/,
  'Preloading observes the visible bar rather than hidden audio');

@@ -11,6 +11,7 @@ const response=await app.fetch(new Request('https://lifewise-ai-v2.kokocf.worker
 assert.equal(response.status,200,'Frontend generator did not return HTTP 200');
 const html=await response.text();
 assert.ok(Buffer.byteLength(html)<8000000,'Offline preview HTML exceeds the 8MB budget');
+assert.ok(html.includes('function foreignPracticeOpen(')&&html.includes('comm-voice-receipt-footer')&&html.includes('commChatSyncStatus'),'Adaptive languages / chat receipt correction missing');
 assert.ok(html.includes('edu-workspace-dialog')&&html.includes('foreign-resource-progression'),'Separate work area and language progression missing');
 assert.ok(html.includes('language-tutor-body')&&html.includes('foreign-resource-head'),'Mobile dialog containment missing');
 assert.ok(html.includes('function practicalWorkshopOpen('),'Guided practical workshop missing');

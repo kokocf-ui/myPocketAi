@@ -21,7 +21,7 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/messageReadObserver=new IntersectionOb
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/document\.visibilityState==='hidden'/,'Background app cannot claim message was read');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/action:'receipt',friend:peerId,receiptType:'read'/,'Receiver acknowledges visible messages');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/audio\.addEventListener\('playing'/,'Audio listened receipt only when playback starts');
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.played_at\?tr\('▶ Ascultat'/,'Listened status is displayed');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.played_at\?tr\('▶ Redare confirmată'/,'Playback-start confirmation is displayed without implying full listening');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.delivered_at\?tr\('✓✓ Livrat'/,'Delivered state distinguished from server accepted');
 
 

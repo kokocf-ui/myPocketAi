@@ -81,5 +81,5 @@ assert.match(ORACLE_COMMUNICATION_SCRIPT,/IntersectionObserver/,'Reading is ackn
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/receiptType:'played'/,'Audio listened confirmation requires audio playback');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.delivered_at\?tr\('✓✓ Livrat'/,'Delivered state appears in conversation');
 assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.read_at\?tr\('✓✓ Citit'/,'Read state appears in conversation');
-assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.played_at\?tr\('▶ Ascultat'/,'Listened state appears in conversation');
+assert.match(ORACLE_COMMUNICATION_SCRIPT,/message\.played_at\?tr\('▶ Redare confirmată'/,'Playback confirmation appears in conversation');
 console.log('PASS communication inbox, petrol theme, invited contacts, shopping sync and voice permission');

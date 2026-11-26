@@ -10,6 +10,10 @@ on:
       - 'tests_practical_*.mjs'
       - 'public/education/practical/course-v1/**'
       - 'foreign_language*.mjs'
+      - 'communication_delivery_ui.mjs'
+      - 'oracle_communication_ui.mjs'
+      - 'tests_communication_delivery_browser.mjs'
+      - 'tests_foreign_language_practice*.mjs'
       - 'public/education/languages/resources-v1/**'
       - 'scripts/check_foreign_language_resources.mjs'
       - 'tests_foreign_language_resources*.mjs'
@@ -71,6 +75,8 @@ jobs:
           node tests_education_mobile_containment_browser.mjs
           node tests_practical_workshops_browser.mjs
           node tests_foreign_language_resources_browser.mjs
+          node tests_foreign_language_practice_browser.mjs
+          node tests_communication_delivery_browser.mjs
           node tests_education_study_browser.mjs
           node tests_science_source_browser.mjs
           node tests_education_workspace_browser.mjs

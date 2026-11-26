@@ -1,10 +1,11 @@
+import {FOREIGN_LANGUAGE_PRACTICE_SCRIPT,FOREIGN_LANGUAGE_PRACTICE_STYLE} from './foreign_language_practice_ui.mjs';
 // Editorial packs are fetched only when the learner opens this reference dialog.
-export const FOREIGN_LANGUAGE_RESOURCES_STYLE=String.raw`
+export const FOREIGN_LANGUAGE_RESOURCES_STYLE=FOREIGN_LANGUAGE_PRACTICE_STYLE+String.raw`
 dialog.foreign-resource-dialog[open]{box-sizing:border-box;position:fixed;inset:0;margin:auto;width:min(760px,96vw);max-width:calc(100vw - 16px);height:calc(100dvh - 24px);max-height:calc(100dvh - 24px);display:flex;flex-direction:column;gap:10px;overflow:hidden;border:1px solid #58a9bd;border-radius:18px;padding:14px;background:linear-gradient(150deg,#12374a,#081c2d);color:#e6f7fc}
 .foreign-resource-dialog::backdrop{background:#000a}
 .foreign-resource-head{display:flex;align-items:center;justify-content:space-between;gap:10px;flex:0 0 auto}
 .foreign-resource-head h2{margin:0;font-size:clamp(16px,4.5vw,22px);line-height:1.2;overflow-wrap:anywhere}
-.foreign-resource-toolbar,.foreign-resource-actions{display:flex;gap:8px;flex-wrap:wrap;margin:0;flex:0 0 auto}
+.foreign-resource-toolbar{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.foreign-resource-toolbar,.foreign-resource-actions{display:flex;gap:8px;flex-wrap:wrap;margin:0;flex:0 0 auto}
 .foreign-resource-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;flex:0 0 auto}
 .foreign-resource-dialog button{box-sizing:border-box;min-height:44px!important;height:auto!important;min-width:0;max-width:100%;margin:0!important;padding:9px 10px!important;font-size:14px!important;line-height:1.25!important;white-space:normal;overflow-wrap:anywhere;touch-action:manipulation;flex-shrink:0}
 .foreign-resource-tabs button[aria-pressed=true]{outline:2px solid #66d9ed;outline-offset:1px;background:linear-gradient(150deg,#236e8d,#104765)!important}
@@ -16,7 +17,7 @@ dialog.foreign-resource-dialog[open]{box-sizing:border-box;position:fixed;inset:
 .foreign-resource-entry{border:1px solid #ffffff30;border-radius:12px;padding:12px;margin:10px 0;overflow-wrap:anywhere}.foreign-resource-entry strong{font-size:1.15em}.foreign-resource-entry p{margin:8px 0}.foreign-resource-entry table{width:100%;border-collapse:collapse}.foreign-resource-entry th,.foreign-resource-entry td{text-align:start;border-bottom:1px solid #ffffff30;padding:8px;overflow-wrap:anywhere}.foreign-resource-entry audio{width:100%;margin:10px 0}.foreign-resource-note{opacity:.85;font-size:.9em}.foreign-resource-content [hidden]{display:none!important}
 @media(max-height:520px){dialog.foreign-resource-dialog[open]{gap:6px;padding:9px}.foreign-resource-dialog button{min-height:40px!important;padding:6px!important}.foreign-resource-head h2{font-size:16px}}
 `;
-export const FOREIGN_LANGUAGE_RESOURCES_SCRIPT=String.raw`
+export const FOREIGN_LANGUAGE_RESOURCES_SCRIPT=FOREIGN_LANGUAGE_PRACTICE_SCRIPT+String.raw`
 let languageResourceActive=null;
 async function languageResourcesOpen(initialTab='dictionary'){
  if(languageResourceActive)languageResourceActive.close();
@@ -94,6 +95,7 @@ async function languageResourcesOpen(initialTab='dictionary'){
   finally{translating=false;if(alive)translateButton.disabled=false}
  }
  const translateButton=foreignStudyButton(learningLabel('Tradu / reîncearcă explicațiile','Translate / retry explanations'),translate);toolbar.append(translateButton);
+ const generateButton=foreignStudyButton(learningLabel('✨ Atelier adaptiv · AI','✨ Adaptive practice · AI'),()=>{cleanupAudio();foreignPracticeOpen(({dictionary:'vocabulary',grammar:'grammar',guide:'conversation',audio:'listening'})[tab]||'conversation')});toolbar.append(generateButton);
  function progression(index,total,onChange){
   const nav=el('nav',undefined,content);nav.className='foreign-resource-actions foreign-resource-progression';nav.setAttribute('aria-label',learningLabel('Parcurgere material','Material progression'));
   const previous=foreignStudyButton(learningLabel('← Anterior','← Previous'),()=>onChange(index-1));previous.disabled=index===0;

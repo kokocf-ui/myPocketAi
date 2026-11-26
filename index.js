@@ -8111,7 +8111,7 @@ function pocketBackInsideModule(){
 }
 window.pocketAndroidBack=function(){
  const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
- if(topLayer?.matches?.('.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
+ if(topLayer?.matches?.('.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
  // The paged Mathematics/Theory reader is layered above the theory catalogue.
  // Close its TOP layer before touching the underlying dialogue or app navigation.
  // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.
@@ -14277,7 +14277,7 @@ function languageWords(){
  return FOREIGN_PHRASE_DATA[languageJourney.language]||[];
 }
 function foreignStudyButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
-function languageStatus(msg){const el=document.querySelector('.foreign-resource-dialog [role=status]')||$('languageStatus');if(el)el.textContent=msg}
+function languageStatus(msg){const el=document.querySelector('.foreign-practice-dialog [role=status]')||document.querySelector('.foreign-resource-dialog [role=status]')||$('languageStatus');if(el)el.textContent=msg}
 function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});if(typeof window!=='undefined')window.speechSynthesis?.cancel();languageJourney.voice=false}
 function languageBack(){
  languageVoiceStop();
@@ -14584,6 +14584,7 @@ function languageOpen(stage){
   });
   if(stage==='topics'){
    const shortcuts=document.createElement('div');shortcuts.className='foreign-topic-shortcuts';
+   shortcuts.append(foreignStudyButton(learningLabel('✨ Alege situația · creează exerciții cu AI','✨ Choose a situation · create AI practice'),()=>foreignPracticeOpen('conversation'),'primary-btn foreign-practice-open'));
    shortcuts.append(foreignStudyButton(learningLabel('📚 Dicționar · conjugări · ghid · audio','📚 Dictionary · conjugations · guide · audio'),()=>languageResourcesOpen(),'primary-btn foreign-resources-open'));
    const saved=languageLastLesson();
    if(saved&&saved.language===languageJourney.language&&(saved.variant||null)===(languageJourney.variant||null)&&saved.level===languageJourney.level){
