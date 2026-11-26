@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "4",
+ "version": "205431af24adcc3de432505230f241f5590d68f28c9b197f86a17f37be56a871",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/Inv%20primar/OMEN%205003_MATEMATICA_STIINTE_CLS%20III_IV.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Științe ale naturii, clasele a III-a – a IV-a, Anexa nr. 2 la OMEN nr. 5003/02.12.2014 — clasa a IV-a: Științele vieții (cicluri de viață, adaptări în pajiște, pădure, râu, mare și deșert, lanțuri trofice, dietă echilibrată și mișcare), Științele pământului (Pământul în Sistemul Solar, mișcările Pământului, ziua și noaptea, anotimpuri și vreme, ritmuri ale viețuitoarelor, fosile, dispariția speciilor, protejarea mediului), Științele fizicii (plutirea, proprietățile și utilizările apei, amestecuri, dizolvare, ardere, ruginire, alterare, transferul de căldură, circuite electrice simple, lumină și umbră, curcubeul); unitățile urmează manualele aprobate de Științe ale naturii clasa a IV-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Științe ale naturii · Clasa a IV-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Cicluri de viață în lumea vie",
+   "keys": [
+    "eu-year-ro-beginner-4-l01",
+    "eu-year-ro-beginner-4-l02",
+    "eu-year-ro-beginner-4-l03",
+    "eu-year-ro-beginner-4-l04"
+   ]
+  },
+  {
+   "title": "Relații dintre viețuitoare și mediul lor de viață",
+   "keys": [
+    "eu-year-ro-beginner-4-l05",
+    "eu-year-ro-beginner-4-l06",
+    "eu-year-ro-beginner-4-l07",
+    "eu-year-ro-beginner-4-l08",
+    "eu-year-ro-beginner-4-l09"
+   ]
+  },
+  {
+   "title": "Omul — menținerea stării de sănătate",
+   "keys": [
+    "eu-year-ro-beginner-4-l10",
+    "eu-year-ro-beginner-4-l11"
+   ]
+  },
+  {
+   "title": "Pământul în Sistemul Solar",
+   "keys": [
+    "eu-year-ro-beginner-4-l12",
+    "eu-year-ro-beginner-4-l13",
+    "eu-year-ro-beginner-4-l14",
+    "eu-year-ro-beginner-4-l15",
+    "eu-year-ro-beginner-4-l16"
+   ]
+  },
+  {
+   "title": "Mărturii ale vieții din trecut și protejarea mediului",
+   "keys": [
+    "eu-year-ro-beginner-4-l17",
+    "eu-year-ro-beginner-4-l18",
+    "eu-year-ro-beginner-4-l19"
+   ]
+  },
+  {
+   "title": "Corpuri: plutire și proprietățile apei",
+   "keys": [
+    "eu-year-ro-beginner-4-l20",
+    "eu-year-ro-beginner-4-l21",
+    "eu-year-ro-beginner-4-l22"
+   ]
+  },
+  {
+   "title": "Schimbări ale corpurilor și materialelor",
+   "keys": [
+    "eu-year-ro-beginner-4-l23",
+    "eu-year-ro-beginner-4-l24",
+    "eu-year-ro-beginner-4-l25",
+    "eu-year-ro-beginner-4-l26"
+   ]
+  },
+  {
+   "title": "Energie: căldură, curent electric și lumină",
+   "keys": [
+    "eu-year-ro-beginner-4-l27",
+    "eu-year-ro-beginner-4-l28",
+    "eu-year-ro-beginner-4-l29",
+    "eu-year-ro-beginner-4-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-4-l01": {
+   "ro": {
+    "title": "Părinți și urmași: asemănări și deosebiri",
+    "theory": "Urmașii seamănă cu părinții lor, pentru că moștenesc de la ei multe trăsături: forma corpului, culoarea blănii sau a florilor, felul în care cresc. Totuși, niciun urmaș nu este identic cu părinții: puii aceleiași pisici pot avea blana diferită. Unii pui seamănă cu adulții de la naștere (cățelul), alții nu (omida față de fluture).",
+    "sample": "Dintr-o sămânță de floarea-soarelui crește tot o floarea-soarelui, nu un mac.",
+    "worked": "Comparăm o pisică albă cu puii ei: un pui alb, unul negru, unul tărcat. Toți sunt pisici (au mustăți, gheare, coadă), dar culoarea blănii diferă. Asemănarea principală este specia; deosebirile sunt detalii.",
+    "exercises": [
+     "Scrie trei trăsături prin care semeni cu un părinte.",
+     "Scrie două deosebiri dintre un cățel și câinele adult.",
+     "Seamănă mormolocul cu broasca? Explică.",
+     "Ce plantă crește dintr-o ghindă?",
+     "Compară doi pui din aceeași familie de animale."
+    ],
+    "test": [
+     "Moștenesc urmașii trăsături de la părinți?",
+     "Sunt urmașii identici cu părinții?",
+     "Ce crește dintr-o sămânță de măr?",
+     "Seamănă omida cu fluturele?",
+     "Seamănă cățelul nou-născut cu un câine?"
+    ],
+    "steps": [
+     "Alege un părinte și un urmaș din aceeași specie.",
+     "Notează trăsăturile comune.",
+     "Notează deosebirile și explică de unde vin (vârstă, variație).",
+     "Greșeala frecventă: să crezi că urmașii trebuie să fie copii fidele ale părinților. Fiecare urmaș are ceva propriu."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "Un măr (pom)",
+     "Nu",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l02": {
+   "ro": {
+    "title": "Ciclul de viață al plantelor",
+    "theory": "O plantă cu flori trece prin mai multe etape: sămânța germinează (încolțește), apare plantula, care crește și devine plantă matură. Planta înflorește, florile sunt polenizate (de insecte sau vânt), apoi se formează fructele cu semințe. Semințele ajung în sol și ciclul se reia.",
+    "sample": "Fasolea pusă pe vată umedă încolțește în câteva zile.",
+    "worked": "Urmărim un dovleac: sămânță (primăvara) → plantulă cu două frunze → plantă cu vreji → flori galbene → dovleac (fruct) cu semințe → semințele pot fi plantate anul următor.",
+    "exercises": [
+     "Pune o boabă de fasole pe vată umedă și notează zilnic ce se întâmplă.",
+     "Desenează ciclul de viață al unei plante cu flori.",
+     "Ce rol au albinele în ciclul de viață al plantelor?",
+     "Ce se află în interiorul unui fruct?",
+     "Ce condiții îi trebuie unei semințe ca să germineze?"
+    ],
+    "test": [
+     "Cu ce începe ciclul de viață al plantei?",
+     "Ce înseamnă germinare?",
+     "Ce se formează după flori?",
+     "Cine ajută la polenizare?",
+     "Unde se află semințele?"
+    ],
+    "steps": [
+     "Pornește de la sămânță.",
+     "Urmărește etapele: germinare, creștere, înflorire, fructificare.",
+     "Închide cercul cu semințele noi.",
+     "Greșeala frecventă: să crezi că din sămânță apare direct o plantă mare. Planta trece prin etape și crește treptat."
+    ],
+    "answers": [
+     "Cu sămânța",
+     "Încolțirea seminței",
+     "Fructele",
+     "Insectele (albinele) sau vântul",
+     "În fruct"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l03": {
+   "ro": {
+    "title": "Ciclul de viață al insectelor și amfibienilor: metamorfoza",
+    "theory": "Unele animale se transformă mult în timpul vieții; această schimbare se numește metamorfoză. Fluturele: ou → larvă (omidă) → pupă (crisalidă) → fluture adult. Broasca: ou (icre) → mormoloc cu coadă și branhii → broscuță cu picioare → broască adultă care respiră prin plămâni.",
+    "sample": "Omida mănâncă frunze, apoi se închide într-o crisalidă din care iese un fluture.",
+    "worked": "Comparăm: fluturele are patru etape, iar ultima diferă total de prima (omida nu zboară, fluturele da). Mormolocul trăiește doar în apă; broasca adultă trăiește și pe uscat. Ambele au metamorfoză.",
+    "exercises": [
+     "Desenează ciclul de viață al fluturelui.",
+     "Desenează ciclul de viață al broaștei.",
+     "Ce este crisalida?",
+     "De ce își pierde mormolocul coada?",
+     "Numește o altă insectă care trece prin metamorfoză."
+    ],
+    "test": [
+     "Ce este metamorfoza?",
+     "Cum se numește larva fluturelui?",
+     "Câte etape are ciclul fluturelui?",
+     "Unde trăiește mormolocul?",
+     "Cu ce respiră broasca adultă?"
+    ],
+    "steps": [
+     "Pornește de la ou, prima etapă.",
+     "Notează fiecare etapă și ce schimbare apare.",
+     "Compară forma de început cu adultul.",
+     "Greșeala frecventă: să crezi că omida și fluturele sunt animale diferite. Sunt etape ale aceleiași vieți."
+    ],
+    "answers": [
+     "Transformarea animalului în etape",
+     "Omidă",
+     "Patru",
+     "În apă",
+     "Prin plămâni (și piele)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l04": {
+   "ro": {
+    "title": "Ciclul de viață al păsărilor și mamiferelor",
+    "theory": "Păsările depun ouă, le clocesc, iar puii ies din ou, cresc îngrijiți de părinți și devin adulți. Mamiferele nasc pui vii, pe care îi hrănesc cu lapte și îi îngrijesc până devin independenți. Omul trece prin etapele: nou-născut, copil, adolescent, adult, vârstnic.",
+    "sample": "Barza clocește ouăle aproximativ o lună, apoi hrănește puii în cuib.",
+    "worked": "Comparăm găina și vaca: găina – ou → pui → găină adultă, puii mănâncă singuri boabe; vaca – vițel născut viu → hrănit cu lapte → vacă adultă. Ambele cicluri se încheie cu adulți care au urmași.",
+    "exercises": [
+     "Desenează ciclul de viață al găinii.",
+     "Scrie etapele vieții omului în ordine.",
+     "Prin ce se deosebește ciclul unei păsări de al unui mamifer?",
+     "De ce au puii de mamifer nevoie de îngrijire?",
+     "Cât timp clocește găina ouăle? Caută informația."
+    ],
+    "test": [
+     "Ce depun păsările?",
+     "Cum se hrănesc puii de mamifer la început?",
+     "Ce etapă urmează după copilărie la om?",
+     "Clocesc mamiferele ouă?",
+     "Cine îngrijește puii de barză?"
+    ],
+    "steps": [
+     "Pornește de la naștere sau de la ou.",
+     "Urmărește creșterea și îngrijirea puilor.",
+     "Ajungi la adultul care are urmași.",
+     "Greșeala frecventă: să crezi că toate animalele își îngrijesc puii. Mulți pești și reptile își lasă ouăle și pleacă."
+    ],
+    "answers": [
+     "Ouă",
+     "Cu lapte",
+     "Adolescența",
+     "Nu",
+     "Părinții"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l05": {
+   "ro": {
+    "title": "Adaptări ale viețuitoarelor din pajiște",
+    "theory": "Pajiștea este un loc deschis, cu ierburi și flori, însorit, cu puțini copaci. Plantele au rădăcini dese care țin solul. Animalele se adaptează: iepurele aleargă repede și are urechi mari ca să audă pericolul, popândăul trăiește în galerii, albinele și fluturii găsesc multe flori.",
+    "sample": "Ciocârlia își face cuibul direct pe pământ, ascuns în iarbă.",
+    "worked": "Explicăm de ce iepurele are blana cenușie-maronie: se confundă cu iarba uscată și pământul, așa că vulpea îl vede mai greu. Culoarea este o adaptare la mediu.",
+    "exercises": [
+     "Numește trei plante și trei animale din pajiște.",
+     "Ce adaptări are iepurele pentru a scăpa de dușmani?",
+     "De ce sunt multe insecte în pajiște?",
+     "Desenează o pajiște cu viețuitoarele ei.",
+     "De ce își face popândăul galerii?"
+    ],
+    "test": [
+     "Este pajiștea un loc cu mulți copaci?",
+     "De ce are iepurele urechi mari?",
+     "Unde își face ciocârlia cuibul?",
+     "Ce insecte vizitează florile?",
+     "Ce este o adaptare?"
+    ],
+    "steps": [
+     "Descrie condițiile mediului (lumină, hrană, adăpost).",
+     "Observă trăsăturile viețuitoarei.",
+     "Leagă fiecare trăsătură de condițiile mediului.",
+     "Greșeala frecventă: să crezi că animalul „alege” să se adapteze peste noapte. Adaptările s-au format în timp foarte lung."
+    ],
+    "answers": [
+     "Nu",
+     "Ca să audă pericolul",
+     "Pe pământ, în iarbă",
+     "Albinele și fluturii",
+     "O trăsătură care ajută viețuitoarea să trăiască în mediul ei"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l06": {
+   "ro": {
+    "title": "Adaptări ale viețuitoarelor din pădure",
+    "theory": "Pădurea are mulți copaci, umbră, umezeală și multe adăposturi. Plantele de la sol înfloresc primăvara devreme (ghiocelul), când copacii nu au încă frunze. Veverița are coadă stufoasă pentru echilibru, ciocănitoarea are cioc puternic, ursul hibernează iarna, iar căprioara are blana care se confundă cu trunchiurile.",
+    "sample": "Ghiocelul înflorește în martie, înainte ca frunzele copacilor să facă umbră.",
+    "worked": "De ce strânge veverița alune toamna? Iarna hrana este puțină, așa că își face provizii. Comportamentul este o adaptare la anotimpurile din pădure.",
+    "exercises": [
+     "Numește trei copaci și trei animale din pădure.",
+     "De ce înfloresc unele plante primăvara devreme?",
+     "Ce adaptare are ciocănitoarea?",
+     "Cum se pregătește veverița pentru iarnă?",
+     "Explică de ce trebuie protejate pădurile."
+    ],
+    "test": [
+     "De ce înflorește ghiocelul devreme?",
+     "Ce face ursul iarna?",
+     "La ce îi folosește veveriței coada?",
+     "Ce animal scobește trunchiurile?",
+     "Este pădurea umbroasă?"
+    ],
+    "steps": [
+     "Descrie mediul pădurii.",
+     "Alege o viețuitoare și o trăsătură a ei.",
+     "Explică cum o ajută acea trăsătură.",
+     "Greșeala frecventă: să crezi că toate plantele iubesc umbra. Plantele de la sol profită de lumină înainte să înfrunzească copacii."
+    ],
+    "answers": [
+     "Ca să prindă lumina înainte să înfrunzească copacii",
+     "Hibernează",
+     "Pentru echilibru",
+     "Ciocănitoarea",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l07": {
+   "ro": {
+    "title": "Adaptări ale viețuitoarelor din râu și din mare",
+    "theory": "În râu apa curge și este dulce; în mare apa este sărată și are valuri. Peștii au corp alungit și înotătoare. Rața are picioare cu membrană (ca niște lopeți) și pene unse care nu se udă. Nufărul are frunze late care plutesc. Delfinul și foca au un strat gros de grăsime care îi apără de frig.",
+    "sample": "Rața înoată ușor datorită membranei dintre degete.",
+    "worked": "Comparăm păstrăvul (râu de munte, apă rece și repede) cu scrumbia (mare, apă sărată). Ambii au corp alungit, bun pentru înot, dar trăiesc în ape diferite: păstrăvul nu ar putea trăi în apa sărată a mării.",
+    "exercises": [
+     "Numește trei viețuitoare din râu și trei din mare.",
+     "Ce adaptări are rața pentru viața pe apă?",
+     "De ce plutesc frunzele nufărului?",
+     "Prin ce se deosebește apa mării de cea a râului?",
+     "Ce animale trăiesc în Marea Neagră?"
+    ],
+    "test": [
+     "Este apa mării dulce?",
+     "Ce au rațele între degete?",
+     "De ce are foca grăsime multă?",
+     "Ce formă are corpul peștilor?",
+     "Unde trăiește păstrăvul?"
+    ],
+    "steps": [
+     "Descrie apa (dulce sau sărată, curgătoare sau cu valuri).",
+     "Observă corpul viețuitoarei.",
+     "Leagă trăsăturile de viața în apă.",
+     "Greșeala frecventă: să crezi că orice pește poate trăi în orice apă. Majoritatea trăiesc fie în apă dulce, fie în apă sărată."
+    ],
+    "answers": [
+     "Nu, este sărată",
+     "Membrană",
+     "Ca să se apere de frig",
+     "Alungită",
+     "În râurile reci de munte"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l08": {
+   "ro": {
+    "title": "Adaptări ale viețuitoarelor din deșert",
+    "theory": "Deșertul este foarte uscat, cu zile fierbinți și nopți reci. Cactusul are tulpină groasă care păstrează apa și țepi în loc de frunze, ca să piardă puțină apă. Cămila poate sta mult fără să bea, are cocoașă cu grăsime și picioare late care nu se afundă în nisip. Multe animale ies doar noaptea.",
+    "sample": "Vulpea deșertului (fenecul) are urechi mari prin care pierde căldura.",
+    "worked": "De ce are cactusul țepi și nu frunze late? Frunzele late pierd multă apă prin evaporare. Țepii pierd foarte puțină apă și apără planta de animale. Este o adaptare la lipsa apei.",
+    "exercises": [
+     "Ce adaptări are cactusul?",
+     "Ce adaptări are cămila?",
+     "De ce ies multe animale din deșert noaptea?",
+     "Compară un cactus cu un fag.",
+     "Desenează un deșert cu viețuitoarele lui."
+    ],
+    "test": [
+     "Ce păstrează cactusul în tulpină?",
+     "Ce are cămila în cocoașă?",
+     "Este deșertul un mediu umed?",
+     "De ce are fenecul urechi mari?",
+     "De ce nu se afundă cămila în nisip?"
+    ],
+    "steps": [
+     "Pornește de la problema mediului: lipsa apei și căldura.",
+     "Caută trăsătura care rezolvă problema.",
+     "Explică legătura dintre ele.",
+     "Greșeala frecventă: să crezi că în cocoașa cămilei este apă. Este grăsime, din care corpul obține energie."
+    ],
+    "answers": [
+     "Apă",
+     "Grăsime",
+     "Nu",
+     "Ca să piardă căldura",
+     "Are picioare late"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l09": {
+   "ro": {
+    "title": "Relații de hrănire: lanțuri trofice simple",
+    "theory": "Un lanț trofic arată cine pe cine mănâncă. Începe întotdeauna cu o plantă (producătorul), continuă cu un animal care mănâncă plante (ierbivor) și apoi cu animale care mănâncă alte animale (carnivore). Exemplu: iarbă → lăcustă → broască → barză. Dacă dispare o verigă, sunt afectate și celelalte.",
+    "sample": "Frunză → omidă → pițigoi → uliu este un lanț trofic din pădure.",
+    "worked": "Ce se întâmplă dacă dispar broaștele din lanțul iarbă → lăcustă → broască → barză? Lăcustele se înmulțesc prea mult și mănâncă iarba, iar berzele nu mai au hrană suficientă. Toate verigile sunt legate.",
+    "exercises": [
+     "Construiește un lanț trofic din pajiște.",
+     "Construiește un lanț trofic din râu.",
+     "Cu ce începe orice lanț trofic?",
+     "Ce se întâmplă dacă dispar vulpile dintr-o zonă cu iepuri?",
+     "Ce este un ierbivor? Dar un carnivor?"
+    ],
+    "test": [
+     "Cu ce începe un lanț trofic?",
+     "Ce mănâncă un ierbivor?",
+     "În lanțul frunză → omidă → pițigoi, cine este carnivor?",
+     "Dă un exemplu de ierbivor.",
+     "Ce arată săgeata dintr-un lanț trofic?"
+    ],
+    "steps": [
+     "Începe cu o plantă (producătorul).",
+     "Adaugă animalul care o mănâncă.",
+     "Continuă cu animalele care le mănâncă pe cele dinainte.",
+     "Greșeala frecventă: să întorci săgețile (barză → broască). Săgeata arată spre cel care mănâncă."
+    ],
+    "answers": [
+     "Cu o plantă",
+     "Plante",
+     "Pițigoiul",
+     "Iepurele sau vaca",
+     "Spre cine merge hrana (cine mănâncă)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l10": {
+   "ro": {
+    "title": "Dieta echilibrată și eticheta alimentelor",
+    "theory": "O dietă echilibrată conține zilnic legume și fructe, cereale (pâine, orez), lactate, carne, pește, ouă sau leguminoase și multă apă. Dulciurile, sucurile și alimentele prăjite se consumă rar. Pe eticheta alimentelor găsim ingredientele, cantitatea de zahăr și sare și data de expirare.",
+    "sample": "O gustare sănătoasă este un măr și o mână de nuci, nu o pungă de chipsuri.",
+    "worked": "Citim eticheta a două băuturi: suc – 10 g zahăr la 100 ml; apă – 0 g zahăr. Un pahar de 250 ml de suc are 25 g zahăr, cam cinci lingurițe. Alegem apa pentru sete.",
+    "exercises": [
+     "Fă meniul unei zile echilibrate.",
+     "Citește eticheta unui iaurt și notează zahărul și data de expirare.",
+     "De ce trebuie să mâncăm legume și fructe zilnic?",
+     "Câte lingurițe de zahăr sunt în 500 ml de suc cu 10 g la 100 ml (o linguriță = 5 g)?",
+     "Grupează: măr, chipsuri, lapte, bomboane, pâine integrală."
+    ],
+    "test": [
+     "Ce băutură este cea mai bună pentru sete?",
+     "Ce găsim pe eticheta unui aliment?",
+     "Se mănâncă dulciuri zilnic în cantitate mare?",
+     "Dă un exemplu de lactat.",
+     "De ce citim data de expirare?"
+    ],
+    "steps": [
+     "Verifică dacă masa ta conține toate grupele de alimente.",
+     "Citește eticheta: zahăr, sare, data de expirare.",
+     "Alege varianta mai sănătoasă și justifică.",
+     "Greșeala frecventă: să crezi că sucul de fructe din comerț este la fel de sănătos ca fructul. Are adesea mult zahăr adăugat."
+    ],
+    "answers": [
+     "Apa",
+     "Ingredientele, zahărul, data de expirare",
+     "Nu",
+     "Laptele sau brânza",
+     "Ca să nu mâncăm alimente stricate"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l11": {
+   "ro": {
+    "title": "Mișcarea și sănătatea",
+    "theory": "Mișcarea zilnică întărește mușchii și oasele, ajută inima și plămânii, ne ține în formă și ne face să ne simțim bine. Un copil are nevoie de cel puțin o oră de mișcare pe zi: joacă afară, alergare, înot, ciclism, dans. Statul prea mult în fața ecranelor este un factor de risc pentru sănătate.",
+    "sample": "O oră de joacă în parc în fiecare zi te face mai puternic și mai odihnit.",
+    "worked": "Mihai stă 4 ore pe zi la calculator și se plânge că obosește repede. Planul lui nou: 1 oră de fotbal, 2 ore de ecran, pauze de mișcare la 30 de minute. După o lună urcă scările fără să gâfâie.",
+    "exercises": [
+     "Scrie ce activități de mișcare faci într-o săptămână.",
+     "De ce este dăunător să stăm mult pe scaun?",
+     "Propune trei jocuri de mișcare pentru pauză.",
+     "Ce se întâmplă cu inima când alergăm?",
+     "Fă-ți un program de mișcare pentru o săptămână."
+    ],
+    "test": [
+     "Câtă mișcare pe zi îi trebuie unui copil?",
+     "Ce organe se întăresc prin mișcare?",
+     "Este statul mult la ecrane sănătos?",
+     "Dă un exemplu de sport.",
+     "Cum ne simțim după mișcare?"
+    ],
+    "steps": [
+     "Calculează cât timp te miști și cât stai pe scaun.",
+     "Compară cu necesarul de o oră de mișcare pe zi.",
+     "Alege activități plăcute pe care le poți face zilnic.",
+     "Greșeala frecventă: să faci sport mult o singură zi și apoi deloc. Corpul are nevoie de mișcare regulată."
+    ],
+    "answers": [
+     "Cel puțin o oră",
+     "Mușchii, oasele, inima",
+     "Nu",
+     "Înotul sau fotbalul",
+     "Mai bine dispuși și mai energici"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l12": {
+   "ro": {
+    "title": "Planetele Sistemului Solar",
+    "theory": "Sistemul Solar este format din Soare și corpurile care se rotesc în jurul lui. Cele opt planete, în ordine de la Soare, sunt: Mercur, Venus, Pământ, Marte, Jupiter, Saturn, Uranus, Neptun. Primele patru sunt stâncoase, celelalte patru sunt gigante gazoase sau de gheață. Pământul este singura planetă cunoscută pe care există viață.",
+    "sample": "Jupiter este cea mai mare planetă, iar Saturn are inele spectaculoase.",
+    "worked": "Ne amintim ordinea cu o propoziție: „Mama Veronica Pregătește Mâncare Joi Seara Unchiului Nicu” — inițialele: Mercur, Venus, Pământ, Marte, Jupiter, Saturn, Uranus, Neptun.",
+    "exercises": [
+     "Scrie planetele în ordine de la Soare.",
+     "Care este cea mai mare planetă?",
+     "Care planetă este numită „planeta roșie”?",
+     "De ce există viață pe Pământ? Dă două motive.",
+     "Inventează o propoziție pentru a reține ordinea planetelor."
+    ],
+    "test": [
+     "Câte planete are Sistemul Solar?",
+     "Care este planeta cea mai apropiată de Soare?",
+     "Pe ce loc este Pământul?",
+     "Ce planetă are inele mari?",
+     "Este Soarele o planetă?"
+    ],
+    "steps": [
+     "Pornește de la Soare.",
+     "Numește planetele în ordine, una câte una.",
+     "Grupează-le în stâncoase și gigante.",
+     "Greșeala frecventă: să crezi că Soarele este o planetă. Soarele este o stea."
+    ],
+    "answers": [
+     "Opt",
+     "Mercur",
+     "Al treilea",
+     "Saturn",
+     "Nu, este o stea"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l13": {
+   "ro": {
+    "title": "Mișcările Pământului: rotația și revoluția",
+    "theory": "Pământul are două mișcări. Rotația: se învârte în jurul axei sale o dată în 24 de ore (o zi). Revoluția: se învârte în jurul Soarelui o dată în aproximativ 365 de zile (un an). Axa Pământului este înclinată, iar acest lucru, împreună cu revoluția, produce anotimpurile.",
+    "sample": "De ziua ta, Pământul a terminat încă o călătorie completă în jurul Soarelui.",
+    "worked": "Model: o lanternă este Soarele, o portocală străpunsă cu o andrea este Pământul. Rotim portocala pe andrea: o parte e luminată (zi), cealaltă întunecată (noapte). Apoi mutăm portocala în cerc în jurul lanternei: aceasta este revoluția.",
+    "exercises": [
+     "Explică diferența dintre rotație și revoluție.",
+     "Fă modelul cu lanterna și portocala.",
+     "Câte rotații face Pământul într-o săptămână?",
+     "De ce ziua de naștere vine o dată pe an?",
+     "Desenează Pământul în jurul Soarelui."
+    ],
+    "test": [
+     "Cât durează o rotație a Pământului?",
+     "Cât durează o revoluție?",
+     "În jurul a ce se învârte Pământul la revoluție?",
+     "Ce produce rotația?",
+     "Este axa Pământului înclinată?"
+    ],
+    "steps": [
+     "Imaginează-ți Pământul învârtindu-se ca un titirez: rotația.",
+     "Imaginează-l călătorind în jurul Soarelui: revoluția.",
+     "Leagă rotația de zi și noapte, revoluția de an și anotimpuri.",
+     "Greșeala frecventă: să crezi că Soarele se învârte în jurul Pământului pentru că „răsare” și „apune”. Pământul se rotește."
+    ],
+    "answers": [
+     "24 de ore",
+     "Aproximativ 365 de zile",
+     "În jurul Soarelui",
+     "Ziua și noaptea",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l14": {
+   "ro": {
+    "title": "Soarele: sursă de lumină și căldură; ziua și noaptea",
+    "theory": "Soarele este o stea, o sferă uriașă de gaze foarte fierbinți, care ne dă lumină și căldură. Fără el nu ar exista viață pe Pământ. Pentru că Pământul se rotește, partea îndreptată spre Soare are zi, iar partea opusă are noapte. Când în România e zi, în alte locuri ale lumii este noapte.",
+    "sample": "Plantele au nevoie de lumina Soarelui ca să-și facă hrana.",
+    "worked": "Punem două pahare cu apă, unul la soare, unul la umbră. După o oră, apa din paharul de la soare este mai caldă. Soarele încălzește corpurile.",
+    "exercises": [
+     "De ce este Soarele important pentru viață?",
+     "Fă experimentul cu cele două pahare.",
+     "De ce nu e zi în același timp pe tot Pământul?",
+     "Cum ne protejăm de soare vara?",
+     "De ce nu privim direct la Soare?"
+    ],
+    "test": [
+     "Ce este Soarele?",
+     "Ce ne dă Soarele?",
+     "De ce avem zi și noapte?",
+     "Este zi pe tot Pământul în același timp?",
+     "Ce plante au nevoie de lumina Soarelui?"
+    ],
+    "steps": [
+     "Observă ce se întâmplă cu corpurile la soare.",
+     "Leagă lumina și căldura de viață.",
+     "Explică ziua și noaptea prin rotația Pământului.",
+     "Greșeala frecventă: să privești Soarele direct, chiar și cu ochelari obișnuiți. Lumina lui poate răni ochii."
+    ],
+    "answers": [
+     "O stea",
+     "Lumină și căldură",
+     "Datorită rotației Pământului",
+     "Nu",
+     "Toate plantele verzi"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l15": {
+   "ro": {
+    "title": "Anotimpurile și modificările vremii",
+    "theory": "Anotimpurile (primăvara, vara, toamna, iarna) apar pentru că axa Pământului este înclinată și Pământul se rotește în jurul Soarelui. Vara razele cad mai drept și zilele sunt lungi, deci e cald; iarna razele cad mai oblic și zilele sunt scurte, deci e frig. Vremea (temperatură, nori, precipitații, vânt) se schimbă de la o zi la alta.",
+    "sample": "Vara se întunecă pe la ora 21, iarna pe la ora 17.",
+    "worked": "Ținem un jurnal al vremii: luni 5°C, înnorat; marți 8°C, soare; miercuri 3°C, ploaie. Măsurăm cu termometrul la aceeași oră și observăm cerul. Vremea se schimbă de la o zi la alta, chiar în același anotimp.",
+    "exercises": [
+     "Descrie fiecare anotimp prin două caracteristici.",
+     "De ce este mai cald vara?",
+     "Ține un jurnal al vremii timp de cinci zile.",
+     "Ce instrument măsoară temperatura aerului?",
+     "Cum ne îmbrăcăm în funcție de vreme?"
+    ],
+    "test": [
+     "Câte anotimpuri sunt?",
+     "Când sunt zilele cele mai lungi?",
+     "Ce măsoară termometrul?",
+     "Se poate schimba vremea de la o zi la alta?",
+     "De ce avem anotimpuri?"
+    ],
+    "steps": [
+     "Observă temperatura și lungimea zilei.",
+     "Leagă-le de poziția Pământului față de Soare.",
+     "Notează zilnic vremea pentru a vedea schimbările.",
+     "Greșeala frecventă: să crezi că vara este cald pentru că Pământul este mai aproape de Soare. Contează înclinarea axei."
+    ],
+    "answers": [
+     "Patru",
+     "Vara",
+     "Temperatura",
+     "Da",
+     "Din cauza înclinării axei și a revoluției"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l16": {
+   "ro": {
+    "title": "Ritmuri zilnice și anuale ale viețuitoarelor",
+    "theory": "Viețuitoarele își potrivesc activitatea după zi și noapte și după anotimpuri. Unele animale sunt active ziua (vrabia), altele noaptea (bufnița, liliacul). Unele flori se deschid dimineața și se închid seara. Anual, păsările migrează, ursul hibernează, copacii își pierd frunzele toamna și înfrunzesc primăvara.",
+    "sample": "Bufnița vânează noaptea; vede bine în întuneric și zboară fără zgomot.",
+    "worked": "Urmărim un an din viața unui stejar: primăvara înfrunzește și înflorește, vara crește, toamna face ghinde și își îngălbenește frunzele, iarna stă fără frunze. Ciclul se repetă în fiecare an.",
+    "exercises": [
+     "Numește două animale active ziua și două active noaptea.",
+     "Ce fac copacii în fiecare anotimp?",
+     "Ce este hibernarea?",
+     "De ce migrează berzele?",
+     "Ce ritm zilnic ai tu?"
+    ],
+    "test": [
+     "Când vânează bufnița?",
+     "Ce fac copacii toamna?",
+     "Ce animal hibernează?",
+     "Când se întorc berzele?",
+     "Se închid unele flori seara?"
+    ],
+    "steps": [
+     "Observă momentul zilei sau anotimpul.",
+     "Notează ce face viețuitoarea atunci.",
+     "Explică legătura cu lumina, căldura și hrana.",
+     "Greșeala frecventă: să crezi că animalele de noapte „nu dorm”. Ele dorm ziua."
+    ],
+    "answers": [
+     "Noaptea",
+     "Își pierd frunzele",
+     "Ursul",
+     "Primăvara",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l17": {
+   "ro": {
+    "title": "Fosilele",
+    "theory": "Fosilele sunt urme sau resturi ale viețuitoarelor care au trăit cu foarte mult timp în urmă, păstrate în roci: oase, cochilii, frunze, urme de pași. Ele ne arată cum arăta viața pe Pământ în trecut. Așa știm despre dinozauri, care au dispărut acum milioane de ani.",
+    "sample": "În roci se găsesc adesea cochilii fosile, semn că acolo a fost cândva o mare.",
+    "worked": "Model de fosilă: apăsăm o cochilie în plastilină, o scoatem și rămâne amprenta ei. În natură, în locul plastilinei este noroiul, care după foarte mult timp se întărește și devine rocă.",
+    "exercises": [
+     "Ce este o fosilă?",
+     "Fă o „fosilă” din plastilină și o frunză.",
+     "Ce aflăm din fosile?",
+     "Ce animale dispărute cunoaștem din fosile?",
+     "Unde poți vedea fosile? (indiciu: muzeul)"
+    ],
+    "test": [
+     "Unde se găsesc fosilele?",
+     "Ce ne arată fosilele?",
+     "Cum cunoaștem dinozaurii?",
+     "Poate o urmă de pas să fie fosilă?",
+     "Sunt fosilele foarte vechi?"
+    ],
+    "steps": [
+     "Observă forma păstrată în rocă.",
+     "Gândește-te ce viețuitoare a lăsat-o.",
+     "Trage o concluzie despre mediul din trecut.",
+     "Greșeala frecventă: să crezi că oamenii au trăit în același timp cu dinozaurii. Dinozaurii au dispărut cu mult înainte de apariția oamenilor."
+    ],
+    "answers": [
+     "În roci",
+     "Cum arăta viața în trecut",
+     "Din fosile",
+     "Da",
+     "Da, de mii sau milioane de ani"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l18": {
+   "ro": {
+    "title": "Dispariția speciilor",
+    "theory": "O specie dispare când moare ultimul ei individ. Cauzele pot fi naturale (schimbări mari de climă), dar astăzi mai ales omul: vânătoarea și pescuitul excesiv, tăierea pădurilor, poluarea. Specii pe cale de dispariție sunt ocrotite prin lege, de exemplu în România zimbrul, capra neagră sau floarea de colț.",
+    "sample": "Zimbrul dispăruse din pădurile României și a fost readus din rezervații.",
+    "worked": "De ce sturionii din Dunăre sunt în pericol? Au fost pescuiți prea mult, iar barajele le blochează drumul spre locurile de depunere a icrelor. Pescuitul lor este acum interzis.",
+    "exercises": [
+     "Numește două cauze ale dispariției speciilor.",
+     "Numește trei specii ocrotite din România.",
+     "Ce înseamnă pescuit excesiv?",
+     "Ce s-ar întâmpla cu un lanț trofic dacă dispare o specie?",
+     "Desenează un afiș pentru protejarea unei specii."
+    ],
+    "test": [
+     "Când dispare o specie?",
+     "Este vânătoarea excesivă o cauză?",
+     "Este floarea de colț ocrotită?",
+     "Ce animal mare a fost readus în pădurile României?",
+     "Se pot reface speciile dispărute?"
+    ],
+    "steps": [
+     "Identifică specia și unde trăiește.",
+     "Caută ce o pune în pericol.",
+     "Propune o măsură de ocrotire.",
+     "Greșeala frecventă: să culegi plante rare „doar una”. Dacă face asta fiecare, specia dispare."
+    ],
+    "answers": [
+     "Când moare ultimul individ",
+     "Da",
+     "Da",
+     "Zimbrul",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l19": {
+   "ro": {
+    "title": "Protejarea mediului",
+    "theory": "Protejăm mediul economisind apa și energia, reducând deșeurile, refolosind și reciclând, plantând copaci și respectând natura în excursii. Ariile protejate (parcuri naționale, rezervații) păstrează locurile și speciile rare. Fiecare dintre noi poate ajuta zilnic.",
+    "sample": "În Delta Dunării, rezervație a biosferei, trăiesc pelicani și sute de alte specii de păsări.",
+    "worked": "Regula celor trei R: Reducem (luăm o sacoșă de pânză în loc de pungi), Refolosim (borcanele pentru depozitare), Reciclăm (hârtia, plasticul și sticla în containere separate).",
+    "exercises": [
+     "Explică regula celor trei R cu exemple.",
+     "Numește un parc național din România.",
+     "Scrie cinci reguli pentru o excursie prietenoasă cu natura.",
+     "Ce poți refolosi acasă?",
+     "Organizează o acțiune de curățenie în curtea școlii."
+    ],
+    "test": [
+     "Ce înseamnă „a recicla”?",
+     "Ce este o rezervație?",
+     "Dă un exemplu de reducere a deșeurilor.",
+     "Unde trăiesc pelicanii în România?",
+     "Ce putem planta pentru mediu?"
+    ],
+    "steps": [
+     "Observă ce resurse folosești și ce deșeuri produci.",
+     "Aplică regula celor trei R.",
+     "Alege o acțiune concretă și fă-o regulat.",
+     "Greșeala frecventă: să lași gunoiul în natură crezând că „se descompune”. Plasticul rămâne sute de ani."
+    ],
+    "answers": [
+     "A transforma deșeurile în materiale noi",
+     "Un loc ocrotit prin lege",
+     "Folosesc o sacoșă de pânză",
+     "În Delta Dunării",
+     "Copaci"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l20": {
+   "ro": {
+    "title": "Plutirea corpurilor în apă",
+    "theory": "Unele corpuri plutesc (lemnul, dopul, mingea), altele se scufundă (piatra, cuiul). Plutirea depinde de material și de formă: o bilă de plastilină se scufundă, dar aceeași plastilină modelată ca o bărcuță plutește. Apa sărată ține corpurile la suprafață mai ușor decât apa dulce.",
+    "sample": "Vapoarele uriașe din oțel plutesc datorită formei lor, care cuprinde mult aer.",
+    "worked": "Punem un ou într-un pahar cu apă dulce: se scufundă. Adăugăm multe linguri de sare și amestecăm: oul se ridică și plutește. Apa sărată ajută la plutire.",
+    "exercises": [
+     "Testează cinci obiecte: plutesc sau se scufundă?",
+     "Fă o bărcuță din plastilină care să plutească.",
+     "Fă experimentul cu oul și sarea.",
+     "De ce plutește un vapor de oțel?",
+     "De ce se înoată mai ușor în mare?"
+    ],
+    "test": [
+     "Plutește lemnul?",
+     "Se scufundă un cui?",
+     "Plutește oul în apă foarte sărată?",
+     "Poate forma unui corp să schimbe plutirea?",
+     "Unde plutim mai ușor: în mare sau în lac?"
+    ],
+    "steps": [
+     "Fă o predicție: plutește sau nu?",
+     "Pune corpul în apă și observă.",
+     "Explică rezultatul prin material și formă.",
+     "Greșeala frecventă: să crezi că obiectele grele se scufundă întotdeauna. Un vapor imens plutește datorită formei."
+    ],
+    "answers": [
+     "Da",
+     "Da",
+     "Da",
+     "Da",
+     "În mare"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l21": {
+   "ro": {
+    "title": "Proprietățile apei",
+    "theory": "Apa curată este incoloră (fără culoare), inodoră (fără miros), insipidă (fără gust) și transparentă. Ia forma vasului. Dizolvă multe substanțe (sare, zahăr). Apa pură îngheață la 0°C și fierbe la 100°C. Gheața este mai ușoară decât apa, de aceea plutește.",
+    "sample": "Iarna, lacurile îngheață doar la suprafață, iar peștii trăiesc sub gheață.",
+    "worked": "Comparăm un pahar cu apă și unul cu lapte: prin apă vedem lingurița (transparentă), prin lapte nu. Mirosim apa: nu are miros. Gustăm apa potabilă: nu are gust deosebit.",
+    "exercises": [
+     "Descrie apa folosind cinci proprietăți.",
+     "De ce plutesc cuburile de gheață în pahar?",
+     "La ce temperatură îngheață apa?",
+     "De ce peștii supraviețuiesc iarna sub gheață?",
+     "Ce substanțe se dizolvă în apă?"
+    ],
+    "test": [
+     "Ce culoare are apa curată?",
+     "La ce temperatură fierbe apa?",
+     "Plutește gheața?",
+     "Este apa transparentă?",
+     "Dizolvă apa zahărul?"
+    ],
+    "steps": [
+     "Observă apa: culoare, transparență.",
+     "Miroase și gustă (doar apa potabilă).",
+     "Leagă proprietățile de fenomene (gheața plutește, apa dizolvă).",
+     "Greșeala frecventă: să crezi că apa limpede este întotdeauna curată. Poate conține microbi sau substanțe dizolvate invizibile."
+    ],
+    "answers": [
+     "Incoloră",
+     "La 100°C",
+     "Da",
+     "Da",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l22": {
+   "ro": {
+    "title": "Utilizări ale apei în diferite stări de agregare",
+    "theory": "Apa lichidă o folosim la băut, spălat, irigat și pentru centralele hidroelectrice. Gheața o folosim la răcirea alimentelor și a băuturilor și pentru patinoare. Vaporii fierbinți se folosesc la gătit la abur, la călcatul hainelor și în centralele care produc curent electric.",
+    "sample": "Fierul de călcat cu abur netezește mai ușor hainele.",
+    "worked": "Comparăm trei moduri de a găti morcovul: fiert în apă (lichid), la abur (vapori) și congelat pentru iarnă (gheață). Fiecare stare a apei are utilitatea ei.",
+    "exercises": [
+     "Scrie două utilizări pentru fiecare stare a apei.",
+     "Cum folosește un fermier apa?",
+     "De ce punem gheață pe o lovitură?",
+     "Ce produc centralele hidroelectrice?",
+     "Cum se folosește aburul în bucătărie?"
+    ],
+    "test": [
+     "La ce folosim gheața?",
+     "Ce folosește fierul de călcat cu abur?",
+     "Ce produce o hidrocentrală?",
+     "Ce stare are apa din patinoar?",
+     "În ce stare folosim apa la băut?"
+    ],
+    "steps": [
+     "Identifică starea apei în situația dată.",
+     "Explică de ce este potrivită acea stare.",
+     "Dă și alt exemplu de utilizare.",
+     "Greșeala frecventă: să atingi aburul fierbinte crezând că este doar „fum”. Aburul poate produce arsuri grave."
+    ],
+    "answers": [
+     "La răcire",
+     "Vaporii de apă (aburul)",
+     "Curent electric",
+     "Solidă",
+     "Lichidă"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l23": {
+   "ro": {
+    "title": "Amestecuri și separarea amestecurilor",
+    "theory": "Un amestec se obține când punem împreună două sau mai multe substanțe: nisip cu pietriș, apă cu nisip, apă cu sare. Amestecurile se pot separa: prin cernere (sită), prin filtrare (hârtie de filtru, pentru nisip din apă), prin decantare (lăsăm să se așeze) sau prin evaporare (sare din apă).",
+    "sample": "Când strecori pastele, separi apa de paste.",
+    "worked": "Separăm un amestec de apă, nisip și sare: lăsăm nisipul să se așeze (decantare), filtrăm apa prin hârtie de filtru (rămâne nisipul), apoi lăsăm apa sărată la soare: apa se evaporă și rămâne sarea.",
+    "exercises": [
+     "Numește trei amestecuri din bucătărie.",
+     "Cum separi nisipul de pietriș?",
+     "Cum obții sarea din apa sărată?",
+     "Fă un filtru din pâlnie și șervețel și filtrează apă cu nisip.",
+     "Cum separi piliturile de fier de nisip? (indiciu: magnet)"
+    ],
+    "test": [
+     "Ce este un amestec?",
+     "Cu ce separăm nisipul de apă?",
+     "Cum obținem sare din apa mării?",
+     "Ce face sita?",
+     "Ce instrument folosim la filtrare?"
+    ],
+    "steps": [
+     "Observă din ce este format amestecul.",
+     "Alege metoda după ce vrei să separi (mărimea particulelor, magnetism, dizolvare).",
+     "Fă separarea pas cu pas.",
+     "Greșeala frecventă: să crezi că sarea dizolvată poate fi filtrată. Ea trece prin filtru; se separă prin evaporare."
+    ],
+    "answers": [
+     "Mai multe substanțe puse împreună",
+     "Cu un filtru",
+     "Prin evaporare",
+     "Separă bucățile mari de cele mici",
+     "Pâlnia cu hârtie de filtru"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l24": {
+   "ro": {
+    "title": "Dizolvarea și influența temperaturii",
+    "theory": "Unele substanțe se dizolvă în apă (zahăr, sare): par că dispar, dar sunt tot acolo, în bucăți foarte mici. Altele nu se dizolvă (nisip, ulei). Dizolvarea este mai rapidă în apă caldă și dacă amestecăm. Mai multă substanță se dizolvă în apa caldă decât în cea rece.",
+    "sample": "Zahărul se dizolvă repede în ceaiul cald, dar greu în limonada rece.",
+    "worked": "Punem câte o linguriță de zahăr în două pahare, unul cu apă caldă, altul cu apă rece, fără să amestecăm. În apa caldă zahărul dispare mai repede. Concluzie: temperatura grăbește dizolvarea.",
+    "exercises": [
+     "Fă experimentul cu zahărul în apă caldă și rece.",
+     "Numește trei substanțe care se dizolvă în apă și două care nu.",
+     "Cum poți grăbi dizolvarea?",
+     "Cum dovedești că zahărul dizolvat este tot în apă?",
+     "De ce plutește uleiul pe apă?"
+    ],
+    "test": [
+     "Se dizolvă sarea în apă?",
+     "Se dizolvă nisipul în apă?",
+     "Unde se dizolvă mai repede zahărul?",
+     "Ce face amestecarea?",
+     "Dispare de tot substanța dizolvată?"
+    ],
+    "steps": [
+     "Pune substanța în apă.",
+     "Observă dacă dispare (se dizolvă) sau rămâne vizibilă.",
+     "Compară apa caldă cu apa rece.",
+     "Greșeala frecventă: să crezi că zahărul dizolvat a dispărut. Apa este dulce, deci zahărul este tot acolo."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "În apa caldă",
+     "Grăbește dizolvarea",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l25": {
+   "ro": {
+    "title": "Arderea și ruginirea",
+    "theory": "Arderea este o transformare în care un material (lemn, hârtie, gaz) se combină cu oxigenul din aer și produce căldură, lumină și fum; din lemn rămâne cenușă, care nu mai poate deveni lemn. Ruginirea apare când fierul stă în contact cu apa și aerul: se formează rugina, un material nou, roșcat și sfărâmicios.",
+    "sample": "O lumânare acoperită cu un pahar se stinge, pentru că se termină oxigenul.",
+    "worked": "Lăsăm trei cuie: unul în apă, unul în aer uscat, unul în ulei. După o săptămână ruginește cel din apă (are și apă, și aer). Vopseaua sau uleiul protejează fierul de rugină.",
+    "exercises": [
+     "Fă experimentul cu cele trei cuie.",
+     "De ce se stinge lumânarea acoperită cu un pahar?",
+     "Ce rămâne după arderea lemnului?",
+     "Cum protejăm o bicicletă de rugină?",
+     "Scrie trei reguli de siguranță cu focul."
+    ],
+    "test": [
+     "De ce are nevoie focul ca să ardă?",
+     "Ce rămâne după arderea hârtiei?",
+     "Ce metal ruginește?",
+     "Ce îi trebuie fierului ca să ruginească?",
+     "Cum protejăm fierul de rugină?"
+    ],
+    "steps": [
+     "Observă materialul înainte și după transformare.",
+     "Verifică dacă s-a format un material nou.",
+     "Află ce condiții au produs transformarea.",
+     "Greșeala frecventă: să crezi că arderea este la fel ca topirea. Ceara topită redevine ceară; lemnul ars devine cenușă."
+    ],
+    "answers": [
+     "De oxigen (aer)",
+     "Cenușă",
+     "Fierul",
+     "Apă și aer",
+     "Prin vopsire sau ungere"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l26": {
+   "ro": {
+    "title": "Putrezirea, alterarea și coacerea",
+    "theory": "Alimentele se alterează (se strică) din cauza microbilor și a mucegaiului, mai ales la căldură și umezeală: laptele se acrește, pâinea mucegăiește. Resturile de plante putrezesc și devin humus, care hrănește solul. Coacerea fructelor le schimbă culoarea, gustul și consistența. Prin frigider, congelare sau uscare încetinim alterarea.",
+    "sample": "O banană verde se îngălbenește și devine dulce când se coace.",
+    "worked": "Punem o felie de pâine într-o pungă la căldură și una în frigider. După câteva zile, cea de la căldură are mucegai verde, cea din frigider nu. Frigul încetinește alterarea.",
+    "exercises": [
+     "Fă experimentul cu pâinea (fără să guști mucegaiul!).",
+     "Cum păstrăm alimentele mai mult timp?",
+     "Ce se întâmplă cu frunzele căzute în pădure?",
+     "Cum îți dai seama că un fruct s-a copt?",
+     "De ce nu mâncăm alimente mucegăite?"
+    ],
+    "test": [
+     "Ce face frigiderul cu alimentele?",
+     "Ce apare pe pâinea veche?",
+     "În ce se transformă frunzele putrezite?",
+     "Ce se schimbă la un fruct copt?",
+     "Mâncăm alimente mucegăite?"
+    ],
+    "steps": [
+     "Observă schimbările: culoare, miros, consistență.",
+     "Gândește-te la condiții: căldură, umezeală, timp.",
+     "Alege metoda de păstrare potrivită.",
+     "Greșeala frecventă: să tai doar partea mucegăită și să mănânci restul. Mucegaiul se poate întinde invizibil în tot alimentul."
+    ],
+    "answers": [
+     "Încetinește alterarea",
+     "Mucegai",
+     "În humus",
+     "Culoarea, gustul, consistența",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l27": {
+   "ro": {
+    "title": "Transferul de căldură; materiale conductoare și izolatoare",
+    "theory": "Căldura trece întotdeauna de la corpul mai cald la cel mai rece, până când au aceeași temperatură. Metalele conduc bine căldura (sunt conductoare). Lemnul, plasticul, lâna, aerul și polistirenul conduc slab căldura (sunt izolatoare). De aceea mânerele de oale sunt din lemn sau plastic, iar hainele de lână ne țin cald.",
+    "sample": "Ceaiul fierbinte lăsat pe masă se răcește, pentru că dă căldură aerului din jur.",
+    "worked": "Învelim o sticlă cu apă caldă în lână și lăsăm alta neînvelită. După 30 de minute, apa din sticla învelită este mai caldă. Lâna este un izolator care încetinește pierderea căldurii.",
+    "exercises": [
+     "Fă experimentul cu cele două sticle.",
+     "Grupează: lingură de oțel, mănușă de lână, cratiță de aluminiu, tavă de lemn.",
+     "De ce au oalele mânere din plastic?",
+     "De ce ne îmbrăcăm în straturi iarna?",
+     "Încotro trece căldura când ții un cub de gheață în mână?"
+    ],
+    "test": [
+     "Încotro trece căldura?",
+     "Este metalul un bun conductor de căldură?",
+     "Este lâna izolatoare?",
+     "De ce ne încălzesc hainele groase?",
+     "Din ce material este bine să fie mânerul unei oale?"
+    ],
+    "steps": [
+     "Identifică corpul cald și corpul rece.",
+     "Urmărește trecerea căldurii de la cald la rece.",
+     "Explică rolul materialului (conductor sau izolator).",
+     "Greșeala frecventă: să crezi că haina „produce” căldură. Ea doar păstrează căldura corpului."
+    ],
+    "answers": [
+     "De la corpul cald la cel rece",
+     "Da",
+     "Da",
+     "Păstrează căldura corpului",
+     "Lemn sau plastic"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l28": {
+   "ro": {
+    "title": "Circuite electrice simple",
+    "theory": "Un circuit electric simplu are o sursă (baterie), conductori (fire), un consumator (bec) și, de obicei, un întrerupător. Becul se aprinde doar dacă circuitul este închis, adică formează un drum complet. Metalele conduc curentul; plasticul și cauciucul sunt izolatoare. Nu ne jucăm niciodată cu priza!",
+    "sample": "Lanterna are în interior un circuit cu baterii, un bec și un întrerupător.",
+    "worked": "Legăm un fir de la un capăt al bateriei la bec și alt fir de la bec la celălalt capăt al bateriei: becul se aprinde. Desfacem un fir: becul se stinge, pentru că circuitul s-a deschis.",
+    "exercises": [
+     "Desenează un circuit cu baterie, bec și întrerupător.",
+     "De ce se stinge becul când desfaci un fir?",
+     "Testează ce materiale închid circuitul: agrafă, gumă, monedă, creion.",
+     "De ce firele electrice sunt îmbrăcate în plastic?",
+     "Scrie trei reguli de siguranță cu electricitatea."
+    ],
+    "test": [
+     "Ce rol are bateria?",
+     "Când se aprinde becul?",
+     "Este plasticul conductor?",
+     "Ce face întrerupătorul?",
+     "E voie să bagi obiecte în priză?"
+    ],
+    "steps": [
+     "Pornește de la baterie.",
+     "Urmărește drumul firelor până la bec și înapoi.",
+     "Verifică dacă drumul este complet (circuit închis).",
+     "Greșeala frecventă: să legi ambele fire la același capăt al bateriei. Curentul trebuie să plece de la un capăt și să revină la celălalt."
+    ],
+    "answers": [
+     "Este sursa de curent",
+     "Când circuitul este închis",
+     "Nu, este izolator",
+     "Deschide și închide circuitul",
+     "Nu, niciodată"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l29": {
+   "ro": {
+    "title": "Surse de lumină și umbra",
+    "theory": "Sursele de lumină produc lumină proprie: Soarele, stelele, focul, becul, licuriciul. Luna nu este o sursă; ea doar reflectă lumina Soarelui. Lumina se propagă în linie dreaptă. Când un corp opac oprește lumina, în spatele lui se formează umbra. Prin corpurile transparente (sticla) lumina trece.",
+    "sample": "La amiază umbra noastră este scurtă, iar dimineața și seara este lungă.",
+    "worked": "Cu o lanternă și o jucărie: apropiem lanterna de jucărie, iar umbra pe perete devine mai mare; o depărtăm, iar umbra se micșorează. Umbra are forma corpului care oprește lumina.",
+    "exercises": [
+     "Numește trei surse naturale și trei artificiale de lumină.",
+     "Este Luna o sursă de lumină? Explică.",
+     "Fă umbre cu mâinile pe perete.",
+     "De ce umbra este mai lungă seara?",
+     "Grupează: sticlă, carton, hârtie de calc, lemn — transparente, translucide, opace."
+    ],
+    "test": [
+     "Este becul o sursă de lumină?",
+     "Produce Luna lumină proprie?",
+     "Cum se propagă lumina?",
+     "Când apare umbra?",
+     "Când este umbra cea mai scurtă?"
+    ],
+    "steps": [
+     "Identifică sursa de lumină.",
+     "Observă corpul care oprește lumina.",
+     "Explică forma și mărimea umbrei după poziția sursei.",
+     "Greșeala frecventă: să crezi că Luna strălucește singură. Ea reflectă lumina Soarelui."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "În linie dreaptă",
+     "Când un corp opac oprește lumina",
+     "La amiază"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-4-l30": {
+   "ro": {
+    "title": "Curcubeul, culorile și vizibilitatea corpurilor",
+    "theory": "Lumina albă a Soarelui este formată din mai multe culori. Când trece prin picăturile de ploaie, se descompune și apare curcubeul: roșu, oranj, galben, verde, albastru, indigo, violet. Vedem un corp pentru că el produce lumină sau o reflectă spre ochii noștri. În întuneric complet nu vedem nimic.",
+    "sample": "După ploaie, cu Soarele în spate, putem vedea curcubeul.",
+    "worked": "Punem un pahar cu apă pe pervaz, în soare, și o foaie albă pe podea: pe foaie apar culorile curcubeului. Lumina albă s-a descompus trecând prin apă.",
+    "exercises": [
+     "Scrie culorile curcubeului în ordine.",
+     "Fă curcubeul cu paharul cu apă.",
+     "Când putem vedea curcubeul?",
+     "De ce nu vedem obiectele într-o cameră complet întunecată?",
+     "De ce poartă bicicliștii veste reflectorizante?"
+    ],
+    "test": [
+     "Câte culori are curcubeul?",
+     "Din ce este formată lumina albă?",
+     "Ce culoare este prima în curcubeu?",
+     "Vedem obiectele în întuneric complet?",
+     "De ce sunt utile hainele reflectorizante?"
+    ],
+    "steps": [
+     "Gândește-te la sursa de lumină.",
+     "Urmărește drumul luminii până la corp și apoi la ochi.",
+     "Explică fenomenul (descompunere, reflexie).",
+     "Greșeala frecventă: să crezi că ochii trimit lumină spre obiecte. Lumina vine de la obiecte spre ochi."
+    ],
+    "answers": [
+     "Șapte",
+     "Din mai multe culori",
+     "Roșu",
+     "Nu",
+     "Reflectă lumina farurilor și ne fac vizibili"
+    ]
+   }
+  }
+ }
+}

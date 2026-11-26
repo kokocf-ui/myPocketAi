@@ -22,6 +22,11 @@ on:
       - 'math_national_packs.mjs'
       - 'math_country_grade_areas.mjs'
       - 'tests_math_national_packs.mjs'
+      - 'public/education/physics/authored/**'
+      - 'public/education/chemistry/authored/**'
+      - 'public/education/biology/authored/**'
+      - 'science_national_packs.mjs'
+      - 'tests_science_national_packs.mjs'
       - 'computing_national_packs.mjs'
       - 'computing_ui.mjs'
       - 'education_national_subject_packs.mjs'
@@ -85,6 +90,8 @@ jobs:
           node tests_computing_national_packs.mjs
           node scripts/build_literature_national_packs.mjs --subject=math
           node tests_math_national_packs.mjs
+          node scripts/build_literature_national_packs.mjs --subject=biology
+          node tests_science_national_packs.mjs
           node tests_literature_national_packs.mjs
           node tests_literature_country_profiles.mjs
           node tests_literature_authored_packs.mjs

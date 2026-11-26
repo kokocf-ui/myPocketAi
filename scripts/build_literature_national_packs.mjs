@@ -29,7 +29,7 @@ export const NATIONAL_PACK_LANGUAGE_NAMES={
 // RO university (Faculty of Letters, Licență I–III) uses the study-year ids
 // of the university selector (literature_university_years.mjs).
 export const SUBJECT=(process.argv.find(a=>a.startsWith('--subject='))||'').slice(10)||'literature';
-if(!['literature','history','geography','computing','math'].includes(SUBJECT))throw Error('unknown subject '+SUBJECT);
+if(!['literature','history','geography','computing','math','physics','chemistry','biology'].includes(SUBJECT))throw Error('unknown subject '+SUBJECT);
 // Years displayed by the History/Geography selector (index.js hgYearGroups):
 // in Romania History starts in grade 4.
 const SUBJECT_KNOWN={history:{'RO':{beginner:['4'],lower:['5','6','7','8'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']}},
@@ -42,7 +42,12 @@ const SUBJECT_KNOWN={history:{'RO':{beginner:['4'],lower:['5','6','7','8'],mediu
  // 9-SCI keeps its own course), university Licență I-III (selector years
  // 1..3 are mapped to uni-ba-1..3 by math_national_packs.mjs). Grades 5-8
  // keep the existing programme-aligned course and need no pack.
- math:{'RO':{beginner:['1','2','3','4'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']}}};
+ math:{'RO':{beginner:['1','2','3','4'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']}},
+ // Sciences (index.js scienceYearGroups): RO Biology primary = Științe ale
+ // naturii III–IV, Biology from grade 5, Physics from 6, Chemistry from 7.
+ physics:{'RO':{lower:['6','7','8'],medium:['9','10','11','12']}},
+ chemistry:{'RO':{lower:['7','8'],medium:['9','10','11','12']}},
+ biology:{'RO':{beginner:['3','4'],lower:['5','6','7','8'],medium:['9','10','11','12']}}};
 const LITERATURE_KNOWN={'RO':{beginner:['1','2','3','4'],lower:['5','6','7','8'],medium:['9','10','11','12'],advanced:['uni-ba-1','uni-ba-2','uni-ba-3']},
  'GB-ENG':{beginner:['Y1','Y2','Y3','Y4','Y5','Y6'],lower:['Y7','Y8','Y9'],medium:['Y10','Y11','Y12','Y13']},
  'FR':{beginner:['CP','CE1','CE2','CM1','CM2'],lower:['6e','5e','4e','3e'],medium:['2nde','1re','terminale']}};
@@ -181,6 +186,6 @@ if(isMain){
  }
  const langs=new Set(packs.map(p=>p.country+':'+p.lang));
  const lessons=packs.reduce((n,p)=>n+packLessonKeys(p.pack).length,0),textbookPacks=packs.filter(p=>p.pack.units).length;
- console.log('Verified '+packs.length+' national '+(SUBJECT==='literature'?'Literature':SUBJECT==='history'?'History':SUBJECT==='computing'?'Computing':SUBJECT==='math'?'Math':'Geography')+' packs ('+lessons+' lessons; '+textbookPacks+' in textbook sequence), '+catalog.years.length+' years, '+
+ console.log('Verified '+packs.length+' national '+(SUBJECT==='literature'?'Literature':SUBJECT==='history'?'History':SUBJECT==='computing'?'Computing':SUBJECT==='math'?'Math':SUBJECT==='physics'?'Physics':SUBJECT==='chemistry'?'Chemistry':SUBJECT==='biology'?'Biology':'Geography')+' packs ('+lessons+' lessons; '+textbookPacks+' in textbook sequence), '+catalog.years.length+' years, '+
   new Set(packs.map(p=>p.country)).size+' systems, '+langs.size+' country-languages'+(write?' — written':''));
 }
