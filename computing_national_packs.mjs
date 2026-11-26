@@ -134,6 +134,7 @@ function computingRenderNationalLesson(panel){
  const keys=(pack.units||[]).flatMap(u=>u.keys),next=keys[keys.indexOf(key)+1];
  if(next){const b=computingBtn(computingLabel('Lecția următoare →','Next lesson →'),()=>{computingJourney.topic=next;computingOpen('national-lesson')},'secondary-btn computing-national-next');b.style.cssText='width:100%;margin-top:14px;white-space:normal;';panel.append(b)}
  panel.append(out);
+ if(typeof eduLessonWorkspace==='function')eduLessonWorkspace(panel,{pack,row,lessonKey:key,subject:'computing'});
  return true;
 }
 

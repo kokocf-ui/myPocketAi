@@ -1,3 +1,4 @@
+import {SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT} from './science_review_supplements.mjs';
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
@@ -8914,6 +8915,7 @@ function scienceJourneyShowChoices(stage){
  if(packBanner)panel.append(title,note,packBanner,list);
  else panel.append(title,note,list);
  host.append(panel);
+ if(stage==='topics'&&typeof scienceReviewSupplements==='function')scienceReviewSupplements(panel);
  scienceLocalizeContainer(panel);
  requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
 }
@@ -16052,6 +16054,7 @@ ${LITERATURE_TASK_UI_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
 ${MATH_NATIONAL_PACKS_SCRIPT}
 ${SCIENCE_NATIONAL_PACKS_SCRIPT}
+${SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT}
 ${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}

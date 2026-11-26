@@ -8,13 +8,14 @@ import {fileURLToPath} from 'node:url';
 import {curriculumPackAssetName} from '../curriculum_pack_protocol.mjs';
 import {CURRICULUM_REMOTE_PACK_KEYS} from '../curriculum_pack_manifest.mjs';
 import {EDUCATION_EUROPE_COUNTRIES} from '../education_all_country_subject_matrix.mjs';
-import {literatureLoadAuthoredYear} from '../literature_authored_pack_loader.mjs';
+import {literatureLoadAuthoredYear,literatureLoadNationalYear} from '../literature_authored_pack_loader.mjs';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const source=path.join(root,'public'),dest=path.join(root,'.education-pack-assets');
 const patterns=[
  {dir:'packs',pattern:/^p-[0-9a-f]{24}\.json$/,kind:'year'},
  {dir:'education/literature/profiles',pattern:/^[A-Z-]+\.json$/,kind:'profile'},
- {dir:'education/literature/authored',pattern:/^[A-Z-]+\/[A-Za-z0-9_-]+\.json$/,kind:'authored'},
+ ...['literature','history','geography','computing','math','physics','chemistry','biology'].map(subject=>({dir:'education/'+subject+'/authored',pattern:/^(?:catalog|[A-Z-]+\/[A-Za-z0-9_-]+)\.json$/,kind:'authored'})),
+ {dir:'education/science/review',pattern:/^RO\.json$/,kind:'review'},
  {dir:'education/math/supplements',pattern:/^[A-Z-]+\.json$/,kind:'math'},
  {dir:'education/science/shared',pattern:/^(physics|chemistry|biology|astronomy)\.json$/,kind:'science'}
 ];
@@ -51,11 +52,27 @@ for(const {dir,pattern,kind} of patterns){
   }else if(kind==='profile')valid=data.schema==='mypocket-literature-profile/v1'&&data.country===name&&
     (data.profile===null||(data.profile&&typeof data.profile==='object'&&!Array.isArray(data.profile)))&&data.version===digest(data.profile);
   else if(kind==='authored'){
-   const [country,grade]=name.split('/');
-   valid=data.schema==='mypocket-literature-authored/v2'&&data.sourceLanguage===(country==='HU'?'hu':country==='FR'?'fr':'')&&data.country===country&&data.grade===grade&&typeof data.stage==='string'&&!!data.stage&&
-    data.chapters&&typeof data.chapters==='object'&&!Array.isArray(data.chapters)&&Object.keys(data.chapters).length>0&&data.version===digest(data.chapters);
-   if(valid)try{await literatureLoadAuthoredYear(country,data.stage,grade,{storage:null,fetcher:async()=>({ok:true,json:async()=>data})})}catch{valid=false}
+   if(entry==='catalog.json'){
+    valid=data.schema==='mypocket-literature-authored-catalog/v1'&&Array.isArray(data.years)&&data.version===digest(data.years);
+    if(valid)for(const year of data.years)for(const language of year.languages||[]){
+     const content=JSON.parse(await readFile(path.join(input,year.country,language.file+'.json'),'utf8'));
+     if(content.version!==language.version)valid=false;
+    }
+   }else{
+    const [country,file]=name.split('/');
+    if(/^[a-z]{2,3}-/.test(file)){
+     const lang=file.split('-')[0],subject=dir.split('/')[1];
+     valid=data.schema==='mypocket-literature-authored/v2'&&data.country===country&&data.sourceLanguage===lang&&data.version===digest(data.units?[data.labels||null,data.chapters,data.units]:[data.labels||null,data.chapters]);
+     if(valid)try{await literatureLoadNationalYear({country,stage:data.stage,grade:data.grade,languages:[{lang,file,version:data.version}]},lang,{subject,storage:null,fetcher:async()=>({ok:true,json:async()=>data})})}catch{valid=false}
+    }else{
+     const grade=file;
+     valid=data.schema==='mypocket-literature-authored/v2'&&data.sourceLanguage===(country==='HU'?'hu':country==='FR'?'fr':'')&&data.country===country&&data.grade===grade&&typeof data.stage==='string'&&!!data.stage&&
+      data.chapters&&typeof data.chapters==='object'&&!Array.isArray(data.chapters)&&Object.keys(data.chapters).length>0&&data.version===digest(data.chapters);
+     if(valid)try{await literatureLoadAuthoredYear(country,data.stage,grade,{storage:null,fetcher:async()=>({ok:true,json:async()=>data})})}catch{valid=false}
+    }
+   }
   }
+  else if(kind==='review')valid=data.schema==='mypocket-science-review/v1'&&data.country==='RO'&&data.language==='ro'&&Array.isArray(data.lessons)&&data.lessons.length>0&&data.version===digest(data.lessons);
   else if(kind==='math')valid=data.schema==='mypocket-math-supplements/v1'&&data.country===name&&data.banks&&
     ['bulk','second','final'].every(k=>data.banks[k]&&typeof data.banks[k]==='object'&&!Array.isArray(data.banks[k]))&&data.version===digest(data.banks);
   else if(kind==='science')valid=data.schema==='mypocket-science-shared/v1'&&data.subject===name&&data.topics&&

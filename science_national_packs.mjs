@@ -103,7 +103,9 @@ function scienceNationalRender(stage,host){
    const nextRow=pack.chapters?.[next]?.[pack.language];
    list.append(scienceNationalButton(scienceNationalLabel('Lecția următoare →','Next lesson →'),nextRow?nextRow.title:'',()=>{SCIENCE_NATIONAL.lesson=next;scienceJourneyShowChoices('national-lesson')},'math-national-next','➡️'));
   }
-  panel.append(list,out);host.append(panel);
+  panel.append(list,out);
+  if(typeof eduLessonWorkspace==='function')eduLessonWorkspace(panel,{pack,row,lessonKey,subject:key.subject});
+  host.append(panel);
   return true;
  }
  if(stage!=='topics')return false;

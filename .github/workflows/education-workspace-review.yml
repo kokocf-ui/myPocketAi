@@ -1,0 +1,51 @@
+name: Education workspaces, science review and exam practice
+on:
+  pull_request:
+    paths:
+      - 'index.js'
+      - '*national*.mjs'
+      - 'education_lesson_workspace.mjs'
+      - 'education_pack_service.mjs'
+      - 'tests_exam_curriculum_europe.mjs'
+      - 'exam*.mjs'
+      - 'science_review_supplements.mjs'
+      - 'literature_task_ui.mjs'
+      - 'public/education/science/review/**'
+      - 'scripts/stage_education_pack_assets.mjs'
+      - 'tests_education_review_2026.mjs'
+      - 'tests_education_workspace_browser.mjs'
+      - '.github/workflows/education-workspace-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0
+      - run: npx playwright install --with-deps chromium
+      - name: Data, routing and existing course regressions
+        run: |
+          node tests_education_review_2026.mjs
+          node tests_education_national_reader.mjs
+          node tests_exam_curriculum_europe.mjs
+          node tests_university_admissions.mjs
+          node tests_science_university_complete.mjs
+          node tests_astronomy_complete.mjs
+          node tests_astronomy_highschool_depth.mjs
+          node tests_astronomy_practical_progression.mjs
+          node tests_education_pack_service.mjs
+          node scripts/stage_education_pack_assets.mjs
+      - name: Test the actual production bundle on a mobile viewport
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check
+          node scripts/check_bundled_browser_names.mjs .bundle-check/index.js
+          export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
+          POCKET_BUNDLE=./.bundle-check/index.check.mjs node tests_education_workspace_browser.mjs

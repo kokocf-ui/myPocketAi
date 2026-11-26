@@ -823,6 +823,12 @@ function litSimpleWorkspace(panel){
   sourceLink.href=HUNGARY_ADMISSION_REFERENCES.foreignPupils;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
   panel.append(sourceLink);
  }
+ const workspacePack=typeof LIT_NATIONAL_YEAR==='object'?LIT_NATIONAL_YEAR.pack:null;
+ const workspaceKey=String(topic[0]||'');
+ if(branch==='program'&&workspacePack?.country===litJourney.country&&workspacePack.stage===litJourney.level&&workspacePack.grade===String(litJourney.grade)&&typeof eduLessonWorkspace==='function'){
+  const row=workspacePack.chapters?.[workspaceKey]?.[workspacePack.language];
+  if(row)eduLessonWorkspace(panel,{pack:workspacePack,row,lessonKey:workspaceKey,subject:'literature'});
+ }
  const grammarAnalysis=branch==='grammar'&&litJourney.topic==='ro-grammar-analysis';
  const needsInput=['analysis','writing'].includes(branch)||grammarAnalysis||(branch==='vocabulary'&&litJourney.topic==='dictionary');
  const request=needsInput?litSimpleNode(branch==='vocabulary'?'input':'textarea','','lit-input lit-activity-input'):null;

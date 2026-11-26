@@ -103,7 +103,9 @@ function mathNationalRender(stage,host){
    const nextRow=pack.chapters?.[next]?.[pack.language];
    list.append(mathNationalButton(mathNationalLabel('Lecția următoare →','Next lesson →'),nextRow?nextRow.title:'',()=>{MATH_NATIONAL.lesson=next;mathJourneyShowChoices('national-lesson')},'math-national-next','➡️'));
   }
-  panel.append(list,out);host.append(panel);
+  panel.append(list,out);
+  if(typeof eduLessonWorkspace==='function')eduLessonWorkspace(panel,{pack,row,lessonKey,subject:'math'});
+  host.append(panel);
   return true;
  }
  if(stage!=='branches')return false;

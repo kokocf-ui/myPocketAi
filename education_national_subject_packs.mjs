@@ -89,6 +89,7 @@ function hgRenderNationalLesson(panel){
   },'secondary-btn hg-choice hg-national-action'));
  }
  panel.append(actions,out);
+ if(typeof eduLessonWorkspace==='function')eduLessonWorkspace(panel,{pack,row,lessonKey:key,subject:pack.subject});
  return true;
 }
 
