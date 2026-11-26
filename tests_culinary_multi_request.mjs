@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {evaFarewellIntent,evaFarewellFallback,evaFarewellReply} from './eva_farewell.mjs';
 import {assistantUnderstandRequest} from './assistant_understanding.mjs';
 import {parseCulinaryRequest,recipeDishKeywords,recipeSpeciesCompatible,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
 import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from './social_feedback.mjs';
@@ -93,8 +94,10 @@ const casualEnd=index.indexOf('function requestUsesLocation(text){',uiEnd);
 const locationEnd=index.indexOf('async function coordinatesForRequest(text){',casualEnd);
 const needsStart=index.indexOf('function needsLocation(text){',locationEnd);
 assert.ok(uiStart>=0&&uiEnd>uiStart&&casualEnd>uiEnd&&locationEnd>casualEnd);
-const uiContext=vm.createContext({needsLocation:()=>false,state:{currentView:'assistant'},assistantUnderstandRequest});
-vm.runInContext(index.slice(uiStart,locationEnd),uiContext);
+const uiContext=vm.createContext({needsLocation:()=>false,state:{currentView:'assistant'},assistantUnderstandRequest,evaFarewellIntent,evaFarewellFallback,evaFarewellReply});
+// Shared functions are injected above: do not evaluate Worker template markers as JS.
+const uiFixture=index.slice(uiStart,locationEnd).replace(/\$\{evaFarewell(?:Intent|Fallback|Reply)\.toString\(\)\}/g,'');
+vm.runInContext(uiFixture,uiContext);
 for(const sentence of ['Găsește-mi trei rețete de guacamole','Arată-mi o rețetă de sarmale','Find three guacamole recipes']){
  assert.equal(vm.runInContext('isRecipeQuestion('+JSON.stringify(sentence)+')',uiContext),true,sentence);
  assert.equal(vm.runInContext('requestUsesLocation('+JSON.stringify(sentence)+')',uiContext),false,sentence);
