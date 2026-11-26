@@ -1,0 +1,1429 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "5",
+ "version": "7c77459d219da638b4b29261b772ae9d6fee133cdbfdd51ed0c578702f010377",
+ "source": "https://www.edu.ro/Ordin_ministru_3393_2017",
+ "sourceTitle": "Programa școlară pentru disciplina Matematică, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 (Anexa 2) — clasa a V-a: numere naturale (operații, puteri, baza 2, ordinea operațiilor), metode aritmetice, divizibilitate, fracții ordinare, fracții zecimale, organizarea datelor, elemente de geometrie și unități de măsură; unitățile urmează manualele aprobate de Matematică clasa a V-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a V-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Numere naturale și operații cu numere naturale",
+   "keys": [
+    "eu-year-ro-lower-5-l01",
+    "eu-year-ro-lower-5-l02",
+    "eu-year-ro-lower-5-l03",
+    "eu-year-ro-lower-5-l04",
+    "eu-year-ro-lower-5-l05",
+    "eu-year-ro-lower-5-l06",
+    "eu-year-ro-lower-5-l07",
+    "eu-year-ro-lower-5-l08",
+    "eu-year-ro-lower-5-l09",
+    "eu-year-ro-lower-5-l10"
+   ]
+  },
+  {
+   "title": "Metode aritmetice de rezolvare a problemelor",
+   "keys": [
+    "eu-year-ro-lower-5-l11",
+    "eu-year-ro-lower-5-l12",
+    "eu-year-ro-lower-5-l13",
+    "eu-year-ro-lower-5-l14",
+    "eu-year-ro-lower-5-l15"
+   ]
+  },
+  {
+   "title": "Divizibilitatea numerelor naturale",
+   "keys": [
+    "eu-year-ro-lower-5-l16",
+    "eu-year-ro-lower-5-l17",
+    "eu-year-ro-lower-5-l18"
+   ]
+  },
+  {
+   "title": "Fracții ordinare",
+   "keys": [
+    "eu-year-ro-lower-5-l19",
+    "eu-year-ro-lower-5-l20",
+    "eu-year-ro-lower-5-l21",
+    "eu-year-ro-lower-5-l22",
+    "eu-year-ro-lower-5-l23",
+    "eu-year-ro-lower-5-l24",
+    "eu-year-ro-lower-5-l25"
+   ]
+  },
+  {
+   "title": "Fracții zecimale",
+   "keys": [
+    "eu-year-ro-lower-5-l26",
+    "eu-year-ro-lower-5-l27",
+    "eu-year-ro-lower-5-l28",
+    "eu-year-ro-lower-5-l29",
+    "eu-year-ro-lower-5-l30",
+    "eu-year-ro-lower-5-l31"
+   ]
+  },
+  {
+   "title": "Organizarea și reprezentarea datelor",
+   "keys": [
+    "eu-year-ro-lower-5-l32"
+   ]
+  },
+  {
+   "title": "Elemente de geometrie și unități de măsură",
+   "keys": [
+    "eu-year-ro-lower-5-l33",
+    "eu-year-ro-lower-5-l34",
+    "eu-year-ro-lower-5-l35",
+    "eu-year-ro-lower-5-l36",
+    "eu-year-ro-lower-5-l37",
+    "eu-year-ro-lower-5-l38"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-5-l01": {
+   "ro": {
+    "title": "Scrierea, citirea, compararea și reprezentarea numerelor naturale pe axă",
+    "theory": "Numerele naturale sunt 0, 1, 2, 3, … și se scriu în sistemul zecimal cu cifrele 0–9; valoarea unei cifre depinde de poziția ei (ordin): 5 382 = 5·1000 + 3·100 + 8·10 + 2. Comparăm întâi numărul de cifre, apoi cifrele de la stânga la dreapta. Pe axa numerelor, un număr mai mare se află mai la dreapta; succesorul lui n este n + 1, predecesorul (pentru n ≥ 1) este n − 1.",
+    "sample": "Între 2 019 și 2 091, primul este mai mic: miile și sutele sunt egale, iar zecile 1 < 9.",
+    "worked": "Scriem descompunerea lui 70 406: 7·10 000 + 0·1000 + 4·100 + 0·10 + 6. Pe o axă cu unitatea de 1 cm, numărul 4 se află la 4 cm de origine, iar 7 la dreapta lui 4, deci 4 < 7.",
+    "exercises": [
+     "Scrie cu cifre: două milioane trei sute mii cinci.",
+     "Descompune în baza 10 numărul 908 070.",
+     "Ordonează crescător: 10 101, 10 011, 11 001, 10 110.",
+     "Reprezintă pe axă numerele 0, 2, 5, 8 și precizează care e cel mai mare.",
+     "Câte numere naturale de trei cifre există?"
+    ],
+    "test": [
+     "Care este succesorul lui 99 999?",
+     "Care este predecesorul lui 1 000?",
+     "Pune semnul: 45 678 … 45 687.",
+     "Ce valoare are cifra 3 în 734 512?",
+     "Este 0 număr natural?"
+    ],
+    "steps": [
+     "Desparte numărul în clase de câte trei cifre.",
+     "Compară numărul de cifre, apoi cifră cu cifră de la stânga.",
+     "Pe axă, numărul mai mare se așază mai la dreapta.",
+     "Greșeala frecventă: să compari numerele după prima cifră fără să numeri cifrele (9 999 nu e mai mare decât 10 000)."
+    ],
+    "answers": [
+     "100 000",
+     "999",
+     "<",
+     "30 000",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l02": {
+   "ro": {
+    "title": "Aproximarea, rotunjirea și estimarea numerelor naturale",
+    "theory": "A aproxima prin lipsă la zeci înseamnă a lua cel mai mare multiplu de 10 mai mic sau egal cu numărul; prin adaos, cel mai mic multiplu de 10 mai mare sau egal. Rotunjirea alege aproximarea cea mai apropiată: dacă cifra de după ordinul ales este 5 sau mai mare, rotunjim în sus. Estimăm rezultatul unui calcul înlocuind numerele cu rotunjirile lor.",
+    "sample": "Pentru 3 847: aproximarea prin lipsă la sute este 3 800, prin adaos 3 900, rotunjirea 3 800.",
+    "worked": "Estimăm 4 978 + 3 021: rotunjim la mii, 5 000 + 3 000 = 8 000. Calculul exact dă 7 999, foarte aproape, deci rezultatul exact este plauzibil.",
+    "exercises": [
+     "Aproximează 56 734 prin lipsă și prin adaos la mii.",
+     "Rotunjește 249 999 la zeci de mii.",
+     "Estimează produsul 49 · 21.",
+     "Scrie toate numerele naturale care rotunjite la zeci dau 70.",
+     "Un magazin a încasat 19 870 lei și 30 240 lei. Estimează totalul."
+    ],
+    "test": [
+     "Rotunjește 1 450 la sute.",
+     "Aproximează prin lipsă la zeci: 1 457.",
+     "Aproximează prin adaos la zeci: 1 451.",
+     "Estimează 398 + 603.",
+     "Rotunjește 9 995 la zeci."
+    ],
+    "steps": [
+     "Alege ordinul (zeci, sute, mii).",
+     "Privește cifra imediat din dreapta acelui ordin.",
+     "Decide: prin lipsă, prin adaos sau cea mai apropiată (rotunjire).",
+     "Greșeala frecventă: să confunzi aproximarea prin adaos cu rotunjirea (1 451 rotunjit la zeci este 1 450, nu 1 460)."
+    ],
+    "answers": [
+     "1 500",
+     "1 450",
+     "1 460",
+     "1 000",
+     "10 000"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l03": {
+   "ro": {
+    "title": "Adunarea și scăderea numerelor naturale; proprietăți",
+    "theory": "Adunarea este comutativă (a + b = b + a), asociativă ((a + b) + c = a + (b + c)) și are elementul neutru 0. Scăderea a − b se poate face în ℕ doar dacă a ≥ b; ea nu este comutativă. Folosim proprietățile pentru calcule rapide, iar proba scăderii este adunarea.",
+    "sample": "Suma 1 + 2 + 3 + … + 10 se calculează grupând perechi: (1 + 10) + (2 + 9) + … = 5 · 11 = 55.",
+    "worked": "Calculăm 1 + 2 + … + 100: avem 50 de perechi cu suma 101, deci 50 · 101 = 5 050. Verificăm cu formula lui Gauss: n(n + 1) : 2 = 100 · 101 : 2 = 5 050.",
+    "exercises": [
+     "Calculează rapid: 347 + 589 + 653 + 411.",
+     "Calculează 1 + 2 + 3 + … + 50.",
+     "Află x: x − 2 345 = 6 789.",
+     "Calculează 2 + 4 + 6 + … + 40.",
+     "Dă un exemplu care arată că scăderea nu este comutativă."
+    ],
+    "test": [
+     "Cât este 0 + 2 026?",
+     "Cât este 1 + 2 + … + 20?",
+     "Este a − b definită în ℕ dacă a < b?",
+     "Cum se face proba scăderii?",
+     "Cât este 999 + 1 + 499 + 1?"
+    ],
+    "steps": [
+     "Caută termeni care împreună dau numere rotunde.",
+     "Grupează-i folosind comutativitatea și asociativitatea.",
+     "La sume de numere consecutive, folosește perechile sau formula n(n + 1) : 2.",
+     "Greșeala frecventă: să aplici formula lui Gauss la o sumă care nu începe de la 1 sau care sare din 2 în 2 fără să o adaptezi."
+    ],
+    "answers": [
+     "2 026",
+     "210",
+     "Nu",
+     "Adunând diferența cu scăzătorul",
+     "1 500"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l04": {
+   "ro": {
+    "title": "Înmulțirea numerelor naturale; scoaterea factorului comun",
+    "theory": "Înmulțirea este comutativă, asociativă, are elementul neutru 1, iar orice număr înmulțit cu 0 dă 0. Este distributivă față de adunare și scădere: a·(b + c) = a·b + a·c. Citită invers, regula permite scoaterea factorului comun: a·b + a·c = a·(b + c), foarte utilă la calcul rapid.",
+    "sample": "37·25 + 37·75 = 37·(25 + 75) = 37·100 = 3 700.",
+    "worked": "Calculăm 125·46 − 125·38 = 125·(46 − 38) = 125·8 = 1 000. Fără factor comun am fi calculat 5 750 − 4 750 = 1 000, mai lung.",
+    "exercises": [
+     "Calculează dând factor comun: 48·17 + 48·83.",
+     "Calculează: 99·46 + 46.",
+     "Calculează: 2·3·5·4·25.",
+     "Scrie ca produs: 7a + 7b + 7c.",
+     "Calculează: 1 001·73 − 73."
+    ],
+    "test": [
+     "Cât este 25·4·17?",
+     "Cât este 13·0·999?",
+     "Cât este 56·11 − 56?",
+     "Ce proprietate este a·(b + c) = a·b + a·c?",
+     "Cât este 1·2 026?"
+    ],
+    "steps": [
+     "Caută factorul care apare în toți termenii.",
+     "Scrie-l o singură dată, înaintea parantezei.",
+     "În paranteză scrie ce rămâne din fiecare termen și calculează.",
+     "Greșeala frecventă: la 99·46 + 46 să uiți că al doilea termen este 46·1, deci rezultatul este 46·100, nu 46·99."
+    ],
+    "answers": [
+     "1 700",
+     "0",
+     "560",
+     "Distributivitatea",
+     "2 026"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l05": {
+   "ro": {
+    "title": "Împărțirea exactă și împărțirea cu rest",
+    "theory": "Împărțirea exactă a : b = c (b ≠ 0) înseamnă a = b·c. La împărțirea cu rest, pentru orice a și b ≠ 0 există unici c (cât) și r (rest) astfel încât a = b·c + r și r < b (teorema împărțirii cu rest). Împărțirea la 0 nu are sens.",
+    "sample": "47 : 6 = 7 rest 5, pentru că 47 = 6·7 + 5 și 5 < 6.",
+    "worked": "Aflăm numerele care împărțite la 5 dau câtul 8: a = 5·8 + r, cu r ∈ {0, 1, 2, 3, 4}, deci a ∈ {40, 41, 42, 43, 44}. Cel mai mare este 44.",
+    "exercises": [
+     "Efectuează și fă proba: 9 876 : 12.",
+     "Scrie teorema împărțirii cu rest pentru 100 : 7.",
+     "Află numerele care împărțite la 4 dau câtul 15.",
+     "Care este cel mai mare rest posibil la împărțirea la 13?",
+     "Un număr împărțit la 9 dă câtul 11 și restul 8. Care este numărul?"
+    ],
+    "test": [
+     "Cât este câtul și restul la 50 : 8?",
+     "Poate restul la împărțirea la 6 să fie 6?",
+     "Ce număr dă câtul 3 și restul 2 la împărțirea la 7?",
+     "Cât este 0 : 25?",
+     "Are sens 25 : 0?"
+    ],
+    "steps": [
+     "Află câtul: cel mai mare număr c cu b·c ≤ a.",
+     "Calculează restul r = a − b·c.",
+     "Verifică r < b și fă proba a = b·c + r.",
+     "Greșeala frecventă: să lași un rest mai mare sau egal cu împărțitorul; atunci câtul a fost ales prea mic."
+    ],
+    "answers": [
+     "6 rest 2",
+     "Nu",
+     "23",
+     "0",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l06": {
+   "ro": {
+    "title": "Puterea cu exponent natural; pătratul și cubul",
+    "theory": "Puterea aⁿ înseamnă produsul a n factori egali cu a: 2⁵ = 2·2·2·2·2 = 32. a se numește bază, n exponent. Prin convenție a¹ = a și a⁰ = 1 pentru a ≠ 0; 0⁰ nu are sens. a² se citește „a la pătrat”, a³ „a la cub”. Numerele de forma n² sunt pătrate perfecte.",
+    "sample": "Aria unui pătrat cu latura de 7 cm este 7² = 49 cm², iar volumul unui cub cu muchia 3 cm este 3³ = 27 cm³.",
+    "worked": "Calculăm 3⁴ = 3·3·3·3 = 81, nu 3·4 = 12. Calculăm 10⁶ = 1 000 000 (1 urmat de 6 zerouri) și 1²⁰²⁶ = 1.",
+    "exercises": [
+     "Calculează: 2⁶, 5³, 10⁴, 7⁰, 1¹⁰⁰.",
+     "Scrie ca putere: 6·6·6·6·6.",
+     "Scrie primele 10 pătrate perfecte nenule.",
+     "Este 2 026 pătrat perfect? Explică (44² = 1 936, 45² = 2 025).",
+     "Calculează 0⁵ și 5⁰."
+    ],
+    "test": [
+     "Cât este 2³?",
+     "Cât este 9²?",
+     "Cât este 2 026⁰?",
+     "Care este baza în 7⁴?",
+     "Cât este 10³?"
+    ],
+    "steps": [
+     "Identifică baza și exponentul.",
+     "Scrie produsul cu atâția factori câți arată exponentul.",
+     "Calculează pas cu pas.",
+     "Greșeala frecventă: să înmulțești baza cu exponentul (3⁴ = 12). Corect: 3⁴ = 81."
+    ],
+    "answers": [
+     "8",
+     "81",
+     "1",
+     "7",
+     "1 000"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l07": {
+   "ro": {
+    "title": "Reguli de calcul cu puteri",
+    "theory": "Pentru a, b nenuli și m, n naturale: aᵐ·aⁿ = aᵐ⁺ⁿ; aᵐ : aⁿ = aᵐ⁻ⁿ (m ≥ n); (aᵐ)ⁿ = aᵐ·ⁿ; (a·b)ⁿ = aⁿ·bⁿ; (a : b)ⁿ = aⁿ : bⁿ (când împărțirea este exactă). Regulile se aplică doar când bazele sunt aceleași (la produs/cât) sau exponenții sunt aceiași (la produs de baze diferite).",
+    "sample": "2³·2⁵ = 2⁸ = 256, iar (2³)² = 2⁶ = 64.",
+    "worked": "Calculăm (5¹²·5⁸) : (5⁴)⁴ = 5²⁰ : 5¹⁶ = 5⁴ = 625. Calculăm 2¹⁰·5¹⁰ = (2·5)¹⁰ = 10¹⁰.",
+    "exercises": [
+     "Scrie ca o singură putere: 3⁷·3⁵ : 3⁹.",
+     "Calculează: (2⁴)³ : 2¹⁰.",
+     "Calculează: 4⁵·25⁵.",
+     "Scrie 8⁴ ca putere a lui 2.",
+     "Calculează: (7¹⁵ : 7¹³)² − 7³ : 7."
+    ],
+    "test": [
+     "Cât este 10²·10³?",
+     "Cât este 2⁹ : 2⁶?",
+     "Cât este (3²)²?",
+     "Cât este 2⁵·5⁵?",
+     "Scrie 9³ ca putere a lui 3."
+    ],
+    "steps": [
+     "Verifică dacă bazele sunt aceleași.",
+     "Aplică regula potrivită: aduni, scazi sau înmulțești exponenții.",
+     "Calculează puterea finală doar la sfârșit.",
+     "Greșeala frecventă: să înmulțești exponenții la produs (2³·2⁵ = 2¹⁵). La produs de puteri cu aceeași bază exponenții se adună: 2⁸."
+    ],
+    "answers": [
+     "100 000",
+     "8",
+     "81",
+     "100 000",
+     "3⁶"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l08": {
+   "ro": {
+    "title": "Compararea puterilor și ultima cifră a unei puteri",
+    "theory": "Dintre două puteri cu aceeași bază (mai mare decât 1), mai mare este cea cu exponentul mai mare. Dintre două puteri cu același exponent, mai mare este cea cu baza mai mare. Când nu avem nici una, nici alta, le aducem la aceeași bază sau același exponent. Ultima cifră a puterilor se repetă periodic: pentru 2 este 2, 4, 8, 6, 2, …",
+    "sample": "Comparăm 2³⁰ și 3²⁰: 2³⁰ = (2³)¹⁰ = 8¹⁰ și 3²⁰ = (3²)¹⁰ = 9¹⁰, deci 2³⁰ < 3²⁰.",
+    "worked": "Ultima cifră a lui 7²⁰²⁶: puterile lui 7 se termină în 7, 9, 3, 1 (perioada 4). 2026 = 4·506 + 2, deci ultima cifră este a doua din ciclu: 9.",
+    "exercises": [
+     "Compară: 5²⁰ și 5¹⁹; 7¹⁰ și 6¹⁰.",
+     "Compară: 2⁴⁵ și 3³⁰.",
+     "Află ultima cifră a lui 3²⁰²⁶.",
+     "Află ultima cifră a lui 2¹⁰⁰ + 5¹⁰⁰.",
+     "Ordonează crescător: 2⁶⁰, 3⁴⁰, 5²⁰."
+    ],
+    "test": [
+     "Care e mai mare: 2¹⁰ sau 2⁹?",
+     "Care e mai mare: 4⁵ sau 3⁵?",
+     "Ce ultimă cifră are 5²⁰²⁶?",
+     "Ce ultimă cifră are 10⁷?",
+     "Care este perioada ultimei cifre pentru puterile lui 2?"
+    ],
+    "steps": [
+     "Verifică dacă bazele sau exponenții coincid.",
+     "Dacă nu, scrie puterile cu un exponent comun (sau o bază comună).",
+     "Pentru ultima cifră, găsește ciclul și restul împărțirii exponentului la lungimea ciclului.",
+     "Greșeala frecventă: la ultima cifră, rest 0 înseamnă ultima cifră din ciclu, nu prima."
+    ],
+    "answers": [
+     "2¹⁰",
+     "4⁵",
+     "5",
+     "0",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l09": {
+   "ro": {
+    "title": "Scrierea numerelor naturale în baza 10 și în baza 2",
+    "theory": "În baza 10 folosim cifrele 0–9 și puterile lui 10. În baza 2 folosim doar cifrele 0 și 1 și puterile lui 2: 1, 2, 4, 8, 16, 32, … De exemplu 1011₍₂₎ = 1·8 + 0·4 + 1·2 + 1·1 = 11. Pentru a trece din baza 10 în baza 2 împărțim repetat la 2 și citim resturile de jos în sus.",
+    "sample": "Calculatoarele lucrează în baza 2: un bec aprins înseamnă 1, stins înseamnă 0.",
+    "worked": "Trecem 13 în baza 2: 13 : 2 = 6 rest 1; 6 : 2 = 3 rest 0; 3 : 2 = 1 rest 1; 1 : 2 = 0 rest 1. Citim resturile de jos în sus: 1101₍₂₎. Verificăm: 8 + 4 + 0 + 1 = 13.",
+    "exercises": [
+     "Scrie în baza 10: 10101₍₂₎ și 111111₍₂₎.",
+     "Scrie în baza 2: 25 și 64.",
+     "Scrie descompunerea lui 4 027 după puterile lui 10.",
+     "Care este cel mai mare număr de 4 cifre scris în baza 2?",
+     "Ce număr este 1000000₍₂₎?"
+    ],
+    "test": [
+     "Ce cifre se folosesc în baza 2?",
+     "Cât este 101₍₂₎ în baza 10?",
+     "Cum se scrie 8 în baza 2?",
+     "Cât este 11₍₂₎?",
+     "În ce ordine citim resturile la trecerea în baza 2?"
+    ],
+    "steps": [
+     "Scrie puterile lui 2 sub cifre, de la dreapta spre stânga.",
+     "Adună puterile corespunzătoare cifrelor 1.",
+     "Pentru drumul invers, împarte repetat la 2 și citește resturile de jos în sus.",
+     "Greșeala frecventă: să citești resturile de sus în jos (13 devine 1011 în loc de 1101)."
+    ],
+    "answers": [
+     "0 și 1",
+     "5",
+     "1000₍₂₎",
+     "3",
+     "De jos în sus"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l10": {
+   "ro": {
+    "title": "Ordinea efectuării operațiilor și folosirea parantezelor",
+    "theory": "Ordinea operațiilor: întâi puterile, apoi înmulțirile și împărțirile (de la stânga la dreapta), la final adunările și scăderile (de la stânga la dreapta). Parantezele se rezolvă din interior spre exterior: rotunde, apoi drepte [ ], apoi acolade { }.",
+    "sample": "2 + 3·4² = 2 + 3·16 = 2 + 48 = 50.",
+    "worked": "Calculăm {2⁴ + [3·(16 − 9) : 7]²} : 5. Paranteza rotundă: 16 − 9 = 7. Paranteza dreaptă: 3·7 : 7 = 3, iar 3² = 9. Acolada: 2⁴ + 9 = 16 + 9 = 25. La final: 25 : 5 = 5.",
+    "exercises": [
+     "Calculează: 100 − 4·3² + 18 : 3.",
+     "Calculează: [(2³ + 2) · 5 − 25]² : 5.",
+     "Calculează: {3 + 2·[5 + (7 − 3)²]} − 40.",
+     "Pune paranteze pentru ca 2 + 3·4 − 1 să dea 19.",
+     "Calculează: 2¹⁰ : 2⁸ + 3⁰ · 5."
+    ],
+    "test": [
+     "Cât este 2 + 3·4?",
+     "Cât este (2 + 3)·4?",
+     "Cât este 20 : 4·5?",
+     "Ce se face prima: puterea sau înmulțirea?",
+     "Cât este 3 + 2³?"
+    ],
+    "steps": [
+     "Rezolvă parantezele din interior spre exterior.",
+     "În fiecare paranteză: puteri, apoi înmulțiri/împărțiri, apoi adunări/scăderi.",
+     "Operațiile de același rang se fac de la stânga la dreapta.",
+     "Greșeala frecventă: 20 : 4·5 = 20 : 20 = 1. Corect, de la stânga: 5·5 = 25."
+    ],
+    "answers": [
+     "14",
+     "20",
+     "25",
+     "Puterea",
+     "11"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l11": {
+   "ro": {
+    "title": "Metoda reducerii la unitate",
+    "theory": "Se aplică problemelor în care două mărimi sunt direct proporționale (sau invers proporționale). Aflăm întâi valoarea care corespunde unei unități, apoi înmulțim (sau împărțim) pentru cantitatea cerută. Datele se scriu ordonat, pe rânduri, cu aceleași unități de măsură una sub alta.",
+    "sample": "6 caiete costă 42 lei; un caiet costă 7 lei; 15 caiete costă 105 lei.",
+    "worked": "Problema inversă: 4 muncitori termină o lucrare în 12 zile. În câte zile o termină 6 muncitori, lucrând la fel? 1 muncitor ar lucra 4·12 = 48 de zile; 6 muncitori: 48 : 6 = 8 zile.",
+    "exercises": [
+     "8 kg de mere costă 36 lei. Cât costă 5 kg?",
+     "Un robinet umple 120 l în 8 minute. Câți litri umple în 15 minute?",
+     "3 pompe golesc un bazin în 10 ore. În cât timp îl golesc 5 pompe?",
+     "Cu 600 de lei se cumpără 15 cărți la fel. Câte cărți se cumpără cu 1 000 de lei?",
+     "Un autoturism consumă 6 l la 100 km. Cât consumă la 350 km?"
+    ],
+    "test": [
+     "5 pixuri costă 20 lei. Cât costă un pix?",
+     "În aceeași situație, cât costă 9 pixuri?",
+     "2 muncitori fac o lucrare în 6 zile. Câte zile i-ar trebui unuia?",
+     "Care este primul pas al metodei?",
+     "10 l de lapte costă 60 lei. Cât costă 3 l?"
+    ],
+    "steps": [
+     "Scrie datele pe două rânduri, cu aceleași mărimi una sub alta.",
+     "Află valoarea pentru o unitate (împărțind sau înmulțind).",
+     "Calculează valoarea pentru cantitatea cerută și verifică dacă e logică.",
+     "Greșeala frecventă: la mărimi invers proporționale (muncitori–zile) să procedezi ca la cele directe; mai mulți muncitori termină mai repede."
+    ],
+    "answers": [
+     "4 lei",
+     "36 lei",
+     "12 zile",
+     "Aflu cât corespunde unei unități",
+     "18 lei"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l12": {
+   "ro": {
+    "title": "Metoda comparației",
+    "theory": "Se folosește când avem două situații cu aceleași mărimi necunoscute în cantități diferite. Aducem una dintre mărimi la aceeași cantitate în ambele situații (prin înmulțire), apoi scădem situațiile: rămâne o singură mărime necunoscută, pe care o aflăm.",
+    "sample": "3 caiete și 2 pixuri costă 26 lei; 3 caiete și 5 pixuri costă 38 lei. Diferența, 3 pixuri, costă 12 lei, deci un pix costă 4 lei, iar un caiet (26 − 8) : 3 = 6 lei.",
+    "worked": "4 kg de mere și 3 kg de pere costă 34 lei; 2 kg de mere și 5 kg de pere costă 38 lei. Dublăm a doua situație: 4 kg de mere și 10 kg de pere costă 76 lei. Scădem prima: 7 kg de pere costă 42 lei, deci 1 kg de pere costă 6 lei. Din prima situație: 4 kg de mere costă 34 − 18 = 16 lei, deci 1 kg de mere costă 4 lei.",
+    "exercises": [
+     "2 kg de cafea și 3 kg de zahăr costă 98 lei; 2 kg de cafea și 5 kg de zahăr costă 110 lei. Află prețurile.",
+     "5 mingi și 3 rachete costă 270 lei; 2 mingi și 3 rachete costă 180 lei. Află prețurile.",
+     "3 cărți și 4 caiete costă 62 lei; 6 cărți și 5 caiete costă 100 lei. Află prețurile.",
+     "Verifică soluția problemei cu mere și pere din exemplu.",
+     "Compune o problemă care se rezolvă prin metoda comparației."
+    ],
+    "test": [
+     "Ce faci întâi la metoda comparației?",
+     "Ce rămâne după scăderea situațiilor?",
+     "În exemplul final, cât costă 1 kg de pere?",
+     "În exemplul final, cât costă 1 kg de mere?",
+     "Cum verifici soluția?"
+    ],
+    "steps": [
+     "Scrie cele două situații una sub alta.",
+     "Fă egală cantitatea uneia dintre mărimi în ambele situații.",
+     "Scade situațiile și află mărimea rămasă; apoi înlocuiește pentru cealaltă.",
+     "Greșeala frecventă: să scazi situațiile fără să fi egalat o mărime; rămân două necunoscute."
+    ],
+    "answers": [
+     "Egalez cantitatea unei mărimi în ambele situații",
+     "O singură mărime necunoscută",
+     "6 lei",
+     "4 lei",
+     "Înlocuiesc prețurile în ambele situații"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l13": {
+   "ro": {
+    "title": "Metoda figurativă",
+    "theory": "Reprezentăm mărimile necunoscute prin segmente. Folosim metoda pentru probleme de sumă și diferență (numărul mic = (S − D) : 2) și de sumă și raport (dacă unul este de k ori mai mare: numărul mic = S : (k + 1)). Desenul arată clar părțile egale.",
+    "sample": "Două numere au suma 90 și diferența 16: (90 − 16) : 2 = 37 și 37 + 16 = 53.",
+    "worked": "Un tată are 44 de ani, fiul 12. Peste câți ani tatăl va avea de 3 ori vârsta fiului? Diferența de vârstă rămâne 32 de ani. Când tatăl are de 3 ori vârsta fiului, diferența este 2 părți: 32 : 2 = 16 ani are fiul. Deci peste 16 − 12 = 4 ani.",
+    "exercises": [
+     "Suma a două numere este 156, iar unul este de 5 ori mai mare. Află numerele.",
+     "Suma a trei numere este 110; al doilea este cu 10 mai mare decât primul, al treilea cu 15 mai mare decât al doilea. Află numerele.",
+     "Diferența a două numere este 48, iar unul este de 4 ori mai mare. Află numerele.",
+     "Mama are 36 de ani, fiica 8. Peste câți ani mama va avea de 3 ori vârsta fiicei?",
+     "Desenează segmentele pentru prima problemă."
+    ],
+    "test": [
+     "Sumă 40, diferență 10: numărul mic?",
+     "Sumă 40, unul de 3 ori mai mare: numărul mic?",
+     "Diferență 30, unul de 4 ori mai mare: numărul mic?",
+     "Se schimbă diferența de vârstă cu trecerea anilor?",
+     "Care este primul pas al metodei figurative?"
+    ],
+    "steps": [
+     "Desenează un segment pentru numărul cel mai mic.",
+     "Construiește celelalte numere din segmente egale și surplusuri.",
+     "Elimină surplusurile, împarte la numărul de părți egale și verifică.",
+     "Greșeala frecventă: la probleme de vârstă să uiți că diferența dintre vârste rămâne aceeași."
+    ],
+    "answers": [
+     "15",
+     "10",
+     "10",
+     "Nu",
+     "Desenez un segment pentru numărul mic"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l14": {
+   "ro": {
+    "title": "Metoda mersului invers",
+    "theory": "Se aplică atunci când știm rezultatul final al unor operații succesive făcute asupra unui număr necunoscut. Pornim de la rezultat și efectuăm operațiile inverse în ordine inversă: adunarea devine scădere, înmulțirea devine împărțire, „jumătate” devine dublare.",
+    "sample": "Un număr mărit cu 5, apoi înmulțit cu 3, dă 48: 48 : 3 = 16, 16 − 5 = 11.",
+    "worked": "Ana cheltuie jumătate din bani și încă 4 lei la librărie, apoi jumătate din rest și încă 2 lei la cofetărie; îi rămân 10 lei. Înainte de cofetărie: (10 + 2)·2 = 24 lei. La început: (24 + 4)·2 = 56 lei. Verificare: 56 → 28 − 4 = 24 → 12 − 2 = 10.",
+    "exercises": [
+     "Un număr înmulțit cu 4, micșorat cu 7, apoi împărțit la 3 dă 11. Află numărul.",
+     "Un elev citește în prima zi jumătate din carte, în a doua jumătate din rest, în a treia 30 de pagini și termină. Câte pagini are cartea?",
+     "Dintr-un coș s-a luat o treime din mere și încă 2, apoi jumătate din rest; au rămas 8 mere. Câte au fost?",
+     "Scrie schema operațiilor directe și inverse pentru prima problemă.",
+     "Compune o problemă cu mersul invers."
+    ],
+    "test": [
+     "Care este inversa înmulțirii?",
+     "Care este inversa lui „jumătate din”?",
+     "Un număr împărțit la 5 dă 9. Care este?",
+     "Un număr micșorat cu 12 dă 30. Care este?",
+     "De unde pornești?"
+    ],
+    "steps": [
+     "Scrie operațiile în ordinea din enunț.",
+     "Pornește de la rezultat și parcurge lista de la coadă la cap.",
+     "Fă la fiecare pas operația inversă și verifică la final.",
+     "Greșeala frecventă: la „jumătate din bani și încă 4 lei” să inversezi pașii: întâi aduni 4, apoi dublezi."
+    ],
+    "answers": [
+     "Împărțirea",
+     "Dublarea (înmulțirea cu 2)",
+     "45",
+     "42",
+     "De la rezultatul final"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l15": {
+   "ro": {
+    "title": "Metoda falsei ipoteze",
+    "theory": "Presupunem că toate obiectele sunt de același fel, calculăm rezultatul în această ipoteză și îl comparăm cu cel real. Diferența dintre rezultatul real și cel presupus, împărțită la diferența dintre valorile celor două feluri de obiecte, dă numărul obiectelor de celălalt fel.",
+    "sample": "Într-o curte sunt 20 de găini și iepuri cu 56 de picioare: presupunem 20 de găini (40 de picioare), lipsesc 16, deci 16 : 2 = 8 iepuri.",
+    "worked": "Cu 32 de bancnote de 10 lei și 50 lei s-au plătit 800 lei. Presupunem că toate sunt de 10 lei: 320 lei. Diferența 480 lei; o bancnotă de 50 aduce 40 lei în plus: 480 : 40 = 12 bancnote de 50 și 20 de 10. Verificare: 600 + 200 = 800.",
+    "exercises": [
+     "La un spectacol s-au vândut 100 de bilete de 15 lei și 25 lei, încasându-se 1 900 lei. Câte bilete de fiecare fel?",
+     "O clasă are 30 de mese de 2 și 3 locuri, cu 72 de locuri. Câte mese de fiecare fel?",
+     "La un test cu 20 de întrebări, se primesc 5 puncte pentru răspuns corect și se scad 2 pentru greșit. Un elev a obținut 72 de puncte. Câte răspunsuri corecte a dat?",
+     "Verifică problema cu găini și iepuri.",
+     "Compune o problemă de acest tip."
+    ],
+    "test": [
+     "Ce presupui la început?",
+     "În exemplul cu găini, câți iepuri sunt?",
+     "Câte găini sunt?",
+     "La ce împarți diferența?",
+     "Cum verifici?"
+    ],
+    "steps": [
+     "Presupune că toate obiectele sunt de primul fel.",
+     "Calculează rezultatul presupus și diferența față de cel real.",
+     "Împarte diferența la diferența dintre valorile unui obiect din fiecare fel; verifică.",
+     "Greșeala frecventă: să împarți diferența la valoarea unui obiect în loc de diferența dintre valori."
+    ],
+    "answers": [
+     "Că toate obiectele sunt de același fel",
+     "8",
+     "12",
+     "La diferența dintre valorile celor două feluri",
+     "Calculez capetele și picioarele cu numerele găsite"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l16": {
+   "ro": {
+    "title": "Divizor și multiplu; proprietăți ale divizibilității",
+    "theory": "Spunem că a se divide cu b (b | a) dacă există un număr natural c cu a = b·c. Atunci b este divizor al lui a, iar a este multiplu al lui b. Orice număr are divizorii improprii 1 și el însuși. Dacă d | a și d | b, atunci d | (a + b) și d | (a − b). Mulțimea divizorilor se notează D₁₂ = {1, 2, 3, 4, 6, 12}, iar multiplii M₅ = {0, 5, 10, …}.",
+    "sample": "12 se divide cu 4 pentru că 12 = 4·3.",
+    "worked": "Arătăm că 7 | 2 107 + 70: 7 | 2 107 (2 107 = 7·301) și 7 | 70, deci 7 divide suma. Pentru divizorii lui 36 căutăm perechi: 1·36, 2·18, 3·12, 4·9, 6·6 → D₃₆ = {1, 2, 3, 4, 6, 9, 12, 18, 36}.",
+    "exercises": [
+     "Scrie D₂₄ și D₃₀.",
+     "Scrie primii 6 multipli ai lui 7.",
+     "Arată că 5 | 1 255 + 3 000.",
+     "Câți divizori are 100?",
+     "Este 0 multiplu al oricărui număr? Explică."
+    ],
+    "test": [
+     "Este 3 divizor al lui 21?",
+     "Scrie D₁₀.",
+     "Este 15 multiplu al lui 4?",
+     "Care sunt divizorii improprii ai lui 9?",
+     "Este 0 multiplu al lui 8?"
+    ],
+    "steps": [
+     "Caută perechi de factori al căror produs este numărul.",
+     "Scrie fiecare factor din pereche în mulțimea divizorilor.",
+     "Oprește-te când factorii încep să se repete.",
+     "Greșeala frecventă: să confunzi divizorul cu multiplul (4 este divizor al lui 12, nu multiplu)."
+    ],
+    "answers": [
+     "Da",
+     "{1, 2, 5, 10}",
+     "Nu",
+     "1 și 9",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l17": {
+   "ro": {
+    "title": "Criterii de divizibilitate cu 2, 5, 10ⁿ, 3 și 9",
+    "theory": "Un număr se divide cu 2 dacă ultima cifră este pară; cu 5 dacă ultima cifră este 0 sau 5; cu 10, 100, 1 000… dacă se termină cu cel puțin 1, 2, 3… zerouri. Un număr se divide cu 3 (respectiv 9) dacă suma cifrelor lui se divide cu 3 (respectiv 9).",
+    "sample": "4 518 se divide cu 2 (ultima cifră 8) și cu 9 (4 + 5 + 1 + 8 = 18).",
+    "worked": "Aflăm cifra x pentru care 3x5 se divide cu 9: 3 + x + 5 = 8 + x trebuie să fie multiplu de 9, deci x = 1 (suma 9). Pentru divizibilitatea cu 3 ar merge x ∈ {1, 4, 7}.",
+    "exercises": [
+     "Care dintre numerele 2 340, 1 235, 4 446, 9 000 se divid cu 2, cu 5, cu 9?",
+     "Află cifra a pentru care 47a se divide cu 3.",
+     "Află cifrele x pentru care 5x2 se divide cu 9.",
+     "Scrie cel mai mic număr de 4 cifre divizibil cu 9.",
+     "Este 123 456 divizibil cu 3? Dar cu 9?"
+    ],
+    "test": [
+     "Se divide 735 cu 5?",
+     "Se divide 1 001 cu 2?",
+     "Se divide 111 cu 3?",
+     "Se divide 5 000 cu 100?",
+     "Se divide 81 cu 9?"
+    ],
+    "steps": [
+     "Pentru 2, 5, 10ⁿ privește ultimele cifre.",
+     "Pentru 3 și 9 adună toate cifrele.",
+     "Verifică dacă suma se divide cu 3 sau 9.",
+     "Greșeala frecventă: să aplici criteriul lui 3 privind ultima cifră (123 se divide cu 3 deși se termină cu 3, dar 13 nu)."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "Da",
+     "Da",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l18": {
+   "ro": {
+    "title": "Numere prime și numere compuse",
+    "theory": "Un număr natural mai mare decât 1 este prim dacă are exact doi divizori: 1 și el însuși (2, 3, 5, 7, 11, 13, …). Un număr mai mare decât 1 care are și alți divizori este compus. 0 și 1 nu sunt nici prime, nici compuse. 2 este singurul număr prim par. Pentru a verifica dacă un număr este prim, îl împărțim la numerele prime până când pătratul lor depășește numărul.",
+    "sample": "29 este prim: nu se divide cu 2, 3, 5, iar 7² = 49 > 29.",
+    "worked": "Verificăm 91: nu se divide cu 2, 3, 5; 91 : 7 = 13, deci 91 = 7·13 este compus. Verificăm 97: nu se divide cu 2, 3, 5, 7, iar 11² = 121 > 97, deci 97 este prim.",
+    "exercises": [
+     "Scrie numerele prime mai mici decât 50.",
+     "Este 119 prim? Dar 113?",
+     "De ce 1 nu este număr prim?",
+     "Scrie trei numere compuse impare.",
+     "Suma a două numere prime este 15. Care sunt ele?"
+    ],
+    "test": [
+     "Este 17 prim?",
+     "Este 21 prim?",
+     "Care este singurul număr prim par?",
+     "Este 1 prim?",
+     "Este 51 prim?"
+    ],
+    "steps": [
+     "Elimină cazurile 0 și 1.",
+     "Încearcă împărțirea la numerele prime 2, 3, 5, 7, 11… cât timp pătratul lor nu depășește numărul.",
+     "Dacă niciuna nu este exactă, numărul este prim.",
+     "Greșeala frecventă: să crezi că orice număr impar este prim (51 = 3·17)."
+    ],
+    "answers": [
+     "Da",
+     "Nu (3·7)",
+     "2",
+     "Nu",
+     "Nu (3·17)"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l19": {
+   "ro": {
+    "title": "Fracția ordinară; fracții subunitare, echiunitare, supraunitare; scoaterea întregilor",
+    "theory": "Fracția a/b (b ≠ 0) arată că un întreg a fost împărțit în b părți egale și s-au luat a părți; a este numărătorul, b numitorul. Fracția este subunitară dacă a < b, echiunitară dacă a = b, supraunitară dacă a > b. Dintr-o fracție supraunitară scoatem întregii împărțind numărătorul la numitor: 17/5 = 3 întregi și 2/5.",
+    "sample": "Dintr-o pizza tăiată în 8 felii, 3 felii reprezintă 3/8.",
+    "worked": "Scoatem întregii din 23/4: 23 = 4·5 + 3, deci 23/4 = 5 3/4. Invers: 2 5/7 = (2·7 + 5)/7 = 19/7.",
+    "exercises": [
+     "Clasifică: 3/8, 9/9, 11/6, 0/5, 20/7.",
+     "Scoate întregii: 29/6; 100/9.",
+     "Introdu întregii în fracție: 4 2/3; 1 7/10.",
+     "Scrie fracțiile cu numitorul 5 cuprinse între 1 și 2.",
+     "Ce fracție dintr-o oră reprezintă 15 minute?"
+    ],
+    "test": [
+     "Este 7/7 subunitară?",
+     "Scoate întregii din 9/4.",
+     "Introdu întregii: 2 1/3.",
+     "Ce arată numitorul?",
+     "Este 5/3 mai mare decât 1?"
+    ],
+    "steps": [
+     "Compară numărătorul cu numitorul pentru a clasifica fracția.",
+     "Împarte numărătorul la numitor: câtul dă întregii, restul noul numărător.",
+     "Pentru drumul invers, calculează întregii·numitor + numărător.",
+     "Greșeala frecventă: la 2 5/7 să scrii (2 + 5)/7 = 7/7. Corect: (2·7 + 5)/7 = 19/7."
+    ],
+    "answers": [
+     "Nu, este echiunitară",
+     "2 1/4",
+     "7/3",
+     "În câte părți egale s-a împărțit întregul",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l20": {
+   "ro": {
+    "title": "Fracții echivalente; amplificarea și simplificarea fracțiilor",
+    "theory": "Fracțiile a/b și c/d sunt echivalente dacă a·d = b·c (reprezintă aceeași parte din întreg). Amplificarea înseamnă înmulțirea numărătorului și numitorului cu același număr nenul; simplificarea, împărțirea lor la un divizor comun. O fracție care nu se mai poate simplifica este ireductibilă.",
+    "sample": "2/3 = 4/6 = 10/15, pentru că am amplificat cu 2 și cu 5.",
+    "worked": "Simplificăm 84/126: împărțim la 2 → 42/63; la 3 → 14/21; la 7 → 2/3. Verificăm: 84·3 = 252 = 126·2, deci 84/126 = 2/3, fracție ireductibilă.",
+    "exercises": [
+     "Amplifică 3/7 cu 4 și cu 10.",
+     "Simplifică până la fracție ireductibilă: 36/48; 150/225.",
+     "Verifică dacă 6/14 și 9/21 sunt echivalente.",
+     "Scrie 3/5 cu numitorul 40.",
+     "Află x: 4/x = 12/21."
+    ],
+    "test": [
+     "Simplifică 10/15.",
+     "Amplifică 1/2 cu 7.",
+     "Sunt 2/5 și 4/10 echivalente?",
+     "Este 7/9 ireductibilă?",
+     "Scrie 1/4 cu numitorul 100."
+    ],
+    "steps": [
+     "Caută un divizor comun al numărătorului și numitorului.",
+     "Împarte (simplifică) sau înmulțește (amplifică) ambii termeni cu același număr.",
+     "Repetă până obții forma cerută și verifică prin produsul în cruce.",
+     "Greșeala frecventă: să simplifici doar numărătorul sau doar numitorul; fracția obținută nu mai este echivalentă."
+    ],
+    "answers": [
+     "2/3",
+     "7/14",
+     "Da",
+     "Da",
+     "25/100"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l21": {
+   "ro": {
+    "title": "Compararea fracțiilor și reprezentarea lor pe axă",
+    "theory": "La același numitor, mai mare este fracția cu numărătorul mai mare. La același numărător, mai mare este fracția cu numitorul mai mic. Altfel aducem fracțiile la același numitor (sau același numărător) prin amplificare. Pe axă împărțim fiecare unitate în atâtea părți egale câte arată numitorul.",
+    "sample": "3/4 > 2/3, pentru că 3/4 = 9/12 și 2/3 = 8/12.",
+    "worked": "Ordonăm 5/6, 3/4, 7/12: numitor comun 12 → 10/12, 9/12, 7/12. Crescător: 7/12 < 3/4 < 5/6. Pe axă, cu unitatea de 12 pătrățele, punctele sunt la 7, 9 și 10 pătrățele de origine.",
+    "exercises": [
+     "Compară: 5/9 și 7/9; 4/7 și 4/11.",
+     "Compară: 2/5 și 3/7.",
+     "Ordonează crescător: 1/2, 2/3, 3/8, 5/6.",
+     "Reprezintă pe axă: 1/4, 3/4, 5/4.",
+     "Scrie trei fracții cuprinse între 1/3 și 1/2."
+    ],
+    "test": [
+     "Care este mai mare: 3/8 sau 5/8?",
+     "Care este mai mare: 2/3 sau 2/5?",
+     "Care este mai mare: 1/2 sau 3/5?",
+     "Ce semn este între 4/4 și 1?",
+     "Câte părți are fiecare unitate când reprezinți cincimi?"
+    ],
+    "steps": [
+     "Verifică dacă au același numitor sau același numărător.",
+     "Dacă nu, adu-le la un numitor comun prin amplificare.",
+     "Compară numărătorii obținuți.",
+     "Greșeala frecventă: să compari doar numitorii (crezând că 1/8 > 1/4 pentru că 8 > 4)."
+    ],
+    "answers": [
+     "5/8",
+     "2/3",
+     "3/5",
+     "=",
+     "Cinci"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l22": {
+   "ro": {
+    "title": "Adunarea și scăderea fracțiilor ordinare",
+    "theory": "Fracțiile cu același numitor se adună (scad) adunând (scăzând) numărătorii și păstrând numitorul. Dacă numitorii sunt diferiți, aducem fracțiile la un numitor comun (de preferință cel mai mic multiplu comun al numitorilor), apoi procedăm la fel. Rezultatul se simplifică.",
+    "sample": "1/4 + 2/4 = 3/4; 1/2 + 1/3 = 3/6 + 2/6 = 5/6.",
+    "worked": "Calculăm 5/6 − 3/8: numitorul comun este 24 (cel mai mic multiplu comun al lui 6 și 8). 5/6 = 20/24, 3/8 = 9/24; 20/24 − 9/24 = 11/24.",
+    "exercises": [
+     "Calculează: 3/11 + 5/11; 7/9 − 4/9.",
+     "Calculează: 2/3 + 1/4; 5/6 − 1/2.",
+     "Calculează: 1/2 + 1/3 + 1/6.",
+     "Calculează: 2 1/4 + 1 2/3.",
+     "Dintr-un drum s-au parcurs 2/5, apoi 1/3. Ce fracție a rămas?"
+    ],
+    "test": [
+     "Cât este 1/5 + 3/5?",
+     "Cât este 1/2 + 1/4?",
+     "Cât este 3/4 − 1/2?",
+     "Cât este 1 − 2/7?",
+     "Care este numitorul comun pentru 1/4 și 1/6?"
+    ],
+    "steps": [
+     "Verifică dacă numitorii sunt egali.",
+     "Dacă nu, află un numitor comun și amplifică fiecare fracție.",
+     "Adună sau scade numărătorii, păstrează numitorul și simplifică.",
+     "Greșeala frecventă: să aduni numărătorii și numitorii (1/2 + 1/3 = 2/5). Corect: 5/6."
+    ],
+    "answers": [
+     "4/5",
+     "3/4",
+     "1/4",
+     "5/7",
+     "12"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l23": {
+   "ro": {
+    "title": "Înmulțirea fracțiilor ordinare; puterea unei fracții",
+    "theory": "Produsul a două fracții este fracția care are la numărător produsul numărătorilor și la numitor produsul numitorilor: a/b · c/d = (a·c)/(b·d). Înainte de înmulțire putem simplifica „în cruce”. O fracție la putere: (a/b)ⁿ = aⁿ/bⁿ. Un număr natural se scrie ca fracție cu numitorul 1.",
+    "sample": "2/3 · 3/5 = 6/15 = 2/5.",
+    "worked": "Calculăm 4/9 · 15/8: simplificăm 4 cu 8 (rămân 1 și 2) și 15 cu 9 (rămân 5 și 3): 1/3 · 5/2 = 5/6. Calculăm (2/3)³ = 8/27.",
+    "exercises": [
+     "Calculează: 3/4 · 2/7; 5/6 · 9/10.",
+     "Calculează: 12 · 5/8.",
+     "Calculează: (3/5)²; (1/2)⁵.",
+     "Calculează: 7/12 · 18/35 · 10/3.",
+     "Aria unui dreptunghi cu laturile 3/4 m și 2/3 m este…?"
+    ],
+    "test": [
+     "Cât este 1/2 · 1/3?",
+     "Cât este 2/5 · 5?",
+     "Cât este (1/3)²?",
+     "Cât este 3/4 · 4/3?",
+     "Cât este 0 · 7/8?"
+    ],
+    "steps": [
+     "Scrie numerele naturale ca fracții cu numitorul 1.",
+     "Simplifică în cruce numărătorii cu numitorii.",
+     "Înmulțește numărătorii între ei și numitorii între ei.",
+     "Greșeala frecventă: să aduci fracțiile la același numitor înainte de înmulțire; nu este necesar și complică calculul."
+    ],
+    "answers": [
+     "1/6",
+     "2",
+     "1/9",
+     "1",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l24": {
+   "ro": {
+    "title": "Împărțirea fracțiilor ordinare",
+    "theory": "Inversa fracției a/b (a ≠ 0) este b/a; produsul unei fracții cu inversa ei este 1. A împărți la o fracție înseamnă a înmulți cu inversa ei: a/b : c/d = a/b · d/c. Nu putem împărți la 0.",
+    "sample": "3/4 : 1/2 = 3/4 · 2/1 = 6/4 = 3/2.",
+    "worked": "Câte sticle de 3/4 l umplem cu 6 l? 6 : 3/4 = 6 · 4/3 = 24/3 = 8 sticle. Calculăm 5/6 : 10/9 = 5/6 · 9/10 = 45/60 = 3/4.",
+    "exercises": [
+     "Scrie inversele fracțiilor 2/7, 5, 1/9.",
+     "Calculează: 4/5 : 2/3; 7/8 : 7/4.",
+     "Calculează: 9 : 3/5; 2/3 : 4.",
+     "Câte bucăți de 2/5 m se obțin dintr-o sârmă de 8 m?",
+     "Calculează: (1/2 + 1/3) : 5/6."
+    ],
+    "test": [
+     "Care este inversa lui 3/8?",
+     "Cât este 1/2 : 1/4?",
+     "Cât este 6 : 1/2?",
+     "Cât este 2/3 : 2/3?",
+     "Cât este 4/5 : 2?"
+    ],
+    "steps": [
+     "Scrie inversa fracției cu care împarți.",
+     "Transformă împărțirea în înmulțire cu inversa.",
+     "Simplifică și înmulțește.",
+     "Greșeala frecventă: să inversezi prima fracție în loc de a doua (deîmpărțitul rămâne la fel)."
+    ],
+    "answers": [
+     "8/3",
+     "2",
+     "12",
+     "1",
+     "2/5"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l25": {
+   "ro": {
+    "title": "Fracții dintr-un număr; procente",
+    "theory": "Pentru a afla a/b dintr-un număr N calculăm N : b · a (sau a/b · N). Procentul p% înseamnă p/100, deci p% din N = p/100 · N. Dacă știm că a/b dintr-un număr este x, numărul este x : a · b.",
+    "sample": "25% din 80 = 25/100 · 80 = 20.",
+    "worked": "Un produs costă 240 lei și se ieftinește cu 15%. Reducerea: 15/100 · 240 = 36 lei; prețul nou: 204 lei. Altă problemă: 3/5 dintr-un număr este 42; numărul este 42 : 3 · 5 = 70.",
+    "exercises": [
+     "Află 3/8 din 64 și 5/6 din 90.",
+     "Calculează 20% din 350 și 7% din 1 200.",
+     "2/7 dintr-un număr este 18. Care este numărul?",
+     "O carte de 300 de pagini; Ana a citit 40%. Câte pagini mai are?",
+     "Un preț de 80 lei crește cu 10%. Care este noul preț?"
+    ],
+    "test": [
+     "Cât este 1/4 din 100?",
+     "Cât este 50% din 46?",
+     "Cât este 10% din 250?",
+     "Ce fracție reprezintă 75%?",
+     "Dacă 1/3 dintr-un număr este 9, care este numărul?"
+    ],
+    "steps": [
+     "Transformă procentul în fracție cu numitorul 100.",
+     "Împarte numărul la numitor și înmulțește cu numărătorul.",
+     "La problemele inverse, împarte la numărător și înmulțește cu numitorul.",
+     "Greșeala frecventă: să scazi procentul din preț ca număr (240 − 15 = 225) în loc să calculezi 15% din 240."
+    ],
+    "answers": [
+     "25",
+     "23",
+     "25",
+     "3/4",
+     "27"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l26": {
+   "ro": {
+    "title": "Fracții zecimale: scriere, citire, comparare, aproximare",
+    "theory": "O fracție cu numitorul 10, 100, 1 000… se scrie ca fracție zecimală: 7/10 = 0,7; 25/100 = 0,25; 3 125/1 000 = 3,125. Cifrele de după virgulă sunt zecimi, sutimi, miimi. Comparăm întâi partea întreagă, apoi zecimile, sutimile etc.; zerourile de la sfârșitul părții zecimale nu schimbă valoarea (0,5 = 0,50). Aproximăm la zecimi, sutimi etc. ca la numerele naturale.",
+    "sample": "2,35 > 2,305, pentru că la sutimi 5 > 0.",
+    "worked": "Ordonăm 0,6; 0,06; 0,66; 0,606: completăm cu zerouri până la miimi: 0,600; 0,060; 0,660; 0,606. Crescător: 0,06 < 0,6 < 0,606 < 0,66. Rotunjim 3,1416 la sutimi: 3,14.",
+    "exercises": [
+     "Scrie ca fracție zecimală: 9/10, 47/100, 5/1 000.",
+     "Scrie ca fracție ordinară ireductibilă: 0,25; 1,2; 0,125.",
+     "Ordonează crescător: 1,5; 1,05; 1,55; 1,505.",
+     "Rotunjește 7,456 la zecimi și la sutimi.",
+     "Scrie trei numere cuprinse între 0,3 și 0,4."
+    ],
+    "test": [
+     "Cum se scrie 3/100 ca fracție zecimală?",
+     "Care este mai mare: 0,7 sau 0,69?",
+     "Rotunjește 2,48 la zecimi.",
+     "Este 0,30 egal cu 0,3?",
+     "Ce cifră reprezintă sutimile în 4,527?"
+    ],
+    "steps": [
+     "Scrie numerele cu același număr de zecimale (adăugând zerouri).",
+     "Compară partea întreagă, apoi cifrele zecimale de la stânga.",
+     "Pentru aproximare, privește cifra de după ordinul ales.",
+     "Greșeala frecventă: să crezi că 0,25 > 0,3 pentru că 25 > 3. Compară zecimile: 2 < 3."
+    ],
+    "answers": [
+     "0,03",
+     "0,7",
+     "2,5",
+     "Da",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l27": {
+   "ro": {
+    "title": "Adunarea și scăderea fracțiilor zecimale",
+    "theory": "Așezăm numerele unul sub altul cu virgula sub virgulă (unități sub unități, zecimi sub zecimi), completăm cu zerouri unde lipsesc cifre și calculăm ca la numerele naturale. Virgula rezultatului se pune sub celelalte virgule.",
+    "sample": "12,5 + 3,75 = 16,25.",
+    "worked": "Calculăm 20 − 7,368: scriem 20,000 − 7,368 = 12,632. Proba: 12,632 + 7,368 = 20,000.",
+    "exercises": [
+     "Calculează: 4,56 + 13,7 + 0,084.",
+     "Calculează: 15 − 9,48.",
+     "Calculează: 100,1 − 99,99.",
+     "Un elev are 50 lei și cumpără produse de 12,45 lei și 23,8 lei. Cât rest primește?",
+     "Află x: x + 3,07 = 10."
+    ],
+    "test": [
+     "Cât este 0,5 + 0,25?",
+     "Cât este 1 − 0,1?",
+     "Cât este 2,3 + 4,7?",
+     "Cât este 10 − 0,01?",
+     "Cât este 5,5 − 2,25?"
+    ],
+    "steps": [
+     "Scrie numerele cu virgula sub virgulă.",
+     "Completează cu zerouri pentru același număr de zecimale.",
+     "Calculează și pune virgula la rezultat în aceeași coloană.",
+     "Greșeala frecventă: să aliniezi numerele la dreapta, ca pe cele naturale (12,5 + 3,75 aliniate greșit dau 4,00)."
+    ],
+    "answers": [
+     "0,75",
+     "0,9",
+     "7",
+     "9,99",
+     "3,25"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l28": {
+   "ro": {
+    "title": "Înmulțirea fracțiilor zecimale",
+    "theory": "Înmulțim numerele ca și cum nu ar avea virgulă, apoi rezultatul are atâtea zecimale câte au factorii împreună. Înmulțirea cu 10, 100, 1 000 mută virgula spre dreapta cu 1, 2, 3 locuri; înmulțirea cu 0,1, 0,01 o mută spre stânga.",
+    "sample": "2,5 · 1,2 = 3,00 = 3 (25 · 12 = 300, cu două zecimale).",
+    "worked": "Calculăm 0,35 · 0,4: 35 · 4 = 140; factorii au 2 + 1 = 3 zecimale, deci 0,140 = 0,14. 3,456 · 100 = 345,6.",
+    "exercises": [
+     "Calculează: 3,2 · 5; 0,6 · 0,7.",
+     "Calculează: 12,5 · 0,08.",
+     "Calculează: 4,07 · 1 000; 52 · 0,01.",
+     "Un kilogram de brânză costă 32,5 lei. Cât costă 1,6 kg?",
+     "Calculează aria unui dreptunghi cu laturile 4,5 m și 2,4 m."
+    ],
+    "test": [
+     "Cât este 0,3 · 0,3?",
+     "Cât este 1,5 · 4?",
+     "Cât este 0,25 · 100?",
+     "Câte zecimale are produsul 1,25 · 0,4 înainte de simplificare?",
+     "Cât este 7 · 0,1?"
+    ],
+    "steps": [
+     "Înmulțește numerele fără virgulă.",
+     "Numără zecimalele tuturor factorilor.",
+     "Pune virgula astfel încât rezultatul să aibă atâtea zecimale.",
+     "Greșeala frecventă: 0,3 · 0,3 = 0,9. Corect: 0,09 (două zecimale)."
+    ],
+    "answers": [
+     "0,09",
+     "6",
+     "25",
+     "Trei",
+     "0,7"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l29": {
+   "ro": {
+    "title": "Împărțirea cu fracții zecimale; câtul zecimal",
+    "theory": "Când împărțim două numere naturale și rămâne rest, putem continua împărțirea după virgulă, adăugând zerouri: 7 : 4 = 1,75. Pentru a împărți la un număr zecimal, înmulțim deîmpărțitul și împărțitorul cu 10, 100… până când împărțitorul devine natural. Împărțirea la 10, 100 mută virgula spre stânga.",
+    "sample": "9 : 0,3 = 90 : 3 = 30.",
+    "worked": "Calculăm 4,68 : 1,2: înmulțim ambele cu 10 → 46,8 : 12. 46 : 12 = 3 rest 10; coborâm 8: 108 : 12 = 9. Rezultatul 3,9. Proba: 3,9 · 1,2 = 4,68.",
+    "exercises": [
+     "Calculează cu cât zecimal: 13 : 4; 7 : 8.",
+     "Calculează: 6,3 : 7; 0,84 : 0,4.",
+     "Calculează: 52,5 : 100; 3 : 0,01.",
+     "O sfoară de 7,5 m se taie în bucăți de 0,25 m. Câte bucăți se obțin?",
+     "Află x: 2,5 · x = 12."
+    ],
+    "test": [
+     "Cât este 1 : 2 cu cât zecimal?",
+     "Cât este 5 : 0,5?",
+     "Cât este 0,9 : 3?",
+     "Cât este 45,6 : 10?",
+     "Cât este 1,2 : 0,4?"
+    ],
+    "steps": [
+     "Dacă împărțitorul are zecimale, înmulțește ambii termeni cu 10, 100… .",
+     "Împarte ca la numerele naturale; pune virgula în cât când cobori prima zecimală.",
+     "Fă proba prin înmulțire.",
+     "Greșeala frecventă: să înmulțești doar împărțitorul cu 10 (9 : 0,3 → 9 : 3 = 3); trebuie înmulțit și deîmpărțitul: 90 : 3 = 30."
+    ],
+    "answers": [
+     "0,5",
+     "10",
+     "0,3",
+     "4,56",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l30": {
+   "ro": {
+    "title": "Transformarea fracțiilor ordinare în fracții zecimale; fracții periodice",
+    "theory": "Orice fracție ordinară se transformă în fracție zecimală împărțind numărătorul la numitor. Rezultatul este fie o fracție zecimală finită (3/8 = 0,375), fie una periodică, în care un grup de cifre se repetă: 1/3 = 0,333… = 0,(3), 5/6 = 0,8(3). O fracție zecimală periodică simplă se transformă înapoi: 0,(ab) = ab/99.",
+    "sample": "2/3 = 0,666… = 0,(6).",
+    "worked": "Transformăm 0,(45): 45/99 = 5/11. Verificăm: 5 : 11 = 0,4545… . Pentru 0,1(6) (periodică mixtă): (16 − 1)/90 = 15/90 = 1/6.",
+    "exercises": [
+     "Transformă în fracție zecimală: 7/20; 3/11; 1/6.",
+     "Scrie ca fracție ordinară ireductibilă: 0,(7); 0,(12).",
+     "Scrie ca fracție ordinară: 0,2(3).",
+     "Care este a 20-a zecimală a lui 0,(142857)?",
+     "Compară 0,(3) și 0,33."
+    ],
+    "test": [
+     "Cât este 1/4 ca fracție zecimală?",
+     "Cum se scrie 0,555… prescurtat?",
+     "Ce fracție ordinară este 0,(9)… ? (indiciu: 9/9)",
+     "Cât este 0,(3) ca fracție ordinară?",
+     "Este 1/8 o fracție zecimală finită?"
+    ],
+    "steps": [
+     "Împarte numărătorul la numitor până obții rest 0 sau un rest care se repetă.",
+     "Când restul se repetă, scrie perioada între paranteze.",
+     "Pentru drumul invers folosește regula: perioada pe atâția de 9 câte cifre are.",
+     "Greșeala frecventă: să crezi că 0,(3) = 0,33; 0,(3) = 1/3 este puțin mai mare."
+    ],
+    "answers": [
+     "0,25",
+     "0,(5)",
+     "1",
+     "1/3",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l31": {
+   "ro": {
+    "title": "Media aritmetică și probleme cu numere raționale pozitive",
+    "theory": "Media aritmetică a n numere este suma lor împărțită la n. Ea arată „valoarea tipică” a unui set de date. În probleme cu fracții și zecimale, transformăm toate numerele în aceeași formă (toate ordinare sau toate zecimale) înainte de calcul.",
+    "sample": "Notele 9, 7, 10, 8 au media (9 + 7 + 10 + 8) : 4 = 8,5.",
+    "worked": "Media a 3 numere este 12,4. Două dintre ele sunt 10,5 și 13,7. Suma celor trei: 12,4 · 3 = 37,2. Al treilea: 37,2 − 10,5 − 13,7 = 13. Calculăm 1/2 + 0,25: 0,5 + 0,25 = 0,75.",
+    "exercises": [
+     "Calculează media numerelor 4,5; 6; 7,5; 10.",
+     "Media notelor unui elev este 8,75 după 4 note. Ce notă trebuie să ia a cincea ca media să devină 9?",
+     "Calculează: 3/4 + 0,6 − 1/5.",
+     "Un biciclist parcurge 12,5 km, apoi 3/5 din această distanță. Câți km a parcurs în total?",
+     "Media a două numere este 7,2, iar unul este 5,9. Care este celălalt?"
+    ],
+    "test": [
+     "Media lui 6 și 10?",
+     "Media numerelor 2, 4, 6?",
+     "Cât este 1/2 + 0,5?",
+     "Dacă media a 4 numere este 5, care este suma lor?",
+     "Cât este 0,2 · 1/2?"
+    ],
+    "steps": [
+     "Adună toate valorile.",
+     "Împarte suma la numărul valorilor.",
+     "La probleme inverse, calculează întâi suma din medie: suma = media · n.",
+     "Greșeala frecventă: să faci media mediilor sau să împarți la 2 indiferent câte numere sunt."
+    ],
+    "answers": [
+     "8",
+     "4",
+     "1",
+     "20",
+     "0,1"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l32": {
+   "ro": {
+    "title": "Tabele de date și grafice; interpretarea datelor",
+    "theory": "Datele culese (de exemplu notele unei clase) se organizează în tabele de frecvențe: câte apariții are fiecare valoare. Le reprezentăm prin grafice cu bare (pentru categorii) sau grafice cu linii (pentru evoluție în timp). Din tabele aflăm valoarea cea mai frecventă, totalul, media și diferențele.",
+    "sample": "Într-o clasă: nota 10 – 5 elevi, 9 – 8, 8 – 6, 7 – 3. Cea mai frecventă notă este 9.",
+    "worked": "Pentru notele de mai sus: numărul elevilor = 5 + 8 + 6 + 3 = 22; suma notelor = 50 + 72 + 48 + 21 = 191; media = 191 : 22 ≈ 8,68. Graficul cu bare are bara cea mai înaltă la nota 9.",
+    "exercises": [
+     "Fă un tabel de frecvențe pentru culorile preferate de colegii tăi.",
+     "Desenează graficul cu bare pentru notele din exemplu.",
+     "Temperaturile într-o săptămână: 3, 5, 4, 7, 9, 8, 6. Desenează graficul cu linii și calculează media.",
+     "Ce tip de grafic alegi pentru evoluția populației unui oraș în 10 ani?",
+     "Formulează trei întrebări pe baza tabelului de note."
+    ],
+    "test": [
+     "Ce arată frecvența unei valori?",
+     "Câți elevi sunt în clasa din exemplu?",
+     "Care este nota cea mai frecventă?",
+     "Ce grafic arată evoluția în timp?",
+     "Câți elevi au nota de cel puțin 9?"
+    ],
+    "steps": [
+     "Grupează datele și numără aparițiile fiecărei valori.",
+     "Alege reprezentarea: bare pentru categorii, linii pentru timp.",
+     "Calculează totaluri și medii folosind frecvențele.",
+     "Greșeala frecventă: la medie să aduni valorile o singură dată, ignorând frecvența (media notelor 10, 9, 8, 7 nu este 8,5 dacă au frecvențe diferite)."
+    ],
+    "answers": [
+     "De câte ori apare valoarea",
+     "22",
+     "9",
+     "Graficul cu linii",
+     "13"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l33": {
+   "ro": {
+    "title": "Punct, dreaptă, semidreaptă, segment; plan și semiplan; poziții relative",
+    "theory": "Punctul se notează cu literă mare; dreapta (fără capete) cu literă mică sau prin două puncte (AB); semidreapta are o origine; segmentul [AB] are două capete. Prin două puncte distincte trece o singură dreaptă. Trei puncte pot fi coliniare (pe aceeași dreaptă) sau necoliniare. Două drepte distincte pot fi concurente (un punct comun) sau paralele (niciun punct comun). Toate aceste figuri stau într-un plan; o dreaptă împarte planul în două semiplane, iar două puncte de o parte și de alta a dreptei sunt în semiplane opuse.",
+    "sample": "Muchiile opuse ale unei foi dreptunghiulare sugerează drepte paralele.",
+    "worked": "Prin 4 puncte, oricare 3 necoliniare, trec 6 drepte: AB, AC, AD, BC, BD, CD (fiecare punct se unește cu celelalte 3, adică 4·3 : 2 = 6).",
+    "exercises": [
+     "Desenează dreapta d și punctele A ∈ d, B ∉ d.",
+     "Desenează semidreapta (OA și segmentul [MN].",
+     "Câte drepte determină 5 puncte, oricare trei necoliniare?",
+     "Desenează o dreaptă d și două puncte situate în semiplane opuse față de d. Taie segmentul dintre ele dreapta d?",
+     "Sunt punctele A, B, C coliniare dacă AB + BC = AC? Explică."
+    ],
+    "test": [
+     "Câte drepte trec prin două puncte distincte?",
+     "Are segmentul capete?",
+     "Ce sunt punctele coliniare?",
+     "Câte puncte comune au două drepte paralele?",
+     "Ce este originea unei semidrepte?"
+    ],
+    "steps": [
+     "Identifică elementul: punct, dreaptă, semidreaptă sau segment.",
+     "Notează-l corect (literă mare, două puncte, paranteze).",
+     "Stabilește pozițiile relative: aparține, coliniare, concurente, paralele.",
+     "Greșeala frecventă: să notezi segmentul ca dreaptă sau să crezi că o dreaptă se termină la marginea foii."
+    ],
+    "answers": [
+     "Una",
+     "Da, două",
+     "Puncte situate pe aceeași dreaptă",
+     "Niciunul",
+     "Punctul din care pornește"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l34": {
+   "ro": {
+    "title": "Lungimea segmentului; segmente congruente; mijlocul și simetricul unui punct",
+    "theory": "Lungimea unui segment se măsoară cu rigla gradată (AB = 5 cm). Segmentele cu aceeași lungime sunt congruente ([AB] ≡ [CD]). Mijlocul M al segmentului [AB] este punctul de pe segment cu AM = MB = AB : 2. Simetricul punctului A față de punctul O este punctul A’ astfel încât O este mijlocul lui [AA’].",
+    "sample": "Dacă AB = 8 cm, mijlocul M este la 4 cm de A.",
+    "worked": "Pe o dreaptă, punctele A, B, C sunt în această ordine, AB = 3 cm, BC = 5 cm. Atunci AC = 8 cm, iar mijlocul lui [AC] este la 4 cm de A, adică la 1 cm de B, între B și C.",
+    "exercises": [
+     "Desenează un segment de 7 cm și construiește mijlocul lui.",
+     "Punctele A, B, C sunt coliniare în această ordine, AC = 12 cm și AB = 4,5 cm. Află BC.",
+     "Construiește simetricul punctului A față de punctul O, dacă AO = 3 cm.",
+     "M este mijlocul lui [AB] și AM = 2,7 cm. Cât este AB?",
+     "Desenează două segmente congruente și notează congruența."
+    ],
+    "test": [
+     "Cu ce măsori lungimea unui segment?",
+     "Dacă AB = 10 cm, cât este AM, M mijloc?",
+     "Ce înseamnă segmente congruente?",
+     "Dacă O este mijlocul lui [AA’] și AO = 4 cm, cât este AA’?",
+     "Se află mijlocul pe segment?"
+    ],
+    "steps": [
+     "Desenează punctele în ordinea dată pe dreaptă.",
+     "Scrie relațiile de lungime (sumă sau diferență de segmente).",
+     "Pentru mijloc, împarte lungimea la 2.",
+     "Greșeala frecventă: să aduni segmentele fără să verifici ordinea punctelor; dacă B nu este între A și C, AC nu este AB + BC."
+    ],
+    "answers": [
+     "Cu rigla gradată",
+     "5 cm",
+     "Segmente cu aceeași lungime",
+     "8 cm",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l35": {
+   "ro": {
+    "title": "Unghiul: măsurare, construire și clasificare",
+    "theory": "Unghiul este figura formată din două semidrepte cu aceeași origine (vârful). Se măsoară în grade cu raportorul. Unghiul nul are 0°, ascuțit între 0° și 90°, drept 90°, obtuz între 90° și 180°, alungit 180°. Unghiurile cu aceeași măsură sunt congruente. Gradul are 60 de minute: 1° = 60’.",
+    "sample": "Acele unui ceas la ora 3 formează un unghi drept.",
+    "worked": "Construim un unghi de 65°: trasăm semidreapta (OA, punem centrul raportorului în O cu 0° pe OA, marcăm 65° și unim cu O. Calculăm 35°40’ + 28°35’ = 63°75’ = 64°15’.",
+    "exercises": [
+     "Construiește unghiuri de 30°, 90°, 135°.",
+     "Clasifică unghiurile: 45°, 90°, 120°, 180°, 0°.",
+     "Calculează: 47°25’ + 32°50’.",
+     "Calculează: 90° − 37°18’.",
+     "Ce unghi formează acele ceasului la ora 2?"
+    ],
+    "test": [
+     "Cu ce se măsoară unghiurile?",
+     "Ce fel de unghi are 100°?",
+     "Câte minute are un grad?",
+     "Ce măsură are unghiul alungit?",
+     "Ce fel de unghi are 89°?"
+    ],
+    "steps": [
+     "Pune centrul raportorului în vârf și 0° pe o latură.",
+     "Citește măsura pe scala care pornește de la 0°.",
+     "Clasifică unghiul după măsură.",
+     "Greșeala frecventă: să citești pe scala greșită a raportorului (obții 180° − măsura reală)."
+    ],
+    "answers": [
+     "Cu raportorul",
+     "Obtuz",
+     "60",
+     "180°",
+     "Ascuțit"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l36": {
+   "ro": {
+    "title": "Figuri congruente și axa de simetrie",
+    "theory": "Două figuri sunt congruente dacă, suprapuse, coincid. O dreaptă este axă de simetrie a unei figuri dacă, prin îndoire după ea, cele două părți coincid. Dreptunghiul are 2 axe, pătratul 4, triunghiul echilateral 3, cercul o infinitate. Mediatoarea unui segment (perpendiculara în mijlocul lui) este axa lui de simetrie.",
+    "sample": "Literele A, M, T au o axă de simetrie verticală.",
+    "worked": "Construim simetricul punctului P față de dreapta d: ducem perpendiculara din P pe d, notăm piciorul O și luăm pe prelungire P’ cu OP’ = OP. Astfel d este mediatoarea segmentului [PP’].",
+    "exercises": [
+     "Desenează axele de simetrie ale pătratului.",
+     "Câte axe de simetrie are un triunghi isoscel (nu echilateral)?",
+     "Construiește simetricul unui segment față de o dreaptă.",
+     "Care litere mari de tipar au două axe de simetrie?",
+     "Desenează o figură fără axă de simetrie."
+    ],
+    "test": [
+     "Câte axe are cercul?",
+     "Câte axe are dreptunghiul (nu pătrat)?",
+     "Ce este mediatoarea unui segment?",
+     "Câte axe are triunghiul echilateral?",
+     "Este diagonala dreptunghiului axă de simetrie?"
+    ],
+    "steps": [
+     "Imaginează-ți îndoirea figurii după dreaptă.",
+     "Verifică dacă fiecare punct are simetricul tot pe figură.",
+     "Numără toate dreptele care îndeplinesc condiția.",
+     "Greșeala frecventă: să consideri diagonala dreptunghiului axă de simetrie; doar la pătrat diagonalele sunt axe."
+    ],
+    "answers": [
+     "O infinitate",
+     "2",
+     "Perpendiculara pe segment în mijlocul lui",
+     "3",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l37": {
+   "ro": {
+    "title": "Unități de măsură pentru lungime și arie; perimetre și arii",
+    "theory": "Pentru lungime: 1 km = 1 000 m; 1 m = 10 dm = 100 cm = 1 000 mm (la fiecare treaptă × 10). Pentru arie: 1 m² = 100 dm² = 10 000 cm² (la fiecare treaptă × 100); 1 ha = 10 000 m², 1 ar = 100 m². Perimetrul pătratului P = 4l, al dreptunghiului P = 2(L + l). Aria pătratului A = l², a dreptunghiului A = L·l.",
+    "sample": "O grădină de 25 m pe 40 m are aria 1 000 m², adică 10 ari.",
+    "worked": "Un dreptunghi are perimetrul 36 cm și lungimea dublul lățimii. L + l = 18, L = 2l, deci 3l = 18, l = 6 cm, L = 12 cm, aria 72 cm². Transformăm: 3,5 m² = 350 dm² = 35 000 cm².",
+    "exercises": [
+     "Transformă: 4,5 km = … m; 380 mm = … dm.",
+     "Transformă: 2,4 m² = … cm²; 50 000 m² = … ha.",
+     "Calculează perimetrul și aria unui pătrat cu latura 2,5 m.",
+     "Un teren dreptunghiular are 120 m pe 75 m. Câți ari are?",
+     "Un pătrat are aria 81 cm². Cât este perimetrul?"
+    ],
+    "test": [
+     "Câți cm are 1 m?",
+     "Câți cm² are 1 dm²?",
+     "Câți m² are un hectar?",
+     "Aria unui dreptunghi 5 cm × 3 cm?",
+     "Perimetrul unui pătrat cu latura 6 cm?"
+    ],
+    "steps": [
+     "Scrie scara unităților și factorul între trepte (10 pentru lungime, 100 pentru arie).",
+     "Transformă toate măsurile în aceeași unitate.",
+     "Aplică formula de perimetru sau arie și scrie unitatea.",
+     "Greșeala frecventă: să transformi m² în cm² înmulțind cu 100; corect se înmulțește cu 10 000."
+    ],
+    "answers": [
+     "100",
+     "100",
+     "10 000",
+     "15 cm²",
+     "24 cm"
+    ]
+   }
+  },
+  "eu-year-ro-lower-5-l38": {
+   "ro": {
+    "title": "Unități de volum și capacitate; cubul și paralelipipedul dreptunghic",
+    "theory": "Cubul are 6 fețe pătrate congruente, 12 muchii, 8 vârfuri; paralelipipedul dreptunghic are 6 fețe dreptunghiulare. Volumul cubului V = l³, al paralelipipedului V = L·l·h. Unități de volum: 1 m³ = 1 000 dm³ = 1 000 000 cm³ (la fiecare treaptă × 1 000). Pentru capacitate: 1 dm³ = 1 l, 1 cm³ = 1 ml. Alte unități: masa (1 kg = 1 000 g, 1 t = 1 000 kg), timpul (1 h = 60 min).",
+    "sample": "Un acvariu de 50 cm × 30 cm × 40 cm are 60 000 cm³ = 60 dm³ = 60 l.",
+    "worked": "O cutie cub cu muchia 0,5 m are V = 0,125 m³ = 125 dm³ = 125 l. Pentru a o umple cu apă sunt necesare 125 de sticle de 1 l.",
+    "exercises": [
+     "Calculează volumul unui cub cu muchia 4 cm.",
+     "Calculează volumul unui paralelipiped cu dimensiunile 2 m, 1,5 m, 0,8 m.",
+     "Transformă: 3 m³ = … dm³; 2 500 cm³ = … l.",
+     "Câți litri de apă încap într-o piscină de 10 m × 5 m × 2 m?",
+     "Transformă: 2,5 h = … min; 3,2 t = … kg."
+    ],
+    "test": [
+     "Câte muchii are cubul?",
+     "Volumul unui cub cu muchia 3 cm?",
+     "Câți dm³ are 1 m³?",
+     "Câți litri are 1 dm³?",
+     "Câte grame are 1 kg?"
+    ],
+    "steps": [
+     "Identifică corpul și dimensiunile lui.",
+     "Adu dimensiunile la aceeași unitate și aplică formula volumului.",
+     "Transformă în litri dacă se cere capacitatea (1 dm³ = 1 l).",
+     "Greșeala frecventă: să transformi m³ în dm³ înmulțind cu 10 sau 100; corect se înmulțește cu 1 000."
+    ],
+    "answers": [
+     "12",
+     "27 cm³",
+     "1 000",
+     "1",
+     "1 000"
+    ]
+   }
+  }
+ }
+}

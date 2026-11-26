@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "03433a820d8d49cb32f69b605faac32783cf5fb068f70a9e643cbd36fcb6a426",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2025/programe_scolare_cons_pub/Chimie_TC+CS_Real_Matematica_informatica_IX_XII.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Chimie – TC + CS, clasele IX–XII, filiera teoretică, profilul real, specializarea matematică-informatică (programele asociate planurilor-cadru OMEC nr. 4350/2025, aprobate prin OMEC nr. 6930/2025, aplicare din 2026–2027) — clasa a IX-a: învelișul de electroni, caracter metalic și nemetalic, legături chimice, interacțiuni intermoleculare, soluții și pH, starea gazoasă, clasificarea reacțiilor (redox, pile, electroliză, efect termic, viteză, reversibilitate); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Chimie · Clasa a IX-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Învelișul de electroni al atomului. Caracter metalic și nemetalic",
+   "keys": [
+    "eu-year-ro-medium-9-l01",
+    "eu-year-ro-medium-9-l02",
+    "eu-year-ro-medium-9-l03",
+    "eu-year-ro-medium-9-l04",
+    "eu-year-ro-medium-9-l05"
+   ]
+  },
+  {
+   "title": "Legături chimice",
+   "keys": [
+    "eu-year-ro-medium-9-l06",
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08",
+    "eu-year-ro-medium-9-l09",
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11"
+   ]
+  },
+  {
+   "title": "Interacțiuni intermoleculare",
+   "keys": [
+    "eu-year-ro-medium-9-l12",
+    "eu-year-ro-medium-9-l13"
+   ]
+  },
+  {
+   "title": "Soluții",
+   "keys": [
+    "eu-year-ro-medium-9-l14",
+    "eu-year-ro-medium-9-l15",
+    "eu-year-ro-medium-9-l16",
+    "eu-year-ro-medium-9-l17",
+    "eu-year-ro-medium-9-l18",
+    "eu-year-ro-medium-9-l19"
+   ]
+  },
+  {
+   "title": "Starea gazoasă",
+   "keys": [
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21",
+    "eu-year-ro-medium-9-l22",
+    "eu-year-ro-medium-9-l23"
+   ]
+  },
+  {
+   "title": "Clasificarea reacțiilor în chimia anorganică",
+   "keys": [
+    "eu-year-ro-medium-9-l24",
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26",
+    "eu-year-ro-medium-9-l27",
+    "eu-year-ro-medium-9-l28",
+    "eu-year-ro-medium-9-l29",
+    "eu-year-ro-medium-9-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Structura atomului: nucleu, înveliș, straturi, substraturi, orbitali",
+    "theory": "Atomul are un nucleu (protoni și neutroni) și un înveliș de electroni. Z (numărul atomic) = numărul de protoni = numărul de electroni în atomul neutru; A (numărul de masă) = protoni + neutroni. Electronii ocupă straturi (n = 1, 2, 3… notate K, L, M), împărțite în substraturi s, p, d, f. Orbitalul este zona din jurul nucleului în care probabilitatea de a găsi electronul este maximă; un orbital are cel mult 2 electroni cu spin opus. Un substrat s are 1 orbital (2 e⁻), p are 3 orbitali (6 e⁻), d are 5 orbitali (10 e⁻). Stratul n are cel mult 2n² electroni.",
+    "sample": "Atomul de sodiu (Z = 11, A = 23) are 11 protoni, 12 neutroni și 11 electroni.",
+    "worked": "Clorul ³⁵Cl (Z = 17): 17 protoni, 35 − 17 = 18 neutroni, 17 electroni. Stratul L (n = 2) are substraturile 2s și 2p, adică 1 + 3 = 4 orbitali și cel mult 8 electroni. Orbitalul s are formă sferică, orbitalii p au formă bilobară și sunt orientați pe trei axe.",
+    "exercises": [
+     "Câți protoni, neutroni și electroni are atomul ²⁷₁₃Al?",
+     "Câți electroni încap pe stratul M (n = 3)?",
+     "Câți orbitali are un substrat p? Câți electroni pot ocupa acești orbitali?",
+     "Ce formă au orbitalii s și p?",
+     "Ce sunt izotopii? Dă exemplul hidrogenului."
+    ],
+    "test": [
+     "Ce reprezintă numărul atomic Z?",
+     "Câți electroni încap într-un orbital?",
+     "Câți electroni încap în substratul d?",
+     "Formula numărului maxim de electroni pe strat?",
+     "Ce este un orbital?"
+    ],
+    "steps": [
+     "Citește Z și A și calculează particulele (n = A − Z).",
+     "Identifică straturile, substraturile și orbitalii disponibili.",
+     "Verifică limitele de ocupare (2 e⁻ pe orbital, 2n² pe strat).",
+     "Greșeala frecventă: să consideri că A este numărul de neutroni; neutronii sunt A − Z."
+    ],
+    "answers": [
+     "Numărul de protoni din nucleu",
+     "Doi, cu spin opus",
+     "10",
+     "2n²",
+     "Zona cu probabilitate maximă de a găsi electronul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Configurația electronică a elementelor din perioadele 1–3",
+    "theory": "Configurația electronică arată cum sunt repartizați electronii pe straturi și substraturi. Ocuparea se face în ordinea creșterii energiei: 1s, 2s, 2p, 3s, 3p, 4s, 3d… (principiul minimei energii); într-un orbital intră cel mult doi electroni cu spin opus (principiul lui Pauli); orbitalii aceluiași substrat se ocupă întâi cu câte un electron (regula lui Hund). Electronii de pe ultimul strat (electroni de valență) determină proprietățile chimice. Reprezentare: ₈O: 1s² 2s² 2p⁴; cu căsuțe, cei 4 electroni 2p ocupă 3 orbitali, doi rămân necuplați.",
+    "sample": "Configurația sodiului este 1s² 2s² 2p⁶ 3s¹: un singur electron de valență.",
+    "worked": "₁₇Cl: 1s² 2s² 2p⁶ 3s² 3p⁵ — 7 electroni de valență, un electron necuplat în 3p. ₁₂Mg: 1s² 2s² 2p⁶ 3s². ₁₀Ne: 1s² 2s² 2p⁶ — octet complet (gaz nobil). ₇N: 1s² 2s² 2p³ — trei electroni necuplați, câte unul în fiecare orbital 2p (regula lui Hund).",
+    "exercises": [
+     "Scrie configurația electronică pentru ₆C, ₁₁Na, ₁₅P, ₁₈Ar.",
+     "Câți electroni necuplați are atomul de oxigen?",
+     "Reprezintă cu căsuțe substratul 3p al sulfului (Z = 16).",
+     "Câți electroni de valență are aluminiul (Z = 13)?",
+     "Ce element are configurația 1s² 2s² 2p⁶ 3s² 3p²?"
+    ],
+    "test": [
+     "Ordinea ocupării pentru primele substraturi?",
+     "Principiul lui Pauli?",
+     "Regula lui Hund?",
+     "Ce sunt electronii de valență?",
+     "Configurația neonului?"
+    ],
+    "steps": [
+     "Pornește de la Z și ocupă substraturile în ordinea 1s, 2s, 2p, 3s, 3p.",
+     "Respectă Pauli (2 e⁻ pe orbital) și Hund (întâi câte unul, cu spin paralel).",
+     "Identifică electronii de valență și electronii necuplați.",
+     "Greșeala frecventă: să pui doi electroni în același orbital p înainte de a ocupa fiecare orbital cu câte unul (încălcarea regulii lui Hund)."
+    ],
+    "answers": [
+     "1s, 2s, 2p, 3s, 3p",
+     "Un orbital are cel mult doi electroni cu spin opus",
+     "Orbitalii unui substrat se ocupă întâi cu câte un electron",
+     "Electronii de pe ultimul strat",
+     "1s² 2s² 2p⁶"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Tabelul periodic: corelația configurație–poziție",
+    "theory": "Tabelul periodic aranjează elementele în ordinea crescătoare a lui Z. Perioada (rândul) = numărul de straturi ocupate; grupa principală (1, 2, 13–18) se leagă de numărul de electroni de valență: grupa 1 – 1 e⁻, grupa 2 – 2 e⁻, grupele 13–18 – 3…8 e⁻ (cu excepția heliului). Elementele din blocul s au electronul distinctiv în substratul s, cele din blocul p în substratul p. Elementele din aceeași grupă au proprietăți chimice asemănătoare (aceeași configurație a stratului de valență).",
+    "sample": "Sulful, 1s² 2s² 2p⁶ 3s² 3p⁴, are 3 straturi și 6 electroni de valență: perioada 3, grupa 16.",
+    "worked": "Element cu Z = 19: 1s² 2s² 2p⁶ 3s² 3p⁶ 4s¹ — perioada 4, grupa 1 (potasiu), bloc s, metal alcalin. Element din perioada 2, grupa 15: 2 straturi, 5 e⁻ de valență ⇒ 1s² 2s² 2p³, Z = 7 (azot).",
+    "exercises": [
+     "Stabilește perioada, grupa și blocul pentru Z = 13, 16, 20.",
+     "Ce element se află în perioada 3, grupa 17?",
+     "De ce litiul, sodiul și potasiul au proprietăți asemănătoare?",
+     "Câte straturi ocupate are un element din perioada 3?",
+     "Scrie configurația elementului din perioada 2, grupa 14."
+    ],
+    "test": [
+     "Ce indică numărul perioadei?",
+     "Electroni de valență în grupa 17?",
+     "Ce sunt elementele din blocul p?",
+     "De ce elementele din aceeași grupă seamănă?",
+     "Grupa metalelor alcaline?"
+    ],
+    "steps": [
+     "Scrie configurația electronică a elementului.",
+     "Numără straturile (perioada) și electronii de valență (grupa).",
+     "Stabilește blocul după ultimul substrat ocupat și deduce proprietățile.",
+     "Greșeala frecventă: să confunzi numărul grupei cu numărul de straturi; perioada dă straturile, grupa dă electronii de valență."
+    ],
+    "answers": [
+     "Numărul de straturi ocupate",
+     "7",
+     "Elemente cu electronul distinctiv în substratul p",
+     "Au aceeași configurație a stratului de valență",
+     "Grupa 1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Raza atomică și raza ionică",
+    "theory": "Raza atomică scade în perioadă de la stânga la dreapta (crește sarcina nucleară, electronii sunt atrași mai puternic, iar numărul de straturi rămâne același) și crește în grupă de sus în jos (se adaugă straturi). Ionii pozitivi (cationii) sunt mai mici decât atomii din care provin (pierd ultimul strat sau au mai puțini electroni pentru aceeași sarcină nucleară); ionii negativi (anionii) sunt mai mari decât atomii (mai mulți electroni se resping, aceeași sarcină nucleară).",
+    "sample": "Raza ionului Na⁺ este mai mică decât raza atomului de Na; raza Cl⁻ este mai mare decât a atomului de Cl.",
+    "worked": "Ordonăm Na, Mg, Al, Cl (perioada 3): razele scad în ordinea Na > Mg > Al > Cl. În grupa 1: Li < Na < K. Na⁺ (1s² 2s² 2p⁶) a pierdut stratul 3, deci este mult mai mic decât Na. Ionii izoelectronici Na⁺, Mg²⁺, Al³⁺ au 10 electroni; cel cu sarcina nucleară cea mai mare (Al³⁺) este cel mai mic.",
+    "exercises": [
+     "Ordonează după raza atomică: F, O, N, C.",
+     "Ordonează după raza atomică: Mg, Ca, Be.",
+     "Explică de ce raza Mg²⁺ este mai mică decât a atomului Mg.",
+     "Compară razele O și O²⁻.",
+     "Ordonează ionii izoelectronici F⁻, Na⁺, O²⁻, Mg²⁺ după rază."
+    ],
+    "test": [
+     "Cum variază raza atomică în perioadă?",
+     "Cum variază raza atomică în grupă?",
+     "Cationul față de atomul neutru?",
+     "Anionul față de atomul neutru?",
+     "Ce sunt ionii izoelectronici?"
+    ],
+    "steps": [
+     "Plasează elementele în tabelul periodic (perioadă și grupă).",
+     "Aplică tendințele: scade în perioadă, crește în grupă; cation < atom < anion.",
+     "Pentru ioni izoelectronici, compară sarcina nucleară.",
+     "Greșeala frecventă: să crezi că raza crește în perioadă odată cu numărul de electroni; sarcina nucleară mai mare contractă învelișul."
+    ],
+    "answers": [
+     "Scade de la stânga la dreapta",
+     "Crește de sus în jos",
+     "Mai mic",
+     "Mai mare",
+     "Ioni cu același număr de electroni"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Caracterul metalic și caracterul nemetalic",
+    "theory": "Caracterul metalic este tendința atomului de a ceda electroni și de a forma ioni pozitivi; caracterul nemetalic este tendința de a accepta electroni și de a forma ioni negativi. Caracterul metalic scade în perioadă și crește în grupă (de exemplu Na > Mg > Al: sodiul reacționează violent cu apa, magneziul doar la cald, aluminiul este protejat de un strat de oxid). Caracterul nemetalic crește în perioadă (N < O < F) și scade în grupă (Cl > Br > I): clorul înlocuiește bromul și iodul din sărurile lor.",
+    "sample": "Fluorul este elementul cu cel mai pronunțat caracter nemetalic.",
+    "worked": "Reacția Cl₂ + 2 KBr → 2 KCl + Br₂ arată că clorul are caracter nemetalic mai pronunțat decât bromul (soluția se colorează în galben-brun). Invers, Br₂ + KCl nu reacționează. Na + H₂O: 2 Na + 2 H₂O → 2 NaOH + H₂↑ (reacție violentă), iar fenolftaleina se colorează în roșu-carmin.",
+    "exercises": [
+     "Ordonează după caracterul metalic: Al, Na, Mg.",
+     "Ordonează după caracterul nemetalic: I, Cl, Br.",
+     "Scrie ecuația reacției dintre Br₂ și KI și explică de ce are loc.",
+     "Ce element are caracter metalic mai pronunțat: Na sau K? Justifică.",
+     "Cum demonstrezi experimental că sodiul este mai reactiv decât magneziul?"
+    ],
+    "test": [
+     "Ce este caracterul metalic?",
+     "Cum variază caracterul metalic în perioadă?",
+     "Cum variază caracterul nemetalic în grupă?",
+     "Cel mai pronunțat caracter nemetalic?",
+     "Reacționează Br₂ cu KCl?"
+    ],
+    "steps": [
+     "Plasează elementele în tabelul periodic.",
+     "Aplică tendințele (metalic: crește în grupă, scade în perioadă; nemetalic invers).",
+     "Confirmă prin reacții (deplasarea halogenilor, reacția metalelor cu apa).",
+     "Greșeala frecventă: să scrii reacția de deplasare inversă, de exemplu I₂ + 2 KCl; un halogen mai puțin activ nu îl deplasează pe unul mai activ."
+    ],
+    "answers": [
+     "Tendința de a ceda electroni",
+     "Scade",
+     "Scade",
+     "Fluorul",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Legătura ionică; compuși ionici",
+    "theory": "Legătura ionică se formează prin transfer de electroni de la un metal (caracter metalic pronunțat) la un nemetal (caracter nemetalic pronunțat), urmat de atracția electrostatică dintre ionii de semn opus. Atomii ating astfel configurații stabile de gaz nobil (octet sau dublet). Exemple: Na + Cl → Na⁺Cl⁻; Ca + 2 F → Ca²⁺(F⁻)₂. Simbolurile Lewis (punctele din jurul simbolului reprezintă electronii de valență) arată transferul. Compușii ionici sunt solizi cristalini cu temperaturi de topire mari.",
+    "sample": "În clorura de sodiu, fiecare atom de sodiu cedează un electron unui atom de clor.",
+    "worked": "Formarea oxidului de calciu: Ca (2 e⁻ de valență) cedează 2 electroni ⇒ Ca²⁺; O (6 e⁻ de valență) acceptă 2 electroni ⇒ O²⁻; formula CaO. Fluorura de calciu: Ca²⁺ și doi ioni F⁻ ⇒ CaF₂ (raportul ionilor asigură neutralitatea). Oxidul de sodiu: 2 Na⁺ și O²⁻ ⇒ Na₂O.",
+    "exercises": [
+     "Reprezintă cu simboluri Lewis formarea NaF.",
+     "Scrie formulele compușilor ionici formați de Mg cu Cl și de Al cu O.",
+     "Ce configurație ating ionii Na⁺ și Cl⁻?",
+     "De ce sodiul formează ioni Na⁺ și nu Na²⁺?",
+     "Explică formarea oxidului de sodiu."
+    ],
+    "test": [
+     "Cum se formează legătura ionică?",
+     "Ce ioni formează metalele?",
+     "Formula fluorurii de calciu?",
+     "Ce reprezintă simbolul Lewis?",
+     "Configurația ionului Cl⁻?"
+    ],
+    "steps": [
+     "Determină electronii de valență ai metalului și nemetalului.",
+     "Arată transferul de electroni până la configurații de gaz nobil.",
+     "Combină ionii în raportul care asigură neutralitatea și scrie formula.",
+     "Greșeala frecventă: să scrii formula fără a echilibra sarcinile, de exemplu CaF în loc de CaF₂."
+    ],
+    "answers": [
+     "Prin transfer de electroni și atracție între ioni",
+     "Ioni pozitivi (cationi)",
+     "CaF₂",
+     "Atomul cu electronii lui de valență",
+     "1s² 2s² 2p⁶ 3s² 3p⁶"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Cristalul de clorură de sodiu; proprietățile substanțelor ionice",
+    "theory": "În cristalul de NaCl, fiecare ion Na⁺ este înconjurat de 6 ioni Cl⁻ și fiecare Cl⁻ de 6 ioni Na⁺ (rețea cubică). Substanțele ionice: sunt solide la temperatura camerei, au temperaturi de topire ridicate, sunt casante (la lovire, straturile alunecă, ionii de același semn ajung față în față și se resping), nu conduc curentul în stare solidă, dar conduc în topitură și în soluție (ionii devin mobili). Temperatura de topire crește cu sarcina ionilor și scade cu raza lor: NaF > NaCl, NaF > KF, MgO ≫ NaF.",
+    "sample": "NaCl se topește la circa 801 °C, iar NaF la circa 993 °C.",
+    "worked": "Comparăm NaF, MgF₂, AlF₃: sarcina cationului crește (+1, +2, +3) și raza lui scade, atracția crește, deci temperaturile de topire cresc în această ordine. MgO (ioni +2 și −2) are temperatura de topire de peste 2 800 °C — folosit ca material refractar.",
+    "exercises": [
+     "Câți ioni Cl⁻ înconjoară un ion Na⁺ în cristal?",
+     "De ce sarea se sfărâmă la lovire?",
+     "În ce condiții conduce NaCl curentul electric?",
+     "Ordonează după temperatura de topire: NaCl, NaF, MgO.",
+     "Explică de ce KF are temperatura de topire mai mică decât NaF."
+    ],
+    "test": [
+     "Numărul de coordinare în cristalul de NaCl?",
+     "Starea de agregare a compușilor ionici?",
+     "Conduce NaCl solid curentul?",
+     "De ce sunt casanți compușii ionici?",
+     "Ce temperatură de topire are MgO comparativ cu NaF?"
+    ],
+    "steps": [
+     "Identifică ionii și sarcinile lor.",
+     "Compară forța atracției (sarcină mare și rază mică ⇒ atracție mare).",
+     "Deduce proprietățile: temperatura de topire, conductibilitatea, comportarea la lovire.",
+     "Greșeala frecventă: să afirmi că NaCl solid conduce curentul; ionii sunt ficși în rețea, conduce doar topit sau dizolvat."
+    ],
+    "answers": [
+     "6",
+     "Solidă",
+     "Nu",
+     "Ionii de același semn ajung față în față și se resping",
+     "Mult mai mare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Legătura covalentă nepolară și polară; electronegativitatea",
+    "theory": "Legătura covalentă se formează prin punerea în comun a unor perechi de electroni între atomi de nemetale. Covalența nepolară apare între atomi identici (H₂, Cl₂, N₂ — legătură simplă, dublă sau triplă după numărul de perechi comune: N≡N). Electronegativitatea este tendința unui atom de a atrage electronii comuni; cel mai electronegativ este fluorul. Între atomi diferiți, perechea comună este deplasată spre atomul mai electronegativ: legătura covalentă polară (H–Cl, O–H, N–H), cu sarcini parțiale δ+ și δ−.",
+    "sample": "În molecula de HCl, clorul este mai electronegativ și poartă o sarcină parțială negativă.",
+    "worked": "Molecula N₂: fiecare atom de azot are 5 electroni de valență și pune în comun 3 electroni ⇒ legătură triplă, fiecare atom are octet (o pereche neparticipantă). În H₂O, oxigenul formează două legături O–H polare și mai are două perechi de electroni neparticipante. CH₄: patru legături C–H, practic nepolare.",
+    "exercises": [
+     "Reprezintă cu formule Lewis moleculele H₂, Cl₂ și N₂.",
+     "Ce tip de legătură este în HCl? Unde apare sarcina δ−?",
+     "Ordonează după electronegativitate: O, F, N, C.",
+     "Câte perechi neparticipante are atomul de azot din NH₃?",
+     "Ce diferență este între legătura ionică și cea covalentă polară?"
+    ],
+    "test": [
+     "Cum se formează legătura covalentă?",
+     "Ce este electronegativitatea?",
+     "Cel mai electronegativ element?",
+     "Ce legătură are molecula de azot?",
+     "Ce este o legătură covalentă polară?"
+    ],
+    "steps": [
+     "Determină electronii de valență ai fiecărui atom.",
+     "Formează perechi comune până când fiecare atom are octet (hidrogenul dublet).",
+     "Compară electronegativitățile pentru a decide polaritatea legăturii.",
+     "Greșeala frecventă: să consideri covalentă nepolară orice legătură dintre nemetale; între atomi diferiți ea este polară."
+    ],
+    "answers": [
+     "Prin punerea în comun a electronilor",
+     "Tendința atomului de a atrage electronii comuni",
+     "Fluorul",
+     "O legătură triplă",
+     "O legătură cu perechea comună deplasată spre atomul mai electronegativ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Molecule polare și nepolare",
+    "theory": "Polaritatea unei molecule depinde de polaritatea legăturilor și de geometria moleculei. Dacă legăturile polare sunt așezate simetric, efectele lor se anulează: molecula este nepolară (CO₂ liniară, CCl₄ tetraedrică). Dacă geometria nu este simetrică, molecula are un pol pozitiv și unul negativ: moleculă polară (H₂O unghiulară, NH₃ piramidală, HCl, CH₃OH, CH₃NH₂, CH₃Cl). Moleculele formate din atomi identici (H₂, Cl₂, N₂) sunt nepolare. Polaritatea influențează solubilitatea și temperaturile de fierbere.",
+    "sample": "CO₂ are legături polare, dar este o moleculă nepolară, pentru că este liniară.",
+    "worked": "H₂O: unghiul H–O–H ≈ 104,5°; legăturile O–H nu se anulează, oxigenul este polul negativ — apa este polară. CCl₄: patru legături C–Cl polare îndreptate spre vârfurile unui tetraedru — se anulează, molecula este nepolară; de aceea CCl₄ nu se amestecă cu apa.",
+    "exercises": [
+     "Clasifică moleculele: H₂, HCl, CO₂, H₂O, CCl₄, NH₃.",
+     "De ce CO₂ este nepolar deși legăturile C=O sunt polare?",
+     "Ce geometrie are molecula de amoniac?",
+     "De ce metanolul se amestecă cu apa?",
+     "Reprezintă polii moleculei de apă."
+    ],
+    "test": [
+     "De ce depinde polaritatea unei molecule?",
+     "Geometria moleculei CO₂?",
+     "Este apa o moleculă polară?",
+     "Este CCl₄ polar?",
+     "Un exemplu de moleculă nepolară din atomi identici?"
+    ],
+    "steps": [
+     "Stabilește polaritatea fiecărei legături.",
+     "Stabilește geometria moleculei (liniară, unghiulară, piramidală, tetraedrică).",
+     "Decide dacă efectele se anulează (nepolară) sau nu (polară).",
+     "Greșeala frecventă: să consideri polară orice moleculă cu legături polare; geometria simetrică poate anula polaritatea."
+    ],
+    "answers": [
+     "De polaritatea legăturilor și de geometrie",
+     "Liniară",
+     "Da",
+     "Nu",
+     "H₂"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Legătura covalent-coordinativă; combinații complexe",
+    "theory": "Legătura covalent-coordinativă este o legătură covalentă în care perechea de electroni este adusă de un singur atom (donor), iar celălalt (acceptor) are un orbital liber. Exemple: ionul hidroniu H₃O⁺ (H₂O + H⁺) și ionul amoniu NH₄⁺ (NH₃ + H⁺); după formare, legăturile sunt identice. Combinațiile complexe au un ion metalic central înconjurat de liganzi legați coordinativ: reactivul Tollens [Ag(NH₃)₂]OH, reactivul Schweizer [Cu(NH₃)₄](OH)₂ (albastru intens, dizolvă celuloza), tetrahidroxozincatul de sodiu Na₂[Zn(OH)₄].",
+    "sample": "În ionul amoniu, azotul donează perechea de electroni neparticipantă protonului H⁺.",
+    "worked": "Obținerea reactivului Schweizer: Cu(OH)₂ (precipitat albastru) + 4 NH₃ → [Cu(NH₃)₄](OH)₂ (soluție albastru-violet intens). Hidroxidul de zinc, amfoter, se dizolvă în exces de NaOH: Zn(OH)₂ + 2 NaOH → Na₂[Zn(OH)₄]. Denumire: [Ag(NH₃)₂]OH — hidroxid de diaminoargint (I).",
+    "exercises": [
+     "Reprezintă formarea ionului H₃O⁺ cu formule Lewis.",
+     "Ce atom este donor în formarea ionului NH₄⁺?",
+     "Scrie ecuația de obținere a reactivului Tollens din AgOH și NH₃.",
+     "Denumește combinația [Cu(NH₃)₄](OH)₂.",
+     "Ce este un ligand?"
+    ],
+    "test": [
+     "Ce este legătura covalent-coordinativă?",
+     "Ce ion se formează din NH₃ și H⁺?",
+     "Formula reactivului Schweizer?",
+     "Ce culoare are reactivul Schweizer?",
+     "Formula tetrahidroxozincatului de sodiu?"
+    ],
+    "steps": [
+     "Identifică donorul (cu pereche neparticipantă) și acceptorul (cu orbital liber).",
+     "Reprezintă legătura coordinativă și ionul rezultat.",
+     "Pentru complecși, precizează ionul central, liganzii și sarcina, apoi denumește.",
+     "Greșeala frecventă: să crezi că legătura coordinativă rămâne diferită de celelalte după formare; în NH₄⁺ cele patru legături N–H sunt identice."
+    ],
+    "answers": [
+     "Legătură cu perechea de electroni provenită de la un singur atom",
+     "NH₄⁺",
+     "[Cu(NH₃)₄](OH)₂",
+     "Albastru-violet intens",
+     "Na₂[Zn(OH)₄]"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Legătura metalică; proprietățile metalelor",
+    "theory": "În metale, atomii cedează electronii de valență, care devin delocalizați și se mișcă liber printre ionii pozitivi ai rețelei cristaline („gazul de electroni”). Atracția dintre ionii pozitivi și electronii delocalizați constituie legătura metalică. Proprietăți explicate: conductibilitate electrică și termică mare (electronii se deplasează ușor), luciu metalic, maleabilitate (pot fi trase în foi) și ductilitate (pot fi trase în fire), deoarece straturile de ioni alunecă fără ca legătura să se rupă.",
+    "sample": "Cuprul este folosit pentru cabluri electrice pentru că are electroni delocalizați foarte mobili.",
+    "worked": "Comparăm Na, Mg, Al: numărul de electroni delocalizați pe atom crește (1, 2, 3), legătura metalică devine mai puternică, iar temperaturile de topire cresc (≈ 98 °C, 650 °C, 660 °C). Aurul poate fi bătut în foițe de grosimea a câtorva sute de atomi datorită maleabilității.",
+    "exercises": [
+     "Explică de ce metalele conduc curentul electric.",
+     "De ce metalele sunt maleabile, iar sarea de bucătărie este casantă?",
+     "Ce este „gazul de electroni”?",
+     "Dă exemple de utilizări bazate pe ductilitatea și conductibilitatea metalelor.",
+     "De ce aluminiul are temperatura de topire mai mare decât sodiul?"
+    ],
+    "test": [
+     "Ce este legătura metalică?",
+     "De ce conduc metalele căldura?",
+     "Ce este maleabilitatea?",
+     "Ce este ductilitatea?",
+     "Ce particule formează rețeaua metalică?"
+    ],
+    "steps": [
+     "Descrie structura: ioni pozitivi și electroni delocalizați.",
+     "Leagă fiecare proprietate de mobilitatea electronilor sau de alunecarea straturilor.",
+     "Compară metalele după numărul de electroni delocalizați.",
+     "Greșeala frecventă: să explici conductibilitatea metalelor prin ioni mobili; în metale curentul este transportat de electronii delocalizați."
+    ],
+    "answers": [
+     "Atracția dintre ionii pozitivi și electronii delocalizați",
+     "Electronii liberi transportă energia",
+     "Proprietatea de a fi tras în foi",
+     "Proprietatea de a fi tras în fire",
+     "Ioni pozitivi"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Forțe intermoleculare: dipol–dipol, legături de hidrogen, forțe London",
+    "theory": "Între molecule acționează forțe mult mai slabe decât legăturile chimice. Forțele London (de dispersie) există între toate moleculele și sunt singurele între moleculele nepolare (H₂, CH₄, CO₂); cresc cu masa și mărimea moleculei. Interacțiunile dipol–dipol apar între molecule polare (HCl). Legătura de hidrogen apare când hidrogenul este legat de un atom mic și foarte electronegativ (F, O, N) și este atras de perechea neparticipantă a unui atom F, O, N dintr-o moleculă vecină (H₂O, NH₃, HF, alcooli); este cea mai puternică interacțiune intermoleculară.",
+    "sample": "Apa fierbe la 100 °C, deși molecula ei este mică, datorită legăturilor de hidrogen.",
+    "worked": "Comparăm temperaturile de fierbere: CH₄ (−162 °C, forțe London), HCl (−85 °C, dipol–dipol), H₂O (100 °C, legături de hidrogen). În seria halogenilor F₂ < Cl₂ < Br₂ < I₂ forțele London cresc cu masa moleculei: F₂ și Cl₂ sunt gaze, Br₂ lichid, I₂ solid.",
+    "exercises": [
+     "Ce tip de interacțiune predomină între moleculele de CH₄, HCl, H₂O, NH₃?",
+     "De ce bromul este lichid, iar clorul gaz la temperatura camerei?",
+     "Reprezintă legăturile de hidrogen dintre două molecule de apă.",
+     "Ordonează după temperatura de fierbere: CH₄, H₂O, HCl.",
+     "Între ce atomi se poate forma legătura de hidrogen?"
+    ],
+    "test": [
+     "Ce sunt forțele London?",
+     "Când apare legătura de hidrogen?",
+     "Care interacțiune intermoleculară este cea mai puternică?",
+     "Între ce molecule apar interacțiunile dipol–dipol?",
+     "Cum variază forțele London cu masa moleculară?"
+    ],
+    "steps": [
+     "Stabilește polaritatea moleculei și prezența legăturilor H–F, H–O, H–N.",
+     "Identifică interacțiunea dominantă (London, dipol–dipol, legătură de hidrogen).",
+     "Compară proprietățile (temperaturi de topire și fierbere, solubilitate).",
+     "Greșeala frecventă: să confunzi legătura de hidrogen (între molecule) cu legătura covalentă O–H (în interiorul moleculei)."
+    ],
+    "answers": [
+     "Forțe slabe care există între toate moleculele",
+     "Când H este legat de F, O sau N și interacționează cu F, O, N vecin",
+     "Legătura de hidrogen",
+     "Între molecule polare",
+     "Cresc"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Influența interacțiunilor intermoleculare asupra proprietăților fizice; apa",
+    "theory": "Cu cât interacțiunile intermoleculare sunt mai puternice, cu atât temperaturile de topire și de fierbere sunt mai mari. Solubilitatea respectă regula „similar dizolvă similar”: substanțele polare se dizolvă în solvenți polari, cele nepolare în solvenți nepolari. Apa are proprietăți deosebite datorită legăturilor de hidrogen: temperatură de fierbere neobișnuit de mare, căldură specifică mare (reglează clima), tensiune superficială mare și densitate maximă la 4 °C — gheața are o structură afânată și plutește, protejând viața din lacuri iarna.",
+    "sample": "Gheața plutește pe apă pentru că, la înghețare, legăturile de hidrogen formează o rețea afânată.",
+    "worked": "Etanolul (CH₃CH₂OH) fierbe la 78 °C, iar dimetileterul (CH₃OCH₃), cu aceeași formulă moleculară, la −24 °C: alcoolul formează legături de hidrogen, eterul nu (nu are H legat de O). Iodul nu se dizolvă bine în apă, dar se dizolvă în tetraclorură de carbon (ambele nepolare).",
+    "exercises": [
+     "De ce un lac îngheață doar la suprafață?",
+     "Explică de ce etanolul fierbe la temperatură mai mare decât dimetileterul.",
+     "Unde se dizolvă iodul: în apă sau în benzină? De ce?",
+     "Ce rol are căldura specifică mare a apei pentru climă?",
+     "De ce unele insecte pot merge pe apă?"
+    ],
+    "test": [
+     "Ce înseamnă „similar dizolvă similar”?",
+     "La ce temperatură are apa densitatea maximă?",
+     "De ce plutește gheața?",
+     "Ce efect au legăturile de hidrogen asupra temperaturii de fierbere?",
+     "De ce apa reglează clima?"
+    ],
+    "steps": [
+     "Identifică interacțiunile intermoleculare din substanțe.",
+     "Corelează intensitatea lor cu temperaturile de topire și fierbere.",
+     "Aplică regula „similar dizolvă similar” pentru solubilitate.",
+     "Greșeala frecventă: să crezi că la fierbere se rup legăturile din molecula de apă; se rup doar interacțiunile dintre molecule."
+    ],
+    "answers": [
+     "Substanțele polare se dizolvă în solvenți polari, cele nepolare în nepolari",
+     "4 °C",
+     "Are densitate mai mică decât apa lichidă",
+     "O mărește",
+     "Are căldură specifică mare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Soluții apoase în viața cotidiană; procesul de dizolvare; efecte termice",
+    "theory": "O soluție este un amestec omogen format din solvent (de obicei apa) și una sau mai multe substanțe dizolvate (solvați). Exemple: serul fiziologic (NaCl 0,9%), oțetul, apa oxigenată, băuturile carbogazoase. La dizolvarea unei substanțe ionice, moleculele polare de apă înconjoară ionii (hidratare) și îi desprind din rețea; la substanțele cu molecule polare (HCl, zahăr), apa interacționează cu moleculele prin interacțiuni dipol–dipol sau legături de hidrogen. Dizolvarea poate fi exotermă (NaOH, H₂SO₄ — soluția se încălzește) sau endotermă (NH₄NO₃ — se răcește, folosit în pungile de gheață instant).",
+    "sample": "Când dizolvi hidroxid de sodiu în apă, eprubeta se încălzește: dizolvarea este exotermă.",
+    "worked": "În punga de răcire instant, azotatul de amoniu se dizolvă în apă absorbind căldură și temperatura scade cu 10–15 °C. Acidul sulfuric concentrat se diluează turnând acidul în apă, în fir subțire, cu agitare — niciodată apă peste acid, pentru că degajarea bruscă de căldură poate provoca stropi periculoși.",
+    "exercises": [
+     "Identifică solventul și solvatul în serul fiziologic și în apa carbogazoasă.",
+     "Explică hidratarea ionilor la dizolvarea NaCl.",
+     "Dă un exemplu de dizolvare exotermă și unul de dizolvare endotermă.",
+     "De ce se toarnă acidul în apă și nu invers?",
+     "Cum funcționează o pungă de răcire instant?"
+    ],
+    "test": [
+     "Ce este o soluție?",
+     "Ce este hidratarea ionilor?",
+     "Un exemplu de dizolvare exotermă?",
+     "Un exemplu de dizolvare endotermă?",
+     "Ce este solventul?"
+    ],
+    "steps": [
+     "Identifică solventul și substanța dizolvată și tipul ei (ionică sau moleculară).",
+     "Descrie interacțiunile solvent–solvat (hidratare, legături de hidrogen).",
+     "Precizează efectul termic și măsurile de siguranță.",
+     "Greșeala frecventă: să torni apă peste acid sulfuric concentrat; corect este acidul în apă, încet, cu agitare."
+    ],
+    "answers": [
+     "Un amestec omogen de solvent și substanțe dizolvate",
+     "Înconjurarea ionilor de molecule de apă",
+     "Dizolvarea NaOH",
+     "Dizolvarea NH₄NO₃",
+     "Componenta în care se dizolvă celelalte"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "Solubilitatea; factorii care o influențează",
+    "theory": "Solubilitatea unei substanțe este cantitatea maximă care se poate dizolva într-o anumită cantitate de solvent, la o temperatură dată (de exemplu, grame la 100 g apă). O soluție în care nu se mai dizolvă substanță este saturată. Factori: natura substanței și a solventului („similar dizolvă similar”), temperatura (solubilitatea majorității solidelor crește cu temperatura, a gazelor scade), presiunea (solubilitatea gazelor crește cu presiunea — băuturile carbogazoase). Agitarea și mărunțirea grăbesc dizolvarea, dar nu schimbă solubilitatea.",
+    "sample": "O băutură carbogazoasă deschisă face bule pentru că scade presiunea și dioxidul de carbon devine mai puțin solubil.",
+    "worked": "Solubilitatea KNO₃ este ≈ 32 g/100 g apă la 20 °C și ≈ 110 g/100 g apă la 60 °C. Dacă răcim de la 60 °C la 20 °C o soluție saturată cu 100 g apă, cristalizează 110 − 32 = 78 g KNO₃ — principiul purificării prin recristalizare. Peștii suferă vara în ape calde, pentru că oxigenul este mai puțin solubil.",
+    "exercises": [
+     "Ce masă de KNO₃ se dizolvă în 250 g apă la 20 °C (solubilitate 32 g/100 g)?",
+     "De ce băuturile carbogazoase se păstrează la rece și închise?",
+     "Ce diferență este între viteza de dizolvare și solubilitate?",
+     "Câtă sare cristalizează la răcirea unei soluții saturate cu 200 g apă de la 60 °C la 20 °C (datele din exemplu)?",
+     "Explică de ce peștii au mai puțin oxigen vara."
+    ],
+    "test": [
+     "Ce este solubilitatea?",
+     "Ce este o soluție saturată?",
+     "Cum variază solubilitatea gazelor cu temperatura?",
+     "Cum variază solubilitatea gazelor cu presiunea?",
+     "Schimbă agitarea solubilitatea?"
+    ],
+    "steps": [
+     "Citește solubilitatea la temperatura dată (g la 100 g apă).",
+     "Folosește proporții pentru alte mase de apă.",
+     "Interpretează influența temperaturii și a presiunii.",
+     "Greșeala frecventă: să crezi că agitarea mărește cantitatea maximă dizolvată; ea doar grăbește dizolvarea."
+    ],
+    "answers": [
+     "Cantitatea maximă dizolvată într-o cantitate de solvent la o temperatură dată",
+     "Soluția în care nu se mai poate dizolva substanță",
+     "Scade",
+     "Crește",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "Concentrația procentuală masică",
+    "theory": "Concentrația procentuală arată câte grame de substanță dizolvată se află în 100 g de soluție: c% = (m_d/m_s)·100, unde m_s = m_d + m_apă. La diluare masa de substanță dizolvată rămâne constantă; la concentrare prin evaporare scade masa de apă. La amestecarea a două soluții: m_d total = m_d1 + m_d2 și m_s total = m_s1 + m_s2. Densitatea leagă masa de volum: m = ρ·V.",
+    "sample": "O soluție de 200 g care conține 20 g sare are concentrația de 10%.",
+    "worked": "Pregătim 500 g ser fiziologic 0,9%: m_d = 0,9·500/100 = 4,5 g NaCl și 495,5 g apă. Diluăm 200 g soluție 20% cu 300 g apă: m_d = 40 g, m_s = 500 g, c = 8%. Amestecăm 100 g soluție 10% cu 300 g soluție 30%: m_d = 10 + 90 = 100 g, m_s = 400 g, c = 25%.",
+    "exercises": [
+     "Ce concentrație are o soluție obținută din 30 g zahăr și 170 g apă?",
+     "Câtă sare și câtă apă sunt necesare pentru 300 g soluție 15%?",
+     "Ce masă de apă trebuie adăugată la 100 g soluție 40% pentru a obține o soluție 10%?",
+     "Amestecă 200 g soluție 5% cu 300 g soluție 20%. Ce concentrație rezultă?",
+     "Ce masă au 500 mL soluție cu densitatea 1,2 g/mL?"
+    ],
+    "test": [
+     "Formula concentrației procentuale?",
+     "Ce rămâne constant la diluare?",
+     "Masa soluției în funcție de componente?",
+     "Relația dintre masă, densitate și volum?",
+     "m_d pentru 100 g soluție 25%?"
+    ],
+    "steps": [
+     "Identifică m_d, m_apă și m_s (folosește ρ·V dacă ai volume).",
+     "Aplică c% = m_d·100/m_s; la diluare sau amestecare calculează m_d total și m_s total.",
+     "Verifică faptul că rezultatul este între concentrațiile amestecate și are sens.",
+     "Greșeala frecventă: să împarți la masa apei în loc de masa soluției (m_s = m_d + m_apă)."
+    ],
+    "answers": [
+     "c% = (m_d/m_s)·100",
+     "Masa substanței dizolvate",
+     "m_s = m_d + m_apă",
+     "m = ρ·V",
+     "25 g"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Concentrația molară; prepararea soluțiilor",
+    "theory": "Concentrația molară arată numărul de moli de substanță dizolvată într-un litru de soluție: c_M = n/V_s = m/(M·V_s) (mol/L). Pentru a prepara o soluție de concentrație molară dată: calculezi masa necesară, o cântărești, o dizolvi într-o cantitate mai mică de apă, transferi într-un balon cotat și completezi cu apă până la semn. Legătura cu concentrația procentuală: c_M = 10·ρ·c%/M (cu ρ în g/mL). La diluare, c₁·V₁ = c₂·V₂.",
+    "sample": "O soluție cu 0,5 mol NaOH în 1 L are concentrația 0,5 M.",
+    "worked": "Pentru 250 mL soluție NaOH 0,2 M (M = 40 g/mol): n = 0,2·0,25 = 0,05 mol, m = 0,05·40 = 2 g. Soluția de HCl 36,5% cu ρ = 1,18 g/mL: c_M = 10·1,18·36,5/36,5 = 11,8 M. Pentru 500 mL HCl 1 M din ea: V₁ = 1·500/11,8 ≈ 42,4 mL.",
+    "exercises": [
+     "Ce masă de NaCl (M = 58,5 g/mol) trebuie pentru 500 mL soluție 0,1 M?",
+     "Calculează concentrația molară a unei soluții cu 4,9 g H₂SO₄ (M = 98 g/mol) în 200 mL.",
+     "Ce volum de soluție HCl 2 M conține 0,5 mol HCl?",
+     "Cum diluezi 100 mL soluție 3 M pentru a obține o soluție 1 M?",
+     "Descrie etapele preparării unei soluții într-un balon cotat."
+    ],
+    "test": [
+     "Formula concentrației molare?",
+     "Unitatea concentrației molare?",
+     "Relația de diluare?",
+     "Ce instrument se folosește pentru volumul exact?",
+     "Câți moli sunt în 2 L soluție 0,5 M?"
+    ],
+    "steps": [
+     "Transformă volumul în litri și calculează numărul de moli n = c_M·V.",
+     "Calculează masa m = n·M (sau volumul necesar din c₁V₁ = c₂V₂).",
+     "Descrie prepararea: cântărire, dizolvare, completare în balon cotat până la semn.",
+     "Greșeala frecventă: să folosești volumul de apă adăugat în loc de volumul final al soluției."
+    ],
+    "answers": [
+     "c_M = n/V_s",
+     "mol/L",
+     "c₁·V₁ = c₂·V₂",
+     "Balonul cotat",
+     "1 mol"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Ionizarea acizilor și bazelor tari; produsul ionic al apei; pH-ul",
+    "theory": "Acizii tari monoprotici (HCl, HNO₃) ionizează total în apă: HCl + H₂O → H₃O⁺ + Cl⁻, deci [H₃O⁺] = c_acid. Bazele tari monoprotice (NaOH, KOH) disociază total: [HO⁻] = c_bază. Apa ionizează foarte puțin: 2 H₂O ⇌ H₃O⁺ + HO⁻; produsul ionic al apei K_w = [H₃O⁺]·[HO⁻] = 10⁻¹⁴ (mol/L)² la 25 °C. pH = −lg[H₃O⁺], pOH = −lg[HO⁻], pH + pOH = 14. Soluții acide: pH < 7; neutre: pH = 7; bazice: pH > 7. Indicatori: turnesolul (roșu în acid, albastru în bază), fenolftaleina (incoloră în acid, roșu-carmin în bază).",
+    "sample": "O soluție de HCl 0,01 M are pH = 2.",
+    "worked": "NaOH 0,001 M: [HO⁻] = 10⁻³, pOH = 3, pH = 11. Diluând de 10 ori o soluție de HCl cu pH = 1, pH devine 2. HCl cu pH = 3: [H₃O⁺] = 10⁻³ M, iar [HO⁻] = 10⁻¹⁴/10⁻³ = 10⁻¹¹ M.",
+    "exercises": [
+     "Calculează pH-ul unei soluții de HNO₃ 0,001 M.",
+     "Calculează pH-ul unei soluții de KOH 0,01 M.",
+     "Ce concentrație are o soluție de HCl cu pH = 4?",
+     "Ce culoare are fenolftaleina într-o soluție cu pH = 12?",
+     "Cum se schimbă pH-ul dacă diluezi de 100 de ori o soluție de HCl cu pH = 2?"
+    ],
+    "test": [
+     "Formula pH-ului?",
+     "Valoarea produsului ionic al apei?",
+     "Relația dintre pH și pOH?",
+     "pH-ul unei soluții neutre?",
+     "Culoarea turnesolului în mediu acid?"
+    ],
+    "steps": [
+     "Scrie ecuația de ionizare și stabilește [H₃O⁺] sau [HO⁻] (ionizare totală).",
+     "Calculează pH = −lg[H₃O⁺] sau pOH, apoi pH = 14 − pOH.",
+     "Interpretează (acid, neutru, bazic) și culoarea indicatorilor.",
+     "Greșeala frecventă: să calculezi pH-ul unei baze direct din [HO⁻] (de exemplu pH = 3 pentru NaOH 10⁻³ M); acela este pOH, iar pH = 11."
+    ],
+    "answers": [
+     "pH = −lg[H₃O⁺]",
+     "10⁻¹⁴ (mol/L)²",
+     "pH + pOH = 14",
+     "7",
+     "Roșu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Reacția de neutralizare acid tare–bază tare; calcule cu soluții",
+    "theory": "Neutralizarea este reacția dintre un acid și o bază, cu formare de sare și apă; esențial, ionii hidroniu reacționează cu ionii hidroxid: H₃O⁺ + HO⁻ → 2 H₂O. Pentru acizi și baze tari monoprotice, la neutralizare completă n(acid) = n(bază), iar soluția obținută are pH = 7. Dacă unul este în exces, pH-ul se calculează din excesul rămas, raportat la volumul total. Titrarea determină concentrația unei soluții necunoscute, adăugând treptat o soluție de concentrație cunoscută până la virajul indicatorului.",
+    "sample": "Pentru a neutraliza 0,1 mol HCl sunt necesari 0,1 mol NaOH.",
+    "worked": "50 mL HCl 0,2 M (0,01 mol) + 50 mL NaOH 0,1 M (0,005 mol): rămân 0,005 mol HCl în 100 mL ⇒ [H₃O⁺] = 0,05 M, pH ≈ 1,3. La o titrare, 20 mL NaOH 0,1 M neutralizează 10 mL HCl: c(HCl) = 0,1·20/10 = 0,2 M.",
+    "exercises": [
+     "Ce volum de NaOH 0,5 M neutralizează 100 mL HCl 0,25 M?",
+     "Ce masă de NaOH neutralizează 200 g soluție HCl 7,3%?",
+     "Calculează pH-ul după amestecarea a 100 mL HCl 0,1 M cu 100 mL NaOH 0,1 M.",
+     "Ce pH rezultă din 100 mL NaOH 0,2 M amestecat cu 100 mL HCl 0,1 M?",
+     "Ce indicator folosești la titrarea HCl cu NaOH și cum observi sfârșitul titrării?"
+    ],
+    "test": [
+     "Ce este neutralizarea?",
+     "Ecuația ionică a neutralizării?",
+     "pH-ul la neutralizarea completă acid tare–bază tare?",
+     "Ce este titrarea?",
+     "Condiția de neutralizare completă?"
+    ],
+    "steps": [
+     "Calculează numerele de moli de acid și de bază (n = c_M·V sau n = m/M).",
+     "Compară-i: neutralizare completă sau exces de acid ori bază.",
+     "Calculează pH-ul din excesul rămas, raportat la volumul total.",
+     "Greșeala frecventă: să uiți că volumul final este suma volumelor celor două soluții când calculezi concentrația excesului."
+    ],
+    "answers": [
+     "Reacția dintre un acid și o bază, cu formare de sare și apă",
+     "H₃O⁺ + HO⁻ → 2 H₂O",
+     "7",
+     "Determinarea concentrației prin adăugarea treptată a unei soluții cunoscute",
+     "n(acid) = n(bază)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Caracterizarea stării gazoase; volumul molar; legea lui Avogadro",
+    "theory": "Gazele nu au formă și volum proprii, sunt compresibile și difuzează ușor, pentru că distanțele dintre molecule sunt mari, iar interacțiunile slabe. Starea unui gaz se descrie prin parametrii de stare: presiune p, volum V, temperatură T (în kelvin, T = t + 273) și cantitate n. Legea lui Avogadro: volume egale de gaze diferite, în aceleași condiții de temperatură și presiune, conțin același număr de molecule. În condiții normale (0 °C, 1 atm), volumul molar al oricărui gaz este V_m = 22,4 L/mol.",
+    "sample": "Un mol de oxigen și un mol de hidrogen ocupă, în condiții normale, câte 22,4 L.",
+    "worked": "Câți moli și câte molecule sunt în 11,2 L CO₂ în condiții normale? n = 11,2/22,4 = 0,5 mol; N = 0,5·6,022·10²³ ≈ 3·10²³ molecule; masa = 0,5·44 = 22 g. 64 g O₂ (2 mol) ocupă 44,8 L.",
+    "exercises": [
+     "Ce volum ocupă 3 mol de azot în condiții normale?",
+     "Câți moli sunt în 5,6 L H₂ (c.n.)?",
+     "Ce volum ocupă 8 g de metan CH₄ (c.n.)?",
+     "Explică de ce gazele sunt compresibile.",
+     "Enunță legea lui Avogadro."
+    ],
+    "test": [
+     "Volumul molar în condiții normale?",
+     "Parametrii de stare ai unui gaz?",
+     "Legea lui Avogadro?",
+     "Condițiile normale?",
+     "De ce gazele difuzează ușor?"
+    ],
+    "steps": [
+     "Transformă temperatura în kelvin și identifică condițiile.",
+     "Folosește n = V/V_m (în condiții normale) sau n = m/M.",
+     "Calculează mărimea cerută și verifică unitățile.",
+     "Greșeala frecventă: să folosești 22,4 L/mol și în alte condiții decât cele normale."
+    ],
+    "answers": [
+     "22,4 L/mol",
+     "Presiunea, volumul, temperatura și cantitatea",
+     "Volume egale de gaze în aceleași condiții conțin același număr de molecule",
+     "0 °C și 1 atm",
+     "Moleculele sunt departe și se mișcă liber"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Ecuația de stare a gazului ideal",
+    "theory": "Gazul ideal este un model în care moleculele sunt punctiforme și interacționează doar prin ciocniri. Ecuația de stare: p·V = n·R·T, cu R = 0,082 L·atm/(mol·K) (sau 8,31 J/(mol·K) în SI). Pentru o cantitate fixă de gaz: p·V/T = constant, de unde rezultă legile transformărilor la temperatură, presiune sau volum constant. Ecuația permite calculul volumului unui gaz în orice condiții, al masei molare (M = m·R·T/(p·V)) sau al presiunii într-un recipient.",
+    "sample": "La 1 atm și 273 K, un mol de gaz ocupă 0,082·273 ≈ 22,4 L.",
+    "worked": "Ce volum ocupă 2 mol O₂ la 27 °C (300 K) și 2 atm? V = 2·0,082·300/2 = 24,6 L. O butelie de 10 L conține 0,5 kg propan C₃H₈ (M = 44 g/mol), parțial lichefiat — ecuația gazului ideal nu se aplică pentru lichid. O masă de gaz de 1,6 g ocupă 1,23 L la 27 °C și 1 atm: M = 1,6·0,082·300/1,23 = 32 g/mol (oxigen).",
+    "exercises": [
+     "Calculează presiunea a 0,5 mol gaz într-un vas de 5 L la 27 °C.",
+     "Ce volum ocupă 4 g H₂ la 127 °C și 2 atm?",
+     "Un gaz ocupă 10 L la 1 atm și 300 K. Ce volum ocupă la 2 atm și 600 K?",
+     "Determină masa molară a unui gaz: 2,8 g ocupă 2,24 L în condiții normale.",
+     "De ce nu e bine să lași un spray la soare?"
+    ],
+    "test": [
+     "Ecuația de stare a gazului ideal?",
+     "Valoarea lui R în L·atm/(mol·K)?",
+     "Relația pV/T pentru cantitate fixă?",
+     "Ce este gazul ideal?",
+     "Cum afli masa molară din ecuația de stare?"
+    ],
+    "steps": [
+     "Transformă temperatura în K, volumul în L și presiunea în atm.",
+     "Scrie pV = nRT (sau p₁V₁/T₁ = p₂V₂/T₂) și izolează necunoscuta.",
+     "Calculează și verifică plauzibilitatea (de exemplu V ≈ 22,4 L/mol în c.n.).",
+     "Greșeala frecventă: să introduci temperatura în grade Celsius în ecuația de stare."
+    ],
+    "answers": [
+     "p·V = n·R·T",
+     "0,082",
+     "p·V/T = constant",
+     "Un model cu molecule punctiforme care se ciocnesc elastic",
+     "M = m·R·T/(p·V)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Transformări de stare ale gazelor: izoterm, izobar, izocor",
+    "theory": "Pentru o cantitate constantă de gaz: la temperatură constantă (transformare izotermă), presiunea și volumul sunt invers proporționale: p₁·V₁ = p₂·V₂ (legea Boyle–Mariotte); la presiune constantă (izobară), volumul este proporțional cu temperatura absolută: V₁/T₁ = V₂/T₂ (legea Gay-Lussac); la volum constant (izocoră), presiunea este proporțională cu temperatura absolută: p₁/T₁ = p₂/T₂ (legea lui Charles). Toate se deduc din p·V/T = constant. Aplicații: pompa de bicicletă, scafandrii (volumul aerului din plămâni variază cu adâncimea), pneurile încălzite, baloanele cu aer cald.",
+    "sample": "Dacă un gaz este comprimat la temperatură constantă la jumătate din volum, presiunea se dublează.",
+    "worked": "Un balon are 2 L la 27 °C (300 K). Încălzit izobar la 177 °C (450 K): V₂ = 2·450/300 = 3 L. Un scafandru inspiră 6 L aer la 3 atm (20 m adâncime) și urcă la suprafață (1 atm) ținându-și respirația: aerul s-ar destinde la 18 L — de aceea scafandrii expiră lent la urcare.",
+    "exercises": [
+     "Un gaz ocupă 12 L la 1 atm. Ce volum are la 4 atm, temperatura fiind constantă?",
+     "Un gaz ocupă 5 L la 0 °C. Ce volum are la 273 °C, presiunea fiind constantă?",
+     "Un pneu are 2 atm la 17 °C. Ce presiune are la 47 °C (volum constant)?",
+     "De ce un balon scos iarna afară se micșorează?",
+     "Explică pericolul pentru un scafandru care urcă repede fără să expire."
+    ],
+    "test": [
+     "Legea transformării izoterme?",
+     "Legea transformării izobare?",
+     "Legea transformării izocore?",
+     "Relația generală pentru o cantitate fixă de gaz?",
+     "În ce unitate trebuie exprimată temperatura?"
+    ],
+    "steps": [
+     "Identifică parametrul constant și scrie legea corespunzătoare.",
+     "Transformă temperaturile în kelvin și păstrează aceleași unități pentru p și V.",
+     "Calculează și verifică sensul fizic (încălzire ⇒ volum sau presiune mai mare).",
+     "Greșeala frecventă: să folosești raportul temperaturilor în grade Celsius (de exemplu 273/0); în legile gazelor intră doar temperatura absolută."
+    ],
+    "answers": [
+     "p₁·V₁ = p₂·V₂",
+     "V₁/T₁ = V₂/T₂",
+     "p₁/T₁ = p₂/T₂",
+     "p·V/T = constant",
+     "Kelvin"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Amestecuri de gaze: fracție molară, masă molară medie, densitatea gazelor",
+    "theory": "Într-un amestec de gaze, fracția molară x_i = n_i/n_total; suma fracțiilor este 1. Pentru gaze, procentul în volume este egal cu procentul molar. Masa molară medie: M̄ = x₁·M₁ + x₂·M₂ + …; aerul are M̄ ≈ 28,9 g/mol. Densitatea absolută a unui gaz: ρ = m/V = p·M/(R·T); în condiții normale ρ₀ = M/22,4 (g/L). Densitatea relativă față de alt gaz: d = M₁/M₂ (de exemplu față de aer d_aer = M/28,9). Gazele cu M < 28,9 g/mol (H₂, He, CH₄) se ridică în aer; cele mai grele (CO₂) se acumulează jos.",
+    "sample": "Heliul (M = 4) este mai ușor decât aerul, de aceea baloanele cu heliu se ridică.",
+    "worked": "Aerul ≈ 80% N₂ și 20% O₂ (în moli): M̄ = 0,8·28 + 0,2·32 = 22,4 + 6,4 = 28,8 g/mol. Densitatea CO₂ în condiții normale: 44/22,4 ≈ 1,96 g/L; d_aer = 44/28,9 ≈ 1,52 — CO₂ se acumulează în pivnițe și peșteri, fiind periculos. Un gaz cu densitatea relativă față de H₂ egală cu 16 are M = 32 g/mol.",
+    "exercises": [
+     "Calculează masa molară medie a unui amestec cu 50% H₂ și 50% N₂ (în moli).",
+     "Ce densitate are metanul în condiții normale?",
+     "Un gaz are densitatea relativă față de aer 2. Care este masa lui molară?",
+     "De ce CO₂ se acumulează în pivnițe?",
+     "Calculează fracțiile molare într-un amestec de 2 mol O₂ și 6 mol N₂."
+    ],
+    "test": [
+     "Formula fracției molare?",
+     "Masa molară medie a aerului?",
+     "Densitatea unui gaz în condiții normale?",
+     "Densitatea relativă a două gaze?",
+     "De ce se ridică baloanele cu heliu?"
+    ],
+    "steps": [
+     "Calculează fracțiile molare (sau folosește procentele de volum).",
+     "Aplică M̄ = Σx_iM_i, ρ = M/22,4 sau d = M₁/M₂.",
+     "Interpretează (gaz mai ușor sau mai greu decât aerul).",
+     "Greșeala frecventă: să calculezi masa molară medie ca medie aritmetică simplă, ignorând fracțiile molare."
+    ],
+    "answers": [
+     "x_i = n_i/n_total",
+     "≈ 28,9 g/mol",
+     "ρ₀ = M/22,4",
+     "d = M₁/M₂",
+     "Heliul are masă molară mai mică decât aerul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Numărul de oxidare: reguli de determinare",
+    "theory": "Numărul de oxidare (N.O.) este sarcina formală pe care ar avea-o un atom dacă toți electronii legăturilor ar aparține atomului mai electronegativ. Reguli: elementele în stare liberă au N.O. = 0 (Na, H₂, O₂); ionii monoatomici au N.O. egal cu sarcina (Na⁺: +1, Cl⁻: −1); hidrogenul are +1 (−1 în hidruri metalice, NaH); oxigenul are −2 (−1 în peroxizi, H₂O₂); metalele din grupa 1 au +1, din grupa 2 au +2; suma N.O. într-o moleculă este 0, iar într-un ion poliatomic este egală cu sarcina ionului.",
+    "sample": "În H₂SO₄, sulful are numărul de oxidare +6: 2·(+1) + x + 4·(−2) = 0.",
+    "worked": "KMnO₄: +1 + x + 4·(−2) = 0 ⇒ x = +7 pentru Mn. Ionul Cr₂O₇²⁻: 2x + 7·(−2) = −2 ⇒ x = +6. NH₃: x + 3·(+1) = 0 ⇒ N are −3; în HNO₃ azotul are +5 — același element poate avea numere de oxidare diferite.",
+    "exercises": [
+     "Determină N.O. al clorului în HCl, Cl₂, HClO, KClO₃.",
+     "Determină N.O. al sulfului în H₂S, SO₂, Na₂SO₄.",
+     "Calculează N.O. al azotului în NH₄⁺ și NO₃⁻.",
+     "Ce N.O. are oxigenul în H₂O₂?",
+     "Calculează N.O. al fierului în Fe₂O₃ și FeO."
+    ],
+    "test": [
+     "N.O. al unui element liber?",
+     "N.O. al oxigenului în majoritatea compușilor?",
+     "Suma N.O. într-o moleculă neutră?",
+     "N.O. al hidrogenului în NaH?",
+     "Suma N.O. într-un ion poliatomic?"
+    ],
+    "steps": [
+     "Scrie N.O. cunoscute (H +1, O −2, metale alcaline +1).",
+     "Notează cu x elementul necunoscut și scrie suma = sarcina speciei.",
+     "Rezolvă ecuația și verifică faptul că valoarea este posibilă pentru element.",
+     "Greșeala frecventă: să uiți să înmulțești N.O. cu indicele atomului din formulă (de exemplu 4·(−2) pentru O₄)."
+    ],
+    "answers": [
+     "0",
+     "−2",
+     "0",
+     "−1",
+     "Sarcina ionului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Reacții redox: oxidare, reducere, agent oxidant și reducător",
+    "theory": "Reacțiile cu modificarea numărului de oxidare se numesc reacții redox. Oxidarea este cedarea de electroni (N.O. crește); reducerea este acceptarea de electroni (N.O. scade). Ele au loc simultan: câți electroni cedează reducătorul, atâția acceptă oxidantul. Agentul reducător este specia care se oxidează (cedează electroni); agentul oxidant este specia care se reduce (acceptă electroni). Exemple din natură și tehnică: arderea, respirația, ruginirea, obținerea metalelor, fotosinteza. Reacțiile fără modificarea N.O. (neutralizarea, precipitarea) nu sunt redox.",
+    "sample": "În reacția Zn + CuSO₄ → ZnSO₄ + Cu, zincul se oxidează, iar ionii de cupru se reduc.",
+    "worked": "Fe + CuSO₄ → FeSO₄ + Cu: Fe⁰ → Fe²⁺ + 2e⁻ (oxidare; Fe este reducătorul), Cu²⁺ + 2e⁻ → Cu⁰ (reducere; Cu²⁺ este oxidantul). Un cui de fier pus în soluție albastră de sulfat de cupru se acoperă cu un strat roșiatic de cupru. NaOH + HCl → NaCl + H₂O nu este redox: niciun N.O. nu se schimbă.",
+    "exercises": [
+     "Identifică oxidarea, reducerea, oxidantul și reducătorul în 2 Na + Cl₂ → 2 NaCl.",
+     "Este redox reacția AgNO₃ + NaCl → AgCl + NaNO₃? Justifică.",
+     "Scrie procesele de oxidare și reducere pentru Zn + 2 HCl → ZnCl₂ + H₂.",
+     "Dă trei exemple de procese redox din viața de zi cu zi.",
+     "În reacția CuO + H₂ → Cu + H₂O, care este agentul reducător?"
+    ],
+    "test": [
+     "Ce este oxidarea?",
+     "Ce este reducerea?",
+     "Ce face agentul oxidant?",
+     "Este neutralizarea o reacție redox?",
+     "Un proces redox din natură?"
+    ],
+    "steps": [
+     "Calculează N.O. ale tuturor elementelor în reactanți și produși.",
+     "Identifică elementele al căror N.O. crește (oxidare) și scade (reducere).",
+     "Precizează agentul reducător (se oxidează) și agentul oxidant (se reduce).",
+     "Greșeala frecventă: să confunzi agentul oxidant cu specia care se oxidează; oxidantul se reduce."
+    ],
+    "answers": [
+     "Cedarea de electroni (N.O. crește)",
+     "Acceptarea de electroni (N.O. scade)",
+     "Acceptă electroni și se reduce",
+     "Nu",
+     "Respirația sau ruginirea"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Stabilirea coeficienților în ecuațiile reacțiilor redox",
+    "theory": "Metoda bilanțului electronic: (1) determini N.O. și identifici elementele care își schimbă N.O.; (2) scrii procesele de oxidare și reducere cu numărul de electroni; (3) egalezi numărul de electroni cedați cu cel acceptați (prin cel mai mic multiplu comun); (4) treci coeficienții în ecuație; (5) egalezi restul atomilor, de obicei la final H și O. Verificarea: numărul de atomi de fiecare fel și, pentru ecuații ionice, sarcina totală trebuie să fie egale în ambii membri.",
+    "sample": "În reacția Al + O₂ → Al₂O₃, coeficienții corecți sunt 4, 3, 2.",
+    "worked": "Cu + HNO₃ (diluat) → Cu(NO₃)₂ + NO + H₂O. Cu⁰ → Cu²⁺ + 2e⁻ (×3); N⁺⁵ + 3e⁻ → N⁺² (×2). Rezultă 3 Cu și 2 NO; azotul din nitrați: 3·2 = 6, deci HNO₃ total 6 + 2 = 8; apa: 8 H ⇒ 4 H₂O. Ecuația: 3 Cu + 8 HNO₃ → 3 Cu(NO₃)₂ + 2 NO + 4 H₂O. Verificare O: 24 = 18 + 2 + 4 ✓.",
+    "exercises": [
+     "Stabilește coeficienții: Fe + Cl₂ → FeCl₃.",
+     "Stabilește coeficienții: H₂S + O₂ → SO₂ + H₂O.",
+     "Stabilește coeficienții: MnO₂ + HCl → MnCl₂ + Cl₂ + H₂O.",
+     "Stabilește coeficienții: C + HNO₃ → CO₂ + NO₂ + H₂O.",
+     "Verifică echilibrarea ecuației din exemplul cu cuprul numărând atomii de H."
+    ],
+    "test": [
+     "Primul pas al metodei bilanțului electronic?",
+     "Ce trebuie să fie egal în bilanțul electronic?",
+     "Ce atomi se egalează de obicei la final?",
+     "Coeficienții reacției Al + O₂ → Al₂O₃?",
+     "Cum verifici o ecuație ionică?"
+    ],
+    "steps": [
+     "Determină N.O. și scrie procesele de oxidare și reducere cu electronii.",
+     "Egalează electronii cedați cu cei acceptați și trece coeficienții în ecuație.",
+     "Egalează restul atomilor (H și O la final) și verifică fiecare element.",
+     "Greșeala frecventă: să egalezi doar atomii care își schimbă N.O. și să uiți atomii aceluiași element care nu participă la redox (de exemplu nitrații)."
+    ],
+    "answers": [
+     "Determinarea numerelor de oxidare",
+     "Electronii cedați și electronii acceptați",
+     "H și O",
+     "4, 3, 2",
+     "Prin egalitatea atomilor și a sarcinii totale"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "Aplicații ale reacțiilor redox: pile electrice",
+    "theory": "O pilă electrică transformă energia chimică a unei reacții redox în energie electrică, prin separarea oxidării de reducere. Pila Daniell: un electrod de zinc în soluție de ZnSO₄ (anod, polul −, oxidare: Zn → Zn²⁺ + 2e⁻) și un electrod de cupru în soluție de CuSO₄ (catod, polul +, reducere: Cu²⁺ + 2e⁻ → Cu), legate printr-o punte de sare; reprezentare: (−) Zn | Zn²⁺ || Cu²⁺ | Cu (+), t.e.m. ≈ 1,1 V. Acumulatorul cu plumb (mașini) se poate reîncărca. Bateria litiu-ion (telefoane, mașini electrice) se bazează pe deplasarea ionilor Li⁺ între electrozi la încărcare și descărcare.",
+    "sample": "În pila Daniell, electronii circulă prin circuitul exterior de la zinc spre cupru.",
+    "worked": "Pila Daniell: reacția totală Zn + Cu²⁺ → Zn²⁺ + Cu. Pe măsură ce funcționează, electrodul de zinc se subțiază, iar pe cel de cupru se depune cupru. Acumulatorul cu plumb are 6 elemente de ~2 V legate în serie ⇒ 12 V. Bateriile uzate se predau la centre de colectare: conțin metale toxice și substanțe corozive.",
+    "exercises": [
+     "Scrie procesele de la anod și catod în pila Daniell.",
+     "Care este rolul punții de sare?",
+     "Ce reprezintă notația (−) Zn | Zn²⁺ || Cu²⁺ | Cu (+)?",
+     "De ce acumulatorul auto are 12 V?",
+     "De ce bateriile uzate nu se aruncă la gunoiul menajer?"
+    ],
+    "test": [
+     "Ce transformă o pilă electrică?",
+     "Ce proces are loc la anodul pilei?",
+     "Polul negativ al pilei Daniell?",
+     "Tensiunea pilei Daniell?",
+     "Ce acumulator se folosește la mașini?"
+    ],
+    "steps": [
+     "Identifică metalul care se oxidează (anod, −) și ionul care se reduce (catod, +).",
+     "Scrie procesele la electrozi și reacția totală.",
+     "Explică sensul electronilor, rolul punții de sare și aplicațiile.",
+     "Greșeala frecventă: să consideri că la anodul pilei are loc reducerea; la anod are loc întotdeauna oxidarea."
+    ],
+    "answers": [
+     "Energia chimică în energie electrică",
+     "Oxidarea",
+     "Electrodul de zinc",
+     "≈ 1,1 V",
+     "Acumulatorul cu plumb"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l28": {
+   "ro": {
+    "title": "Electroliza topiturii de clorură de sodiu",
+    "theory": "Electroliza este procesul redox produs de curentul electric continuu care trece printr-un electrolit topit sau dizolvat. Spre deosebire de pilă, aici energia electrică produce o reacție chimică care nu ar avea loc spontan. La electroliza topiturii de NaCl: la catod (polul −) are loc reducerea Na⁺ + e⁻ → Na; la anod (polul +) are loc oxidarea 2 Cl⁻ → Cl₂ + 2e⁻. Reacția totală: 2 NaCl → 2 Na + Cl₂. Procedeul este folosit industrial pentru obținerea sodiului metalic și a clorului.",
+    "sample": "La electroliza NaCl topit, la catod se depune sodiu, iar la anod se degajă clor.",
+    "worked": "Câte grame de sodiu și ce volum de clor (c.n.) se obțin din 117 g NaCl topit? n(NaCl) = 117/58,5 = 2 mol ⇒ 2 mol Na = 46 g și 1 mol Cl₂ = 22,4 L. Comparând cu pila: în pilă anodul este negativ, la electroliză anodul este pozitiv, dar în ambele cazuri la anod are loc oxidarea.",
+    "exercises": [
+     "Scrie procesele la electrozi la electroliza topiturii de NaCl.",
+     "Ce masă de sodiu se obține din 5,85 kg NaCl?",
+     "De ce electroliza se face în topitură și nu în soluție pentru obținerea sodiului?",
+     "Compară pila Daniell cu celula de electroliză.",
+     "Ce utilizări au sodiul și clorul obținute?"
+    ],
+    "test": [
+     "Ce este electroliza?",
+     "Ce proces are loc la catod?",
+     "Polul anodului la electroliză?",
+     "Produsul de la anod la electroliza NaCl topit?",
+     "Reacția totală la electroliza NaCl topit?"
+    ],
+    "steps": [
+     "Identifică ionii din electrolit și migrarea lor (cationi spre catod, anioni spre anod).",
+     "Scrie procesele la electrozi și reacția totală.",
+     "Calculează cantitățile de produși prin stoechiometrie.",
+     "Greșeala frecventă: să crezi că la electroliză anodul este polul negativ, ca la pilă; la electroliză anodul este pozitiv."
+    ],
+    "answers": [
+     "Reacția redox produsă de curentul electric",
+     "Reducerea",
+     "Pozitiv",
+     "Clorul",
+     "2 NaCl → 2 Na + Cl₂"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l29": {
+   "ro": {
+    "title": "Reacții exoterme și endoterme; reacții lente, rapide, catalizatori; reacții reversibile și ireversibile",
+    "theory": "După efectul termic: reacțiile exoterme degajă căldură (arderea, neutralizarea, ruginirea), cele endoterme absorb căldură (descompunerea carbonatului de calciu, fotosinteza). După viteză: reacții rapide (explozii, precipitări, neutralizări) și lente (ruginirea, fermentația). Catalizatorii măresc viteza reacției fără să se consume (MnO₂ la descompunerea apei oxigenate, enzimele, convertorul catalitic auto). După sens: reacțiile ireversibile decurg complet într-un singur sens (arderea), cele reversibile au loc în ambele sensuri și ajung la echilibru (⇌), de exemplu N₂ + 3 H₂ ⇌ 2 NH₃.",
+    "sample": "Apa oxigenată se descompune rapid în prezența dioxidului de mangan, care nu se consumă.",
+    "worked": "2 H₂O₂ → 2 H₂O + O₂ (cu MnO₂ ca și catalizator): reacție exotermă, rapidă în prezența catalizatorului, ireversibilă; oxigenul aprinde o așchie incandescentă. CaCO₃ → CaO + CO₂ este endotermă (necesită ~900 °C). Sinteza amoniacului este reversibilă și exotermă și folosește catalizator de fier.",
+    "exercises": [
+     "Clasifică după efectul termic: arderea metanului, descompunerea CaCO₃, neutralizarea.",
+     "Dă exemple de reacții rapide și lente.",
+     "Ce rol are un catalizator? Dă un exemplu din viața de zi cu zi.",
+     "Ce înseamnă reacție reversibilă? Scrie un exemplu.",
+     "De ce alimentele se păstrează la frigider (legătura cu viteza reacțiilor)?"
+    ],
+    "test": [
+     "Ce este o reacție exotermă?",
+     "Un exemplu de reacție endotermă?",
+     "Se consumă catalizatorul?",
+     "Simbolul unei reacții reversibile?",
+     "Un exemplu de reacție lentă?"
+    ],
+    "steps": [
+     "Identifică criteriul de clasificare (efect termic, viteză, sens).",
+     "Încadrează reacția și argumentează (căldură, durată, reversibilitate).",
+     "Precizează rolul catalizatorilor și aplicațiile practice.",
+     "Greșeala frecventă: să crezi că un catalizator se consumă sau schimbă produșii reacției; el doar mărește viteza."
+    ],
+    "answers": [
+     "O reacție care degajă căldură",
+     "Descompunerea carbonatului de calciu",
+     "Nu",
+     "⇌",
+     "Ruginirea"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l30": {
+   "ro": {
+    "title": "Calcule stoechiometrice pe baza ecuației reacției chimice",
+    "theory": "Coeficienții ecuației arată raportul molar în care reacționează și se formează substanțele. Algoritmul: (1) scrii și echilibrezi ecuația; (2) transformi datele în moli (n = m/M, n = V/22,4 pentru gaze în c.n., n = c_M·V pentru soluții); (3) folosești raportul molar; (4) transformi rezultatul în unitatea cerută. Dacă se dau cantitățile a doi reactanți, stabilești reactantul limitativ (cel care se consumă primul). Randamentul η = (cantitate practică/cantitate teoretică)·100. Pentru substanțe impure se calculează mai întâi masa pură (puritatea p%).",
+    "sample": "Din 2 mol H₂ și 1 mol O₂ se formează 2 mol de apă.",
+    "worked": "Ce masă de CaO se obține din 500 kg calcar cu 80% CaCO₃, la randament 90%? m(CaCO₃) = 400 kg ⇒ n = 400/100 = 4 kmol; CaCO₃ → CaO + CO₂ ⇒ 4 kmol CaO teoretic = 224 kg; practic 0,9·224 = 201,6 kg. Zn + 2 HCl: 6,5 g Zn (0,1 mol) și 0,1 mol HCl ⇒ HCl este limitativ, se formează 0,05 mol H₂ (1,12 L c.n.).",
+    "exercises": [
+     "Ce masă de apă se formează din arderea a 4 g de hidrogen?",
+     "Ce volum de CO₂ (c.n.) rezultă din arderea a 16 g de metan?",
+     "Câți moli de NaOH neutralizează 200 mL soluție HCl 0,5 M?",
+     "Ce masă de fier se obține din 320 kg Fe₂O₃ cu CO, la randament 80%?",
+     "5,6 g Fe reacționează cu 0,15 mol Cl₂. Care este reactantul limitativ?"
+    ],
+    "test": [
+     "Ce arată coeficienții unei ecuații?",
+     "Formula numărului de moli pentru un gaz în c.n.?",
+     "Ce este reactantul limitativ?",
+     "Formula randamentului?",
+     "Moli în 100 mL soluție 2 M?"
+    ],
+    "steps": [
+     "Scrie și echilibrează ecuația reacției.",
+     "Transformă datele în moli și aplică raportul molar (verifică reactantul limitativ, puritatea).",
+     "Transformă rezultatul în unitatea cerută și aplică randamentul.",
+     "Greșeala frecventă: să folosești direct raportul maselor în locul raportului molar dat de coeficienți."
+    ],
+    "answers": [
+     "Raportul molar al substanțelor",
+     "n = V/22,4",
+     "Reactantul care se consumă primul",
+     "η = (practic/teoretic)·100",
+     "0,2 mol"
+    ]
+   }
+  }
+ }
+}

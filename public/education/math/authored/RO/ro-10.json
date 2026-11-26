@@ -1,0 +1,1172 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "0e15ff06e658ef52f1f57860050c796a59fac1ecdd75bef32ac31efd3bdb610a",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Matematică pentru clasa a X-a, ciclul superior al liceului, filiera teoretică, profilul real, specializarea matematică-informatică (programa M1 aprobată prin OMEC nr. 4598/31.08.2004, în vigoare pentru clasa a X-a în 2026–2027, până la aplicarea progresivă a programelor OMEC 2025) — numere reale (puteri, logaritmi), numere complexe, funcții și ecuații (exponențiale, logaritmice, iraționale, trigonometrice), metode de numărare și binomul lui Newton, matematici financiare, statistică și probabilități, geometrie analitică; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a X-a (matematică-informatică, M1)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Mulțimi de numere: numere reale",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04"
+   ]
+  },
+  {
+   "title": "Mulțimi de numere: numere complexe",
+   "keys": [
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06",
+    "eu-year-ro-medium-10-l07",
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09",
+    "eu-year-ro-medium-10-l10"
+   ]
+  },
+  {
+   "title": "Funcții și ecuații",
+   "keys": [
+    "eu-year-ro-medium-10-l11",
+    "eu-year-ro-medium-10-l12",
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14",
+    "eu-year-ro-medium-10-l15",
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18"
+   ]
+  },
+  {
+   "title": "Metode de numărare",
+   "keys": [
+    "eu-year-ro-medium-10-l19",
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21",
+    "eu-year-ro-medium-10-l22",
+    "eu-year-ro-medium-10-l23"
+   ]
+  },
+  {
+   "title": "Matematici financiare; statistică și probabilități",
+   "keys": [
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26"
+   ]
+  },
+  {
+   "title": "Geometrie analitică în plan",
+   "keys": [
+    "eu-year-ro-medium-10-l27",
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29",
+    "eu-year-ro-medium-10-l30",
+    "eu-year-ro-medium-10-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Puteri cu exponent rațional și real",
+    "theory": "Pentru a > 0 și m/n rațional (n ≥ 2) definim a^(m/n) = ⁿ√(aᵐ). Pentru exponent irațional, aˣ se obține ca limită a puterilor cu exponenți raționali care aproximează x (de exemplu 2^√2 este aproximat de 2^1,4, 2^1,41, 2^1,414, …). Regulile puterilor rămân valabile: aˣ·aʸ = aˣ⁺ʸ, (aˣ)ʸ = aˣʸ, (ab)ˣ = aˣbˣ. Pentru a > 1, aˣ crește odată cu x; pentru 0 < a < 1, scade.",
+    "sample": "Ca putere cu exponent rațional, 8^(2/3) = (³√8)² = 4.",
+    "worked": "Comparăm 3^√2 și 3^1,5: √2 ≈ 1,414 < 1,5 și baza 3 > 1, deci 3^√2 < 3^1,5. Comparăm (1/2)^√3 și (1/2)^1,7: √3 ≈ 1,732 > 1,7, baza subunitară, deci (1/2)^√3 < (1/2)^1,7.",
+    "exercises": [
+     "Calculează: 16^(3/4), 27^(−2/3), 32^(0,2).",
+     "Scrie ca putere cu exponent rațional: √x·³√x, x > 0.",
+     "Compară: 2^√3 și 2^1,7.",
+     "Compară: (0,3)^√2 și (0,3)^1,4.",
+     "Simplifică: (a^(1/2)·a^(1/3))⁶, a > 0."
+    ],
+    "test": [
+     "Cât este 4^(1/2)?",
+     "Cât este 8^(1/3)?",
+     "Cât este 9^(−1/2)?",
+     "Pentru a > 1, aˣ crește sau scade când x crește?",
+     "Cât este 5⁰?"
+    ],
+    "steps": [
+     "Scrie exponentul rațional ca fracție m/n.",
+     "Transformă în radical: ⁿ√(aᵐ), sau folosește regulile puterilor.",
+     "La comparare, compară exponenții și ține cont dacă baza este supra- sau subunitară.",
+     "Greșeala frecventă: să compari puterile cu bază subunitară ca pe cele cu bază supraunitară; pentru 0 < a < 1 ordinea se inversează."
+    ],
+    "answers": [
+     "2",
+     "2",
+     "1/3",
+     "Crește",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Radicali de ordin n; proprietăți; raționalizarea numitorilor",
+    "theory": "Pentru n par și a ≥ 0, ⁿ√a este numărul b ≥ 0 cu bⁿ = a; pentru n impar, ⁿ√a există pentru orice a real. Proprietăți (cu radicanzi pozitivi): ⁿ√a·ⁿ√b = ⁿ√(ab), ⁿ√a/ⁿ√b = ⁿ√(a/b), (ⁿ√a)ᵐ = ⁿ√(aᵐ), ⁿ√(ᵏ√a) = ⁿᵏ√a, ⁿᵖ√(aᵐᵖ) = ⁿ√(aᵐ) (amplificarea ordinului). Radicalii de ordine diferite se aduc la ordin comun înainte de înmulțire sau comparare.",
+    "sample": "Aducând la ordin comun, √2·³√3 = ⁶√8·⁶√9 = ⁶√72.",
+    "worked": "Comparăm √3 și ³√5: la ordinul 6, √3 = ⁶√27 și ³√5 = ⁶√25, deci √3 > ³√5. Raționalizăm 1/³√4 = ³√2/³√8 = ³√2/2.",
+    "exercises": [
+     "Calculează: ⁴√16·⁴√81, ³√(−27)·³√8.",
+     "Adu la ordin comun și compară: ³√4 și ⁴√6.",
+     "Simplifică: ⁶√(a⁴), a ≥ 0.",
+     "Raționalizează: 6/³√9.",
+     "Scrie ca un singur radical: √(³√5)."
+    ],
+    "test": [
+     "Cât este ⁴√81?",
+     "Cât este ³√(−1)?",
+     "√(³√a) ca radical unic?",
+     "Ordinul comun pentru √ și ³√?",
+     "Are sens ⁴√(−16) în ℝ?"
+    ],
+    "steps": [
+     "Verifică existența radicalilor (ordin par ⇒ radicand nenegativ).",
+     "Adu radicalii la același ordin prin amplificare.",
+     "Aplică proprietățile și simplifică rezultatul.",
+     "Greșeala frecventă: să înmulțești radicali de ordine diferite direct (√2·³√3 = ⁵√6 este greșit); întâi se aduc la ordin comun."
+    ],
+    "answers": [
+     "3",
+     "−1",
+     "⁶√a",
+     "6",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Logaritmul unui număr real pozitiv: definiție și proprietăți",
+    "theory": "Pentru a > 0, a ≠ 1 și b > 0, logaritmul lui b în baza a este exponentul la care trebuie ridicat a pentru a obține b: log_a b = x ⇔ aˣ = b. Proprietăți: log_a 1 = 0, log_a a = 1, a^(log_a b) = b, log_a(xy) = log_a x + log_a y, log_a(x/y) = log_a x − log_a y, log_a(xⁿ) = n·log_a x. Notații: lg = log₁₀, ln = logaritmul natural (baza e ≈ 2,718).",
+    "sample": "Cu definiția logaritmului, log₂ 32 = 5, pentru că 2⁵ = 32.",
+    "worked": "Calculăm log₃ 54 − log₃ 2 = log₃ 27 = 3. Calculăm lg 25 + lg 4 = lg 100 = 2. Calculăm log₂ 8³ = 3·log₂ 8 = 9.",
+    "exercises": [
+     "Calculează: log₅ 125, log₂ (1/16), lg 0,001.",
+     "Calculează: log₆ 4 + log₆ 9.",
+     "Calculează: log₂ 40 − log₂ 5.",
+     "Calculează: 3^(log₃ 7) și 2^(2 log₂ 3).",
+     "Pentru ce x are sens log₂(x − 3)?"
+    ],
+    "test": [
+     "Cât este log₂ 8?",
+     "Cât este log₇ 1?",
+     "Cât este lg 1 000?",
+     "Cât este log_a a?",
+     "Are sens log₂(−4)?"
+    ],
+    "steps": [
+     "Pornește de la definiție: log_a b = x înseamnă aˣ = b.",
+     "Scrie b ca putere a bazei sau folosește proprietățile (produs, cât, putere).",
+     "Verifică condițiile de existență: baza pozitivă și diferită de 1, argumentul pozitiv.",
+     "Greșeala frecventă: să scrii log(x + y) = log x + log y; proprietatea este pentru produs: log(xy) = log x + log y."
+    ],
+    "answers": [
+     "3",
+     "0",
+     "3",
+     "1",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Schimbarea bazei; calcule cu logaritmi; operația de logaritmare",
+    "theory": "Formula schimbării bazei: log_a b = log_c b / log_c a (c > 0, c ≠ 1); în particular log_a b = 1/log_b a și log_a b·log_b c = log_a c. Logaritmarea unei egalități (aplicarea log în ambii membri) transformă produsele în sume și puterile în produse, utilă la calcule și la ecuații cu necunoscuta la exponent.",
+    "sample": "Prin schimbarea bazei, log₄ 8 = log₂ 8/log₂ 4 = 3/2.",
+    "worked": "Știind lg 2 ≈ 0,301, calculăm lg 5 = lg(10/2) = 1 − 0,301 = 0,699 și log₂ 5 = lg 5/lg 2 ≈ 2,32. Calculăm log₂ 3 · log₃ 4 = log₂ 4 = 2. Câte cifre are 2¹⁰⁰? lg 2¹⁰⁰ = 100·0,301 = 30,1, deci are 31 de cifre.",
+    "exercises": [
+     "Calculează: log₈ 32.",
+     "Calculează: log₂ 5 · log₅ 8.",
+     "Exprimă log₁₂ 18 prin a = log₂ 3 (indiciu: log₁₂ 18 = log₂ 18/log₂ 12).",
+     "Știind lg 3 ≈ 0,477, câte cifre are 3²⁰?",
+     "Arată că log_a b · log_b a = 1."
+    ],
+    "test": [
+     "log₉ 3 = ?",
+     "log₂ 3 · log₃ 2 = ?",
+     "Formula schimbării bazei?",
+     "log₄ 2 = ?",
+     "log₂ 3 · log₃ 8 = ?"
+    ],
+    "steps": [
+     "Alege o bază comună convenabilă (de obicei 2, 10 sau baza care apare cel mai des).",
+     "Aplică formula schimbării bazei și proprietățile logaritmilor.",
+     "Simplifică și verifică numeric dacă se poate.",
+     "Greșeala frecventă: să scrii log_a b = log a − log b; schimbarea bazei este un raport: log b/log a."
+    ],
+    "answers": [
+     "1/2",
+     "1",
+     "log_a b = log_c b/log_c a",
+     "1/2",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Numere complexe în formă algebrică; operații",
+    "theory": "Unitatea imaginară i verifică i² = −1. Un număr complex în formă algebrică este z = a + bi, cu a = Re z (partea reală) și b = Im z (partea imaginară). Două numere complexe sunt egale dacă au părțile reale și imaginare egale. Adunăm și înmulțim ca la expresii algebrice, înlocuind i² cu −1. Puterile lui i se repetă din 4 în 4: i, −1, −i, 1.",
+    "sample": "Folosind i² = −1, (2 + 3i) + (1 − i) = 3 + 2i și (1 + i)² = 2i.",
+    "worked": "Calculăm (3 + 2i)(1 − 4i) = 3 − 12i + 2i − 8i² = 3 − 10i + 8 = 11 − 10i. Calculăm i²⁰²⁶: 2026 = 4·506 + 2, deci i²⁰²⁶ = i² = −1.",
+    "exercises": [
+     "Calculează: (4 − 3i) − (2 + 5i).",
+     "Calculează: (2 + i)(3 − 2i).",
+     "Calculează: (1 − i)².",
+     "Calculează: i¹⁵ + i¹⁶ + i¹⁷.",
+     "Află x, y reale cu (x + 2) + (y − 1)i = 5 + 3i."
+    ],
+    "test": [
+     "Cât este i²?",
+     "Cât este i⁴?",
+     "Partea reală a lui 3 − 7i?",
+     "Partea imaginară a lui 3 − 7i?",
+     "Cât este (1 + i) + (1 − i)?"
+    ],
+    "steps": [
+     "Scrie numerele în forma a + bi.",
+     "Efectuează operațiile ca la expresii algebrice.",
+     "Înlocuiește i² cu −1 și grupează partea reală și partea imaginară.",
+     "Greșeala frecventă: să spui că partea imaginară a lui 3 − 7i este −7i; partea imaginară este numărul real −7."
+    ],
+    "answers": [
+     "−1",
+     "1",
+     "3",
+     "−7",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Conjugatul și modulul unui număr complex; împărțirea; ecuația de gradul al doilea în ℂ",
+    "theory": "Conjugatul lui z = a + bi este z̄ = a − bi; z·z̄ = a² + b² este real. Modulul |z| = √(a² + b²). Proprietăți: |z₁z₂| = |z₁|·|z₂|, conjugatul produsului este produsul conjugatelor. Împărțim amplificând cu conjugatul numitorului. Ecuația ax² + bx + c = 0 cu coeficienți reali și Δ < 0 are în ℂ soluțiile x = (−b ± i√(−Δ))/(2a), conjugate una alteia.",
+    "sample": "Pentru z = 3 + 4i avem z̄ = 3 − 4i și |z| = 5.",
+    "worked": "Calculăm (1 + 2i)/(3 − i) = (1 + 2i)(3 + i)/(9 + 1) = (3 + i + 6i + 2i²)/10 = (1 + 7i)/10. Rezolvăm x² − 2x + 5 = 0: Δ = −16, x = (2 ± 4i)/2 = 1 ± 2i.",
+    "exercises": [
+     "Calculează conjugatul și modulul pentru z = −5 + 12i.",
+     "Calculează: (2 − i)/(1 + i).",
+     "Rezolvă în ℂ: x² + 9 = 0.",
+     "Rezolvă în ℂ: x² + 4x + 13 = 0.",
+     "Arată că z + z̄ și z·z̄ sunt numere reale pentru orice z."
+    ],
+    "test": [
+     "Conjugatul lui 2 + 5i?",
+     "Modulul lui 6 − 8i?",
+     "Cât este (1 + i)(1 − i)?",
+     "Soluțiile lui x² + 1 = 0?",
+     "Este z·z̄ real?"
+    ],
+    "steps": [
+     "Scrie conjugatul schimbând semnul părții imaginare.",
+     "La împărțire, amplifică fracția cu conjugatul numitorului.",
+     "La ecuații cu Δ < 0, scrie √Δ = i√(−Δ) și aplică formula.",
+     "Greșeala frecventă: să calculezi modulul ca a + b; modulul este √(a² + b²)."
+    ],
+    "answers": [
+     "2 − 5i",
+     "10",
+     "2",
+     "±i",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Reprezentarea geometrică; forma trigonometrică a numerelor complexe",
+    "theory": "Numărul z = a + bi corespunde punctului M(a, b) din plan (planul complex); |z| este distanța OM. Argumentul t ∈ [0, 2π) este unghiul dintre Ox și OM. Forma trigonometrică: z = r(cos t + i sin t), cu r = |z|, cos t = a/r, sin t = b/r. Distanța dintre punctele de afixe z₁ și z₂ este |z₁ − z₂|.",
+    "sample": "Numărul 1 + i are modulul √2 și argumentul π/4, deci 1 + i = √2(cos π/4 + i sin π/4).",
+    "worked": "Scriem z = −1 + i√3 în formă trigonometrică: r = √(1 + 3) = 2; cos t = −1/2, sin t = √3/2, punctul este în cadranul II, deci t = 2π/3. Rezultă z = 2(cos 2π/3 + i sin 2π/3).",
+    "exercises": [
+     "Reprezintă în plan numerele 2 + i, −3i, −1 − 2i.",
+     "Scrie în formă trigonometrică: z = 2i.",
+     "Scrie în formă trigonometrică: z = √3 − i.",
+     "Află distanța dintre punctele de afixe 1 + 2i și 4 + 6i.",
+     "Ce mulțime de puncte descrie |z| = 3?"
+    ],
+    "test": [
+     "Ce punct corespunde lui 3 − 2i?",
+     "Modulul și argumentul lui 1?",
+     "Argumentul lui i?",
+     "Argumentul lui −1?",
+     "|z − z₀| = 1 descrie…?"
+    ],
+    "steps": [
+     "Calculează modulul r = √(a² + b²).",
+     "Stabilește cadranul punctului (a, b).",
+     "Găsește t din cos t = a/r și sin t = b/r, în cadranul corect.",
+     "Greșeala frecventă: să iei argumentul doar din tg t = b/a și să ignori cadranul; −1 + i și 1 − i au aceeași tangentă, dar argumente diferite."
+    ],
+    "answers": [
+     "(3, −2)",
+     "1 și 0",
+     "π/2",
+     "π",
+     "Cercul de centru z₀ și rază 1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Operații în forma trigonometrică; formula lui Moivre",
+    "theory": "Pentru z₁ = r₁(cos t₁ + i sin t₁) și z₂ = r₂(cos t₂ + i sin t₂): z₁z₂ = r₁r₂(cos(t₁ + t₂) + i sin(t₁ + t₂)) și z₁/z₂ = (r₁/r₂)(cos(t₁ − t₂) + i sin(t₁ − t₂)). Formula lui Moivre: [r(cos t + i sin t)]ⁿ = rⁿ(cos nt + i sin nt). Ea permite calculul rapid al puterilor mari.",
+    "sample": "Cu formula lui Moivre, (cos π/6 + i sin π/6)⁶ = cos π + i sin π = −1.",
+    "worked": "Calculăm (1 + i)¹⁰: 1 + i = √2(cos π/4 + i sin π/4), deci (1 + i)¹⁰ = (√2)¹⁰(cos 10π/4 + i sin 10π/4) = 32(cos π/2 + i sin π/2) = 32i.",
+    "exercises": [
+     "Calculează produsul 2(cos π/3 + i sin π/3)·3(cos π/6 + i sin π/6).",
+     "Calculează (1 − i)⁸.",
+     "Calculează (√3 + i)⁶.",
+     "Calculează câtul 6(cos 5π/6 + i sin 5π/6) / 2(cos π/3 + i sin π/3).",
+     "Folosește Moivre pentru a exprima cos 2t și sin 2t."
+    ],
+    "test": [
+     "La înmulțire, ce se întâmplă cu modulele?",
+     "La înmulțire, ce se întâmplă cu argumentele?",
+     "(cos t + i sin t)ⁿ = ?",
+     "Modulul lui (1 + i)⁴?",
+     "i¹⁰⁰ = ?"
+    ],
+    "steps": [
+     "Scrie numerele în formă trigonometrică.",
+     "Înmulțește (împarte) modulele și adună (scade) argumentele; la putere aplică Moivre.",
+     "Reduce argumentul în [0, 2π) și revino la forma algebrică.",
+     "Greșeala frecventă: să ridici la putere doar argumentul și să uiți modulul (rⁿ)."
+    ],
+    "answers": [
+     "Se înmulțesc",
+     "Se adună",
+     "cos nt + i sin nt",
+     "4",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Rădăcinile de ordin n ale unui număr complex; ecuații binome",
+    "theory": "Rădăcinile de ordin n ale lui z = r(cos t + i sin t) sunt zₖ = ⁿ√r·(cos((t + 2kπ)/n) + i sin((t + 2kπ)/n)), k = 0, 1, …, n − 1. Ele sunt n numere distincte, ale căror imagini sunt vârfurile unui poligon regulat cu n laturi înscris în cercul de rază ⁿ√r. Ecuația binomă zⁿ = a se rezolvă aflând rădăcinile de ordin n ale lui a.",
+    "sample": "Rădăcinile de ordin 4 ale lui 1 sunt 1, i, −1, −i, vârfurile unui pătrat.",
+    "worked": "Rezolvăm z³ = 8: 8 = 8(cos 0 + i sin 0), deci zₖ = 2(cos(2kπ/3) + i sin(2kπ/3)), k = 0, 1, 2: z₀ = 2, z₁ = −1 + i√3, z₂ = −1 − i√3. Ele formează un triunghi echilateral.",
+    "exercises": [
+     "Află rădăcinile pătrate ale lui i.",
+     "Rezolvă: z³ = 1.",
+     "Rezolvă: z⁴ = −16.",
+     "Rezolvă: z² = −2i.",
+     "Arată că suma rădăcinilor de ordin 3 ale unității este 0."
+    ],
+    "test": [
+     "Câte rădăcini de ordin n are un număr complex nenul?",
+     "Rădăcinile pătrate ale lui −1?",
+     "Ce figură formează rădăcinile de ordin 6 ale lui 1?",
+     "Rădăcina reală a lui z³ = 8?",
+     "Modulul rădăcinilor lui z⁴ = 16?"
+    ],
+    "steps": [
+     "Scrie numărul a în formă trigonometrică.",
+     "Aplică formula rădăcinilor pentru k = 0, …, n − 1.",
+     "Revino la forma algebrică și verifică o rădăcină ridicând-o la puterea n.",
+     "Greșeala frecventă: să găsești o singură rădăcină (cea reală) și să uiți celelalte n − 1 rădăcini complexe."
+    ],
+    "answers": [
+     "n",
+     "±i",
+     "Un hexagon regulat",
+     "2",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Aplicații ale numerelor complexe în geometrie",
+    "theory": "Punctele planului se pot identifica prin afixe complexe. Mijlocul segmentului AB are afixul (z_A + z_B)/2, centrul de greutate al triunghiului (z_A + z_B + z_C)/3. Distanța AB = |z_B − z_A|. Înmulțirea cu cos t + i sin t rotește un punct în jurul originii cu unghiul t; înmulțirea cu i înseamnă rotație cu 90°.",
+    "sample": "Punctele de afixe 1 și 3 + 2i au mijlocul de afix 2 + i.",
+    "worked": "Rotim punctul A de afix 2 + i cu 90° în jurul originii: i(2 + i) = −1 + 2i. Verificăm: |2 + i| = |−1 + 2i| = √5, iar vectorii (2, 1) și (−1, 2) sunt perpendiculari (2·(−1) + 1·2 = 0).",
+    "exercises": [
+     "Află centrul de greutate al triunghiului cu vârfurile de afixe 0, 4, 2 + 6i.",
+     "Află lungimea laturilor triunghiului cu vârfurile 1, i, −1 și stabilește natura lui.",
+     "Rotește punctul 3 − i cu 180° în jurul originii.",
+     "Arată că punctele de afixe 1, i, −1, −i formează un pătrat.",
+     "Află al patrulea vârf al paralelogramului ABCD cu A(1), B(3 + i), C(2 + 4i)."
+    ],
+    "test": [
+     "Afixul mijlocului lui AB?",
+     "Distanța dintre punctele de afixe z₁, z₂?",
+     "Ce transformare este înmulțirea cu i?",
+     "Afixul centrului de greutate?",
+     "Distanța de la origine la 3 + 4i?"
+    ],
+    "steps": [
+     "Scrie afixele punctelor.",
+     "Folosește formulele (mijloc, centru de greutate, distanță, rotație).",
+     "Interpretează rezultatul geometric.",
+     "Greșeala frecventă: să confunzi rotația în jurul originii cu rotația în jurul altui punct; pentru centrul z₀ se lucrează cu z − z₀."
+    ],
+    "answers": [
+     "(z_A + z_B)/2",
+     "|z₁ − z₂|",
+     "Rotația cu 90° în jurul originii",
+     "(z_A + z_B + z_C)/3",
+     "5"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Funcția putere și funcția radical; injectivitate, surjectivitate, inversabilitate",
+    "theory": "Funcția putere f(x) = xⁿ și funcția radical g(x) = ⁿ√x sunt inverse una alteia pe domeniile potrivite: pentru n impar pe ℝ, pentru n par pe [0, +∞). O funcție este inversabilă dacă și numai dacă este bijectivă; graficul inversei este simetricul graficului față de dreapta y = x. Funcțiile strict monotone sunt injective.",
+    "sample": "Funcția f: [0, +∞) → [0, +∞), f(x) = x² are inversa f⁻¹(x) = √x.",
+    "worked": "f: ℝ → ℝ, f(x) = x³ + 1 este strict crescătoare, deci injectivă; pentru orice y, x = ³√(y − 1) verifică f(x) = y, deci este surjectivă. Inversa: f⁻¹(y) = ³√(y − 1).",
+    "exercises": [
+     "Arată că f: ℝ → ℝ, f(x) = x³ − 2 este bijectivă și află inversa.",
+     "Este f: ℝ → ℝ, f(x) = x⁴ injectivă? Justifică.",
+     "Reprezintă în același reper √x și x² pe [0, +∞).",
+     "Află inversa funcției f: [1, +∞) → [0, +∞), f(x) = √(x − 1).",
+     "Arată că o funcție strict monotonă este injectivă."
+    ],
+    "test": [
+     "Inversa lui x³ pe ℝ?",
+     "Este x² bijectivă pe ℝ?",
+     "Ce simetrie au graficele lui f și f⁻¹?",
+     "Domeniul lui √x?",
+     "Este ³√x definită pe ℝ?"
+    ],
+    "steps": [
+     "Verifică injectivitatea (de exemplu prin monotonie).",
+     "Verifică surjectivitatea rezolvând f(x) = y.",
+     "Scrie inversa din soluția ecuației și verifică f(f⁻¹(y)) = y.",
+     "Greșeala frecventă: să afirmi că x² are inversa √x pe ℝ; doar restricția la [0, +∞) este inversabilă."
+    ],
+    "answers": [
+     "³√x",
+     "Nu",
+     "Față de y = x",
+     "[0, +∞)",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Funcția exponențială",
+    "theory": "f: ℝ → (0, +∞), f(x) = aˣ, cu a > 0, a ≠ 1. Graficul trece prin (0, 1) și este deasupra axei Ox. Pentru a > 1 funcția este strict crescătoare, pentru 0 < a < 1 strict descrescătoare. Funcția este bijectivă. Modelează creșteri și descreșteri: populații, dobândă compusă, dezintegrare radioactivă.",
+    "sample": "Funcția f(x) = 2ˣ ia valorile 1/2, 1, 2, 4 în −1, 0, 1, 2.",
+    "worked": "O substanță cu timpul de înjumătățire de 5 ani: din 80 g rămân după t ani m(t) = 80·(1/2)^(t/5). După 15 ani: 80·(1/2)³ = 10 g. Funcția este descrescătoare (baza 1/2 < 1).",
+    "exercises": [
+     "Reprezintă grafic f(x) = 3ˣ și g(x) = (1/3)ˣ în același reper.",
+     "Compară: 5^0,3 și 5^0,4; (0,5)^2 și (0,5)^3.",
+     "Află imaginea funcției f(x) = 2ˣ + 1.",
+     "O populație de 1 000 de bacterii se triplează la fiecare oră. Scrie funcția și calculează după 4 ore.",
+     "Pentru ce a funcția f(x) = (a − 1)ˣ este strict crescătoare?"
+    ],
+    "test": [
+     "Prin ce punct trece graficul oricărei exponențiale?",
+     "Este 2ˣ crescătoare?",
+     "Imaginea lui aˣ?",
+     "Este (1/2)ˣ crescătoare?",
+     "Valoarea lui 3ˣ în x = 2?"
+    ],
+    "steps": [
+     "Stabilește baza: supraunitară sau subunitară.",
+     "Deduce monotonia și calculează câteva valori.",
+     "Folosește proprietățile pentru comparații și modelare.",
+     "Greșeala frecventă: să crezi că aˣ poate lua valori negative; imaginea exponențialei este (0, +∞)."
+    ],
+    "answers": [
+     "(0, 1)",
+     "Da",
+     "(0, +∞)",
+     "Nu",
+     "9"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Funcția logaritmică",
+    "theory": "f: (0, +∞) → ℝ, f(x) = log_a x (a > 0, a ≠ 1) este inversa funcției exponențiale aˣ. Graficul trece prin (1, 0) și este simetricul graficului lui aˣ față de y = x. Pentru a > 1 funcția este strict crescătoare, pentru 0 < a < 1 strict descrescătoare. Este bijectivă de la (0, +∞) la ℝ.",
+    "sample": "Funcția log₂ x ia valorile −1, 0, 1, 3 în 1/2, 1, 2, 8.",
+    "worked": "Domeniul funcției f(x) = log₃(x² − 4): x² − 4 > 0, deci x ∈ (−∞, −2) ∪ (2, +∞). Comparăm log₂ 5 și log₂ 7: baza 2 > 1, deci log₂ 5 < log₂ 7. Comparăm log₀,₅ 3 și log₀,₅ 4: baza subunitară, deci log₀,₅ 3 > log₀,₅ 4.",
+    "exercises": [
+     "Reprezintă grafic log₂ x și 2ˣ în același reper.",
+     "Află domeniul funcției f(x) = lg(5 − x).",
+     "Compară: log₃ 10 și log₃ 9.",
+     "Compară: log₁/₂ 5 și log₁/₂ 8.",
+     "Arată că log₂ 3 este între 1 și 2."
+    ],
+    "test": [
+     "Prin ce punct trece graficul lui log_a x?",
+     "Domeniul lui log_a x?",
+     "Este log₀,₅ x crescătoare?",
+     "Imaginea lui log_a x?",
+     "Cât este log₂ 1?"
+    ],
+    "steps": [
+     "Pune condiția argument > 0 pentru domeniu.",
+     "Stabilește monotonia după bază.",
+     "Compară argumentele și aplică monotonia.",
+     "Greșeala frecventă: să uiți că logaritmul există doar pentru argument strict pozitiv (log 0 nu există)."
+    ],
+    "answers": [
+     "(1, 0)",
+     "(0, +∞)",
+     "Nu",
+     "ℝ",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Ecuații iraționale; ecuații exponențiale",
+    "theory": "Ecuațiile iraționale se rezolvă punând condițiile de existență, izolând radicalul, ridicând la putere și verificând soluțiile. Ecuațiile exponențiale se rezolvă: aducând la aceeași bază (a^f(x) = a^g(x) ⇔ f(x) = g(x)), prin logaritmare (aˣ = b ⇔ x = log_a b, b > 0) sau prin substituție (t = aˣ > 0).",
+    "sample": "Ecuația 2ˣ = 32 are soluția x = 5, pentru că 32 = 2⁵.",
+    "worked": "Rezolvăm 4ˣ − 3·2ˣ − 4 = 0: t = 2ˣ > 0, t² − 3t − 4 = 0, t = 4 sau t = −1 (respins). 2ˣ = 4, deci x = 2. Rezolvăm 3ˣ = 7: x = log₃ 7.",
+    "exercises": [
+     "Rezolvă: 3^(2x − 1) = 27.",
+     "Rezolvă: 5ˣ = 1/125.",
+     "Rezolvă: 9ˣ − 4·3ˣ + 3 = 0.",
+     "Rezolvă: 2ˣ = 10.",
+     "Rezolvă: √(x + 2) + √(x − 1) = 3."
+    ],
+    "test": [
+     "Soluția lui 2ˣ = 8?",
+     "Soluția lui 10ˣ = 1?",
+     "Ce substituție folosești la 4ˣ − 2ˣ = 0?",
+     "Soluția lui 3ˣ = 1/3?",
+     "Are soluții 2ˣ = −4?"
+    ],
+    "steps": [
+     "Încearcă să scrii ambii membri ca puteri ale aceleiași baze.",
+     "Dacă nu se poate, logaritmează sau notează t = aˣ (cu t > 0).",
+     "Rezolvă, respinge valorile t ≤ 0 și verifică.",
+     "Greșeala frecventă: la substituția t = aˣ să păstrezi o valoare negativă a lui t; aˣ este mereu pozitiv."
+    ],
+    "answers": [
+     "3",
+     "0",
+     "t = 2ˣ",
+     "−1",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Ecuații logaritmice; inecuații și sisteme exponențiale și logaritmice",
+    "theory": "Ecuațiile logaritmice: punem condițiile de existență (argumente pozitive, baze pozitive și diferite de 1), aplicăm log_a f(x) = log_a g(x) ⇔ f(x) = g(x), sau log_a f(x) = b ⇔ f(x) = aᵇ, și verificăm. La inecuații folosim monotonia: pentru a > 1 sensul se păstrează, pentru 0 < a < 1 se schimbă.",
+    "sample": "Ecuația log₂ x = 3 are soluția x = 8.",
+    "worked": "Rezolvăm log₂(x − 1) + log₂(x + 1) = 3: condiții x > 1; log₂(x² − 1) = 3, x² − 1 = 8, x = ±3; păstrăm x = 3. Inecuația log₀,₅ x > 2: x > 0 și baza subunitară, deci x < 0,25; S = (0; 0,25).",
+    "exercises": [
+     "Rezolvă: log₃(2x + 1) = 2.",
+     "Rezolvă: lg x + lg(x − 3) = 1.",
+     "Rezolvă: log₂² x − 3 log₂ x + 2 = 0.",
+     "Rezolvă inecuația: 2ˣ > 16.",
+     "Rezolvă sistemul: 2ˣ·2ʸ = 32, log₂ x + log₂ y = 2 (x, y > 0)."
+    ],
+    "test": [
+     "Soluția lui log₃ x = 2?",
+     "Condiția de existență pentru log(x − 5)?",
+     "Soluțiile lui (1/2)ˣ < 1/4?",
+     "Soluția lui lg x = 0?",
+     "La baza subunitară, sensul inecuației…?"
+    ],
+    "steps": [
+     "Pune condițiile de existență.",
+     "Adu ecuația la log_a f(x) = log_a g(x) sau la forma exponențială; la inecuații ține cont de bază.",
+     "Rezolvă și intersectează cu condițiile de existență.",
+     "Greșeala frecventă: să nu elimini soluțiile care fac un argument negativ (ca x = −3 în exemplu)."
+    ],
+    "answers": [
+     "9",
+     "x > 5",
+     "x > 2",
+     "1",
+     "Se schimbă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Exponențiale și logaritmi în probleme practice: pH, decibeli, creștere și dezintegrare",
+    "theory": "Multe mărimi se descriu prin exponențiale sau logaritmi. pH = −lg[H⁺] (concentrația ionilor de hidrogen). Nivelul sonor L = 10·lg(I/I₀) decibeli. Creșterea cu rată constantă dă N(t) = N₀·aᵗ, iar dezintegrarea N(t) = N₀·(1/2)^(t/T), cu T timpul de înjumătățire. Pentru a afla timpul, logaritmăm.",
+    "sample": "O soluție cu [H⁺] = 10⁻³ mol/l are pH = 3, deci este acidă.",
+    "worked": "În câți ani se dublează o sumă cu dobândă compusă de 7%? 1,07ᵗ = 2, deci t = lg 2/lg 1,07 ≈ 0,301/0,0294 ≈ 10,2 ani. Un sunet de 100 de ori mai intens decât altul are cu 10·lg 100 = 20 dB mai mult.",
+    "exercises": [
+     "Calculează pH-ul pentru [H⁺] = 10⁻⁸ mol/l. Este soluția acidă sau bazică?",
+     "Un sunet are intensitatea de 1 000 de ori mai mare decât pragul I₀. Câți decibeli are?",
+     "O substanță are timpul de înjumătățire 8 zile. Ce fracție rămâne după 24 de zile?",
+     "O populație crește cu 3% pe an. În câți ani se dublează? (lg 2 ≈ 0,301, lg 1,03 ≈ 0,0128)",
+     "Explică de ce scara pH-ului este logaritmică."
+    ],
+    "test": [
+     "pH pentru [H⁺] = 10⁻⁷?",
+     "Câți dB are un sunet cu I = 10·I₀?",
+     "Ce fracție rămâne după două timpi de înjumătățire?",
+     "Ce operație folosești pentru a afla exponentul necunoscut?",
+     "O sumă care crește cu 100% pe an, după 3 ani, de câte ori a crescut?"
+    ],
+    "steps": [
+     "Identifică modelul: exponențial (creștere, dezintegrare) sau logaritmic (pH, decibeli).",
+     "Scrie relația și înlocuiește datele cunoscute.",
+     "Pentru necunoscuta din exponent, logaritmează și calculează.",
+     "Greșeala frecventă: să crezi că o diferență de 20 dB înseamnă un sunet de 20 de ori mai intens; înseamnă 100 de ori."
+    ],
+    "answers": [
+     "7",
+     "10 dB",
+     "1/4",
+     "Logaritmarea",
+     "De 8 ori"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Funcțiile trigonometrice directe și inverse; ecuații trigonometrice",
+    "theory": "Funcțiile sin, cos (perioada 2π) și tg, ctg (perioada π) sunt definite pe ℝ, respectiv pe ℝ fără punctele unde numitorul se anulează. Inversele arcsin: [−1, 1] → [−π/2, π/2], arccos: [−1, 1] → [0, π], arctg: ℝ → (−π/2, π/2), arcctg: ℝ → (0, π). Ecuații fundamentale: sin x = a ⇒ x = (−1)ᵏ arcsin a + kπ; cos x = a ⇒ x = ±arccos a + 2kπ; tg x = a ⇒ x = arctg a + kπ.",
+    "sample": "Ecuația cos x = 1/2 are soluțiile x = ±π/3 + 2kπ, k ∈ ℤ.",
+    "worked": "Rezolvăm 2cos²x − 1 = 0: cos 2x = 0, 2x = π/2 + kπ, x = π/4 + kπ/2. Rezolvăm sin x = cos x: pentru cos x ≠ 0 obținem tg x = 1, x = π/4 + kπ.",
+    "exercises": [
+     "Calculează: arcsin(−√2/2), arccos(−1/2), arctg √3.",
+     "Rezolvă: sin 2x = 1.",
+     "Rezolvă: tg x = −√3.",
+     "Rezolvă: 2sin²x − sin x − 1 = 0.",
+     "Rezolvă pe [0, 2π]: cos x = −√3/2."
+    ],
+    "test": [
+     "Perioada lui sin?",
+     "Perioada lui tg?",
+     "arccos 0 = ?",
+     "Soluțiile lui sin x = 0?",
+     "Are soluții cos x = 3?"
+    ],
+    "steps": [
+     "Adu ecuația la o formă fundamentală (cu formule sau substituție).",
+     "Aplică formula generală a soluțiilor.",
+     "Selectează soluțiile din intervalul cerut, dacă este cazul.",
+     "Greșeala frecventă: la împărțirea cu cos x să nu verifici dacă cos x = 0 dă soluții; poți pierde soluții."
+    ],
+    "answers": [
+     "2π",
+     "π",
+     "π/2",
+     "x = kπ",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Ecuații trigonometrice reductibile: a sin x + b cos x = c, ecuații omogene, ecuații cu substituție",
+    "theory": "Ecuația a sin x + b cos x = c are soluții dacă și numai dacă c² ≤ a² + b²; o rezolvăm împărțind la √(a² + b²) și scriind membrul stâng ca sin(x + φ). Ecuațiile omogene a sin²x + b sin x cos x + c cos²x = 0 se împart la cos²x (după ce verificăm cazul cos x = 0) și devin ecuații în tg x. Ecuațiile polinomiale în sin x sau cos x se rezolvă cu substituția t = sin x, t ∈ [−1, 1].",
+    "sample": "Ecuația sin x + cos x = 2 nu are soluții, pentru că 2² > 1² + 1².",
+    "worked": "Rezolvăm sin²x − 3sin x cos x + 2cos²x = 0. Pentru cos x = 0 ecuația dă sin²x = 0, imposibil, deci împărțim la cos²x: tg²x − 3tg x + 2 = 0, tg x = 1 sau tg x = 2. Soluțiile: x = π/4 + kπ și x = arctg 2 + kπ.",
+    "exercises": [
+     "Rezolvă: sin x − √3 cos x = 1.",
+     "Rezolvă: 3sin²x − 4sin x cos x + cos²x = 0.",
+     "Rezolvă: 2cos²x − 3cos x + 1 = 0.",
+     "Pentru ce c are soluții ecuația 3 sin x + 4 cos x = c?",
+     "Rezolvă: cos 2x + sin x = 0 (indiciu: cos 2x = 1 − 2sin²x)."
+    ],
+    "test": [
+     "Condiția de existență pentru a sin x + b cos x = c?",
+     "Cu ce împarți o ecuație omogenă de gradul II?",
+     "Ce substituție folosești la 2sin²x + sin x = 0?",
+     "Are soluții sin x + cos x = 1?",
+     "În ce interval este t = cos x?"
+    ],
+    "steps": [
+     "Recunoaște tipul: liniară în sin și cos, omogenă sau polinomială.",
+     "Aplică metoda: împărțire la √(a² + b²), împărțire la cos²x sau substituție.",
+     "Revino la necunoscuta x, scrie familiile de soluții și verifică restricțiile.",
+     "Greșeala frecventă: la împărțirea cu cos²x să nu verifici separat cazul cos x = 0, care poate da soluții."
+    ],
+    "answers": [
+     "c² ≤ a² + b²",
+     "cos²x",
+     "t = sin x",
+     "Da",
+     "[−1, 1]"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Mulțimi finite ordonate; permutări",
+    "theory": "O mulțime finită este ordonată când fixăm o ordine a elementelor. Numărul modurilor de a ordona n elemente distincte este numărul permutărilor: Pₙ = n! = 1·2·…·n, cu 0! = 1. Regula produsului: dacă o alegere se face în m moduri și, pentru fiecare, alta în n moduri, ambele se fac în m·n moduri.",
+    "sample": "Patru cărți se pot așeza pe un raft în 4! = 24 de moduri.",
+    "worked": "Câte numere de 4 cifre distincte se pot forma cu cifrele 1, 2, 3, 4? P₄ = 24. Câte dintre ele încep cu 1? Celelalte 3 cifre se ordonează în 3! = 6 moduri. Simplificăm 10!/8! = 10·9 = 90.",
+    "exercises": [
+     "Calculează: 5!, 6!/4!, (n + 1)!/n!.",
+     "În câte moduri se pot așeza 6 elevi pe 6 scaune?",
+     "Câte anagrame are cuvântul „CARTE”?",
+     "Câte numere de 5 cifre distincte se formează cu 1, 2, 3, 4, 5, care se termină cu 5?",
+     "Rezolvă: (n + 2)!/n! = 30."
+    ],
+    "test": [
+     "Cât este 3!?",
+     "Cât este 0!?",
+     "În câte moduri se ordonează 2 obiecte?",
+     "Cât este 5!/4!?",
+     "Ce spune regula produsului?"
+    ],
+    "steps": [
+     "Verifică dacă se ordonează toate elementele (permutări).",
+     "Aplică Pₙ = n! sau regula produsului pentru etape succesive.",
+     "Simplifică factorialele înainte de calcul.",
+     "Greșeala frecventă: să calculezi 6!/4! ca 6/4; se simplifică produsele: 6!/4! = 6·5 = 30."
+    ],
+    "answers": [
+     "6",
+     "1",
+     "2",
+     "5",
+     "Alegerile succesive se înmulțesc"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Aranjamente",
+    "theory": "Aranjamentele de n elemente luate câte k (k ≤ n) sunt submulțimile ordonate cu k elemente: contează și ce elemente alegem, și ordinea. Numărul lor este A(n, k) = n!/(n − k)! = n(n − 1)…(n − k + 1). Exemple: clasamente pe locurile I–III, coduri cu cifre distincte, funcții injective.",
+    "sample": "Locurile I, II, III dintr-un concurs cu 10 participanți se pot ocupa în A(10, 3) = 720 de moduri.",
+    "worked": "Câte numere de 3 cifre distincte se pot forma cu cifrele 1–9? A(9, 3) = 9·8·7 = 504. Câte funcții injective există de la o mulțime cu 3 elemente la una cu 5? A(5, 3) = 60.",
+    "exercises": [
+     "Calculează: A(6, 2), A(7, 3), A(n, 1).",
+     "În câte moduri se aleg un președinte și un secretar dintr-o clasă de 25?",
+     "Câte coduri de 4 cifre distincte se pot forma cu cifrele 0–9?",
+     "Câte funcții injective f: {1, 2} → {a, b, c, d} există?",
+     "Rezolvă: A(n, 2) = 20."
+    ],
+    "test": [
+     "Formula aranjamentelor?",
+     "A(5, 2) = ?",
+     "A(n, n) = ?",
+     "Contează ordinea la aranjamente?",
+     "A(4, 1) = ?"
+    ],
+    "steps": [
+     "Stabilește dacă ordinea contează și dacă elementele sunt distincte.",
+     "Identifică n (câte elemente disponibile) și k (câte se aleg).",
+     "Aplică A(n, k) = n(n − 1)…(n − k + 1).",
+     "Greșeala frecventă: să folosești aranjamente când ordinea nu contează (de exemplu la alegerea unei echipe); atunci se folosesc combinări."
+    ],
+    "answers": [
+     "n!/(n − k)!",
+     "20",
+     "n!",
+     "Da",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Combinări; proprietăți; numărul submulțimilor",
+    "theory": "Combinările de n elemente luate câte k sunt submulțimile cu k elemente, fără ordine: C(n, k) = n!/(k!(n − k)!) = A(n, k)/k!. Proprietăți: C(n, k) = C(n, n − k) (complementare); C(n, k) = C(n − 1, k) + C(n − 1, k − 1) (formula triunghiului lui Pascal). O mulțime cu n elemente are 2ⁿ submulțimi: C(n, 0) + C(n, 1) + … + C(n, n) = 2ⁿ.",
+    "sample": "O echipă de 3 elevi dintr-o grupă de 10 se alege în C(10, 3) = 120 de moduri.",
+    "worked": "Dintr-o clasă cu 12 fete și 10 băieți alegem 2 fete și 2 băieți: C(12, 2)·C(10, 2) = 66·45 = 2 970 de moduri. Calculăm C(20, 18) = C(20, 2) = 190.",
+    "exercises": [
+     "Calculează: C(8, 3), C(10, 0), C(15, 13).",
+     "În câte moduri se aleg 5 cărți din 9?",
+     "Câte drepte determină 8 puncte, oricare trei necoliniare?",
+     "Câte submulțimi cu cel mult 2 elemente are o mulțime cu 6 elemente?",
+     "Rezolvă: C(n, 2) = 28."
+    ],
+    "test": [
+     "C(5, 2) = ?",
+     "C(n, 0) = ?",
+     "C(7, 6) = ?",
+     "Câte submulțimi are o mulțime cu 4 elemente?",
+     "Contează ordinea la combinări?"
+    ],
+    "steps": [
+     "Verifică faptul că ordinea nu contează.",
+     "Aplică C(n, k), folosind C(n, k) = C(n, n − k) pentru k mare.",
+     "Combină cu regula produsului sau a sumei pentru alegeri compuse.",
+     "Greșeala frecventă: să aduni rezultatele a două alegeri simultane în loc să le înmulțești (fete și băieți: 66·45, nu 66 + 45)."
+    ],
+    "answers": [
+     "10",
+     "1",
+     "7",
+     "16",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Binomul lui Newton; termenul general; aplicații",
+    "theory": "Formula binomului lui Newton: (a + b)ⁿ = C(n, 0)aⁿ + C(n, 1)aⁿ⁻¹b + … + C(n, n)bⁿ. Termenul general (de rang k + 1) este Tₖ₊₁ = C(n, k)aⁿ⁻ᵏbᵏ. Coeficienții binomiali formează triunghiul lui Pascal. Suma coeficienților binomiali este 2ⁿ, iar dezvoltarea are n + 1 termeni.",
+    "sample": "Prin binomul lui Newton, (x + 1)³ = x³ + 3x² + 3x + 1.",
+    "worked": "Al patrulea termen al dezvoltării (2x + 1)⁶: T₄ = C(6, 3)(2x)³·1³ = 20·8x³ = 160x³. Termenul liber din (x + 1/x)⁴: Tₖ₊₁ = C(4, k)x^(4 − 2k), liber pentru k = 2, deci C(4, 2) = 6.",
+    "exercises": [
+     "Dezvoltă: (a − b)⁴.",
+     "Află termenul al cincilea al dezvoltării (x + 2)⁷.",
+     "Află termenul liber din (x² + 1/x)⁶.",
+     "Calculează suma coeficienților binomiali din (a + b)¹⁰.",
+     "Folosește binomul pentru a calcula 1,01⁵ cu trei zecimale."
+    ],
+    "test": [
+     "Câți termeni are (a + b)ⁿ?",
+     "Formula termenului general?",
+     "Suma coeficienților binomiali pentru n = 5?",
+     "Coeficientul lui x² în (x + 1)⁴?",
+     "Al doilea termen din (a + b)³?"
+    ],
+    "steps": [
+     "Scrie formula termenului general Tₖ₊₁ = C(n, k)aⁿ⁻ᵏbᵏ.",
+     "Pentru un termen anume, alege k (atenție: rangul este k + 1); pentru termenul liber, impune exponentul lui x egal cu 0.",
+     "Calculează coeficientul binomial și puterile.",
+     "Greșeala frecventă: să confunzi rangul cu k; al patrulea termen corespunde lui k = 3."
+    ],
+    "answers": [
+     "n + 1",
+     "Tₖ₊₁ = C(n, k)aⁿ⁻ᵏbᵏ",
+     "32",
+     "6",
+     "3a²b"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Probleme de numărare: regula sumei, numărul funcțiilor, cuvinte și submulțimi",
+    "theory": "Regula sumei: dacă o acțiune se face fie într-un mod din m, fie într-unul din n (fără suprapunere), avem m + n posibilități. Numărul funcțiilor f: A → B, cu card A = m și card B = n, este nᵐ; al funcțiilor injective este A(n, m) (m ≤ n); al funcțiilor bijective între mulțimi cu n elemente este n!. Numărul cuvintelor de lungime k dintr-un alfabet cu n litere (cu repetiție) este nᵏ.",
+    "sample": "Există 2³ = 8 funcții de la {1, 2, 3} la {0, 1}.",
+    "worked": "Câte parole de 4 caractere se formează cu cifre (repetiția permisă)? 10⁴ = 10 000. Câte au toate cifrele distincte? A(10, 4) = 5 040. Câte au cel puțin două cifre egale? 10 000 − 5 040 = 4 960.",
+    "exercises": [
+     "Câte funcții f: {a, b, c} → {1, 2, 3, 4} există? Câte sunt injective?",
+     "Câte numere de 3 cifre (cu repetiție) există?",
+     "Câte numere de 3 cifre au cel puțin două cifre egale?",
+     "Câte funcții bijective f: {1, 2, 3, 4} → {1, 2, 3, 4} există?",
+     "Un meniu are 3 supe și 4 feluri principale; alegi fie o supă, fie un fel principal. Câte variante?"
+    ],
+    "test": [
+     "Numărul funcțiilor de la o mulțime cu 2 elemente la una cu 3?",
+     "Numărul funcțiilor bijective pe o mulțime cu 3 elemente?",
+     "Câte cuvinte de lungime 2 cu literele a, b (cu repetiție)?",
+     "Când aplici regula sumei?",
+     "Câte parole de 3 cifre (cu repetiție)?"
+    ],
+    "steps": [
+     "Stabilește dacă alegerile sunt succesive (produs) sau alternative (sumă).",
+     "Verifică dacă repetiția este permisă și dacă ordinea contează.",
+     "Aplică formula potrivită sau numără prin complementare.",
+     "Greșeala frecventă: să aplici aranjamente când repetiția este permisă; cu repetiție numărul este nᵏ."
+    ],
+    "answers": [
+     "9",
+     "6",
+     "4",
+     "Când alegerile se exclud reciproc",
+     "1 000"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Procente, TVA, dobânzi; probleme financiare",
+    "theory": "p% din x este p·x/100. Prețul cu TVA (de exemplu 19%) este preț fără TVA × 1,19. Creșterea cu p% înmulțește cu (1 + p/100), reducerea cu (1 − p/100). Dobânda simplă după n ani: D = S·n·p/100; dobânda compusă: suma devine S(1 + p/100)ⁿ. În probleme verificăm la ce valoare se aplică procentul.",
+    "sample": "Un produs de 100 lei fără TVA costă 119 lei cu TVA de 19%.",
+    "worked": "Un produs costă 238 lei cu TVA de 19%; prețul fără TVA este 238/1,19 = 200 lei. Un depozit de 5 000 lei cu 4% dobândă compusă devine după 2 ani 5 000·1,04² = 5 408 lei.",
+    "exercises": [
+     "Calculează prețul cu TVA de 19% al unui produs de 350 lei.",
+     "Un produs cu TVA costă 595 lei. Află prețul fără TVA (TVA 19%).",
+     "După o reducere de 25%, un produs costă 150 lei. Cât costa inițial?",
+     "Calculează dobânda simplă pentru 8 000 lei, 3 ani, 5%.",
+     "Un preț crește cu 10%, apoi scade cu 10%. Ce procent din prețul inițial reprezintă prețul final?"
+    ],
+    "test": [
+     "20% din 300?",
+     "Prețul cu TVA 19% pentru 1 000 lei?",
+     "Cu cât se înmulțește un preț la o reducere de 30%?",
+     "Dobânda simplă pentru 1 000 lei, 1 an, 5%?",
+     "1 000 lei cu 10% dobândă compusă după 2 ani?"
+    ],
+    "steps": [
+     "Identifică valoarea de referință la care se aplică procentul.",
+     "Transformă procentul în factor (1 ± p/100).",
+     "Calculează și verifică dacă rezultatul are sens.",
+     "Greșeala frecventă: să scazi TVA-ul ca 19% din prețul final; prețul fără TVA se obține împărțind la 1,19."
+    ],
+    "answers": [
+     "60",
+     "1 190 lei",
+     "0,7",
+     "50 lei",
+     "1 210 lei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Date statistice: organizare, reprezentare, indicatori de poziție și de împrăștiere",
+    "theory": "Datele statistice se organizează în tabele de frecvențe (absolute și relative) și se reprezintă prin diagrame cu bare, histograme, diagrame circulare. Indicatori de poziție: media aritmetică, mediana, modul. Indicatori de împrăștiere: amplitudinea, dispersia σ² = media pătratelor abaterilor față de medie, abaterea standard σ = √σ². Abaterea standard mică indică date grupate în jurul mediei.",
+    "sample": "Pentru datele 2, 4, 6 media este 4, iar dispersia (4 + 0 + 4)/3 = 8/3.",
+    "worked": "Notele 6, 7, 8, 9, 10: media 8, abaterile −2, −1, 0, 1, 2, dispersia (4 + 1 + 0 + 1 + 4)/5 = 2, abaterea standard √2 ≈ 1,41. Pentru 8, 8, 8, 8, 8 media este tot 8, dar dispersia este 0.",
+    "exercises": [
+     "Calculează media, mediana și modul pentru 3, 5, 5, 6, 8, 9.",
+     "Calculează dispersia și abaterea standard pentru 1, 3, 5, 7.",
+     "Construiește tabelul frecvențelor relative pentru notele 7, 8, 8, 9, 9, 9, 10.",
+     "Două clase au media 8; una are σ = 0,5, cealaltă σ = 2. Interpretează.",
+     "Desenează diagrama circulară pentru 50% A, 30% B, 20% C."
+    ],
+    "test": [
+     "Mediana pentru 1, 3, 9?",
+     "Modul pentru 4, 4, 5?",
+     "Dispersia pentru 5, 5, 5?",
+     "Frecvența relativă a unei valori care apare de 3 ori din 12?",
+     "Ce măsoară abaterea standard?"
+    ],
+    "steps": [
+     "Organizează datele în tabel și calculează media.",
+     "Calculează abaterile față de medie și pătratele lor.",
+     "Fă media pătratelor (dispersia) și extrage radicalul (abaterea standard); interpretează.",
+     "Greșeala frecventă: să faci media abaterilor fără ridicare la pătrat; suma abaterilor față de medie este mereu 0."
+    ],
+    "answers": [
+     "3",
+     "4",
+     "0",
+     "1/4",
+     "Împrăștierea datelor față de medie"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Probabilități: evenimente, operații cu evenimente, probabilitate condiționată simplă",
+    "theory": "Când rezultatele sunt egal posibile, P(A) = cazuri favorabile/cazuri posibile. Evenimentul contrar are P(Ā) = 1 − P(A). Pentru evenimente incompatibile, P(A ∪ B) = P(A) + P(B); în general P(A ∪ B) = P(A) + P(B) − P(A ∩ B). Evenimentele A și B sunt independente dacă P(A ∩ B) = P(A)·P(B). Numărarea cazurilor folosește adesea permutări, aranjamente și combinări.",
+    "sample": "Probabilitatea de a obține un număr par la un zar este 3/6 = 1/2.",
+    "worked": "Dintr-o urnă cu 5 bile albe și 3 negre extragem 2 bile. P(ambele albe) = C(5, 2)/C(8, 2) = 10/28 = 5/14. P(cel puțin una neagră) = 1 − 5/14 = 9/14.",
+    "exercises": [
+     "Care este probabilitatea ca un număr de două cifre ales la întâmplare să fie divizibil cu 5?",
+     "Aruncăm două zaruri. Care este probabilitatea ca suma să fie 8?",
+     "Din 10 becuri, 3 sunt defecte. Alegem 2. Probabilitatea ca ambele să fie bune?",
+     "Probabilitatea ca un număr din {1, …, 30} să fie multiplu de 2 sau de 3?",
+     "Aruncăm o monedă de 3 ori. Probabilitatea să obținem cel puțin un cap?"
+    ],
+    "test": [
+     "P(A) dacă A este imposibil?",
+     "P(contrar) dacă P(A) = 0,2?",
+     "Câte cazuri posibile la două zaruri?",
+     "P(cap) la o monedă?",
+     "Formula P(A ∪ B) în general?"
+    ],
+    "steps": [
+     "Descrie toate cazurile posibile și numără-le (cu metodele de numărare).",
+     "Numără cazurile favorabile sau folosește evenimentul contrar.",
+     "Calculează probabilitatea și verifică că este între 0 și 1.",
+     "Greșeala frecventă: la „cel puțin una” să numeri direct cu riscul de a dubla cazuri; e mai sigur să calculezi 1 − P(niciuna)."
+    ],
+    "answers": [
+     "0",
+     "0,8",
+     "36",
+     "1/2",
+     "P(A) + P(B) − P(A ∩ B)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Reper cartezian; vectori și coordonatele lor; distanța dintre două puncte",
+    "theory": "Într-un reper cartezian xOy, punctul A are coordonatele (x_A, y_A). Vectorul AB are coordonatele (x_B − x_A, y_B − y_A) și lungimea |AB| = √((x_B − x_A)² + (y_B − y_A)²). Vectorii se adună adunând coordonatele și se înmulțesc cu scalari înmulțind coordonatele. Mijlocul segmentului AB are coordonatele ((x_A + x_B)/2, (y_A + y_B)/2), iar centrul de greutate al triunghiului media coordonatelor vârfurilor.",
+    "sample": "Pentru A(1, 2) și B(4, 6), vectorul AB este (3, 4) și are lungimea 5.",
+    "worked": "Pentru A(−1, 3), B(5, −1), C(2, 7): mijlocul lui AB este M(2, 1), centrul de greutate G(2, 3). Vectorul AC = (3, 4), vectorul AB = (6, −4), suma lor (9, 0).",
+    "exercises": [
+     "Află coordonatele vectorului AB pentru A(2, −3), B(−1, 5).",
+     "Calculează lungimea segmentului cu capetele (−2, 1) și (4, 9).",
+     "Află mijlocul segmentului cu capetele (3, 7) și (−5, 1).",
+     "Află centrul de greutate al triunghiului cu vârfurile (0, 0), (6, 0), (3, 9).",
+     "Află D astfel încât ABCD să fie paralelogram, cu A(1, 1), B(4, 2), C(5, 5)."
+    ],
+    "test": [
+     "Coordonatele vectorului AB pentru A(0, 0), B(3, 4)?",
+     "Lungimea vectorului (3, 4)?",
+     "Mijlocul lui [AB] pentru A(0, 0), B(2, 4)?",
+     "Suma vectorilor (1, 2) și (3, −1)?",
+     "2·(1, −3) = ?"
+    ],
+    "steps": [
+     "Scrie coordonatele punctelor.",
+     "Aplică formula potrivită (vector, distanță, mijloc, centru de greutate).",
+     "Verifică pe desen dacă rezultatul este plauzibil.",
+     "Greșeala frecventă: să scazi coordonatele în ordine inversă (A − B în loc de B − A), obținând vectorul opus."
+    ],
+    "answers": [
+     "(3, 4)",
+     "5",
+     "(1, 2)",
+     "(4, 1)",
+     "(2, −6)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Vectori coliniari; condiția de coliniaritate a trei puncte; vectori în configurații geometrice",
+    "theory": "Vectorii u(x₁, y₁) și v(x₂, y₂) sunt coliniari dacă există un număr real k cu u = k·v, echivalent x₁y₂ − x₂y₁ = 0. Trei puncte A, B, C sunt coliniare dacă vectorii AB și AC sunt coliniari. Cu vectori arătăm paralelismul (vectori coliniari pe drepte diferite) și aflăm puncte care împart un segment într-un raport dat: P cu AP = k·PB are coordonatele ((x_A + k·x_B)/(1 + k), (y_A + k·y_B)/(1 + k)).",
+    "sample": "Vectorii (2, 4) și (1, 2) sunt coliniari, deoarece (2, 4) = 2·(1, 2).",
+    "worked": "Sunt coliniare A(1, 2), B(3, 6), C(5, 10)? AB = (2, 4), AC = (4, 8) = 2·AB, deci da. Punctul P care împarte AB, cu A(0, 0), B(6, 3), în raportul AP/PB = 2 are coordonatele (12/3, 6/3) = (4, 2).",
+    "exercises": [
+     "Verifică dacă vectorii (3, −6) și (−1, 2) sunt coliniari.",
+     "Află m pentru care (m, 4) și (2, 8) sunt coliniari.",
+     "Verifică dacă A(0, 1), B(2, 5), C(3, 8) sunt coliniare.",
+     "Află punctul care împarte segmentul A(1, 1), B(7, 4) în raportul AP/PB = 1/2.",
+     "Arată că ABCD cu A(0, 0), B(4, 1), C(5, 4), D(1, 3) este paralelogram folosind vectori."
+    ],
+    "test": [
+     "Condiția de coliniaritate a lui (x₁, y₁) și (x₂, y₂)?",
+     "Sunt coliniari (1, 1) și (2, 2)?",
+     "Sunt coliniari (1, 0) și (0, 1)?",
+     "Ce înseamnă AB = DC pentru patrulaterul ABCD?",
+     "Punctul care împarte [AB] în raportul 1 este…?"
+    ],
+    "steps": [
+     "Scrie coordonatele vectorilor implicați.",
+     "Verifică relația x₁y₂ − x₂y₁ = 0 sau găsește k.",
+     "Interpretează: puncte coliniare, drepte paralele sau punct de diviziune.",
+     "Greșeala frecventă: să confunzi vectori coliniari cu vectori egali; coliniari înseamnă doar aceeași direcție (pot avea lungimi și sensuri diferite)."
+    ],
+    "answers": [
+     "x₁y₂ − x₂y₁ = 0",
+     "Da",
+     "Nu",
+     "ABCD este paralelogram",
+     "Mijlocul segmentului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "Ecuații ale dreptei în plan",
+    "theory": "O dreaptă se poate scrie: prin pantă și un punct, y − y₀ = m(x − x₀); prin două puncte, (y − y_A)/(y_B − y_A) = (x − x_A)/(x_B − x_A); sub forma generală ax + by + c = 0; explicit y = mx + n, unde m este panta (coeficientul unghiular), m = tg α, iar n ordonata la origine. Dreptele verticale au ecuația x = k și nu au pantă.",
+    "sample": "Dreapta prin A(1, 2) cu panta 3 are ecuația y − 2 = 3(x − 1), adică y = 3x − 1.",
+    "worked": "Dreapta prin A(2, 1) și B(4, 5): panta m = (5 − 1)/(4 − 2) = 2, ecuația y − 1 = 2(x − 2), deci y = 2x − 3, sau 2x − y − 3 = 0. Verificăm B: 2·4 − 3 = 5.",
+    "exercises": [
+     "Scrie ecuația dreptei prin (0, 3) cu panta −2.",
+     "Scrie ecuația dreptei prin (1, −1) și (3, 5).",
+     "Află panta dreptei 3x − 2y + 6 = 0.",
+     "Află intersecțiile cu axele ale dreptei 2x + 5y − 10 = 0.",
+     "Verifică dacă punctele (1, 1), (2, 3), (4, 7) sunt coliniare."
+    ],
+    "test": [
+     "Panta dreptei y = 4x − 1?",
+     "Ecuația dreptei verticale prin (2, 5)?",
+     "Panta dreptei prin (0, 0) și (2, 6)?",
+     "Ordonata la origine a lui y = −x + 7?",
+     "Are panta o dreaptă verticală?"
+    ],
+    "steps": [
+     "Află panta (din două puncte sau din unghi).",
+     "Scrie ecuația cu un punct și panta.",
+     "Adu la forma cerută și verifică un punct cunoscut.",
+     "Greșeala frecventă: să calculezi panta ca (x_B − x_A)/(y_B − y_A); corect este diferența ordonatelor supra diferența absciselor."
+    ],
+    "answers": [
+     "4",
+     "x = 2",
+     "3",
+     "7",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l30": {
+   "ro": {
+    "title": "Poziția relativă a două drepte; condiții de paralelism și perpendicularitate",
+    "theory": "Dreptele y = m₁x + n₁ și y = m₂x + n₂ sunt paralele dacă m₁ = m₂ și n₁ ≠ n₂, confundate dacă m₁ = m₂ și n₁ = n₂, concurente dacă m₁ ≠ m₂. Sunt perpendiculare dacă m₁·m₂ = −1. Pentru forma generală a₁x + b₁y + c₁ = 0 și a₂x + b₂y + c₂ = 0: paralele dacă a₁/a₂ = b₁/b₂ ≠ c₁/c₂, perpendiculare dacă a₁a₂ + b₁b₂ = 0. Punctul de intersecție se află rezolvând sistemul.",
+    "sample": "Dreptele y = 2x + 1 și y = 2x − 5 sunt paralele (aceeași pantă).",
+    "worked": "Dreapta prin A(1, 3), perpendiculară pe y = 2x + 1: panta −1/2, ecuația y − 3 = −(x − 1)/2, adică x + 2y − 7 = 0. Intersecția cu y = 2x + 1: x + 4x + 2 − 7 = 0, x = 1, y = 3 — chiar punctul A, care se află pe dreapta dată.",
+    "exercises": [
+     "Stabilește poziția dreptelor y = 3x − 2 și y = −x/3 + 4.",
+     "Scrie ecuația dreptei prin (2, −1), paralelă cu y = −4x + 3.",
+     "Află m pentru care dreptele mx + 2y − 1 = 0 și 3x − y + 5 = 0 sunt perpendiculare.",
+     "Află intersecția dreptelor x + y = 5 și 2x − y = 1.",
+     "Scrie ecuația mediatoarei segmentului cu capetele (0, 0) și (4, 2)."
+    ],
+    "test": [
+     "Condiția de paralelism (pante)?",
+     "Condiția de perpendicularitate (pante)?",
+     "Sunt perpendiculare y = x și y = −x?",
+     "Sunt paralele y = 5x și y = 5x + 1?",
+     "Cum afli punctul de intersecție?"
+    ],
+    "steps": [
+     "Află pantele (sau coeficienții din forma generală).",
+     "Compară-le: egale (paralele), produs −1 (perpendiculare).",
+     "Pentru intersecție, rezolvă sistemul format de cele două ecuații.",
+     "Greșeala frecventă: să consideri perpendiculare dreptele cu pante opuse (2 și −2); condiția este produsul −1 (2 și −1/2)."
+    ],
+    "answers": [
+     "m₁ = m₂ și n₁ ≠ n₂",
+     "m₁·m₂ = −1",
+     "Da",
+     "Da",
+     "Rezolv sistemul format de ecuații"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l31": {
+   "ro": {
+    "title": "Distanța de la un punct la o dreaptă; aria triunghiului în coordonate",
+    "theory": "Distanța de la punctul M(x₀, y₀) la dreapta ax + by + c = 0 este d = |ax₀ + by₀ + c|/√(a² + b²). Aria triunghiului cu vârfurile A, B, C este S = |Δ|/2, unde Δ = (x_B − x_A)(y_C − y_A) − (x_C − x_A)(y_B − y_A) (sau determinantul de ordin 3 cu coordonatele și o coloană de 1, studiat ulterior). Dacă Δ = 0, punctele sunt coliniare.",
+    "sample": "Distanța de la origine la dreapta 3x + 4y − 10 = 0 este 10/5 = 2.",
+    "worked": "Aria triunghiului A(1, 1), B(5, 1), C(2, 4): Δ = (4)(3) − (1)(0) = 12, S = 6. Verificăm: baza AB = 4, înălțimea 3, aria 6. Distanța de la C la AB (y = 1): |4 − 1| = 3.",
+    "exercises": [
+     "Calculează distanța de la (2, 3) la dreapta 4x − 3y + 6 = 0.",
+     "Calculează distanța dintre dreptele paralele 3x + 4y − 5 = 0 și 3x + 4y + 15 = 0.",
+     "Calculează aria triunghiului cu vârfurile (0, 0), (6, 0), (2, 5).",
+     "Verifică dacă punctele (1, 2), (3, 6), (5, 10) sunt coliniare.",
+     "Află lungimea înălțimii din A în triunghiul A(0, 4), B(−2, 0), C(4, 0)."
+    ],
+    "test": [
+     "Formula distanței punct–dreaptă?",
+     "Distanța de la (0, 0) la x = 5?",
+     "Ce înseamnă Δ = 0 pentru trei puncte?",
+     "Aria triunghiului (0, 0), (2, 0), (0, 2)?",
+     "Distanța de la (0, 0) la 3x + 4y − 5 = 0?"
+    ],
+    "steps": [
+     "Scrie dreapta în forma generală ax + by + c = 0.",
+     "Înlocuiește coordonatele punctului și aplică formula.",
+     "Pentru arie, calculează Δ cu coordonatele și ia jumătate din valoarea absolută.",
+     "Greșeala frecventă: să uiți modulul la numărătorul formulei distanței și să obții o distanță negativă."
+    ],
+    "answers": [
+     "|ax₀ + by₀ + c|/√(a² + b²)",
+     "5",
+     "Sunt coliniare",
+     "2",
+     "1"
+    ]
+   }
+  }
+ }
+}

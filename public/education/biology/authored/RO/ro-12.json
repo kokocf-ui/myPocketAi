@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "0c97e284dd4dc9b45fb7489214c2714d22cfaa257331ca7f7683e11081fd3104",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Biologie pentru clasa a XII-a, filiera teoretică, profilul real (OMEC nr. 5959/22.12.2006), în vigoare în 2026–2027 — genetică (acizii nucleici, organizarea materialului genetic, exprimarea și reglajul genelor, ereditatea mendeliană și legată de sex, mutații, genetică umană, biotehnologii) și ecologie umană (ecosisteme antropizate, poluare, sănătate și mediu, conservarea biodiversității, dezvoltare durabilă); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Biologie · Clasa a XII-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Acizii nucleici",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03",
+    "eu-year-ro-medium-12-l04"
+   ]
+  },
+  {
+   "title": "Organizarea materialului genetic",
+   "keys": [
+    "eu-year-ro-medium-12-l05",
+    "eu-year-ro-medium-12-l06",
+    "eu-year-ro-medium-12-l07"
+   ]
+  },
+  {
+   "title": "Exprimarea informației genetice",
+   "keys": [
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11"
+   ]
+  },
+  {
+   "title": "Ereditatea",
+   "keys": [
+    "eu-year-ro-medium-12-l12",
+    "eu-year-ro-medium-12-l13",
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17"
+   ]
+  },
+  {
+   "title": "Variabilitatea și genetica umană",
+   "keys": [
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19",
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21"
+   ]
+  },
+  {
+   "title": "Biotehnologii și inginerie genetică",
+   "keys": [
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24"
+   ]
+  },
+  {
+   "title": "Ecologie umană",
+   "keys": [
+    "eu-year-ro-medium-12-l25",
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28",
+    "eu-year-ro-medium-12-l29",
+    "eu-year-ro-medium-12-l30",
+    "eu-year-ro-medium-12-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Dovezi că ADN-ul este materialul genetic",
+    "theory": "La începutul secolului XX se credea că proteinele poartă informația ereditară. Griffith (1928) a observat transformarea bacteriană: pneumococi nevirulenți (R) au devenit virulenți (S) în contact cu pneumococi S omorâți prin căldură — un „principiu transformator” trecuse de la unii la alții. Avery, MacLeod și McCarty (1944) au arătat că acest principiu este ADN-ul: extractul tratat cu enzime care distrug proteinele transforma în continuare bacteriile, dar cel tratat cu enzime care distrug ADN-ul nu. Hershey și Chase (1952) au marcat virusurile bacteriofagi cu izotopi radioactivi: în bacterie a intrat ADN-ul marcat cu fosfor, nu proteinele marcate cu sulf. La unele virusuri, materialul genetic este ARN-ul.",
+    "sample": "Experimentul Hershey–Chase a arătat că în bacterie intră ADN-ul virusului, nu învelișul proteic.",
+    "worked": "Raționament experimental: ADN-ul conține fosfor, dar nu sulf; proteinele conțin sulf, dar aproape deloc fosfor. Marcând separat cele două componente, s-a urmărit ce intră în bacterie: doar ADN-ul (³²P). Noii virusuri formați conțineau fosfor marcat — deci ADN-ul transmite informația.",
+    "exercises": [
+     "Descrie experimentul lui Griffith și concluzia lui.",
+     "Ce au demonstrat Avery, MacLeod și McCarty?",
+     "De ce Hershey și Chase au folosit fosfor și sulf radioactiv?",
+     "La ce organisme materialul genetic este ARN-ul?",
+     "De ce s-a crezut inițial că proteinele sunt materialul genetic?"
+    ],
+    "test": [
+     "Ce este transformarea bacteriană?",
+     "Ce izotop a marcat ADN-ul în experimentul Hershey–Chase?",
+     "Ce izotop a marcat proteinele?",
+     "Ce sunt bacteriofagii?",
+     "Cine a identificat ADN-ul ca principiu transformator?"
+    ],
+    "steps": [
+     "Identifică ipoteza și variabila testată în experiment.",
+     "Analizează rezultatele (ce componentă transmite caracterele).",
+     "Formulează concluzia despre natura materialului genetic.",
+     "Greșeala frecventă: să crezi că Griffith a demonstrat că ADN-ul este materialul genetic; el doar a descoperit transformarea, natura ei a fost arătată de Avery."
+    ],
+    "answers": [
+     "Preluarea de către o bacterie a materialului genetic al alteia",
+     "Fosforul radioactiv (³²P)",
+     "Sulful radioactiv (³⁵S)",
+     "Virusuri care infectează bacterii",
+     "Avery, MacLeod și McCarty"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Structura ADN-ului",
+    "theory": "ADN-ul este un polimer de nucleotide; fiecare nucleotidă are o bază azotată (adenina, guanina — purine; citozina, timina — pirimidine), dezoxiriboza și un rest de acid fosforic. Watson și Crick (1953), folosind imaginile de difracție obținute de Rosalind Franklin, au propus modelul dublului helix: două catene antiparalele, răsucite în jurul aceleiași axe, cu scheletul zahăr–fosfat la exterior și bazele în interior, legate prin punți de hidrogen complementare: A=T (2 punți), G≡C (3 punți). Regulile lui Chargaff: A = T și G = C, deci purine = pirimidine. Secvența bazelor reprezintă informația genetică.",
+    "sample": "Într-un ADN dublu catenar, cantitatea de adenină este egală cu cea de timină.",
+    "worked": "Un fragment de ADN are 200 de nucleotide, dintre care 30% guanină: G = 60, C = 60, A = T = 40 fiecare. Numărul de punți de hidrogen: 40 perechi A=T × 2 + 60 perechi G≡C × 3 = 80 + 180 = 260. Un ADN mai bogat în G–C este mai stabil termic.",
+    "exercises": [
+     "Descrie structura unei nucleotide.",
+     "Explică modelul dublului helix.",
+     "Enunță regulile lui Chargaff.",
+     "Un ADN de 1000 de nucleotide are 20% adenină. Calculează numărul fiecărei baze.",
+     "Calculează punțile de hidrogen pentru un fragment cu 10 perechi A=T și 15 perechi G≡C."
+    ],
+    "test": [
+     "Ce zahăr conține ADN-ul?",
+     "Câte punți de hidrogen leagă A de T?",
+     "Câte punți de hidrogen leagă G de C?",
+     "Ce înseamnă catene antiparalele?",
+     "Cine a propus modelul dublului helix?"
+    ],
+    "steps": [
+     "Aplică regula complementarității (A=T, G≡C).",
+     "Calculează numărul bazelor din procente și numărul total.",
+     "Calculează punțile de hidrogen și interpretează stabilitatea.",
+     "Greșeala frecventă: să aplici procentele unei baze direct perechii ei fără să ții cont că fiecare pereche cuprinde două nucleotide."
+    ],
+    "answers": [
+     "Dezoxiriboza",
+     "Două",
+     "Trei",
+     "Catenele sunt orientate în sensuri opuse (5′→3′ și 3′→5′)",
+     "Watson și Crick"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Replicarea ADN-ului",
+    "theory": "Replicarea este copierea ADN-ului înaintea diviziunii celulare. Este semiconservativă (Meselson și Stahl): fiecare moleculă nouă are o catenă veche și una nou sintetizată. Etape: enzima helicaza desface dublul helix (furca de replicare); ADN-polimeraza adaugă nucleotide complementare, numai în sensul 5′→3′; o catenă se sintetizează continuu (catena conducătoare), cealaltă discontinuu, în fragmente Okazaki, unite de ligază. ADN-polimeraza verifică și corectează greșelile — rata erorilor finale este de ≈ 1 la un miliard de nucleotide. Erorile necorectate devin mutații.",
+    "sample": "După replicare, fiecare celulă fiică primește o copie completă a ADN-ului.",
+    "worked": "Catena matriță 3′-TACGGA-5′ ⇒ catena nouă 5′-ATGCCT-3′. Pornind de la o moleculă de ADN marcată complet cu ¹⁵N, după o replicare în mediu cu ¹⁴N rezultă 2 molecule hibride (¹⁵N/¹⁴N); după a doua replicare — 2 hibride și 2 ușoare — exact cum prevede modelul semiconservativ.",
+    "exercises": [
+     "Ce înseamnă replicare semiconservativă?",
+     "Ce rol au helicaza, ADN-polimeraza și ligaza?",
+     "De ce o catenă se sintetizează discontinuu?",
+     "Scrie catena nouă pentru matrița 3′-GGATCC-5′.",
+     "Explică rezultatul experimentului Meselson–Stahl după două replicări."
+    ],
+    "test": [
+     "Când are loc replicarea?",
+     "Ce enzimă desface dublul helix?",
+     "În ce sens sintetizează ADN-polimeraza?",
+     "Ce sunt fragmentele Okazaki?",
+     "Cine a demonstrat replicarea semiconservativă?"
+    ],
+    "steps": [
+     "Identifică catena matriță și sensul ei.",
+     "Construiește catena nouă prin complementaritate, în sensul 5′→3′.",
+     "Explică rolul enzimelor și verifică modelul semiconservativ.",
+     "Greșeala frecventă: să crezi că ambele catene se sintetizează continuu; catena întârziată se formează în fragmente Okazaki."
+    ],
+    "answers": [
+     "Înaintea diviziunii celulare (în interfază)",
+     "Helicaza",
+     "5′→3′",
+     "Fragmente scurte ale catenei întârziate",
+     "Meselson și Stahl"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "ARN-ul: structură și tipuri",
+    "theory": "ARN-ul este de obicei monocatenar, conține riboza în loc de dezoxiriboză și uracilul (U) în loc de timină. Se formează prin transcrierea ADN-ului. Tipuri: ARN mesager (ARNm) — copiază informația unei gene și o duce la ribozomi; ARN de transport (ARNt) — molecule mici, pliate în formă de „frunză de trifoi”, care aduc aminoacizii la ribozomi și au un anticodon complementar codonului din ARNm; ARN ribozomal (ARNr) — componenta principală a ribozomilor, cu rol catalitic în formarea legăturilor peptidice. La unele virusuri (gripa, HIV, SARS-CoV-2), ARN-ul este materialul genetic. Vaccinurile ARNm introduc temporar un ARNm care face celulele să producă o proteină virală, recunoscută de sistemul imunitar.",
+    "sample": "ARN-ul de transport aduce aminoacizii la ribozomi.",
+    "worked": "Comparăm ADN și ARN: ADN — dublu catenar, dezoxiriboză, timină, în nucleu, stabil; ARN — monocatenar, riboză, uracil, în nucleu și citoplasmă, de scurtă durată. Un anticodon UAC al ARNt se împerechează cu codonul AUG din ARNm.",
+    "exercises": [
+     "Compară ADN-ul cu ARN-ul (5 criterii).",
+     "Ce rol are fiecare tip de ARN?",
+     "Ce este anticodonul?",
+     "Ce anticodon corespunde codonului GCU?",
+     "Explică principiul vaccinurilor ARNm."
+    ],
+    "test": [
+     "Ce zahăr conține ARN-ul?",
+     "Ce bază are ARN-ul în loc de timină?",
+     "Ce tip de ARN duce informația la ribozomi?",
+     "Ce formă are ARNt?",
+     "Ce tip de ARN formează ribozomii?"
+    ],
+    "steps": [
+     "Identifică tipul de ARN după structură și rol.",
+     "Aplică complementaritatea (A–U, G–C) pentru codoni și anticodoni.",
+     "Leagă rolurile ARN-ului de sinteza proteinelor și de aplicații.",
+     "Greșeala frecventă: să pui timină în ARN sau să împerechezi adenina cu timina într-un anticodon; în ARN, A se împerechează cu U."
+    ],
+    "answers": [
+     "Riboza",
+     "Uracilul",
+     "ARN mesager (ARNm)",
+     "De frunză de trifoi",
+     "ARN ribozomal (ARNr)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Materialul genetic la virusuri și procariote; plasmidele",
+    "theory": "Virusurile au un genom foarte mic, format din ADN sau ARN, mono- sau bicatenar, protejat de capsida proteică (unele au și un înveliș lipidic). Retrovirusurile (HIV) au ARN și enzima revers-transcriptază, care copiază ARN-ul în ADN, integrat apoi în genomul celulei gazdă. La procariote, materialul genetic este un cromozom circular de ADN dublu catenar, situat în nucleoid, fără membrană nucleară; genele sunt dense, aproape fără secvențe necodificatoare. Multe bacterii au și plasmide — molecule mici, circulare de ADN, care se replică independent și pot purta gene de rezistență la antibiotice; ele pot fi transferate între bacterii, ceea ce explică răspândirea rapidă a rezistenței.",
+    "sample": "Plasmidele pot transmite rezistența la antibiotice de la o bacterie la alta.",
+    "worked": "De ce folosirea abuzivă a antibioticelor este periculoasă: antibioticul omoară bacteriile sensibile, iar cele care au plasmide cu gene de rezistență supraviețuiesc, se înmulțesc și își transmit plasmidele. În timp, infecția nu mai răspunde la tratament. De aceea antibioticele se iau doar la prescripție și complet.",
+    "exercises": [
+     "Compară materialul genetic al virusurilor cu al bacteriilor.",
+     "Ce este revers-transcriptaza și la ce virusuri apare?",
+     "Ce sunt plasmidele?",
+     "Explică apariția și răspândirea rezistenței la antibiotice.",
+     "De ce tratamentul antibiotic trebuie dus până la capăt?"
+    ],
+    "test": [
+     "Ce formă are cromozomul bacterian?",
+     "Unde se află ADN-ul bacterian?",
+     "Ce enzimă au retrovirusurile?",
+     "Ce gene pot purta plasmidele?",
+     "Ce protejează genomul viral?"
+    ],
+    "steps": [
+     "Identifică tipul de organism și forma materialului genetic.",
+     "Precizează particularitățile (plasmide, revers-transcriptază, capsidă).",
+     "Leagă de consecințe practice (rezistență, tratament, biotehnologii).",
+     "Greșeala frecventă: să crezi că bacteriile devin rezistente „obișnuindu-se” cu antibioticul; sunt selectate cele care au deja gene de rezistență."
+    ],
+    "answers": [
+     "Circulară",
+     "În nucleoid, liber în citoplasmă",
+     "Revers-transcriptaza",
+     "Gene de rezistență la antibiotice",
+     "Capsida proteică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "Materialul genetic la eucariote: cromatina și cromozomii; cariotipul",
+    "theory": "La eucariote, ADN-ul este liniar, foarte lung (≈ 2 m într-o celulă umană) și se împachetează: se înfășoară în jurul unor proteine (histone), formând nucleozomi, care se pliază mai departe în fibre de cromatină. La diviziune, cromatina se condensează maxim în cromozomi. Un cromozom metafazic are două cromatide surori unite la centromer; capetele se numesc telomere. Cariotipul este ansamblul cromozomilor unei celule, aranjați după mărime și poziția centromerului: omul are 46 de cromozomi — 22 de perechi de autozomi și o pereche de heterozomi (XX la femei, XY la bărbați). Celulele somatice sunt diploide (2n = 46), gameții haploizi (n = 23).",
+    "sample": "Cariotipul unui bărbat conține 44 de autozomi și cromozomii X și Y.",
+    "worked": "Analiza cariotipului se face pe celule în metafază (de exemplu limfocite din sânge), colorate și fotografiate. Un cariotip cu 47 de cromozomi, cu trei cromozomi 21, indică sindromul Down. Împachetarea: 2 m de ADN încap într-un nucleu cu diametrul de ≈ 6 µm — de peste 300 000 de ori mai mic decât lungimea ADN-ului.",
+    "exercises": [
+     "Descrie nivelurile de împachetare a ADN-ului.",
+     "Desenează un cromozom metafazic și denumește părțile.",
+     "Ce este cariotipul și cum se realizează?",
+     "Compară autozomii cu heterozomii.",
+     "Ce înseamnă diploid și haploid? Dă exemple."
+    ],
+    "test": [
+     "Ce proteine formează nucleozomii?",
+     "Câți cromozomi are o celulă somatică umană?",
+     "Ce unește cromatidele surori?",
+     "Ce heterozomi are o femeie?",
+     "Câți cromozomi are un gamet uman?"
+    ],
+    "steps": [
+     "Identifică nivelul de organizare (nucleozom, cromatină, cromozom).",
+     "Analizează cariotipul (număr, perechi, heterozomi).",
+     "Interpretează eventualele anomalii.",
+     "Greșeala frecventă: să consideri cromatidele surori doi cromozomi diferiți; ele sunt copii identice ale aceluiași cromozom, unite la centromer."
+    ],
+    "answers": [
+     "Histonele",
+     "46",
+     "Centromerul",
+     "XX",
+     "23"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "ADN-ul extranuclear: mitocondrii și cloroplaste",
+    "theory": "Pe lângă ADN-ul nuclear, mitocondriile și cloroplastele au propriul ADN, circular, asemănător cu al bacteriilor, și ribozomi proprii. Aceasta susține teoria endosimbiotică: aceste organite provin din bacterii care au fost înglobate, acum peste un miliard și jumătate de ani, de o celulă mai mare și au devenit simbionte. ADN-ul mitocondrial uman (≈ 16 500 perechi de baze, 37 de gene) se moștenește aproape exclusiv pe linie maternă, deoarece mitocondriile spermatozoidului nu se transmit zigotului. De aceea este folosit pentru studiul originii populațiilor umane și în identificări. Unele boli rare sunt produse de mutații ale ADN-ului mitocondrial și se transmit doar de la mamă.",
+    "sample": "ADN-ul mitocondrial al unei persoane provine de la mama ei.",
+    "worked": "O mamă cu o boală mitocondrială transmite mutația tuturor copiilor (băieți și fete), dar numai fiicele o vor transmite mai departe. Un tată bolnav nu transmite boala niciunui copil. Acest tipar de transmitere deosebește bolile mitocondriale de cele nucleare.",
+    "exercises": [
+     "Ce organite au ADN propriu?",
+     "Ce argumente susțin teoria endosimbiotică?",
+     "De ce ADN-ul mitocondrial se moștenește pe linie maternă?",
+     "Analizează transmiterea unei boli mitocondriale într-o familie.",
+     "La ce se folosește ADN-ul mitocondrial în cercetare?"
+    ],
+    "test": [
+     "Ce formă are ADN-ul mitocondrial?",
+     "De la cine moștenim ADN-ul mitocondrial?",
+     "Ce teorie explică originea mitocondriilor?",
+     "Câte gene are ADN-ul mitocondrial uman?",
+     "Au cloroplastele ribozomi proprii?"
+    ],
+    "steps": [
+     "Identifică organitul și caracteristicile ADN-ului său.",
+     "Leagă aceste caracteristici de originea bacteriană.",
+     "Aplică regula transmiterii materne la analiza unor familii.",
+     "Greșeala frecventă: să crezi că tatăl poate transmite o boală mitocondrială; mitocondriile se moștenesc de la mamă."
+    ],
+    "answers": [
+     "Circulară",
+     "De la mamă",
+     "Teoria endosimbiotică",
+     "37",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Codul genetic",
+    "theory": "Informația genetică este scrisă în secvența bazelor, iar codul genetic este corespondența dintre triplete de nucleotide din ARNm (codoni) și aminoacizi. Cu 4 baze se pot forma 4³ = 64 de codoni: 61 codifică cei 20 de aminoacizi, iar 3 sunt codoni stop (UAA, UAG, UGA). Codonul AUG este codonul de start și codifică metionina. Proprietăți: este triplet, nesuprapus și fără „virgule” (se citește continuu de la start), degenerat (majoritatea aminoacizilor au mai mulți codoni), neambiguu (un codon — un singur aminoacid) și aproape universal (același la bacterii, plante, animale, om), ceea ce face posibilă ingineria genetică.",
+    "sample": "Codonul AUG marchează începutul citirii și codifică metionina.",
+    "worked": "Un ARNm: AUG-GCU-UGG-UAA. Se citește de la AUG: metionină – alanină – triptofan – stop ⇒ un peptid din 3 aminoacizi. Dacă se pierde o bază după AUG (AUG-CUU-GGU-AA…), toate tripletele următoare se schimbă — mutație cu decalarea cadrului de citire.",
+    "exercises": [
+     "De ce un codon este format din trei nucleotide și nu din două?",
+     "Ce înseamnă că codul genetic este degenerat?",
+     "Câți aminoacizi codifică ARNm-ul AUG-UUU-GGC-UAG?",
+     "Ce consecințe are pierderea unei baze dintr-o genă?",
+     "De ce universalitatea codului genetic este importantă pentru biotehnologii?"
+    ],
+    "test": [
+     "Câți codoni există?",
+     "Câți codoni stop există?",
+     "Codonul de start?",
+     "Ce aminoacid codifică AUG?",
+     "Câți aminoacizi diferiți intră în proteine?"
+    ],
+    "steps": [
+     "Găsește codonul de start și împarte secvența în triplete.",
+     "Asociază aminoacizii până la primul codon stop.",
+     "Analizează efectul unor modificări ale secvenței.",
+     "Greșeala frecventă: să începi citirea de la prima bază a ARNm-ului; citirea începe de la codonul de start AUG."
+    ],
+    "answers": [
+     "64",
+     "Trei",
+     "AUG",
+     "Metionina",
+     "20"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Transcripția și maturarea ARN-ului",
+    "theory": "Transcripția este sinteza ARN-ului pe baza unei catene a ADN-ului (catena matriță), catalizată de ARN-polimerază. Enzima se fixează pe promotor, desface local dublul helix și adaugă nucleotide complementare (A–U, T–A, G–C, C–G) în sensul 5′→3′, până la semnalul de terminare. La procariote, ARNm este folosit imediat. La eucariote, transcripția are loc în nucleu, iar ARN-ul primar este maturat: i se adaugă la capete o „cap” și o coadă poli-A, iar intronii (secvențe necodificatoare) sunt eliminați, în timp ce exonii se unesc (splicing). Prin splicing alternativ, o singură genă poate produce mai multe proteine.",
+    "sample": "La eucariote, intronii sunt eliminați din ARN înainte ca acesta să iasă din nucleu.",
+    "worked": "Catena matriță ADN: 3′-TACCGATTT-5′ ⇒ ARNm: 5′-AUGGCUAAA-3′. O genă eucariotă cu 3 exoni (300, 150, 240 de nucleotide) și 2 introni (1000 și 800) dă un ARN primar de 2490 de nucleotide, dar un ARNm matur de 690 de nucleotide (fără capete).",
+    "exercises": [
+     "Ce enzimă realizează transcripția și unde se fixează?",
+     "Scrie ARNm-ul pentru catena matriță 3′-TACGGGCAT-5′.",
+     "Compară exonii cu intronii.",
+     "Calculează lungimea ARNm matur pentru exoni de 200, 350 și 100 de nucleotide.",
+     "Ce avantaj oferă splicingul alternativ?"
+    ],
+    "test": [
+     "Unde are loc transcripția la eucariote?",
+     "Ce sunt intronii?",
+     "Ce este promotorul?",
+     "Ce bază pune ARN-polimeraza în dreptul adeninei?",
+     "Ce este splicingul?"
+    ],
+    "steps": [
+     "Identifică catena matriță și sensul ei.",
+     "Construiește ARN-ul prin complementaritate (cu U în loc de T).",
+     "La eucariote, elimină intronii și păstrează exonii.",
+     "Greșeala frecventă: să copiezi catena codificatoare ca matriță; ARN-ul este complementar catenei matriță."
+    ],
+    "answers": [
+     "În nucleu",
+     "Secvențe necodificatoare eliminate prin maturare",
+     "Secvența de ADN pe care se fixează ARN-polimeraza",
+     "Uracil",
+     "Eliminarea intronilor și unirea exonilor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Translația: sinteza proteinelor",
+    "theory": "Translația este „traducerea” secvenței de codoni a ARNm-ului în secvența de aminoacizi a unei proteine și are loc pe ribozomi. Etape: inițierea — subunitatea mică a ribozomului se fixează pe ARNm la codonul AUG, unde vine ARNt cu metionină (anticodon UAC), apoi se atașează subunitatea mare; elongația — ARNt-uri cu anticodoni complementari aduc pe rând aminoacizii, ribozomul formează legături peptidice și avansează cu câte un codon; terminarea — la un codon stop nu există ARNt, iar proteina este eliberată. Mai mulți ribozomi pot traduce simultan același ARNm (poliribozom). Proteina se pliază apoi în forma ei funcțională.",
+    "sample": "Ribozomul citește ARNm-ul codon cu codon și leagă aminoacizii între ei.",
+    "worked": "Un ARNm matur are, între AUG și codonul stop inclusiv, 300 de nucleotide = 100 de codoni ⇒ 99 de codoni pentru aminoacizi (ultimul este stop) ⇒ proteina are 99 de aminoacizi și 98 de legături peptidice.",
+    "exercises": [
+     "Descrie etapele translației.",
+     "Ce rol are ARNt în translație?",
+     "Câți aminoacizi are o proteină codificată de 450 de nucleotide (de la AUG la stop inclusiv)?",
+     "Ce este un poliribozom?",
+     "De ce translația se oprește la un codon stop?"
+    ],
+    "test": [
+     "Unde are loc translația?",
+     "Ce aminoacid inițiază proteina?",
+     "Ce legătură formează ribozomul?",
+     "Ce se întâmplă la codonul stop?",
+     "Ce ARN poartă anticodonul?"
+    ],
+    "steps": [
+     "Identifică codonul de start și cel stop.",
+     "Calculează numărul de codoni și de aminoacizi.",
+     "Urmărește rolul ARNm, ARNt și al ribozomului.",
+     "Greșeala frecventă: să numeri și codonul stop ca aminoacid; codonul stop nu codifică niciun aminoacid."
+    ],
+    "answers": [
+     "Pe ribozomi",
+     "Metionina",
+     "Legătura peptidică",
+     "Proteina este eliberată",
+     "ARN-ul de transport (ARNt)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Reglajul activității genelor: operonul lac; diferențierea celulară",
+    "theory": "Nu toate genele sunt active tot timpul. La bacterii, operonul lac (modelul Jacob și Monod) reglează genele pentru folosirea lactozei: operonul cuprinde promotorul, operatorul și genele structurale. În absența lactozei, o proteină represor se leagă de operator și blochează transcripția. Când apare lactoza (inductorul), ea se leagă de represor, care se desprinde, iar genele sunt transcrise — bacteria produce enzimele doar când are nevoie de ele. La eucariote, toate celulele unui organism au aceleași gene, dar în fiecare tip de celulă sunt active alte gene: celulele pancreatice exprimă gena insulinei, hematiile tinere gena hemoglobinei. Diferențierea celulară rezultă din activarea și inactivarea selectivă a genelor.",
+    "sample": "Celulele pielii și neuronii au aceleași gene, dar folosesc gene diferite.",
+    "worked": "Bacteria E. coli într-un mediu cu glucoză, fără lactoză: represorul blochează operonul, nu se produc enzimele lactozei — economie de energie. După adăugarea lactozei, în câteva minute enzimele apar. Celulele stem pot activa programe genetice diferite, de aceea sunt studiate pentru regenerarea țesuturilor.",
+    "exercises": [
+     "Descrie componentele operonului lac.",
+     "Ce se întâmplă cu operonul în absența lactozei?",
+     "Ce rol are lactoza în reglarea operonului?",
+     "De ce celulele unui organism, deși au aceleași gene, sunt diferite?",
+     "Ce sunt celulele stem și de ce sunt importante?"
+    ],
+    "test": [
+     "Cine a propus modelul operonului?",
+     "Ce se leagă de operator în absența lactozei?",
+     "Ce este un inductor?",
+     "Ce gene exprimă celulele pancreatice beta?",
+     "Ce este diferențierea celulară?"
+    ],
+    "steps": [
+     "Identifică elementele de reglare (promotor, operator, represor, inductor).",
+     "Stabilește dacă genele sunt active sau inactive în condițiile date.",
+     "Leagă reglajul de economia celulară și de diferențiere.",
+     "Greșeala frecventă: să crezi că celulele diferențiate au pierdut genele pe care nu le folosesc; ele le păstrează, dar inactive."
+    ],
+    "answers": [
+     "Jacob și Monod",
+     "Represorul",
+     "Substanța care declanșează activarea genelor",
+     "Gena insulinei",
+     "Specializarea celulelor prin activarea selectivă a genelor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Legile lui Mendel: monohibridarea",
+    "theory": "Gregor Mendel a încrucișat soiuri de mazăre care diferă printr-un caracter. Fiecare caracter este determinat de o pereche de factori ereditari (gene alele), câte unul de la fiecare părinte. Alela dominantă (A) se manifestă și în prezența celei recesive (a). Genotipul AA sau aa este homozigot, Aa heterozigot; fenotipul este caracterul observabil. Legea purității gameților (segregării): fiecare gamet primește o singură alelă din pereche. La încrucișarea a doi părinți homozigoți (AA × aa), F1 este uniformă (Aa). În F2 (Aa × Aa) apar fenotipurile în raportul 3 dominant : 1 recesiv și genotipurile 1 AA : 2 Aa : 1 aa. Încrucișarea de test (cu homozigotul recesiv) dezvăluie genotipul unui individ dominant.",
+    "sample": "Doi părinți heterozigoți pentru culoarea ochilor pot avea un copil cu ochi albaștri (recesiv).",
+    "worked": "Mazăre cu boabe galbene (A) dominante față de verzi (a). Aa × Aa: gameți A și a de la fiecare; pătratul lui Punnett dă AA, Aa, Aa, aa ⇒ 3/4 galbene, 1/4 verzi. Din 800 de boabe în F2: ≈ 600 galbene și 200 verzi. Încrucișarea de test: galben × verde dă numai galbene ⇒ părintele era AA; dacă apar 1/2 verzi ⇒ era Aa.",
+    "exercises": [
+     "Definește: genă alelă, genotip, fenotip, homozigot, heterozigot.",
+     "Enunță legea purității gameților.",
+     "Rezolvă cu pătratul lui Punnett încrucișarea Aa × aa.",
+     "Câte plante verzi se așteaptă din 1200 de plante F2 (Aa × Aa)?",
+     "Cum afli dacă o plantă cu fenotip dominant este AA sau Aa?"
+    ],
+    "test": [
+     "Raportul fenotipic în F2 la monohibridare?",
+     "Raportul genotipic în F2?",
+     "Cum este F1 la încrucișarea a doi homozigoți diferiți?",
+     "Ce gameți formează un individ Aa?",
+     "Ce este încrucișarea de test?"
+    ],
+    "steps": [
+     "Scrie genotipurile părinților și gameții lor.",
+     "Construiește pătratul lui Punnett.",
+     "Calculează rapoartele genotipice și fenotipice și aplică la numere concrete.",
+     "Greșeala frecventă: să crezi că raportul 3 : 1 este garantat într-o familie mică; el este o probabilitate, valabilă pentru număr mare de urmași."
+    ],
+    "answers": [
+     "3 : 1",
+     "1 : 2 : 1",
+     "Uniformă (toți Aa)",
+     "A și a, în proporții egale",
+     "Încrucișarea cu homozigotul recesiv pentru aflarea genotipului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Dihibridarea; legea segregării independente",
+    "theory": "Când părinții diferă prin două caractere determinate de gene aflate pe cromozomi diferiți, alelele se distribuie independent în gameți (legea segregării independente a caracterelor). Exemplu: mazăre galbenă netedă (AABB) × verde zbârcită (aabb) ⇒ F1 AaBb, galbenă netedă. Un individ AaBb formează patru tipuri de gameți în proporții egale: AB, Ab, aB, ab. În F2 apar 16 combinații, cu raportul fenotipic 9 : 3 : 3 : 1 (9 cu ambele caractere dominante, 3 + 3 cu câte unul dominant, 1 dublu recesiv) și apar combinații noi de caractere (recombinare). Legea nu se aplică genelor apropiate pe același cromozom (gene linkate).",
+    "sample": "Din încrucișarea AaBb × AaBb, doar 1/16 dintre urmași sunt dublu recesivi (aabb).",
+    "worked": "F2 de 1600 de plante: galben-netede 9/16 = 900, galben-zbârcite 3/16 = 300, verde-netede 3/16 = 300, verde-zbârcite 1/16 = 100. Probabilitatea unei plante AaBb: P(Aa) × P(Bb) = 1/2 × 1/2 = 1/4.",
+    "exercises": [
+     "Ce gameți formează un individ AaBb?",
+     "Rezolvă AaBb × aabb și scrie raportul fenotipic.",
+     "Câte plante dublu recesive se așteaptă din 3200 de plante F2?",
+     "Calculează probabilitatea genotipului AABb în F2.",
+     "De ce legea segregării independente nu se aplică genelor linkate?"
+    ],
+    "test": [
+     "Raportul fenotipic în F2 la dihibridare?",
+     "Câte tipuri de gameți formează AaBb?",
+     "Câte combinații are pătratul lui Punnett la dihibridare?",
+     "Ce sunt genele linkate?",
+     "Ce fenotip are F1 AaBb?"
+    ],
+    "steps": [
+     "Scrie gameții fiecărui părinte (toate combinațiile).",
+     "Construiește pătratul lui Punnett sau înmulțește probabilitățile pentru fiecare genă.",
+     "Calculează rapoartele și aplică la numere concrete.",
+     "Greșeala frecventă: să scrii gameți cu două alele ale aceleiași gene (de exemplu Aa); un gamet are câte o alelă din fiecare pereche."
+    ],
+    "answers": [
+     "9 : 3 : 3 : 1",
+     "Patru",
+     "16",
+     "Gene apropiate pe același cromozom, transmise de obicei împreună",
+     "Ambele caractere dominante (galbenă netedă)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Interacțiuni între alele: dominanța incompletă, codominanța, alelele multiple; grupele sanguine",
+    "theory": "Nu toate caracterele urmează dominanța completă. La dominanța incompletă, heterozigotul are un fenotip intermediar (la planta barba-împăratului, roșu × alb ⇒ roz; în F2 raportul fenotipic este 1 : 2 : 1). La codominanță, ambele alele se manifestă complet în heterozigot. Grupele sanguine ABO sunt un exemplu de alele multiple (trei alele: Lᴬ, Lᴮ, l) cu codominanță: Lᴬ și Lᴮ sunt codominante, ambele dominante față de l. Genotipuri: grupa A — LᴬLᴬ sau Lᴬl; B — LᴮLᴮ sau Lᴮl; AB — LᴬLᴮ; 0 — ll. Factorul Rh: Rh+ dominant (DD, Dd), Rh− recesiv (dd).",
+    "sample": "Un copil cu grupa AB moștenește alela A de la un părinte și alela B de la celălalt.",
+    "worked": "Părinți cu grupele A (Lᴬl) și B (Lᴮl): copiii pot avea toate cele patru grupe, fiecare cu probabilitatea 1/4 — LᴬLᴮ (AB), Lᴬl (A), Lᴮl (B), ll (0). Un părinte AB nu poate avea un copil cu grupa 0, ceea ce poate fi folosit în excluderea paternității.",
+    "exercises": [
+     "Explică diferența dintre dominanța incompletă și codominanță.",
+     "Rezolvă încrucișarea roșu × roz la barba-împăratului.",
+     "Ce grupe pot avea copiii unor părinți A (LᴬLᴬ) și 0?",
+     "Poate un părinte AB să aibă un copil cu grupa 0? Justifică.",
+     "Ce genotipuri posibile are o persoană cu grupa B Rh+?"
+    ],
+    "test": [
+     "Ce fenotip are heterozigotul la dominanța incompletă?",
+     "Câte alele determină grupele ABO?",
+     "Genotipul grupei 0?",
+     "Genotipul grupei AB?",
+     "Este Rh− dominant sau recesiv?"
+    ],
+    "steps": [
+     "Identifică tipul de interacțiune dintre alele.",
+     "Scrie genotipurile părinților și gameții.",
+     "Construiește pătratul lui Punnett și interpretează fenotipurile (grupe, culori).",
+     "Greșeala frecventă: să consideri grupa A întotdeauna homozigotă; ea poate fi LᴬLᴬ sau Lᴬl."
+    ],
+    "answers": [
+     "Un fenotip intermediar",
+     "Trei (Lᴬ, Lᴮ, l)",
+     "ll",
+     "LᴬLᴮ",
+     "Recesiv"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Determinismul sexului și ereditatea legată de sex",
+    "theory": "La om, sexul este determinat de heterozomi: femeile sunt XX (homogametice), bărbații XY (heterogametici). Ovulele au toate X; spermatozoizii au X sau Y, în proporții egale, deci probabilitatea de a avea fată sau băiat este 1/2. Gena SRY de pe cromozomul Y declanșează dezvoltarea testiculelor. Genele de pe cromozomul X se transmit diferit la cele două sexe (ereditate legată de sex). Hemofilia (sânge care nu se coagulează normal) și daltonismul (nu se disting roșul de verde) sunt determinate de alele recesive pe X: bărbații (XʰY) sunt bolnavi dacă au o singură alelă, femeile doar dacă au două (XʰXʰ); femeile XᴴXʰ sunt purtătoare sănătoase. Tatăl transmite cromozomul X doar fiicelor.",
+    "sample": "Daltonismul este mult mai frecvent la bărbați, pentru că ei au un singur cromozom X.",
+    "worked": "Mamă purtătoare de hemofilie (XᴴXʰ) × tată sănătos (XᴴY): fiice — 1/2 XᴴXᴴ sănătoase, 1/2 XᴴXʰ purtătoare; fii — 1/2 XᴴY sănătoși, 1/2 XʰY hemofilici. Probabilitatea ca un copil oarecare să fie băiat hemofilic: 1/4. Regina Victoria a fost purtătoare, transmițând hemofilia în mai multe case regale europene.",
+    "exercises": [
+     "De ce sexul copilului este determinat de tată?",
+     "Rezolvă încrucișarea mamă daltonistă × tată sănătos.",
+     "Poate un tată hemofilic să transmită boala fiului său? Justifică.",
+     "Ce probabilitate are o femeie purtătoare și un bărbat daltonist să aibă o fiică daltonistă?",
+     "De ce bolile recesive legate de X sunt mai frecvente la bărbați?"
+    ],
+    "test": [
+     "Heterozomii unei femei?",
+     "Ce gamet determină sexul copilului?",
+     "Ce genă de pe Y declanșează dezvoltarea testiculelor?",
+     "Ce este o femeie purtătoare?",
+     "Cui transmite tatăl cromozomul X?"
+    ],
+    "steps": [
+     "Scrie genotipurile cu alelele pe cromozomul X (de exemplu XᴴXʰ, XʰY).",
+     "Construiește pătratul lui Punnett separând fiicele de fii.",
+     "Calculează probabilitățile pe sex și în total.",
+     "Greșeala frecventă: să consideri că un tată poate transmite o boală legată de X fiului său; fiul primește de la tată cromozomul Y."
+    ],
+    "answers": [
+     "XX",
+     "Spermatozoidul (cu X sau Y)",
+     "Gena SRY",
+     "O femeie heterozigotă, sănătoasă, care poate transmite alela bolii",
+     "Doar fiicelor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "Ereditatea poligenică și influența mediului; studiul gemenilor",
+    "theory": "Multe caractere umane (înălțimea, culoarea pielii, inteligența, tensiunea arterială) nu au doar două variante, ci variază continuu: sunt determinate de mai multe gene, fiecare cu efect mic și aditiv (ereditate poligenică), și sunt influențate de mediu (alimentație, activitate, climă, educație). Distribuția lor în populație are formă de clopot. Fenotipul rezultă din interacțiunea genotipului cu mediul: de exemplu, o persoană cu predispoziție genetică pentru diabet de tip 2 poate preveni boala prin stil de viață. Studiul gemenilor ajută la separarea efectelor: gemenii monozigoți (identici) au aceleași gene, cei dizigoți au în comun ≈ 50%, ca frații obișnuiți; diferențele dintre gemenii identici se datorează mediului.",
+    "sample": "Înălțimea unei persoane depinde de multe gene, dar și de alimentația din copilărie.",
+    "worked": "Model simplificat: trei gene cu câte două alele aditive (A, B, C adaugă fiecare câte 5 cm peste o bază de 150 cm). AaBbCc × AaBbCc ⇒ urmași de la 150 cm (aabbcc, probabilitate 1/64) la 180 cm (AABBCC, 1/64), majoritatea în jurul a 165 cm (trei alele aditive, 20/64) — distribuție în formă de clopot. Media înălțimii a crescut în ultimul secol mai ales datorită alimentației, nu genelor.",
+    "exercises": [
+     "Ce este ereditatea poligenică? Dă exemple.",
+     "Ce formă are distribuția unui caracter poligenic în populație?",
+     "Explică interacțiunea genotip–mediu cu un exemplu.",
+     "Compară gemenii monozigoți cu cei dizigoți.",
+     "De ce diferențele dintre gemenii identici sunt atribuite mediului?"
+    ],
+    "test": [
+     "Ce caracter uman este poligenic?",
+     "Ce înseamnă efect aditiv?",
+     "Câte gene au în comun gemenii monozigoți?",
+     "Ce procent de gene au în comun gemenii dizigoți?",
+     "Ce factori de mediu influențează înălțimea?"
+    ],
+    "steps": [
+     "Identifică dacă variația caracterului este continuă sau în clase distincte.",
+     "Stabilește contribuția genelor și a mediului.",
+     "Interpretează date din studii pe gemeni sau din populații.",
+     "Greșeala frecventă: să crezi că un caracter este determinat fie doar de gene, fie doar de mediu; de cele mai multe ori contează ambele."
+    ],
+    "answers": [
+     "Înălțimea (sau culoarea pielii)",
+     "Fiecare alelă adaugă o contribuție mică la fenotip",
+     "Toate (sunt identici genetic)",
+     "≈ 50%",
+     "Alimentația și activitatea fizică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Analiza arborelui genealogic",
+    "theory": "Arborele genealogic (pedigree) reprezintă transmiterea unui caracter într-o familie, pe generații: pătratele sunt bărbați, cercurile femei, simbolurile pline — persoane afectate; generațiile se numerotează cu cifre romane. Tipare de transmitere: autozomal dominant — boala apare în fiecare generație, un părinte afectat are copii afectați cu probabilitatea 1/2, ambele sexe afectate egal (boala Huntington); autozomal recesiv — boala poate „sări” generații, doi părinți sănătoși pot avea un copil bolnav (amândoi purtători), ambele sexe afectate (albinism, fibroză chistică); recesiv legat de X — afectați mai ales bărbați, transmis prin mame purtătoare (hemofilie, daltonism).",
+    "sample": "Dacă doi părinți sănătoși au un copil bolnav, boala este recesivă.",
+    "worked": "Arbore: părinți sănătoși (I-1, I-2) cu o fiică albinoasă (II-2) și un fiu sănătos (II-1). Pentru că doi părinți sănătoși au o fiică bolnavă, boala este autozomal recesivă (dacă ar fi legată de X, tatăl ar fi trebuit să fie bolnav). Părinții sunt Aa; probabilitatea ca fiul sănătos să fie purtător este 2/3.",
+    "exercises": [
+     "Ce simboluri se folosesc într-un arbore genealogic?",
+     "Ce caracteristici are transmiterea autozomal dominantă?",
+     "Cum recunoști o boală autozomal recesivă într-un arbore?",
+     "De ce, la o fiică bolnavă cu părinți sănătoși, boala nu poate fi recesivă legată de X?",
+     "Calculează probabilitatea ca fratele sănătos al unui bolnav recesiv să fie purtător."
+    ],
+    "test": [
+     "Ce simbol reprezintă un bărbat?",
+     "Ce înseamnă un simbol plin?",
+     "Un exemplu de boală autozomal dominantă?",
+     "Un exemplu de boală autozomal recesivă?",
+     "Ce sex este afectat mai des de bolile recesive legate de X?"
+    ],
+    "steps": [
+     "Observă dacă boala apare în fiecare generație și dacă părinți sănătoși au copii bolnavi.",
+     "Verifică distribuția pe sexe și transmiterea tată–fiu.",
+     "Stabilește tiparul și calculează probabilitățile cerute.",
+     "Greșeala frecventă: să calculezi probabilitatea 1/2 pentru un frate sănătos de a fi purtător; știind că este sănătos, probabilitatea este 2/3."
+    ],
+    "answers": [
+     "Pătratul",
+     "Persoană afectată de caracterul studiat",
+     "Boala Huntington",
+     "Albinismul (sau fibroza chistică)",
+     "Bărbații"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Mutațiile și factorii mutageni",
+    "theory": "Mutațiile sunt modificări ale materialului genetic. Mutațiile genice afectează o genă: substituția unei baze (poate schimba un aminoacid), deleția sau inserția (decalează cadrul de citire). Mutațiile cromozomiale modifică structura cromozomilor (deleții, duplicații, inversii, translocații), iar cele genomice modifică numărul de cromozomi (aneuploidii — un cromozom în plus sau în minus; poliploidii — seturi întregi în plus, frecvente la plante cultivate). Mutațiile pot fi spontane (erori de replicare) sau induse de factori mutageni: fizici (radiații UV, X, gama), chimici (substanțe din fumul de țigară, unii coloranți, pesticide), biologici (unele virusuri, de exemplu HPV). Mutațiile din celulele somatice pot produce cancer; cele din gameți se transmit urmașilor. Mutațiile sunt și sursa variabilității pe care acționează evoluția.",
+    "sample": "Expunerea excesivă la soare fără protecție crește riscul de mutații în celulele pielii.",
+    "worked": "Anemia falciformă: în gena hemoglobinei, o singură substituție (codonul GAG devine GUG în ARNm) schimbă acidul glutamic cu valina; hemoglobina modificată deformează hematiile în formă de seceră. Heterozigoții sunt mai rezistenți la malarie — exemplu că efectul unei mutații depinde de mediu.",
+    "exercises": [
+     "Clasifică mutațiile după nivelul la care apar.",
+     "Compară efectul unei substituții cu al unei deleții într-o genă.",
+     "Dă exemple de factori mutageni fizici, chimici și biologici.",
+     "Explică de ce anemia falciformă este frecventă în zonele cu malarie.",
+     "Compară mutațiile somatice cu cele din gameți."
+    ],
+    "test": [
+     "Ce este o mutație?",
+     "Ce este o aneuploidie?",
+     "Ce este o poliploidie?",
+     "Un mutagen fizic?",
+     "Ce boală poate rezulta din mutații somatice?"
+    ],
+    "steps": [
+     "Identifică tipul mutației (genică, cromozomială, genomică).",
+     "Analizează efectul asupra proteinei sau cariotipului.",
+     "Precizează factorii mutageni și consecințele (boală, transmitere, evoluție).",
+     "Greșeala frecventă: să crezi că toate mutațiile sunt dăunătoare; multe sunt neutre, iar unele pot fi avantajoase."
+    ],
+    "answers": [
+     "O modificare a materialului genetic",
+     "Un număr anormal de cromozomi (unul în plus sau în minus)",
+     "Prezența unor seturi întregi suplimentare de cromozomi",
+     "Radiațiile UV (sau X, gama)",
+     "Cancerul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Boli genetice monogenice",
+    "theory": "Bolile monogenice sunt produse de mutația unei singure gene. Autozomal recesive: fenilcetonuria (lipsa enzimei care transformă fenilalanina — aceasta se acumulează și afectează creierul; se depistează prin screening la nou-născuți și se tratează prin dietă săracă în fenilalanină), albinismul (lipsa pigmentului melanină), fibroza chistică (mucus vâscos în plămâni și pancreas), anemia falciformă. Autozomal dominante: boala Huntington (degenerare nervoasă care apare la vârsta adultă), acondroplazia (nanism), polidactilia. Recesive legate de X: hemofilia, daltonismul, distrofia musculară Duchenne. Diagnosticul precoce permite, la unele boli, un tratament eficient.",
+    "sample": "Screeningul nou-născuților depistează fenilcetonuria înainte să producă leziuni.",
+    "worked": "Doi părinți purtători de fibroză chistică (Ff × Ff): fiecare copil are 1/4 șanse să fie bolnav (ff), 1/2 să fie purtător (Ff) și 1/4 să fie sănătos nepurtător (FF). Pentru trei copii, probabilitatea ca niciunul să nu fie bolnav este (3/4)³ ≈ 0,42.",
+    "exercises": [
+     "Explică de ce dieta previne efectele fenilcetonuriei.",
+     "Clasifică: albinism, Huntington, hemofilie, fibroză chistică după tipul de transmitere.",
+     "Calculează probabilitatea unui copil bolnav la doi părinți purtători ai unei boli recesive.",
+     "De ce boala Huntington se transmite deși apare târziu?",
+     "Ce rol are screeningul neonatal?"
+    ],
+    "test": [
+     "Ce este o boală monogenică?",
+     "Ce substanță se acumulează în fenilcetonurie?",
+     "Ce pigment lipsește în albinism?",
+     "Ce tip de transmitere are boala Huntington?",
+     "Ce organe afectează fibroza chistică?"
+    ],
+    "steps": [
+     "Identifică boala și tipul de transmitere.",
+     "Scrie genotipurile părinților și calculează probabilitățile.",
+     "Precizează metodele de diagnostic și tratament.",
+     "Greșeala frecventă: să crezi că bolile genetice nu pot fi tratate deloc; unele, precum fenilcetonuria, se controlează eficient prin dietă."
+    ],
+    "answers": [
+     "O boală produsă de mutația unei singure gene",
+     "Fenilalanina",
+     "Melanina",
+     "Autozomal dominantă",
+     "Plămânii și pancreasul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Boli cromozomiale: sindroamele Down, Turner, Klinefelter",
+    "theory": "Bolile cromozomiale apar mai ales prin nedisjuncție — separarea greșită a cromozomilor în meioză, care produce gameți cu un cromozom în plus sau în minus. Sindromul Down (trisomia 21, 47 de cromozomi): întârziere intelectuală de grade variate, trăsături faciale caracteristice, malformații cardiace; riscul crește cu vârsta mamei. Sindromul Turner (45,X0): femei cu statură mică, ovare nefuncționale, infertilitate. Sindromul Klinefelter (47,XXY): bărbați înalți, cu dezvoltare sexuală incompletă, infertilitate. Există și anomalii structurale (sindromul „cri du chat” — deleție pe cromozomul 5). Diagnosticul se face prin cariotip, inclusiv prenatal (amniocenteză, teste din sângele mamei).",
+    "sample": "Sindromul Down este produs de prezența a trei cromozomi 21.",
+    "worked": "Nedisjuncția cromozomilor 21 în meioză la mamă: ovulul primește doi cromozomi 21; fecundat de un spermatozoid normal, rezultă un zigot cu trei cromozomi 21 (47 de cromozomi). Riscul de trisomie 21 este ≈ 1/1500 la 20 de ani și ≈ 1/100 la 40 de ani ai mamei.",
+    "exercises": [
+     "Ce este nedisjuncția și ce consecințe are?",
+     "Compară sindroamele Down, Turner și Klinefelter (cariotip, sex, manifestări).",
+     "Câți cromozomi are o persoană cu sindromul Turner?",
+     "Ce factor crește riscul de sindrom Down?",
+     "Cum se poate diagnostica prenatal o boală cromozomială?"
+    ],
+    "test": [
+     "Cariotipul în sindromul Down?",
+     "Cariotipul în sindromul Turner?",
+     "Cariotipul în sindromul Klinefelter?",
+     "Ce este nedisjuncția?",
+     "Ce metodă prenatală analizează celule din lichidul amniotic?"
+    ],
+    "steps": [
+     "Analizează cariotipul (număr total, autozomi, heterozomi).",
+     "Identifică sindromul și mecanismul de apariție.",
+     "Precizează manifestările și metodele de diagnostic.",
+     "Greșeala frecventă: să crezi că sindromul Down se moștenește de obicei de la un părinte bolnav; de regulă apare prin nedisjuncție accidentală în meioză."
+    ],
+    "answers": [
+     "47 de cromozomi, cu trei cromozomi 21",
+     "45,X0",
+     "47,XXY",
+     "Separarea greșită a cromozomilor în meioză",
+     "Amniocenteza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Genomul uman; diagnosticul și sfatul genetic; consanguinitatea",
+    "theory": "Genomul uman conține ≈ 3,2 miliarde de perechi de baze și ≈ 20 000 de gene care codifică proteine; doar ≈ 1,5% din ADN codifică proteine. Proiectul Genomului Uman (finalizat în 2003) a secvențializat genomul și a deschis calea medicinei personalizate. Diagnosticul genetic folosește cariotipul, testele ADN, screeningul neonatal și diagnosticul prenatal. Sfatul genetic ajută familiile cu risc să înțeleagă probabilitatea transmiterii unei boli și opțiunile disponibile, respectând decizia lor. Căsătoriile între rude apropiate (consanguinitatea) cresc probabilitatea ca un copil să moștenească două alele recesive identice — de aceea bolile recesive rare sunt mai frecvente în comunitățile izolate. Datele genetice sunt sensibile și trebuie protejate.",
+    "sample": "Proiectul Genomului Uman a fost finalizat în anul 2003.",
+    "worked": "O alelă recesivă rară are frecvența 1/100 în populație. Probabilitatea ca doi parteneri neînrudiți să fie amândoi purtători este mică, dar verii primari au în comun ≈ 1/8 din gene, astfel încât, dacă unul este purtător, probabilitatea ca și celălalt să fie este mult mai mare decât în populație.",
+    "exercises": [
+     "Câte gene și câte perechi de baze are genomul uman?",
+     "Ce a adus Proiectul Genomului Uman?",
+     "Ce este sfatul genetic și cui se adresează?",
+     "De ce consanguinitatea crește frecvența bolilor recesive?",
+     "De ce datele genetice trebuie protejate?"
+    ],
+    "test": [
+     "Numărul aproximativ de gene umane?",
+     "Procentul de ADN care codifică proteine?",
+     "În ce an s-a finalizat Proiectul Genomului Uman?",
+     "Ce este consanguinitatea?",
+     "Ce este medicina personalizată?"
+    ],
+    "steps": [
+     "Identifică informația genetică relevantă (genom, test, istoric familial).",
+     "Evaluează riscul (tip de transmitere, consanguinitate).",
+     "Discută opțiunile și aspectele etice (confidențialitate, decizie liberă).",
+     "Greșeala frecventă: să crezi că un test genetic dă certitudini pentru orice boală; multe boli depind de mai multe gene și de mediu."
+    ],
+    "answers": [
+     "≈ 20 000",
+     "≈ 1,5%",
+     "2003",
+     "Înrudirea genetică între parteneri",
+     "Tratament adaptat profilului genetic al pacientului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Ingineria genetică: ADN recombinant; obținerea insulinei",
+    "theory": "Ingineria genetică modifică intenționat materialul genetic. Instrumente: enzimele de restricție (taie ADN-ul în secvențe specifice, formând capete „lipicioase”), ligaza (unește fragmentele), vectorii (plasmide sau virusuri care transportă gena). Etape: izolarea genei dorite (de exemplu gena insulinei umane); tăierea genei și a plasmidei cu aceeași enzimă de restricție; unirea lor (ADN recombinant); introducerea plasmidei în bacterii; selectarea și înmulțirea bacteriilor care produc proteina. Din 1982, insulina umană pentru diabetici se produce astfel, în bacterii sau drojdii, înlocuind insulina extrasă din pancreasul animalelor. Tot așa se produc hormonul de creștere, factori de coagulare, vaccinuri (hepatita B).",
+    "sample": "Insulina folosită de persoanele cu diabet este produsă de bacterii modificate genetic.",
+    "worked": "O plasmidă poartă o genă de rezistență la un antibiotic; după introducerea ei în bacterii, cultura se crește pe mediu cu acel antibiotic — supraviețuiesc doar bacteriile care au primit plasmida. Universalitatea codului genetic permite bacteriei să „citească” gena umană și să producă insulina corectă.",
+    "exercises": [
+     "Ce rol au enzimele de restricție și ligaza?",
+     "Ce este un vector și ce exemple cunoști?",
+     "Descrie etapele obținerii insulinei prin inginerie genetică.",
+     "Cum se selectează bacteriile care au primit plasmida?",
+     "Ce alte produse se obțin prin inginerie genetică?"
+    ],
+    "test": [
+     "Ce taie enzimele de restricție?",
+     "Ce enzimă unește fragmentele de ADN?",
+     "Ce este ADN-ul recombinant?",
+     "Din ce an se produce insulina umană prin inginerie genetică?",
+     "Ce proprietate a codului genetic face posibilă metoda?"
+    ],
+    "steps": [
+     "Identifică gena, vectorul și organismul gazdă.",
+     "Urmărește etapele: tăiere, unire, transfer, selecție, producție.",
+     "Precizează aplicația și avantajele.",
+     "Greșeala frecventă: să crezi că bacteria „transformă” insulina animală în insulină umană; ea produce insulina umană după gena umană introdusă."
+    ],
+    "answers": [
+     "Secvențe specifice de ADN",
+     "Ligaza",
+     "ADN format prin unirea unor fragmente de origini diferite",
+     "1982",
+     "Universalitatea"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Organisme modificate genetic; terapia genică; celulele stem",
+    "theory": "Organismele modificate genetic (OMG) au primit gene noi: porumbul Bt produce o proteină toxică pentru unele insecte dăunătoare, orezul auriu produce provitamina A, unele plante tolerează seceta. Avantaje posibile: recolte mai mari, mai puține pesticide; preocupări: transferul genelor la plantele sălbatice, efecte asupra insectelor utile, dependența de semințe brevetate — de aceea cultivarea și etichetarea sunt reglementate (în UE strict). Terapia genică introduce o genă funcțională în celulele unui bolnav (deja aprobată pentru unele boli rare și forme de cancer). Editarea genelor cu CRISPR permite modificări precise. Celulele stem pot forma diferite tipuri de celule; transplantul de măduvă (celule stem hematopoietice) tratează leucemii.",
+    "sample": "Porumbul Bt produce o proteină care îl protejează de unele insecte dăunătoare.",
+    "worked": "Orezul auriu a fost creat pentru regiunile unde lipsa vitaminei A produce orbire la copii: s-au introdus gene care produc beta-caroten în bobul de orez. Exemplul arată cum o biotehnologie poate răspunde unei probleme de sănătate, dar implică și dezbateri economice și etice.",
+    "exercises": [
+     "Dă exemple de OMG și scopul lor.",
+     "Analizează avantajele și riscurile culturilor modificate genetic.",
+     "Ce este terapia genică?",
+     "Ce sunt celulele stem și cum sunt folosite?",
+     "De ce OMG-urile sunt reglementate și etichetate?"
+    ],
+    "test": [
+     "Ce este un OMG?",
+     "Ce produce orezul auriu?",
+     "Ce tehnică permite editarea precisă a genelor?",
+     "Ce celule stem se transplantează în leucemii?",
+     "Ce face terapia genică?"
+    ],
+    "steps": [
+     "Identifică modificarea genetică și scopul ei.",
+     "Analizează avantajele și riscurile pe baza dovezilor.",
+     "Formulează o poziție argumentată, ținând cont de etică și reglementări.",
+     "Greșeala frecventă: să crezi că orice aliment OMG este periculos sau că orice OMG este sigur; fiecare se evaluează separat, științific."
+    ],
+    "answers": [
+     "Un organism căruia i s-au introdus gene noi",
+     "Provitamina A (beta-caroten)",
+     "CRISPR",
+     "Celulele stem hematopoietice",
+     "Introduce o genă funcțională în celulele bolnavului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "PCR, amprenta ADN, clonarea; bioetica",
+    "theory": "Reacția de polimerizare în lanț (PCR) multiplică un fragment de ADN de miliarde de ori, prin cicluri repetate de încălzire (denaturare, ≈ 95 °C), răcire (atașarea primerilor, ≈ 55–65 °C) și sinteză (≈ 72 °C, cu o ADN-polimerază rezistentă la căldură); după n cicluri se obțin ≈ 2ⁿ copii. PCR se folosește la diagnosticul infecțiilor, în criminalistică și cercetare. Amprenta ADN compară regiuni foarte variabile ale ADN-ului, unice pentru fiecare persoană (cu excepția gemenilor identici) — identificarea persoanelor și testele de paternitate. Clonarea reproductivă (oaia Dolly, 1996) produce organisme identice genetic; clonarea umană reproductivă este interzisă. Bioetica analizează responsabil limitele acestor tehnologii.",
+    "sample": "Testele PCR detectează materialul genetic al virusurilor chiar în cantități foarte mici.",
+    "worked": "După 30 de cicluri PCR, dintr-o singură moleculă se obțin teoretic 2³⁰ ≈ 1,07 miliarde de copii. Test de paternitate: copilul are jumătate din fragmentele ADN de la mamă și jumătate de la tată; dacă fragmentele care nu provin de la mamă nu se regăsesc la presupusul tată, paternitatea este exclusă.",
+    "exercises": [
+     "Descrie etapele unui ciclu PCR.",
+     "Câte copii se obțin teoretic după 20 de cicluri?",
+     "Ce este amprenta ADN și la ce se folosește?",
+     "Explică principiul unui test de paternitate.",
+     "Ce probleme etice ridică clonarea și editarea genetică?"
+    ],
+    "test": [
+     "Temperatura de denaturare în PCR?",
+     "Câte copii după n cicluri?",
+     "Ce animal a fost primul mamifer clonat?",
+     "Cine are aceeași amprentă ADN?",
+     "Ce domeniu analizează limitele etice ale biotehnologiilor?"
+    ],
+    "steps": [
+     "Identifică tehnica și scopul ei.",
+     "Calculează sau interpretează rezultatele (2ⁿ, comparații de fragmente).",
+     "Discută aplicațiile și limitele etice.",
+     "Greșeala frecventă: să crezi că PCR creează ADN nou cu informație nouă; el doar copiază un fragment existent."
+    ],
+    "answers": [
+     "≈ 95 °C",
+     "≈ 2ⁿ",
+     "Oaia Dolly",
+     "Gemenii identici (monozigoți)",
+     "Bioetica"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Ecosisteme antropizate: agroecosisteme și ecosisteme urbane",
+    "theory": "Ecosistemele antropizate sunt create sau puternic modificate de om. Agroecosistemele (culturi, livezi, pășuni) au biodiversitate mică (monoculturi), depind de energie suplimentară (lucrări, îngrășăminte, pesticide, irigații) și pierd materie prin recolte; sunt instabile fără intervenția omului. Ecosistemele urbane consumă resurse aduse din afară și produc multe deșeuri, poluare și „insule de căldură”. Practici durabile: rotația culturilor, agricultura ecologică, combaterea biologică a dăunătorilor (buburuze împotriva afidelor), perdele forestiere, spații verzi urbane, acoperișuri verzi, transport public.",
+    "sample": "Buburuzele sunt folosite pentru combaterea biologică a păduchilor de frunze.",
+    "worked": "Un hectar de grâu cultivat în monocultură an de an epuizează solul și favorizează dăunătorii specializați; rotația grâu – leguminoase – porumb reface azotul din sol (bacteriile fixatoare din nodozități) și întrerupe ciclul dăunătorilor. Un parc urban poate fi cu 2–4 °C mai răcoros decât străzile din jur în zilele caniculare.",
+    "exercises": [
+     "Compară un agroecosistem cu un ecosistem natural.",
+     "De ce agroecosistemele sunt instabile?",
+     "Ce avantaje are rotația culturilor?",
+     "Ce este combaterea biologică? Dă un exemplu.",
+     "Ce măsuri reduc efectul de „insulă de căldură” în orașe?"
+    ],
+    "test": [
+     "Ce este un ecosistem antropizat?",
+     "Ce este o monocultură?",
+     "Ce este o insulă de căldură urbană?",
+     "Ce insecte combat afidele?",
+     "Ce culturi refac azotul din sol?"
+    ],
+    "steps": [
+     "Identifică tipul de ecosistem și intervenția omului.",
+     "Analizează consecințele (biodiversitate, stabilitate, poluare).",
+     "Propune practici durabile.",
+     "Greșeala frecventă: să crezi că pesticidele sunt singura soluție contra dăunătorilor; combaterea biologică și rotația culturilor reduc nevoia lor."
+    ],
+    "answers": [
+     "Un ecosistem creat sau puternic modificat de om",
+     "Cultivarea aceleiași specii pe suprafețe mari, an de an",
+     "Zonă urbană mai caldă decât împrejurimile",
+     "Buburuzele",
+     "Leguminoasele"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "Creșterea populației umane și presiunea asupra resurselor",
+    "theory": "Populația umană a crescut lent mii de ani, apoi exploziv după revoluția industrială, datorită hranei mai abundente, igienei, vaccinurilor și medicinei, care au scăzut mortalitatea: 1 miliard în 1800, 2 miliarde în 1927, peste 8 miliarde azi. Creșterea depinde de natalitate, mortalitate și migrație; în multe țări europene, inclusiv România, populația scade și îmbătrânește, iar în alte regiuni crește rapid. O populație mai mare și un consum mai ridicat cresc cererea de hrană, apă, energie și spațiu, ceea ce duce la defrișări, pescuit excesiv, epuizarea apelor subterane. Amprenta ecologică arată că omenirea consumă anual mai multe resurse decât poate reface planeta (Ziua depășirii resurselor Pământului este în fiecare an la sfârșitul lui iulie sau începutul lui august).",
+    "sample": "Populația Pământului a depășit 8 miliarde de oameni în anul 2022.",
+    "worked": "Rata de creștere naturală = natalitatea − mortalitatea. O țară cu 10 nașteri și 12 decese la 1000 de locuitori pe an are sporul natural −2‰: populația de 19 milioane scade natural cu ≈ 38 000 de persoane pe an, fără a lua în calcul migrația.",
+    "exercises": [
+     "Ce factori au produs creșterea explozivă a populației după 1800?",
+     "Calculează sporul natural pentru natalitatea 9‰ și mortalitatea 13‰.",
+     "Compară evoluția populației în Europa și în Africa.",
+     "Ce presiuni exercită creșterea populației asupra resurselor?",
+     "Ce înseamnă Ziua depășirii resurselor Pământului?"
+    ],
+    "test": [
+     "Populația lumii în 1800?",
+     "Ce este sporul natural?",
+     "În ce an populația a depășit 8 miliarde?",
+     "Ce determină mărimea unei populații?",
+     "Cum evoluează populația României?"
+    ],
+    "steps": [
+     "Identifică factorii demografici (natalitate, mortalitate, migrație).",
+     "Calculează sporul natural și efectele asupra populației.",
+     "Leagă tendințele demografice de presiunea asupra resurselor și propune soluții.",
+     "Greșeala frecventă: să crezi că doar numărul oamenilor contează; nivelul consumului pe persoană influențează la fel de mult presiunea asupra resurselor."
+    ],
+    "answers": [
+     "≈ 1 miliard",
+     "Diferența dintre natalitate și mortalitate",
+     "2022",
+     "Natalitatea, mortalitatea și migrația",
+     "Scade și îmbătrânește"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Poluarea aerului: smog, ploi acide, stratul de ozon",
+    "theory": "Poluanții aerului provin din transport, industrie, încălzire, agricultură: particule fine (PM10, PM2,5), oxizi de azot și de sulf, monoxid de carbon, ozon troposferic, compuși organici volatili. Smogul se formează în orașe din gaze de eșapament și lumina solară; afectează plămânii și inima. Ploile acide (oxizii de sulf și azot formează acizi în atmosferă) acidifică solurile și lacurile și deteriorează pădurile și clădirile. Stratul de ozon din stratosferă ne protejează de radiațiile UV; freonii l-au subțiat, dar, după interzicerea lor (Protocolul de la Montreal), se reface treptat. Măsuri: transport public și electric, filtre industriale, energie curată, monitorizarea calității aerului.",
+    "sample": "Particulele fine PM2,5 pătrund adânc în plămâni și chiar în sânge.",
+    "worked": "Un indice de calitate a aerului cu PM2,5 de 75 µg/m³ depășește de câteva ori valoarea recomandată de OMS (media zilnică de 15 µg/m³): persoanele cu astm și vârstnicii trebuie să evite efortul în aer liber. Ploaia normală are pH ≈ 5,6; ploaia acidă are pH sub 5.",
+    "exercises": [
+     "Enumeră poluanții principali ai aerului și sursele lor.",
+     "Cum se formează ploile acide și ce efecte au?",
+     "Ce rol are stratul de ozon și de ce s-a subțiat?",
+     "Ce efecte are smogul asupra sănătății?",
+     "Propune măsuri locale pentru îmbunătățirea calității aerului."
+    ],
+    "test": [
+     "pH-ul ploii normale?",
+     "Ce gaze produc ploile acide?",
+     "Ce substanțe au distrus ozonul stratosferic?",
+     "Ce sunt PM2,5?",
+     "Ce acord a interzis freonii?"
+    ],
+    "steps": [
+     "Identifică poluantul și sursa lui.",
+     "Explică procesul (smog, ploaie acidă, distrugerea ozonului) și efectele.",
+     "Propune măsuri de reducere la nivel individual și colectiv.",
+     "Greșeala frecventă: să confunzi ozonul stratosferic, care ne protejează, cu ozonul troposferic, care este poluant."
+    ],
+    "answers": [
+     "≈ 5,6",
+     "Oxizii de sulf și de azot",
+     "Freonii (CFC)",
+     "Particule în suspensie cu diametrul sub 2,5 µm",
+     "Protocolul de la Montreal"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "Poluarea apei și a solului; eutrofizarea; deșeurile",
+    "theory": "Apele sunt poluate de ape uzate menajere și industriale, îngrășăminte și pesticide spălate de pe câmpuri, petrol, metale grele, plastic. Excesul de nutrienți (azotați, fosfați) produce eutrofizarea: algele se înmulțesc exploziv, apoi mor, iar descompunerea lor consumă oxigenul — peștii mor. Metalele grele (mercur, plumb) și unele pesticide se acumulează în lanțurile trofice (bioacumulare), ajungând în concentrații mari la consumatorii de vârf, inclusiv la om. Solul este degradat prin eroziune, salinizare, poluare cu pesticide și deșeuri. Soluții: stații de epurare, folosirea rațională a îngrășămintelor, colectarea selectivă și reciclarea, reducerea plasticului de unică folosință.",
+    "sample": "Mercurul se acumulează în peștii răpitori mari, precum tonul și peștele-spadă.",
+    "worked": "Bioacumulare: un pesticid are în apă 0,00005 ppm, în plancton 0,04 ppm, în pești mici 0,5 ppm, în pești răpitori 2 ppm, în păsările piscivore 25 ppm — o concentrare de 500 000 de ori de-a lungul lanțului trofic. Așa a fost descoperit efectul DDT-ului asupra păsărilor (ouă cu coajă subțire).",
+    "exercises": [
+     "Ce surse de poluare a apei cunoști?",
+     "Explică etapele eutrofizării.",
+     "Ce este bioacumularea? Dă un exemplu.",
+     "Ce forme de degradare a solului cunoști?",
+     "Propune măsuri pentru protejarea unui râu din zona ta."
+    ],
+    "test": [
+     "Ce nutrienți produc eutrofizarea?",
+     "Ce consumă oxigenul în apele eutrofizate?",
+     "Un metal greu care se bioacumulează?",
+     "Ce este eroziunea solului?",
+     "Ce instalație curăță apele uzate?"
+    ],
+    "steps": [
+     "Identifică poluantul și calea lui spre mediu.",
+     "Explică efectele (eutrofizare, bioacumulare, degradarea solului).",
+     "Propune soluții de prevenire și remediere.",
+     "Greșeala frecventă: să crezi că diluarea în apă face poluanții inofensivi; prin bioacumulare ei se concentrează în lanțul trofic."
+    ],
+    "answers": [
+     "Azotații și fosfații",
+     "Descompunerea algelor moarte",
+     "Mercurul (sau plumbul)",
+     "Îndepărtarea stratului fertil de sol de către apă sau vânt",
+     "Stația de epurare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l29": {
+   "ro": {
+    "title": "Efectele poluării asupra sănătății umane; sănătatea și mediul",
+    "theory": "Calitatea mediului influențează direct sănătatea. Poluarea aerului este legată de astm, bronșită cronică, boli cardiovasculare și cancer pulmonar; Organizația Mondială a Sănătății estimează milioane de decese premature anual. Apa contaminată transmite boli (holeră, hepatita A, dizenterie) și poate conține nitrați (periculoși mai ales pentru sugari) sau metale grele. Zgomotul cronic afectează somnul și sistemul cardiovascular. Expunerea la radiații UV crește riscul de cancer de piele. Schimbările climatice extind aria unor boli transmise de vectori (țânțari, căpușe) și cresc valurile de căldură. Conceptul „O singură sănătate” (One Health) arată că sănătatea oamenilor, a animalelor și a mediului sunt legate.",
+    "sample": "Apa din fântânile poluate cu nitrați este periculoasă pentru sugari.",
+    "worked": "În zonele rurale, fântânile aflate lângă grajduri sau gropi septice pot avea nitrați peste limita de 50 mg/L; la sugari, nitrații transformați în nitriți blochează hemoglobina (methemoglobinemie — „boala albastră”). Soluția: analiza apei și folosirea unei surse sigure pentru prepararea laptelui praf.",
+    "exercises": [
+     "Ce boli sunt legate de poluarea aerului?",
+     "De ce apa din fântâni trebuie analizată periodic?",
+     "Ce efecte are zgomotul cronic?",
+     "Cum influențează schimbările climatice bolile transmise de vectori?",
+     "Ce înseamnă conceptul „O singură sănătate”?"
+    ],
+    "test": [
+     "Limita de nitrați în apa potabilă?",
+     "Ce boală pot produce nitrații la sugari?",
+     "Ce cancer este favorizat de radiațiile UV?",
+     "O boală transmisă prin apă contaminată?",
+     "Ce organizație estimează efectele poluării asupra sănătății la nivel mondial?"
+    ],
+    "steps": [
+     "Identifică factorul de mediu și calea de expunere.",
+     "Explică efectul asupra organismului și grupele vulnerabile.",
+     "Propune măsuri de protecție individuale și comunitare.",
+     "Greșeala frecventă: să crezi că apa limpede este întotdeauna potabilă; nitrații și microbii nu se văd."
+    ],
+    "answers": [
+     "50 mg/L",
+     "Methemoglobinemia („boala albastră”)",
+     "Cancerul de piele",
+     "Holera (sau hepatita A)",
+     "Organizația Mondială a Sănătății"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l30": {
+   "ro": {
+    "title": "Conservarea biodiversității; arii protejate; specii invazive",
+    "theory": "Biodiversitatea scade rapid din cauza distrugerii habitatelor, supraexploatării, poluării, speciilor invazive și schimbărilor climatice. Speciile invazive sunt introduse de om și se răspândesc în dauna celor native: în România, ambrozia (alergenă), ailantul, gândacul din Colorado, scoica zebră, carasul argintiu. Conservarea in situ se face în arii protejate: rezervații ale biosferei (Delta Dunării), parcuri naționale (Retezat, primul parc național al României, 1935), parcuri naturale, situri Natura 2000. Conservarea ex situ: grădini botanice, zoologice, bănci de gene și de semințe. România are păduri virgine și populații mari de carnivore mari, de importanță europeană.",
+    "sample": "Parcul Național Retezat, înființat în 1935, este primul parc național din România.",
+    "worked": "Ambrozia, plantă originară din America de Nord, s-a răspândit pe terenurile necultivate; polenul ei produce alergii severe la sfârșitul verii. Legea obligă proprietarii să o distrugă înainte de înflorire. Exemplul arată costurile sanitare și economice ale speciilor invazive.",
+    "exercises": [
+     "Care sunt principalele cauze ale scăderii biodiversității?",
+     "Ce sunt speciile invazive? Dă exemple din România.",
+     "Compară tipurile de arii protejate.",
+     "Compară conservarea in situ cu cea ex situ.",
+     "Propune un plan de protecție pentru o specie din zona ta."
+    ],
+    "test": [
+     "Primul parc național din România?",
+     "Ce este o specie invazivă?",
+     "O plantă invazivă alergenă?",
+     "Ce sunt siturile Natura 2000?",
+     "Ce este o bancă de semințe?"
+    ],
+    "steps": [
+     "Identifică specia sau ecosistemul și amenințările.",
+     "Analizează cauzele și consecințele.",
+     "Propune măsuri de conservare potrivite (in situ, ex situ, legislative, personale).",
+     "Greșeala frecventă: să crezi că orice specie nouă îmbogățește biodiversitatea; speciile invazive o reduc, eliminând speciile native."
+    ],
+    "answers": [
+     "Parcul Național Retezat",
+     "O specie introdusă de om care se răspândește în dauna celor native",
+     "Ambrozia",
+     "Rețeaua europeană de arii protejate",
+     "Colecție de semințe păstrate pentru conservarea speciilor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l31": {
+   "ro": {
+    "title": "Dezvoltarea durabilă: resurse, energie, economie circulară",
+    "theory": "Dezvoltarea durabilă satisface nevoile prezentului fără a compromite posibilitatea generațiilor viitoare de a-și satisface propriile nevoi. Ea echilibrează trei dimensiuni: mediul, economia și societatea. Agenda 2030 a ONU cuprinde 17 Obiective de Dezvoltare Durabilă (eradicarea sărăciei, apă curată, energie curată, acțiune climatică, viață acvatică și terestră etc.). Direcții: energia regenerabilă (solară, eoliană, hidro, geotermală, biomasă) în locul combustibililor fosili; eficiența energetică; economia circulară — produsele sunt proiectate pentru reutilizare, reparare și reciclare, astfel încât deșeurile devin resurse; consumul responsabil și reducerea risipei alimentare (≈ o treime din alimentele produse se pierd sau se risipesc).",
+    "sample": "Economia circulară transformă deșeurile de azi în materiile prime de mâine.",
+    "worked": "Dacă un telefon este reparat și folosit 5 ani în loc de 3, pe o perioadă de 15 ani se cumpără 3 telefoane în loc de 5 — economie de resurse rare (metale) și de emisii. Compostarea resturilor alimentare închide ciclul nutrienților.",
+    "exercises": [
+     "Definește dezvoltarea durabilă și cele trei dimensiuni ale ei.",
+     "Ce sunt Obiectivele de Dezvoltare Durabilă? Dă trei exemple.",
+     "Compară economia liniară cu economia circulară.",
+     "Ce surse de energie regenerabilă cunoști?",
+     "Propune cinci acțiuni personale de consum responsabil."
+    ],
+    "test": [
+     "Câte Obiective de Dezvoltare Durabilă are Agenda 2030?",
+     "Ce este economia circulară?",
+     "O sursă de energie regenerabilă?",
+     "Ce fracțiune din alimente se risipește?",
+     "Ce dimensiuni are dezvoltarea durabilă?"
+    ],
+    "steps": [
+     "Identifică resursa sau problema (energie, materiale, alimente).",
+     "Analizează impactul pe cele trei dimensiuni (mediu, economie, societate).",
+     "Propune soluții durabile concrete.",
+     "Greșeala frecventă: să crezi că dezvoltarea durabilă înseamnă oprirea dezvoltării; ea înseamnă dezvoltare care nu epuizează resursele viitorului."
+    ],
+    "answers": [
+     "17",
+     "Economie în care produsele sunt reutilizate, reparate și reciclate",
+     "Energia solară (sau eoliană, hidro, geotermală)",
+     "≈ o treime",
+     "Mediul, economia și societatea"
+    ]
+   }
+  }
+ }
+}

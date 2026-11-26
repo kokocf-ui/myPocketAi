@@ -1,0 +1,1208 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "9ec97b2f8ee17d75f754c8fd2cc2d7f4069715e068c2e99f0943711c5e18d15d",
+ "source": "https://rocnee.eu/index.php/en/dcee-oriz/curriculum-oriz/programe-scolare-front/ordin-aprobare-programe-scolare-privind-planurile-cadru-invatamant-liceal-cu-frecventa-zi",
+ "sourceTitle": "Programa școlară pentru disciplina Biologie, clasa a IX-a, Anexa nr. 35 la OMEC nr. 6930/19.12.2025 (aplicabilă din 2026–2027) — trunchi comun (profil real, matematică-informatică): știința ca proces, moleculele vieții, celula, niveluri de organizare, diversitatea și conservarea lumii vii (domenii Bacteria, Archaea, Eukaryota), educație pentru sănătate, impactul activităților umane; extinderi din curriculumul de specialitate (relația ADN–ARN–proteine, ciclul celular și mitoza); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Biologie · Clasa a IX-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Știința ca proces",
+   "keys": [
+    "eu-year-ro-medium-9-l01"
+   ]
+  },
+  {
+   "title": "Moleculele vieții",
+   "keys": [
+    "eu-year-ro-medium-9-l02",
+    "eu-year-ro-medium-9-l03",
+    "eu-year-ro-medium-9-l04",
+    "eu-year-ro-medium-9-l05",
+    "eu-year-ro-medium-9-l06"
+   ]
+  },
+  {
+   "title": "Celula — unitate structurală și funcțională a lumii vii",
+   "keys": [
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08",
+    "eu-year-ro-medium-9-l09",
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11",
+    "eu-year-ro-medium-9-l12",
+    "eu-year-ro-medium-9-l13",
+    "eu-year-ro-medium-9-l14"
+   ]
+  },
+  {
+   "title": "Niveluri de organizare a lumii vii",
+   "keys": [
+    "eu-year-ro-medium-9-l15",
+    "eu-year-ro-medium-9-l16"
+   ]
+  },
+  {
+   "title": "Diversitatea și conservarea lumii vii",
+   "keys": [
+    "eu-year-ro-medium-9-l17",
+    "eu-year-ro-medium-9-l18",
+    "eu-year-ro-medium-9-l19",
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21",
+    "eu-year-ro-medium-9-l22",
+    "eu-year-ro-medium-9-l23",
+    "eu-year-ro-medium-9-l24",
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26",
+    "eu-year-ro-medium-9-l27",
+    "eu-year-ro-medium-9-l28",
+    "eu-year-ro-medium-9-l29",
+    "eu-year-ro-medium-9-l30"
+   ]
+  },
+  {
+   "title": "Impactul activităților umane asupra ecosistemelor",
+   "keys": [
+    "eu-year-ro-medium-9-l31",
+    "eu-year-ro-medium-9-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Metoda științifică în biologie; observația, experimentul, etica cercetării",
+    "theory": "Biologia află lucruri noi prin metoda științifică: pornești de la o observație și o întrebare („Ce se întâmplă dacă...?”), formulezi o ipoteză (o explicație care poate fi verificată), planifici un experiment în care modifici o singură variabilă (variabila independentă), măsori efectul (variabila dependentă) și păstrezi celelalte condiții constante; un lot martor (de control) permite comparația. Datele se organizează în tabele și grafice, se interpretează, iar concluzia confirmă sau infirmă ipoteza. Rezultatele se comunică și trebuie să poată fi repetate. Etica cercetării cere onestitate în raportarea datelor, respect pentru ființele vii și protecția persoanelor implicate.",
+    "sample": "Ipoteză: „Semințele de fasole germinează mai repede la 25 °C decât la 10 °C.”",
+    "worked": "Experiment cu mucegaiul pe pâine: patru felii identice — uscat/rece, uscat/cald, umed/rece, umed/cald (variabile: umiditate și temperatură). După 5 zile, felia umedă ținută la cald este cea mai mucegăită. Concluzie: mucegaiul crește cel mai bine la umiditate și căldură — de aceea pâinea se păstrează la uscat.",
+    "exercises": [
+     "Formulează o ipoteză despre efectul luminii asupra creșterii unei plante.",
+     "Identifică variabila independentă și dependentă într-un experiment despre puls înainte și după efort.",
+     "De ce este necesar un lot martor?",
+     "De ce un experiment trebuie repetat de mai multe ori?",
+     "Dă un exemplu de comportament neetic în cercetare."
+    ],
+    "test": [
+     "Ce este o ipoteză?",
+     "Ce este variabila independentă?",
+     "Ce este variabila dependentă?",
+     "Ce este lotul martor?",
+     "Ce cere etica cercetării?"
+    ],
+    "steps": [
+     "Pornește de la o observație și formulează o întrebare verificabilă.",
+     "Formulează ipoteza și stabilește variabilele (o singură variabilă modificată, restul constante, lot martor).",
+     "Colectează datele, reprezintă-le în tabele sau grafice și formulează concluzia.",
+     "Greșeala frecventă: să modifici mai multe condiții deodată; atunci nu mai știi care dintre ele a produs efectul."
+    ],
+    "answers": [
+     "O explicație posibilă, care poate fi verificată experimental",
+     "Factorul pe care îl modifici intenționat",
+     "Efectul pe care îl măsori",
+     "Grupul păstrat în condiții obișnuite, pentru comparație",
+     "Onestitate în date și respect pentru ființele vii și oameni"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Apa și sărurile minerale în organism",
+    "theory": "Apa este substanța cea mai abundentă din organisme (≈ 60–70% din corpul uman, peste 90% în unele fructe și meduze). Rolurile ei: solvent pentru majoritatea substanțelor, mediu pentru reacțiile chimice, transportă substanțe (sânge, sevă), reglează temperatura (prin transpirație și capacitatea mare de a înmagazina căldură) și participă la reacții (fotosinteză). Sărurile minerale se găsesc dizolvate sub formă de ioni sau în structuri solide: calciul și fosforul în oase și dinți, fierul în hemoglobină, magneziul în clorofilă, iodul în hormonii tiroidieni, sodiul și potasiul în transmiterea impulsului nervos.",
+    "sample": "Lipsa fierului din alimentație poate duce la anemie, pentru că fierul intră în hemoglobină.",
+    "worked": "Un adult pierde zilnic ≈ 2,5 L apă (urină, transpirație, respirație) și trebuie să o recupereze din băuturi și alimente. În zilele caniculare pierderile cresc, iar deshidratarea produce oboseală și dureri de cap. Plantele fără magneziu au frunze îngălbenite, pentru că nu pot forma clorofilă.",
+    "exercises": [
+     "Enumeră patru roluri ale apei în organism.",
+     "De ce transpirația ne răcorește?",
+     "Asociază: Ca, Fe, Mg, I cu rolul lor.",
+     "Ce se întâmplă cu o plantă crescută pe sol sărac în magneziu?",
+     "De ce sportivii consumă băuturi cu săruri minerale după efort intens?"
+    ],
+    "test": [
+     "Procentul aproximativ de apă din corpul uman?",
+     "Mineralul din hemoglobină?",
+     "Mineralul din clorofilă?",
+     "Mineralele principale ale oaselor?",
+     "Ce rol are iodul?"
+    ],
+    "steps": [
+     "Identifică substanța (apă sau ion mineral).",
+     "Leagă substanța de structura sau procesul în care intervine.",
+     "Explică efectul lipsei ei asupra organismului.",
+     "Greșeala frecventă: să consideri apa doar un „umplutură”; ea participă activ la transport, reacții și reglarea temperaturii."
+    ],
+    "answers": [
+     "≈ 60–70%",
+     "Fierul",
+     "Magneziul",
+     "Calciul și fosforul",
+     "Intră în hormonii tiroidieni"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Glucidele și lipidele: roluri energetice și structurale",
+    "theory": "Glucidele (zaharurile) sunt principala sursă rapidă de energie: glucoza este „combustibilul” celulelor. Monozaharidele (glucoza, fructoza) se unesc în dizaharide (zaharoza) și polizaharide: amidonul (rezerva plantelor), glicogenul (rezerva animalelor, în ficat și mușchi), celuloza (peretele celulelor vegetale) și chitina (peretele fungilor, carapacea insectelor). Lipidele (grăsimile) sunt rezerva de energie pe termen lung (dau de două ori mai multă energie pe gram decât glucidele), izolează termic, protejează organele; fosfolipidele formează membranele celulare, iar unii hormoni (sexuali) sunt lipidici.",
+    "sample": "Ursul acumulează grăsime înainte de hibernare, ca rezervă de energie pentru iarnă.",
+    "worked": "Comparație energetică: 1 g glucide ≈ 17 kJ (4 kcal), 1 g lipide ≈ 38 kJ (9 kcal). O porție de 100 g cartofi (≈ 17 g amidon) furnizează ≈ 290 kJ, iar 10 g ulei ≈ 380 kJ. De aceea grăsimile sunt rezerva eficientă, iar glucidele energia rapidă.",
+    "exercises": [
+     "Clasifică: glucoza, zaharoza, amidonul, celuloza.",
+     "Unde se depozitează glicogenul?",
+     "De ce animalele din zonele reci au strat gros de grăsime?",
+     "Ce rol are chitina?",
+     "Calculează energia din 20 g glucide și 10 g lipide."
+    ],
+    "test": [
+     "Principala sursă rapidă de energie?",
+     "Polizaharida de rezervă a plantelor?",
+     "Polizaharida de rezervă a animalelor?",
+     "Ce formează fosfolipidele?",
+     "Energia furnizată de 1 g lipide?"
+    ],
+    "steps": [
+     "Identifică tipul de moleculă (mono-, di-, polizaharidă sau lipidă).",
+     "Precizează rolul: energetic, de rezervă, structural sau de semnalizare.",
+     "Leagă rolul de un exemplu din organism.",
+     "Greșeala frecventă: să crezi că toate grăsimile sunt dăunătoare; lipidele sunt esențiale pentru membrane, hormoni și vitamine."
+    ],
+    "answers": [
+     "Glucoza",
+     "Amidonul",
+     "Glicogenul",
+     "Membranele celulare",
+     "≈ 38 kJ (9 kcal)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Proteinele și vitaminele: diversitatea rolurilor",
+    "theory": "Proteinele sunt lanțuri de aminoacizi și au cele mai variate roluri: structurale (keratina din păr, colagenul din tendoane), catalitice (enzimele, care accelerează reacțiile), de transport (hemoglobina transportă oxigenul), de apărare (anticorpii), de semnalizare (unii hormoni, precum insulina), contractile (proteinele musculare). Forma proteinei determină funcția; căldura sau acizii o pot distruge (denaturare). Vitaminele sunt necesare în cantități mici, dar organismul nu le produce (sau nu suficient): vitamina C (imunitate, vase de sânge), D (oase, se formează în piele la soare), A (vedere), vitaminele B (metabolism), K (coagulare).",
+    "sample": "Lipsa vitaminei C produce scorbut, boala marinarilor din vechime.",
+    "worked": "Activitatea unei enzime depinde de temperatură: amilaza din salivă descompune amidonul cel mai repede la ≈ 37 °C; la 0 °C lucrează foarte încet, iar la 80 °C se denaturează și nu mai lucrează deloc, nici după răcire.",
+    "exercises": [
+     "Dă câte un exemplu de proteină structurală, de transport și de apărare.",
+     "Ce sunt enzimele?",
+     "De ce o enzimă nu mai funcționează după fierbere?",
+     "Ce boală produce lipsa vitaminei D la copii?",
+     "Ce surse de vitamina C cunoști?"
+    ],
+    "test": [
+     "Din ce sunt formate proteinele?",
+     "Proteina care transportă oxigenul?",
+     "Ce rol au anticorpii?",
+     "Vitamina care se formează în piele la soare?",
+     "Vitamina necesară coagulării?"
+    ],
+    "steps": [
+     "Identifică proteina sau vitamina.",
+     "Precizează rolul ei în organism.",
+     "Explică ce se întâmplă la lipsa sau la denaturarea ei.",
+     "Greșeala frecventă: să crezi că vitaminele dau energie; ele reglează procese, dar nu sunt surse de energie."
+    ],
+    "answers": [
+     "Din aminoacizi",
+     "Hemoglobina",
+     "Apărarea organismului",
+     "Vitamina D",
+     "Vitamina K"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Acizii nucleici și ATP-ul",
+    "theory": "Acizii nucleici păstrează și folosesc informația ereditară. ADN-ul (acidul dezoxiribonucleic) este o dublă elice formată din nucleotide cu patru baze azotate (A, T, G, C), care se împerechează complementar: A cu T, G cu C. El se află în nucleu (la eucariote) și conține genele — „rețetele” proteinelor. ARN-ul (acidul ribonucleic) este monocatenar, are uracil (U) în loc de timină și duce informația de la ADN la ribozomi, unde se sintetizează proteinele. ATP-ul (adenozin-trifosfatul) este „moneda energetică” a celulei: stochează energia eliberată în respirație și o cedează pentru contracție, transport, sinteze.",
+    "sample": "Dacă o catenă de ADN are secvența ATGC, catena complementară are TACG.",
+    "worked": "Catena ADN: A-T-T-G-C-A ⇒ catena complementară T-A-A-C-G-T; ARN copiat după prima catenă: U-A-A-C-G-U. Într-un ADN cu 30% adenină, timina are tot 30%, iar G + C = 40%, deci guanina 20% și citozina 20%.",
+    "exercises": [
+     "Scrie catena complementară a secvenței ADN GCATTA.",
+     "Compară ADN-ul cu ARN-ul (catene, baze, localizare).",
+     "Un ADN are 20% citozină. Calculează procentele celorlalte baze.",
+     "Ce rol are ATP-ul în celulă?",
+     "De ce ADN-ul este numit „materialul ereditar”?"
+    ],
+    "test": [
+     "Ce bază se împerechează cu adenina în ADN?",
+     "Ce bază are ARN-ul în locul timinei?",
+     "Unde se află ADN-ul la eucariote?",
+     "Ce formă are molecula de ADN?",
+     "Ce este ATP-ul?"
+    ],
+    "steps": [
+     "Identifică tipul acidului nucleic și bazele lui.",
+     "Aplică regula complementarității (A–T sau A–U, G–C).",
+     "Calculează procentele sau scrie secvența și explică rolul.",
+     "Greșeala frecventă: să pui timină în ARN; în ARN, adeninei îi corespunde uracilul."
+    ],
+    "answers": [
+     "Timina",
+     "Uracilul",
+     "În nucleu",
+     "Dublă elice",
+     "Moneda energetică a celulei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Surse alimentare de nutrienți; dieta echilibrată",
+    "theory": "O dietă echilibrată furnizează energie și toți nutrienții, în proporții potrivite. Glucidele (cereale integrale, legume, fructe) ar trebui să dea ≈ 50–55% din energie, lipidele ≈ 30% (preferabil uleiuri vegetale, pește, nuci), proteinele ≈ 15% (carne slabă, ouă, lactate, leguminoase). Fructele și legumele aduc vitamine, minerale și fibre (care ajută digestia). Excesul de zahăr, grăsimi saturate și sare crește riscul de obezitate, diabet de tip 2, boli cardiovasculare. Apa, mișcarea zilnică și somnul completează un stil de viață sănătos. Nevoile de energie depind de vârstă, sex și activitate.",
+    "sample": "Farfuria echilibrată: jumătate legume și fructe, un sfert cereale, un sfert proteine.",
+    "worked": "Un adolescent are nevoie de ≈ 10 000 kJ/zi. Din glucide (55%) ⇒ 5500 kJ ≈ 5500/17 ≈ 324 g glucide; din proteine (15%) ⇒ 1500 kJ ≈ 88 g; din lipide (30%) ⇒ 3000 kJ ≈ 3000/38 ≈ 79 g lipide.",
+    "exercises": [
+     "Dă câte două surse de proteine animale și vegetale.",
+     "Ce rol au fibrele alimentare?",
+     "Analizează un meniu format din cartofi prăjiți, suc și desert: ce lipsește?",
+     "Calculează gramele de proteine pentru 1200 kJ (17 kJ/g).",
+     "De ce consumul excesiv de sare este dăunător?"
+    ],
+    "test": [
+     "Procentul de energie recomandat din glucide?",
+     "Surse de fibre?",
+     "O sursă vegetală de proteine?",
+     "Ce boli favorizează excesul de zahăr?",
+     "Ce aduc fructele și legumele?"
+    ],
+    "steps": [
+     "Identifică nutrienții din fiecare aliment.",
+     "Compară proporțiile cu recomandările (glucide, lipide, proteine, fibre).",
+     "Propune corecturi concrete pentru echilibrarea meniului.",
+     "Greșeala frecventă: să elimini complet o grupă de nutrienți (de exemplu toate grăsimile); organismul are nevoie de toate, în proporții potrivite."
+    ],
+    "answers": [
+     "≈ 50–55%",
+     "Legumele, fructele și cerealele integrale",
+     "Leguminoasele (fasole, linte, năut)",
+     "Obezitatea și diabetul de tip 2",
+     "Vitamine, minerale și fibre"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Celula, structură vie; de ce virusurile nu sunt vii",
+    "theory": "Celula este cea mai mică unitate structurală și funcțională a viului: toate organismele sunt formate din una sau mai multe celule, iar orice celulă provine dintr-o altă celulă (teoria celulară). O celulă are însușirile viului: metabolism (schimb de substanțe și energie), creștere, reproducere, reacție la stimuli. Virusurile sunt formate doar dintr-un acid nucleic (ADN sau ARN) învelit într-o capsulă de proteine; nu au metabolism propriu și se pot înmulți doar în interiorul unei celule gazdă, folosind „uzinele” ei. De aceea sunt considerate la granița dintre viu și neviu. Antibioticele nu acționează asupra virusurilor.",
+    "sample": "Gripa este produsă de un virus, de aceea antibioticele nu o vindecă.",
+    "worked": "Virusul gripal intră într-o celulă a căilor respiratorii, își introduce ARN-ul, iar celula produce sute de virusuri noi care o distrug și infectează alte celule. Vaccinul pregătește sistemul imunitar să recunoască virusul. O bacterie, în schimb, este o celulă vie care se înmulțește singură și poate fi distrusă de antibiotice.",
+    "exercises": [
+     "Enunță ideile teoriei celulare.",
+     "Ce însușiri ale viului are o celulă?",
+     "Din ce este format un virus?",
+     "De ce virusurile nu se pot înmulți singure?",
+     "De ce antibioticele nu tratează răceala?"
+    ],
+    "test": [
+     "Cea mai mică unitate a viului?",
+     "Ce acid nucleic poate avea un virus?",
+     "Au virusurile metabolism propriu?",
+     "Unde se înmulțesc virusurile?",
+     "Asupra cui acționează antibioticele?"
+    ],
+    "steps": [
+     "Verifică însușirile viului: metabolism, creștere, reproducere, reacție la stimuli.",
+     "Compară structura celulei cu a virusului.",
+     "Concluzionează asupra statutului (viu sau la granița viului) și asupra tratamentului.",
+     "Greșeala frecventă: să folosești antibiotice pentru boli virale; ele nu au efect și favorizează rezistența bacteriilor."
+    ],
+    "answers": [
+     "Celula",
+     "ADN sau ARN",
+     "Nu",
+     "Doar în celule gazdă",
+     "Asupra bacteriilor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Celula procariotă și celula eucariotă",
+    "theory": "Celulele procariote (bacterii și arhee) sunt mici (1–10 µm) și simple: nu au nucleu delimitat de membrană; materialul genetic (un cromozom circular) se află în citoplasmă, într-o zonă numită nucleoid; au ribozomi mici, membrană, de obicei perete celular și uneori flageli și capsulă. Celulele eucariote (protiste, fungi, plante, animale) sunt mai mari (10–100 µm) și au nucleu adevărat și organite delimitate de membrane (mitocondrii, reticul endoplasmatic, aparat Golgi etc.). Celula vegetală are în plus perete de celuloză, cloroplaste și o vacuolă mare; celula animală are centrozom și nu are perete.",
+    "sample": "Bacteria Escherichia coli nu are nucleu, iar celula din frunza unei plante are.",
+    "worked": "Comparăm la microscop: celulele din pielița de ceapă au contur rectangular (perete), nucleu și vacuolă mare; celulele din mucoasa bucală sunt rotunjite, fără perete, cu nucleu central. Bacteriile din iaurt (Lactobacillus) apar ca bastonașe foarte mici, fără nucleu vizibil.",
+    "exercises": [
+     "Completează un tabel comparativ: procariotă–eucariotă (nucleu, organite, dimensiuni).",
+     "Ce organite are celula vegetală și nu are cea animală?",
+     "Unde se află materialul genetic la bacterii?",
+     "De ce celulele procariote sunt considerate mai simple?",
+     "Ce observi la microscop în celulele epidermei de ceapă?"
+    ],
+    "test": [
+     "Au procariotele nucleu delimitat?",
+     "Cum se numește zona cu material genetic la bacterii?",
+     "Din ce este peretele celulei vegetale?",
+     "Ce organit are doar celula vegetală dintre cele două?",
+     "Exemple de organisme procariote?"
+    ],
+    "steps": [
+     "Verifică prezența nucleului delimitat de membrană.",
+     "Caută organitele cu membrană și structurile specifice (perete, cloroplaste, vacuolă).",
+     "Încadrează celula și justifică.",
+     "Greșeala frecventă: să crezi că bacteriile nu au material genetic pentru că nu au nucleu; ADN-ul lor se află liber în citoplasmă."
+    ],
+    "answers": [
+     "Nu",
+     "Nucleoid",
+     "Din celuloză",
+     "Cloroplastul",
+     "Bacteriile și arheele"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Membrana, peretele celular și citoplasma",
+    "theory": "Membrana celulară (plasmalema) învelește celula: este formată dintr-un dublu strat de fosfolipide în care sunt incluse proteine (modelul mozaicului fluid). Ea este semipermeabilă (permite trecerea selectivă a substanțelor), recunoaște semnale și menține diferențele dintre interior și exterior. Peretele celular, rigid, se află la exteriorul membranei la plante (celuloză), fungi (chitină) și bacterii; dă formă și protecție și împiedică spargerea celulei în apă. Citoplasma este un gel cu apă, săruri, molecule organice, în care se află organitele și au loc numeroase reacții; este străbătută de citoschelet.",
+    "sample": "Peretele de celuloză face ca celulele plantelor să nu se spargă când absorb multă apă.",
+    "worked": "Punând celule de ceapă în apă distilată, membrana se lipește de perete (celulele devin turgescente), dar nu se sparg datorită peretelui. Globulele roșii, fără perete, puse în apă distilată se umflă și se sparg (hemoliză).",
+    "exercises": [
+     "Descrie modelul mozaicului fluid al membranei.",
+     "Ce înseamnă că membrana este semipermeabilă?",
+     "Compară peretele celulelor vegetale cu al fungilor.",
+     "De ce globulele roșii se sparg în apă distilată, iar celulele de ceapă nu?",
+     "Ce se află în citoplasmă?"
+    ],
+    "test": [
+     "Din ce este formată membrana celulară?",
+     "Ce rol are peretele celular?",
+     "Din ce este peretele fungilor?",
+     "Ce înseamnă semipermeabil?",
+     "Ce este citoplasma?"
+    ],
+    "steps": [
+     "Identifică învelișul analizat (membrană, perete) și componentele lui.",
+     "Leagă structura de funcție (barieră selectivă, rigiditate, protecție).",
+     "Aplică la o situație concretă (celula în apă, schimb de substanțe).",
+     "Greșeala frecventă: să consideri peretele celular o barieră selectivă; selecția o face membrana, peretele este permeabil."
+    ],
+    "answers": [
+     "Dublu strat de fosfolipide cu proteine",
+     "Dă formă, protecție și împiedică spargerea celulei",
+     "Din chitină",
+     "Permite trecerea selectivă a substanțelor",
+     "Gelul cu apă și substanțe în care se află organitele"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Organitele celulare și funcțiile lor",
+    "theory": "Organitele sunt „compartimentele” specializate ale celulei: ribozomii sintetizează proteine; reticulul endoplasmatic (rugos, cu ribozomi, și neted) transportă și prelucrează proteine și sintetizează lipide; aparatul Golgi sortează, ambalează și secretă substanțe; lizozomii conțin enzime care digeră resturi și particule străine; mitocondriile realizează respirația celulară și produc ATP („centralele energetice”); cloroplastele (la plante) realizează fotosinteza; vacuolele depozitează apă și substanțe (la plante, vacuola mare menține turgescența); centrozomul (la animale) organizează diviziunea celulară.",
+    "sample": "Celulele musculare au foarte multe mitocondrii, pentru că au nevoie de multă energie.",
+    "worked": "Drumul unei proteine secretate (de exemplu o enzimă digestivă din pancreas): se sintetizează pe ribozomii reticulului endoplasmatic rugos → este transportată spre aparatul Golgi → este împachetată în vezicule → este eliberată din celulă prin membrană.",
+    "exercises": [
+     "Asociază organitele cu funcțiile: mitocondrie, ribozom, lizozom, cloroplast.",
+     "Descrie drumul unei proteine secretate.",
+     "De ce celulele frunzei au multe cloroplaste?",
+     "Ce rol are vacuola mare în celula vegetală?",
+     "Ce organit organizează diviziunea celulelor animale?"
+    ],
+    "test": [
+     "Organitul care produce ATP?",
+     "Organitul fotosintezei?",
+     "Ce fac ribozomii?",
+     "Ce conțin lizozomii?",
+     "Ce face aparatul Golgi?"
+    ],
+    "steps": [
+     "Identifică organitul după structură.",
+     "Asociază funcția principală.",
+     "Leagă numărul de organite de specializarea celulei.",
+     "Greșeala frecventă: să crezi că doar celulele animale au mitocondrii; și celulele vegetale au mitocondrii, pe lângă cloroplaste."
+    ],
+    "answers": [
+     "Mitocondria",
+     "Cloroplastul",
+     "Sintetizează proteine",
+     "Enzime digestive",
+     "Sortează, ambalează și secretă substanțe"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Nucleul, cromozomii și relația ADN–ARN–proteine",
+    "theory": "Nucleul este centrul de comandă al celulei eucariote: este delimitat de o membrană dublă cu pori (anvelopa nucleară), conține nucleoplasmă, unul sau mai mulți nucleoli (unde se formează ribozomii) și cromatina — ADN asociat cu proteine. La diviziune, cromatina se condensează în cromozomi, vizibili la microscop. Fiecare specie are un număr caracteristic de cromozomi (omul 46, adică 23 de perechi). Informația dintr-o genă este copiată în ARN mesager (transcriere), care iese din nucleu la ribozomi, unde este „tradusă” într-o proteină (traducere): ADN → ARN → proteină.",
+    "sample": "Celulele corpului uman au 46 de cromozomi, iar ovulul și spermatozoidul câte 23.",
+    "worked": "O genă conține secvența ADN TAC-GGA-TTT. ARN-ul mesager copiat este AUG-CCU-AAA; la ribozom, fiecare grup de trei nucleotide (codon) corespunde unui aminoacid, astfel încât se formează un fragment de proteină cu trei aminoacizi. O modificare a unei baze (mutație) poate schimba un aminoacid și funcția proteinei.",
+    "exercises": [
+     "Descrie componentele nucleului.",
+     "Ce diferență este între cromatină și cromozom?",
+     "Câți cromozomi au celulele corpului uman?",
+     "Scrie ARN-ul mesager copiat după ADN-ul TAC-CGA.",
+     "Explică pe scurt drumul ADN → ARN → proteină."
+    ],
+    "test": [
+     "Ce rol are nucleul?",
+     "Ce se formează în nucleol?",
+     "Ce este cromatina?",
+     "Numărul de cromozomi la om?",
+     "Ce este transcrierea?"
+    ],
+    "steps": [
+     "Identifică structura nucleară sau etapa (transcriere, traducere).",
+     "Aplică complementaritatea bazelor pentru ARN.",
+     "Explică legătura dintre gene, proteine și caractere.",
+     "Greșeala frecventă: să crezi că proteinele se sintetizează în nucleu; ele se formează pe ribozomi, în citoplasmă."
+    ],
+    "answers": [
+     "Centrul de comandă care păstrează informația genetică",
+     "Ribozomii",
+     "ADN asociat cu proteine",
+     "46 (23 de perechi)",
+     "Copierea informației unei gene în ARN"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Ciclul celular și mitoza",
+    "theory": "Ciclul celular cuprinde interfaza (creșterea celulei și dublarea ADN-ului) și diviziunea. Mitoza este diviziunea prin care dintr-o celulă rezultă două celule fiice identice genetic, cu același număr de cromozomi. Etape: profaza (cromozomii se condensează, membrana nucleară dispare, se formează fusul de diviziune), metafaza (cromozomii se așază la ecuator), anafaza (cromatidele surori se separă spre poli), telofaza (se refac nucleii), urmată de citokineză (împărțirea citoplasmei). Mitoza asigură creșterea, regenerarea țesuturilor și înmulțirea asexuată. Diviziunea necontrolată duce la tumori. Amitoza este o diviziune directă, fără fus, întâlnită rar.",
+    "sample": "Pielea se reface după o zgârietură datorită mitozelor celulelor din stratul profund.",
+    "worked": "O celulă umană cu 46 de cromozomi se divide mitotic ⇒ 2 celule cu câte 46 de cromozomi. După 5 diviziuni succesive rezultă 2⁵ = 32 de celule. Vârful rădăcinii de ceapă este folosit la microscop pentru că acolo celulele se divid intens.",
+    "exercises": [
+     "Enumeră etapele mitozei și ce se întâmplă în fiecare.",
+     "Câte celule rezultă după 6 mitoze succesive dintr-o celulă?",
+     "Ce număr de cromozomi au celulele fiice ale unei celule cu 46?",
+     "Ce rol are mitoza în organism?",
+     "De ce se observă mitoze în vârful rădăcinii?"
+    ],
+    "test": [
+     "Ce se dublează în interfază?",
+     "În ce fază cromozomii stau la ecuator?",
+     "În ce fază se separă cromatidele?",
+     "Ce este citokineza?",
+     "Ce poate produce diviziunea necontrolată?"
+    ],
+    "steps": [
+     "Identifică etapa după poziția și aspectul cromozomilor.",
+     "Urmărește numărul de cromozomi (rămâne același la mitoză).",
+     "Calculează numărul de celule (2ⁿ) și leagă de rolul biologic.",
+     "Greșeala frecventă: să crezi că la mitoză numărul de cromozomi se înjumătățește; asta se întâmplă la meioză."
+    ],
+    "answers": [
+     "ADN-ul (materialul genetic)",
+     "Metafaza",
+     "Anafaza",
+     "Împărțirea citoplasmei",
+     "Tumori"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Schimbul de substanțe între celulă și mediu: difuzia și osmoza",
+    "theory": "Substanțele trec prin membrană prin difuzie: deplasarea de la concentrație mare la concentrație mică, fără consum de energie (oxigenul intră în celulă, CO₂ iese). Osmoza este difuzia apei printr-o membrană semipermeabilă, din soluția mai diluată spre cea mai concentrată. Într-o soluție mai concentrată decât celula (hipertonică), celula pierde apă: celulele vegetale se plasmolizează (membrana se desprinde de perete). Într-o soluție mai diluată (hipotonică), celula primește apă: devine turgescentă (la plante) sau se poate sparge (la animale). În soluție izotonică (ser fiziologic 0,9% NaCl) nu se modifică.",
+    "sample": "Castraveții puși în saramură se zbârcesc pentru că pierd apă prin osmoză.",
+    "worked": "Felii de cartof cântărite (10 g) sunt puse în apă distilată, soluție 0,9% și soluție 10% de sare. După o oră: 11 g, 10 g, 8,5 g. Concluzie: în apă distilată au absorbit apă, în soluția concentrată au pierdut apă, iar soluția de 0,9% este aproape izotonică.",
+    "exercises": [
+     "Explică diferența dintre difuzie și osmoză.",
+     "Ce se întâmplă cu celulele de ceapă puse în soluție concentrată de sare?",
+     "De ce în perfuzii se folosește ser fiziologic, nu apă distilată?",
+     "De ce plantele se ofilesc dacă le uzi cu apă foarte sărată?",
+     "Interpretează experimentul cu felii de cartof în soluții diferite."
+    ],
+    "test": [
+     "Ce este difuzia?",
+     "Ce este osmoza?",
+     "Ce este plasmoliza?",
+     "Ce este o soluție izotonică?",
+     "Concentrația serului fiziologic?"
+    ],
+    "steps": [
+     "Compară concentrația din celulă cu cea din mediu.",
+     "Stabilește sensul deplasării apei (spre soluția mai concentrată).",
+     "Prezice efectul asupra celulei (turgescență, plasmoliză, spargere) și dă un exemplu.",
+     "Greșeala frecventă: să crezi că apa se deplasează spre soluția mai diluată; ea trece spre soluția mai concentrată."
+    ],
+    "answers": [
+     "Deplasarea substanțelor de la concentrație mare la mică, fără energie",
+     "Difuzia apei printr-o membrană semipermeabilă",
+     "Desprinderea membranei de perete prin pierderea apei",
+     "O soluție cu aceeași concentrație ca celula",
+     "0,9% NaCl"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Diversitatea celulelor și specializarea funcțională; raportul suprafață–volum",
+    "theory": "În organismele pluricelulare, celulele se specializează, iar forma lor corespunde funcției: neuronii au prelungiri lungi pentru transmiterea impulsurilor, celulele musculare sunt alungite și contractile, globulele roșii sunt discuri biconcave fără nucleu, pline cu hemoglobină, spermatozoizii au flagel; la plante, celulele vaselor conducătoare sunt tuburi, perișorii absorbanți ai rădăcinii au suprafață mare, celulele de apărare formează epiderma. Celulele sunt mici pentru că schimburile cu mediul se fac prin suprafață: când celula crește, volumul crește mai repede decât suprafața, iar raportul suprafață/volum scade.",
+    "sample": "Perișorii absorbanți măresc mult suprafața rădăcinii prin care se absoarbe apa.",
+    "worked": "Un cub cu latura 1 cm are suprafața 6 cm² și volumul 1 cm³ (raport 6). Un cub cu latura 2 cm are 24 cm² și 8 cm³ (raport 3). Raportul se înjumătățește, deci o celulă mare ar primi prea puțin oxigen și nutrienți pentru volumul ei — de aceea organismele mari sunt formate din multe celule mici, iar organele de schimb (plămâni, intestin) au pliuri.",
+    "exercises": [
+     "Asociază: neuron, globulă roșie, celulă musculară cu forma și funcția lor.",
+     "Calculează raportul suprafață/volum pentru un cub cu latura 3 cm.",
+     "De ce celulele nu cresc la dimensiuni foarte mari?",
+     "Cum își măresc suprafața de schimb plămânii și intestinul?",
+     "Ce celule vegetale sunt specializate pentru absorbție?"
+    ],
+    "test": [
+     "Ce celule transmit impulsuri nervoase?",
+     "Ce particularitate au globulele roșii?",
+     "Ce se întâmplă cu raportul suprafață/volum când celula crește?",
+     "Ce celule absorb apa din sol?",
+     "Ce formă au celulele musculare?"
+    ],
+    "steps": [
+     "Observă forma și structurile speciale ale celulei.",
+     "Leagă fiecare particularitate de funcție.",
+     "Folosește raportul suprafață/volum pentru a explica dimensiunile și adaptările.",
+     "Greșeala frecventă: să crezi că volumul și suprafața cresc la fel; volumul crește mult mai repede."
+    ],
+    "answers": [
+     "Neuronii",
+     "Sunt discuri biconcave fără nucleu, cu hemoglobină",
+     "Scade",
+     "Perișorii absorbanți",
+     "Alungită"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "De la celulă la organism: țesuturi, organe, sisteme",
+    "theory": "Organismele unicelulare (bacterii, amibe, drojdii) realizează toate funcțiile într-o singură celulă. La pluricelulare, celulele asemănătoare formează țesuturi (epitelial, conjunctiv, muscular, nervos la animale; de apărare, conducător, fundamental, de creștere la plante), țesuturile formează organe (inimă, frunză), organele formează sisteme (digestiv, circulator), iar sistemele formează organismul. Fiecare nivel are proprietăți noi, care nu există la nivelul inferior (de exemplu inima pompează sângele, deși o singură celulă musculară nu poate). Colonii (algele Volvox) arată trecerea de la unicelular la pluricelular.",
+    "sample": "Stomacul este un organ format din mai multe țesuturi: epitelial, muscular, conjunctiv și nervos.",
+    "worked": "Ordonăm nivelurile pentru sistemul circulator: celula musculară cardiacă → țesutul muscular cardiac → inima (organ) → sistemul circulator → organismul uman. La plantă: celulă din parenchim → țesut fundamental → frunză → sistemul de organe aeriene (tulpină, frunze, flori) → planta.",
+    "exercises": [
+     "Ordonează: organ, celulă, sistem, țesut, organism.",
+     "Dă exemple de organisme unicelulare.",
+     "Ce țesuturi formează o frunză?",
+     "Ce înseamnă că fiecare nivel are proprietăți noi?",
+     "Ce este o colonie?"
+    ],
+    "test": [
+     "Ce este un țesut?",
+     "Ce este un organ?",
+     "Un exemplu de sistem de organe?",
+     "Un organism unicelular?",
+     "Patru tipuri de țesuturi animale?"
+    ],
+    "steps": [
+     "Identifică nivelul de organizare al structurii date.",
+     "Precizează nivelurile inferioare din care este alcătuită.",
+     "Leagă nivelul de funcția nouă pe care o realizează.",
+     "Greșeala frecventă: să consideri că un organ este format dintr-un singur fel de țesut; de obicei are mai multe."
+    ],
+    "answers": [
+     "Un grup de celule asemănătoare cu aceeași funcție",
+     "O structură formată din țesuturi, cu o funcție anume",
+     "Sistemul digestiv",
+     "Amiba",
+     "Epitelial, conjunctiv, muscular, nervos"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "De la organism la biosferă: populație, biocenoză, ecosistem",
+    "theory": "Individul (organismul) aparține unei specii — grup de indivizi asemănători care se pot încrucișa și au urmași fertili. Indivizii unei specii care trăiesc în același loc și timp formează o populație. Totalitatea populațiilor dintr-un loc formează biocenoza (comunitatea). Biotopul este mediul fizic (sol, apă, climă, lumină). Biotopul împreună cu biocenoza formează ecosistemul (o pădure, un lac). Biosfera este totalitatea ecosistemelor Pământului. Populația are caracteristici proprii: mărime (efectiv), densitate, structură pe vârste, natalitate, mortalitate.",
+    "sample": "Toate carasele dintr-un lac formează o populație, iar toate plantele și animalele lacului formează biocenoza.",
+    "worked": "Într-o pădure de 50 ha trăiesc 200 de căprioare: densitatea = 200/50 = 4 căprioare/ha. Dacă într-un an se nasc 60 și mor 40, populația crește la 220 (fără migrații). Biotopul pădurii: solul, temperatura, umiditatea, lumina; biocenoza: arborii, ciupercile, insectele, păsările, căprioarele.",
+    "exercises": [
+     "Definește specia și populația și dă exemple.",
+     "Ce componente are un ecosistem?",
+     "Calculează densitatea pentru 300 de iepuri pe 150 ha.",
+     "Clasifică: sol, lup, temperatură, stejar, lumină, ciupercă.",
+     "Ce factori influențează mărimea unei populații?"
+    ],
+    "test": [
+     "Ce este o specie?",
+     "Ce este o populație?",
+     "Ce este biocenoza?",
+     "Ce este biotopul?",
+     "Ce este biosfera?"
+    ],
+    "steps": [
+     "Identifică nivelul (individ, populație, biocenoză, ecosistem, biosferă).",
+     "Separă componentele vii (biocenoza) de cele nevii (biotopul).",
+     "Calculează caracteristicile populației (densitate, creștere).",
+     "Greșeala frecventă: să confunzi populația (o singură specie) cu biocenoza (toate speciile dintr-un loc)."
+    ],
+    "answers": [
+     "Grup de indivizi asemănători care au urmași fertili",
+     "Indivizii unei specii din același loc și timp",
+     "Totalitatea populațiilor dintr-un loc",
+     "Mediul fizic al ecosistemului",
+     "Totalitatea ecosistemelor Pământului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Arborele vieții și clasificarea organismelor; locul omului",
+    "theory": "Pentru a studia diversitatea, organismele sunt clasificate după asemănări de structură și, astăzi, după înrudirea genetică. Lumea vie este împărțită în trei domenii: Bacteria, Archaea (procariote) și Eukaryota (protiste, fungi, plante, animale). Categoriile de clasificare, de la mare la mic: domeniu, regn, încrengătură, clasă, ordin, familie, gen, specie. Fiecare specie are un nume științific din două cuvinte (nomenclatura binară a lui Linné): genul și specia, de exemplu Ursus arctos (ursul brun). Omul este Homo sapiens: regnul Animalia, încrengătura Chordata, clasa Mammalia, ordinul Primates, familia Hominidae.",
+    "sample": "Lupul are numele științific Canis lupus, iar câinele domestic Canis lupus familiaris.",
+    "worked": "Clasificarea pisicii domestice: domeniul Eukaryota → regnul Animalia → încrengătura Chordata → clasa Mammalia → ordinul Carnivora → familia Felidae → genul Felis → specia Felis catus. Pisica și leul (Panthera leo) sunt în aceeași familie, dar în genuri diferite.",
+    "exercises": [
+     "Enumeră categoriile de clasificare de la domeniu la specie.",
+     "Care sunt cele trei domenii ale vieții?",
+     "Scrie clasificarea omului.",
+     "Ce înseamnă nomenclatura binară? Dă două exemple.",
+     "De ce astăzi clasificarea folosește și date genetice?"
+    ],
+    "test": [
+     "Câte domenii are lumea vie?",
+     "Cine a introdus nomenclatura binară?",
+     "Numele științific al omului?",
+     "Cea mai mică categorie de clasificare?",
+     "Ordinul din care face parte omul?"
+    ],
+    "steps": [
+     "Identifică trăsăturile organismului (procariot/eucariot, mod de hrănire, structură).",
+     "Încadrează-l treptat, de la domeniu la specie.",
+     "Scrie corect numele științific (genul cu majusculă, specia cu literă mică).",
+     "Greșeala frecventă: să scrii ambele cuvinte ale numelui științific cu majusculă; specia se scrie cu literă mică."
+    ],
+    "answers": [
+     "Trei",
+     "Carl Linné",
+     "Homo sapiens",
+     "Specia",
+     "Primates"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Procariotele: domeniile Bacteria și Archaea",
+    "theory": "Bacteriile sunt organisme unicelulare procariote, cu forme diferite (coci – sferice, bacili – bastonașe, spirili – spiralate). Se hrănesc variat: majoritatea heterotrofe (descompunători, paraziți, simbionți), unele autotrofe (cianobacteriile fac fotosinteză). Se înmulțesc prin diviziune directă, foarte rapid; în condiții grele formează spori. Rol: descompun materia organică, fixează azotul (bacteriile din nodozitățile leguminoaselor), produc iaurt, brânză, murături (bacterii lactice), formează microbiomul intestinal; unele produc boli (tuberculoză, holeră). Arheele seamănă cu bacteriile, dar diferă chimic și trăiesc adesea în medii extreme (izvoare fierbinți, lacuri sărate).",
+    "sample": "Bacteriile lactice transformă laptele în iaurt.",
+    "worked": "O bacterie care se divide la fiecare 20 de minute produce, în condiții ideale, după 3 ore (9 generații) 2⁹ = 512 bacterii. De aceea alimentele lăsate la cald se alterează repede, iar frigiderul încetinește înmulțirea.",
+    "exercises": [
+     "Desenează și denumește trei forme de bacterii.",
+     "Dă exemple de bacterii utile și dăunătoare.",
+     "Câte bacterii rezultă dintr-una după 2 ore, dacă se divide la 30 de minute?",
+     "Prin ce se deosebesc arheele de bacterii?",
+     "Ce rol au bacteriile din nodozitățile fasolei?"
+    ],
+    "test": [
+     "Ce formă au cocii?",
+     "Cum se înmulțesc bacteriile?",
+     "Ce bacterii fac fotosinteză?",
+     "Ce sunt descompunătorii?",
+     "Unde trăiesc multe arhee?"
+    ],
+    "steps": [
+     "Identifică forma, hrănirea și mediul de viață.",
+     "Precizează rolul ecologic sau economic (descompunere, fixarea azotului, fermentații).",
+     "Evaluează impactul asupra sănătății (utile sau patogene).",
+     "Greșeala frecventă: să crezi că toate bacteriile sunt dăunătoare; majoritatea sunt utile sau inofensive."
+    ],
+    "answers": [
+     "Sferică",
+     "Prin diviziune directă",
+     "Cianobacteriile",
+     "Organisme care descompun materia organică moartă",
+     "În medii extreme (izvoare fierbinți, lacuri sărate)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Protozoarele: amibe, flagelate, sporozoare, ciliate",
+    "theory": "Protozoarele sunt eucariote unicelulare heterotrofe, majoritatea acvatice sau parazite. Amibele se deplasează și se hrănesc prin pseudopode (prelungiri ale citoplasmei) și înglobează hrana (fagocitoză); unele produc dizenteria amibiană. Flagelatele au unul sau mai mulți flageli (Trypanosoma produce boala somnului, transmisă de musca țețe). Ciliatele (parameciul) au cili numeroși pentru deplasare și hrănire. Sporozoarele sunt parazite, fără organe de mișcare: Plasmodium produce malaria, transmisă de țânțarul Anopheles. Euglena are cloroplaste și flagel — un exemplu de organism la granița dintre plante și animale.",
+    "sample": "Parameciul înoată rapid cu ajutorul miilor de cili de pe suprafața lui.",
+    "worked": "Ciclul malariei: țânțarul Anopheles infectat înțeapă omul și introduce Plasmodium în sânge; parazitul se înmulțește în ficat și în globulele roșii, pe care le distruge, producând febră. Măsurile de prevenire (plase, combaterea țânțarilor) reduc transmiterea.",
+    "exercises": [
+     "Compară modul de deplasare la amibă, parameci și Trypanosoma.",
+     "Ce este fagocitoza?",
+     "Explică transmiterea malariei.",
+     "De ce euglena este considerată un organism special?",
+     "Unde trăiesc majoritatea protozoarelor?"
+    ],
+    "test": [
+     "Cum se deplasează amiba?",
+     "Ce structuri au ciliatele?",
+     "Ce boală produce Plasmodium?",
+     "Ce insectă transmite malaria?",
+     "Sunt protozoarele uni- sau pluricelulare?"
+    ],
+    "steps": [
+     "Identifică organitul de deplasare (pseudopode, flageli, cili, niciunul).",
+     "Încadrează protozoarul în grupa potrivită.",
+     "Precizează mediul de viață și importanța (ecologică sau medicală).",
+     "Greșeala frecventă: să consideri protozoarele bacterii; ele sunt eucariote, cu nucleu adevărat."
+    ],
+    "answers": [
+     "Prin pseudopode",
+     "Cili",
+     "Malaria",
+     "Țânțarul Anopheles",
+     "Unicelulare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Chromista: diatomeele și algele brune",
+    "theory": "Grupul Chromista cuprinde alge unicelulare și pluricelulare care au, pe lângă clorofila a, clorofila c și pigmenți bruni-aurii. Diatomeele sunt alge unicelulare cu un înveliș de siliciu în două valve, ca o cutie cu capac; sunt foarte numeroase în plancton și produc o parte importantă din oxigenul planetei, fiind baza lanțurilor trofice acvatice. Algele brune (de exemplu laminariile, varecul) pot atinge zeci de metri și formează „păduri” submarine. Excesul de nutrienți (îngrășăminte, ape uzate) poate produce „înflorirea apelor”: înmulțirea explozivă a algelor, care consumă oxigenul la descompunere și omoară peștii.",
+    "sample": "Diatomeele au „cutii” de siliciu atât de fine încât sunt folosite la filtre și abrazive.",
+    "worked": "Lanț trofic marin: diatomee → crustacei mici (zooplancton) → hering → focă. Dacă diatomeele scad, scade întregul lanț. În Marea Neagră, înflorirea apelor din anii ’80–’90, cauzată de îngrășămintele aduse de râuri, a dus la zone fără oxigen și la moartea organismelor de pe fund.",
+    "exercises": [
+     "Ce pigmenți au algele din grupul Chromista?",
+     "Descrie învelișul diatomeelor.",
+     "De ce diatomeele sunt importante pentru planetă?",
+     "Explică fenomenul de înflorire a apelor.",
+     "Construiește un lanț trofic care începe cu diatomee."
+    ],
+    "test": [
+     "Ce înveliș au diatomeele?",
+     "Exemplu de algă brună?",
+     "Ce produc diatomeele în cantitate mare?",
+     "Ce cauzează înflorirea apelor?",
+     "Ce clorofile au algele din grupul Chromista?"
+    ],
+    "steps": [
+     "Identifică alga (uni- sau pluricelulară, tip de înveliș, pigmenți).",
+     "Precizează rolul ei în ecosistem (producător, oxigen, hrană).",
+     "Analizează efectele dezechilibrelor (înflorirea apelor).",
+     "Greșeala frecventă: să crezi că mai multe alge înseamnă întotdeauna mai mult oxigen; la înflorirea apelor, descompunerea lor consumă oxigenul."
+    ],
+    "answers": [
+     "Un înveliș de siliciu în două valve",
+     "Laminaria (varecul)",
+     "Oxigen",
+     "Excesul de nutrienți din îngrășăminte și ape uzate",
+     "Clorofilele a și c"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Fungii: drojdii, mucegaiuri, ciuperci cu pălărie, ciuperci parazite",
+    "theory": "Fungii (ciupercile) sunt eucariote heterotrofe, cu perete celular din chitină, care se hrănesc prin absorbție. Drojdiile sunt unicelulare și produc fermentația alcoolică (pâine, vin, bere). Mucegaiurile și ciupercile cu pălărie sunt formate din filamente (hife) care formează miceliul; ciuperca vizibilă este doar corpul de fructificare. Se înmulțesc prin spori. Rol: descompun materia organică (saprofite), formează simbioze — micorize cu rădăcinile plantelor și licheni cu algele; unele produc antibiotice (Penicillium – penicilina). Altele sunt parazite (mana, rugina, ciupercile care produc micoze) sau toxice (Amanita phalloides — buretele viperei, mortal).",
+    "sample": "Penicilina, primul antibiotic, a fost descoperită de Alexander Fleming într-un mucegai.",
+    "worked": "Aluatul cu drojdie crește deoarece drojdiile fermentează zaharurile și produc CO₂, care formează bulele din pâine; alcoolul se evaporă la coacere. Lichenii (algă + ciupercă) cresc pe roci și sunt indicatori ai aerului curat — dispar în orașele poluate.",
+    "exercises": [
+     "Compară drojdiile cu ciupercile cu pălărie.",
+     "Ce este miceliul?",
+     "Ce sunt lichenii și de ce indică aerul curat?",
+     "De ce nu se culeg ciuperci necunoscute din pădure?",
+     "Dă exemple de fungi utili și dăunători."
+    ],
+    "test": [
+     "Din ce este peretele celular al fungilor?",
+     "Cum se hrănesc fungii?",
+     "Ce produc drojdiile?",
+     "Cum se înmulțesc fungii?",
+     "Ce mucegai produce penicilina?"
+    ],
+    "steps": [
+     "Identifică tipul de fung (uni- sau pluricelular, saprofit, parazit, simbiont).",
+     "Precizează modul de hrănire și de înmulțire.",
+     "Leagă de importanța ecologică, economică și medicală.",
+     "Greșeala frecventă: să consideri ciupercile plante; ele nu au clorofilă și nu fac fotosinteză."
+    ],
+    "answers": [
+     "Din chitină",
+     "Prin absorbție, heterotrof",
+     "Fermentația alcoolică",
+     "Prin spori",
+     "Penicillium"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Plantele inferioare și ferigile: alge verzi, mușchi, ferigi",
+    "theory": "Plantele sunt eucariote pluricelulare autotrofe, cu clorofilă și perete de celuloză. Algele verzi trăiesc în apă și nu au organe (corpul se numește tal). Mușchii sunt primele plante terestre: au tulpinițe și frunzișoare, dar nu au vase conducătoare și nici rădăcini adevărate (au rizoizi), de aceea sunt mici și trăiesc în locuri umede; se înmulțesc prin spori. Mușchiul de turbă (Sphagnum) reține multă apă. Ferigile au rădăcini, tulpini (rizomi) și frunze adevărate, cu vase conducătoare, deci pot fi mai mari; se înmulțesc prin spori formați pe dosul frunzelor și au nevoie de apă pentru fecundație.",
+    "sample": "Pe dosul frunzelor de ferigă se văd puncte brune, unde se formează sporii.",
+    "worked": "Comparăm: mușchiul de pământ — fără vase, câțiva centimetri, locuri umede; feriga — cu vase, până la 1–1,5 m (ferigile arborescente tropicale, peste 10 m). Vasele conducătoare au permis creșterea în înălțime. Acum 300 de milioane de ani, ferigile uriașe au format pădurile din care s-a format cărbunele.",
+    "exercises": [
+     "Compară algele verzi, mușchii și ferigile (organe, vase, mediu).",
+     "De ce mușchii sunt plante mici?",
+     "Unde se formează sporii la ferigă?",
+     "De ce mușchii și ferigile au nevoie de apă pentru reproducere?",
+     "Ce legătură există între ferigile vechi și cărbune?"
+    ],
+    "test": [
+     "Ce este talul?",
+     "Au mușchii vase conducătoare?",
+     "Cum se înmulțesc mușchii și ferigile?",
+     "Ce plantă formează turbă?",
+     "Ce organe au ferigile?"
+    ],
+    "steps": [
+     "Verifică prezența organelor (rădăcină, tulpină, frunză) și a vaselor.",
+     "Încadrează planta (algă, mușchi, ferigă).",
+     "Leagă structura de mediu, dimensiuni și mod de înmulțire.",
+     "Greșeala frecventă: să crezi că mușchii au rădăcini adevărate; ei au doar rizoizi, fără vase."
+    ],
+    "answers": [
+     "Corpul fără organe al algelor",
+     "Nu",
+     "Prin spori",
+     "Mușchiul de turbă (Sphagnum)",
+     "Rădăcină, tulpină (rizom) și frunze"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Plantele cu semințe: gimnosperme și angiosperme",
+    "theory": "Plantele cu semințe nu mai depind de apă pentru fecundație (polenul este transportat de vânt sau insecte), iar sămânța protejează embrionul și îi oferă hrană. Gimnospermele (molidul, bradul, pinul, laricea, tisa) au semințele „golașe”, pe solzii conurilor; majoritatea sunt arbori cu frunze aciculare, adaptați la frig și secetă. Angiospermele (plantele cu flori) au semințele închise în fruct, format din ovar; sunt cel mai numeros grup de plante. Se împart în monocotiledonate (grâu, porumb, lalea — o cotiledonă, nervuri paralele, rădăcină fasciculată) și dicotiledonate (fasole, stejar, trandafir — două cotiledoane, nervuri ramificate, rădăcină pivotantă).",
+    "sample": "Pinul are semințele pe solzii conului, iar mărul are semințele închise în fruct.",
+    "worked": "Clasificăm: molidul — gimnospermă (con, ace); porumbul — angiospermă monocotiledonată (nervuri paralele, rădăcină fasciculată); fasolea — angiospermă dicotiledonată (sămânța se desface în două cotiledoane, frunze cu nervuri ramificate). Pădurile de molid din Carpați sunt formate din gimnosperme.",
+    "exercises": [
+     "Compară gimnospermele cu angiospermele.",
+     "Clasifică: brad, grâu, fasole, lalea, tisă, stejar.",
+     "Ce avantaje are sămânța?",
+     "Compară monocotiledonatele cu dicotiledonatele.",
+     "Ce adaptări la frig au coniferele?"
+    ],
+    "test": [
+     "Unde se află semințele la gimnosperme?",
+     "Din ce se formează fructul?",
+     "Câte cotiledoane au monocotiledonatele?",
+     "Ce rădăcină au dicotiledonatele?",
+     "Un exemplu de gimnospermă?"
+    ],
+    "steps": [
+     "Verifică dacă planta are flori și fructe sau conuri.",
+     "Încadrează-o (gimnospermă sau angiospermă; mono- sau dicotiledonată).",
+     "Justifică prin caractere observabile (nervuri, rădăcină, sămânță).",
+     "Greșeala frecventă: să consideri toți arborii gimnosperme; stejarul și fagul sunt angiosperme."
+    ],
+    "answers": [
+     "Pe solzii conurilor, neînchise în fruct",
+     "Din ovarul florii",
+     "Una",
+     "Pivotantă",
+     "Molidul (sau bradul, pinul)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Nevertebrate I: spongieri, celenterate, viermi",
+    "theory": "Nevertebratele sunt animale fără coloană vertebrală (peste 95% din speciile de animale). Spongierii (bureții) sunt cele mai simple animale, fixate, fără țesuturi adevărate; filtrează apa prin pori. Celenteratele (meduze, hidre, corali, actinii) au simetrie radiară și celule urzicătoare pentru apărare și prinderea prăzii; coralii formează recifele. Viermii lați (tenia, viermele de gălbează) sunt turtiți și adesea paraziți. Viermii cilindrici (limbricul, oxiurii) au corp cilindric nesegmentat; mulți sunt paraziți intestinali. Viermii inelați (râma, lipitoarea) au corpul împărțit în inele; râma afânează și fertilizează solul.",
+    "sample": "Râma este numită „plugul naturii”, pentru că afânează și amestecă solul.",
+    "worked": "Tenia porcului se transmite prin consumul de carne de porc insuficient preparată termic, care conține larve. Prevenire: fierberea sau prăjirea bine a cărnii, controlul veterinar. Oxiurii se transmit prin mâini murdare — spălatul mâinilor este cea mai simplă măsură de protecție.",
+    "exercises": [
+     "Ce caracteristică au toate nevertebratele?",
+     "De ce spongierii sunt considerați cele mai simple animale?",
+     "Ce rol au celulele urzicătoare?",
+     "Cum se transmite tenia și cum o prevenim?",
+     "Ce rol are râma în sol?"
+    ],
+    "test": [
+     "Ce simetrie au celenteratele?",
+     "Un vierme lat parazit?",
+     "Un vierme cilindric parazit?",
+     "Un vierme inelat?",
+     "Ce formează coralii?"
+    ],
+    "steps": [
+     "Observă forma corpului și simetria.",
+     "Încadrează animalul în grupă (spongier, celenterat, vierme lat, cilindric, inelat).",
+     "Precizează importanța (ecologică sau medicală) și măsurile de igienă.",
+     "Greșeala frecventă: să crezi că toți viermii sunt paraziți; râma este un vierme liber, foarte util."
+    ],
+    "answers": [
+     "Radiară",
+     "Tenia",
+     "Limbricul (sau oxiurii)",
+     "Râma",
+     "Recifele de corali"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Nevertebrate II: moluște și artropode",
+    "theory": "Moluștele au corp moale, adesea protejat de o cochilie calcaroasă: melcii (gasteropode — melcul de livadă), scoicile (bivalve — midia, stridia, care filtrează apa) și cefalopodele (caracatița, sepia, calmarul — cu tentacule, ochi dezvoltați, foarte inteligente). Artropodele sunt cel mai numeros grup de animale: au picioare articulate și un schelet extern din chitină, pe care îl schimbă prin năpârlire. Arahnidele (păianjeni, căpușe, scorpioni) au 4 perechi de picioare; crustaceii (racul, crabul) au două perechi de antene și respiră prin branhii; insectele au corpul în cap, torace, abdomen, 3 perechi de picioare și adesea aripi.",
+    "sample": "Albina este o insectă: are trei perechi de picioare și corpul împărțit în cap, torace și abdomen.",
+    "worked": "Clasificăm după numărul de picioare: păianjenul (8 picioare) — arahnidă; racul (10 picioare, antene, branhii) — crustaceu; fluturele (6 picioare, aripi) — insectă. Insectele polenizatoare (albinele) asigură o mare parte din producția de fructe; viața socială a albinelor și furnicilor implică împărțirea rolurilor.",
+    "exercises": [
+     "Compară melcii, scoicile și cefalopodele.",
+     "Ce caractere comune au artropodele?",
+     "Clasifică: căpușa, crabul, gândacul, scorpionul, fluturele.",
+     "De ce artropodele năpârlesc?",
+     "Ce importanță au albinele?"
+    ],
+    "test": [
+     "Ce acoperă corpul multor moluște?",
+     "Câte perechi de picioare au insectele?",
+     "Câte perechi de picioare au arahnidele?",
+     "Din ce este scheletul extern al artropodelor?",
+     "Cu ce respiră crustaceii?"
+    ],
+    "steps": [
+     "Identifică forma corpului și structurile caracteristice (cochilie, picioare articulate).",
+     "Numără picioarele și antenele și împarte corpul pe regiuni.",
+     "Încadrează animalul și precizează importanța lui.",
+     "Greșeala frecventă: să consideri păianjenul o insectă; el are opt picioare și este arahnidă."
+    ],
+    "answers": [
+     "O cochilie calcaroasă",
+     "Trei",
+     "Patru",
+     "Din chitină",
+     "Prin branhii"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Vertebrate I: pești și amfibieni",
+    "theory": "Vertebratele au coloană vertebrală și schelet intern. Peștii trăiesc în apă: corp hidrodinamic acoperit cu solzi, înoată cu înotătoare, respiră prin branhii, au temperatura corpului variabilă; linia laterală detectează mișcările apei. Majoritatea au fecundație externă și depun icre. Amfibienii (broaște, tritoni, salamandre) trăiesc în apă și pe uscat: larvele (mormolocii) respiră prin branhii, adulții prin plămâni și piele umedă, fără solzi; au fecundație externă, în apă, și suferă metamorfoză. Pielea lor sensibilă îi face indicatori ai calității mediului; sunt printre cele mai amenințate animale.",
+    "sample": "Mormolocul broaștei respiră prin branhii, iar broasca adultă prin plămâni și piele.",
+    "worked": "Comparăm crapul și broasca de lac: crapul — solzi, branhii toată viața, înotătoare; broasca — piele umedă fără solzi, mormoloc cu branhii și coadă, adult cu plămâni și patru membre, trăiește și pe uscat. Sturionii din Dunăre (morunul) sunt protejați, pescuitul lor fiind interzis.",
+    "exercises": [
+     "Ce adaptări la viața acvatică au peștii?",
+     "Descrie metamorfoza broaștei.",
+     "Prin ce respiră amfibienii adulți?",
+     "De ce amfibienii sunt indicatori ai calității mediului?",
+     "De ce sturionii sunt protejați?"
+    ],
+    "test": [
+     "Ce au toate vertebratele?",
+     "Cu ce respiră peștii?",
+     "Ce detectează linia laterală?",
+     "Ce este mormolocul?",
+     "Au amfibienii solzi?"
+    ],
+    "steps": [
+     "Observă învelișul, organele de respirație și de deplasare.",
+     "Încadrează animalul (pește sau amfibian) și leagă structurile de mediul de viață.",
+     "Precizează importanța și starea de conservare.",
+     "Greșeala frecventă: să consideri balena pește; ea este mamifer, respiră prin plămâni."
+    ],
+    "answers": [
+     "Coloană vertebrală",
+     "Prin branhii",
+     "Mișcările și vibrațiile apei",
+     "Larva broaștei",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "Vertebrate II: reptile și păsări",
+    "theory": "Reptilele (șopârle, șerpi, broaște țestoase, crocodili) sunt primele vertebrate complet adaptate la uscat: piele uscată cu solzi cornoși sau plăci, respirație pulmonară, fecundație internă și ouă cu coajă care nu se usucă. Temperatura corpului este variabilă, de aceea stau la soare și hibernează. Vipera cu corn este veninoasă. Păsările au corpul acoperit cu pene, membrele anterioare transformate în aripi, oase pneumatice (ușoare, cu aer), cioc fără dinți și temperatură constantă a corpului; depun ouă cu coajă calcaroasă și le clocesc. Multe păsări migrează; Delta Dunării este un important loc de cuibărit (pelicani).",
+    "sample": "Pelicanii din Delta Dunării sunt păsări migratoare, care pleacă iarna spre Africa.",
+    "worked": "Comparăm șopârla și porumbelul: ambele au fecundație internă și ouă cu coajă; șopârla are solzi și temperatură variabilă (iarna hibernează), porumbelul are pene și temperatură constantă (≈ 41 °C), activ și iarna. Oasele pneumatice și sacii aerieni reduc greutatea și ajută zborul.",
+    "exercises": [
+     "Ce adaptări la viața pe uscat au reptilele?",
+     "Compară temperatura corpului la reptile și păsări.",
+     "Ce adaptări pentru zbor au păsările?",
+     "De ce reptilele hibernează?",
+     "De ce Delta Dunării este importantă pentru păsări?"
+    ],
+    "test": [
+     "Ce acoperă corpul reptilelor?",
+     "Ce acoperă corpul păsărilor?",
+     "Ce sunt oasele pneumatice?",
+     "O reptilă veninoasă din România?",
+     "Ce fel de ouă au reptilele?"
+    ],
+    "steps": [
+     "Observă învelișul corpului și modul de deplasare.",
+     "Compară reglarea temperaturii și reproducerea.",
+     "Leagă adaptările de mediu și de comportament (hibernare, migrație).",
+     "Greșeala frecventă: să consideri șerpii lipsiți de schelet; ei sunt vertebrate, cu coloană foarte flexibilă."
+    ],
+    "answers": [
+     "Solzi cornoși sau plăci",
+     "Pene",
+     "Oase ușoare, cu aer în interior",
+     "Vipera cu corn",
+     "Ouă cu coajă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l28": {
+   "ro": {
+    "title": "Vertebrate III: mamiferele; omul în lumea vie",
+    "theory": "Mamiferele au corpul acoperit cu păr, glande mamare care produc lapte pentru pui, temperatură constantă, dinți diferențiați (incisivi, canini, premolari, molari) și, majoritatea, dezvoltă puii în uter (placentare). Există și mamifere care depun ouă (ornitorincul) și marsupiale (cangurul). Au colonizat toate mediile: uscat, apă (delfinul, balena), aer (liliacul). În România trăiesc populații importante de urs brun, lup și râs în Carpați și zimbri reintroduși. Omul (Homo sapiens) este un mamifer primat, cu postură bipedă, creier foarte dezvoltat, limbaj articulat, capacitate de a crea unelte și cultură — și de aceea are o mare responsabilitate față de natură.",
+    "sample": "Liliacul este singurul mamifer capabil de zbor activ.",
+    "worked": "Comparăm dinții: lupul (carnivor) are canini lungi pentru prins și sfâșiat; vaca (ierbivor) nu are incisivi superiori și are molari lați pentru măcinat; omul (omnivor) are toate tipurile de dinți, de dimensiuni moderate. Dinții reflectă hrana.",
+    "exercises": [
+     "Enumeră caracterele mamiferelor.",
+     "Dă exemple de mamifere adaptate la apă și la aer.",
+     "Compară dentiția unui carnivor cu a unui ierbivor.",
+     "Ce mamifere mari trăiesc în Carpați?",
+     "Ce caractere deosebesc omul de celelalte primate?"
+    ],
+    "test": [
+     "Ce acoperă corpul mamiferelor?",
+     "Ce produc glandele mamare?",
+     "Un mamifer care depune ouă?",
+     "Un mamifer marsupial?",
+     "Din ce ordin face parte omul?"
+    ],
+    "steps": [
+     "Verifică caracterele specifice (păr, glande mamare, dinți diferențiați).",
+     "Leagă adaptările de mediu și de hrană.",
+     "Situează omul în clasificare și discută responsabilitatea lui.",
+     "Greșeala frecventă: să consideri delfinul sau balena pești; sunt mamifere care respiră prin plămâni și alăptează puii."
+    ],
+    "answers": [
+     "Păr",
+     "Lapte pentru pui",
+     "Ornitorincul",
+     "Cangurul",
+     "Primates"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l29": {
+   "ro": {
+    "title": "Viețuitoarele ca vectori ai unor boli; educație pentru sănătate",
+    "theory": "Unele organisme produc sau transmit boli. Bacteriile patogene produc tuberculoza, salmoneloza, tetanosul; protozoarele — malaria, toxoplasmoza; fungii paraziți — micozele pielii și unghiilor. Artropodele sunt adesea vectori: căpușele transmit boala Lyme și encefalita, țânțarii — malaria și virusul West Nile, păduchii și ploșnițele produc mâncărimi și pot transmite boli. Păsările și mamiferele pot transmite boli (rabia — prin mușcătura animalelor infectate; gripa aviară). Prevenire: igiena mâinilor și a alimentelor, preparare termică, repelente și haine potrivite în natură, verificarea pielii după drumeții, vaccinare, evitarea animalelor sălbatice.",
+    "sample": "După o plimbare prin pădure, verifică-ți pielea pentru căpușe.",
+    "worked": "O căpușă rămasă atașată mai mult de 24 de ore crește riscul de transmitere a bolii Lyme. Se îndepărtează cu o pensetă, prin tragere fermă și dreaptă, fără a o strivi; zona se dezinfectează, iar apariția unei pete roșii care se extinde impune consult medical.",
+    "exercises": [
+     "Ce boli transmit căpușele?",
+     "Cum te protejezi de căpușe și țânțari în natură?",
+     "De ce trebuie evitat contactul cu animalele sălbatice care par prietenoase?",
+     "Ce măsuri de igienă previn bolile parazitare?",
+     "Cum se îndepărtează corect o căpușă?"
+    ],
+    "test": [
+     "Ce este un vector?",
+     "Ce transmite țânțarul Anopheles?",
+     "Ce boală se transmite prin mușcătura animalelor infectate?",
+     "Ce produc fungii paraziți la om?",
+     "Cea mai simplă măsură de prevenire a bolilor?"
+    ],
+    "steps": [
+     "Identifică agentul bolii și vectorul.",
+     "Explică modul de transmitere.",
+     "Propune măsuri concrete de prevenire.",
+     "Greșeala frecventă: să strivești căpușa sau să o ungi cu ulei înainte de îndepărtare; asta crește riscul de transmitere."
+    ],
+    "answers": [
+     "Un organism care transmite un agent patogen",
+     "Malaria (Plasmodium)",
+     "Rabia",
+     "Micoze",
+     "Spălarea mâinilor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l30": {
+   "ro": {
+    "title": "Diversitatea vieții: valoare, vulnerabilități, conservare",
+    "theory": "Biodiversitatea înseamnă varietatea genelor, a speciilor și a ecosistemelor. Ea ne oferă hrană, medicamente, materiale, aer și apă curată, polenizare, protecție împotriva inundațiilor și valoare culturală și estetică. Principalele amenințări: distrugerea habitatelor (defrișări, urbanizare), poluarea, speciile invazive, exploatarea excesivă (braconaj, pescuit excesiv), schimbările climatice. Conservarea se face in situ (în habitatul natural: parcuri naționale, rezervații, situri Natura 2000 — Delta Dunării, Parcul Național Retezat) și ex situ (grădini botanice, zoologice, bănci de semințe). România are una dintre cele mai mari suprafețe de păduri virgine din Europa.",
+    "sample": "Delta Dunării este rezervație a biosferei și găzduiește peste 300 de specii de păsări.",
+    "worked": "Zimbrul dispăruse din România în secolul al XIX-lea; a fost salvat ex situ, în rezervații, apoi reintrodus în Munții Țarcu și Vânători-Neamț (conservare in situ). Exemplul arată că cele două tipuri de conservare se completează.",
+    "exercises": [
+     "Ce niveluri cuprinde biodiversitatea?",
+     "Enumeră cinci servicii oferite de ecosisteme.",
+     "Care sunt principalele amenințări asupra biodiversității?",
+     "Compară conservarea in situ cu cea ex situ.",
+     "Propune trei măsuri personale pentru protejarea biodiversității."
+    ],
+    "test": [
+     "Ce este biodiversitatea?",
+     "Cea mai mare amenințare asupra speciilor?",
+     "Ce este conservarea in situ?",
+     "Un parc național din România?",
+     "Ce animal a fost reintrodus în Carpați?"
+    ],
+    "steps": [
+     "Identifică valoarea speciei sau a ecosistemului.",
+     "Analizează amenințările (cauză – efect).",
+     "Propune măsuri de conservare in situ, ex situ și personale.",
+     "Greșeala frecventă: să crezi că dispariția unei singure specii nu contează; ea afectează lanțurile trofice și echilibrul ecosistemului."
+    ],
+    "answers": [
+     "Varietatea genelor, a speciilor și a ecosistemelor",
+     "Distrugerea habitatelor",
+     "Protejarea speciilor în habitatul lor natural",
+     "Parcul Național Retezat",
+     "Zimbrul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l31": {
+   "ro": {
+    "title": "Omul în mediu: demografie, resurse, deșeuri, poluare",
+    "theory": "Populația Pământului a crescut de la ≈ 1 miliard (anul 1800) la peste 8 miliarde, iar consumul de resurse a crescut și mai repede. Resursele pot fi regenerabile (apă, păduri, energie solară, dacă sunt folosite cu măsură) sau neregenerabile (petrol, cărbune, minereuri). Activitățile umane produc deșeuri și poluare: a aerului (gaze de eșapament, particule fine), a apei (ape uzate, îngrășăminte, plastic), a solului (pesticide, depozite de deșeuri). Microplasticele ajung în lanțurile trofice și în organismul uman. Soluțiile: reducere, reutilizare, reciclare, colectare selectivă, compostarea deșeurilor biologice, epurarea apelor, energie din surse regenerabile.",
+    "sample": "O sticlă de plastic aruncată în natură se degradează în sute de ani, fragmentându-se în microplastice.",
+    "worked": "O familie de 4 persoane produce ≈ 1,5 kg deșeuri pe zi, adică ≈ 550 kg pe an. Dacă jumătate sunt resturi biologice, prin compostare se pot evita ≈ 275 kg de deșeuri la groapă și se obține îngrășământ natural pentru grădină.",
+    "exercises": [
+     "Compară resursele regenerabile cu cele neregenerabile.",
+     "Dă exemple de poluanți ai aerului, apei și solului.",
+     "Cum ajung microplasticele în organismul uman?",
+     "Explică regula „reduce, reutilizează, reciclează”.",
+     "Calculează deșeurile produse de clasa ta într-o lună (0,4 kg/elev/zi)."
+    ],
+    "test": [
+     "Populația aproximativă a Pământului azi?",
+     "O resursă neregenerabilă?",
+     "Ce sunt microplasticele?",
+     "Ce este compostarea?",
+     "Prima regulă a gestionării deșeurilor?"
+    ],
+    "steps": [
+     "Identifică activitatea umană și resursa sau poluantul.",
+     "Analizează efectele asupra ecosistemelor și sănătății (cauză – efect).",
+     "Propune soluții concrete la nivel personal și comunitar.",
+     "Greșeala frecventă: să crezi că reciclarea rezolvă tot; mai importantă este reducerea consumului."
+    ],
+    "answers": [
+     "Peste 8 miliarde",
+     "Petrolul (sau cărbunele)",
+     "Fragmente mici de plastic sub 5 mm",
+     "Descompunerea controlată a resturilor biologice în îngrășământ",
+     "Reducerea"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l32": {
+   "ro": {
+    "title": "Schimbările climatice; ciclul carbonului; amprenta ecologică",
+    "theory": "Gazele cu efect de seră (CO₂, metan, vapori de apă) rețin o parte din căldura radiată de Pământ, menținând o temperatură potrivită vieții. Arderea combustibililor fosili și defrișările au crescut concentrația de CO₂ (de la ≈ 280 ppm înainte de industrializare la peste 420 ppm), intensificând efectul de seră: încălzirea globală (≈ +1,2 °C), topirea ghețarilor, valuri de căldură, secete, fenomene extreme. În ciclul natural al carbonului, plantele absorb CO₂ prin fotosinteză, iar respirația și descompunerea îl eliberează; omul a dezechilibrat acest ciclu. Amprenta ecologică (footprint) măsoară presiunea noastră asupra naturii; amprenta pozitivă (handprint) arată acțiunile prin care reducem impactul.",
+    "sample": "Un copac matur absoarbe în medie ≈ 20 kg de CO₂ pe an.",
+    "worked": "Un drum de 10 km cu mașina emite ≈ 1,5–2 kg CO₂, iar cu bicicleta practic zero. Dacă un elev merge zilnic 10 km cu bicicleta în loc de mașină, timp de 180 de zile de școală, evită ≈ 270–360 kg CO₂ — cât absorb într-un an ≈ 15 copaci.",
+    "exercises": [
+     "Explică efectul de seră natural și intensificarea lui.",
+     "Ce procese adaugă și ce procese elimină CO₂ din atmosferă?",
+     "Enumeră trei consecințe ale încălzirii globale.",
+     "Ce este amprenta ecologică și ce este amprenta pozitivă?",
+     "Propune cinci acțiuni de reducere a amprentei de carbon."
+    ],
+    "test": [
+     "Ce gaze au efect de seră?",
+     "Ce proces absoarbe CO₂?",
+     "Concentrația actuală aproximativă a CO₂?",
+     "Ce măsoară amprenta ecologică?",
+     "Ce este amprenta pozitivă (handprint)?"
+    ],
+    "steps": [
+     "Identifică sursele și „absorbanții” de CO₂ din ciclul carbonului.",
+     "Analizează consecințele dezechilibrului (încălzire, extreme meteo, biodiversitate).",
+     "Calculează sau estimează amprenta și propune acțiuni de reducere.",
+     "Greșeala frecventă: să confunzi efectul de seră cu gaura din stratul de ozon; sunt fenomene diferite."
+    ],
+    "answers": [
+     "CO₂, metanul și vaporii de apă",
+     "Fotosinteza",
+     "Peste 420 ppm",
+     "Presiunea activităților noastre asupra naturii",
+     "Acțiunile prin care reducem impactul asupra mediului"
+    ]
+   }
+  }
+ }
+}

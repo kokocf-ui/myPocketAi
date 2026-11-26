@@ -1,0 +1,58 @@
+{
+ "schema": "mypocket-literature-authored-catalog/v1",
+ "version": "332205ac5235eddcc6bd75b2f1202ee1a69962988a33e876ca01acd8ca6de6d9",
+ "years": [
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-9",
+     "version": "03433a820d8d49cb32f69b605faac32783cf5fb068f70a9e643cbd36fcb6a426"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "10",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-10",
+     "version": "3a1f31005a918912aa6657ac5a60c7281c646e084c4370b67d6e7c0caa637aba"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "11",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-11",
+     "version": "04504483d3de0323064ef73484ddd3cd7952fe6b951c895396662b02df49ddc9"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "12",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-12",
+     "version": "5f2b4534775e992bac362038ba9304205c89624087383fd697d3952a2876455e"
+    }
+   ]
+  }
+ ]
+}

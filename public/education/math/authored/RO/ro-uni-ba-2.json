@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-2",
+ "version": "0e8abbf280f61bfbf67081b3a0a0e9fe90bb8284b407592597291e3da0c0ebf9",
+ "source": "https://www.aracis.ro/standarde-specifice/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Matematică din România (domeniul de licență Matematică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (math.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (math.uaic.ro) — anul II: calcul integral în ℝⁿ, ecuații diferențiale, algebră (inele de polinoame, extinderi de corpuri, corpuri finite, Sylow), geometrie diferențială, probabilități, analiză numerică; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Matematică · Licență Matematică, anul II",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, seminarul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Calcul integral în ℝⁿ",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l01",
+    "eu-year-ro-advanced-uni-ba-2-l02",
+    "eu-year-ro-advanced-uni-ba-2-l03",
+    "eu-year-ro-advanced-uni-ba-2-l04",
+    "eu-year-ro-advanced-uni-ba-2-l05",
+    "eu-year-ro-advanced-uni-ba-2-l06"
+   ]
+  },
+  {
+   "title": "Ecuații diferențiale",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l07",
+    "eu-year-ro-advanced-uni-ba-2-l08",
+    "eu-year-ro-advanced-uni-ba-2-l09",
+    "eu-year-ro-advanced-uni-ba-2-l10",
+    "eu-year-ro-advanced-uni-ba-2-l11",
+    "eu-year-ro-advanced-uni-ba-2-l12",
+    "eu-year-ro-advanced-uni-ba-2-l13",
+    "eu-year-ro-advanced-uni-ba-2-l14"
+   ]
+  },
+  {
+   "title": "Algebră II",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l15",
+    "eu-year-ro-advanced-uni-ba-2-l16",
+    "eu-year-ro-advanced-uni-ba-2-l17"
+   ]
+  },
+  {
+   "title": "Geometrie diferențială",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l18",
+    "eu-year-ro-advanced-uni-ba-2-l19",
+    "eu-year-ro-advanced-uni-ba-2-l20",
+    "eu-year-ro-advanced-uni-ba-2-l21"
+   ]
+  },
+  {
+   "title": "Probabilități",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l22",
+    "eu-year-ro-advanced-uni-ba-2-l23",
+    "eu-year-ro-advanced-uni-ba-2-l24",
+    "eu-year-ro-advanced-uni-ba-2-l25",
+    "eu-year-ro-advanced-uni-ba-2-l26"
+   ]
+  },
+  {
+   "title": "Analiză numerică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-2-l27",
+    "eu-year-ro-advanced-uni-ba-2-l28",
+    "eu-year-ro-advanced-uni-ba-2-l29",
+    "eu-year-ro-advanced-uni-ba-2-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-2-l01": {
+   "ro": {
+    "title": "Integrale cu parametru",
+    "theory": "O integrală cu parametru are forma F(y) = ∫ₐᵇ f(x, y)dx. Dacă f este continuă, F este continuă; dacă și ∂f/∂y este continuă, putem deriva sub integrală: F′(y) = ∫ₐᵇ ∂f/∂y(x, y)dx (formula lui Leibniz). Când și limitele depind de y, apar termeni suplimentari: f(b(y), y)b′(y) − f(a(y), y)a′(y). Metoda permite calculul unor integrale dificile prin derivare după un parametru.",
+    "sample": "Pentru F(y) = ∫₀¹ e^(xy) dx, derivata este F′(y) = ∫₀¹ x e^(xy) dx.",
+    "worked": "Calculăm I(a) = ∫₀¹ (xᵃ − 1)/ln x dx, a > −1. I′(a) = ∫₀¹ xᵃ dx = 1/(a + 1), iar I(0) = 0, deci I(a) = ln(a + 1). De exemplu, ∫₀¹ (x − 1)/ln x dx = ln 2.",
+    "exercises": [
+     "Calculează F′(y) pentru F(y) = ∫₀^π sin(xy) dx.",
+     "Calculează derivata lui G(y) = ∫₀^(y²) e^(−x²y) dx.",
+     "Folosind derivarea după parametru, calculează ∫₀¹ x²ⁿ dx din ∫₀¹ x^a dx.",
+     "Arată că F(y) = ∫₀¹ √(x² + y²) dx este continuă pe ℝ.",
+     "Calculează ∫₀^∞ e^(−ax) dx și, derivând după a, ∫₀^∞ x e^(−ax) dx."
+    ],
+    "test": [
+     "Formula lui Leibniz pentru ∫ₐᵇ f(x, y)dx?",
+     "Ce condiție permite derivarea sub integrală?",
+     "Ce apare când limitele depind de y?",
+     "Este F continuă dacă f este continuă?",
+     "I(0) pentru I(a) = ∫₀¹ (xᵃ − 1)/ln x dx?"
+    ],
+    "steps": [
+     "Verifică continuitatea lui f și a lui ∂f/∂y.",
+     "Derivează sub integrală (adăugând termenii de la limite variabile, dacă e cazul).",
+     "Calculează integrala obținută și integrează în parametru, folosind o valoare inițială cunoscută.",
+     "Greșeala frecventă: să uiți termenii de frontieră când limitele de integrare depind de parametru."
+    ],
+    "answers": [
+     "F′(y) = ∫ₐᵇ ∂f/∂y dx",
+     "Continuitatea lui ∂f/∂y",
+     "Termeni de frontieră",
+     "Da",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l02": {
+   "ro": {
+    "title": "Integrale duble; teorema lui Fubini; coordonate polare",
+    "theory": "Integrala dublă ∬_D f(x, y)dxdy generalizează integrala definită (volumul de sub o suprafață). Teorema lui Fubini: pe un dreptunghi sau un domeniu simplu, integrala dublă se calculează prin integrări succesive. Schimbarea de variabile: dxdy = |J|dudv, unde J este iacobianul; în coordonate polare x = r cos θ, y = r sin θ, dxdy = r drdθ.",
+    "sample": "Integrala dublă a lui 1 pe un domeniu D este aria lui D.",
+    "worked": "∬ xy dxdy pe [0, 1] × [0, 2] = ∫₀¹ x dx · ∫₀² y dy = (1/2)·2 = 1. ∬ (x² + y²) pe discul de rază R: ∫₀^(2π)∫₀^R r²·r drdθ = 2π·R⁴/4 = πR⁴/2.",
+    "exercises": [
+     "Calculează ∬ (x + y) dxdy pe [0, 1] × [0, 1].",
+     "Calculează ∬ x dxdy pe triunghiul cu vârfurile (0, 0), (1, 0), (0, 1).",
+     "Calculează aria discului de rază R cu coordonate polare.",
+     "Calculează ∬ e^(−(x² + y²)) pe întreg planul și deduce ∫ e^(−x²) dx = √π.",
+     "Schimbă ordinea de integrare în ∫₀¹∫₀ˣ f(x, y) dy dx."
+    ],
+    "test": [
+     "Ce reprezintă ∬_D 1 dxdy?",
+     "Elementul de arie în polare?",
+     "Ce afirmă teorema lui Fubini?",
+     "Iacobianul trecerii la polare?",
+     "∫ e^(−x²) dx pe ℝ = ?"
+    ],
+    "steps": [
+     "Desenează domeniul și descrie-l prin inegalități.",
+     "Alege ordinea de integrare sau o schimbare de variabile potrivită (polare pentru discuri).",
+     "Calculează integralele succesive, fără a uita iacobianul.",
+     "Greșeala frecventă: să uiți factorul r la trecerea în coordonate polare."
+    ],
+    "answers": [
+     "Aria lui D",
+     "r drdθ",
+     "Integrala dublă se calculează prin integrări succesive",
+     "r",
+     "√π"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l03": {
+   "ro": {
+    "title": "Integrale triple; coordonate cilindrice și sferice",
+    "theory": "Integrala triplă ∭_V f dxdydz se calculează prin integrări succesive. Coordonate cilindrice: x = r cos θ, y = r sin θ, z = z, cu dV = r drdθdz. Coordonate sferice: x = ρ sin φ cos θ, y = ρ sin φ sin θ, z = ρ cos φ, cu dV = ρ² sin φ dρdφdθ. ∭_V 1 dV este volumul, iar ∭ ρ dV cu densitatea ρ dă masa.",
+    "sample": "Volumul cubului [0, 1]³ este ∭ 1 dxdydz = 1.",
+    "worked": "Volumul sferei de rază R în coordonate sferice: ∫₀^(2π)∫₀^π∫₀^R ρ² sin φ dρdφdθ = 2π·2·R³/3 = 4πR³/3. Volumul cilindrului de rază R și înălțime h în cilindrice: ∫₀^(2π)∫₀^R∫₀^h r dzdrdθ = πR²h.",
+    "exercises": [
+     "Calculează ∭ xyz pe [0, 1]³.",
+     "Calculează volumul conului z = √(x² + y²), 0 ≤ z ≤ 1, în cilindrice.",
+     "Calculează ∭ (x² + y² + z²) pe bila unitate în sferice.",
+     "Calculează masa cubului [0, 1]³ cu densitatea x + y + z.",
+     "Scrie limitele pentru tetraedrul x, y, z ≥ 0, x + y + z ≤ 1 și calculează-i volumul."
+    ],
+    "test": [
+     "dV în cilindrice?",
+     "dV în sferice?",
+     "Ce reprezintă ∭ 1 dV?",
+     "Volumul bilei unitate?",
+     "Limitele lui φ în sferice?"
+    ],
+    "steps": [
+     "Descrie corpul prin inegalități în coordonatele potrivite.",
+     "Scrie elementul de volum corect (cu iacobianul).",
+     "Integrează succesiv și verifică cu o formulă cunoscută, dacă există.",
+     "Greșeala frecventă: să uiți factorul ρ² sin φ în coordonate sferice."
+    ],
+    "answers": [
+     "r drdθdz",
+     "ρ² sin φ dρdφdθ",
+     "Volumul",
+     "4π/3",
+     "De la 0 la π"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l04": {
+   "ro": {
+    "title": "Integrale curbilinii; independența de drum",
+    "theory": "Integrala curbilinie de speța I, ∫_C f ds, măsoară de exemplu masa unui fir; ds = ‖r′(t)‖dt. Integrala de speța a II-a, ∫_C P dx + Q dy, este lucrul mecanic al câmpului (P, Q) de-a lungul curbei; depinde de sensul de parcurgere. Dacă câmpul este gradientul unei funcții φ (P = φₓ, Q = φᵧ; pe domenii simplu conexe echivalent cu P_y = Qₓ), integrala nu depinde de drum și este φ(B) − φ(A).",
+    "sample": "Lungimea cercului de rază R este ∫_C ds = ∫₀^(2π) R dt = 2πR.",
+    "worked": "∫_C y dx − x dy pe cercul unitate parcurs trigonometric: x = cos t, y = sin t, integrandul devine (−sin²t − cos²t)dt = −dt, deci integrala este −2π. Câmpul (2xy, x²) are P_y = 2x = Qₓ, potențialul φ = x²y, deci integrala de la (0, 0) la (1, 2) este 2, pe orice drum.",
+    "exercises": [
+     "Calculează ∫_C (x + y) ds pe segmentul de la (0, 0) la (1, 1).",
+     "Calculează ∫_C x dy pe cercul unitate, sens trigonometric.",
+     "Arată că (y, x) este câmp de gradient și află potențialul.",
+     "Calculează lucrul câmpului (y², 2xy) de la (0, 0) la (2, 1).",
+     "Calculează lungimea elicei (cos t, sin t, t), t ∈ [0, 2π]."
+    ],
+    "test": [
+     "ds pentru curba r(t)?",
+     "Depinde integrala de speța a II-a de sens?",
+     "Condiția de câmp potențial în plan?",
+     "Integrala unui câmp de gradient pe o curbă închisă?",
+     "Lungimea cercului de rază 2?"
+    ],
+    "steps": [
+     "Parametrizează curba și calculează r′(t).",
+     "Înlocuiește în integrand (ds sau dx, dy) și integrează în t.",
+     "Verifică dacă câmpul este conservativ: dacă da, folosește potențialul.",
+     "Greșeala frecventă: să ignori sensul de parcurgere la integralele de speța a II-a; schimbarea sensului schimbă semnul."
+    ],
+    "answers": [
+     "‖r′(t)‖dt",
+     "Da",
+     "P_y = Qₓ",
+     "0",
+     "4π"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l05": {
+   "ro": {
+    "title": "Integrale de suprafață de speța I și a II-a; fluxul unui câmp",
+    "theory": "Pentru o suprafață parametrizată r(u, v), integrala de speța I este ∬_S f dσ = ∬_D f(r(u, v))‖r_u × r_v‖dudv (de exemplu masa unei plăci curbe). Integrala de speța a II-a (fluxul câmpului F prin suprafața orientată cu normala n) este ∬_S F·n dσ = ∬_D F(r(u, v))·(r_u × r_v)dudv; schimbarea orientării schimbă semnul. Fluxul măsoară „cât fluid” trece prin suprafață în unitatea de timp.",
+    "sample": "Aria unei suprafețe este integrala de speța I a funcției constante 1.",
+    "worked": "Fluxul câmpului F = (0, 0, z) prin emisfera superioară x² + y² + z² = 1, z ≥ 0, orientată în afară: pe sferă n = (x, y, z), F·n = z². În coordonate sferice dσ = sin φ dφdθ, z = cos φ: ∫₀^(2π)∫₀^(π/2) cos²φ sin φ dφdθ = 2π·1/3 = 2π/3.",
+    "exercises": [
+     "Calculează aria porțiunii din planul x + y + z = 1 aflate în primul octant.",
+     "Calculează ∬_S z dσ pe emisfera superioară de rază 1.",
+     "Calculează fluxul câmpului (x, y, z) prin sfera de rază R, direct, fără Gauss–Ostrogradski.",
+     "Calculează fluxul câmpului (0, 0, 1) prin discul x² + y² ≤ 1, z = 0, orientat în sus.",
+     "Explică de ce fluxul depinde de orientarea suprafeței."
+    ],
+    "test": [
+     "Elementul dσ pentru r(u, v)?",
+     "Ce măsoară fluxul?",
+     "Ce se întâmplă la schimbarea orientării?",
+     "∬_S 1 dσ = ?",
+     "Normala exterioară a sferei unitate în (x, y, z)?"
+    ],
+    "steps": [
+     "Parametrizează suprafața și calculează r_u × r_v.",
+     "Pentru speța I folosește norma produsului vectorial; pentru flux, produsul scalar F·(r_u × r_v) cu orientarea corectă.",
+     "Integrează pe domeniul parametrilor și verifică semnul în funcție de orientare.",
+     "Greșeala frecventă: să folosești o normală orientată invers față de cea cerută, obținând fluxul cu semn schimbat."
+    ],
+    "answers": [
+     "‖r_u × r_v‖dudv",
+     "Cantitatea de câmp care traversează suprafața",
+     "Fluxul își schimbă semnul",
+     "Aria suprafeței",
+     "(x, y, z)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l06": {
+   "ro": {
+    "title": "Formulele Green, Stokes și Gauss–Ostrogradski",
+    "theory": "Formula lui Green leagă integrala curbilinie pe frontiera unui domeniu plan de o integrală dublă: ∮ P dx + Q dy = ∬ (Qₓ − P_y)dxdy. Formula lui Stokes generalizează la suprafețe: circulația unui câmp pe frontieră = fluxul rotorului prin suprafață. Formula Gauss–Ostrogradski: fluxul unui câmp prin suprafața închisă = ∭ div F dV. Ele transformă calcule pe frontieră în calcule în interior și invers.",
+    "sample": "Cu Green, aria unui domeniu este (1/2)∮ x dy − y dx.",
+    "worked": "Aria elipsei x = a cos t, y = b sin t: (1/2)∫₀^(2π)(ab cos²t + ab sin²t)dt = πab. Fluxul câmpului F = (x, y, z) prin sfera de rază R: div F = 3, deci fluxul = 3·(4πR³/3) = 4πR³.",
+    "exercises": [
+     "Verifică formula lui Green pentru P = −y, Q = x pe discul unitate.",
+     "Calculează cu Green ∮ (x² − y)dx + (x + y²)dy pe pătratul [0, 1]².",
+     "Calculează fluxul câmpului (x, 0, 0) prin sfera unitate cu Gauss–Ostrogradski.",
+     "Calculează div și rot pentru F = (yz, xz, xy).",
+     "Arată că fluxul unui câmp cu divergența 0 printr-o suprafață închisă este 0."
+    ],
+    "test": [
+     "Formula lui Green?",
+     "Formula Gauss–Ostrogradski?",
+     "div (x, y, z) = ?",
+     "Aria prin Green?",
+     "Ce leagă formula lui Stokes?"
+    ],
+    "steps": [
+     "Verifică ipotezele: frontieră închisă, orientată pozitiv, câmp derivabil.",
+     "Calculează expresia din interior (Qₓ − P_y, rotorul sau divergența).",
+     "Integrează pe domeniu sau corp și verifică sensul orientării.",
+     "Greșeala frecventă: să aplici Green cu frontiera parcursă în sens orar; orientarea pozitivă lasă domeniul în stânga."
+    ],
+    "answers": [
+     "∮ P dx + Q dy = ∬ (Qₓ − P_y)",
+     "Flux = ∭ div F dV",
+     "3",
+     "(1/2)∮ x dy − y dx",
+     "Circulația pe frontieră cu fluxul rotorului"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l07": {
+   "ro": {
+    "title": "Ecuații diferențiale de ordinul I: cu variabile separabile",
+    "theory": "O ecuație diferențială leagă o funcție necunoscută y(x) de derivatele ei. Ecuația y′ = f(x)g(y) are variabilele separabile: scriem dy/g(y) = f(x)dx și integrăm ambii membri (atenție la soluțiile staționare g(y) = 0). Soluția generală conține o constantă; problema Cauchy (condiția inițială y(x₀) = y₀) fixează constanta.",
+    "sample": "Ecuația y′ = y are soluția generală y = Ceˣ.",
+    "worked": "y′ = 2xy, y(0) = 3: dy/y = 2x dx, ln|y| = x² + c, y = Ce^(x²); din y(0) = 3, C = 3, deci y = 3e^(x²). Modelul răcirii: T′ = −k(T − Tₐ) are soluția T = Tₐ + (T₀ − Tₐ)e^(−kt).",
+    "exercises": [
+     "Rezolvă: y′ = y/x, x > 0.",
+     "Rezolvă problema Cauchy: y′ = −2y, y(0) = 5.",
+     "Rezolvă: y′ = x/y, y(0) = 1.",
+     "Rezolvă: y′ = y², și precizează soluția staționară.",
+     "O populație crește proporțional cu mărimea ei și se dublează în 3 ore. În cât timp se triplează?"
+    ],
+    "test": [
+     "Soluția generală a lui y′ = y?",
+     "Ce înseamnă variabile separabile?",
+     "Ce fixează condiția inițială?",
+     "Soluție staționară pentru y′ = y(1 − y)?",
+     "Soluția lui y′ = 0?"
+    ],
+    "steps": [
+     "Separă variabilele: termenii cu y la stânga (cu dy), cei cu x la dreapta (cu dx).",
+     "Integrează ambii membri și explicitează y.",
+     "Determină constanta din condiția inițială și verifică soluțiile staționare.",
+     "Greșeala frecventă: să împarți la g(y) și să pierzi soluțiile staționare (de exemplu y = 0 pentru y′ = y²)."
+    ],
+    "answers": [
+     "y = Ceˣ",
+     "y′ = f(x)g(y)",
+     "Constanta",
+     "y = 0 și y = 1",
+     "y = constant"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l08": {
+   "ro": {
+    "title": "Ecuații liniare de ordinul I; ecuația Bernoulli",
+    "theory": "Ecuația liniară y′ + p(x)y = q(x) se rezolvă: soluția omogenei y₀ = Ce^(−∫p) și apoi variația constantei (C devine C(x)) sau cu factorul integrant μ = e^(∫p): (μy)′ = μq. Ecuația Bernoulli y′ + p y = q yᵅ (α ≠ 0, 1) devine liniară prin substituția z = y^(1 − α).",
+    "sample": "Ecuația y′ + y = 0 are soluția y = Ce⁻ˣ.",
+    "worked": "y′ + y = x: factorul integrant eˣ, (eˣy)′ = x eˣ, eˣy = (x − 1)eˣ + C, deci y = x − 1 + Ce⁻ˣ. Verificare: y′ + y = 1 − Ce⁻ˣ + x − 1 + Ce⁻ˣ = x.",
+    "exercises": [
+     "Rezolvă: y′ − 2y = e^(3x).",
+     "Rezolvă: y′ + y/x = x², x > 0.",
+     "Rezolvă problema Cauchy: y′ + 2y = 4, y(0) = 0.",
+     "Rezolvă ecuația Bernoulli: y′ + y = y².",
+     "Un circuit RL verifică L i′ + R i = E. Află i(t) cu i(0) = 0."
+    ],
+    "test": [
+     "Factorul integrant pentru y′ + p y = q?",
+     "Substituția la ecuația Bernoulli?",
+     "Soluția omogenei y′ + 3y = 0?",
+     "Ce metodă transformă C în C(x)?",
+     "Este y′ + y² = x liniară?"
+    ],
+    "steps": [
+     "Rezolvă ecuația omogenă asociată.",
+     "Aplică variația constantei sau factorul integrant pentru soluția generală.",
+     "Determină constanta din condiția inițială și verifică prin înlocuire.",
+     "Greșeala frecventă: la factorul integrant să uiți să înmulțești și membrul drept q(x)."
+    ],
+    "answers": [
+     "e^(∫p)",
+     "z = y^(1 − α)",
+     "y = Ce^(−3x)",
+     "Variația constantei",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l09": {
+   "ro": {
+    "title": "Ecuații exacte; factor integrant",
+    "theory": "Ecuația P(x, y)dx + Q(x, y)dy = 0 este exactă dacă P_y = Qₓ; atunci există F cu Fₓ = P, F_y = Q, iar soluțiile sunt curbele F(x, y) = C. Dacă ecuația nu este exactă, uneori găsim un factor integrant μ(x) sau μ(y) care o face exactă: de exemplu, dacă (P_y − Qₓ)/Q depinde doar de x, atunci μ(x) = e^(∫(P_y − Qₓ)/Q dx).",
+    "sample": "Ecuația 2x dx + 2y dy = 0 este exactă, cu soluțiile x² + y² = C (cercuri).",
+    "worked": "(2xy + 1)dx + (x² + 3y²)dy = 0: P_y = 2x = Qₓ, exactă. F = x²y + x + g(y), F_y = x² + g′(y) = x² + 3y², deci g = y³. Soluția: x²y + x + y³ = C.",
+    "exercises": [
+     "Verifică dacă (3x² + y)dx + (x + 2y)dy = 0 este exactă și rezolv-o.",
+     "Rezolvă: (eˣ sin y)dx + (eˣ cos y)dy = 0.",
+     "Află un factor integrant μ(x) pentru y dx − x dy = 0 și rezolvă.",
+     "Rezolvă: (2x + y)dx + (x − 2y)dy = 0.",
+     "Arată că y dx + x dy = 0 este exactă și interpretează soluțiile."
+    ],
+    "test": [
+     "Condiția de exactitate?",
+     "Soluțiile unei ecuații exacte sunt…?",
+     "Este y dx − x dy = 0 exactă?",
+     "Ce funcție este Fₓ pentru o ecuație exactă?",
+     "Ce face un factor integrant?"
+    ],
+    "steps": [
+     "Verifică dacă P_y = Qₓ (condiția de exactitate).",
+     "Integrează P în x, apoi determină funcția de y din F_y = Q.",
+     "Scrie soluția F(x, y) = C (sau caută un factor integrant dacă nu e exactă).",
+     "Greșeala frecventă: să uiți funcția g(y) („constanta” care depinde de y) când integrezi P în raport cu x."
+    ],
+    "answers": [
+     "P_y = Qₓ",
+     "Curbele F(x, y) = C",
+     "Nu",
+     "P",
+     "Face ecuația exactă"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l10": {
+   "ro": {
+    "title": "Teorema de existență și unicitate (Cauchy–Lipschitz); metoda aproximațiilor succesive",
+    "theory": "Pentru problema Cauchy y′ = f(x, y), y(x₀) = y₀: dacă f este continuă și lipschitziană în y într-o vecinătate (de exemplu ∂f/∂y continuă), atunci există o soluție unică pe un interval în jurul lui x₀. Demonstrația folosește aproximațiile succesive Picard: y₀(x) = y₀, yₙ₊₁(x) = y₀ + ∫ₓ₀ˣ f(t, yₙ(t))dt, care converg uniform la soluție. Fără condiția Lipschitz unicitatea poate lipsi.",
+    "sample": "Pentru y′ = y, y(0) = 1, aproximațiile Picard sunt 1, 1 + x, 1 + x + x²/2, … — sumele parțiale ale lui eˣ.",
+    "worked": "y′ = 3y^(2/3), y(0) = 0 are cel puțin două soluții: y = 0 și y = x³. Funcția 3y^(2/3) nu este lipschitziană în jurul lui y = 0 (derivata 2y^(−1/3) explodează), deci teorema nu se aplică.",
+    "exercises": [
+     "Calculează primele trei aproximații Picard pentru y′ = 2x y, y(0) = 1.",
+     "Verifică dacă f(x, y) = x² + y² este lipschitziană în y pe [−1, 1] × [−1, 1].",
+     "Arată că y′ = √|y|, y(0) = 0 nu are soluție unică.",
+     "Calculează aproximațiile Picard pentru y′ = x + y, y(0) = 0.",
+     "Explică de ce y′ = y² cu y(0) = 1 are soluție doar pe un interval mărginit."
+    ],
+    "test": [
+     "Ce condiție asigură unicitatea?",
+     "Formula aproximațiilor Picard?",
+     "Are y′ = 3y^(2/3), y(0) = 0 soluție unică?",
+     "Spre ce converg aproximațiile pentru y′ = y?",
+     "Este soluția definită mereu pe tot ℝ?"
+    ],
+    "steps": [
+     "Verifică continuitatea lui f și condiția Lipschitz în y.",
+     "Construiește aproximațiile succesive prin integrare.",
+     "Interpretează: existență, unicitate și intervalul de definiție.",
+     "Greșeala frecventă: să crezi că teorema garantează soluții pe tot ℝ; ea dă doar existență locală."
+    ],
+    "answers": [
+     "Condiția Lipschitz în y",
+     "yₙ₊₁ = y₀ + ∫ f(t, yₙ(t))dt",
+     "Nu",
+     "eˣ",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l11": {
+   "ro": {
+    "title": "Ecuații liniare de ordin n cu coeficienți constanți: cazul omogen",
+    "theory": "Pentru y⁽ⁿ⁾ + a₁y⁽ⁿ⁻¹⁾ + … + aₙy = 0 căutăm soluții e^(rx) și obținem ecuația caracteristică rⁿ + a₁rⁿ⁻¹ + … + aₙ = 0. Rădăcină reală simplă r: e^(rx); multiplă de ordin k: e^(rx), xe^(rx), …, x^(k−1)e^(rx); rădăcini complexe α ± iβ: e^(αx)cos βx, e^(αx)sin βx. Soluția generală este combinația liniară a celor n soluții fundamentale.",
+    "sample": "Ecuația y″ − y = 0 are ecuația caracteristică r² − 1 = 0 și soluția generală C₁eˣ + C₂e⁻ˣ.",
+    "worked": "y″ − 4y′ + 4y = 0: r² − 4r + 4 = 0, r = 2 dublă, y = (C₁ + C₂x)e^(2x). y″ + 2y′ + 5y = 0: r = −1 ± 2i, y = e⁻ˣ(C₁ cos 2x + C₂ sin 2x) — oscilație amortizată.",
+    "exercises": [
+     "Rezolvă: y″ − 5y′ + 6y = 0.",
+     "Rezolvă: y″ + 9y = 0, y(0) = 1, y′(0) = 0.",
+     "Rezolvă: y″ + 2y′ + y = 0.",
+     "Rezolvă: y‴ − y = 0.",
+     "Ecuația oscilatorului amortizat este x″ + 2x′ + 10x = 0. Scrie soluția generală."
+    ],
+    "test": [
+     "Ecuația caracteristică a lui y″ + y = 0?",
+     "Soluțiile pentru o rădăcină dublă r?",
+     "Soluțiile pentru r = α ± iβ?",
+     "Câte constante are soluția generală de ordin n?",
+     "Soluția generală a lui y″ = 0?"
+    ],
+    "steps": [
+     "Scrie ecuația caracteristică înlocuind y⁽ᵏ⁾ cu rᵏ.",
+     "Rezolvă-o și scrie soluțiile fundamentale după tipul rădăcinilor.",
+     "Formează combinația liniară și determină constantele din condițiile inițiale.",
+     "Greșeala frecventă: la o rădăcină dublă să scrii C₁e^(rx) + C₂e^(rx), care nu sunt independente; a doua soluție este xe^(rx)."
+    ],
+    "answers": [
+     "r² + 1 = 0",
+     "e^(rx) și xe^(rx)",
+     "e^(αx)cos βx și e^(αx)sin βx",
+     "n",
+     "C₁ + C₂x"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l12": {
+   "ro": {
+    "title": "Ecuații liniare neomogene; metoda coeficienților nedeterminați și variația constantelor",
+    "theory": "Soluția generală a ecuației neomogene = soluția generală a omogenei + o soluție particulară. Pentru membrul drept de forma Pₘ(x)e^(ax) (sau cu sin, cos) căutăm soluția particulară de aceeași formă, cu coeficienți necunoscuți, înmulțită cu xᵏ dacă a este rădăcină de multiplicitate k a ecuației caracteristice (rezonanță). Metoda generală este variația constantelor (Lagrange).",
+    "sample": "Pentru y″ − y = 1, o soluție particulară este y = −1, deci y = C₁eˣ + C₂e⁻ˣ − 1.",
+    "worked": "y″ − 3y′ + 2y = e^(3x): omogena C₁eˣ + C₂e^(2x); 3 nu este rădăcină, căutăm yₚ = Ae^(3x): 9A − 9A + 2A = 1, A = 1/2. Pentru y″ + y = sin x avem rezonanță (i este rădăcină): yₚ = x(A cos x + B sin x), obținem yₚ = −(x/2)cos x.",
+    "exercises": [
+     "Rezolvă: y″ + y = x.",
+     "Rezolvă: y″ − 4y = e^(2x) (atenție la rezonanță).",
+     "Rezolvă: y″ + 4y = cos x.",
+     "Rezolvă prin variația constantelor: y″ + y = 1/cos x.",
+     "Rezolvă: y″ − 2y′ + y = eˣ."
+    ],
+    "test": [
+     "Structura soluției generale neomogene?",
+     "Când apare rezonanța?",
+     "Forma soluției particulare pentru membrul drept e^(2x) dacă 2 nu e rădăcină?",
+     "Forma pentru e^(2x) dacă 2 e rădăcină simplă?",
+     "Metoda generală pentru orice membru drept?"
+    ],
+    "steps": [
+     "Rezolvă omogena asociată.",
+     "Alege forma soluției particulare după membrul drept (cu factor xᵏ la rezonanță).",
+     "Determină coeficienții prin înlocuire și adună soluțiile.",
+     "Greșeala frecventă: să ignori rezonanța și să obții o ecuație imposibilă pentru coeficienți."
+    ],
+    "answers": [
+     "Soluția omogenei + o soluție particulară",
+     "Când exponentul e rădăcină a ecuației caracteristice",
+     "Ae^(2x)",
+     "Axe^(2x)",
+     "Variația constantelor"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l13": {
+   "ro": {
+    "title": "Sisteme de ecuații diferențiale liniare cu coeficienți constanți",
+    "theory": "Sistemul X′ = AX (A matrice constantă n × n) are soluția X(t) = e^(tA)X(0), unde e^(tA) = Σ tᵏAᵏ/k!. Dacă A este diagonalizabilă cu valorile proprii λᵢ și vectorii proprii vᵢ, soluția generală este Σ Cᵢe^(λᵢt)vᵢ. Valorile proprii decid comportamentul: toate cu parte reală negativă ⇒ soluțiile tind la 0 (echilibru stabil).",
+    "sample": "Sistemul x′ = 2x, y′ = −y are soluțiile x = C₁e^(2t), y = C₂e^(−t).",
+    "worked": "X′ = AX cu A = (4 1 / 2 3): valori proprii 5 și 2, vectori proprii (1, 1) și (1, −2). Soluția: X(t) = C₁e^(5t)(1, 1) + C₂e^(2t)(1, −2). Ambele valori proprii pozitive: originea este un nod instabil.",
+    "exercises": [
+     "Rezolvă sistemul x′ = x + y, y′ = 4x + y.",
+     "Rezolvă x′ = y, y′ = −x și interpretează traiectoriile.",
+     "Calculează e^(tA) pentru A = (0 1 / 0 0).",
+     "Transformă y″ + 3y′ + 2y = 0 într-un sistem de ordinul I și rezolvă.",
+     "Studiază stabilitatea originii pentru A = (−1 2 / 0 −3)."
+    ],
+    "test": [
+     "Soluția lui X′ = AX?",
+     "Când este originea stabilă?",
+     "Ce valori proprii are (0 1 / −1 0)?",
+     "Ce sunt traiectoriile lui x′ = y, y′ = −x?",
+     "e^(tA) pentru A = O?"
+    ],
+    "steps": [
+     "Calculează valorile și vectorii proprii ai lui A.",
+     "Scrie soluția generală ca sumă de termeni e^(λt)v (sau calculează e^(tA)).",
+     "Determină constantele din condițiile inițiale și interpretează stabilitatea.",
+     "Greșeala frecventă: să combini valorile proprii cu vectori proprii nepotriviți (vectorul lui λ₁ cu exponențiala lui λ₂)."
+    ],
+    "answers": [
+     "X(t) = e^(tA)X(0)",
+     "Când valorile proprii au partea reală negativă",
+     "±i",
+     "Cercuri",
+     "I"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l14": {
+   "ro": {
+    "title": "Stabilitatea soluțiilor; planul fazelor pentru sisteme autonome",
+    "theory": "Un sistem autonom X′ = F(X) are puncte de echilibru unde F(X) = 0. Echilibrul este stabil dacă soluțiile care pornesc aproape rămân aproape, și asimptotic stabil dacă, în plus, tind la el. Liniarizăm în jurul echilibrului cu matricea iacobiană J: dacă toate valorile proprii au partea reală negativă, echilibrul este asimptotic stabil; dacă una are partea reală pozitivă, este instabil. În plan, după valorile proprii avem noduri, șei, focare (spirale) și centre.",
+    "sample": "Pentru x′ = −x, y′ = −2y, originea este un nod asimptotic stabil: toate traiectoriile tind spre ea.",
+    "worked": "Pendulul amortizat x′ = y, y′ = −sin x − 0,5y are echilibrele (kπ, 0). În (0, 0): J = (0 1 / −1 −0,5), λ² + 0,5λ + 1 = 0, λ = −0,25 ± i·0,968: focar stabil (pendulul oscilează și se oprește jos). În (π, 0): J = (0 1 / 1 −0,5), det J = −1 < 0: șa, instabil (pendulul răsturnat cade).",
+    "exercises": [
+     "Clasifică originea pentru x′ = 2x + y, y′ = x + 2y.",
+     "Clasifică originea pentru x′ = −y, y′ = x (centru).",
+     "Află echilibrele modelului x′ = x(1 − x) și studiază-le stabilitatea.",
+     "Liniarizează x′ = y, y′ = −x + x³ în (0, 0) și în (1, 0).",
+     "Desenează planul fazelor pentru x′ = x, y′ = −y."
+    ],
+    "test": [
+     "Ce este un punct de echilibru?",
+     "Când e echilibrul asimptotic stabil (liniarizare)?",
+     "det J < 0 în plan indică…?",
+     "Valori proprii complexe cu partea reală negativă dau…?",
+     "Valori proprii pur imaginare la sistemul liniar dau…?"
+    ],
+    "steps": [
+     "Află punctele de echilibru rezolvând F(X) = 0.",
+     "Calculează iacobiana în fiecare echilibru și valorile ei proprii.",
+     "Clasifică (nod, șa, focar, centru) și precizează stabilitatea; schițează traiectoriile.",
+     "Greșeala frecventă: să tragi concluzii despre un centru al sistemului neliniar doar din liniarizare; valorile proprii pur imaginare nu decid stabilitatea neliniară."
+    ],
+    "answers": [
+     "Un punct în care F(X) = 0",
+     "Când toate valorile proprii au partea reală negativă",
+     "O șa",
+     "Un focar stabil",
+     "Un centru"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l15": {
+   "ro": {
+    "title": "Inele de polinoame: divizibilitate, inele euclidiene și factoriale",
+    "theory": "În K[X] (K corp) avem împărțire cu rest, deci este inel euclidian: orice ideal este principal, există cmmdc (algoritmul lui Euclid) și descompunere unică în factori ireductibili (inel factorial). ℤ este, de asemenea, euclidian. ℤ[X] este factorial, dar nu principal (idealul (2, X) nu este principal). Lema lui Gauss: un polinom primitiv din ℤ[X] ireductibil în ℚ[X] este ireductibil în ℤ[X]; criteriul lui Eisenstein dă polinoame ireductibile.",
+    "sample": "Polinomul X² − 2 este ireductibil peste ℚ (criteriul lui Eisenstein cu p = 2).",
+    "worked": "cmmdc(X³ − 1, X² − 1) prin Euclid: X³ − 1 = X(X² − 1) + (X − 1); X² − 1 = (X + 1)(X − 1) + 0, deci cmmdc = X − 1. Eisenstein pentru X⁴ + 6X + 3 cu p = 3: 3 divide 6 și 3, 9 nu divide 3, 3 nu divide 1 ⇒ ireductibil peste ℚ.",
+    "exercises": [
+     "Află cmmdc(X⁴ − 1, X³ + X) în ℚ[X].",
+     "Arată cu Eisenstein că X⁵ − 10X + 5 este ireductibil peste ℚ.",
+     "Descompune X⁴ + 1 în factori ireductibili peste ℝ.",
+     "Arată că idealul (2, X) nu este principal în ℤ[X].",
+     "Arată că ℤ[i] este inel euclidian cu norma N(a + bi) = a² + b²."
+    ],
+    "test": [
+     "Este K[X] euclidian?",
+     "Ce dă algoritmul lui Euclid?",
+     "Este ℤ[X] principal?",
+     "Ce afirmă criteriul lui Eisenstein?",
+     "Este X² + 1 ireductibil peste ℝ?"
+    ],
+    "steps": [
+     "Pentru cmmdc, aplică împărțiri succesive până la rest 0.",
+     "Pentru ireductibilitate, încearcă rădăcini, Eisenstein (direct sau după substituția X ↦ X + 1) sau reducere modulo p.",
+     "Concluzionează asupra descompunerii în factori ireductibili.",
+     "Greșeala frecventă: să aplici Eisenstein cu p care divide coeficientul dominant; condiția cere ca p să nu-l dividă."
+    ],
+    "answers": [
+     "Da",
+     "cmmdc",
+     "Nu",
+     "Un prim p divide toți coeficienții în afara celui dominant, iar p² nu divide termenul liber",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l16": {
+   "ro": {
+    "title": "Extinderi de corpuri; elemente algebrice; gradul unei extinderi",
+    "theory": "Dacă K ⊆ L sunt corpuri, L este un spațiu vectorial peste K; dimensiunea este gradul [L : K]. Un element α ∈ L este algebric peste K dacă este rădăcina unui polinom nenul din K[X]; polinomul minimal este cel monic, ireductibil, de grad minim. Atunci [K(α) : K] = gradul polinomului minimal. Formula turnului: [M : K] = [M : L]·[L : K].",
+    "sample": "Extinderea ℚ(√2)/ℚ are gradul 2, cu baza 1, √2.",
+    "worked": "α = √2 + √3: [ℚ(√2, √3) : ℚ] = [ℚ(√2, √3) : ℚ(√2)]·[ℚ(√2) : ℚ] = 2·2 = 4. α² = 5 + 2√6, (α² − 5)² = 24, deci α este rădăcina lui X⁴ − 10X² + 1, care este polinomul minimal, iar ℚ(α) = ℚ(√2, √3).",
+    "exercises": [
+     "Află polinomul minimal al lui ³√2 peste ℚ și gradul extinderii.",
+     "Află gradul lui ℚ(√2, i) peste ℚ.",
+     "Află polinomul minimal al lui i√3 peste ℚ.",
+     "Arată că π nu este algebric peste ℚ dacă presupunem cunoscut că π este transcendent — ce înseamnă aceasta pentru [ℚ(π) : ℚ]?",
+     "Folosește formula turnului pentru a arăta că ³√2 ∉ ℚ(√2)."
+    ],
+    "test": [
+     "[ℂ : ℝ] = ?",
+     "Polinomul minimal al lui √2 peste ℚ?",
+     "Formula turnului?",
+     "Ce înseamnă α algebric peste K?",
+     "[ℚ(√5) : ℚ] = ?"
+    ],
+    "steps": [
+     "Găsește un polinom cu coeficienți în K care îl anulează pe α.",
+     "Verifică ireductibilitatea (polinomul minimal).",
+     "Gradul extinderii este gradul polinomului minimal; folosește formula turnului pentru extinderi succesive.",
+     "Greșeala frecventă: să iei ca polinom minimal un polinom reductibil; de exemplu X⁴ − 4 pentru √2 (minimalul este X² − 2)."
+    ],
+    "answers": [
+     "2",
+     "X² − 2",
+     "[M : K] = [M : L]·[L : K]",
+     "Este rădăcina unui polinom nenul din K[X]",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l17": {
+   "ro": {
+    "title": "Corpuri finite; teoremele lui Sylow (introducere)",
+    "theory": "Orice corp finit are pⁿ elemente (p prim, caracteristica lui); pentru orice pⁿ există un corp unic (până la izomorfism) cu pⁿ elemente, construit ca ℤₚ[X]/(f), cu f ireductibil de grad n. Grupul multiplicativ al unui corp finit este ciclic. Teoremele lui Sylow: dacă |G| = pᵏm cu p ∤ m, există subgrupuri de ordin pᵏ (p-subgrupuri Sylow), toate conjugate, iar numărul lor nₚ divide m și nₚ ≡ 1 (mod p).",
+    "sample": "Corpul ℤ₂[X]/(X² + X + 1) are 4 elemente: 0, 1, α, α + 1, cu α² = α + 1.",
+    "worked": "Un grup de ordin 15 = 3·5: n₅ divide 3 și n₅ ≡ 1 (mod 5), deci n₅ = 1; n₃ divide 5 și n₃ ≡ 1 (mod 3), deci n₃ = 1. Ambele subgrupuri Sylow sunt normale, iar grupul este ciclic, izomorf cu ℤ₁₅.",
+    "exercises": [
+     "Construiește corpul cu 8 elemente ca ℤ₂[X]/(X³ + X + 1).",
+     "Găsește un generator al grupului multiplicativ al lui ℤ₇.",
+     "Arată că un grup de ordin 35 este ciclic (Sylow).",
+     "Câte 2-subgrupuri Sylow poate avea S₃?",
+     "Poate exista un corp cu 6 elemente? Justifică."
+    ],
+    "test": [
+     "Câte elemente poate avea un corp finit?",
+     "Este grupul multiplicativ al unui corp finit ciclic?",
+     "Condițiile asupra lui nₚ?",
+     "Există corp cu 9 elemente?",
+     "Ordinul unui 5-subgrup Sylow într-un grup de ordin 20?"
+    ],
+    "steps": [
+     "Descompune ordinul grupului (sau al corpului) în factori primi.",
+     "Aplică restricțiile Sylow (nₚ | m, nₚ ≡ 1 mod p) sau construcția ℤₚ[X]/(f).",
+     "Trage concluzia despre structură (normalitate, ciclicitate, existență).",
+     "Greșeala frecventă: să crezi că ℤ₄ este corpul cu 4 elemente; ℤ₄ nu e corp, corpul cu 4 elemente este ℤ₂[X]/(X² + X + 1)."
+    ],
+    "answers": [
+     "pⁿ cu p prim",
+     "Da",
+     "nₚ | m și nₚ ≡ 1 (mod p)",
+     "Da",
+     "5"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l18": {
+   "ro": {
+    "title": "Curbe parametrizate; lungimea arcului; parametrizarea naturală",
+    "theory": "O curbă parametrizată este o funcție r: I → ℝ³ derivabilă, regulată dacă r′(t) ≠ 0. Vectorul r′(t) este tangent la curbă. Lungimea arcului între t = a și t = b este ∫ₐᵇ ‖r′(t)‖dt. Parametrizarea prin lungimea arcului s (naturală) are ‖r′(s)‖ = 1 și simplifică formulele geometrice.",
+    "sample": "Cercul r(t) = (R cos t, R sin t) are viteza R, deci lungimea 2πR.",
+    "worked": "Elicea r(t) = (cos t, sin t, t): r′(t) = (−sin t, cos t, 1), ‖r′‖ = √2. Lungimea pentru t ∈ [0, 2π] este 2π√2. Parametrizarea naturală: s = √2 t, r(s) = (cos(s/√2), sin(s/√2), s/√2).",
+    "exercises": [
+     "Calculează lungimea arcului parabolei y = x² pentru x ∈ [0, 1].",
+     "Calculează lungimea cicloidei (t − sin t, 1 − cos t), t ∈ [0, 2π].",
+     "Arată că r(t) = (t², t³) nu este regulată în t = 0.",
+     "Reparametrizează prin lungimea arcului dreapta r(t) = (1 + 2t, 3t, 6t).",
+     "Scrie vectorul tangent unitar al elicei."
+    ],
+    "test": [
+     "Formula lungimii arcului?",
+     "Când este o curbă regulată?",
+     "‖r′(s)‖ pentru parametrizarea naturală?",
+     "Lungimea cercului de rază R?",
+     "Ce reprezintă r′(t)?"
+    ],
+    "steps": [
+     "Calculează r′(t) și norma ei.",
+     "Integrează norma pe intervalul dat.",
+     "Pentru parametrizarea naturală, exprimă t în funcție de s și înlocuiește.",
+     "Greșeala frecventă: să integrezi r′(t) în loc de norma ‖r′(t)‖ la lungimea arcului."
+    ],
+    "answers": [
+     "∫ₐᵇ ‖r′(t)‖dt",
+     "Când r′(t) ≠ 0",
+     "1",
+     "2πR",
+     "Vectorul tangent"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l19": {
+   "ro": {
+    "title": "Curbura și torsiunea; reperul Frenet",
+    "theory": "Pentru o curbă parametrizată natural, curbura κ = ‖r″(s)‖ măsoară cât de repede își schimbă direcția. Reperul Frenet: T (tangent), N (normala principală), B = T × N (binormala). Formulele Frenet: T′ = κN, N′ = −κT + τB, B′ = −τN, unde τ (torsiunea) măsoară ieșirea din plan. Pentru parametri arbitrari: κ = ‖r′ × r″‖/‖r′‖³, τ = (r′, r″, r‴)/‖r′ × r″‖².",
+    "sample": "Cercul de rază R are curbura constantă 1/R și torsiunea 0.",
+    "worked": "Elicea (cos t, sin t, t): r′ = (−sin t, cos t, 1), r″ = (−cos t, −sin t, 0), r′ × r″ = (sin t, −cos t, 1), de normă √2. κ = √2/(√2)³ = 1/2. r‴ = (sin t, −cos t, 0), produsul mixt = sin²t + cos²t = 1, τ = 1/2.",
+    "exercises": [
+     "Calculează curbura parabolei y = x² în origine.",
+     "Arată că o curbă cu κ = 0 este o dreaptă.",
+     "Calculează curbura și torsiunea pentru (t, t², t³) în t = 0.",
+     "Arată că o curbă cu τ = 0 este plană.",
+     "Calculează reperul Frenet pentru cercul (R cos t, R sin t, 0)."
+    ],
+    "test": [
+     "Curbura cercului de rază R?",
+     "Torsiunea unei curbe plane?",
+     "Ce vector este B?",
+     "Formula T′ în reperul Frenet?",
+     "Curbura unei drepte?"
+    ],
+    "steps": [
+     "Calculează r′, r″ (și r‴ pentru torsiune).",
+     "Aplică formulele cu produs vectorial și produs mixt.",
+     "Interpretează: κ mic = curbă aproape dreaptă, τ = 0 = curbă plană.",
+     "Greșeala frecventă: să aplici κ = ‖r″‖ pentru o parametrizare care nu e naturală; atunci trebuie folosită formula cu r′ × r″."
+    ],
+    "answers": [
+     "1/R",
+     "0",
+     "T × N",
+     "T′ = κN",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l20": {
+   "ro": {
+    "title": "Suprafețe; planul tangent; prima formă fundamentală",
+    "theory": "O suprafață parametrizată r(u, v) este regulată dacă r_u × r_v ≠ 0; acest vector este normal la suprafață, iar planul tangent este generat de r_u și r_v. Prima formă fundamentală I = E du² + 2F dudv + G dv², cu E = r_u·r_u, F = r_u·r_v, G = r_v·r_v, permite calculul lungimilor curbelor de pe suprafață, al unghiurilor și al ariilor: dA = √(EG − F²) dudv.",
+    "sample": "Pentru planul r(u, v) = (u, v, 0), prima formă fundamentală este du² + dv².",
+    "worked": "Sfera r(θ, φ) = (R sin φ cos θ, R sin φ sin θ, R cos φ): E = r_θ·r_θ = R² sin²φ, F = 0, G = R². Aria: ∫₀^(2π)∫₀^π R² sin φ dφdθ = 4πR².",
+    "exercises": [
+     "Calculează prima formă fundamentală a cilindrului (R cos u, R sin u, v).",
+     "Scrie planul tangent la z = x² + y² în (1, 1, 2).",
+     "Calculează aria porțiunii din paraboloidul z = x² + y² cu z ≤ 1.",
+     "Arată că parametrizarea sferei este regulată pentru φ ∈ (0, π).",
+     "Calculează unghiul dintre curbele u = constant și v = constant pe o suprafață cu F = 0."
+    ],
+    "test": [
+     "Normala la suprafață?",
+     "Formula elementului de arie?",
+     "Prima formă fundamentală a planului?",
+     "Aria sferei de rază R?",
+     "Ce înseamnă F = 0?"
+    ],
+    "steps": [
+     "Calculează derivatele parțiale r_u, r_v.",
+     "Calculează E, F, G și, dacă trebuie, normala r_u × r_v.",
+     "Folosește I pentru lungimi, unghiuri sau arii prin integrare.",
+     "Greșeala frecventă: să uiți radicalul din elementul de arie (√(EG − F²))."
+    ],
+    "answers": [
+     "r_u × r_v",
+     "dA = √(EG − F²)dudv",
+     "du² + dv²",
+     "4πR²",
+     "Curbele de coordonate sunt ortogonale"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l21": {
+   "ro": {
+    "title": "A doua formă fundamentală; curbura Gauss și curbura medie",
+    "theory": "A doua formă fundamentală II = L du² + 2M dudv + N dv² (L = r_uu·n, M = r_uv·n, N = r_vv·n, n normala unitară) descrie încovoierea suprafeței. Curburile principale k₁, k₂ sunt valorile extreme ale curburii normale. Curbura Gauss K = k₁k₂ = (LN − M²)/(EG − F²), curbura medie H = (k₁ + k₂)/2. K > 0: punct eliptic (ca pe sferă); K < 0: punct hiperbolic (șa); K = 0: parabolic (cilindru). Theorema egregium: K depinde doar de prima formă fundamentală.",
+    "sample": "Sfera de rază R are curbura Gauss constantă 1/R².",
+    "worked": "Pentru z = x² − y² în origine: r = (u, v, u² − v²), n = (0, 0, 1) în origine, L = 2, M = 0, N = −2, E = G = 1, F = 0. K = −4 < 0, punct hiperbolic (șa); H = 0.",
+    "exercises": [
+     "Calculează curbura Gauss a cilindrului de rază R.",
+     "Calculează K pentru z = x² + y² în origine.",
+     "Clasifică originea pentru z = x²: eliptică, hiperbolică sau parabolică?",
+     "Arată că planul are K = 0 și H = 0.",
+     "Explică de ce nu se poate face o hartă plană a Pământului care să păstreze distanțele (theorema egregium)."
+    ],
+    "test": [
+     "Curbura Gauss a sferei?",
+     "K < 0 indică…?",
+     "Curbura Gauss a cilindrului?",
+     "Formula lui K prin formele fundamentale?",
+     "Ce afirmă theorema egregium?"
+    ],
+    "steps": [
+     "Calculează normala unitară și derivatele a doua.",
+     "Calculează L, M, N și E, F, G.",
+     "Calculează K și H și clasifică punctul.",
+     "Greșeala frecventă: să consideri cilindrul „curbat” în sensul lui Gauss; are K = 0, pentru că o curbură principală este 0."
+    ],
+    "answers": [
+     "1/R²",
+     "Punct hiperbolic (șa)",
+     "0",
+     "(LN − M²)/(EG − F²)",
+     "K depinde doar de prima formă fundamentală"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l22": {
+   "ro": {
+    "title": "Spațiu de probabilitate; probabilitate condiționată; formula lui Bayes",
+    "theory": "Un spațiu de probabilitate (Ω, 𝓕, P) are mulțimea rezultatelor Ω, familia evenimentelor 𝓕 și probabilitatea P (aditivă numărabil, P(Ω) = 1). Probabilitatea condiționată P(A|B) = P(A ∩ B)/P(B). Formula probabilității totale: P(A) = Σ P(A|Bᵢ)P(Bᵢ) pentru o partiție (Bᵢ). Formula lui Bayes: P(Bⱼ|A) = P(A|Bⱼ)P(Bⱼ)/P(A). A și B sunt independente dacă P(A ∩ B) = P(A)P(B).",
+    "sample": "La un zar, P(6 | număr par) = (1/6)/(1/2) = 1/3.",
+    "worked": "Un test detectează o boală cu prevalența 1% în 99% din cazuri, dar dă rezultate fals pozitive în 5% din cazuri. P(pozitiv) = 0,99·0,01 + 0,05·0,99 = 0,0594. P(bolnav | pozitiv) = 0,0099/0,0594 ≈ 0,167. Deși testul pare bun, doar ~17% dintre pozitivi sunt bolnavi.",
+    "exercises": [
+     "Două zaruri: P(suma 8 | primul zar este 3)?",
+     "Trei urne cu compoziții diferite sunt alese la întâmplare; scrie formula probabilității totale pentru extragerea unei bile albe.",
+     "Refă exemplul cu prevalența de 10%.",
+     "Sunt independente evenimentele „par” și „multiplu de 3” la un zar?",
+     "Arată că dacă A și B sunt independente, atunci A și complementul lui B sunt independente."
+    ],
+    "test": [
+     "Formula probabilității condiționate?",
+     "Formula lui Bayes?",
+     "Condiția de independență?",
+     "P(Ω) = ?",
+     "Ce partiție folosește formula probabilității totale?"
+    ],
+    "steps": [
+     "Definește clar evenimentele și partiția.",
+     "Scrie probabilitățile cunoscute (condiționate și a priori).",
+     "Aplică probabilitatea totală și apoi Bayes; interpretează rezultatul.",
+     "Greșeala frecventă: să confunzi P(A|B) cu P(B|A), de exemplu probabilitatea unui test pozitiv la bolnav cu probabilitatea de a fi bolnav la test pozitiv."
+    ],
+    "answers": [
+     "P(A|B) = P(A ∩ B)/P(B)",
+     "P(B|A) = P(A|B)P(B)/P(A)",
+     "P(A ∩ B) = P(A)P(B)",
+     "1",
+     "O împărțire a lui Ω în evenimente disjuncte"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l23": {
+   "ro": {
+    "title": "Variabile aleatoare discrete: binomială, geometrică, Poisson",
+    "theory": "O variabilă aleatoare discretă X ia valori xₖ cu probabilitățile pₖ (Σpₖ = 1). Binomială B(n, p): numărul de succese din n încercări independente, P(X = k) = C(n, k)pᵏ(1 − p)ⁿ⁻ᵏ, medie np, dispersie np(1 − p). Geometrică: numărul încercării primului succes, P(X = k) = (1 − p)ᵏ⁻¹p, medie 1/p. Poisson(λ): P(X = k) = e^(−λ)λᵏ/k!, medie și dispersie λ; aproximează binomiala pentru n mare și p mic, cu λ = np.",
+    "sample": "La 10 aruncări cu banul, numărul de capete este B(10, 1/2), cu media 5.",
+    "worked": "Probabilitatea a exact 2 capete din 4 aruncări: C(4, 2)(1/2)⁴ = 6/16 = 3/8. Dacă un centru primește în medie 3 apeluri pe minut (Poisson), P(niciun apel) = e⁻³ ≈ 0,05.",
+    "exercises": [
+     "Calculează P(X = 3) pentru X ∼ B(5; 0,4).",
+     "Un zar este aruncat până apare 6. Care este numărul mediu de aruncări?",
+     "Pentru Poisson(2), calculează P(X ≤ 1).",
+     "Aproximează cu Poisson P(X = 0) pentru B(1 000; 0,002).",
+     "Calculează media și dispersia lui B(20; 0,3)."
+    ],
+    "test": [
+     "Media lui B(n, p)?",
+     "Dispersia lui Poisson(λ)?",
+     "Media geometricei cu probabilitatea de succes p?",
+     "Suma probabilităților unei variabile discrete?",
+     "Când aproximezi binomiala cu Poisson?"
+    ],
+    "steps": [
+     "Identifică modelul: încercări repetate (binomială), primul succes (geometrică), evenimente rare (Poisson).",
+     "Scrie formula probabilității și parametrii.",
+     "Calculează probabilitatea, media sau dispersia cerute.",
+     "Greșeala frecventă: să folosești binomiala când încercările nu sunt independente sau numărul lor nu este fix."
+    ],
+    "answers": [
+     "np",
+     "λ",
+     "1/p",
+     "1",
+     "n mare, p mic"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l24": {
+   "ro": {
+    "title": "Variabile aleatoare continue: uniformă, exponențială, normală",
+    "theory": "O variabilă continuă are o densitate f ≥ 0 cu ∫f = 1; P(a ≤ X ≤ b) = ∫ₐᵇ f(x)dx, iar funcția de repartiție F(x) = P(X ≤ x). Uniformă pe [a, b]: f = 1/(b − a). Exponențială(λ): f = λe^(−λx), x ≥ 0, medie 1/λ, fără memorie. Normală N(μ, σ²): clopotul lui Gauss; standardizarea Z = (X − μ)/σ ∼ N(0, 1); aproximativ 68% din valori în μ ± σ, 95% în μ ± 2σ.",
+    "sample": "Pentru X uniformă pe [0, 10], P(2 ≤ X ≤ 5) = 3/10.",
+    "worked": "Durata de viață a unui bec este exponențială cu media 1 000 h: λ = 0,001, P(X > 2 000) = e⁻² ≈ 0,135. Înălțimile N(170, 10²): P(160 ≤ X ≤ 180) ≈ 68%.",
+    "exercises": [
+     "Verifică faptul că f(x) = 2x pe [0, 1] este densitate și calculează P(X ≤ 1/2).",
+     "Pentru exponențiala cu λ = 2, calculează P(X > 1) și media.",
+     "Arată proprietatea lipsei de memorie: P(X > s + t | X > s) = P(X > t).",
+     "Pentru N(100, 15²), estimează P(X > 130).",
+     "Calculează media variabilei uniforme pe [a, b]."
+    ],
+    "test": [
+     "Integrala unei densități?",
+     "Media exponențialei λ?",
+     "Procentul aproximativ în μ ± 2σ?",
+     "Standardizarea normalei?",
+     "P(X = a) pentru o variabilă continuă?"
+    ],
+    "steps": [
+     "Identifică repartiția și parametrii.",
+     "Scrie probabilitatea ca integrală a densității (sau folosește F, tabelul normalei).",
+     "Calculează și verifică faptul că rezultatul este între 0 și 1.",
+     "Greșeala frecventă: să interpretezi densitatea f(x) ca probabilitate; probabilitatea este aria de sub densitate."
+    ],
+    "answers": [
+     "1",
+     "1/λ",
+     "95%",
+     "Z = (X − μ)/σ",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l25": {
+   "ro": {
+    "title": "Medie, dispersie, covarianță, corelație",
+    "theory": "Media E(X) = Σxₖpₖ (discret) sau ∫x f(x)dx (continuu) este liniară: E(aX + bY) = aE(X) + bE(Y). Dispersia Var(X) = E((X − EX)²) = E(X²) − (EX)². Covarianța Cov(X, Y) = E(XY) − EX·EY; coeficientul de corelație ρ = Cov/(σₓσᵧ) ∈ [−1, 1] măsoară legătura liniară. Pentru X, Y independente, Var(X + Y) = Var X + Var Y și Cov = 0 (reciproca nu este adevărată).",
+    "sample": "La un zar, media este 3,5.",
+    "worked": "Zar: E(X²) = (1 + 4 + 9 + 16 + 25 + 36)/6 = 91/6, Var X = 91/6 − 12,25 = 35/12 ≈ 2,92. Pentru suma a două zaruri independente: E = 7, Var = 35/6.",
+    "exercises": [
+     "Calculează media și dispersia lui X cu valorile 0, 1, 2 și probabilitățile 0,2; 0,5; 0,3.",
+     "Arată că Var(aX + b) = a²Var X.",
+     "Calculează E(X) pentru densitatea f(x) = 3x² pe [0, 1].",
+     "Dă un exemplu de variabile cu covarianța 0, dar dependente.",
+     "Calculează Var(X + Y) dacă Var X = 4, Var Y = 9, Cov(X, Y) = 2."
+    ],
+    "test": [
+     "Formula dispersiei prin medii?",
+     "Media unui zar?",
+     "Intervalul coeficientului de corelație?",
+     "Var(X + Y) pentru variabile independente?",
+     "E(3X + 2) dacă E(X) = 5?"
+    ],
+    "steps": [
+     "Calculează media E(X) și, dacă trebuie, E(X²) sau E(XY).",
+     "Aplică formulele pentru dispersie și covarianță.",
+     "Interpretează: împrăștiere, legătură liniară, independență.",
+     "Greșeala frecventă: să crezi că covarianța nulă înseamnă independență; ea arată doar lipsa legăturii liniare."
+    ],
+    "answers": [
+     "Var X = E(X²) − (EX)²",
+     "3,5",
+     "[−1, 1]",
+     "Var X + Var Y",
+     "17"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l26": {
+   "ro": {
+    "title": "Legea numerelor mari și teorema limită centrală",
+    "theory": "Pentru variabile independente identic repartizate X₁, X₂, …, cu media μ și dispersia σ², media aritmetică X̄ₙ tinde la μ (legea numerelor mari); inegalitatea lui Cebîșev: P(|X̄ₙ − μ| ≥ ε) ≤ σ²/(nε²). Teorema limită centrală: (X̄ₙ − μ)/(σ/√n) are, pentru n mare, aproximativ repartiția N(0, 1). De aceea normala apare peste tot și stă la baza estimărilor statistice.",
+    "sample": "Aruncând banul de foarte multe ori, frecvența capetelor se apropie de 1/2.",
+    "worked": "Aruncăm banul de 100 de ori: numărul de capete S are media 50 și σ = 5. Prin TLC, P(S ≥ 60) ≈ P(Z ≥ 2) ≈ 2,3%. Cebîșev dă doar P(|S − 50| ≥ 10) ≤ 25/100 = 0,25 — o margine mai grosieră, dar valabilă mereu.",
+    "exercises": [
+     "Folosește Cebîșev: câte aruncări de ban asigură P(|frecvență − 1/2| ≥ 0,05) ≤ 0,1?",
+     "Cu TLC, estimează P(S ≤ 45) pentru 100 de aruncări de ban.",
+     "Suma a 30 de zaruri: estimează media și abaterea standard.",
+     "Explică diferența dintre legea numerelor mari și TLC.",
+     "Un sondaj pe 400 de persoane dă 52%. Estimează eroarea standard."
+    ],
+    "test": [
+     "Spre ce tinde media aritmetică?",
+     "Ce repartiție apare în TLC?",
+     "Inegalitatea lui Cebîșev?",
+     "Abaterea standard a lui X̄ₙ?",
+     "Media numărului de capete la 100 de aruncări?"
+    ],
+    "steps": [
+     "Identifică media μ și dispersia σ² ale unei variabile.",
+     "Calculează media și abaterea standard pentru sumă sau medie (σ√n, respectiv σ/√n).",
+     "Aplică Cebîșev (margine) sau TLC (aproximare normală).",
+     "Greșeala frecventă: să aplici TLC pentru n foarte mic sau să uiți împărțirea la √n la abaterea standard a mediei."
+    ],
+    "answers": [
+     "μ",
+     "N(0, 1)",
+     "P(|X̄ₙ − μ| ≥ ε) ≤ σ²/(nε²)",
+     "σ/√n",
+     "50"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l27": {
+   "ro": {
+    "title": "Erori; rezolvarea numerică a ecuațiilor: bisecție, Newton",
+    "theory": "Calculele numerice au erori de rotunjire și de trunchiere; eroarea absolută este |x − x̃|, iar cea relativă |x − x̃|/|x|. Metoda bisecției înjumătățește un interval [a, b] cu f(a)f(b) < 0; după n pași eroarea este ≤ (b − a)/2ⁿ. Metoda lui Newton xₙ₊₁ = xₙ − f(xₙ)/f′(xₙ) converge pătratic lângă o rădăcină simplă (numărul cifrelor exacte se dublează), dar cere o aproximare inițială bună.",
+    "sample": "Bisecția pe [1, 2] pentru x² − 2 dă după un pas intervalul [1; 1,5], pentru că f(1,5) = 0,25 > 0.",
+    "worked": "Newton pentru √2 (f = x² − 2): xₙ₊₁ = (xₙ + 2/xₙ)/2. Din x₀ = 1: x₁ = 1,5, x₂ = 1,41667, x₃ = 1,414216 (√2 = 1,414214). Bisecția ar avea nevoie de ~20 de pași pentru aceeași precizie.",
+    "exercises": [
+     "Fă trei pași de bisecție pentru x³ − x − 1 pe [1, 2].",
+     "Câți pași de bisecție garantează eroarea sub 10⁻⁶ pe [0, 1]?",
+     "Aplică două iterații Newton pentru x³ − 2 din x₀ = 1.",
+     "Ce se întâmplă cu Newton pentru f(x) = x^(1/3) din x₀ = 1?",
+     "Calculează erorile absolută și relativă pentru aproximarea π ≈ 3,14."
+    ],
+    "test": [
+     "Formula lui Newton?",
+     "Eroarea bisecției după n pași?",
+     "Ce condiție cere bisecția?",
+     "Ordinul de convergență al lui Newton?",
+     "Ce este eroarea relativă?"
+    ],
+    "steps": [
+     "Verifică existența rădăcinii (schimbare de semn) și alege metoda.",
+     "Aplică iterațiile, păstrând suficiente zecimale.",
+     "Oprește-te după criteriul de precizie și estimează eroarea.",
+     "Greșeala frecventă: să aplici Newton dintr-un punct în care f′ este aproape 0; iterația poate sări departe sau diverge."
+    ],
+    "answers": [
+     "xₙ₊₁ = xₙ − f(xₙ)/f′(xₙ)",
+     "(b − a)/2ⁿ",
+     "f(a)f(b) < 0",
+     "Pătratic",
+     "|x − x̃|/|x|"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l28": {
+   "ro": {
+    "title": "Interpolare polinomială: Lagrange și Newton",
+    "theory": "Prin n + 1 puncte (xᵢ, yᵢ) cu abscise distincte trece un singur polinom de grad ≤ n. Forma Lagrange: P(x) = Σ yᵢ ℓᵢ(x), cu ℓᵢ(x) = Π_{j≠i}(x − xⱼ)/(xᵢ − xⱼ). Forma Newton folosește diferențe divizate și permite adăugarea ușoară a unui punct. Eroarea: f(x) − P(x) = f⁽ⁿ⁺¹⁾(ξ)/(n + 1)!·Π(x − xᵢ). Pentru multe noduri echidistante poate apărea fenomenul Runge (oscilații).",
+    "sample": "Prin punctele (0, 1) și (1, 3) trece dreapta P(x) = 1 + 2x.",
+    "worked": "Interpolăm (0, 1), (1, 2), (2, 5). Diferențe divizate: [y₀, y₁] = 1, [y₁, y₂] = 3, [y₀, y₁, y₂] = (3 − 1)/2 = 1. P(x) = 1 + 1·x + 1·x(x − 1) = x² + 1. Verificare: P(2) = 5.",
+    "exercises": [
+     "Scrie polinomul Lagrange prin (−1, 2), (0, 1), (1, 2).",
+     "Interpolează √x în 1, 4, 9 și estimează √5.",
+     "Adaugă punctul (3, 10) exemplului și extinde forma Newton.",
+     "Estimează eroarea interpolării lui sin x cu noduri 0, π/2, π în x = π/4.",
+     "Explică fenomenul Runge și cum îl evită nodurile Cebîșev."
+    ],
+    "test": [
+     "Gradul polinomului prin n + 1 puncte?",
+     "Este polinomul de interpolare unic?",
+     "Avantajul formei Newton?",
+     "ℓᵢ(xᵢ) = ?",
+     "ℓᵢ(xⱼ) pentru j ≠ i?"
+    ],
+    "steps": [
+     "Scrie nodurile și valorile.",
+     "Construiește polinomul (bazele Lagrange sau tabelul diferențelor divizate).",
+     "Verifică polinomul în noduri și estimează eroarea, dacă se cere.",
+     "Greșeala frecventă: să crezi că mai multe noduri echidistante dau mereu o aproximare mai bună; pot apărea oscilații mari la capete."
+    ],
+    "answers": [
+     "Cel mult n",
+     "Da",
+     "Se adaugă ușor puncte noi",
+     "1",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l29": {
+   "ro": {
+    "title": "Integrare numerică: formulele trapezelor și Simpson",
+    "theory": "Când primitiva nu este cunoscută, aproximăm integrala. Formula trapezelor compusă cu n subintervale de lungime h: ∫ₐᵇ f ≈ h[f₀/2 + f₁ + … + fₙ₋₁ + fₙ/2], eroare de ordin h². Formula lui Simpson (n par): (h/3)[f₀ + 4f₁ + 2f₂ + 4f₃ + … + 4fₙ₋₁ + fₙ], eroare de ordin h⁴ — exactă pentru polinoame de grad ≤ 3.",
+    "sample": "Trapezul simplu pentru ∫₀¹ x² dx dă (0 + 1)/2 = 0,5, față de valoarea exactă 1/3.",
+    "worked": "∫₀¹ x² dx cu Simpson, h = 1/2: (1/6)[0 + 4·0,25 + 1] = 2/6 = 1/3, exact. ∫₀¹ e^(−x²) dx cu trapeze, n = 2: 0,5·[1/2 + e^(−0,25) + e^(−1)/2] ≈ 0,5·[0,5 + 0,7788 + 0,1839] ≈ 0,7314 (valoarea ≈ 0,7468).",
+    "exercises": [
+     "Aproximează ∫₀^π sin x dx cu trapeze, n = 4.",
+     "Aproximează ∫₁² 1/x dx cu Simpson, n = 2, și compară cu ln 2.",
+     "Arată că Simpson este exactă pentru x³ pe [0, 2].",
+     "Cum se schimbă eroarea trapezelor dacă dublezi n?",
+     "Aproximează ∫₀¹ e^(−x²) dx cu Simpson, n = 2."
+    ],
+    "test": [
+     "Ordinul erorii la trapeze?",
+     "Ordinul erorii la Simpson?",
+     "Ce condiție are n la Simpson?",
+     "Ponderile Simpson pentru n = 2?",
+     "Pentru ce polinoame este Simpson exactă?"
+    ],
+    "steps": [
+     "Alege n și calculează h = (b − a)/n.",
+     "Calculează valorile fᵢ în noduri.",
+     "Aplică formula cu ponderile corecte și estimează eroarea.",
+     "Greșeala frecventă: la Simpson să folosești un număr impar de subintervale sau să greșești ponderile 4 și 2."
+    ],
+    "answers": [
+     "h²",
+     "h⁴",
+     "n par",
+     "1, 4, 1",
+     "Grad ≤ 3"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l30": {
+   "ro": {
+    "title": "Metode numerice pentru sisteme liniare și pentru ecuații diferențiale",
+    "theory": "Sistemele liniare mari se rezolvă prin eliminare Gauss cu pivotare (descompunere LU: A = LU) sau prin metode iterative (Jacobi, Gauss–Seidel), care converg de exemplu pentru matrice diagonal dominante. Pentru problema Cauchy y′ = f(x, y), metoda lui Euler yₙ₊₁ = yₙ + h f(xₙ, yₙ) are eroarea de ordin h; metodele Runge–Kutta (de ordin 4) sunt mult mai precise.",
+    "sample": "Pentru y′ = y, y(0) = 1, un pas Euler cu h = 0,1 dă y(0,1) ≈ 1,1 (exact: 1,10517).",
+    "worked": "Jacobi pentru 4x + y = 6, x + 3y = 7 (diagonal dominant): x⁽ᵏ⁺¹⁾ = (6 − y⁽ᵏ⁾)/4, y⁽ᵏ⁺¹⁾ = (7 − x⁽ᵏ⁾)/3. Din (0, 0): (1,5; 2,333), (0,917; 1,833), (1,042; 2,028) → soluția (1, 2).",
+    "exercises": [
+     "Descompune A = (2 1 / 4 5) în LU.",
+     "Fă trei iterații Gauss–Seidel pentru sistemul din exemplu și compară cu Jacobi.",
+     "Aplică Euler cu h = 0,5 pentru y′ = −y, y(0) = 1, până la x = 1.",
+     "Ce înseamnă matrice diagonal dominantă?",
+     "Explică de ce pivotarea parțială reduce erorile de rotunjire."
+    ],
+    "test": [
+     "Formula metodei lui Euler?",
+     "Ordinul erorii metodei lui Euler?",
+     "Ce garantează convergența Jacobi?",
+     "Ce înseamnă A = LU?",
+     "Care metodă este mai precisă: Euler sau Runge–Kutta 4?"
+    ],
+    "steps": [
+     "Alege metoda potrivită (directă sau iterativă; Euler sau Runge–Kutta).",
+     "Aplică pașii cu atenție, păstrând suficiente zecimale.",
+     "Verifică convergența și compară cu soluția exactă, dacă este cunoscută.",
+     "Greșeala frecventă: să aplici Jacobi unei matrice care nu e diagonal dominantă și să te aștepți la convergență garantată."
+    ],
+    "answers": [
+     "yₙ₊₁ = yₙ + h f(xₙ, yₙ)",
+     "h",
+     "Diagonala dominantă",
+     "Produs de matrice triunghiulare",
+     "Runge–Kutta 4"
+    ]
+   }
+  }
+ }
+}

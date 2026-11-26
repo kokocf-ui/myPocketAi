@@ -9,3 +9,4 @@ android/app/build/
 .env.*
 .telegram-mtproto-session
 .bundle-check/
+math-browser-audit/

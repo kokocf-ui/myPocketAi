@@ -1,0 +1,1161 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "0ca6da1167d75e9846785c998cea6b4d4c933cedb8707bcce33e8047d3e1be79",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Biologie pentru clasa a XI-a, ciclul superior al liceului, filiera teoretică, profilul real (OMEC nr. 3252/13.02.2006), în vigoare în 2026–2027 — anatomia și fiziologia omului: alcătuirea corpului, sistemul nervos, analizatorii, glandele endocrine, mișcarea, digestia și absorbția, circulația și imunitatea, respirația, excreția, metabolismul, reproducerea, cu afecțiuni și igienă; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Biologie · Clasa a XI-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Alcătuirea corpului uman",
+   "keys": [
+    "eu-year-ro-medium-11-l01"
+   ]
+  },
+  {
+   "title": "Sistemul nervos",
+   "keys": [
+    "eu-year-ro-medium-11-l02",
+    "eu-year-ro-medium-11-l03",
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05",
+    "eu-year-ro-medium-11-l06",
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08"
+   ]
+  },
+  {
+   "title": "Analizatorii",
+   "keys": [
+    "eu-year-ro-medium-11-l09",
+    "eu-year-ro-medium-11-l10",
+    "eu-year-ro-medium-11-l11"
+   ]
+  },
+  {
+   "title": "Glandele endocrine",
+   "keys": [
+    "eu-year-ro-medium-11-l12",
+    "eu-year-ro-medium-11-l13",
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15"
+   ]
+  },
+  {
+   "title": "Mișcarea",
+   "keys": [
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17"
+   ]
+  },
+  {
+   "title": "Digestia și absorbția",
+   "keys": [
+    "eu-year-ro-medium-11-l18",
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20"
+   ]
+  },
+  {
+   "title": "Circulația",
+   "keys": [
+    "eu-year-ro-medium-11-l21",
+    "eu-year-ro-medium-11-l22",
+    "eu-year-ro-medium-11-l23"
+   ]
+  },
+  {
+   "title": "Respirația",
+   "keys": [
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25"
+   ]
+  },
+  {
+   "title": "Excreția",
+   "keys": [
+    "eu-year-ro-medium-11-l26"
+   ]
+  },
+  {
+   "title": "Metabolismul",
+   "keys": [
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28"
+   ]
+  },
+  {
+   "title": "Funcția de reproducere",
+   "keys": [
+    "eu-year-ro-medium-11-l29",
+    "eu-year-ro-medium-11-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Topografia corpului uman: segmente, planuri, cavități",
+    "theory": "Corpul uman este împărțit în segmente: capul, gâtul, trunchiul (torace, abdomen, pelvis) și membrele (superioare și inferioare). Pentru descriere se folosesc planuri și axe: planul sagital (împarte corpul în jumătatea dreaptă și stângă — simetrie bilaterală), planul frontal (anterior și posterior) și planul transversal (superior și inferior). Organele se află în cavități: cavitatea craniană (encefalul), canalul vertebral (măduva spinării), cavitatea toracică (inima, plămânii) separată prin diafragmă de cavitatea abdominală (stomac, ficat, intestine) și cavitatea pelviană (vezica urinară, organele reproducătoare). Termenii de poziție: superior–inferior, anterior (ventral)–posterior (dorsal), medial–lateral, proximal–distal.",
+    "sample": "Inima se află în cavitatea toracică, iar ficatul în cavitatea abdominală, sub diafragmă.",
+    "worked": "Localizăm: rinichii sunt în partea posterioară a cavității abdominale, de o parte și de alta a coloanei; cotul este proximal față de mână și distal față de umăr. O tomografie „taie” corpul în plan transversal, o vedere de profil arată planul sagital.",
+    "exercises": [
+     "Enumeră segmentele corpului uman.",
+     "Descrie cele trei planuri ale corpului.",
+     "Ce organe se află în cavitatea toracică și în cea abdominală?",
+     "Ce mușchi separă toracele de abdomen?",
+     "Folosește termenii proximal și distal pentru genunchi."
+    ],
+    "test": [
+     "Ce plan împarte corpul în dreapta și stânga?",
+     "Ce cavitate conține encefalul?",
+     "Unde se află măduva spinării?",
+     "Ce înseamnă anterior?",
+     "Ce organe conține cavitatea pelviană?"
+    ],
+    "steps": [
+     "Identifică segmentul și cavitatea în care se află organul.",
+     "Folosește corect planurile și termenii de poziție.",
+     "Formulează descrierea topografică.",
+     "Greșeala frecventă: să confunzi termenii proximal și distal; proximal înseamnă mai aproape de rădăcina membrului."
+    ],
+    "answers": [
+     "Planul sagital",
+     "Cavitatea craniană",
+     "În canalul vertebral",
+     "În față (ventral)",
+     "Vezica urinară și organele reproducătoare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Neuronul: proprietăți; potențialul de repaus și de acțiune",
+    "theory": "Neuronul are două proprietăți fundamentale: excitabilitatea (răspunde la stimuli) și conductibilitatea (transmite impulsul). În repaus, membrana este polarizată: interiorul este negativ față de exterior (potențial de repaus ≈ −70 mV), datorită repartiției inegale a ionilor Na⁺ și K⁺ (pompa Na⁺/K⁺). Un stimul suficient de puternic (prag) deschide canalele de Na⁺; ionii intră și interiorul devine pozitiv (≈ +30 mV) — potențialul de acțiune, care se propagă de-a lungul axonului după legea „tot sau nimic”. Pe fibrele mielinizate, impulsul „sare” între nodurile Ranvier (conducere saltatorie), ajungând la ≈ 120 m/s, față de 1–2 m/s pe cele nemielinizate.",
+    "sample": "Teaca de mielină face ca impulsul nervos să fie de zeci de ori mai rapid.",
+    "worked": "Un impuls care parcurge 1,2 m (de la degetul piciorului la măduvă) pe o fibră mielinizată cu 120 m/s are nevoie de 0,01 s; pe o fibră nemielinizată cu 1,2 m/s ar avea nevoie de 1 s. În scleroza multiplă, distrugerea mielinei încetinește sau blochează conducerea.",
+    "exercises": [
+     "Ce proprietăți fundamentale are neuronul?",
+     "Explică potențialul de repaus.",
+     "Descrie apariția potențialului de acțiune.",
+     "Ce înseamnă legea „tot sau nimic”?",
+     "Calculează timpul de conducere pe 0,9 m cu 90 m/s."
+    ],
+    "test": [
+     "Valoarea potențialului de repaus?",
+     "Ce ioni intră la depolarizare?",
+     "Ce este pragul de excitație?",
+     "Unde „sare” impulsul pe fibrele mielinizate?",
+     "Viteza maximă aproximativă pe fibrele mielinizate?"
+    ],
+    "steps": [
+     "Descrie starea membranei în repaus (polarizare).",
+     "Explică depolarizarea și propagarea impulsului.",
+     "Leagă viteza de conducere de mielinizare și de diametrul fibrei.",
+     "Greșeala frecventă: să crezi că un stimul mai puternic produce un potențial de acțiune mai mare; potențialul are mereu aceeași amplitudine (tot sau nimic)."
+    ],
+    "answers": [
+     "≈ −70 mV",
+     "Na⁺",
+     "Intensitatea minimă a stimulului care produce un potențial de acțiune",
+     "Între nodurile Ranvier",
+     "≈ 120 m/s"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Sinapsa și neurotransmițătorii",
+    "theory": "Sinapsa este locul de contact funcțional dintre un neuron și altă celulă (neuron, fibră musculară, celulă glandulară). La sinapsa chimică, impulsul ajunge la butonul terminal al axonului, unde veziculele eliberează un neurotransmițător în fanta sinaptică; acesta se leagă de receptorii membranei postsinaptice și o excită sau o inhibă. Exemple de neurotransmițători: acetilcolina (sinapsa neuromusculară), dopamina (mișcare, motivație), serotonina (dispoziție, somn), noradrenalina. Transmiterea este unidirecțională și are o mică întârziere. Multe droguri și medicamente acționează asupra sinapselor (nicotina imită acetilcolina; unele droguri cresc dopamina și produc dependență).",
+    "sample": "Dependența de droguri se explică prin modificarea funcționării sinapselor cu dopamină.",
+    "worked": "Boala Parkinson este produsă de pierderea neuronilor care eliberează dopamină: apar tremor și rigiditate; tratamentul înlocuiește parțial dopamina. Toxina botulinică blochează eliberarea acetilcolinei și produce paralizie — în doze foarte mici este folosită medical.",
+    "exercises": [
+     "Descrie structura unei sinapse chimice.",
+     "Explică etapele transmiterii sinaptice.",
+     "De ce transmiterea prin sinapsă este unidirecțională?",
+     "Dă exemple de neurotransmițători și rolul lor.",
+     "Cum acționează drogurile asupra sinapselor?"
+    ],
+    "test": [
+     "Ce este fanta sinaptică?",
+     "Neurotransmițătorul sinapsei neuromusculare?",
+     "Ce boală este legată de lipsa dopaminei?",
+     "Unde se află veziculele cu neurotransmițător?",
+     "Ce substanță din tutun imită acetilcolina?"
+    ],
+    "steps": [
+     "Identifică elementele sinapsei (presinaptic, fantă, postsinaptic).",
+     "Urmărește eliberarea și acțiunea neurotransmițătorului.",
+     "Explică efectul unor boli sau substanțe asupra transmiterii.",
+     "Greșeala frecventă: să crezi că impulsul electric sare direct peste fanta sinaptică; la sinapsa chimică trecerea se face printr-o substanță chimică."
+    ],
+    "answers": [
+     "Spațiul dintre membrana presinaptică și cea postsinaptică",
+     "Acetilcolina",
+     "Boala Parkinson",
+     "În butonul terminal al axonului",
+     "Nicotina"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Măduva spinării: structură și funcții",
+    "theory": "Măduva spinării se află în canalul vertebral, de la gaura occipitală până la vertebra L2, și este învelită de meninge (dura mater, arahnoida, pia mater), cu lichid cefalorahidian între ele. Pe secțiune transversală are substanța cenușie în centru (în formă de H, cu corpii neuronilor: coarnele anterioare motorii, cele posterioare senzitive) și substanța albă la exterior (fibre organizate în cordoane, care formează căile ascendente și descendente). Din măduvă pleacă 31 de perechi de nervi spinali, fiecare cu o rădăcină posterioară (senzitivă, cu ganglion spinal) și una anterioară (motorie). Funcții: reflexă (centrii reflexelor somatice și vegetative) și de conducere (spre și dinspre encefal).",
+    "sample": "O leziune a măduvei la nivelul gâtului poate paraliza toate cele patru membre.",
+    "worked": "Reflexul rotulian are centrul în segmentele lombare ale măduvei. La un accident cu secționarea completă a măduvei toracice, reflexele de sub leziune pot persista, dar pacientul nu mai simte și nu mai mișcă voluntar membrele inferioare — căile de conducere spre și dinspre creier sunt întrerupte.",
+    "exercises": [
+     "Descrie învelișurile măduvei spinării.",
+     "Compară substanța cenușie cu cea albă.",
+     "Câte perechi de nervi spinali există și ce rădăcini au?",
+     "Explică funcția reflexă și funcția de conducere.",
+     "De ce o leziune a măduvei produce paralizie sub nivelul ei?"
+    ],
+    "test": [
+     "Unde se termină măduva spinării?",
+     "Ce formă are substanța cenușie?",
+     "Ce conțin coarnele anterioare?",
+     "Câte perechi de nervi spinali există?",
+     "Ce funcții are măduva?"
+    ],
+    "steps": [
+     "Localizează structura pe secțiunea măduvei.",
+     "Asociază funcția (senzitivă, motorie, de conducere).",
+     "Explică efectele unei leziuni într-un anumit loc.",
+     "Greșeala frecventă: să consideri că rădăcina anterioară a nervului spinal este senzitivă; ea este motorie."
+    ],
+    "answers": [
+     "La nivelul vertebrei L2",
+     "De H (fluture)",
+     "Corpii neuronilor motori",
+     "31",
+     "Funcția reflexă și funcția de conducere"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "Encefalul: trunchiul cerebral, cerebelul, diencefalul",
+    "theory": "Trunchiul cerebral (bulbul rahidian, puntea și mezencefalul) leagă măduva de restul encefalului; din el pleacă majoritatea celor 12 perechi de nervi cranieni și conține centri vitali: respirator, cardiovascular, ai deglutiției, tusei, strănutului, vomei, reflexele pupilare. Cerebelul, situat posterior, coordonează mișcările, menține echilibrul și tonusul muscular; leziunile lui produc mers nesigur și mișcări necoordonate. Diencefalul cuprinde talamusul (stație de releu pentru aproape toate informațiile senzitive spre scoarță) și hipotalamusul (reglează temperatura corpului, foamea, setea, somnul, comportamentul emoțional și controlează hipofiza — legătura dintre sistemul nervos și cel endocrin).",
+    "sample": "O lovitură puternică la ceafă poate fi mortală, pentru că afectează centrii vitali din bulb.",
+    "worked": "Testul „deget–nas” cu ochii închiși verifică cerebelul. Febra apare când hipotalamusul își ridică „termostatul” la valori mai mari în prezența unor substanțe eliberate în infecții: corpul produce căldură (frisoane) până atinge noua valoare.",
+    "exercises": [
+     "Ce componente are trunchiul cerebral?",
+     "Ce centri vitali se află în bulb?",
+     "Ce rol are cerebelul și cum se manifestă leziunile lui?",
+     "Compară rolurile talamusului și hipotalamusului.",
+     "Explică apariția febrei prin acțiunea hipotalamusului."
+    ],
+    "test": [
+     "Câte perechi de nervi cranieni există?",
+     "Unde se află centrul respirator?",
+     "Ce parte coordonează echilibrul?",
+     "Ce rol are talamusul?",
+     "Ce glandă controlează hipotalamusul?"
+    ],
+    "steps": [
+     "Localizează structura în encefal.",
+     "Asociază funcțiile principale.",
+     "Interpretează simptomele unei leziuni sau ale unei stări (febră, dezechilibru).",
+     "Greșeala frecventă: să crezi că cerebelul comandă mișcările voluntare; el le coordonează, iar comanda vine din scoarța cerebrală."
+    ],
+    "answers": [
+     "12",
+     "În bulbul rahidian",
+     "Cerebelul",
+     "Stație de releu pentru informațiile senzitive spre scoarță",
+     "Hipofiza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Emisferele cerebrale: lobi, arii, funcții superioare",
+    "theory": "Emisferele cerebrale sunt cea mai mare parte a encefalului, unite prin corpul calos. Scoarța cerebrală (substanță cenușie, cu circumvoluții care îi măresc suprafața) are patru lobi: frontal (mișcări voluntare — aria motorie, planificare, decizie, personalitate, vorbire articulată — aria Broca), parietal (sensibilitatea tactilă, termică, dureroasă — aria somestezică), temporal (auz, înțelegerea limbajului — aria Wernicke, memorie) și occipital (vedere). Căile motorii și senzitive se încrucișează: emisfera stângă controlează jumătatea dreaptă a corpului. Funcțiile superioare: gândirea, memoria, învățarea, limbajul, conștiința. Somnul este necesar consolidării memoriei.",
+    "sample": "Un accident vascular în emisfera stângă poate paraliza partea dreaptă a corpului.",
+    "worked": "Un pacient înțelege tot ce i se spune, dar vorbește greu, cu cuvinte puține — leziune în aria Broca (lobul frontal). Altul vorbește fluent, dar fără sens și nu înțelege — leziune în aria Wernicke (lobul temporal). Învățarea înainte de somn și odihna suficientă ajută memorarea.",
+    "exercises": [
+     "Enumeră lobii cerebrali și funcțiile lor.",
+     "De ce emisfera stângă controlează partea dreaptă a corpului?",
+     "Compară afectarea ariei Broca cu a ariei Wernicke.",
+     "Ce rol au circumvoluțiile?",
+     "De ce somnul este important pentru învățare?"
+    ],
+    "test": [
+     "Ce structură unește emisferele?",
+     "Lobul vederii?",
+     "Lobul auzului?",
+     "Unde se află aria motorie?",
+     "Ce controlează emisfera dreaptă?"
+    ],
+    "steps": [
+     "Identifică lobul sau aria afectată.",
+     "Asociază funcția și partea corpului (încrucișarea căilor).",
+     "Interpretează simptomele și propune măsuri de protecție (somn, prevenirea traumatismelor).",
+     "Greșeala frecventă: să crezi că emisfera dreaptă controlează partea dreaptă a corpului; căile se încrucișează."
+    ],
+    "answers": [
+     "Corpul calos",
+     "Lobul occipital",
+     "Lobul temporal",
+     "În lobul frontal",
+     "Jumătatea stângă a corpului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Sistemul nervos vegetativ: simpatic și parasimpatic",
+    "theory": "Sistemul nervos vegetativ (autonom) controlează involuntar organele interne: inima, vasele, glandele, musculatura netedă. Are două componente, cu efecte de obicei opuse. Simpaticul (centrii în măduva toracolombară) pregătește organismul pentru efort, stres și pericol („luptă sau fugi”): crește frecvența cardiacă și tensiunea, dilată bronhiile și pupilele, eliberează glucoză din ficat, încetinește digestia; neurotransmițătorul final este noradrenalina. Parasimpaticul (centrii în trunchiul cerebral și măduva sacrală, nervul vag) favorizează repausul și refacerea („odihnă și digestie”): încetinește inima, contractă pupilele, stimulează digestia; neurotransmițătorul este acetilcolina. Echilibrul lor menține homeostazia.",
+    "sample": "Înaintea unui examen, simpaticul face inima să bată mai repede și gura să se usuce.",
+    "worked": "Efecte asupra pupilei: la întuneric sau la emoție puternică pupila se dilată (simpatic), la lumină puternică se contractă (parasimpatic). Stresul cronic menține simpaticul activat — poate duce la hipertensiune, tulburări digestive, insomnie; mișcarea, respirația lentă și somnul reechilibrează sistemul.",
+    "exercises": [
+     "Ce organe controlează sistemul nervos vegetativ?",
+     "Compară efectele simpaticului și parasimpaticului asupra inimii, pupilei și digestiei.",
+     "Ce neurotransmițători folosesc cele două componente?",
+     "De ce stresul cronic afectează sănătatea?",
+     "Ce nerv important aparține parasimpaticului?"
+    ],
+    "test": [
+     "Este controlul vegetativ voluntar?",
+     "Ce efect are simpaticul asupra bronhiilor?",
+     "Ce efect are parasimpaticul asupra digestiei?",
+     "Unde se află centrii simpaticului?",
+     "Ce înseamnă „luptă sau fugi”?"
+    ],
+    "steps": [
+     "Identifică situația (efort, stres sau repaus).",
+     "Stabilește componenta activată și efectele asupra organelor.",
+     "Explică importanța echilibrului pentru homeostazie.",
+     "Greșeala frecventă: să crezi că simpaticul stimulează toate organele; el încetinește digestia."
+    ],
+    "answers": [
+     "Nu, este involuntar",
+     "Le dilată",
+     "O stimulează",
+     "În măduva toracolombară",
+     "Reacția simpatică de pregătire pentru efort sau pericol"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Boli ale sistemului nervos; igiena sistemului nervos",
+    "theory": "Afecțiuni ale sistemului nervos: meningita (inflamația meningelor, produsă de bacterii sau virusuri — febră, durere de cap, ceafă rigidă; urgență medicală; există vaccinuri), epilepsia (descărcări electrice anormale ale neuronilor, cu crize), accidentul vascular cerebral (oprirea circulației sau ruperea unui vas în encefal — semne: față asimetrică, braț slăbit, vorbire neclară; fiecare minut contează), boala Parkinson, boala Alzheimer (pierderea progresivă a memoriei), traumatismele craniene și vertebro-medulare. Igienă: somn suficient (8–10 ore la adolescenți), alternarea efortului intelectual cu cel fizic, alimentație echilibrată, evitarea alcoolului, drogurilor și a ecranelor înainte de culcare, purtarea căștii.",
+    "sample": "Casca de protecție la bicicletă reduce mult riscul unui traumatism cranian grav.",
+    "worked": "Recunoașterea AVC cu regula FAST: Face (fața asimetrică), Arm (brațul nu poate fi ridicat), Speech (vorbire dificilă), Time (timpul — sună imediat la 112). Tratamentul în primele ore poate preveni sechele permanente.",
+    "exercises": [
+     "Ce simptome are meningita?",
+     "Ce este epilepsia?",
+     "Explică regula FAST pentru recunoașterea unui AVC.",
+     "Ce măsuri de igienă protejează sistemul nervos?",
+     "De ce casca este importantă la sporturile pe roți?"
+    ],
+    "test": [
+     "Ce este meningita?",
+     "Ce boală produce pierderea progresivă a memoriei?",
+     "Ce număr suni în urgență?",
+     "Câte ore de somn sunt recomandate adolescenților?",
+     "Ce produce un AVC?"
+    ],
+    "steps": [
+     "Identifică simptomele și structura afectată.",
+     "Asociază boala și cauza ei.",
+     "Propune măsuri de prim ajutor și de prevenire.",
+     "Greșeala frecventă: să aștepți să treacă singure semnele unui AVC; tratamentul este eficient doar în primele ore."
+    ],
+    "answers": [
+     "Inflamația meningelor",
+     "Boala Alzheimer",
+     "112",
+     "8–10 ore",
+     "Oprirea circulației sau ruperea unui vas în encefal"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Analizatorul vizual: formarea imaginii, adaptarea, afecțiuni",
+    "theory": "Lumina trece prin cornee, umoarea apoasă, pupilă, cristalin și corpul vitros și formează pe retină o imagine reală, mai mică și răsturnată, pe care creierul o interpretează corect. Acomodarea: la privirea obiectelor apropiate, mușchii ciliari se contractă și cristalinul devine mai bombat. Adaptarea la întuneric durează câteva zeci de minute (bastonașele refac pigmentul — rodopsina, care necesită vitamina A). Vederea binoculară permite aprecierea distanțelor (relief). Afecțiuni: miopia, hipermetropia, astigmatismul, prezbitismul (după 40–45 de ani cristalinul își pierde elasticitatea), cataracta (opacifierea cristalinului), glaucomul (creșterea presiunii din ochi), conjunctivita, daltonismul (nu se disting unele culori).",
+    "sample": "Lipsa vitaminei A produce „orbul găinilor”, adică vedere slabă la lumină redusă.",
+    "worked": "Pe retină, locul de unde pleacă nervul optic nu are fotoreceptori (pata oarbă). Experiment: închide ochiul stâng și privește cu dreptul o cruce desenată în stânga unui punct; apropiind foaia, la o anumită distanță punctul dispare — imaginea lui cade pe pata oarbă.",
+    "exercises": [
+     "Descrie drumul luminii prin ochi.",
+     "Ce caracteristici are imaginea de pe retină?",
+     "Explică acomodarea pentru vederea de aproape.",
+     "Ce este pata oarbă și cum o evidențiezi?",
+     "Compară cataracta cu glaucomul."
+    ],
+    "test": [
+     "Ce pigment refac bastonașele la întuneric?",
+     "Ce vitamină este necesară vederii la lumină slabă?",
+     "Ce este prezbitismul?",
+     "Ce este cataracta?",
+     "Ce permite vederea binoculară?"
+    ],
+    "steps": [
+     "Urmărește drumul luminii și rolul fiecărui mediu transparent.",
+     "Explică formarea și interpretarea imaginii (acomodare, adaptare).",
+     "Asociază simptomele cu afecțiunea și corectarea ei.",
+     "Greșeala frecventă: să crezi că imaginea de pe retină este dreaptă; ea este răsturnată, iar creierul o interpretează corect."
+    ],
+    "answers": [
+     "Rodopsina",
+     "Vitamina A",
+     "Pierderea elasticității cristalinului după 40–45 de ani",
+     "Opacifierea cristalinului",
+     "Aprecierea distanțelor (vederea în relief)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Analizatorii auditiv și vestibular: mecanism și afecțiuni",
+    "theory": "Undele sonore colectate de pavilion pun în vibrație timpanul; oscioarele (ciocan, nicovală, scăriță) amplifică vibrațiile și le transmit ferestrei ovale a urechii interne. În melc, lichidul (perilimfa, endolimfa) vibrează, iar celulele cu cili din organul Corti transformă vibrațiile în impulsuri nervoase, transmise prin nervul auditiv la lobul temporal. Omul aude sunete între ≈ 20 Hz și 20 000 Hz. Trompa lui Eustachio egalizează presiunea de o parte și de alta a timpanului. Aparatul vestibular (utricula, sacula, canalele semicirculare) detectează poziția capului și accelerațiile, contribuind la echilibru alături de cerebel și văz. Afecțiuni: otita, surditatea, răul de mișcare.",
+    "sample": "Când avionul aterizează, înghițitul deschide trompa lui Eustachio și „desfundă” urechile.",
+    "worked": "Răul de mișcare apare când aparatul vestibular semnalează mișcare, iar ochii (care privesc o carte în mașină) semnalează repaus; conflictul de informații produce greață. Privind în depărtare, prin parbriz, informațiile devin concordante.",
+    "exercises": [
+     "Descrie drumul sunetului de la pavilion la scoarța cerebrală.",
+     "Ce rol are organul Corti?",
+     "Ce rol are trompa lui Eustachio?",
+     "Ce structuri detectează poziția capului și mișcările?",
+     "Explică apariția răului de mișcare."
+    ],
+    "test": [
+     "Ce oscior este legat de fereastra ovală?",
+     "Ce frecvențe aude omul?",
+     "În ce lob se află centrul auditiv?",
+     "Ce detectează canalele semicirculare?",
+     "Ce este otita?"
+    ],
+    "steps": [
+     "Urmărește transmiterea vibrațiilor prin ureche.",
+     "Explică transformarea lor în impulsuri și interpretarea centrală.",
+     "Asociază simptomele cu afecțiunea și măsurile de prevenire.",
+     "Greșeala frecventă: să crezi că urechea servește doar la auz; urechea internă conține și receptorii echilibrului."
+    ],
+    "answers": [
+     "Scărița",
+     "≈ 20–20 000 Hz",
+     "Lobul temporal",
+     "Mișcările de rotație ale capului (accelerațiile)",
+     "Inflamația urechii"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Analizatorii cutanat, kinestezic, olfactiv și gustativ",
+    "theory": "Pielea are receptori diferiți pentru atingere și presiune, cald, rece și durere; densitatea lor variază (vârful degetelor și buzele sunt foarte sensibile). Durerea are rol de protecție. Analizatorul kinestezic are receptori în mușchi, tendoane și articulații (fusuri neuromusculare) și informează creierul despre poziția și mișcarea segmentelor corpului — de aceea îți poți atinge nasul cu ochii închiși. Receptorii olfactivi, în mucoasa olfactivă, detectează substanțe volatile; adaptarea este rapidă (nu mai simți propriul parfum). Mugurii gustativi detectează dulce, sărat, acru, amar și umami; aroma alimentelor rezultă din combinarea gustului cu mirosul.",
+    "sample": "Nu mai simți ceasul pe mână după câteva minute, pentru că receptorii tactili se adaptează.",
+    "worked": "Testul celor două vârfuri: atingem pielea cu două vârfuri de compas. Pe vârful degetului le distingem la ≈ 2–3 mm, pe spate abia la ≈ 40 mm — densitatea receptorilor este mult mai mare pe degete. Persoanele care și-au pierdut vederea folosesc această sensibilitate pentru citirea Braille.",
+    "exercises": [
+     "Ce tipuri de receptori are pielea?",
+     "Ce rol are durerea?",
+     "Ce informații transmite analizatorul kinestezic?",
+     "Ce este adaptarea olfactivă?",
+     "Interpretează testul celor două vârfuri."
+    ],
+    "test": [
+     "Unde se află receptorii kinestezici?",
+     "Ce gusturi de bază percepem?",
+     "Ce zone ale pielii sunt foarte sensibile?",
+     "Ce substanțe detectează receptorii olfactivi?",
+     "Ce este alfabetul Braille?"
+    ],
+    "steps": [
+     "Identifică stimulul și receptorul.",
+     "Precizează analizatorul și informația transmisă.",
+     "Explică fenomene precum adaptarea sau diferențele de sensibilitate.",
+     "Greșeala frecventă: să crezi că limba are zone separate pentru fiecare gust; mugurii din toate zonele percep toate gusturile, cu diferențe mici."
+    ],
+    "answers": [
+     "În mușchi, tendoane și articulații",
+     "Dulce, sărat, acru, amar, umami",
+     "Vârful degetelor și buzele",
+     "Substanțe volatile",
+     "Un sistem de citire prin atingere, cu puncte în relief"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Hormonii; hipotalamusul și hipofiza",
+    "theory": "Glandele endocrine secretă hormoni direct în sânge; hormonii acționează la distanță, asupra organelor-țintă care au receptori pentru ei, în cantități foarte mici. Secreția este reglată prin feedback negativ: excesul unui hormon inhibă producerea lui. Hipotalamusul controlează hipofiza, numită „glanda dirijoare”. Hipofiza anterioară produce: hormonul de creștere (STH), hormoni stimulatori ai tiroidei (TSH), corticosuprarenalelor (ACTH) și gonadelor (FSH, LH) și prolactina. Hipofiza posterioară eliberează ADH (antidiuretic — reține apa în rinichi) și oxitocina (contracțiile uterului la naștere, eliminarea laptelui). Excesul de STH în copilărie produce gigantism, lipsa lui — nanism hipofizar.",
+    "sample": "Hormonul de creștere secretat în exces în copilărie produce gigantism.",
+    "worked": "Feedback negativ: hipotalamusul stimulează hipofiza → TSH → tiroida produce tiroxină; când tiroxina crește, ea inhibă hipotalamusul și hipofiza, iar TSH scade. Ca un termostat: când temperatura este atinsă, centrala se oprește.",
+    "exercises": [
+     "Ce sunt hormonii și cum acționează?",
+     "Explică feedbackul negativ cu un exemplu.",
+     "Ce hormoni produce hipofiza anterioară?",
+     "Ce rol au ADH și oxitocina?",
+     "Compară gigantismul cu nanismul hipofizar."
+    ],
+    "test": [
+     "Unde își varsă hormonii glandele endocrine?",
+     "Ce glandă se numește „dirijoare”?",
+     "Ce controlează hipofiza?",
+     "Ce hormon reține apa în rinichi?",
+     "Ce hormon produce contracțiile uterului la naștere?"
+    ],
+    "steps": [
+     "Identifică glanda și hormonul.",
+     "Precizează organul-țintă și efectul.",
+     "Explică reglarea (feedback) și consecințele hiper- sau hiposecreției.",
+     "Greșeala frecventă: să crezi că hormonii acționează asupra tuturor celulelor; acționează doar asupra celor care au receptori specifici."
+    ],
+    "answers": [
+     "Direct în sânge",
+     "Hipofiza",
+     "Hipotalamusul",
+     "ADH (hormonul antidiuretic)",
+     "Oxitocina"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Tiroida și paratiroidele",
+    "theory": "Tiroida, situată în partea anterioară a gâtului, produce tiroxina și triiodotironina (hormoni cu iod), care cresc metabolismul, producția de căldură și sunt esențiale pentru creșterea și dezvoltarea sistemului nervos la copil. Produce și calcitonina, care scade calciul din sânge. Hipertiroidismul (boala Basedow) produce metabolism accelerat, slăbire, nervozitate, tahicardie, ochi proeminenți. Hipotiroidismul produce la adult încetinire, oboseală, îngrășare, frig (mixedem), iar la copil — cretinism (întârziere în creștere și dezvoltare intelectuală). Lipsa iodului din alimentație produce gușa endemică — de aceea sarea se iodează. Paratiroidele produc parathormonul, care crește calciul din sânge (îl eliberează din oase).",
+    "sample": "Sarea iodată previne gușa, mărirea tiroidei din cauza lipsei iodului.",
+    "worked": "Calciul din sânge este reglat de doi hormoni antagoniști: când crește, calcitonina îl depune în oase; când scade, parathormonul îl eliberează din oase și crește absorbția lui intestinală (cu vitamina D). Lipsa parathormonului produce tetanie — contracții musculare involuntare.",
+    "exercises": [
+     "Ce hormoni produce tiroida și ce efecte au?",
+     "Compară hipertiroidismul cu hipotiroidismul.",
+     "De ce sarea se iodează?",
+     "Explică reglarea calcemiei de către calcitonină și parathormon.",
+     "Ce este cretinismul și cum poate fi prevenit?"
+    ],
+    "test": [
+     "Unde se află tiroida?",
+     "Ce element conțin hormonii tiroidieni?",
+     "Ce boală produce excesul de hormoni tiroidieni?",
+     "Ce hormon crește calciul din sânge?",
+     "Ce produce lipsa iodului?"
+    ],
+    "steps": [
+     "Identifică glanda și hormonul.",
+     "Precizează efectele asupra metabolismului sau calciului.",
+     "Interpretează simptomele unei disfuncții și măsurile de prevenire.",
+     "Greșeala frecventă: să confunzi calcitonina (scade calciul) cu parathormonul (crește calciul)."
+    ],
+    "answers": [
+     "În partea anterioară a gâtului",
+     "Iod",
+     "Boala Basedow (hipertiroidismul)",
+     "Parathormonul",
+     "Gușa endemică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Glandele suprarenale și reacția la stres",
+    "theory": "Glandele suprarenale se află deasupra rinichilor și au două părți. Corticosuprarenala produce: cortizol (glucocorticoid — crește glucoza din sânge, are efect antiinflamator, intervine în stres de durată), aldosteron (mineralocorticoid — reține Na⁺ și apa, eliminând K⁺, reglând tensiunea arterială) și mici cantități de hormoni sexuali. Medulosuprarenala produce adrenalina și noradrenalina, care, la fel ca simpaticul, pregătesc organismul pentru efort sau pericol: cresc frecvența cardiacă, tensiunea, glicemia, dilată bronhiile. Insuficiența corticosuprarenalei produce boala Addison (oboseală, tensiune scăzută, piele pigmentată); excesul de cortizol produce sindromul Cushing.",
+    "sample": "Adrenalina eliberată la o sperietură face inima să bată foarte repede.",
+    "worked": "Stresul acut (un câine care latră brusc): adrenalina acționează în câteva secunde — inima accelerează, mușchii primesc mai mult sânge și glucoză. Stresul cronic (presiune constantă) menține cortizolul ridicat: scade imunitatea, crește glicemia și tensiunea, apare oboseala. Odihna, sportul și organizarea timpului reduc stresul cronic.",
+    "exercises": [
+     "Ce hormoni produce corticosuprarenala?",
+     "Ce efecte are adrenalina?",
+     "Compară stresul acut cu stresul cronic din punct de vedere hormonal.",
+     "Ce rol are aldosteronul?",
+     "Ce este boala Addison?"
+    ],
+    "test": [
+     "Unde se află glandele suprarenale?",
+     "Ce hormon reglează sodiul și apa?",
+     "Ce hormon are efect antiinflamator?",
+     "Ce parte produce adrenalina?",
+     "Ce sindrom produce excesul de cortizol?"
+    ],
+    "steps": [
+     "Identifică zona glandei și hormonul.",
+     "Precizează efectele asupra organismului.",
+     "Leagă de situații concrete (stres, disfuncții) și măsuri de sănătate.",
+     "Greșeala frecventă: să crezi că stresul este dăunător în orice formă; stresul acut, de scurtă durată, este o reacție utilă de adaptare."
+    ],
+    "answers": [
+     "Deasupra rinichilor",
+     "Aldosteronul",
+     "Cortizolul",
+     "Medulosuprarenala",
+     "Sindromul Cushing"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Pancreasul endocrin și gonadele; diabetul zaharat",
+    "theory": "Pancreasul are și o parte endocrină: insulele Langerhans. Celulele beta produc insulina, care scade glicemia (glucoza din sânge), favorizând intrarea glucozei în celule și depozitarea ei ca glicogen în ficat și mușchi. Celulele alfa produc glucagonul, care crește glicemia, eliberând glucoza din glicogen. Glicemia normală pe nemâncate este ≈ 70–100 mg/dL. Diabetul zaharat: tipul 1 — distrugerea celulelor beta, lipsa insulinei, tratament cu insulină; tipul 2 — celulele răspund slab la insulină, legat de obezitate și sedentarism, prevenibil prin alimentație și mișcare. Simptome: sete, urinare frecventă, oboseală, scădere în greutate. Gonadele: testiculele produc testosteron, ovarele estrogeni și progesteron — determină caracterele sexuale secundare de la pubertate.",
+    "sample": "Persoanele cu diabet de tip 1 își administrează insulină, pentru că pancreasul nu o mai produce.",
+    "worked": "După o masă bogată în glucide, glicemia crește la ≈ 140 mg/dL, insulina o readuce în 2–3 ore la normal. La o persoană cu diabet rămâne mult crescută (peste 200 mg/dL), iar glucoza apare în urină. Hipoglicemia (sub ≈ 70 mg/dL) produce tremur, transpirații, confuzie — se corectează rapid cu zahăr.",
+    "exercises": [
+     "Compară acțiunea insulinei și a glucagonului.",
+     "Ce valori are glicemia normală pe nemâncate?",
+     "Compară diabetul de tip 1 cu cel de tip 2.",
+     "Ce măsuri previn diabetul de tip 2?",
+     "Ce hormoni produc gonadele și ce efecte au?"
+    ],
+    "test": [
+     "Ce celule produc insulina?",
+     "Ce hormon crește glicemia?",
+     "Unde se depozitează glucoza sub formă de glicogen?",
+     "Ce tip de diabet este legat de obezitate?",
+     "Ce hormon produc testiculele?"
+    ],
+    "steps": [
+     "Identifică hormonul și efectul asupra glicemiei.",
+     "Explică reglarea glicemiei prin hormoni antagoniști.",
+     "Interpretează valorile și simptomele și propune măsuri.",
+     "Greșeala frecventă: să crezi că diabetul de tip 2 apare doar la vârstnici; sedentarismul și obezitatea îl produc tot mai des și la tineri."
+    ],
+    "answers": [
+     "Celulele beta din insulele Langerhans",
+     "Glucagonul",
+     "În ficat și mușchi",
+     "Diabetul de tip 2",
+     "Testosteronul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Sistemul osos: structura osului, creșterea, articulațiile, afecțiuni",
+    "theory": "Osul este un organ viu: are la exterior periostul (membrană care asigură creșterea în grosime și refacerea după fracturi), țesut osos compact și spongios (cu măduvă roșie hematogenă, care produce celulele sângelui) și, în oasele lungi, canalul medular cu măduvă galbenă. Creșterea în lungime are loc la nivelul cartilajelor de creștere, până la ≈ 18–25 de ani. Compoziția: substanțe minerale (fosfat de calciu — duritate) și organice (oseina, colagen — elasticitate). Articulațiile mobile au capsulă, ligamente, cartilaj articular și lichid sinovial. Afecțiuni: fracturi, luxații, entorse, deformări ale coloanei (scolioză, cifoză, lordoză accentuate), osteoporoză (pierderea masei osoase), rahitism (lipsa vitaminei D la copii).",
+    "sample": "Măduva roșie din oasele late produce globulele roșii, albe și trombocitele.",
+    "worked": "Un os pus în acid (oțet) câteva zile pierde sărurile minerale și devine flexibil; un os calcinat (ars) pierde substanța organică și devine sfărâmicios. Concluzie: mineralele dau duritate, substanța organică elasticitate. La vârstnici, proporția organică scade — oasele se rup mai ușor.",
+    "exercises": [
+     "Descrie structura unui os lung.",
+     "Explică creșterea osului în lungime și în grosime.",
+     "Interpretează experimentul cu osul în acid și osul calcinat.",
+     "Ce componente are o articulație mobilă?",
+     "Ce măsuri previn osteoporoza și deformările coloanei?"
+    ],
+    "test": [
+     "Ce membrană acoperă osul?",
+     "Ce produce măduva roșie?",
+     "Ce substanță dă duritate osului?",
+     "Ce boală produce lipsa vitaminei D la copii?",
+     "Ce este osteoporoza?"
+    ],
+    "steps": [
+     "Identifică structura osului sau a articulației.",
+     "Leagă compoziția și structura de proprietăți (duritate, elasticitate, creștere).",
+     "Asociază afecțiunea cu cauza și cu măsurile de prevenire.",
+     "Greșeala frecventă: să consideri osul un țesut mort; el este viu, are vase, nervi și se reface continuu."
+    ],
+    "answers": [
+     "Periostul",
+     "Celulele sângelui",
+     "Fosfatul de calciu",
+     "Rahitismul",
+     "Pierderea masei osoase"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Sistemul muscular: contracția musculară, oboseala, afecțiuni",
+    "theory": "Mușchiul scheletic este format din fibre musculare care conțin miofibrile cu filamente de actină și miozină. Contracția: impulsul nervos ajunge la placa motorie, se eliberează acetilcolină, fibra se excită, iar ionii de calciu permit alunecarea filamentelor de actină printre cele de miozină, consumând ATP — mușchiul se scurtează. Energia provine din respirația aerobă (efort lung) și din fermentația lactică (efort scurt și intens). Tipuri de contracții: izotonice (mușchiul se scurtează — ridicarea unei greutăți) și izometrice (tensiunea crește, lungimea rămâne aceeași — susținerea unei greutăți). Oboseala apare prin epuizarea rezervelor și acumularea de produși. Afecțiuni: întinderi, rupturi musculare, crampe, distrofia musculară. Antrenamentul crește forța și rezistența.",
+    "sample": "Rigiditatea musculară după moarte apare pentru că lipsește ATP-ul necesar relaxării.",
+    "worked": "Ținerea unui ghiozdan cu brațul întins — contracție izometrică: mușchiul obosește repede, deși nu se mișcă. Încălzirea înainte de efort mărește fluxul de sânge și elasticitatea, reducând riscul de întinderi.",
+    "exercises": [
+     "Descrie structura unei fibre musculare.",
+     "Explică mecanismul contracției (actină, miozină, Ca²⁺, ATP).",
+     "Compară contracția izotonică cu cea izometrică.",
+     "De ce apare oboseala musculară?",
+     "Ce rol are încălzirea înainte de sport?"
+    ],
+    "test": [
+     "Ce filamente alunecă la contracție?",
+     "Ce neurotransmițător acționează la placa motorie?",
+     "Ce ion declanșează contracția?",
+     "Ce substanță furnizează energia contracției?",
+     "Ce este o contracție izometrică?"
+    ],
+    "steps": [
+     "Urmărește transmiterea comenzii de la nerv la fibră.",
+     "Explică alunecarea filamentelor și sursa energiei.",
+     "Leagă de tipul de efort, oboseală și prevenirea accidentărilor.",
+     "Greșeala frecventă: să crezi că filamentele se scurtează la contracție; ele alunecă unele printre altele, iar lungimea lor rămâne aceeași."
+    ],
+    "answers": [
+     "Actina și miozina",
+     "Acetilcolina",
+     "Calciul",
+     "ATP-ul",
+     "Tensiunea crește fără scurtarea mușchiului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Digestia bucală și gastrică",
+    "theory": "În cavitatea bucală, dinții mărunțesc hrana (digestie mecanică), iar saliva (≈ 1–1,5 L/zi) o umezește, formează bolul alimentar și începe digestia amidonului cu amilaza salivară; saliva are și lizozim, cu rol antimicrobian. Deglutiția (înghițirea) este un act reflex: epiglota închide laringele, iar bolul trece prin esofag prin peristaltism. Stomacul depozitează hrana și o amestecă; sucul gastric (≈ 2 L/zi) conține acid clorhidric (pH ≈ 1,5–2: distruge microbii, activează pepsina), pepsină (începe digestia proteinelor), lipază gastrică și factorul intrinsec (necesar absorbției vitaminei B₁₂). Mucusul protejează peretele stomacului. Hrana devine chim și trece treptat în duoden.",
+    "sample": "Când înghiți, epiglota închide intrarea în laringe ca să nu intre mâncarea în trahee.",
+    "worked": "Secreția gastrică pornește chiar înainte de masă — la vederea și mirosul mâncării (reflex condiționat studiat de Pavlov). Ulcerul gastric apare când mucusul nu mai protejează peretele (bacteria Helicobacter pylori, antiinflamatoare, stres); se tratează medical.",
+    "exercises": [
+     "Ce componente are saliva și ce rol au?",
+     "Descrie deglutiția.",
+     "Ce conține sucul gastric și ce rol are fiecare component?",
+     "De ce stomacul nu se digeră singur?",
+     "Ce cauze poate avea ulcerul gastric?"
+    ],
+    "test": [
+     "Ce enzimă salivară digeră amidonul?",
+     "pH-ul sucului gastric?",
+     "Ce închide laringele la înghițire?",
+     "Ce este chimul?",
+     "Ce bacterie poate produce ulcer?"
+    ],
+    "steps": [
+     "Identifică segmentul și secreția lui.",
+     "Precizează enzimele, substratul și condițiile (pH).",
+     "Explică mecanismele de protecție și afecțiunile.",
+     "Greșeala frecventă: să crezi că în stomac se absoarbe majoritatea nutrienților; absorbția principală are loc în intestinul subțire."
+    ],
+    "answers": [
+     "Amilaza salivară",
+     "≈ 1,5–2",
+     "Epiglota",
+     "Hrana parțial digerată din stomac",
+     "Helicobacter pylori"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "Digestia intestinală; ficatul și pancreasul exocrin",
+    "theory": "În duoden se varsă bila și sucul pancreatic. Ficatul produce bila (≈ 0,5–1 L/zi), depozitată în vezica biliară; sărurile biliare emulsionează grăsimile (le fragmentează în picături mici), ușurând acțiunea lipazei. Sucul pancreatic este alcalin (neutralizează chimul acid) și conține enzime pentru toate grupele de nutrienți: amilaza pancreatică (amidon), tripsina (proteine), lipaza pancreatică (grăsimi). Sucul intestinal termină digestia: dizaharidele devin monozaharide, peptidele devin aminoacizi. Ficatul are și alte roluri: depozitează glicogen, fier, vitamine, sintetizează proteine ale sângelui, transformă amoniacul în uree și neutralizează substanțele toxice (alcool, medicamente).",
+    "sample": "Ficatul neutralizează alcoolul, dar consumul repetat îl poate distruge (ciroză).",
+    "worked": "Rezumatul digestiei: amidon → (amilaza salivară și pancreatică) → maltoză → (maltaza) → glucoză; proteine → (pepsină, tripsină) → peptide → (peptidaze) → aminoacizi; grăsimi → (bilă – emulsionare, lipază) → acizi grași și glicerol.",
+    "exercises": [
+     "Ce rol are bila?",
+     "Ce enzime conține sucul pancreatic?",
+     "De ce sucul pancreatic este alcalin?",
+     "Rezumă digestia amidonului, proteinelor și grăsimilor.",
+     "Enumeră alte roluri ale ficatului în afară de producerea bilei."
+    ],
+    "test": [
+     "Unde se depozitează bila?",
+     "Ce enzimă pancreatică digeră proteinele?",
+     "Ce enzimă digeră grăsimile?",
+     "Produșii finali ai digestiei grăsimilor?",
+     "Ce transformă ficatul amoniacul?"
+    ],
+    "steps": [
+     "Identifică secreția și organul care o produce.",
+     "Asociază enzimele cu substratul și produsul.",
+     "Leagă funcțiile ficatului de sănătate (alcool, medicamente).",
+     "Greșeala frecventă: să crezi că bila digeră chimic grăsimile; ea doar le emulsionează, digestia o face lipaza."
+    ],
+    "answers": [
+     "În vezica biliară",
+     "Tripsina",
+     "Lipaza",
+     "Acizi grași și glicerol",
+     "În uree"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Absorbția intestinală; afecțiuni ale sistemului digestiv",
+    "theory": "Absorbția are loc mai ales în intestinul subțire, a cărui suprafață este mărită de pliuri, vilozități și microvilozități. Glucoza și aminoacizii trec în capilarele sanguine și ajung prin vena portă la ficat; acizii grași și glicerolul, refăcuți în grăsimi, trec în vasele limfatice; apa și sărurile se absorb și în intestinul gros. Flora intestinală (microbiomul) din colon produce vitamina K și unele vitamine B și ajută imunitatea. Afecțiuni: cariile dentare (bacterii + zahăr), gastrita și ulcerul, hepatitele virale (A — prin apă și alimente contaminate; B, C — prin sânge), toxiinfecțiile alimentare (salmoneloză), constipația, apendicita. Prevenire: igiena mâinilor și alimentelor, periajul dentar, fibre și apă suficientă, vaccinarea împotriva hepatitelor A și B.",
+    "sample": "Fibrele din legume și cereale integrale previn constipația.",
+    "worked": "Toxiinfecția cu Salmonella: maioneza sau ouăle crude ținute la cald favorizează înmulțirea bacteriilor; în câteva ore apar febră, crampe, diaree. Prevenire: păstrarea la rece, prepararea termică, spălarea mâinilor. Hidratarea este esențială în tratament.",
+    "exercises": [
+     "Ce structuri măresc suprafața de absorbție?",
+     "Unde trec glucoza și grăsimile după absorbție?",
+     "Ce rol are flora intestinală?",
+     "Compară căile de transmitere ale hepatitelor A și B.",
+     "Ce măsuri previn toxiinfecțiile alimentare?"
+    ],
+    "test": [
+     "Unde are loc cea mai mare parte a absorbției?",
+     "Ce vas duce nutrienții la ficat?",
+     "Ce vitamină produce flora intestinală?",
+     "Ce produce cariile dentare?",
+     "Cum se transmite hepatita A?"
+    ],
+    "steps": [
+     "Identifică nutrientul și calea lui de absorbție.",
+     "Explică rolul structurilor intestinale și al microbiomului.",
+     "Asociază afecțiunile cu cauzele și măsurile de prevenire.",
+     "Greșeala frecventă: să crezi că toate bacteriile din intestin sunt dăunătoare; flora normală este esențială pentru sănătate."
+    ],
+    "answers": [
+     "În intestinul subțire",
+     "Vena portă",
+     "Vitamina K",
+     "Bacteriile care fermentează zaharurile",
+     "Prin apă și alimente contaminate"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Imunitatea: apărarea nespecifică și specifică",
+    "theory": "Organismul se apără în trei linii. Prima: barierele (pielea, mucoasele, mucusul, lizozimul din lacrimi și salivă, acidul gastric). A doua (nespecifică): inflamația (roșeață, căldură, umflare, durere) și fagocitoza efectuată de neutrofile și macrofage, febra. A treia (specifică): limfocitele recunosc antigenele unui anumit microb. Limfocitele B produc anticorpi; limfocitele T distrug celulele infectate și coordonează răspunsul. După prima infecție rămân celule cu memorie, care asigură un răspuns rapid la reinfecție — pe acest principiu funcționează vaccinurile. Virusul HIV distruge limfocitele T și produce SIDA. Alergiile sunt reacții exagerate la substanțe inofensive.",
+    "sample": "Vaccinul învață sistemul imunitar să recunoască un microb fără ca persoana să facă boala.",
+    "worked": "La prima întâlnire cu virusul rujeolei, anticorpii apar după 1–2 săptămâni (boala se manifestă). La a doua întâlnire, celulele cu memorie produc anticorpi în câteva zile, în cantitate mult mai mare — boala nu mai apare. Vaccinul produce același efect de memorie.",
+    "exercises": [
+     "Enumeră cele trei linii de apărare ale organismului.",
+     "Ce este fagocitoza?",
+     "Compară rolul limfocitelor B și T.",
+     "Explică principiul vaccinării.",
+     "Cum afectează HIV sistemul imunitar?"
+    ],
+    "test": [
+     "Ce produc limfocitele B?",
+     "Ce sunt antigenele?",
+     "Semnele inflamației?",
+     "Ce celule distruge HIV?",
+     "Ce este o alergie?"
+    ],
+    "steps": [
+     "Identifică linia de apărare implicată.",
+     "Explică mecanismul (barieră, inflamație, fagocitoză, anticorpi, celule T).",
+     "Leagă de vaccinare, boli imunitare și măsuri de protecție.",
+     "Greșeala frecventă: să crezi că antibioticele întăresc imunitatea; ele distrug bacterii, nu stimulează sistemul imunitar."
+    ],
+    "answers": [
+     "Anticorpi",
+     "Substanțe străine recunoscute de sistemul imunitar",
+     "Roșeață, căldură, umflare, durere",
+     "Limfocitele T",
+     "O reacție imună exagerată la substanțe inofensive"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Inima: proprietăți, ciclul cardiac, tensiunea arterială",
+    "theory": "Mușchiul inimii (miocardul) are automatism: își generează singur impulsurile în nodulul sinoatrial („pacemakerul” natural), care se propagă prin țesutul nodal (nodul atrioventricular, fasciculul His, rețeaua Purkinje). Ciclul cardiac (≈ 0,8 s la 75 bătăi/min): sistola atrială (0,1 s), sistola ventriculară (0,3 s), diastola generală (0,4 s). Valvele produc zgomotele cardiace la închidere. Electrocardiograma (EKG) înregistrează activitatea electrică a inimii (undele P, QRS, T). Tensiunea arterială este presiunea sângelui pe pereții arterelor: ≈ 120/80 mmHg (sistolică/diastolică). Debitul cardiac = frecvența × volumul pompat la o bătaie.",
+    "sample": "Stimulatorul cardiac artificial înlocuiește nodulul sinoatrial atunci când acesta nu funcționează.",
+    "worked": "La 75 bătăi/min, un ciclu durează 60/75 = 0,8 s. În timpul efortului, frecvența crește (de exemplu 150/min ⇒ 0,4 s pe ciclu), iar diastola se scurtează cel mai mult. O tensiune de 150/95 mmHg măsurată repetat în repaus indică hipertensiune.",
+    "exercises": [
+     "Ce este automatismul inimii și unde se generează impulsurile?",
+     "Descrie etapele ciclului cardiac și durata lor.",
+     "Ce înregistrează EKG-ul?",
+     "Ce valori normale are tensiunea arterială?",
+     "Calculează durata ciclului cardiac la 60 bătăi/min."
+    ],
+    "test": [
+     "Pacemakerul natural al inimii?",
+     "Durata ciclului cardiac la 75 bătăi/min?",
+     "Ce produce zgomotele inimii?",
+     "Ce înseamnă 120 în valoarea 120/80?",
+     "Formula debitului cardiac?"
+    ],
+    "steps": [
+     "Identifică structura de conducere sau etapa ciclului.",
+     "Calculează durate, debite sau interpretează valori.",
+     "Leagă rezultatele de sănătatea cardiovasculară.",
+     "Greșeala frecventă: să crezi că inima are nevoie de comanda creierului pentru a bate; ea are automatism propriu, sistemul nervos doar îi modifică ritmul."
+    ],
+    "answers": [
+     "Nodulul sinoatrial",
+     "0,8 s",
+     "Închiderea valvelor",
+     "Tensiunea sistolică (în timpul contracției ventriculelor)",
+     "Frecvența × volumul pompat la o bătaie"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "Vasele de sânge, sistemul limfatic și afecțiuni cardiovasculare",
+    "theory": "Arterele au pereți groși și elastici și transportă sângele sub presiune; venele au pereți mai subțiri, valve și sunt ajutate de contracția mușchilor scheletici; capilarele au un singur strat de celule și permit schimburile. Sistemul limfatic colectează lichidul interstițial în exces (limfa) și îl readuce în sânge; ganglionii limfatici filtrează limfa și conțin limfocite (de aceea se umflă în infecții). Afecțiuni: ateroscleroza (depuneri de grăsimi în artere), hipertensiunea, infarctul miocardic (blocarea unei artere coronare), varicele, anemiile, leucemiile. Factori de risc: fumatul, sedentarismul, obezitatea, excesul de sare și grăsimi saturate, stresul; prevenire: mișcare regulată, alimentație echilibrată, controale medicale.",
+    "sample": "Plimbările regulate ajută circulația venoasă, pentru că mușchii picioarelor împing sângele spre inimă.",
+    "worked": "Infarctul: o placă de aterom se rupe, se formează un cheag care blochează o arteră coronară; porțiunea de miocard neirigată moare dacă fluxul nu se reface rapid. Semne: durere puternică în piept care poate iradia în brațul stâng, transpirație, dificultăți de respirație — se sună imediat la 112.",
+    "exercises": [
+     "Compară arterele, venele și capilarele.",
+     "Ce rol are sistemul limfatic?",
+     "De ce se umflă ganglionii în infecții?",
+     "Explică apariția infarctului miocardic.",
+     "Ce factori de risc cardiovascular poți controla?"
+    ],
+    "test": [
+     "Ce vase au valve?",
+     "Ce este limfa?",
+     "Ce este ateroscleroza?",
+     "Ce artere irigă inima?",
+     "Ce produce varicele?"
+    ],
+    "steps": [
+     "Identifică vasul sau structura limfatică și rolul ei.",
+     "Explică mecanismul afecțiunii (depuneri, blocaj, presiune).",
+     "Propune măsuri de prevenire și de prim ajutor.",
+     "Greșeala frecventă: să crezi că bolile cardiovasculare apar doar la vârstnici; factorii de risc acționează încă din tinerețe."
+    ],
+    "answers": [
+     "Venele",
+     "Lichidul interstițial colectat în vasele limfatice",
+     "Depunerea de grăsimi în pereții arterelor",
+     "Arterele coronare",
+     "Dilatarea venelor, cu valve care nu mai funcționează bine"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Ventilația pulmonară: volume și capacități",
+    "theory": "Ventilația pulmonară este schimbul de aer dintre atmosferă și alveole, prin inspirație (activă — contracția diafragmei și a mușchilor intercostali externi) și expirație (în repaus pasivă — revenirea elastică a plămânilor). Volumele pulmonare (măsurate prin spirometrie): volumul curent ≈ 500 mL (respirația liniștită), volumul inspirator de rezervă ≈ 1500 mL, volumul expirator de rezervă ≈ 1500 mL, volumul rezidual ≈ 1500 mL (rămâne în plămâni după expirația maximă). Capacitatea vitală = VC + VIR + VER ≈ 3500 mL; capacitatea pulmonară totală = CV + VR ≈ 5000 mL. Antrenamentul sportiv mărește capacitatea vitală.",
+    "sample": "Spirometrul măsoară volumul de aer expirat, folosit pentru a evalua funcția plămânilor.",
+    "worked": "Un elev are VC = 500 mL, VIR = 2000 mL, VER = 1200 mL ⇒ CV = 3700 mL; cu VR = 1300 mL ⇒ CPT = 5000 mL. Debitul ventilator în repaus: 16 respirații/min × 0,5 L = 8 L/min.",
+    "exercises": [
+     "Explică mecanismul inspirației și al expirației.",
+     "Definește volumul curent, VIR, VER și VR.",
+     "Calculează capacitatea vitală pentru VC 500, VIR 1800, VER 1300 mL.",
+     "De ce volumul rezidual nu poate fi eliminat?",
+     "Cum influențează sportul capacitatea vitală?"
+    ],
+    "test": [
+     "Valoarea volumului curent?",
+     "Ce este volumul rezidual?",
+     "Formula capacității vitale?",
+     "Ce aparat măsoară volumele pulmonare?",
+     "Este expirația în repaus activă sau pasivă?"
+    ],
+    "steps": [
+     "Identifică volumele date.",
+     "Aplică formulele capacităților (CV, CPT) și ale debitului ventilator.",
+     "Interpretează rezultatul în raport cu valorile normale și cu factorii care le influențează.",
+     "Greșeala frecventă: să incluzi volumul rezidual în capacitatea vitală; el rămâne în plămâni și nu poate fi expirat."
+    ],
+    "answers": [
+     "≈ 500 mL",
+     "Aerul care rămâne în plămâni după expirația maximă",
+     "CV = VC + VIR + VER",
+     "Spirometrul",
+     "Pasivă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Schimbul și transportul gazelor; reglarea respirației; afecțiuni",
+    "theory": "În alveole, O₂ difuzează în sânge și CO₂ din sânge în alveole, datorită diferențelor de presiune parțială. Oxigenul este transportat mai ales legat de hemoglobină (oxihemoglobină), iar CO₂ mai ales sub formă de ioni bicarbonat în plasmă și parțial legat de hemoglobină. Monoxidul de carbon se leagă de hemoglobină mult mai puternic decât oxigenul (carboxihemoglobină) — intoxicație gravă. Centrul respirator din bulb ajustează frecvența respirației, mai ales după concentrația CO₂ din sânge. Afecțiuni: astmul bronșic (îngustarea bronhiilor), bronșita, pneumonia, tuberculoza (bacilul Koch, transmisă aerian), cancerul pulmonar (legat de fumat), COVID-19 și gripa.",
+    "sample": "Respirația se accelerează la efort pentru că crește concentrația de CO₂ din sânge.",
+    "worked": "Dacă îți ții respirația, CO₂ se acumulează și stimulează centrul respirator, forțându-te să respiri. La altitudine mare, presiunea oxigenului este mai mică; organismul se adaptează în timp producând mai multe hematii — alpiniștii fac aclimatizare.",
+    "exercises": [
+     "Explică schimbul de gaze la nivelul alveolelor.",
+     "Cum sunt transportate O₂ și CO₂ în sânge?",
+     "De ce intoxicația cu CO este periculoasă?",
+     "Ce factor principal stimulează centrul respirator?",
+     "Cum se transmite tuberculoza și cum se previne?"
+    ],
+    "test": [
+     "Cum se transportă majoritatea oxigenului?",
+     "Unde se află centrul respirator?",
+     "Ce este carboxihemoglobina?",
+     "Ce boală este produsă de bacilul Koch?",
+     "Ce boală respiratorie este legată în principal de fumat?"
+    ],
+    "steps": [
+     "Identifică gazul și sensul difuziei.",
+     "Explică transportul și reglarea respirației.",
+     "Asociază afecțiunea cu cauza și măsurile de prevenire.",
+     "Greșeala frecventă: să crezi că lipsa oxigenului este stimulul principal al respirației în condiții obișnuite; principalul stimul este creșterea CO₂."
+    ],
+    "answers": [
+     "Legat de hemoglobină (oxihemoglobină)",
+     "În bulbul rahidian",
+     "Combinația hemoglobinei cu monoxidul de carbon",
+     "Tuberculoza",
+     "Cancerul pulmonar"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Rinichiul: funcțiile nefronului, reglarea și afecțiuni",
+    "theory": "Rinichii primesc ≈ 1,2 L de sânge pe minut. În glomerul, presiunea sângelui forțează filtrarea plasmei fără proteine și celule în capsula Bowman (≈ 180 L/zi urină primară). În tubul contort proximal se reabsorb glucoza, aminoacizii și cea mai mare parte a apei și sărurilor; ansa Henle concentrează urina; în tubul distal și colector, reabsorbția apei este reglată de ADH, iar a sodiului de aldosteron. Prin secreție, unele substanțe (K⁺, H⁺, medicamente) sunt eliminate activ. Rezultă ≈ 1,5 L urină finală pe zi. Rinichii reglează volumul sângelui, tensiunea arterială, pH-ul și produc eritropoietina (stimulează formarea hematiilor). Afecțiuni: litiaza renală (pietre), infecțiile urinare, glomerulonefrita, insuficiența renală (tratată prin dializă sau transplant).",
+    "sample": "Când bei puțină apă, ADH-ul crește și urina devine mai concentrată și mai închisă la culoare.",
+    "worked": "Analiza urinei: proteine în urină → filtru glomerular afectat (glomerulonefrită); glucoză → glicemie prea mare (diabet); leucocite și bacterii → infecție urinară. Hidratarea suficientă (≈ 1,5–2 L/zi) previne pietrele și infecțiile.",
+    "exercises": [
+     "Descrie etapele formării urinei în nefron.",
+     "Ce rol au ADH și aldosteronul?",
+     "Ce alte funcții au rinichii în afară de excreție?",
+     "Interpretează prezența proteinelor și a glucozei în urină.",
+     "Ce este dializa?"
+    ],
+    "test": [
+     "Unde are loc filtrarea?",
+     "Unde se reabsoarbe glucoza?",
+     "Ce hormon produs de rinichi stimulează formarea hematiilor?",
+     "Ce sunt calculii renali?",
+     "Ce cantitate de sânge primesc rinichii pe minut?"
+    ],
+    "steps": [
+     "Urmărește drumul filtratului prin nefron.",
+     "Explică reabsorbția, secreția și reglarea hormonală.",
+     "Interpretează analize de urină și propune măsuri.",
+     "Greșeala frecventă: să crezi că urina finală este doar filtrat glomerular; compoziția ei rezultă din filtrare, reabsorbție și secreție."
+    ],
+    "answers": [
+     "În glomerul (capsula Bowman)",
+     "În tubul contort proximal",
+     "Eritropoietina",
+     "Pietre formate în rinichi",
+     "≈ 1,2 L"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l27": {
+   "ro": {
+    "title": "Metabolismul glucidelor, lipidelor și proteinelor",
+    "theory": "Metabolismul cuprinde anabolismul (sinteza substanțelor complexe, cu consum de energie) și catabolismul (descompunerea lor, cu eliberare de energie). Glucidele: glucoza este oxidată pentru energie, depozitată ca glicogen (ficat, mușchi) sau transformată în grăsimi când este în exces. Lipidele: sunt rezerva principală de energie (țesutul adipos), formează membranele și unii hormoni; colesterolul este necesar, dar în exces favorizează ateroscleroza. Proteinele: aminoacizii servesc la construcția proteinelor proprii (creștere, refacere, enzime, anticorpi); aminoacizii esențiali trebuie luați din hrană; în exces, aminoacizii sunt folosiți energetic, iar azotul este eliminat sub formă de uree.",
+    "sample": "Excesul de glucide din alimentație se transformă în grăsime de rezervă.",
+    "worked": "Un adolescent care consumă zilnic 500 kJ mai mult decât cheltuie acumulează, într-un an, ≈ 182 500 kJ; la ≈ 38 kJ/g grăsime, înseamnă ≈ 4,8 kg — de aceea echilibrul energetic contează.",
+    "exercises": [
+     "Compară anabolismul cu catabolismul.",
+     "Ce se întâmplă cu glucoza în exces?",
+     "Ce roluri au lipidele și colesterolul?",
+     "De ce aminoacizii esențiali trebuie luați din hrană?",
+     "Calculează grăsimea acumulată dintr-un surplus de 380 kJ/zi timp de 100 de zile."
+    ],
+    "test": [
+     "Ce este anabolismul?",
+     "Unde se depozitează glicogenul?",
+     "Ce substanță rezultă din azotul aminoacizilor?",
+     "Rezerva principală de energie?",
+     "Ce afecțiune favorizează excesul de colesterol?"
+    ],
+    "steps": [
+     "Identifică nutrientul și calea metabolică (sinteză, descompunere, depozitare).",
+     "Precizează produsul și rolul lui.",
+     "Leagă de echilibrul energetic și de sănătate.",
+     "Greșeala frecventă: să crezi că doar grăsimile din alimentație îngrașă; orice surplus energetic, inclusiv din glucide, se depozitează ca grăsime."
+    ],
+    "answers": [
+     "Sinteza substanțelor complexe, cu consum de energie",
+     "În ficat și mușchi",
+     "Ureea",
+     "Țesutul adipos (grăsimile)",
+     "Ateroscleroza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l28": {
+   "ro": {
+    "title": "Metabolismul energetic; termoreglarea; indicele de masă corporală",
+    "theory": "Metabolismul bazal este energia minimă necesară funcțiilor vitale în repaus complet (≈ 6000–7500 kJ/zi la adult); la aceasta se adaugă energia pentru activitate fizică, digestie și creștere. Termoreglarea menține temperatura corpului la ≈ 36,5–37 °C: hipotalamusul crește producția de căldură (frisoane, metabolism) și reduce pierderile (vasoconstricție) la frig; la cald crește pierderile (vasodilatație, transpirație). Indicele de masă corporală IMC = masa (kg)/înălțimea² (m²): la adult 18,5–24,9 normal, 25–29,9 supraponderal, ≥ 30 obezitate (la copii și adolescenți se folosesc curbe pe vârstă). Obezitatea și subnutriția sunt ambele riscuri pentru sănătate.",
+    "sample": "Când îți este frig, frisoanele sunt contracții musculare care produc căldură.",
+    "worked": "Un adult de 70 kg și 1,75 m: IMC = 70/(1,75²) = 70/3,0625 ≈ 22,9 — normal. Un adult de 95 kg și 1,75 m: IMC ≈ 31 — obezitate. În caniculă, o persoană poate pierde prin transpirație peste 1 L apă pe oră la efort, de aceea hidratarea este vitală.",
+    "exercises": [
+     "Ce este metabolismul bazal?",
+     "Explică mecanismele de termoreglare la frig și la cald.",
+     "Calculează IMC pentru 60 kg și 1,65 m și interpretează.",
+     "De ce transpirația răcorește corpul?",
+     "Ce riscuri au obezitatea și subnutriția?"
+    ],
+    "test": [
+     "Temperatura normală a corpului?",
+     "Ce centru coordonează termoreglarea?",
+     "Formula IMC?",
+     "Intervalul IMC normal la adult?",
+     "Ce fac vasele pielii la frig?"
+    ],
+    "steps": [
+     "Identifică factorii care influențează cheltuiala energetică.",
+     "Explică mecanismele de producere și pierdere a căldurii.",
+     "Calculează IMC și interpretează-l (cu precauție la adolescenți).",
+     "Greșeala frecventă: să aplici direct pragurile IMC ale adulților la copii și adolescenți; pentru ei se folosesc curbe pe vârstă."
+    ],
+    "answers": [
+     "≈ 36,5–37 °C",
+     "Hipotalamusul",
+     "IMC = masa/înălțimea²",
+     "18,5–24,9",
+     "Se contractă (vasoconstricție)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l29": {
+   "ro": {
+    "title": "Gametogeneza și ciclul ovarian; reglarea hormonală",
+    "theory": "Gameții se formează prin meioză. Spermatogeneza are loc în tubii seminiferi ai testiculelor, continuu de la pubertate, sub controlul FSH și testosteronului. Ovogeneza începe înainte de naștere; după pubertate, lunar, un folicul ovarian se maturizează. Ciclul ovarian (≈ 28 de zile): faza foliculară (FSH stimulează foliculul, care produce estrogeni; mucoasa uterină se îngroașă), ovulația (în jurul zilei 14, declanșată de un vârf de LH), faza luteală (foliculul rămas devine corp galben, care produce progesteron și pregătește uterul). Dacă nu are loc fecundația, corpul galben degenerează, hormonii scad și mucoasa se elimină — menstruația.",
+    "sample": "Ovulația este declanșată de o creștere bruscă a hormonului LH.",
+    "worked": "Într-un ciclu de 28 de zile: zilele 1–5 menstruație, 6–13 faza foliculară, ≈ ziua 14 ovulația, 15–28 faza luteală. Ovulul trăiește ≈ 24 de ore, spermatozoizii ≈ 3–5 zile în căile genitale feminine. La cicluri neregulate, ziua ovulației variază.",
+    "exercises": [
+     "Compară spermatogeneza cu ovogeneza.",
+     "Descrie fazele ciclului ovarian.",
+     "Ce rol au FSH, LH, estrogenii și progesteronul?",
+     "Ce este corpul galben?",
+     "De ce apare menstruația?"
+    ],
+    "test": [
+     "Unde se formează spermatozoizii?",
+     "Ce hormon declanșează ovulația?",
+     "Ce produce corpul galben?",
+     "Durata medie a ciclului?",
+     "Prin ce diviziune se formează gameții?"
+    ],
+    "steps": [
+     "Identifică etapa ciclului.",
+     "Asociază hormonii și efectele asupra ovarului și uterului.",
+     "Explică ce se întâmplă în absența sau în prezența fecundației.",
+     "Greșeala frecventă: să crezi că ovulația are loc mereu exact în ziua 14; ea variază de la o persoană la alta și de la un ciclu la altul."
+    ],
+    "answers": [
+     "În tubii seminiferi ai testiculelor",
+     "LH",
+     "Progesteron",
+     "≈ 28 de zile",
+     "Meioză"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l30": {
+   "ro": {
+    "title": "Fecundația, dezvoltarea intrauterină, nașterea; sănătatea reproducerii",
+    "theory": "Fecundația are loc de obicei în treimea externă a trompei uterine: un spermatozoid pătrunde în ovul și se formează zigotul (46 de cromozomi). Acesta se divide, ajunge în uter și se implantează în mucoasa uterină (≈ ziua 7). Embrionul (până la 8 săptămâni) formează organele; apoi fătul crește. Anexele: placenta (schimburi cu sângele mamei, produce hormoni), cordonul ombilical, lichidul amniotic (protecție). Sarcina durează ≈ 280 de zile; nașterea este declanșată hormonal (oxitocina). Sănătatea reproducerii: metode de contracepție (prezervativul protejează și de infecțiile cu transmitere sexuală), prevenirea ITS (HIV, sifilis, gonoree, HPV — există vaccin anti-HPV), controale ginecologice și urologice, informare din surse medicale.",
+    "sample": "Vaccinul anti-HPV previne infecțiile care pot produce cancer de col uterin.",
+    "worked": "Primul trimestru este perioada cea mai sensibilă: organele se formează, iar alcoolul, fumatul, unele medicamente sau infecții (rubeola) pot produce malformații. Vaccinarea împotriva rubeolei înaintea unei sarcini protejează copilul.",
+    "exercises": [
+     "Unde are loc fecundația și ce rezultă?",
+     "Descrie drumul zigotului până la implantare.",
+     "Ce rol au placenta, cordonul ombilical și lichidul amniotic?",
+     "De ce primul trimestru este cel mai sensibil?",
+     "Ce măsuri previn infecțiile cu transmitere sexuală?"
+    ],
+    "test": [
+     "Câți cromozomi are zigotul?",
+     "Când se implantează embrionul?",
+     "Durata sarcinii?",
+     "Ce hormon declanșează nașterea?",
+     "Ce metodă contraceptivă protejează și de ITS?"
+    ],
+    "steps": [
+     "Urmărește etapele de la fecundație la naștere.",
+     "Precizează rolul anexelor embrionare.",
+     "Leagă de comportamente responsabile și măsuri de prevenire.",
+     "Greșeala frecventă: să crezi că orice metodă contraceptivă protejează și de ITS; doar prezervativul oferă această protecție."
+    ],
+    "answers": [
+     "46",
+     "≈ ziua 7 după fecundație",
+     "≈ 280 de zile (9 luni)",
+     "Oxitocina",
+     "Prezervativul"
+    ]
+   }
+  }
+ }
+}

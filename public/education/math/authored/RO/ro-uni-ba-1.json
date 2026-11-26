@@ -1,0 +1,1136 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "advanced",
+ "grade": "uni-ba-1",
+ "version": "4d8f2dc606c80e13edff51d5a549837bb196a32f5d19d4255ea46b0814df43d4",
+ "source": "https://www.aracis.ro/standarde-specifice/",
+ "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Matematică din România (domeniul fundamental Matematică și științe ale naturii, domeniul de licență Matematică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (math.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (math.uaic.ro) — anul I: logică și teoria mulțimilor, algebră (grupuri, inele), algebră liniară, geometrie analitică, analiză matematică pe ℝ și în ℝⁿ; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Facultatea de Matematică · Licență Matematică, anul I",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc cursul, seminarul, bibliografia sau evaluarea facultății.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Logică, mulțimi și relații",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l01",
+    "eu-year-ro-advanced-uni-ba-1-l02",
+    "eu-year-ro-advanced-uni-ba-1-l03"
+   ]
+  },
+  {
+   "title": "Algebră: grupuri",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l04",
+    "eu-year-ro-advanced-uni-ba-1-l05",
+    "eu-year-ro-advanced-uni-ba-1-l06",
+    "eu-year-ro-advanced-uni-ba-1-l07",
+    "eu-year-ro-advanced-uni-ba-1-l08"
+   ]
+  },
+  {
+   "title": "Algebră liniară",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l09",
+    "eu-year-ro-advanced-uni-ba-1-l10",
+    "eu-year-ro-advanced-uni-ba-1-l11",
+    "eu-year-ro-advanced-uni-ba-1-l12",
+    "eu-year-ro-advanced-uni-ba-1-l13",
+    "eu-year-ro-advanced-uni-ba-1-l14",
+    "eu-year-ro-advanced-uni-ba-1-l15"
+   ]
+  },
+  {
+   "title": "Geometrie analitică",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l16",
+    "eu-year-ro-advanced-uni-ba-1-l17",
+    "eu-year-ro-advanced-uni-ba-1-l18"
+   ]
+  },
+  {
+   "title": "Analiză matematică pe ℝ",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l19",
+    "eu-year-ro-advanced-uni-ba-1-l20",
+    "eu-year-ro-advanced-uni-ba-1-l21",
+    "eu-year-ro-advanced-uni-ba-1-l22",
+    "eu-year-ro-advanced-uni-ba-1-l23",
+    "eu-year-ro-advanced-uni-ba-1-l24",
+    "eu-year-ro-advanced-uni-ba-1-l25",
+    "eu-year-ro-advanced-uni-ba-1-l26"
+   ]
+  },
+  {
+   "title": "Analiză în ℝⁿ",
+   "keys": [
+    "eu-year-ro-advanced-uni-ba-1-l27",
+    "eu-year-ro-advanced-uni-ba-1-l28",
+    "eu-year-ro-advanced-uni-ba-1-l29",
+    "eu-year-ro-advanced-uni-ba-1-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-advanced-uni-ba-1-l01": {
+   "ro": {
+    "title": "Limbaj matematic: propoziții, cuantori, tipuri de demonstrații",
+    "theory": "Matematica universitară cere demonstrații riguroase. O afirmație „pentru orice x, P(x)” se demonstrează pentru un x arbitrar; „există x cu P(x)” se demonstrează găsind (sau construind) un x. Negația schimbă cuantorii: non(∀x P(x)) ⇔ ∃x non P(x). Tipuri de demonstrații: directă, prin contrapozitivă (non q ⇒ non p), prin reducere la absurd, prin inducție, prin contraexemplu (pentru a infirma o afirmație universală).",
+    "sample": "Negația afirmației „orice șir mărginit este convergent” este „există un șir mărginit care nu este convergent”, de exemplu (−1)ⁿ.",
+    "worked": "Demonstrăm prin contrapozitivă: „dacă n² este par, atunci n este par”. Contrapozitiva: dacă n este impar, n = 2k + 1, atunci n² = 4k² + 4k + 1 = 2(2k² + 2k) + 1, impar. Deci afirmația inițială este adevărată. Demonstrăm prin absurd că √2 este irațional: dacă √2 = p/q ireductibilă, atunci p² = 2q², p par, p = 2r, deci q² = 2r², q par — contradicție.",
+    "exercises": [
+     "Scrie negația: „∀ε > 0 ∃n₀ ∀n ≥ n₀: |aₙ − l| < ε”.",
+     "Demonstrează prin contrapozitivă: dacă n² nu se divide cu 3, atunci n nu se divide cu 3.",
+     "Demonstrează prin absurd că există o infinitate de numere prime.",
+     "Demonstrează prin inducție: 1 + 3 + … + (2n − 1) = n².",
+     "Infirmă prin contraexemplu: „orice funcție continuă este derivabilă”."
+    ],
+    "test": [
+     "Negația lui ∀x P(x)?",
+     "Contrapozitiva lui p ⇒ q?",
+     "Cum infirmi o afirmație universală?",
+     "Ce demonstrezi pentru ∃x P(x)?",
+     "Etapele inducției matematice?"
+    ],
+    "steps": [
+     "Scrie afirmația cu cuantori, ca să vezi exact ce trebuie arătat.",
+     "Alege metoda: directă, contrapozitivă, absurd, inducție sau contraexemplu.",
+     "Redactează fiecare pas justificat și verifică faptul că ai demonstrat exact afirmația cerută.",
+     "Greșeala frecventă: să confunzi contrapozitiva (non q ⇒ non p) cu reciproca (q ⇒ p), care nu este echivalentă cu afirmația inițială."
+    ],
+    "answers": [
+     "∃x non P(x)",
+     "non q ⇒ non p",
+     "Cu un contraexemplu",
+     "Existența unui x concret",
+     "Verificare și pas de inducție"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l02": {
+   "ro": {
+    "title": "Relații de echivalență, clase de echivalență, mulțimi factor",
+    "theory": "O relație ∼ pe mulțimea A este de echivalență dacă este reflexivă (a ∼ a), simetrică (a ∼ b ⇒ b ∼ a) și tranzitivă (a ∼ b, b ∼ c ⇒ a ∼ c). Clasa lui a este â = {x : x ∼ a}. Clasele formează o partiție a lui A (sunt disjuncte două câte două și acoperă A); mulțimea claselor este mulțimea factor A/∼. Exemplu central: congruența modulo n pe ℤ, cu ℤ/∼ = ℤₙ.",
+    "sample": "Pe ℤ, relația „a − b se divide cu 3” este de echivalență și are trei clase: 0̂, 1̂, 2̂.",
+    "worked": "Pe ℝ², (x, y) ∼ (x′, y′) dacă x² + y² = x′² + y′². Relația este reflexivă, simetrică, tranzitivă (egalitatea are aceste proprietăți). Clasa lui (3, 4) este cercul de centru O și rază 5; mulțimea factor se poate identifica cu [0, +∞) (razele).",
+    "exercises": [
+     "Arată că relația a ∼ b ⇔ a − b ∈ ℤ pe ℝ este de echivalență și descrie clasele.",
+     "Este relația „a divide b” pe ℕ* de echivalență? Justifică.",
+     "Pe ℤ × ℤ*, (a, b) ∼ (c, d) ⇔ ad = bc. Arată că este de echivalență. Ce mulțime factor obții?",
+     "Câte relații de echivalență există pe o mulțime cu 3 elemente?",
+     "Arată că două clase de echivalență sunt fie egale, fie disjuncte."
+    ],
+    "test": [
+     "Cele trei proprietăți ale unei relații de echivalență?",
+     "Ce formează clasele de echivalență?",
+     "Mulțimea factor a congruenței modulo n?",
+     "Este „≤” relație de echivalență?",
+     "Clasa lui 0 modulo 2?"
+    ],
+    "steps": [
+     "Verifică pe rând reflexivitatea, simetria și tranzitivitatea.",
+     "Descrie clasa unui element oarecare.",
+     "Identifică mulțimea factor cu o mulțime cunoscută, dacă este posibil.",
+     "Greșeala frecventă: să consideri relația de ordine „≤” relație de echivalență; ea nu este simetrică."
+    ],
+    "answers": [
+     "Reflexivă, simetrică, tranzitivă",
+     "O partiție a mulțimii",
+     "ℤₙ",
+     "Nu",
+     "Numerele pare"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l03": {
+   "ro": {
+    "title": "Relații de ordine; funcții; mulțimi numărabile și nenumărabile",
+    "theory": "O relație reflexivă, antisimetrică și tranzitivă este relație de ordine (de exemplu ≤ pe ℝ, divizibilitatea pe ℕ, incluziunea). Două mulțimi au același cardinal dacă există o bijecție între ele. O mulțime este numărabilă dacă este în bijecție cu ℕ: ℤ și ℚ sunt numărabile. Cantor: ℝ nu este numărabilă (argumentul diagonal); intervalul (0, 1) are același cardinal ca ℝ.",
+    "sample": "Funcția f(n) = 2n este o bijecție de la ℕ la numerele pare, deci acestea sunt numărabile.",
+    "worked": "ℤ este numărabilă: f: ℕ → ℤ, f(2k) = k, f(2k − 1) = −k enumeră 0, −1, 1, −2, 2, …. (0, 1) și ℝ au același cardinal: g(x) = tg(π(x − 1/2)) este bijectivă de la (0, 1) la ℝ.",
+    "exercises": [
+     "Arată că divizibilitatea este relație de ordine pe ℕ*, dar nu totală.",
+     "Construiește o bijecție între (0, 1) și (0, 5).",
+     "Arată că ℕ × ℕ este numărabilă (enumerare pe diagonale).",
+     "Schițează argumentul diagonal al lui Cantor pentru (0, 1).",
+     "Arată că mulțimea numerelor iraționale este nenumărabilă."
+    ],
+    "test": [
+     "Este ℚ numărabilă?",
+     "Este ℝ numărabilă?",
+     "Proprietățile unei relații de ordine?",
+     "Ce înseamnă cardinal egal?",
+     "Este incluziunea o ordine totală?"
+    ],
+    "steps": [
+     "Pentru ordine: verifică reflexivitatea, antisimetria, tranzitivitatea.",
+     "Pentru cardinal: construiește explicit o bijecție (sau o enumerare).",
+     "Pentru nenumărabilitate: presupune o enumerare și construiește un element care lipsește.",
+     "Greșeala frecventă: să crezi că o mulțime densă ca ℚ trebuie să fie nenumărabilă; ℚ este numărabilă."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "Reflexivă, antisimetrică, tranzitivă",
+     "Există o bijecție între mulțimi",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l04": {
+   "ro": {
+    "title": "Grupuri și subgrupuri; clase laterale; teorema lui Lagrange",
+    "theory": "Pentru un subgrup H al grupului G, clasa laterală stângă a lui a este aH = {ah : h ∈ H}. Clasele laterale au același număr de elemente ca H și formează o partiție a lui G. Numărul claselor este indicele [G : H]. Teorema lui Lagrange: |G| = |H|·[G : H]; în particular, ordinul unui element divide |G|.",
+    "sample": "În (ℤ, +), subgrupul 4ℤ are clasele laterale 4ℤ, 1 + 4ℤ, 2 + 4ℤ, 3 + 4ℤ, deci indicele 4.",
+    "worked": "În S₃ (6 elemente), H = {e, (1 2)}. Clasele stângi: H, (1 3)H = {(1 3), (1 3)(1 2)}, (2 3)H — trei clase a câte 2 elemente, deci [S₃ : H] = 3 și 6 = 2·3. Clasele drepte Ha pot diferi de cele stângi.",
+    "exercises": [
+     "Află clasele laterale ale lui {0, 3} în (ℤ₆, +).",
+     "Arată că două clase laterale aH și bH sunt egale sau disjuncte.",
+     "Demonstrează că un grup de ordin prim este ciclic.",
+     "Află indicele lui 6ℤ în ℤ.",
+     "Arată că a^|G| = e într-un grup finit."
+    ],
+    "test": [
+     "Ce afirmă teorema lui Lagrange?",
+     "Ce este indicele [G : H]?",
+     "Câte elemente are o clasă laterală?",
+     "Indicele lui 2ℤ în ℤ?",
+     "Este un grup de ordin 7 ciclic?"
+    ],
+    "steps": [
+     "Fixează subgrupul H și un element a.",
+     "Calculează aH și repetă cu elemente care nu au apărut încă.",
+     "Numără clasele și verifică |G| = |H|·[G : H].",
+     "Greșeala frecventă: să presupui că clasele laterale stângi și drepte coincid mereu; asta are loc doar pentru subgrupuri normale."
+    ],
+    "answers": [
+     "|G| = |H|·[G : H]",
+     "Numărul claselor laterale",
+     "|H|",
+     "2",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l05": {
+   "ro": {
+    "title": "Subgrupuri normale și grupuri factor",
+    "theory": "Subgrupul N al lui G este normal dacă aN = Na pentru orice a ∈ G (echivalent aNa⁻¹ ⊆ N). Pe mulțimea claselor G/N se definește operația (aN)(bN) = abN, bine definită exact când N este normal; obținem grupul factor G/N. În grupurile abeliene orice subgrup este normal; nucleul unui morfism este mereu normal.",
+    "sample": "În (ℤ, +), subgrupul nℤ este normal (grupul e abelian), iar ℤ/nℤ este grupul ℤₙ.",
+    "worked": "În S₃, A₃ = {e, (1 2 3), (1 3 2)} are indicele 2, deci clasele stângi și drepte sunt A₃ și complementul — subgrupul este normal, iar S₃/A₃ are 2 elemente. H = {e, (1 2)} nu este normal: (1 3)H ≠ H(1 3).",
+    "exercises": [
+     "Arată că orice subgrup de indice 2 este normal.",
+     "Arată că centrul Z(G) = {z : zg = gz ∀g} este subgrup normal.",
+     "Descrie grupul factor ℤ/6ℤ și ordinul elementului 2̂.",
+     "Arată că SL₂(ℝ) (determinant 1) este normal în GL₂(ℝ).",
+     "Verifică faptul că {e, (1 2)} nu este normal în S₃."
+    ],
+    "test": [
+     "Definiția subgrupului normal?",
+     "Este orice subgrup al unui grup abelian normal?",
+     "Ce grup factor dă ℤ/nℤ?",
+     "Este nucleul unui morfism normal?",
+     "Subgrup de indice 2 este…?"
+    ],
+    "steps": [
+     "Verifică aNa⁻¹ ⊆ N pentru a din G (sau folosește indicele 2, abelianitatea, nucleul).",
+     "Descrie clasele lui N.",
+     "Definește operația pe clase și identifică grupul factor.",
+     "Greșeala frecventă: să definești operația pe G/N fără a verifica normalitatea; altfel operația nu este bine definită."
+    ],
+    "answers": [
+     "aN = Na pentru orice a",
+     "Da",
+     "ℤₙ",
+     "Da",
+     "Normal"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l06": {
+   "ro": {
+    "title": "Morfisme; teorema fundamentală de izomorfism",
+    "theory": "Pentru un morfism f: G → H, nucleul Ker f = {x : f(x) = e} este subgrup normal al lui G, iar imaginea Im f este subgrup al lui H; f este injectiv dacă și numai dacă Ker f = {e}. Teorema fundamentală de izomorfism: G/Ker f ≅ Im f. Ea identifică grupuri factor cu grupuri cunoscute.",
+    "sample": "Morfismul f: ℤ → ℤₙ, f(k) = k̂, are nucleul nℤ și este surjectiv, deci ℤ/nℤ ≅ ℤₙ.",
+    "worked": "f: (ℝ, +) → (ℂ*, ·), f(t) = cos 2πt + i sin 2πt. Morfism (formula lui Moivre), Im f = cercul unitate U, Ker f = ℤ. Din teoremă: ℝ/ℤ ≅ U. Pentru det: GL₂(ℝ) → ℝ*, nucleul este SL₂(ℝ), deci GL₂(ℝ)/SL₂(ℝ) ≅ ℝ*.",
+    "exercises": [
+     "Arată că f: ℤ → ℤ, f(x) = 3x este morfism injectiv și află imaginea.",
+     "Află nucleul morfismului f: ℂ* → ℝ*, f(z) = |z|.",
+     "Folosește teorema de izomorfism pentru a arăta că ℂ*/U ≅ (0, +∞).",
+     "Arată că f injectiv ⇔ Ker f = {e}.",
+     "Câte morfisme există de la ℤ₄ la ℤ₆?"
+    ],
+    "test": [
+     "Ce este Ker f?",
+     "Când este f injectiv?",
+     "Enunțul teoremei fundamentale de izomorfism?",
+     "Este Ker f normal?",
+     "Nucleul lui det pe GL₂(ℝ)?"
+    ],
+    "steps": [
+     "Verifică faptul că f este morfism.",
+     "Calculează nucleul și imaginea.",
+     "Aplică G/Ker f ≅ Im f și interpretează rezultatul.",
+     "Greșeala frecventă: să consideri nucleul ca mulțimea elementelor duse în 0 când grupul de sosire este multiplicativ; acolo neutrul este 1."
+    ],
+    "answers": [
+     "Elementele duse în neutru",
+     "Când Ker f = {e}",
+     "G/Ker f ≅ Im f",
+     "Da",
+     "SL₂(ℝ)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l07": {
+   "ro": {
+    "title": "Grupuri ciclice; ordinul elementelor; grupul simetric și ciclurile",
+    "theory": "Un grup este ciclic dacă este generat de un element: G = ⟨a⟩. Orice grup ciclic infinit este izomorf cu ℤ, iar unul finit de ordin n cu ℤₙ. În ℤₙ, k̂ generează grupul dacă și numai dacă cmmdc(k, n) = 1. În Sₙ, orice permutare se scrie ca produs de cicluri disjuncte; ordinul ei este cmmmc al lungimilor ciclurilor; orice ciclu de lungime k este produs de k − 1 transpoziții.",
+    "sample": "Permutarea (1 2 3)(4 5) din S₅ are ordinul cmmmc(3, 2) = 6.",
+    "worked": "Descompunem σ = (1 2 3 4 5 6 / 3 5 1 6 2 4): 1 → 3 → 1, deci (1 3); 2 → 5 → 2, deci (2 5); 4 → 6 → 4, deci (4 6). σ = (1 3)(2 5)(4 6), ordinul 2, produs de 3 transpoziții, deci impară. Generatorii lui ℤ₈: 1̂, 3̂, 5̂, 7̂.",
+    "exercises": [
+     "Află generatorii lui (ℤ₁₂, +).",
+     "Descompune în cicluri disjuncte (1 2 3 4 5 / 2 3 1 5 4) și află-i ordinul.",
+     "Scrie ciclul (1 2 3 4) ca produs de transpoziții.",
+     "Arată că orice subgrup al unui grup ciclic este ciclic (pentru ℤ).",
+     "Care este ordinul maxim al unui element din S₅?"
+    ],
+    "test": [
+     "Este (ℤ, +) ciclic?",
+     "Generator al lui ℤ₅?",
+     "Ordinul unui ciclu de lungime k?",
+     "Ordinul lui (1 2)(3 4 5)?",
+     "Câte transpoziții are un ciclu de lungime 4?"
+    ],
+    "steps": [
+     "Urmărește fiecare element până revine la început pentru a obține ciclurile.",
+     "Scrie permutarea ca produs de cicluri disjuncte.",
+     "Calculează ordinul (cmmmc al lungimilor) și paritatea.",
+     "Greșeala frecventă: să aduni lungimile ciclurilor pentru a afla ordinul; ordinul este cmmmc al lungimilor."
+    ],
+    "answers": [
+     "Da",
+     "1̂",
+     "k",
+     "6",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l08": {
+   "ro": {
+    "title": "Inele, ideale și inele factor",
+    "theory": "Un ideal al inelului comutativ A este un subgrup aditiv I cu ax ∈ I pentru orice a ∈ A, x ∈ I. Inelul factor A/I are operațiile pe clase. Exemple: nℤ este ideal în ℤ și ℤ/nℤ = ℤₙ; idealul generat de un polinom f în K[X] dă K[X]/(f). Un ideal propriu I este maximal dacă A/I este corp; în ℤ, idealele maximale sunt pℤ cu p prim. Nucleul unui morfism de inele este ideal.",
+    "sample": "Idealul 5ℤ este maximal în ℤ, deoarece ℤ/5ℤ = ℤ₅ este corp.",
+    "worked": "ℝ[X]/(X² + 1): clasele se scriu a + bX̂, iar X̂² = −1, deci inelul factor se identifică cu ℂ (izomorfism prin X̂ ↦ i). Cum X² + 1 este ireductibil peste ℝ, idealul este maximal și factorul este corp. În schimb ℤ/6ℤ are divizori ai lui zero, deci 6ℤ nu este maximal.",
+    "exercises": [
+     "Arată că mulțimea polinoamelor cu termen liber 0 este ideal în ℝ[X].",
+     "Este 4ℤ ideal maximal în ℤ? Justifică.",
+     "Descrie ℤ₂[X]/(X² + X + 1) și arată că este corp cu 4 elemente.",
+     "Arată că nucleul unui morfism de inele este ideal.",
+     "Află idealele lui ℤ₆."
+    ],
+    "test": [
+     "Idealele maximale ale lui ℤ?",
+     "ℝ[X]/(X² + 1) este izomorf cu…?",
+     "Este nℤ ideal?",
+     "A/I este corp când I este…?",
+     "Este 6ℤ maximal?"
+    ],
+    "steps": [
+     "Verifică subgrupul aditiv și absorbția la înmulțire.",
+     "Descrie clasele inelului factor (reprezentanți simpli).",
+     "Identifică factorul cu un inel cunoscut și decide dacă este corp.",
+     "Greșeala frecventă: să crezi că orice subinel este ideal; ℤ este subinel al lui ℚ, dar nu ideal."
+    ],
+    "answers": [
+     "pℤ cu p prim",
+     "ℂ",
+     "Da",
+     "Maximal",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l09": {
+   "ro": {
+    "title": "Spații vectoriale și subspații",
+    "theory": "Un spațiu vectorial peste un corp K (de regulă ℝ) este o mulțime V cu adunare (grup abelian) și înmulțire cu scalari, care respectă distributivitatea și 1·v = v. Exemple: ℝⁿ, polinoamele ℝ[X], matricele Mₘ,ₙ(ℝ), funcțiile reale. O submulțime nevidă W este subspațiu dacă αu + βv ∈ W pentru orice u, v ∈ W și scalari α, β.",
+    "sample": "Mulțimea {(x, y, z) ∈ ℝ³ : x + y + z = 0} este un subspațiu al lui ℝ³.",
+    "worked": "W = {(x, y) : y = 2x} este subspațiu: dacă y₁ = 2x₁, y₂ = 2x₂, atunci αy₁ + βy₂ = 2(αx₁ + βx₂). În schimb {(x, y) : y = 2x + 1} nu este subspațiu (nu conține (0, 0)).",
+    "exercises": [
+     "Arată că {f ∈ ℝ[X] : f(1) = 0} este subspațiu.",
+     "Este {(x, y) : xy = 0} subspațiu al lui ℝ²? Justifică.",
+     "Arată că matricele simetrice formează un subspațiu al lui M₂(ℝ).",
+     "Arată că intersecția a două subspații este subspațiu.",
+     "Este reuniunea a două subspații un subspațiu? Dă un exemplu."
+    ],
+    "test": [
+     "Criteriul de subspațiu?",
+     "Conține orice subspațiu vectorul nul?",
+     "Este ℝ[X] spațiu vectorial?",
+     "Este {(x, y) : y = x + 1} subspațiu?",
+     "Exemplu de spațiu vectorial de funcții?"
+    ],
+    "steps": [
+     "Verifică faptul că vectorul nul aparține submulțimii.",
+     "Ia doi vectori arbitrari și scalari și verifică αu + βv ∈ W.",
+     "Pentru infirmare, găsește un contraexemplu concret.",
+     "Greșeala frecventă: să uiți testul vectorului nul; o dreaptă care nu trece prin origine nu este subspațiu."
+    ],
+    "answers": [
+     "αu + βv ∈ W",
+     "Da",
+     "Da",
+     "Nu",
+     "Funcțiile continue pe [0, 1]"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l10": {
+   "ro": {
+    "title": "Dependență liniară, sisteme de generatori, baze și dimensiune",
+    "theory": "Vectorii v₁, …, vₖ sunt liniar independenți dacă α₁v₁ + … + αₖvₖ = 0 implică toți αᵢ = 0. Un sistem de generatori produce orice vector prin combinații liniare. O bază este un sistem liniar independent de generatori; toate bazele au același număr de vectori, dimensiunea. dim ℝⁿ = n, dim ℝₙ[X] = n + 1, dim Mₘ,ₙ = mn. Coordonatele unui vector într-o bază sunt unice.",
+    "sample": "Vectorii (1, 0) și (1, 1) formează o bază a lui ℝ², deci dim ℝ² = 2.",
+    "worked": "Sunt (1, 2, 3), (0, 1, 1), (1, 3, 4) independenți? Determinantul |1 0 1 / 2 1 3 / 3 1 4| = 1(4 − 3) − 0 + 1(2 − 3) = 0, deci sunt dependenți: (1, 3, 4) = (1, 2, 3) + (0, 1, 1). Subspațiul generat are dimensiunea 2.",
+    "exercises": [
+     "Verifică dacă (1, 1, 0), (0, 1, 1), (1, 0, 1) formează o bază a lui ℝ³.",
+     "Află coordonatele lui (3, 5) în baza (1, 1), (1, 2).",
+     "Află dimensiunea subspațiului {(x, y, z) : x + y + z = 0}.",
+     "Arată că 1, X − 1, (X − 1)² este o bază a lui ℝ₂[X].",
+     "Află dimensiunea spațiului matricelor simetrice de ordin 3."
+    ],
+    "test": [
+     "dim ℝ₃[X] = ?",
+     "dim M₂(ℝ) = ?",
+     "Pot 4 vectori din ℝ³ fi independenți?",
+     "Ce este o bază?",
+     "Sunt (1, 2) și (2, 4) independenți?"
+    ],
+    "steps": [
+     "Scrie combinația liniară egală cu vectorul nul (sau formează matricea vectorilor).",
+     "Rezolvă sistemul omogen / calculează rangul.",
+     "Concluzionează: rang = număr vectori ⇔ independenți; bază dacă și generează spațiul.",
+     "Greșeala frecventă: să confunzi „generează” cu „independent”; o bază trebuie să le îndeplinească pe amândouă."
+    ],
+    "answers": [
+     "4",
+     "4",
+     "Nu",
+     "Un sistem liniar independent de generatori",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l11": {
+   "ro": {
+    "title": "Aplicații liniare; nucleu, imagine, teorema rang–defect",
+    "theory": "T: V → W este liniară dacă T(αu + βv) = αT(u) + βT(v). Nucleul Ker T = {v : T(v) = 0} și imaginea Im T sunt subspații; T este injectivă ⇔ Ker T = {0}. Teorema rang–defect: dim V = dim Ker T + dim Im T. O aplicație liniară este determinată de valorile pe o bază.",
+    "sample": "Derivarea D: ℝ₃[X] → ℝ₃[X], D(f) = f′, este liniară și are nucleul format din constante.",
+    "worked": "T: ℝ³ → ℝ², T(x, y, z) = (x + y, y − z). Ker T: x = −y, z = y, deci Ker T = {(−t, t, t)}, dimensiune 1. Din rang–defect, dim Im T = 3 − 1 = 2, deci T este surjectivă. Pentru D pe ℝ₃[X]: dim Ker = 1, dim Im = 3 (Im = ℝ₂[X]).",
+    "exercises": [
+     "Arată că T(x, y) = (2x − y, x + 3y) este liniară și injectivă.",
+     "Află nucleul și imaginea lui T(x, y, z) = (x − z, 2x − 2z).",
+     "Este T(x, y) = (x + 1, y) liniară? Justifică.",
+     "Verifică teorema rang–defect pentru urma tr: M₂(ℝ) → ℝ.",
+     "Poate exista o aplicație liniară injectivă de la ℝ³ la ℝ²?"
+    ],
+    "test": [
+     "Definiția aplicației liniare?",
+     "Ce este Ker T?",
+     "Teorema rang–defect?",
+     "Când este T injectivă?",
+     "Nucleul derivării pe polinoame?"
+    ],
+    "steps": [
+     "Verifică liniaritatea (sau scrie matricea aplicației).",
+     "Rezolvă T(v) = 0 pentru nucleu; găsește imaginea din coloanele matricei.",
+     "Verifică dim V = dim Ker + dim Im.",
+     "Greșeala frecventă: să consideri liniară o aplicație cu termen liber, ca (x + 1, y); orice aplicație liniară duce 0 în 0."
+    ],
+    "answers": [
+     "T(αu + βv) = αT(u) + βT(v)",
+     "Vectorii duși în 0",
+     "dim V = dim Ker T + dim Im T",
+     "Când Ker T = {0}",
+     "Polinoamele constante"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l12": {
+   "ro": {
+    "title": "Matricea unei aplicații liniare; schimbarea bazei",
+    "theory": "Fixând baze B în V și B′ în W, aplicația liniară T are o matrice: coloana j conține coordonatele lui T(eⱼ) în B′. Compunerea aplicațiilor corespunde produsului matricelor. Dacă P este matricea de trecere de la baza B la baza B₁ (coloanele: vectorii noi în baza veche), atunci matricea unui endomorfism devine A₁ = P⁻¹AP (matrice asemenea).",
+    "sample": "Rotația cu 90° în plan are, în baza canonică, matricea (0 −1 / 1 0).",
+    "worked": "D: ℝ₂[X] → ℝ₂[X], D(f) = f′, în baza 1, X, X²: D(1) = 0, D(X) = 1, D(X²) = 2X. Matricea are coloanele (0, 0, 0), (1, 0, 0), (0, 2, 0): A = (0 1 0 / 0 0 2 / 0 0 0). A³ = O, așa cum derivata a treia a unui polinom de grad 2 este 0.",
+    "exercises": [
+     "Scrie matricea lui T(x, y) = (x + 2y, 3x − y) în baza canonică.",
+     "Scrie matricea simetriei față de dreapta y = x.",
+     "Scrie matricea lui T(f) = f(X + 1) pe ℝ₂[X] în baza 1, X, X².",
+     "Pentru A = (1 2 / 0 3) și P = (1 1 / 0 1), calculează P⁻¹AP.",
+     "Arată că matricele asemenea au același determinant."
+    ],
+    "test": [
+     "Ce conține coloana j a matricei lui T?",
+     "Ce operație corespunde compunerii?",
+     "Formula schimbării bazei?",
+     "Matricea identității?",
+     "Au matricele asemenea aceeași urmă?"
+    ],
+    "steps": [
+     "Calculează imaginile vectorilor bazei.",
+     "Scrie coordonatele lor ca și coloane ale matricei.",
+     "La schimbarea bazei, formează P și calculează P⁻¹AP.",
+     "Greșeala frecventă: să scrii imaginile vectorilor bazei pe linii în loc de coloane."
+    ],
+    "answers": [
+     "Coordonatele lui T(eⱼ)",
+     "Produsul matricelor",
+     "A₁ = P⁻¹AP",
+     "Iₙ",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l13": {
+   "ro": {
+    "title": "Valori proprii, vectori proprii, diagonalizare",
+    "theory": "λ este valoare proprie a matricei A dacă există v ≠ 0 cu Av = λv (v este vector propriu). Valorile proprii sunt rădăcinile polinomului caracteristic det(A − λI) = 0. A este diagonalizabilă dacă există o bază de vectori proprii; atunci P⁻¹AP = D (diagonală), iar Aⁿ = PDⁿP⁻¹. Valori proprii distincte dau vectori proprii independenți; matricele reale simetrice sunt mereu diagonalizabile.",
+    "sample": "Matricea (2 0 / 0 3) are valorile proprii 2 și 3, cu vectorii proprii (1, 0) și (0, 1).",
+    "worked": "A = (4 1 / 2 3): det(A − λI) = (4 − λ)(3 − λ) − 2 = λ² − 7λ + 10, λ = 2 sau λ = 5. Pentru λ = 5: (−1 1 / 2 −2)v = 0, v = (1, 1). Pentru λ = 2: (2 1 / 2 1)v = 0, v = (1, −2). Cu P = (1 1 / 1 −2), P⁻¹AP = diag(5, 2).",
+    "exercises": [
+     "Află valorile și vectorii proprii pentru (3 1 / 0 2).",
+     "Diagonalizează A = (1 2 / 2 1).",
+     "Calculează Aⁿ pentru A = (4 1 / 2 3) folosind diagonalizarea (scrie forma).",
+     "Arată că (1 1 / 0 1) nu este diagonalizabilă.",
+     "Arată că suma valorilor proprii este urma matricei (ordin 2)."
+    ],
+    "test": [
+     "Ecuația valorilor proprii?",
+     "Valorile proprii ale unei matrice diagonale?",
+     "Sunt matricele simetrice reale diagonalizabile?",
+     "Produsul valorilor proprii este…?",
+     "Aⁿ pentru A = PDP⁻¹?"
+    ],
+    "steps": [
+     "Calculează polinomul caracteristic și rădăcinile lui.",
+     "Pentru fiecare λ, rezolvă (A − λI)v = 0.",
+     "Dacă ai n vectori proprii independenți, formează P și D.",
+     "Greșeala frecventă: să presupui că orice matrice este diagonalizabilă; (1 1 / 0 1) are o singură direcție proprie."
+    ],
+    "answers": [
+     "det(A − λI) = 0",
+     "Elementele diagonalei",
+     "Da",
+     "Determinantul",
+     "PDⁿP⁻¹"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l14": {
+   "ro": {
+    "title": "Forme biliniare și forme pătratice; reducerea la forma canonică",
+    "theory": "O formă pătratică pe ℝⁿ este Q(x) = ᵗx A x, cu A simetrică. Prin schimbarea de coordonate potrivită (metoda lui Gauss — formarea de pătrate, metoda lui Jacobi sau diagonalizarea ortogonală), Q devine o sumă de pătrate cu coeficienți (forma canonică). Legea inerției: numărul coeficienților pozitivi și negativi nu depinde de metodă. Q este pozitiv definită dacă toți minorii principali din colțul stânga-sus sunt pozitivi (criteriul lui Sylvester).",
+    "sample": "Forma Q(x, y) = x² + y² este pozitiv definită: este strict pozitivă pentru (x, y) ≠ (0, 0).",
+    "worked": "Q(x, y) = x² + 4xy + 5y²: formăm pătrate: (x + 2y)² + y². Cu x′ = x + 2y, y′ = y, Q = x′² + y′², pozitiv definită. Sylvester: A = (1 2 / 2 5), minorii 1 > 0 și 5 − 4 = 1 > 0, același rezultat.",
+    "exercises": [
+     "Scrie matricea formei Q(x, y, z) = x² + 2y² − z² + 2xy.",
+     "Adu la forma canonică prin metoda lui Gauss: Q = x² − 6xy + 5y².",
+     "Studiază cu Sylvester dacă Q = 2x² + 2xy + 3y² este pozitiv definită.",
+     "Diagonalizează ortogonal forma Q = 2xy.",
+     "Precizează signatura formei Q = x² − y² + z²."
+    ],
+    "test": [
+     "Ce matrice are o formă pătratică?",
+     "Criteriul lui Sylvester?",
+     "Este x² − y² pozitiv definită?",
+     "Ce afirmă legea inerției?",
+     "Forma canonică a lui (x + y)²?"
+    ],
+    "steps": [
+     "Scrie matricea simetrică a formei (coeficienții produselor mixte se împart la 2).",
+     "Formează pătrate (Gauss) sau diagonalizează matricea.",
+     "Interpretează: signatura și caracterul de definire.",
+     "Greșeala frecventă: să pui în matrice coeficientul întreg al lui xy; pe pozițiile (1, 2) și (2, 1) intră jumătate din el."
+    ],
+    "answers": [
+     "O matrice simetrică",
+     "Minorii principali din colțul stânga-sus pozitivi",
+     "Nu",
+     "Numărul pătratelor pozitive și negative este invariant",
+     "x′²"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l15": {
+   "ro": {
+    "title": "Spații euclidiene; ortogonalitate; procedeul Gram–Schmidt",
+    "theory": "Un produs scalar pe un spațiu real este o formă biliniară simetrică pozitiv definită; în ℝⁿ, ⟨x, y⟩ = Σ xᵢyᵢ. Norma ‖x‖ = √⟨x, x⟩; inegalitatea Cauchy–Schwarz: |⟨x, y⟩| ≤ ‖x‖·‖y‖. Vectorii sunt ortogonali dacă ⟨x, y⟩ = 0. Procedeul Gram–Schmidt transformă o bază într-o bază ortonormată: din fiecare vector scădem proiecțiile pe vectorii deja construiți și normăm.",
+    "sample": "Vectorii (1, 1) și (1, −1) sunt ortogonali, pentru că 1·1 + 1·(−1) = 0.",
+    "worked": "Ortonormăm v₁ = (1, 1, 0), v₂ = (1, 0, 1): e₁ = v₁/√2. u₂ = v₂ − ⟨v₂, e₁⟩e₁ = (1, 0, 1) − (1/2)(1, 1, 0) = (1/2, −1/2, 1); ‖u₂‖ = √(3/2); e₂ = u₂/√(3/2). Verificare: ⟨u₂, v₁⟩ = 1/2 − 1/2 + 0 = 0.",
+    "exercises": [
+     "Calculează unghiul dintre (1, 2, 2) și (2, 0, 1).",
+     "Aplică Gram–Schmidt vectorilor (1, 0), (1, 1).",
+     "Află proiecția ortogonală a lui (3, 4) pe dreapta generată de (1, 0).",
+     "Verifică Cauchy–Schwarz pentru (1, 2) și (3, −1).",
+     "Arată că pe C[0, 1], ⟨f, g⟩ = ∫₀¹ f g dx este produs scalar."
+    ],
+    "test": [
+     "Când sunt doi vectori ortogonali?",
+     "Inegalitatea Cauchy–Schwarz?",
+     "Norma lui (3, 4)?",
+     "Ce produce Gram–Schmidt?",
+     "⟨x, x⟩ = 0 implică…?"
+    ],
+    "steps": [
+     "Normează primul vector.",
+     "Din fiecare vector următor scade proiecțiile pe vectorii ortonormați deja obținuți.",
+     "Normează rezultatul și verifică ortogonalitatea prin produs scalar.",
+     "Greșeala frecventă: să uiți normarea finală sau să proiectezi pe vectorii vechi, neortogonalizați."
+    ],
+    "answers": [
+     "Când produsul scalar este 0",
+     "|⟨x, y⟩| ≤ ‖x‖·‖y‖",
+     "5",
+     "O bază ortonormată",
+     "x = 0"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l16": {
+   "ro": {
+    "title": "Vectori liberi: produs scalar, vectorial și mixt",
+    "theory": "În spațiu, produsul scalar u·v = |u||v|cos θ = x₁x₂ + y₁y₂ + z₁z₂. Produsul vectorial u × v este perpendicular pe u și v, are lungimea |u||v|sin θ (aria paralelogramului) și se calculează cu un determinant formal cu i, j, k. Produsul mixt (u, v, w) = u·(v × w) este determinantul coordonatelor; modulul lui este volumul paralelipipedului, iar el este 0 exact când vectorii sunt coplanari.",
+    "sample": "Produsul vectorial i × j = k, iar i·j = 0.",
+    "worked": "u = (1, 2, 0), v = (0, 1, 3): u × v = (2·3 − 0·1, 0·0 − 1·3, 1·1 − 2·0) = (6, −3, 1). Verificăm: (6, −3, 1)·u = 6 − 6 = 0. Aria paralelogramului: √(36 + 9 + 1) = √46.",
+    "exercises": [
+     "Calculează unghiul dintre (1, 1, 0) și (0, 1, 1).",
+     "Calculează aria triunghiului cu vârfurile (0, 0, 0), (1, 2, 0), (0, 1, 3).",
+     "Verifică dacă (1, 0, 1), (2, 1, 0), (3, 1, 1) sunt coplanari.",
+     "Calculează volumul tetraedrului determinat de vectorii (1, 0, 0), (1, 1, 0), (1, 1, 1).",
+     "Arată că u × v = −(v × u)."
+    ],
+    "test": [
+     "Formula produsului scalar în coordonate?",
+     "Ce reprezintă |u × v|?",
+     "Când este produsul mixt 0?",
+     "j × k = ?",
+     "Volumul tetraedrului prin produs mixt?"
+    ],
+    "steps": [
+     "Scrie coordonatele vectorilor.",
+     "Calculează produsul cerut (scalar, determinant formal, determinant 3 × 3).",
+     "Interpretează: unghi, arie, volum sau coplanaritate.",
+     "Greșeala frecventă: să greșești semnul componentei a doua la produsul vectorial (dezvoltarea determinantului alternează semnele)."
+    ],
+    "answers": [
+     "x₁x₂ + y₁y₂ + z₁z₂",
+     "Aria paralelogramului",
+     "Când vectorii sunt coplanari",
+     "i",
+     "|(u, v, w)|/6"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l17": {
+   "ro": {
+    "title": "Dreapta și planul în spațiu",
+    "theory": "Planul prin M₀ cu normala n = (A, B, C): A(x − x₀) + B(y − y₀) + C(z − z₀) = 0, adică Ax + By + Cz + D = 0. Dreapta prin M₀ cu direcția v = (l, m, p): (x − x₀)/l = (y − y₀)/m = (z − z₀)/p, sau parametric. Distanța de la M₀ la plan: |Ax₀ + By₀ + Cz₀ + D|/√(A² + B² + C²). Unghiul dintre două plane este unghiul normalelor; o dreaptă este paralelă cu un plan dacă v·n = 0.",
+    "sample": "Planul cu normala (1, 2, 2) prin origine are ecuația x + 2y + 2z = 0.",
+    "worked": "Planul prin A(1, 0, 0), B(0, 1, 0), C(0, 0, 1): normala AB × AC = (−1, 1, 0) × (−1, 0, 1) = (1, 1, 1), deci x + y + z − 1 = 0. Distanța de la origine: |−1|/√3 = 1/√3.",
+    "exercises": [
+     "Scrie ecuația planului prin (1, 2, 3) cu normala (2, −1, 1).",
+     "Scrie ecuațiile dreptei prin (1, 0, 2) și (3, 1, 0).",
+     "Află intersecția dreptei x = 1 + t, y = 2t, z = 3 − t cu planul x + y + z = 6.",
+     "Calculează distanța de la (1, 1, 1) la planul 2x − y + 2z + 3 = 0.",
+     "Află unghiul dintre planele x + y = 0 și y + z = 0."
+    ],
+    "test": [
+     "Normala planului 3x − y + 2z = 5?",
+     "Direcția dreptei (x − 1)/2 = y/3 = z?",
+     "Când e o dreaptă paralelă cu un plan?",
+     "Distanța de la origine la z = 4?",
+     "Unghiul dintre plane este unghiul…?"
+    ],
+    "steps": [
+     "Identifică un punct și vectorul normal (plan) sau director (dreaptă).",
+     "Scrie ecuația corespunzătoare.",
+     "Pentru intersecții, înlocuiește forma parametrică în ecuația planului.",
+     "Greșeala frecventă: să confunzi vectorul normal al planului cu un vector din plan."
+    ],
+    "answers": [
+     "(3, −1, 2)",
+     "(2, 3, 1)",
+     "Când v·n = 0",
+     "4",
+     "Normalelor"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l18": {
+   "ro": {
+    "title": "Conice și cuadrice: ecuații canonice și recunoaștere",
+    "theory": "Conicele nedegenerate au forme canonice: elipsa x²/a² + y²/b² = 1, hiperbola x²/a² − y²/b² = 1, parabola y² = 2px. O ecuație generală de gradul II se reduce la forma canonică prin rotație (diagonalizarea formei pătratice) și translație (formarea de pătrate). Analog, în spațiu, cuadricele: elipsoid, hiperboloizi cu una sau două pânze, paraboloizi, conuri și cilindri.",
+    "sample": "Ecuația x²/9 + y²/4 = 1 reprezintă o elipsă cu semiaxele 3 și 2.",
+    "worked": "x² + y² − 4x + 6y − 3 = 0: (x − 2)² + (y + 3)² = 16, cerc de centru (2, −3) și rază 4. 4x² − 9y² = 36 devine x²/9 − y²/4 = 1, hiperbolă cu asimptotele y = ±(2/3)x.",
+    "exercises": [
+     "Adu la forma canonică: x² + 4y² − 2x − 3 = 0.",
+     "Recunoaște conica y² − 8x = 0 și află focarul.",
+     "Recunoaște conica 5x² + 4xy + 2y² = 1 (diagonalizează forma pătratică).",
+     "Ce cuadrică este x² + y² − z² = 1?",
+     "Ce cuadrică este z = x² + y²?"
+    ],
+    "test": [
+     "Forma canonică a elipsei?",
+     "Forma canonică a parabolei?",
+     "Ce reprezintă x² − y² = 1?",
+     "Ce reprezintă x² + y² + z² = 4?",
+     "Ce operație elimină termenul xy?"
+    ],
+    "steps": [
+     "Elimină termenul mixt prin rotație (dacă există).",
+     "Formează pătrate pentru a elimina termenii de gradul I (translație).",
+     "Compară cu formele canonice și citește elementele (semiaxe, centru, focar).",
+     "Greșeala frecventă: să formezi pătrate înainte de a elimina termenul xy; rotația trebuie făcută întâi."
+    ],
+    "answers": [
+     "x²/a² + y²/b² = 1",
+     "y² = 2px",
+     "O hiperbolă",
+     "O sferă de rază 2",
+     "Rotația axelor"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l19": {
+   "ro": {
+    "title": "Numere reale: axioma supremumului; șiruri Cauchy; teorema Bolzano–Weierstrass",
+    "theory": "ℝ este un corp ordonat complet: orice submulțime nevidă majorată are o cea mai mică margine superioară (supremum). Un șir este Cauchy dacă |aₙ − aₘ| < ε pentru n, m suficient de mari; în ℝ un șir converge dacă și numai dacă este Cauchy. Teorema Bolzano–Weierstrass: orice șir mărginit are un subșir convergent. Limita superioară și inferioară (lim sup, lim inf) sunt cel mai mare și cel mai mic punct limită.",
+    "sample": "Mulțimea {1 − 1/n : n ≥ 1} are supremumul 1, care nu este atins.",
+    "worked": "Șirul aₙ = 1 + 1/2 + … + 1/n nu este Cauchy: a₂ₙ − aₙ = 1/(n + 1) + … + 1/(2n) ≥ n·1/(2n) = 1/2, deci nu converge (tinde la +∞). Șirul (−1)ⁿ(1 + 1/n) are lim sup = 1 și lim inf = −1; subșirul termenilor pari converge la 1.",
+    "exercises": [
+     "Află sup și inf pentru {(−1)ⁿ/n : n ≥ 1}.",
+     "Arată că aₙ = 1 + 1/2² + … + 1/n² este Cauchy (indiciu: 1/k² ≤ 1/(k − 1) − 1/k).",
+     "Află lim sup și lim inf pentru aₙ = sin(nπ/2).",
+     "Arată că supremumul este unic.",
+     "Dă un exemplu de mulțime din ℚ majorată, fără supremum în ℚ."
+    ],
+    "test": [
+     "sup (0, 1) = ?",
+     "Este orice șir Cauchy convergent în ℝ?",
+     "Ce garantează Bolzano–Weierstrass?",
+     "Este seria armonică convergentă?",
+     "lim sup a lui (−1)ⁿ?"
+    ],
+    "steps": [
+     "Pentru supremum: arată că valoarea este majorant și că orice număr mai mic nu este majorant.",
+     "Pentru convergență fără limita cunoscută, folosește criteriul Cauchy.",
+     "Pentru șiruri mărginite, extrage subșiruri convergente și află punctele limită.",
+     "Greșeala frecventă: să crezi că supremumul aparține mereu mulțimii; sup (0, 1) = 1 nu aparține intervalului."
+    ],
+    "answers": [
+     "1",
+     "Da",
+     "Un subșir convergent",
+     "Nu",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l20": {
+   "ro": {
+    "title": "Serii numerice cu termeni pozitivi; criterii de convergență",
+    "theory": "Seria Σaₙ converge dacă șirul sumelor parțiale Sₙ = a₁ + … + aₙ are limită finită. Condiție necesară: aₙ → 0. Pentru termeni pozitivi: criteriul comparației, criteriul raportului (d’Alembert: lim aₙ₊₁/aₙ < 1 ⇒ convergentă, > 1 ⇒ divergentă), criteriul rădăcinii (Cauchy), criteriul integral, criteriul Raabe–Duhamel. Seria armonică generalizată Σ1/nᵖ converge dacă și numai dacă p > 1; seria geometrică Σqⁿ converge pentru |q| < 1, cu suma 1/(1 − q) (de la n = 0).",
+    "sample": "Seria geometrică 1 + 1/2 + 1/4 + … converge și are suma 2.",
+    "worked": "Σ n/2ⁿ: aₙ₊₁/aₙ = (n + 1)/(2n) → 1/2 < 1, deci converge. Σ 1/(n² + n) = Σ (1/n − 1/(n + 1)) este telescopică: Sₙ = 1 − 1/(n + 1) → 1. Σ 1/√n diverge (p = 1/2 ≤ 1).",
+    "exercises": [
+     "Studiază convergența seriei Σ n²/3ⁿ.",
+     "Studiază convergența seriei Σ 1/(n² + 1).",
+     "Calculează suma seriei Σ 1/(n(n + 2)), n ≥ 1.",
+     "Studiază convergența seriei Σ n!/nⁿ.",
+     "Arată că Σ 1/n diverge folosind criteriul integral."
+    ],
+    "test": [
+     "Condiția necesară de convergență?",
+     "Pentru ce p converge Σ1/nᵖ?",
+     "Suma lui Σ (1/3)ⁿ de la n = 0?",
+     "Criteriul raportului cu limita 2 indică…?",
+     "Converge Σ 1/n²?"
+    ],
+    "steps": [
+     "Verifică întâi condiția necesară aₙ → 0.",
+     "Alege criteriul potrivit (raport pentru factoriale/exponențiale, comparație pentru fracții, Σ1/nᵖ).",
+     "Aplică criteriul și concluzionează; pentru sumă, caută serii geometrice sau telescopice.",
+     "Greșeala frecventă: să concluzionezi convergența doar din aₙ → 0; seria armonică are termenii → 0, dar diverge."
+    ],
+    "answers": [
+     "aₙ → 0",
+     "p > 1",
+     "3/2",
+     "Divergență",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l21": {
+   "ro": {
+    "title": "Serii cu termeni oarecare; convergență absolută; criteriul lui Leibniz",
+    "theory": "Seria Σaₙ este absolut convergentă dacă Σ|aₙ| converge; absolut convergentă ⇒ convergentă. O serie convergentă care nu este absolut convergentă este semiconvergentă. Criteriul lui Leibniz: dacă aₙ este descrescător și tinde la 0, seria alternată Σ(−1)ⁿaₙ converge, iar eroarea la oprirea după n termeni este cel mult aₙ₊₁. Seriile absolut convergente pot fi reordonate fără să-și schimbe suma; cele semiconvergente nu (teorema lui Riemann).",
+    "sample": "Seria 1 − 1/2 + 1/3 − 1/4 + … converge (Leibniz), dar nu absolut, deci este semiconvergentă.",
+    "worked": "Σ(−1)ⁿ/n² este absolut convergentă (Σ1/n² converge). Σ(−1)ⁿ⁺¹/n converge prin Leibniz (1/n descrește la 0); suma ei este ln 2, iar oprindu-ne după 10 termeni eroarea este cel mult 1/11.",
+    "exercises": [
+     "Studiază convergența absolută a seriei Σ sin n/n².",
+     "Arată că Σ(−1)ⁿ/√n este semiconvergentă.",
+     "Câți termeni din Σ(−1)ⁿ⁺¹/n² asigură o eroare sub 0,01?",
+     "Studiază convergența seriei Σ(−1)ⁿ n/(n + 1).",
+     "Explică de ce reordonarea seriei armonice alternate poate schimba suma."
+    ],
+    "test": [
+     "Absolut convergentă implică…?",
+     "Ce cere criteriul lui Leibniz?",
+     "Este Σ(−1)ⁿ/n absolut convergentă?",
+     "Eroarea la Leibniz după n termeni?",
+     "Converge Σ(−1)ⁿ?"
+    ],
+    "steps": [
+     "Verifică întâi convergența absolută (Σ|aₙ| cu criteriile pentru termeni pozitivi).",
+     "Dacă nu este absolut convergentă, încearcă Leibniz pentru serii alternate.",
+     "Concluzionează: absolut convergentă, semiconvergentă sau divergentă.",
+     "Greșeala frecventă: să aplici Leibniz fără să verifici descreșterea lui aₙ sau limita 0."
+    ],
+    "answers": [
+     "Convergentă",
+     "aₙ descrescător cu limita 0",
+     "Nu",
+     "Cel mult aₙ₊₁",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l22": {
+   "ro": {
+    "title": "Limite și continuitate; continuitate uniformă",
+    "theory": "Definiția cu ε–δ: lim f(x) = l când x → a dacă ∀ε > 0 ∃δ > 0 cu |f(x) − l| < ε pentru 0 < |x − a| < δ. f este uniform continuă pe I dacă δ depinde doar de ε, nu și de punct. Teorema lui Cantor (Heine): o funcție continuă pe un interval închis și mărginit este uniform continuă. Teorema lui Weierstrass: o funcție continuă pe [a, b] este mărginită și își atinge marginile.",
+    "sample": "Funcția f(x) = 2x este uniform continuă pe ℝ: pentru ε dat, δ = ε/2 funcționează peste tot.",
+    "worked": "f(x) = x² nu este uniform continuă pe ℝ: pentru xₙ = n, yₙ = n + 1/n, |xₙ − yₙ| → 0, dar |f(xₙ) − f(yₙ)| = 2 + 1/n² ≥ 2. Pe [0, 1], x² este uniform continuă (Cantor).",
+    "exercises": [
+     "Demonstrează cu ε–δ că lim (3x + 1) = 7 când x → 2.",
+     "Arată că f(x) = √x este uniform continuă pe [0, 1].",
+     "Arată că f(x) = 1/x nu este uniform continuă pe (0, 1).",
+     "Arată că o funcție lipschitziană este uniform continuă.",
+     "Dă un exemplu de funcție continuă pe (0, 1) care nu își atinge supremumul."
+    ],
+    "test": [
+     "Ce spune teorema lui Weierstrass?",
+     "Este x² uniform continuă pe ℝ?",
+     "Teorema lui Cantor (Heine)?",
+     "Este 1/x uniform continuă pe (0, 1)?",
+     "Lipschitzian ⇒ …?"
+    ],
+    "steps": [
+     "Scrie definiția cu ε–δ potrivită (punctuală sau uniformă).",
+     "Caută un δ explicit în funcție de ε (sau două șiruri care infirmă).",
+     "Concluzionează folosind teoremele Weierstrass și Cantor unde se aplică.",
+     "Greșeala frecventă: să alegi δ care depinde de punct când demonstrezi continuitatea uniformă."
+    ],
+    "answers": [
+     "f continuă pe [a, b] este mărginită și își atinge marginile",
+     "Nu",
+     "Continuă pe [a, b] ⇒ uniform continuă",
+     "Nu",
+     "Uniform continuu"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l23": {
+   "ro": {
+    "title": "Derivabilitate; formula lui Taylor",
+    "theory": "Pentru o funcție de n + 1 ori derivabilă în jurul lui a, formula lui Taylor: f(x) = f(a) + f′(a)(x − a) + … + f⁽ⁿ⁾(a)(x − a)ⁿ/n! + Rₙ(x), cu restul Lagrange Rₙ(x) = f⁽ⁿ⁺¹⁾(c)(x − a)ⁿ⁺¹/(n + 1)! pentru un c între a și x. Dezvoltări uzuale în jurul lui 0: eˣ = 1 + x + x²/2! + …, sin x = x − x³/3! + …, cos x = 1 − x²/2! + …, ln(1 + x) = x − x²/2 + x³/3 − ….",
+    "sample": "Polinomul Taylor de grad 2 al lui eˣ în 0 este 1 + x + x²/2.",
+    "worked": "Aproximăm e cu polinomul Taylor de grad 4: 1 + 1 + 1/2 + 1/6 + 1/24 = 2,7083. Restul R₄(1) = e^c/5! < 3/120 = 0,025. Limita lim (eˣ − 1 − x)/x² = 1/2 rezultă din eˣ = 1 + x + x²/2 + o(x²).",
+    "exercises": [
+     "Scrie polinomul Taylor de grad 3 al lui sin x în 0.",
+     "Aproximează √(1,1) cu Taylor de grad 2 pentru √(1 + x).",
+     "Calculează cu Taylor: lim (sin x − x)/x³ când x → 0.",
+     "Estimează eroarea la aproximarea lui cos 0,1 cu 1 − 0,1²/2.",
+     "Scrie dezvoltarea Taylor a lui ln(1 + x) până la x⁴."
+    ],
+    "test": [
+     "Polinomul Taylor de grad 1 al lui f în a?",
+     "Dezvoltarea lui eˣ până la x³?",
+     "Primul termen nenul al lui sin x − x?",
+     "Forma restului Lagrange?",
+     "Coeficientul lui x² în cos x?"
+    ],
+    "steps": [
+     "Calculează derivatele funcției în punctul a.",
+     "Scrie polinomul Taylor până la ordinul cerut.",
+     "Estimează restul sau folosește dezvoltarea pentru limite și aproximări.",
+     "Greșeala frecventă: să uiți factorialele de la numitor în termenii polinomului Taylor."
+    ],
+    "answers": [
+     "f(a) + f′(a)(x − a)",
+     "1 + x + x²/2 + x³/6",
+     "−x³/6",
+     "f⁽ⁿ⁺¹⁾(c)(x − a)ⁿ⁺¹/(n + 1)!",
+     "−1/2"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l24": {
+   "ro": {
+    "title": "Integrala Riemann: criterii de integrabilitate; teorema fundamentală",
+    "theory": "Sumele Darboux inferioară sₐ și superioară Sₐ folosesc infimul și supremumul pe subintervale; f este integrabilă Riemann pe [a, b] dacă pentru orice ε există o diviziune cu Sₐ − sₐ < ε. Sunt integrabile funcțiile continue, cele monotone și cele mărginite cu un număr finit de discontinuități. Teorema fundamentală: pentru f continuă, F(x) = ∫ₐˣ f(t)dt este derivabilă și F′ = f; de aici ∫ₐᵇ f = G(b) − G(a) pentru orice primitivă G.",
+    "sample": "Funcția lui Dirichlet (1 pe ℚ, 0 în rest) nu este integrabilă Riemann: toate sumele superioare sunt 1, iar cele inferioare 0.",
+    "worked": "f(x) = 0 pe [0, 1) și f(1) = 5 este integrabilă (o singură discontinuitate), cu integrala 0. Derivăm G(x) = ∫₀^(x²) sin t dt: G′(x) = sin(x²)·2x (teorema fundamentală compusă cu x²).",
+    "exercises": [
+     "Arată că o funcție monotonă pe [a, b] este integrabilă.",
+     "Calculează derivata lui G(x) = ∫ₓ^(2x) e^(t²) dt.",
+     "Este integrabilă pe [0, 1] funcția f(x) = sin(1/x), f(0) = 0? Justifică.",
+     "Calculează lim (1/x)∫₀ˣ eᵗ² dt când x → 0.",
+     "Arată că funcția lui Dirichlet nu este integrabilă Riemann."
+    ],
+    "test": [
+     "Sunt funcțiile continue integrabile?",
+     "Derivata lui ∫ₐˣ f(t)dt?",
+     "Este Dirichlet integrabilă Riemann?",
+     "Ce sunt sumele Darboux?",
+     "Integrabilă cu un număr finit de discontinuități (mărginită)?"
+    ],
+    "steps": [
+     "Verifică mărginirea și tipul funcției (continuă, monotonă, discontinuități).",
+     "Aplică un criteriu de integrabilitate sau sumele Darboux.",
+     "Pentru funcții definite prin integrale, folosește teorema fundamentală (și regula lanțului).",
+     "Greșeala frecventă: la ∫₀^(u(x)) f(t)dt să uiți factorul u′(x) la derivare."
+    ],
+    "answers": [
+     "Da",
+     "f(x)",
+     "Nu",
+     "Sume cu inf și sup pe subintervale",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l25": {
+   "ro": {
+    "title": "Integrale improprii",
+    "theory": "Integrala improprie extinde integrala la intervale nemărginite sau funcții nemărginite: ∫ₐ^∞ f = lim ∫ₐᵇ f când b → ∞, iar pentru f nemărginită în a, ∫ₐᵇ f = lim ∫_{a + ε}ᵇ f când ε → 0⁺. Integrala converge dacă limita este finită. Repere: ∫₁^∞ 1/xᵖ dx converge ⇔ p > 1; ∫₀¹ 1/xᵖ dx converge ⇔ p < 1. Pentru funcții pozitive se folosesc criterii de comparație.",
+    "sample": "Integrala ∫₁^∞ 1/x² dx converge și este egală cu 1.",
+    "worked": "∫₀^∞ e⁻ˣ dx = lim (1 − e⁻ᵇ) = 1. ∫₀¹ 1/√x dx = lim (2 − 2√ε) = 2 (p = 1/2 < 1). ∫₁^∞ 1/x dx = lim ln b = ∞, diverge. ∫₁^∞ sin²x/x² dx converge prin comparație cu 1/x².",
+    "exercises": [
+     "Calculează: ∫₀^∞ x e⁻ˣ dx.",
+     "Studiază convergența integralei ∫₁^∞ 1/(x² + x) dx.",
+     "Calculează: ∫₀¹ ln x dx.",
+     "Studiază convergența integralei ∫₀^∞ 1/(1 + x²) dx și calculeaz-o.",
+     "Studiază convergența integralei ∫₂^∞ 1/(x ln x) dx."
+    ],
+    "test": [
+     "∫₁^∞ 1/x² dx = ?",
+     "Converge ∫₁^∞ 1/x dx?",
+     "Pentru ce p converge ∫₀¹ 1/xᵖ dx?",
+     "∫₀^∞ e⁻ˣ dx = ?",
+     "Cum definești ∫ₐ^∞ f?"
+    ],
+    "steps": [
+     "Identifică problema: interval infinit sau punct în care funcția devine nemărginită.",
+     "Scrie integrala ca limită a unor integrale proprii.",
+     "Calculează limita sau aplică un criteriu de comparație.",
+     "Greșeala frecventă: să calculezi ∫₋₁¹ 1/x² dx direct cu Leibniz–Newton; integrandul este nemărginit în 0, iar integrala diverge."
+    ],
+    "answers": [
+     "1",
+     "Nu",
+     "p < 1",
+     "1",
+     "lim ∫ₐᵇ f când b → ∞"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l26": {
+   "ro": {
+    "title": "Șiruri și serii de funcții; serii de puteri",
+    "theory": "Șirul de funcții fₙ converge uniform la f dacă sup|fₙ(x) − f(x)| → 0; limita uniformă a funcțiilor continue este continuă, iar integrala se poate trece la limită. Criteriul lui Weierstrass: dacă |uₙ(x)| ≤ aₙ și Σaₙ converge, seria Σuₙ converge uniform. O serie de puteri Σaₙxⁿ are o rază de convergență R (1/R = lim ⁿ√|aₙ| sau lim |aₙ₊₁/aₙ|); în interiorul intervalului (−R, R) poate fi derivată și integrată termen cu termen.",
+    "sample": "Seria de puteri Σxⁿ are raza 1 și suma 1/(1 − x) pentru |x| < 1.",
+    "worked": "fₙ(x) = xⁿ pe [0, 1] converge punctual la 0 pe [0, 1) și la 1 în 1 — limita este discontinuă, deci convergența nu este uniformă. Derivând Σxⁿ = 1/(1 − x) obținem Σnxⁿ⁻¹ = 1/(1 − x)²; integrând Σ(−1)ⁿxⁿ = 1/(1 + x) obținem ln(1 + x) = Σ(−1)ⁿxⁿ⁺¹/(n + 1).",
+    "exercises": [
+     "Află raza de convergență a seriei Σ xⁿ/n!.",
+     "Află raza și intervalul de convergență pentru Σ xⁿ/n.",
+     "Arată cu Weierstrass că Σ sin(nx)/n² converge uniform pe ℝ.",
+     "Calculează suma seriei Σ n/2ⁿ folosind derivarea seriei geometrice.",
+     "Arată că fₙ(x) = x/n converge uniform pe [0, 1]."
+    ],
+    "test": [
+     "Raza de convergență a lui Σxⁿ?",
+     "Raza lui Σxⁿ/n!?",
+     "Ce păstrează convergența uniformă?",
+     "Converge uniform xⁿ pe [0, 1]?",
+     "Ce afirmă criteriul lui Weierstrass?"
+    ],
+    "steps": [
+     "Calculează raza de convergență cu criteriul raportului sau al rădăcinii.",
+     "Studiază separat capetele intervalului.",
+     "Folosește derivarea/integrarea termen cu termen pentru sume, în interiorul intervalului.",
+     "Greșeala frecventă: să presupui că seria converge și în capetele intervalului; acolo comportamentul se studiază separat."
+    ],
+    "answers": [
+     "1",
+     "∞",
+     "Continuitatea limitei",
+     "Nu",
+     "Majorare cu o serie numerică convergentă ⇒ convergență uniformă"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l27": {
+   "ro": {
+    "title": "Spații metrice; topologia lui ℝⁿ; mulțimi compacte",
+    "theory": "O metrică d pe o mulțime X măsoară distanța: d(x, y) ≥ 0, cu egalitate doar pentru x = y, simetrie și inegalitatea triunghiului. În ℝⁿ folosim distanța euclidiană. Bila deschisă B(a, r) = {x : d(x, a) < r}. O mulțime este deschisă dacă conține o bilă în jurul fiecărui punct; închisă dacă complementara este deschisă. În ℝⁿ, o mulțime este compactă dacă și numai dacă este închisă și mărginită; orice șir dintr-un compact are un subșir convergent în compact.",
+    "sample": "Intervalul [0, 1] este compact, iar (0, 1) nu este compact (nu e închis).",
+    "worked": "Pe ℝ², d₁((x, y), (x′, y′)) = |x − x′| + |y − y′| este metrică. Bila unitate în d₁ este un pătrat „rotit” (romb) cu vârfurile (±1, 0), (0, ±1). Mulțimea {(x, y) : x² + y² ≤ 1} este închisă și mărginită, deci compactă.",
+    "exercises": [
+     "Verifică axiomele de metrică pentru d(x, y) = |x − y| pe ℝ.",
+     "Desenează bila unitate pentru d∞ = max(|x − x′|, |y − y′|).",
+     "Este {(x, y) : x > 0} deschisă în ℝ²? Justifică.",
+     "Este {(x, y) : xy = 1} compactă? Justifică.",
+     "Arată că intersecția a două mulțimi deschise este deschisă."
+    ],
+    "test": [
+     "Axiomele unei metrici?",
+     "Este (0, 1) compact?",
+     "Caracterizarea compactelor din ℝⁿ?",
+     "Este ℝ închisă?",
+     "Bila unitate în d₁ în plan este…?"
+    ],
+    "steps": [
+     "Verifică definiția (bilă în jurul fiecărui punct pentru deschis, complementară deschisă pentru închis).",
+     "Pentru compacitate în ℝⁿ, verifică închis și mărginit.",
+     "Folosește desene pentru a intui, apoi demonstrează cu inegalități.",
+     "Greșeala frecventă: să crezi că o mulțime care nu e deschisă trebuie să fie închisă; [0, 1) nu este nici deschisă, nici închisă."
+    ],
+    "answers": [
+     "Pozitivitate, simetrie, inegalitatea triunghiului",
+     "Nu",
+     "Închise și mărginite",
+     "Da",
+     "Un romb"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l28": {
+   "ro": {
+    "title": "Limite și continuitate pentru funcții de mai multe variabile",
+    "theory": "Pentru f: ℝⁿ → ℝ, lim f(x) = l când x → a dacă |f(x) − l| < ε pentru x suficient de aproape de a, din orice direcție. Dacă limitele pe două drumuri diferite sunt diferite, limita nu există. Pentru a arăta existența, încadrăm |f(x) − l| de o expresie care tinde la 0 (de exemplu în coordonate polare). Funcțiile continue pe un compact sunt mărginite și își ating marginile.",
+    "sample": "Funcția f(x, y) = x² + y² este continuă, iar limita în (0, 0) este 0.",
+    "worked": "f(x, y) = xy/(x² + y²): pe dreapta y = mx, f = m/(1 + m²), depinde de m, deci limita în (0, 0) nu există. g(x, y) = x²y/(x² + y²): |g| ≤ |y| → 0, deci limita este 0.",
+    "exercises": [
+     "Arată că lim x²/(x² + y²) când (x, y) → (0, 0) nu există.",
+     "Calculează lim (x³ + y³)/(x² + y²) când (x, y) → (0, 0).",
+     "Studiază continuitatea în (0, 0) a lui f = xy/√(x² + y²), f(0, 0) = 0.",
+     "Arată că lim xy²/(x² + y⁴) nu există (folosește x = y²).",
+     "Calculează lim sin(x² + y²)/(x² + y²) când (x, y) → (0, 0)."
+    ],
+    "test": [
+     "Cum arăți că o limită în două variabile nu există?",
+     "Limita lui x² + y² în (0, 0)?",
+     "Ce substituție ajută la expresii cu x² + y²?",
+     "Este suficient să verifici limita pe drepte?",
+     "Limita lui xy/(x² + y²) în (0, 0)?"
+    ],
+    "steps": [
+     "Încearcă drumuri simple (axe, drepte y = mx, curbe).",
+     "Dacă rezultatele diferă, limita nu există; dacă sunt egale, încearcă o încadrare.",
+     "Folosește coordonate polare sau inegalități pentru a demonstra limita.",
+     "Greșeala frecventă: să concluzionezi existența limitei doar pentru că ai obținut același rezultat pe toate dreptele; pot exista curbe cu alt rezultat."
+    ],
+    "answers": [
+     "Găsesc două drumuri cu limite diferite",
+     "0",
+     "Coordonatele polare",
+     "Nu",
+     "Nu există"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l29": {
+   "ro": {
+    "title": "Derivate parțiale, diferențiabilitate, regula lanțului",
+    "theory": "Derivata parțială ∂f/∂x se calculează derivând în raport cu x și considerând celelalte variabile constante. f este diferențiabilă în a dacă f(a + h) = f(a) + df(a)(h) + o(‖h‖), unde df(a)(h) = Σ ∂f/∂xᵢ(a)hᵢ. Derivatele parțiale continue implică diferențiabilitatea. Gradientul ∇f indică direcția de creștere maximă. Regula lanțului: pentru z = f(x(t), y(t)), dz/dt = fₓ x′ + f_y y′. Teorema lui Schwarz: derivatele mixte continue sunt egale.",
+    "sample": "Pentru f(x, y) = x²y avem ∂f/∂x = 2xy și ∂f/∂y = x².",
+    "worked": "f(x, y) = x² + 3xy + y³: fₓ = 2x + 3y, f_y = 3x + 3y², ∇f(1, 1) = (5, 6). Planul tangent în (1, 1, 5): z = 5 + 5(x − 1) + 6(y − 1). Pentru x = cos t, y = sin t, dz/dt = fₓ(−sin t) + f_y cos t.",
+    "exercises": [
+     "Calculează derivatele parțiale pentru f(x, y) = eˣʸ.",
+     "Calculează gradientul lui f(x, y, z) = x²y + yz³ în (1, 1, 1).",
+     "Verifică teorema lui Schwarz pentru f = x³y² + sin(xy).",
+     "Scrie planul tangent la z = x² + y² în (1, 2, 5).",
+     "Pentru z = f(x, y), x = t², y = 3t, scrie dz/dt cu regula lanțului."
+    ],
+    "test": [
+     "Cum calculezi ∂f/∂x?",
+     "Ce indică gradientul?",
+     "Derivate parțiale continue implică…?",
+     "Ce afirmă teorema lui Schwarz?",
+     "∂(xy)/∂y = ?"
+    ],
+    "steps": [
+     "Calculează derivatele parțiale tratând celelalte variabile drept constante.",
+     "Verifică continuitatea lor (pentru diferențiabilitate) și scrie gradientul.",
+     "Aplică regula lanțului sau formula planului tangent.",
+     "Greșeala frecventă: să crezi că existența derivatelor parțiale garantează continuitatea; xy/(x² + y²) are derivate parțiale în 0, dar nu este continuă."
+    ],
+    "answers": [
+     "Derivez în x, cu celelalte variabile constante",
+     "Direcția de creștere maximă",
+     "Diferențiabilitatea",
+     "Derivatele mixte continue sunt egale",
+     "x"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-1-l30": {
+   "ro": {
+    "title": "Extreme locale; extreme cu legături (multiplicatorii lui Lagrange)",
+    "theory": "Punctele critice ale lui f(x, y) rezolvă fₓ = f_y = 0. Natura lor se decide cu matricea hessiană H = (fₓₓ fₓᵧ / fₓᵧ f_yy): dacă det H > 0 și fₓₓ > 0, minim local; det H > 0 și fₓₓ < 0, maxim local; det H < 0, punct șa. Pentru extremele lui f cu legătura g = 0 folosim funcția lui Lagrange F = f − λg și rezolvăm ∇F = 0 împreună cu g = 0.",
+    "sample": "Funcția x² + y² are minim local (și global) în (0, 0).",
+    "worked": "f = x³ − 3x + y²: fₓ = 3x² − 3, f_y = 2y, puncte critice (±1, 0). În (1, 0): H = (6 0 / 0 2), det 12 > 0, fₓₓ > 0, minim. În (−1, 0): H = (−6 0 / 0 2), det < 0, punct șa. Extremele lui xy pe x + y = 2: F = xy − λ(x + y − 2), y = λ, x = λ, deci x = y = 1, valoarea maximă 1.",
+    "exercises": [
+     "Află extremele locale ale lui f = x² + xy + y² − 3x.",
+     "Află natura punctelor critice ale lui f = x² − y².",
+     "Află extremele lui f = x + y cu legătura x² + y² = 2.",
+     "Ce dreptunghi de perimetru 20 are aria maximă? (Lagrange)",
+     "Află extremele lui f = x³ + y³ − 3xy."
+    ],
+    "test": [
+     "Condiția punctelor critice?",
+     "Ce indică det H < 0?",
+     "Ce funcție construiești la extreme cu legături?",
+     "Natura lui (0, 0) pentru x² − y²?",
+     "det H > 0 și fₓₓ > 0 indică…?"
+    ],
+    "steps": [
+     "Rezolvă sistemul derivatelor parțiale egale cu 0 (sau sistemul Lagrange).",
+     "Calculează hessiana în fiecare punct critic.",
+     "Decide natura punctului; la legături compară valorile în punctele găsite.",
+     "Greșeala frecventă: să consideri orice punct critic extrem; x² − y² are punct critic în origine, dar acesta este punct șa."
+    ],
+    "answers": [
+     "fₓ = f_y = 0",
+     "Punct șa",
+     "F = f − λg",
+     "Punct șa",
+     "Minim local"
+    ]
+   }
+  }
+ }
+}

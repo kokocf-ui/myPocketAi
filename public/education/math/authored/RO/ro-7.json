@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "7",
+ "version": "2809df17e521eac81719acd767e23c1c1ab5832a75695cddb19094b9c5b307fa",
+ "source": "https://www.edu.ro/Ordin_ministru_3393_2017",
+ "sourceTitle": "Programa școlară pentru disciplina Matematică, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 (Anexa 2) — clasa a VII-a: mulțimea numerelor reale (radicali, operații, raționalizare, formule de calcul prescurtat), ecuații și sisteme de ecuații liniare, elemente de organizare a datelor, patrulaterul, cercul (inclusiv poligoane regulate), asemănarea triunghiurilor, relații metrice și trigonometrie în triunghiul dreptunghic; unitățile urmează manualele aprobate de Matematică clasa a VII-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a VII-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Mulțimea numerelor reale",
+   "keys": [
+    "eu-year-ro-lower-7-l01",
+    "eu-year-ro-lower-7-l02",
+    "eu-year-ro-lower-7-l03",
+    "eu-year-ro-lower-7-l04",
+    "eu-year-ro-lower-7-l05",
+    "eu-year-ro-lower-7-l06",
+    "eu-year-ro-lower-7-l07",
+    "eu-year-ro-lower-7-l08"
+   ]
+  },
+  {
+   "title": "Ecuații și sisteme de ecuații liniare",
+   "keys": [
+    "eu-year-ro-lower-7-l09",
+    "eu-year-ro-lower-7-l10",
+    "eu-year-ro-lower-7-l11",
+    "eu-year-ro-lower-7-l12",
+    "eu-year-ro-lower-7-l13"
+   ]
+  },
+  {
+   "title": "Elemente de organizare a datelor",
+   "keys": [
+    "eu-year-ro-lower-7-l14",
+    "eu-year-ro-lower-7-l15",
+    "eu-year-ro-lower-7-l16"
+   ]
+  },
+  {
+   "title": "Patrulaterul",
+   "keys": [
+    "eu-year-ro-lower-7-l17",
+    "eu-year-ro-lower-7-l18",
+    "eu-year-ro-lower-7-l19",
+    "eu-year-ro-lower-7-l20"
+   ]
+  },
+  {
+   "title": "Cercul",
+   "keys": [
+    "eu-year-ro-lower-7-l21",
+    "eu-year-ro-lower-7-l22",
+    "eu-year-ro-lower-7-l23",
+    "eu-year-ro-lower-7-l24"
+   ]
+  },
+  {
+   "title": "Asemănarea triunghiurilor",
+   "keys": [
+    "eu-year-ro-lower-7-l25",
+    "eu-year-ro-lower-7-l26",
+    "eu-year-ro-lower-7-l27"
+   ]
+  },
+  {
+   "title": "Relații metrice în triunghiul dreptunghic",
+   "keys": [
+    "eu-year-ro-lower-7-l28",
+    "eu-year-ro-lower-7-l29",
+    "eu-year-ro-lower-7-l30",
+    "eu-year-ro-lower-7-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-7-l01": {
+   "ro": {
+    "title": "Rădăcina pătrată a unui pătrat perfect; estimarea rădăcinii pătrate",
+    "theory": "Rădăcina pătrată a unui număr a ≥ 0 este numărul b ≥ 0 cu b² = a; scriem √a = b. Pentru pătrate perfecte, √49 = 7, √144 = 12. Pentru un număr care nu este pătrat perfect, estimăm: încadrăm numărul între două pătrate perfecte consecutive. Rădăcina pătrată a unui produs: √(a·b) = √a·√b, utilă pentru numere mari descompuse în factori.",
+    "sample": "Rădăcina pătrată a lui 225 este 15, pentru că 15² = 225.",
+    "worked": "Estimăm √50: 49 < 50 < 64, deci 7 < √50 < 8; cum 50 este foarte aproape de 49, √50 ≈ 7,07. Calculăm √(2⁴·3²) = 2²·3 = 12.",
+    "exercises": [
+     "Calculează: √81, √169, √0,25, √(4/9).",
+     "Încadrează între doi întregi consecutivi: √20, √75, √120.",
+     "Calculează: √(2⁶·5²).",
+     "Află latura unui pătrat cu aria 196 cm².",
+     "Calculează √1 764 descompunând în factori primi."
+    ],
+    "test": [
+     "Cât este √64?",
+     "Cât este √1?",
+     "Între ce întregi este √10?",
+     "Cât este √(9·16)?",
+     "Are sens √(−4) în numere reale?"
+    ],
+    "steps": [
+     "Verifică dacă numărul este pătrat perfect (sau descompune-l în factori primi).",
+     "Dacă este, ia jumătate din fiecare exponent.",
+     "Dacă nu, încadrează-l între pătratele perfecte vecine.",
+     "Greșeala frecventă: să crezi că √(a + b) = √a + √b; de exemplu √(9 + 16) = 5, nu 3 + 4 = 7."
+    ],
+    "answers": [
+     "8",
+     "1",
+     "3 și 4",
+     "12",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l02": {
+   "ro": {
+    "title": "Numere iraționale; mulțimea numerelor reale; modul și comparare",
+    "theory": "Numerele care nu se pot scrie ca fracție a/b se numesc iraționale: √2, √3, π. Ele au o infinitate de zecimale fără perioadă. Raționalele și iraționalele formează mulțimea numerelor reale ℝ: ℕ ⊂ ℤ ⊂ ℚ ⊂ ℝ. Fiecărui număr real îi corespunde un punct pe axă. Modulul |x| este distanța la 0. Comparăm radicalii comparând pătratele: 2√3 = √12 < √13.",
+    "sample": "√2 ≈ 1,414 este irațional, iar √16 = 4 este rațional.",
+    "worked": "Ordonăm 3√2, 2√5, 4: le scriem ca radicali, 3√2 = √18, 2√5 = √20, 4 = √16. Crescător: 4 < 3√2 < 2√5. Calculăm |1 − √2| = √2 − 1, pentru că √2 > 1.",
+    "exercises": [
+     "Precizează care numere sunt raționale: √25, √7, 0,(3), π, −√9.",
+     "Compară: 5 și √24; 2√7 și 3√3.",
+     "Ordonează crescător: √10, 3, 2√2, π.",
+     "Calculează: |√3 − 2| și |√5 − 2|.",
+     "Scrie trei numere iraționale între 1 și 2."
+    ],
+    "test": [
+     "Este √9 irațional?",
+     "Este π rațional?",
+     "Care e mai mare: √15 sau 4?",
+     "Cât este |−√3|?",
+     "Este ℚ inclusă în ℝ?"
+    ],
+    "steps": [
+     "Pentru comparare, introdu factorii sub radical.",
+     "Compară numerele de sub radical.",
+     "La modul, stabilește semnul expresiei înainte de a scoate modulul.",
+     "Greșeala frecventă: să scrii |1 − √2| = 1 − √2; expresia este negativă, deci modulul este √2 − 1."
+    ],
+    "answers": [
+     "Nu",
+     "Nu",
+     "4",
+     "√3",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l03": {
+   "ro": {
+    "title": "Scoaterea factorilor de sub radical și introducerea lor",
+    "theory": "Folosim √(a²·b) = a√b pentru a ≥ 0, b ≥ 0. Scoatem factori: descompunem numărul de sub radical și scoatem factorii care apar la puteri pare: √72 = √(36·2) = 6√2. Introducem factori: a√b = √(a²·b), util la comparare. Forma simplificată a radicalului are sub radical un număr fără factori pătrați.",
+    "sample": "Scoțând factorul de sub radical, √50 = √(25·2) = 5√2.",
+    "worked": "Simplificăm √300: 300 = 100·3, deci √300 = 10√3. Introducem 3√5 = √(9·5) = √45. Simplificăm √(2⁵·3³) = 2²·3·√(2·3) = 12√6.",
+    "exercises": [
+     "Scoate factorii de sub radical: √12, √48, √98, √180.",
+     "Introdu factorii sub radical: 2√3, 5√2, 4√5.",
+     "Simplifică: √(2³·5²·7).",
+     "Compară, introducând factorii: 3√6 și 4√3.",
+     "Simplifică: √0,08 (indiciu: 0,08 = 4·2/100)."
+    ],
+    "test": [
+     "√8 simplificat?",
+     "√18 simplificat?",
+     "Introdu: 2√2.",
+     "√27 simplificat?",
+     "√75 simplificat?"
+    ],
+    "steps": [
+     "Descompune numărul de sub radical, căutând cel mai mare pătrat perfect divizor.",
+     "Scoate rădăcina pătratului perfect în fața radicalului.",
+     "Verifică dacă sub radical a mai rămas vreun factor pătrat.",
+     "Greșeala frecventă: să scoți √20 ca 4√5; 20 = 4·5, deci √20 = 2√5."
+    ],
+    "answers": [
+     "2√2",
+     "3√2",
+     "√8",
+     "3√3",
+     "5√3"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l04": {
+   "ro": {
+    "title": "Adunarea, scăderea, înmulțirea și împărțirea numerelor reale cu radicali",
+    "theory": "Adunăm și scădem doar radicalii asemenea (același număr sub radical): 3√2 + 5√2 = 8√2, dar √2 + √3 nu se mai simplifică. Înmulțim: √a·√b = √(ab); împărțim: √a : √b = √(a/b) (b > 0). Adesea simplificăm întâi radicalii, ca să descoperim termenii asemenea. Distributivitatea funcționează la fel ca la numere raționale.",
+    "sample": "Adunând radicali asemenea, 2√3 + 7√3 = 9√3.",
+    "worked": "Calculăm √12 + √27 − √75 = 2√3 + 3√3 − 5√3 = 0. Calculăm √6·√15 = √90 = 3√10 și √2·(√8 + 3) = √16 + 3√2 = 4 + 3√2.",
+    "exercises": [
+     "Calculează: 5√7 − 2√7 + √7.",
+     "Calculează: √18 + √50 − √8.",
+     "Calculează: √3·√12; 2√5·3√10.",
+     "Calculează: √72 : √2; 6√15 : (2√3).",
+     "Calculează: √3(√3 − 2) + 2√3."
+    ],
+    "test": [
+     "Cât este √2 + √2?",
+     "Cât este √3·√3?",
+     "Cât este √20 : √5?",
+     "Se poate aduna √2 + √5 într-un singur radical?",
+     "Cât este 3√5 − √5?"
+    ],
+    "steps": [
+     "Simplifică fiecare radical.",
+     "Grupează radicalii asemenea și adună coeficienții.",
+     "La înmulțire și împărțire, folosește √a·√b = √(ab) și simplifică rezultatul.",
+     "Greșeala frecventă: să scrii √2 + √3 = √5; adunarea radicalilor nu se face sub radical."
+    ],
+    "answers": [
+     "2√2",
+     "3",
+     "2",
+     "Nu",
+     "2√5"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l05": {
+   "ro": {
+    "title": "Puteri și raționalizarea numitorului; media aritmetică și geometrică",
+    "theory": "Puterile numerelor reale respectă aceleași reguli: (√a)² = a, (a√b)² = a²·b. Raționalizarea numitorului elimină radicalul din numitor: amplificăm cu radicalul, 1/√a = √a/a. Media aritmetică a două numere este (a + b)/2, iar media geometrică a două numere pozitive este √(a·b). Media geometrică nu depășește media aritmetică.",
+    "sample": "Raționalizând, 6/√3 = 6√3/3 = 2√3.",
+    "worked": "Pentru a = 4 și b = 9: media aritmetică 6,5, media geometrică √36 = 6 ≤ 6,5. Calculăm (2√3)² = 4·3 = 12 și raționalizăm 5/(2√5) = 5√5/10 = √5/2.",
+    "exercises": [
+     "Calculează: (√7)², (3√2)², (−2√5)².",
+     "Raționalizează: 1/√2, 10/√5, 3/(2√6).",
+     "Află media aritmetică și media geometrică a numerelor 2 și 8.",
+     "Află media geometrică a numerelor 3√2 și 6√2.",
+     "Calculează: 4/√2 + √8."
+    ],
+    "test": [
+     "Cât este (√5)²?",
+     "Raționalizează 2/√2.",
+     "Media aritmetică a lui 3 și 7?",
+     "Media geometrică a lui 4 și 16?",
+     "Cât este (2√2)²?"
+    ],
+    "steps": [
+     "Identifică radicalul din numitor.",
+     "Amplifică fracția cu acel radical.",
+     "Simplifică rezultatul; pentru medii aplică formulele.",
+     "Greșeala frecventă: să calculezi (2√3)² = 2·3 = 6; ambii factori se ridică la pătrat: 4·3 = 12."
+    ],
+    "answers": [
+     "5",
+     "√2",
+     "5",
+     "8",
+     "8"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l06": {
+   "ro": {
+    "title": "Calcule combinate cu numere reale; ordinea operațiilor",
+    "theory": "În exercițiile cu numere reale păstrăm ordinea operațiilor: paranteze, puteri, înmulțiri și împărțiri, adunări și scăderi. Înainte de a aduna radicali îi simplificăm, iar fracțiile cu radical la numitor le raționalizăm. Rezultatul final se scrie cât mai simplu.",
+    "sample": "Simplificând întâi, √8 + √2 = 2√2 + √2 = 3√2.",
+    "worked": "Calculăm (√12 − √3)·√3 + 6/√3 = (2√3 − √3)·√3 + 2√3 = √3·√3 + 2√3 = 3 + 2√3. Calculăm |2 − √5| + |√5 − 3| = (√5 − 2) + (3 − √5) = 1.",
+    "exercises": [
+     "Calculează: (√50 − √18)·√2.",
+     "Calculează: 4/√2 − √32 + √2.",
+     "Calculează: |√7 − 3| + |√7 − 2|.",
+     "Calculează: (√3 + 1)² − 2√3.",
+     "Arată că numărul (√5 − 2)(√5 + 2) + 4 este natural."
+    ],
+    "test": [
+     "Cât este √2·(√2 + 1)?",
+     "Cât este √27 − √12?",
+     "Cât este |3 − √9|?",
+     "Cât este (√6)² : 2?",
+     "Cât este 2√3 · √3?"
+    ],
+    "steps": [
+     "Simplifică toți radicalii și raționalizează numitorii.",
+     "Respectă ordinea operațiilor și grupează radicalii asemenea.",
+     "Scrie rezultatul în forma cea mai simplă.",
+     "Greșeala frecventă: să aduni radicalii înainte de a-i simplifica și să crezi că nu sunt asemenea (√12 și √3 sunt asemenea: 2√3 și √3)."
+    ],
+    "answers": [
+     "2 + √2",
+     "√3",
+     "0",
+     "3",
+     "6"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l07": {
+   "ro": {
+    "title": "Formule de calcul prescurtat cu numere reale",
+    "theory": "Pentru orice numere reale a și b: (a + b)² = a² + 2ab + b²; (a − b)² = a² − 2ab + b²; (a + b)(a − b) = a² − b². Le folosim pentru calcule rapide și pentru raționalizarea numitorilor de forma a + √b, amplificând cu conjugatul a − √b.",
+    "sample": "Cu pătratul sumei, (√3 + 1)² = 3 + 2√3 + 1 = 4 + 2√3.",
+    "worked": "Calculăm 101² = (100 + 1)² = 10 000 + 200 + 1 = 10 201. Calculăm (√5 − √2)(√5 + √2) = 5 − 2 = 3. Raționalizăm 1/(√3 − 1) = (√3 + 1)/((√3)² − 1) = (√3 + 1)/2.",
+    "exercises": [
+     "Calculează: (√2 + 3)²; (2√3 − 1)².",
+     "Calculează: (√7 − 2)(√7 + 2).",
+     "Calculează rapid: 99²; 51·49.",
+     "Raționalizează: 2/(√5 + 1).",
+     "Calculează: (√3 + √2)² + (√3 − √2)²."
+    ],
+    "test": [
+     "Dezvoltă (a + b)².",
+     "Cât este (√2 − 1)(√2 + 1)?",
+     "Cât este 21·19 cu formula diferenței de pătrate?",
+     "Dezvoltă (a − b)².",
+     "Care este conjugatul lui 3 + √2?"
+    ],
+    "steps": [
+     "Recunoaște formula (pătratul sumei, al diferenței sau produsul sumei cu diferența).",
+     "Identifică a și b și înlocuiește-i.",
+     "Calculează fiecare termen și simplifică.",
+     "Greșeala frecventă: să scrii (a + b)² = a² + b², uitând termenul 2ab."
+    ],
+    "answers": [
+     "a² + 2ab + b²",
+     "1",
+     "399",
+     "a² − 2ab + b²",
+     "3 − √2"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l08": {
+   "ro": {
+    "title": "Descompunerea în factori: factor comun și formule de calcul prescurtat",
+    "theory": "A descompune o expresie în factori înseamnă a o scrie ca produs. Metode: scoaterea factorului comun, ab + ac = a(b + c); restrângerea pătratelor, a² ± 2ab + b² = (a ± b)²; diferența pătratelor, a² − b² = (a − b)(a + b). Descompunerea simplifică fracțiile și ajută la calcule rapide cu numere reale.",
+    "sample": "Diferența de pătrate 49 − 3 se scrie (7 − √3)(7 + √3).",
+    "worked": "Descompunem 3√2 + 6 = 3(√2 + 2). Restrângem 5 + 2√5 + 1 = (√5)² + 2·√5·1 + 1² = (√5 + 1)². Calculăm 57² − 43² = (57 − 43)(57 + 43) = 14·100 = 1 400.",
+    "exercises": [
+     "Scoate factorul comun: 4√3 − 8; 5√2 + 10√6.",
+     "Scrie ca pătrat: 3 + 2√3 + 1; 7 − 2√7 + 1.",
+     "Descompune: 11 − 2 ca diferență de pătrate cu radicali (√11 și √2).",
+     "Calculează rapid: 83² − 17².",
+     "Simplifică: (6 − 2√3)/(3 − √3)."
+    ],
+    "test": [
+     "Scoate factorul comun din 2√5 + 2.",
+     "Cât este 15² − 5²?",
+     "Restrânge: a² + 2ab + b².",
+     "Descompune: x² − 9.",
+     "Scoate factorul comun din 3a + 6b."
+    ],
+    "steps": [
+     "Caută întâi un factor comun tuturor termenilor.",
+     "Recunoaște apoi o formulă (pătrat perfect sau diferență de pătrate).",
+     "Scrie produsul și verifică prin desfacere.",
+     "Greșeala frecventă: să scrii a² − b² = (a − b)²; diferența pătratelor este (a − b)(a + b)."
+    ],
+    "answers": [
+     "2(√5 + 1)",
+     "200",
+     "(a + b)²",
+     "(x − 3)(x + 3)",
+     "3(a + 2b)"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l09": {
+   "ro": {
+    "title": "Ecuații de forma ax + b = 0 în ℝ; ecuații echivalente",
+    "theory": "Ecuația ax + b = 0 cu a ≠ 0 are soluția unică x = −b/a. Două ecuații sunt echivalente dacă au aceleași soluții; obținem ecuații echivalente adunând același număr în ambii membri sau înmulțind cu un număr nenul. Dacă a = 0 și b = 0, orice număr real este soluție; dacă a = 0 și b ≠ 0, ecuația nu are soluții.",
+    "sample": "Ecuația 3x − 12 = 0 are soluția x = 4.",
+    "worked": "Rezolvăm √2·x − 4 = 0: x = 4/√2 = 4√2/2 = 2√2. Rezolvăm 2(x − 3) + 5 = 3x − 4: 2x − 6 + 5 = 3x − 4, −x = −3, x = 3. Verificare: 2·0 + 5 = 5 = 9 − 4.",
+    "exercises": [
+     "Rezolvă: 5x + 15 = 0; −4x + 7 = 0.",
+     "Rezolvă: √3·x = 6.",
+     "Rezolvă: 3(x + 2) − 2(x − 1) = 10.",
+     "Rezolvă: x/2 − (x − 1)/3 = 2.",
+     "Discută ecuația 0·x = 5."
+    ],
+    "test": [
+     "Rezolvă: 2x − 8 = 0.",
+     "Rezolvă: x + √2 = 0.",
+     "Rezolvă: −3x = 9.",
+     "Câte soluții are 0·x = 0?",
+     "Rezolvă: 4x + 2 = 2x + 8."
+    ],
+    "steps": [
+     "Desfă parantezele și elimină numitorii.",
+     "Adu termenii cu x într-un membru și termenii liberi în celălalt.",
+     "Împarte la coeficientul lui x, raționalizează dacă e nevoie și verifică.",
+     "Greșeala frecventă: să schimbi semnul doar unui termen când desfaci −2(x − 1); corect: −2x + 2."
+    ],
+    "answers": [
+     "4",
+     "−√2",
+     "−3",
+     "O infinitate",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l10": {
+   "ro": {
+    "title": "Ecuația de forma x² = a",
+    "theory": "Ecuația x² = a are: două soluții x = √a și x = −√a dacă a > 0; o singură soluție x = 0 dacă a = 0; nicio soluție reală dacă a < 0. Ne amintim că pătratul oricărui număr real este nenegativ, de aceea x² nu poate fi negativ.",
+    "sample": "Ecuația x² = 25 are soluțiile x = 5 și x = −5.",
+    "worked": "Rezolvăm (x − 1)² = 9: x − 1 = 3 sau x − 1 = −3, deci x = 4 sau x = −2. Rezolvăm 2x² = 24: x² = 12, x = ±2√3.",
+    "exercises": [
+     "Rezolvă: x² = 49; x² = 7; x² = −4.",
+     "Rezolvă: 3x² − 27 = 0.",
+     "Rezolvă: (x + 2)² = 16.",
+     "Rezolvă: x² = 0,36.",
+     "Un pătrat are aria 50 cm². Află latura."
+    ],
+    "test": [
+     "Câte soluții are x² = 9?",
+     "Rezolvă: x² = 0.",
+     "Are soluții reale x² = −1?",
+     "Rezolvă: x² = 2.",
+     "Rezolvă: x² − 100 = 0."
+    ],
+    "steps": [
+     "Adu ecuația la forma x² = a (sau (expresie)² = a).",
+     "Studiază semnul lui a.",
+     "Scrie ambele soluții ±√a și verifică.",
+     "Greșeala frecventă: să păstrezi doar soluția pozitivă; x² = 25 are și soluția −5."
+    ],
+    "answers": [
+     "Două",
+     "x = 0",
+     "Nu",
+     "±√2",
+     "±10"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l11": {
+   "ro": {
+    "title": "Probleme care se rezolvă cu ajutorul ecuațiilor",
+    "theory": "Pașii unei probleme rezolvate cu ecuații: alegem necunoscuta (de obicei ce se cere), exprimăm celelalte mărimi cu ajutorul ei, scriem ecuația din relația din enunț, o rezolvăm și verificăm dacă soluția are sens (de exemplu, o lungime nu poate fi negativă, un număr de persoane trebuie să fie natural).",
+    "sample": "Un număr adunat cu triplul lui dă 48, deci 4x = 48 și x = 12.",
+    "worked": "Trei numere consecutive au suma 75: x + (x + 1) + (x + 2) = 75, 3x + 3 = 75, x = 24; numerele sunt 24, 25, 26. Un dreptunghi are lungimea cu 5 cm mai mare decât lățimea și perimetrul 50 cm: 2(l + 5 + l) = 50, l = 10 cm, L = 15 cm.",
+    "exercises": [
+     "Suma a patru numere naturale consecutive este 110. Află numerele.",
+     "Tatăl are 40 de ani, fiul 10. Peste câți ani tatăl va avea dublul vârstei fiului?",
+     "Un elev a citit 2/5 dintr-o carte, apoi 30 de pagini și i-au mai rămas 60. Câte pagini are cartea?",
+     "Un triunghi isoscel are perimetrul 32 cm, iar baza este cu 4 cm mai mică decât latura congruentă. Află laturile.",
+     "Un produs se ieftinește cu 20% și costă acum 96 lei. Cât costa inițial?"
+    ],
+    "test": [
+     "Un număr mărit cu 7 dă 20. Care este?",
+     "Dublul unui număr este 18. Care este?",
+     "Ce verifici la final?",
+     "Două numere consecutive au suma 21. Cel mic?",
+     "Un număr micșorat cu jumătatea lui dă 5. Care este?"
+    ],
+    "steps": [
+     "Notează necunoscuta și exprimă celelalte mărimi cu ea.",
+     "Scrie ecuația din relația dată în enunț și rezolv-o.",
+     "Verifică soluția în enunț și dacă are sens.",
+     "Greșeala frecventă: să alegi necunoscuta fără a o scrie clar; la final nu mai știi ce reprezintă numărul găsit."
+    ],
+    "answers": [
+     "13",
+     "9",
+     "Dacă soluția verifică enunțul și are sens",
+     "10",
+     "10"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l12": {
+   "ro": {
+    "title": "Sisteme de două ecuații liniare cu două necunoscute: metoda substituției",
+    "theory": "Un sistem de două ecuații liniare cu necunoscutele x și y cere perechile (x, y) care verifică ambele ecuații. Prin metoda substituției exprimăm o necunoscută din una dintre ecuații și o înlocuim în cealaltă, obținând o ecuație cu o singură necunoscută.",
+    "sample": "Din x + y = 5 și x = 2 obținem imediat y = 3.",
+    "worked": "Rezolvăm sistemul x + 2y = 7, 3x − y = 7. Din prima: x = 7 − 2y. Înlocuim: 3(7 − 2y) − y = 7, 21 − 7y = 7, y = 2, apoi x = 3. Verificare: 3 + 4 = 7 și 9 − 2 = 7.",
+    "exercises": [
+     "Rezolvă prin substituție: y = 2x, x + y = 12.",
+     "Rezolvă: x − y = 1, 2x + 3y = 17.",
+     "Rezolvă: 4x + y = 9, 3x − 2y = 4.",
+     "Verifică dacă (2, −1) este soluție a sistemului 3x + y = 5, x − 2y = 4.",
+     "Suma a două numere este 30, iar unul este dublul celuilalt. Scrie și rezolvă sistemul."
+    ],
+    "test": [
+     "Rezolvă: x = 1, x + y = 4. Cât este y?",
+     "Rezolvă: y = x, x + y = 10. Cât este x?",
+     "Este (1, 1) soluție pentru x + y = 2, x − y = 0?",
+     "Ce se înlocuiește la metoda substituției?",
+     "Rezolvă: x + y = 6, x − y = 2. Cât este x?"
+    ],
+    "steps": [
+     "Alege ecuația din care se exprimă cel mai ușor o necunoscută.",
+     "Înlocuiește expresia în cealaltă ecuație și rezolvă.",
+     "Află și a doua necunoscută, apoi verifică în ambele ecuații.",
+     "Greșeala frecventă: să verifici soluția doar în ecuația din care ai exprimat necunoscuta; verifică în amândouă."
+    ],
+    "answers": [
+     "3",
+     "5",
+     "Da",
+     "Expresia unei necunoscute în cealaltă ecuație",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l13": {
+   "ro": {
+    "title": "Metoda reducerii; probleme care se rezolvă cu ajutorul sistemelor",
+    "theory": "Prin metoda reducerii înmulțim ecuațiile cu numere convenabile astfel încât coeficienții unei necunoscute să devină opuși, apoi adunăm ecuațiile; necunoscuta respectivă se reduce. Pentru probleme: notăm necunoscutele, traducem enunțul în două ecuații, rezolvăm sistemul și interpretăm soluția.",
+    "sample": "Adunând x + y = 10 și x − y = 4 obținem 2x = 14, x = 7, y = 3.",
+    "worked": "Problema: 3 pixuri și 2 caiete costă 19 lei; 2 pixuri și 3 caiete costă 21 lei. Notăm p, c: 3p + 2c = 19 și 2p + 3c = 21. Înmulțim prima cu 3 și a doua cu 2: 9p + 6c = 57, 4p + 6c = 42; scădem: 5p = 15, p = 3, c = 5.",
+    "exercises": [
+     "Rezolvă prin reducere: 2x + 3y = 13, 2x − y = 1.",
+     "Rezolvă: 3x + 4y = 10, 5x − 2y = 8.",
+     "Într-o curte sunt găini și iepuri: 35 de capete și 94 de picioare. Câte animale de fiecare fel?",
+     "Un dreptunghi are perimetrul 40 cm, iar lungimea este cu 4 cm mai mare decât lățimea. Află dimensiunile.",
+     "Două numere au suma 50 și diferența 14. Află-le."
+    ],
+    "test": [
+     "Ce faci întâi la metoda reducerii?",
+     "Rezolvă: x + y = 8, x − y = 2. Cât este y?",
+     "Ce operație faci cu ecuațiile după egalarea coeficienților opuși?",
+     "Rezolvă: 2x + y = 7, x − y = 2. Cât este x?",
+     "Câte necunoscute are un sistem de două ecuații liniare cu două necunoscute?"
+    ],
+    "steps": [
+     "Alege necunoscuta de redus și egalează (în modul) coeficienții ei.",
+     "Adună ecuațiile dacă coeficienții sunt opuși, scade-le dacă sunt egali.",
+     "Află necunoscuta rămasă, înlocuiește pentru cealaltă și verifică.",
+     "Greșeala frecventă: să aduni ecuațiile când coeficienții sunt egali (nu opuși); atunci trebuie să le scazi."
+    ],
+    "answers": [
+     "Egalez coeficienții unei necunoscute",
+     "3",
+     "Le adun sau le scad",
+     "3",
+     "Două"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l14": {
+   "ro": {
+    "title": "Produsul cartezian; reprezentarea punctelor într-un sistem de axe ortogonale",
+    "theory": "Produsul cartezian A × B este mulțimea perechilor ordonate (a, b) cu a ∈ A și b ∈ B; card(A × B) = card A · card B. Un sistem de axe ortogonale xOy are axa absciselor Ox și axa ordonatelor Oy, perpendiculare în originea O. Fiecărui punct M îi corespunde perechea (x, y), coordonatele lui. Semnele coordonatelor arată cadranul: I (+, +), II (−, +), III (−, −), IV (+, −).",
+    "sample": "Punctul A(3, −2) se află în cadranul IV.",
+    "worked": "Pentru A = {1, 2} și B = {a, b, c}, A × B = {(1, a), (1, b), (1, c), (2, a), (2, b), (2, c)}, 6 elemente. Punctul M(0, 4) este pe axa Oy, iar N(−5, 0) pe axa Ox.",
+    "exercises": [
+     "Scrie A × B pentru A = {0, 1}, B = {2, 3}.",
+     "Reprezintă punctele A(2, 3), B(−1, 4), C(−3, −2), D(4, −1).",
+     "În ce cadran se află punctele (−7, 2) și (5, 5)?",
+     "Află simetricul punctului (3, −4) față de axa Ox și față de origine.",
+     "Câte elemente are A × A dacă card A = 4?"
+    ],
+    "test": [
+     "În ce cadran este (−2, −3)?",
+     "Ce coordonate are originea?",
+     "Unde se află punctul (0, 7)?",
+     "card(A × B) dacă card A = 2 și card B = 5?",
+     "Este (1, 2) egal cu (2, 1)?"
+    ],
+    "steps": [
+     "Pornește din origine.",
+     "Mergi pe Ox cu abscisa (dreapta pentru +, stânga pentru −).",
+     "Apoi pe verticală cu ordonata (sus pentru +, jos pentru −).",
+     "Greșeala frecventă: să inversezi coordonatele; prima este întotdeauna abscisa (pe orizontală)."
+    ],
+    "answers": [
+     "III",
+     "(0, 0)",
+     "Pe axa Oy",
+     "10",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l15": {
+   "ro": {
+    "title": "Distanța dintre două puncte în plan; mijlocul unui segment",
+    "theory": "Dacă A(x₁, y₁) și B(x₂, y₂), atunci distanța AB = √((x₂ − x₁)² + (y₂ − y₁)²), rezultat al teoremei lui Pitagora într-un triunghi dreptunghic cu catetele paralele cu axele. Mijlocul segmentului [AB] are coordonatele ((x₁ + x₂)/2, (y₁ + y₂)/2).",
+    "sample": "Distanța dintre A(1, 1) și B(4, 5) este √(9 + 16) = 5.",
+    "worked": "Pentru A(−2, 3) și B(4, −5): AB = √(6² + 8²) = √100 = 10, iar mijlocul este M(1, −1). Pentru puncte pe aceeași orizontală, C(1, 2), D(7, 2): CD = 6.",
+    "exercises": [
+     "Calculează distanța dintre A(0, 0) și B(6, 8).",
+     "Calculează AB pentru A(−1, 2) și B(2, 6).",
+     "Află mijlocul segmentului cu capetele (3, 7) și (−5, 1).",
+     "Arată că triunghiul cu vârfurile (0, 0), (4, 0), (0, 3) este dreptunghic și află ipotenuza.",
+     "M(2, 3) este mijlocul lui [AB], A(0, 1). Află B."
+    ],
+    "test": [
+     "Distanța dintre (0, 0) și (3, 4)?",
+     "Distanța dintre (1, 5) și (1, 9)?",
+     "Mijlocul lui [AB] pentru A(0, 0), B(4, 6)?",
+     "Ce teoremă stă la baza formulei distanței?",
+     "Distanța dintre (−2, 0) și (2, 0)?"
+    ],
+    "steps": [
+     "Calculează diferențele de abscise și de ordonate.",
+     "Ridică-le la pătrat și adună-le.",
+     "Extrage radicalul; pentru mijloc fă media coordonatelor.",
+     "Greșeala frecventă: să aduni coordonatele în loc să le scazi în formula distanței."
+    ],
+    "answers": [
+     "5",
+     "4",
+     "(2, 3)",
+     "Teorema lui Pitagora",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l16": {
+   "ro": {
+    "title": "Dependențe funcționale; reprezentarea datelor prin tabele, grafice și poligonul frecvențelor",
+    "theory": "O dependență funcțională leagă două mărimi astfel încât fiecărei valori a uneia îi corespunde o singură valoare a celeilalte (de exemplu costul în funcție de cantitate). O reprezentăm prin tabel și prin puncte într-un sistem de axe. Datele statistice se organizează în tabele de frecvențe; poligonul frecvențelor unește punctele (valoare, frecvență). Calculăm media, valoarea cea mai frecventă și interpretăm.",
+    "sample": "Prețul pentru x kg de mere la 5 lei/kg este 5x lei: tabelul 1 → 5, 2 → 10, 3 → 15.",
+    "worked": "Notele unei clase: 6 (2 elevi), 7 (4), 8 (6), 9 (5), 10 (3). Poligonul frecvențelor unește punctele (6, 2), (7, 4), (8, 6), (9, 5), (10, 3). Media = (12 + 28 + 48 + 45 + 30) : 20 = 163 : 20 = 8,15; nota cea mai frecventă este 8.",
+    "exercises": [
+     "Fă tabelul și graficul pentru costul a 0–5 bilete de 12 lei.",
+     "Desenează poligonul frecvențelor pentru notele din exemplu.",
+     "Temperaturile medii lunare: ian −2, feb 0, mar 6, apr 12. Reprezintă-le și descrie evoluția.",
+     "Calculează media notelor: 5 (1), 7 (3), 9 (4), 10 (2).",
+     "Probabilitatea ca un elev ales la întâmplare din clasa din exemplu să aibă nota 10?"
+    ],
+    "test": [
+     "Câți elevi sunt în clasa din exemplu?",
+     "Ce notă este cea mai frecventă?",
+     "Câte lei costă 4 kg de mere la 5 lei/kg?",
+     "Ce puncte unește poligonul frecvențelor?",
+     "Câți elevi au cel puțin nota 9?"
+    ],
+    "steps": [
+     "Organizează datele într-un tabel ordonat.",
+     "Reprezintă perechile ca puncte și unește-le dacă este poligonul frecvențelor.",
+     "Calculează indicatorii ceruți și interpretează.",
+     "Greșeala frecventă: la media datelor din tabel să împarți la numărul de valori distincte (5) în loc de numărul total de elevi (20)."
+    ],
+    "answers": [
+     "20",
+     "8",
+     "20 lei",
+     "Perechile (valoare, frecvență)",
+     "8"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l17": {
+   "ro": {
+    "title": "Patrulaterul convex; suma unghiurilor; paralelogramul",
+    "theory": "Un patrulater este convex dacă orice dreaptă suport a unei laturi lasă celelalte vârfuri de aceeași parte. Suma unghiurilor unui patrulater convex este 360°. Paralelogramul are laturile opuse paralele; proprietăți: laturile opuse sunt congruente, unghiurile opuse sunt congruente, unghiurile alăturate sunt suplementare, diagonalele se înjumătățesc. Oricare dintre aceste proprietăți (sau două laturi opuse paralele și congruente) arată că un patrulater este paralelogram.",
+    "sample": "Într-un paralelogram cu un unghi de 70°, unghiurile sunt 70°, 110°, 70°, 110°.",
+    "worked": "Diagonalele paralelogramului ABCD se intersectează în O, AC = 14 cm, BD = 10 cm; atunci AO = 7 cm și BO = 5 cm. Un patrulater cu unghiurile 80°, 100°, x, 90° are x = 360° − 270° = 90°.",
+    "exercises": [
+     "Trei unghiuri ale unui patrulater au 75°, 85°, 110°. Află al patrulea.",
+     "Paralelogramul ABCD are AB = 9 cm, BC = 5 cm. Află perimetrul.",
+     "Un unghi al unui paralelogram este de 3 ori mai mare decât altul. Află unghiurile.",
+     "Arată că un patrulater cu diagonalele care se înjumătățesc este paralelogram.",
+     "Paralelogramul are perimetrul 36 cm și o latură de 10 cm. Află celelalte laturi."
+    ],
+    "test": [
+     "Suma unghiurilor unui patrulater convex?",
+     "Cum sunt unghiurile opuse ale paralelogramului?",
+     "Ce proprietate au diagonalele paralelogramului?",
+     "Unghiurile alăturate ale paralelogramului sunt…?",
+     "Paralelogram cu laturile 4 și 6: perimetrul?"
+    ],
+    "steps": [
+     "Desenează figura și notează datele.",
+     "Alege proprietatea potrivită (sumă 360°, laturi sau unghiuri opuse, diagonale).",
+     "Scrie ecuația sau relația și calculează.",
+     "Greșeala frecventă: să crezi că diagonalele oricărui paralelogram sunt congruente; doar la dreptunghi."
+    ],
+    "answers": [
+     "360°",
+     "Congruente",
+     "Se înjumătățesc",
+     "Suplementare",
+     "20"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l18": {
+   "ro": {
+    "title": "Paralelograme particulare: dreptunghiul, rombul, pătratul",
+    "theory": "Dreptunghiul este paralelogramul cu un unghi drept; are toate unghiurile drepte și diagonalele congruente. Rombul este paralelogramul cu două laturi alăturate congruente; are toate laturile congruente, iar diagonalele sunt perpendiculare și bisectoare ale unghiurilor. Pătratul este simultan dreptunghi și romb: laturi congruente, unghiuri drepte, diagonale congruente și perpendiculare.",
+    "sample": "Un romb cu latura 6 cm are perimetrul 24 cm.",
+    "worked": "În dreptunghiul ABCD, diagonalele au 12 cm, deci OA = OB = 6 cm și triunghiul AOB este isoscel. Dacă ∢AOB = 60°, el este echilateral și AB = 6 cm. În rombul cu unghiul de 120°, diagonala mică formează două triunghiuri echilaterale.",
+    "exercises": [
+     "Un dreptunghi are diagonala 10 cm. Cât are cealaltă diagonală?",
+     "Un romb are un unghi de 50°. Află celelalte unghiuri.",
+     "Ce proprietăți au diagonalele pătratului?",
+     "Rombul ABCD are ∢A = 60° și latura 8 cm. Află diagonala BD.",
+     "Este orice romb pătrat? Dar orice pătrat romb?"
+    ],
+    "test": [
+     "Cum sunt diagonalele dreptunghiului?",
+     "Cum sunt diagonalele rombului?",
+     "Ce unghiuri are dreptunghiul?",
+     "Perimetrul pătratului cu latura 7 cm?",
+     "Este pătratul un dreptunghi?"
+    ],
+    "steps": [
+     "Identifică tipul de patrulater din proprietățile date.",
+     "Folosește proprietățile diagonalelor sau ale laturilor.",
+     "Caută triunghiuri isoscele sau echilaterale formate de diagonale.",
+     "Greșeala frecventă: să crezi că orice romb este pătrat; rombul nu are, în general, unghiuri drepte."
+    ],
+    "answers": [
+     "Congruente",
+     "Perpendiculare",
+     "Toate drepte",
+     "28 cm",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l19": {
+   "ro": {
+    "title": "Trapezul; linia mijlocie în triunghi și în trapez",
+    "theory": "Trapezul are două laturi paralele (bazele) și două neparalele. Trapezul isoscel are laturile neparalele congruente, unghiurile de la bază congruente și diagonalele congruente; trapezul dreptunghic are un unghi drept. Linia mijlocie în triunghi unește mijloacele a două laturi, este paralelă cu a treia și are jumătate din lungimea ei. În trapez, linia mijlocie unește mijloacele laturilor neparalele și are lungimea (B + b)/2.",
+    "sample": "Un trapez cu bazele 10 cm și 6 cm are linia mijlocie de 8 cm.",
+    "worked": "În triunghiul ABC, M și N sunt mijloacele lui [AB] și [AC], iar BC = 14 cm; atunci MN ∥ BC și MN = 7 cm. Un trapez isoscel are un unghi de la baza mare de 65°; unghiurile de la baza mică au 115°.",
+    "exercises": [
+     "Un trapez are bazele 18 cm și 12 cm. Află linia mijlocie.",
+     "Linia mijlocie a unui trapez are 9 cm, iar baza mare 13 cm. Află baza mică.",
+     "Un triunghi are laturile 6, 8, 10 cm. Află perimetrul triunghiului format de liniile mijlocii.",
+     "Un trapez isoscel are un unghi de 72°. Află celelalte unghiuri.",
+     "Arată că mijloacele laturilor unui patrulater formează un paralelogram."
+    ],
+    "test": [
+     "Câte laturi paralele are trapezul?",
+     "Linia mijlocie a trapezului cu bazele 4 și 8?",
+     "Linia mijlocie în triunghi este paralelă cu…?",
+     "Cum sunt diagonalele trapezului isoscel?",
+     "Linia mijlocie corespunzătoare unei laturi de 12 cm?"
+    ],
+    "steps": [
+     "Identifică bazele trapezului sau latura corespunzătoare liniei mijlocii.",
+     "Aplică formula: jumătate din latură sau semisuma bazelor.",
+     "Folosește paralelismul pentru unghiuri.",
+     "Greșeala frecventă: să calculezi linia mijlocie a trapezului ca semidiferența bazelor; ea este semisuma (B + b)/2."
+    ],
+    "answers": [
+     "Două",
+     "6",
+     "A treia latură",
+     "Congruente",
+     "6 cm"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l20": {
+   "ro": {
+    "title": "Perimetre și arii: triunghi, paralelogram, dreptunghi, romb, pătrat, trapez",
+    "theory": "Aria triunghiului: A = b·h/2. Aria paralelogramului: A = b·h (latura ori înălțimea corespunzătoare). Dreptunghi: A = L·l; pătrat: A = l² = d²/2. Rombul: A = d₁·d₂/2 (sau latură ori înălțime). Trapezul: A = (B + b)·h/2. Triunghiul dreptunghic: A = c₁·c₂/2. Toate lungimile se exprimă în aceeași unitate.",
+    "sample": "Un trapez cu bazele 10 cm, 6 cm și înălțimea 5 cm are aria 40 cm².",
+    "worked": "Un romb are diagonalele 12 cm și 16 cm, deci aria 96 cm². Latura: semidiagonalele 6 și 8 formează un triunghi dreptunghic cu ipotenuza 10 cm, deci perimetrul este 40 cm.",
+    "exercises": [
+     "Calculează aria unui paralelogram cu baza 9 cm și înălțimea 4 cm.",
+     "Un triunghi dreptunghic are catetele 7 cm și 10 cm. Află aria.",
+     "Un pătrat are diagonala 8 cm. Află aria.",
+     "Un trapez are aria 60 cm², înălțimea 6 cm și baza mică 7 cm. Află baza mare.",
+     "Un teren dreptunghiular de 40 m × 25 m este pavat cu plăci pătrate de 50 cm. Câte plăci sunt necesare?"
+    ],
+    "test": [
+     "Aria dreptunghiului 8 × 3?",
+     "Aria triunghiului cu baza 10 și înălțimea 4?",
+     "Aria rombului cu diagonalele 6 și 4?",
+     "Aria trapezului cu bazele 5, 3 și înălțimea 2?",
+     "Aria pătratului cu latura 9?"
+    ],
+    "steps": [
+     "Identifică figura și elementele cunoscute.",
+     "Adu toate lungimile la aceeași unitate.",
+     "Aplică formula ariei; unitatea rezultatului este la pătrat.",
+     "Greșeala frecventă: să folosești la aria paralelogramului latura oblică în loc de înălțime."
+    ],
+    "answers": [
+     "24",
+     "20",
+     "12",
+     "8",
+     "81"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l21": {
+   "ro": {
+    "title": "Coarde și arce; unghi înscris în cerc",
+    "theory": "Unghiul înscris are vârful pe cerc și laturile coarde; măsura lui este jumătate din măsura arcului cuprins între laturi. Unghiurile înscrise care subîntind același arc sunt congruente. Unghiul înscris într-un semicerc este drept. În același cerc, arcele congruente corespund coardelor congruente, iar diametrul perpendicular pe o coardă o înjumătățește.",
+    "sample": "Un unghi înscris care cuprinde un arc de 100° are 50°.",
+    "worked": "Triunghiul ABC este înscris în cerc cu [AB] diametru; atunci ∢ACB = 90°. Dacă ∢CAB = 35°, atunci ∢ABC = 55°. Raza 10 cm, coarda la distanța 6 cm de centru: jumătatea coardei este √(100 − 36) = 8 cm, coarda are 16 cm.",
+    "exercises": [
+     "Un arc are 140°. Cât are unghiul înscris care îl cuprinde?",
+     "Un unghi înscris are 35°. Cât are arcul cuprins?",
+     "Arată că unghiul înscris într-un semicerc este drept.",
+     "Raza este 13 cm, iar o coardă are 24 cm. Află distanța de la centru la coardă.",
+     "Patrulaterul ABCD este înscris în cerc. Arată că unghiurile opuse sunt suplementare (indiciu: arcele)."
+    ],
+    "test": [
+     "Unghi înscris care cuprinde un arc de 80°?",
+     "Unghiul înscris într-un semicerc?",
+     "Arcul cuprins de un unghi înscris de 45°?",
+     "Unghi la centru care cuprinde același arc ca un unghi înscris de 30°?",
+     "Diametrul perpendicular pe o coardă o…?"
+    ],
+    "steps": [
+     "Identifică arcul cuprins între laturile unghiului.",
+     "Unghiul la centru este egal cu arcul; unghiul înscris este jumătate.",
+     "Pentru coarde, folosește triunghiul dreptunghic format cu raza.",
+     "Greșeala frecventă: să consideri unghiul înscris egal cu arcul; el este jumătate din arc."
+    ],
+    "answers": [
+     "40°",
+     "90°",
+     "90°",
+     "60°",
+     "Înjumătățește"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l22": {
+   "ro": {
+    "title": "Tangente la cerc; poziția a două cercuri",
+    "theory": "Tangenta la cerc este perpendiculară pe raza din punctul de contact. Din un punct exterior putem duce două tangente, iar segmentele tangente sunt congruente. Două cercuri de raze R și r, cu distanța d între centre, pot fi: exterioare (d > R + r), tangente exterior (d = R + r), secante (R − r < d < R + r), tangente interior (d = R − r), interioare (d < R − r).",
+    "sample": "Cercurile de raze 3 cm și 5 cm cu centrele la 8 cm sunt tangente exterior.",
+    "worked": "Din punctul P, la 10 cm de centrul unui cerc de rază 6 cm, ducem tangenta PT. Triunghiul OTP este dreptunghic în T, deci PT = √(100 − 36) = 8 cm; cealaltă tangentă are tot 8 cm.",
+    "exercises": [
+     "Raza 5 cm, punctul P la 13 cm de centru. Află lungimea tangentei din P.",
+     "Stabilește poziția cercurilor cu R = 7 cm, r = 2 cm, d = 4 cm.",
+     "Din P se duc tangentele PA și PB; ∢APB = 60°. Ce fel de triunghi este PAB?",
+     "Construiește tangenta la cerc într-un punct dat al cercului.",
+     "Două cercuri tangente exterior au razele 4 cm și 9 cm. Cât este distanța dintre centre?"
+    ],
+    "test": [
+     "Ce unghi formează tangenta cu raza?",
+     "Câte tangente se pot duce dintr-un punct exterior?",
+     "Ce relație au segmentele tangente din același punct?",
+     "Cercuri R = 5, r = 3, d = 8: poziția?",
+     "Cercuri R = 5, r = 3, d = 1: poziția?"
+    ],
+    "steps": [
+     "Desenează raza în punctul de tangență.",
+     "Folosește unghiul drept și teorema lui Pitagora.",
+     "Pentru două cercuri, compară d cu R + r și R − r.",
+     "Greșeala frecventă: să desenezi tangenta fără unghi drept cu raza, ceea ce strică calculul cu Pitagora."
+    ],
+    "answers": [
+     "90°",
+     "Două",
+     "Sunt congruente",
+     "Tangente exterior",
+     "Interioare"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l23": {
+   "ro": {
+    "title": "Poligoane regulate înscrise în cerc: triunghiul echilateral, pătratul, hexagonul",
+    "theory": "Un poligon regulat are toate laturile și toate unghiurile congruente; se poate înscrie într-un cerc. Apotema este distanța de la centru la o latură. Pentru raza R: triunghiul echilateral are latura l₃ = R√3 și apotema a₃ = R/2; pătratul are l₄ = R√2 și a₄ = R√2/2; hexagonul regulat are l₆ = R și a₆ = R√3/2. Aria unui poligon regulat este perimetrul ori apotema împărțit la 2.",
+    "sample": "Hexagonul regulat înscris într-un cerc de rază 4 cm are latura 4 cm.",
+    "worked": "Pentru R = 6 cm: pătratul are latura 6√2 cm și aria 72 cm². Hexagonul are latura 6 cm, apotema 3√3 cm și aria = 36·3√3/2 = 54√3 cm² (sau 6 triunghiuri echilaterale de arie 9√3).",
+    "exercises": [
+     "Pentru R = 10 cm, află latura și apotema triunghiului echilateral înscris.",
+     "Un pătrat înscris are latura 8 cm. Află raza cercului.",
+     "Află aria hexagonului regulat cu latura 2 cm.",
+     "Un triunghi echilateral are latura 6√3 cm. Află raza cercului circumscris.",
+     "Câte grade are unghiul la centru corespunzător laturii hexagonului regulat?"
+    ],
+    "test": [
+     "Latura hexagonului înscris în cercul de rază 5?",
+     "Latura pătratului înscris în cercul de rază 1?",
+     "Apotema triunghiului echilateral pentru R = 8?",
+     "Unghiul la centru pentru latura pătratului?",
+     "Aria pătratului înscris în cercul de rază 2?"
+    ],
+    "steps": [
+     "Identifică poligonul și raza cercului.",
+     "Aplică formula laturii și a apotemei pentru acel poligon.",
+     "Calculează aria: perimetru · apotemă / 2.",
+     "Greșeala frecventă: să confunzi apotema cu raza; raza merge la vârf, apotema este perpendiculara pe latură."
+    ],
+    "answers": [
+     "5",
+     "√2",
+     "4",
+     "90°",
+     "8"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l24": {
+   "ro": {
+    "title": "Lungimea cercului și aria discului",
+    "theory": "Raportul dintre lungimea oricărui cerc și diametrul lui este același număr, π ≈ 3,14. Lungimea cercului este L = 2πR, iar aria discului este A = πR². Lungimea unui arc de n° este 2πR·n/360, iar aria sectorului de n° este πR²·n/360.",
+    "sample": "Un cerc cu raza 5 cm are lungimea 10π ≈ 31,4 cm.",
+    "worked": "O roată cu diametrul 60 cm parcurge la o rotație 60π ≈ 188,4 cm. Un sector de 90° dintr-un disc cu raza 4 cm are aria 16π/4 = 4π cm². Un disc cu aria 49π cm² are raza 7 cm.",
+    "exercises": [
+     "Calculează lungimea cercului și aria discului pentru R = 3 cm.",
+     "Un cerc are lungimea 18π cm. Află raza și aria discului.",
+     "Câte rotații face o roată cu raza 35 cm pe 2,2 km? (π ≈ 22/7)",
+     "Află lungimea arcului de 60° într-un cerc cu raza 9 cm.",
+     "Află aria sectorului de 120° pentru raza 6 cm."
+    ],
+    "test": [
+     "Lungimea cercului de rază 1?",
+     "Aria discului de rază 2?",
+     "Raza discului cu aria 9π?",
+     "Lungimea cercului cu diametrul 10?",
+     "Aria unui semidisc de rază 2?"
+    ],
+    "steps": [
+     "Află raza (din diametru, lungime sau arie).",
+     "Aplică L = 2πR sau A = πR².",
+     "Pentru arce și sectoare, înmulțește cu n/360.",
+     "Greșeala frecventă: să folosești diametrul în loc de rază în formula ariei (π·d² în loc de π·R²)."
+    ],
+    "answers": [
+     "2π",
+     "4π",
+     "3",
+     "10π",
+     "2π"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l25": {
+   "ro": {
+    "title": "Segmente proporționale; teorema paralelelor echidistante; teorema lui Thales",
+    "theory": "Segmentele AB, CD sunt proporționale cu MN, PQ dacă AB/CD = MN/PQ. Teorema lui Thales: o paralelă la o latură a unui triunghi determină pe celelalte două laturi segmente proporționale: dacă DE ∥ BC, D ∈ AB, E ∈ AC, atunci AD/DB = AE/EC. Reciproca: dacă segmentele sunt proporționale, dreapta este paralelă cu latura. Teorema paralelelor echidistante: paralele echidistante determină pe orice secantă segmente congruente.",
+    "sample": "Dacă DE ∥ BC, AD = 3 cm, DB = 6 cm, AE = 4 cm, atunci EC = 8 cm.",
+    "worked": "Împărțim un segment AB în 3 părți egale: ducem din A o semidreaptă, marcăm 3 segmente egale AP, PQ, QR, unim R cu B și ducem prin P și Q paralele la RB. Ele împart AB în trei părți egale (Thales).",
+    "exercises": [
+     "DE ∥ BC, AD = 5, DB = 10, AE = 6. Află EC.",
+     "DE ∥ BC, AD = 4, AB = 12, AC = 15. Află AE.",
+     "Verifică dacă DE ∥ BC când AD = 2, DB = 3, AE = 4, EC = 6.",
+     "Împarte un segment de 10 cm în 4 părți egale folosind teorema.",
+     "Un stâlp de 2 m are umbra de 3 m; un copac în același moment are umbra de 12 m. Cât de înalt este copacul?"
+    ],
+    "test": [
+     "Ce determină o paralelă la o latură a triunghiului?",
+     "DE ∥ BC, AD/DB = 1/2, AE = 3. Cât este EC?",
+     "Ce afirmă reciproca teoremei lui Thales?",
+     "Sunt 2/4 și 3/6 rapoarte egale?",
+     "Paralele echidistante determină pe o secantă segmente…?"
+    ],
+    "steps": [
+     "Verifică paralelismul cu latura triunghiului.",
+     "Scrie proporția corectă între segmentele de pe aceeași latură.",
+     "Rezolvă proporția și verifică.",
+     "Greșeala frecventă: să amesteci segmentele în proporție (AD/AE = DB/BC); folosește segmentele de pe laturile tăiate de paralelă, în aceeași ordine."
+    ],
+    "answers": [
+     "Segmente proporționale",
+     "6",
+     "Segmentele proporționale implică paralelismul",
+     "Da",
+     "Congruente"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l26": {
+   "ro": {
+    "title": "Teorema fundamentală a asemănării; triunghiuri asemenea",
+    "theory": "Două triunghiuri sunt asemenea (△ABC ∼ △DEF) dacă au unghiurile respectiv congruente și laturile respectiv proporționale: AB/DE = BC/EF = AC/DF = k, raportul de asemănare. Teorema fundamentală: o paralelă la o latură a unui triunghi formează cu celelalte două laturi un triunghi asemenea cu cel dat. Perimetrele sunt în raportul k, iar ariile în raportul k².",
+    "sample": "Două triunghiuri asemenea cu raportul 2 au perimetrele în raport 2 și ariile în raport 4.",
+    "worked": "În △ABC, MN ∥ BC cu M ∈ AB, AM = 4, AB = 10, BC = 15. △AMN ∼ △ABC, deci MN/BC = AM/AB = 2/5 și MN = 6. Dacă aria lui ABC este 50, aria lui AMN este 50·(2/5)² = 8.",
+    "exercises": [
+     "MN ∥ BC, AM = 3, MB = 6, BC = 12. Află MN.",
+     "Două triunghiuri asemenea au laturile 3, 4, 5 și 9, 12, x. Află x și raportul.",
+     "Raportul de asemănare este 3, iar perimetrul mic 20 cm. Află perimetrul mare.",
+     "Raportul ariilor a două triunghiuri asemenea este 16/25. Află raportul de asemănare.",
+     "Scrie egalitatea rapoartelor pentru △ABC ∼ △MNP."
+    ],
+    "test": [
+     "Ce înseamnă triunghiuri asemenea?",
+     "Raportul de asemănare 2: raportul perimetrelor?",
+     "Raportul de asemănare 3: raportul ariilor?",
+     "Sunt triunghiurile congruente asemenea?",
+     "Laturile 2, 3, 4 și 4, 6, 8: raportul?"
+    ],
+    "steps": [
+     "Identifică perechile de vârfuri corespondente (unghiuri congruente).",
+     "Scrie rapoartele laturilor corespondente în aceeași ordine.",
+     "Calculează raportul k și folosește k pentru perimetre, k² pentru arii.",
+     "Greșeala frecventă: să folosești k pentru raportul ariilor; ariile sunt în raportul k²."
+    ],
+    "answers": [
+     "Unghiuri congruente și laturi proporționale",
+     "2",
+     "9",
+     "Da (k = 1)",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l27": {
+   "ro": {
+    "title": "Criteriile de asemănare a triunghiurilor: UU, LUL, LLL",
+    "theory": "Criteriul UU: două triunghiuri cu două unghiuri respectiv congruente sunt asemenea. Criteriul LUL: două laturi proporționale și unghiurile dintre ele congruente. Criteriul LLL: toate laturile proporționale. Criteriile se folosesc pentru a calcula lungimi greu de măsurat direct și pentru demonstrații.",
+    "sample": "Două triunghiuri dreptunghice cu câte un unghi de 40° sunt asemenea (UU).",
+    "worked": "În trapezul ABCD (AB ∥ CD), diagonalele se intersectează în O. ∢OAB = ∢OCD (alterne interne) și ∢AOB = ∢COD (opuse la vârf), deci △AOB ∼ △COD (UU). Dacă AB = 12, CD = 4 și OC = 3, atunci OA = 9.",
+    "exercises": [
+     "Arată că triunghiurile cu laturile 4, 6, 8 și 6, 9, 12 sunt asemenea.",
+     "În △ABC și △DEF, ∢A = ∢D = 50°, AB = 6, AC = 9, DE = 4, DF = 6. Sunt asemenea?",
+     "În trapezul din exemplu, BO = 6. Află OD.",
+     "Un om de 1,8 m stă la 4 m de un felinar și are umbra de 2 m. Cât de înalt este felinarul?",
+     "Ce criteriu folosești dacă știi toate unghiurile?"
+    ],
+    "test": [
+     "Ce cere criteriul UU?",
+     "Ce cere criteriul LLL?",
+     "Sunt asemenea două triunghiuri echilaterale?",
+     "În LUL, unde este unghiul?",
+     "Sunt asemenea triunghiurile 1, 1, 1 și 2, 2, 3?"
+    ],
+    "steps": [
+     "Caută unghiuri congruente (paralele, opuse la vârf, unghi comun).",
+     "Alege criteriul pentru care ai date suficiente.",
+     "Scrie rapoartele laturilor corespondente și calculează.",
+     "Greșeala frecventă: să asociezi greșit vârfurile: laturile corespondente se opun unghiurilor congruente."
+    ],
+    "answers": [
+     "Două unghiuri congruente",
+     "Toate laturile proporționale",
+     "Da",
+     "Între cele două laturi",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l28": {
+   "ro": {
+    "title": "Proiecții ortogonale; teorema înălțimii și teorema catetei",
+    "theory": "Proiecția ortogonală a unui punct pe o dreaptă este piciorul perpendicularei. În triunghiul ABC dreptunghic în A, cu înălțimea AD (D ∈ BC), BD și DC sunt proiecțiile catetelor pe ipotenuză. Teorema înălțimii: AD² = BD·DC. Teorema catetei: AB² = BD·BC și AC² = DC·BC. Înălțimea mai poate fi calculată cu AD = AB·AC/BC.",
+    "sample": "Dacă BD = 4 cm și DC = 9 cm, atunci înălțimea AD = √36 = 6 cm.",
+    "worked": "În △ABC dreptunghic în A, BD = 3,6 cm și DC = 6,4 cm. BC = 10 cm, AB = √(3,6·10) = 6 cm, AC = √(6,4·10) = 8 cm, AD = 6·8/10 = 4,8 cm. Verificăm: 4,8² = 23,04 = 3,6·6,4.",
+    "exercises": [
+     "BD = 2 cm, DC = 8 cm. Află AD, AB, AC.",
+     "AB = 6 cm, BC = 12 cm. Află BD și DC.",
+     "Catetele au 15 cm și 20 cm, ipotenuza 25 cm. Află înălțimea.",
+     "AD = 12 cm, BD = 9 cm. Află DC.",
+     "Desenează proiecția unui segment pe o dreaptă."
+    ],
+    "test": [
+     "Formula teoremei înălțimii?",
+     "BD = 1, DC = 4: AD?",
+     "Formula teoremei catetei pentru AB?",
+     "Ce este proiecția unui punct pe o dreaptă?",
+     "Catete 3, 4, ipotenuză 5: înălțimea?"
+    ],
+    "steps": [
+     "Desenează triunghiul dreptunghic și înălțimea din unghiul drept.",
+     "Identifică proiecțiile catetelor pe ipotenuză.",
+     "Aplică teorema înălțimii sau a catetei și verifică.",
+     "Greșeala frecventă: la teorema catetei să folosești proiecția celeilalte catete (AB² = DC·BC este greșit)."
+    ],
+    "answers": [
+     "AD² = BD·DC",
+     "2",
+     "AB² = BD·BC",
+     "Piciorul perpendicularei din punct pe dreaptă",
+     "2,4"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l29": {
+   "ro": {
+    "title": "Teorema lui Pitagora și reciproca ei",
+    "theory": "În triunghiul dreptunghic, pătratul ipotenuzei este egal cu suma pătratelor catetelor: BC² = AB² + AC². Reciproca: dacă într-un triunghi pătratul unei laturi este egal cu suma pătratelor celorlalte două, triunghiul este dreptunghic. Aplicații: diagonala pătratului d = l√2, înălțimea triunghiului echilateral h = l√3/2, diagonala dreptunghiului.",
+    "sample": "Catetele 6 cm și 8 cm dau ipotenuza √100 = 10 cm.",
+    "worked": "Un triunghi echilateral cu latura 10 cm are înălțimea 5√3 cm (Pitagora în jumătatea lui: √(100 − 25) = √75). Laturile 7, 24, 25 formează un triunghi dreptunghic, pentru că 49 + 576 = 625.",
+    "exercises": [
+     "Catetele au 5 cm și 12 cm. Află ipotenuza.",
+     "Ipotenuza 17 cm, o catetă 8 cm. Află cealaltă catetă.",
+     "Află diagonala unui dreptunghi de 9 cm pe 12 cm.",
+     "Verifică dacă triunghiul cu laturile 9, 12, 15 este dreptunghic.",
+     "O scară de 5 m este sprijinită de un perete, cu baza la 3 m de el. La ce înălțime ajunge?"
+    ],
+    "test": [
+     "Ipotenuza pentru catetele 3 și 4?",
+     "Diagonala pătratului cu latura 1?",
+     "Este dreptunghic triunghiul 5, 12, 13?",
+     "Înălțimea triunghiului echilateral cu latura 2?",
+     "Cateta pentru ipotenuza 10 și cateta 6?"
+    ],
+    "steps": [
+     "Identifică ipotenuza (opusă unghiului drept, cea mai lungă).",
+     "Scrie relația ipotenuză² = catetă² + catetă².",
+     "Rezolvă pentru latura necunoscută și extrage radicalul.",
+     "Greșeala frecventă: să aduni pătratele când cauți o catetă; se scade: catetă² = ipotenuză² − cealaltă catetă²."
+    ],
+    "answers": [
+     "5",
+     "√2",
+     "Da",
+     "√3",
+     "8"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l30": {
+   "ro": {
+    "title": "Noțiuni de trigonometrie în triunghiul dreptunghic",
+    "theory": "Pentru un unghi ascuțit B al triunghiului dreptunghic ABC (∢A = 90°): sin B = cateta opusă/ipotenuză = AC/BC, cos B = cateta alăturată/ipotenuză = AB/BC, tg B = opusă/alăturată = AC/AB, ctg B = alăturată/opusă. Valori: sin 30° = 1/2, sin 45° = √2/2, sin 60° = √3/2; cos 30° = √3/2, cos 60° = 1/2; tg 45° = 1, tg 30° = √3/3, tg 60° = √3.",
+    "sample": "În triunghiul cu catetele 3, 4 și ipotenuza 5, sinusul unghiului opus catetei 3 este 3/5.",
+    "worked": "Într-un triunghi dreptunghic cu ipotenuza 12 cm și un unghi de 30°, cateta opusă unghiului de 30° are 12·sin 30° = 6 cm, iar cealaltă 12·cos 30° = 6√3 cm.",
+    "exercises": [
+     "În △ABC (∢A = 90°), AB = 8, AC = 6, BC = 10. Calculează sin B, cos B, tg B.",
+     "Ipotenuza are 20 cm și un unghi 60°. Află catetele.",
+     "O catetă are 7 cm, iar unghiul opus ei 45°. Află cealaltă catetă și ipotenuza.",
+     "Arată că sin²x + cos²x = 1 pentru triunghiul 3, 4, 5.",
+     "O rampă urcă sub un unghi de 30° și are lungimea 8 m. La ce înălțime ajunge?"
+    ],
+    "test": [
+     "Cât este sin 30°?",
+     "Cât este cos 60°?",
+     "Cât este tg 45°?",
+     "Ce raport este cos B?",
+     "Cât este sin 60°?"
+    ],
+    "steps": [
+     "Identifică, față de unghiul dat, cateta opusă, cateta alăturată și ipotenuza.",
+     "Alege funcția trigonometrică ce leagă latura cunoscută de cea căutată.",
+     "Înlocuiește valoarea funcției și calculează.",
+     "Greșeala frecventă: să iei cateta alăturată în locul celei opuse la sinus; sinusul folosește cateta opusă unghiului."
+    ],
+    "answers": [
+     "1/2",
+     "1/2",
+     "1",
+     "Cateta alăturată / ipotenuză",
+     "√3/2"
+    ]
+   }
+  },
+  "eu-year-ro-lower-7-l31": {
+   "ro": {
+    "title": "Rezolvarea triunghiului dreptunghic; aplicații în probleme practice",
+    "theory": "A rezolva un triunghi dreptunghic înseamnă a afla toate laturile și unghiurile lui, cunoscând fie două laturi, fie o latură și un unghi ascuțit. Folosim teorema lui Pitagora, suma unghiurilor (unghiurile ascuțite sunt complementare), funcțiile trigonometrice și relațiile metrice. Așa calculăm înălțimi de clădiri, lățimi de râuri sau pante.",
+    "sample": "Știind o catetă și un unghi ascuțit, aflăm celelalte laturi cu sinus, cosinus sau tangentă.",
+    "worked": "Un copac aruncă o umbră de 15 m când razele soarelui fac 60° cu solul. Înălțimea este 15·tg 60° = 15√3 ≈ 26 m. Triunghiul cu catetele 5 și 5 are ipotenuza 5√2 și unghiurile ascuțite de 45°.",
+    "exercises": [
+     "Rezolvă triunghiul dreptunghic cu catetele 6 cm și 6√3 cm.",
+     "Rezolvă triunghiul dreptunghic cu ipotenuza 10 cm și un unghi de 45°.",
+     "De pe malul unui râu, un copac de pe celălalt mal se vede sub un unghi de 30°, iar copacul are 10 m. Cât de lat este râul?",
+     "Un zmeu are sfoara de 50 m, care face 30° cu solul. La ce înălțime este zmeul?",
+     "Calculează aria triunghiului dreptunghic cu ipotenuza 8 cm și un unghi de 30°."
+    ],
+    "test": [
+     "Catete egale: ce unghiuri ascuțite are triunghiul?",
+     "Ipotenuza 2 și unghi 30°: cateta opusă?",
+     "Suma unghiurilor ascuțite într-un triunghi dreptunghic?",
+     "Ce date sunt suficiente pentru rezolvare?",
+     "Catete 1 și √3: unghiul opus catetei √3?"
+    ],
+    "steps": [
+     "Desenează triunghiul și notează datele.",
+     "Află laturile lipsă cu Pitagora sau trigonometrie.",
+     "Află unghiurile ascuțite (complementare) și verifică rezultatele.",
+     "Greșeala frecventă: să folosești funcțiile trigonometrice în triunghiuri care nu sunt dreptunghice; relațiile acestea sunt valabile doar în triunghiul dreptunghic."
+    ],
+    "answers": [
+     "45° și 45°",
+     "1",
+     "90°",
+     "Două laturi sau o latură și un unghi ascuțit",
+     "60°"
+    ]
+   }
+  }
+ }
+}

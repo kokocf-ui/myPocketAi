@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "12",
+ "version": "5f2b4534775e992bac362038ba9304205c89624087383fd697d3952a2876455e",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Chimie pentru clasa a XII-a, filiera teoretică, profilul real (OMEC nr. 5959/22.12.2006) — termochimie, cinetică chimică, echilibru chimic, echilibre acido-bazice (teoria protolitică, Ka, Kb, pH, hidroliză, soluții tampon, titrare), reacții redox și electrochimie (potențiale, pile, acumulatori, coroziune, electroliză, legile lui Faraday), combinații complexe, echilibre de precipitare și analiză chimică; teme corelate cu programa de bacalaureat; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Chimie · Clasa a XII-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Termochimie",
+   "keys": [
+    "eu-year-ro-medium-12-l01",
+    "eu-year-ro-medium-12-l02",
+    "eu-year-ro-medium-12-l03",
+    "eu-year-ro-medium-12-l04",
+    "eu-year-ro-medium-12-l05",
+    "eu-year-ro-medium-12-l06"
+   ]
+  },
+  {
+   "title": "Cinetică chimică",
+   "keys": [
+    "eu-year-ro-medium-12-l07",
+    "eu-year-ro-medium-12-l08",
+    "eu-year-ro-medium-12-l09",
+    "eu-year-ro-medium-12-l10",
+    "eu-year-ro-medium-12-l11"
+   ]
+  },
+  {
+   "title": "Echilibrul chimic",
+   "keys": [
+    "eu-year-ro-medium-12-l12",
+    "eu-year-ro-medium-12-l13"
+   ]
+  },
+  {
+   "title": "Echilibre acido-bazice în soluții apoase",
+   "keys": [
+    "eu-year-ro-medium-12-l14",
+    "eu-year-ro-medium-12-l15",
+    "eu-year-ro-medium-12-l16",
+    "eu-year-ro-medium-12-l17",
+    "eu-year-ro-medium-12-l18",
+    "eu-year-ro-medium-12-l19"
+   ]
+  },
+  {
+   "title": "Reacții redox; electrochimie",
+   "keys": [
+    "eu-year-ro-medium-12-l20",
+    "eu-year-ro-medium-12-l21",
+    "eu-year-ro-medium-12-l22",
+    "eu-year-ro-medium-12-l23",
+    "eu-year-ro-medium-12-l24",
+    "eu-year-ro-medium-12-l25"
+   ]
+  },
+  {
+   "title": "Combinații complexe",
+   "keys": [
+    "eu-year-ro-medium-12-l26",
+    "eu-year-ro-medium-12-l27",
+    "eu-year-ro-medium-12-l28"
+   ]
+  },
+  {
+   "title": "Echilibre de precipitare; analiza chimică",
+   "keys": [
+    "eu-year-ro-medium-12-l29",
+    "eu-year-ro-medium-12-l30",
+    "eu-year-ro-medium-12-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-12-l01": {
+   "ro": {
+    "title": "Efecte termice; entalpia de reacție; ecuații termochimice",
+    "theory": "Orice reacție chimică este însoțită de un schimb de energie, de obicei sub formă de căldură. La presiune constantă, căldura schimbată este variația de entalpie ΔH = H(produși) − H(reactanți). Reacțiile exoterme cedează căldură mediului: ΔH < 0 (arderi, neutralizări). Reacțiile endoterme absorb căldură: ΔH > 0 (descompunerea CaCO₃, fotosinteza). Ecuația termochimică precizează starea de agregare a substanțelor și valoarea ΔH, care este proporțională cu cantitatea de substanță: dacă dublezi coeficienții, dublezi ΔH; dacă inversezi reacția, schimbi semnul lui ΔH.",
+    "sample": "Arderea gazului metan este o reacție exotermă, de aceea încălzește locuința.",
+    "worked": "C(s) + O₂(g) → CO₂(g), ΔH = −393,5 kJ. Pentru 6 g carbon (0,5 mol) se degajă 196,75 kJ. Reacția inversă, CO₂ → C + O₂, ar avea ΔH = +393,5 kJ. CaCO₃(s) → CaO(s) + CO₂(g), ΔH = +178 kJ: varul se obține prin încălzire puternică, consumând energie.",
+    "exercises": [
+     "Clasifică: arderea etanolului, descompunerea apei prin electroliză, neutralizarea HCl cu NaOH.",
+     "Ce căldură se degajă la arderea a 36 g carbon (ΔH = −393,5 kJ/mol)?",
+     "Scrie ecuația termochimică inversă a arderii hidrogenului (ΔH = −285,8 kJ/mol H₂O(l)).",
+     "De ce în ecuațiile termochimice se precizează starea de agregare?",
+     "Ce căldură absoarbe descompunerea a 50 g CaCO₃ (ΔH = +178 kJ/mol)?"
+    ],
+    "test": [
+     "Ce este entalpia de reacție?",
+     "Semnul lui ΔH la o reacție exotermă?",
+     "Semnul lui ΔH la o reacție endotermă?",
+     "Ce se întâmplă cu ΔH când inversezi reacția?",
+     "Un exemplu de reacție endotermă?"
+    ],
+    "steps": [
+     "Scrie ecuația termochimică cu stările de agregare.",
+     "Stabilește semnul lui ΔH (exo – negativ, endo – pozitiv).",
+     "Scalează ΔH cu numărul de moli implicați.",
+     "Greșeala frecventă: să schimbi coeficienții ecuației fără să modifici corespunzător valoarea lui ΔH."
+    ],
+    "answers": [
+     "Căldura schimbată la presiune constantă, ΔH = H(produși) − H(reactanți)",
+     "Negativ",
+     "Pozitiv",
+     "Își schimbă semnul",
+     "Descompunerea carbonatului de calciu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l02": {
+   "ro": {
+    "title": "Entalpia molară de formare; calculul entalpiei de reacție",
+    "theory": "Entalpia molară de formare standard ΔH°f este variația de entalpie la formarea unui mol de substanță din elementele ei, în stare standard (25 °C, 1 atm). Prin convenție, elementele în forma lor cea mai stabilă au ΔH°f = 0 (O₂, H₂, C grafit). Entalpia unei reacții se calculează din entalpiile de formare: ΔH°r = Σ n·ΔH°f(produși) − Σ n·ΔH°f(reactanți). Substanțele cu ΔH°f foarte negativă sunt stabile (H₂O, CO₂, Al₂O₃).",
+    "sample": "Oxigenul molecular are entalpia de formare zero, fiind element în starea standard.",
+    "worked": "Arderea metanului: CH₄ + 2 O₂ → CO₂ + 2 H₂O(l). Cu ΔH°f: CH₄ −74,8; CO₂ −393,5; H₂O(l) −285,8 kJ/mol ⇒ ΔH = [−393,5 + 2(−285,8)] − (−74,8) = −965,1 + 74,8 = −890,3 kJ/mol.",
+    "exercises": [
+     "Calculează ΔH pentru C₂H₆ + 7/2 O₂ → 2 CO₂ + 3 H₂O(l) (ΔH°f etan = −84,7 kJ/mol).",
+     "Ce valoare are ΔH°f pentru H₂(g) și pentru C(grafit)?",
+     "Calculează ΔH pentru CaO + CO₂ → CaCO₃ (ΔH°f: CaO −635, CO₂ −393,5, CaCO₃ −1207 kJ/mol).",
+     "Care este mai stabil: un compus cu ΔH°f = −600 kJ/mol sau unul cu +50 kJ/mol?",
+     "Ce căldură degajă arderea a 8 g metan?"
+    ],
+    "test": [
+     "Ce este entalpia de formare standard?",
+     "Valoarea ΔH°f pentru elemente în stare standard?",
+     "Formula entalpiei de reacție din entalpiile de formare?",
+     "Condițiile standard?",
+     "Ce indică o ΔH°f foarte negativă?"
+    ],
+    "steps": [
+     "Scrie ecuația echilibrată cu stările de agregare.",
+     "Înmulțește fiecare ΔH°f cu coeficientul substanței.",
+     "Aplică ΔH = Σ produși − Σ reactanți și verifică semnul.",
+     "Greșeala frecventă: să scazi invers (reactanți minus produși) sau să uiți să înmulțești cu coeficienții."
+    ],
+    "answers": [
+     "ΔH la formarea unui mol de substanță din elemente, în stare standard",
+     "Zero",
+     "ΔH°r = Σ n·ΔH°f(produși) − Σ n·ΔH°f(reactanți)",
+     "25 °C și 1 atm",
+     "Compus stabil"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l03": {
+   "ro": {
+    "title": "Legea lui Hess",
+    "theory": "Legea lui Hess: variația de entalpie a unei reacții depinde doar de starea inițială și de starea finală, nu de drumul parcurs. Dacă o reacție se poate scrie ca sumă de etape, ΔH total este suma ΔH ale etapelor. Astfel se calculează entalpii greu de măsurat direct (formarea CO din C, formarea compușilor organici), combinând ecuații termochimice cunoscute: le inversezi (schimbi semnul), le înmulțești (înmulțești ΔH) și le aduni până obții ecuația dorită.",
+    "sample": "Carbonul poate arde direct la CO₂ sau întâi la CO și apoi la CO₂: căldura totală este aceeași.",
+    "worked": "Vrem C + ½ O₂ → CO. Știm: (1) C + O₂ → CO₂, ΔH₁ = −393,5 kJ; (2) CO + ½ O₂ → CO₂, ΔH₂ = −283 kJ. Păstrăm (1) și inversăm (2): CO₂ → CO + ½ O₂, +283 kJ. Adunând: ΔH = −393,5 + 283 = −110,5 kJ.",
+    "exercises": [
+     "Enunță legea lui Hess.",
+     "Calculează ΔH pentru S + 3/2 O₂ → SO₃ știind S + O₂ → SO₂ (−297 kJ) și SO₂ + ½ O₂ → SO₃ (−99 kJ).",
+     "Calculează ΔH de formare a etenei din: arderea C (−393,5), arderea H₂ (−285,8) și arderea C₂H₄ (−1411 kJ/mol).",
+     "De ce legea lui Hess este o consecință a conservării energiei?",
+     "Ce faci cu ΔH când înmulțești o ecuație cu 2?"
+    ],
+    "test": [
+     "De ce depinde ΔH conform legii lui Hess?",
+     "Ce faci cu ΔH când inversezi o ecuație?",
+     "La ce folosește legea lui Hess?",
+     "ΔH pentru C + ½ O₂ → CO?",
+     "Cum combini ecuațiile?"
+    ],
+    "steps": [
+     "Scrie ecuația țintă și identifică ecuațiile cunoscute.",
+     "Inversează sau înmulțește ecuațiile ca substanțele să apară pe partea corectă, cu coeficienții corecți.",
+     "Adună ecuațiile și valorile ΔH, verificând că substanțele intermediare se anulează.",
+     "Greșeala frecventă: să inversezi o ecuație fără să schimbi semnul lui ΔH."
+    ],
+    "answers": [
+     "Doar de starea inițială și de starea finală",
+     "Îi schimbi semnul",
+     "Calculează entalpii greu de măsurat direct",
+     "−110,5 kJ",
+     "Le inversezi, le înmulțești și le aduni"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l04": {
+   "ro": {
+    "title": "Energia de legătură; estimarea entalpiei de reacție",
+    "theory": "Energia de legătură este energia necesară pentru ruperea unui mol de legături dintr-o substanță în stare gazoasă (ruperea absoarbe energie, formarea eliberează aceeași energie). Exemple (kJ/mol): H–H 436, Cl–Cl 243, H–Cl 432, C–H 413, O=O 498, C=O 799, O–H 463. Entalpia unei reacții în fază gazoasă se poate estima: ΔH ≈ Σ E(legături rupte) − Σ E(legături formate). Reacția este exotermă când legăturile formate sunt mai puternice decât cele rupte. Legăturile multiple sunt mai puternice decât cele simple între aceiași atomi.",
+    "sample": "Pentru a rupe un mol de legături H–H trebuie furnizați 436 kJ.",
+    "worked": "H₂ + Cl₂ → 2 HCl: rupem H–H (436) și Cl–Cl (243) = 679 kJ; formăm 2 H–Cl = 864 kJ ⇒ ΔH ≈ 679 − 864 = −185 kJ (exotermă). Arderea metanului estimată: rupte 4·413 + 2·498 = 2648 kJ; formate 2·799 + 4·463 = 3450 kJ ⇒ ΔH ≈ −802 kJ (pentru apă vapori).",
+    "exercises": [
+     "Estimează ΔH pentru H₂ + ½ O₂ → H₂O(g) (H–H 436, O=O 498, O–H 463).",
+     "De ce ruperea legăturilor este un proces endoterm?",
+     "Ordonează după tărie: C–C, C=C, C≡C.",
+     "Estimează ΔH pentru H₂ + Br₂ → 2 HBr (H–H 436, Br–Br 193, H–Br 366).",
+     "De ce valoarea obținută din energiile de legătură este doar o estimare?"
+    ],
+    "test": [
+     "Ce este energia de legătură?",
+     "Ruperea legăturilor absoarbe sau eliberează energie?",
+     "Formula de estimare a ΔH?",
+     "Energia legăturii H–H?",
+     "Când reacția este exotermă?"
+    ],
+    "steps": [
+     "Scrie structurile și numără legăturile rupte și formate.",
+     "Calculează energia absorbită (rupte) și eliberată (formate).",
+     "Fă diferența rupte − formate și interpretează semnul.",
+     "Greșeala frecventă: să faci diferența invers (formate − rupte) și să obții semnul greșit al lui ΔH."
+    ],
+    "answers": [
+     "Energia necesară ruperii unui mol de legături în stare gazoasă",
+     "Absoarbe energie",
+     "ΔH ≈ Σ E(rupte) − Σ E(formate)",
+     "436 kJ/mol",
+     "Când legăturile formate sunt mai puternice decât cele rupte"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l05": {
+   "ro": {
+    "title": "Calorimetrie; căldura de neutralizare și de dizolvare",
+    "theory": "Căldura schimbată de o substanță la încălzire sau răcire este Q = m·c·Δt (c – căldura specifică; apa: 4,18 J/(g·°C)). Într-un calorimetru (vas izolat termic), căldura degajată de reacție încălzește soluția, iar din creșterea temperaturii se calculează ΔH. Căldura de neutralizare a unui acid tare cu o bază tare este aproape constantă: ≈ −57 kJ/mol apă formată, pentru că reacția este mereu H₃O⁺ + HO⁻ → 2 H₂O. Dizolvarea poate fi exotermă (NaOH, H₂SO₄ concentrat) sau endotermă (NH₄NO₃ — pungile reci instantanee).",
+    "sample": "La diluarea acidului sulfuric se degajă multă căldură, de aceea acidul se toarnă în apă, nu invers.",
+    "worked": "100 mL HCl 1 M + 100 mL NaOH 1 M (0,1 mol fiecare); temperatura crește cu 6,8 °C. Q = 200 g · 4,18 · 6,8 ≈ 5685 J ≈ 5,7 kJ pentru 0,1 mol apă ⇒ ΔH ≈ −57 kJ/mol.",
+    "exercises": [
+     "Ce căldură trebuie pentru a încălzi 500 g apă de la 20 °C la 80 °C?",
+     "La neutralizarea a 0,05 mol HCl cu NaOH, ce căldură se degajă?",
+     "De ce căldura de neutralizare a acizilor tari cu baze tari este aceeași?",
+     "Explică funcționarea unei pungi reci instantanee.",
+     "De ce acidul sulfuric se toarnă în apă și nu invers?"
+    ],
+    "test": [
+     "Formula căldurii la încălzirea unei substanțe?",
+     "Căldura specifică a apei?",
+     "Ce este un calorimetru?",
+     "Căldura de neutralizare acid tare–bază tare?",
+     "O dizolvare endotermă?"
+    ],
+    "steps": [
+     "Calculează Q = m·c·Δt pentru soluție.",
+     "Calculează numărul de moli ai reactantului limitant.",
+     "Împarte Q la numărul de moli și pune semnul (exoterm – negativ).",
+     "Greșeala frecventă: să folosești doar masa uneia dintre soluții, nu masa totală care se încălzește."
+    ],
+    "answers": [
+     "Q = m·c·Δt",
+     "4,18 J/(g·°C)",
+     "Un vas izolat termic pentru măsurarea căldurii",
+     "≈ −57 kJ/mol apă",
+     "Dizolvarea azotatului de amoniu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l06": {
+   "ro": {
+    "title": "Combustibili: putere calorică; combustibili și mediu",
+    "theory": "Puterea calorică a unui combustibil este căldura degajată la arderea completă a unei unități de masă (kJ/kg) sau de volum (kJ/m³). Ea se calculează din entalpia de ardere: metanul (−890 kJ/mol, 16 g/mol) are ≈ 55 600 kJ/kg, adică ≈ 39 700 kJ/m³ (c.n.); hidrogenul are cea mai mare putere calorică pe kilogram (≈ 143 000 kJ/kg). Alegerea unui combustibil ține cont de puterea calorică, de cost, de siguranță și de poluare: combustibilii fosili eliberează CO₂ (efect de seră), iar hidrogenul produce doar apă, dar trebuie obținut cu energie din surse curate.",
+    "sample": "Un kilogram de hidrogen eliberează la ardere de aproape trei ori mai multă căldură decât un kilogram de benzină.",
+    "worked": "Puterea calorică a metanului: 890 kJ/mol ÷ 22,4 L/mol = 39,7 kJ/L ≈ 39 700 kJ/m³. Pentru a încălzi 100 L apă (100 kg) cu 40 °C: Q = 100 000 · 4,18 · 40 = 16 720 kJ ⇒ ≈ 0,42 m³ metan (la randament 100%).",
+    "exercises": [
+     "Calculează puterea calorică (kJ/kg) a propanului (ΔH ardere = −2220 kJ/mol).",
+     "Ce volum de metan (c.n.) încălzește 50 L apă cu 50 °C?",
+     "Compară hidrogenul și metanul ca putere calorică pe kilogram.",
+     "De ce hidrogenul nu este încă folosit pe scară largă?",
+     "Ce criterii folosești pentru alegerea unui combustibil?"
+    ],
+    "test": [
+     "Ce este puterea calorică?",
+     "Combustibilul cu cea mai mare putere calorică pe kilogram?",
+     "Unitățile puterii calorice?",
+     "Produsul arderii hidrogenului?",
+     "Gazul cu efect de seră din arderea combustibililor fosili?"
+    ],
+    "steps": [
+     "Calculează căldura degajată pe mol din ΔH de ardere.",
+     "Transformă pe kilogram (împarte la M) sau pe metru cub (împarte la volumul molar).",
+     "Folosește puterea calorică pentru a calcula cantitatea de combustibil necesară.",
+     "Greșeala frecventă: să uiți că puterea calorică se referă la unitatea de masă sau de volum, nu la mol."
+    ],
+    "answers": [
+     "Căldura degajată la arderea completă a unei unități de combustibil",
+     "Hidrogenul",
+     "kJ/kg sau kJ/m³",
+     "Apa",
+     "Dioxidul de carbon"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l07": {
+   "ro": {
+    "title": "Viteza de reacție",
+    "theory": "Viteza de reacție arată cât de repede se consumă reactanții sau se formează produșii: v = −Δc(reactant)/Δt = Δc(produs)/Δt, în mol/(L·s). Viteza nu este constantă: scade în timp, pentru că scade concentrația reactanților. Unele reacții sunt foarte rapide (explozii, precipitări), altele foarte lente (ruginirea, formarea petrolului). Pentru o reacție aA → bB, vitezele raportate la substanțe diferite se împart la coeficienți: v = −(1/a)·Δc_A/Δt = (1/b)·Δc_B/Δt.",
+    "sample": "Fierul ruginește încet, iar pulberea de magneziu arde foarte repede.",
+    "worked": "În 2 H₂O₂ → 2 H₂O + O₂, concentrația H₂O₂ scade de la 0,80 M la 0,50 M în 60 s: viteza de consum = 0,30/60 = 5·10⁻³ mol/(L·s); viteza de formare a O₂ = 2,5·10⁻³ mol/(L·s); viteza reacției (împărțind la coeficienți) = 2,5·10⁻³ mol/(L·s).",
+    "exercises": [
+     "Dă două exemple de reacții rapide și două lente.",
+     "Concentrația unui reactant scade de la 1,2 M la 0,9 M în 30 s. Calculează viteza medie.",
+     "În N₂ + 3 H₂ → 2 NH₃, H₂ se consumă cu 0,3 mol/(L·s). Cu ce viteză se formează NH₃?",
+     "De ce viteza unei reacții scade în timp?",
+     "Care este unitatea vitezei de reacție?"
+    ],
+    "test": [
+     "Ce arată viteza de reacție?",
+     "Unitatea vitezei de reacție?",
+     "De ce scade viteza în timp?",
+     "Formula vitezei medii?",
+     "Un exemplu de reacție lentă?"
+    ],
+    "steps": [
+     "Calculează variația concentrației și intervalul de timp.",
+     "Împarte Δc la Δt (cu minus pentru reactanți).",
+     "Raportează la coeficienți pentru a compara substanțe diferite.",
+     "Greșeala frecventă: să compari direct vitezele de consum ale unor substanțe cu coeficienți diferiți, fără să le împarți la coeficienți."
+    ],
+    "answers": [
+     "Cât de repede se consumă reactanții sau se formează produșii",
+     "mol/(L·s)",
+     "Scade concentrația reactanților",
+     "v = Δc/Δt",
+     "Ruginirea fierului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l08": {
+   "ro": {
+    "title": "Legea vitezei; ordinul de reacție; constanta de viteză",
+    "theory": "Legea vitezei exprimă dependența vitezei de concentrații: pentru aA + bB → produși, v = k·[A]ᵐ·[B]ⁿ, unde k este constanta de viteză (depinde de temperatură și catalizator), iar m și n sunt ordinele parțiale, determinate experimental (nu neapărat egale cu coeficienții). Ordinul total este m + n. La o reacție de ordinul 1, dublarea concentrației dublează viteza; la ordinul 2 o mărește de 4 ori; la ordinul 0 viteza nu depinde de concentrație.",
+    "sample": "Dacă o reacție este de ordinul 2, dublarea concentrației reactantului mărește viteza de patru ori.",
+    "worked": "Date experimentale: [A] = 0,1 M → v = 2·10⁻³ mol/(L·s); [A] = 0,2 M → v = 8·10⁻³ mol/(L·s). Raportul vitezelor 4 = 2ᵐ ⇒ m = 2. k = v/[A]² = 2·10⁻³/0,01 = 0,2 L/(mol·s).",
+    "exercises": [
+     "Pentru v = k[A][B]², care este ordinul total?",
+     "Cum se modifică viteza dacă [B] se triplează, în legea v = k[A][B]²?",
+     "Determină ordinul: [A] 0,2 M → v = 1·10⁻³; [A] 0,4 M → v = 2·10⁻³.",
+     "Calculează k pentru v = 4·10⁻³ mol/(L·s), [A] = 0,2 M, ordinul 1.",
+     "De ce ordinele nu se deduc direct din coeficienți?"
+    ],
+    "test": [
+     "Ce exprimă legea vitezei?",
+     "De ce depinde constanta de viteză?",
+     "Ce este ordinul total?",
+     "Efectul dublării concentrației la ordinul 1?",
+     "Cum se determină ordinele de reacție?"
+    ],
+    "steps": [
+     "Compară două experimente în care se modifică o singură concentrație.",
+     "Află ordinul din raportul vitezelor (raport = 2ᵐ la dublare).",
+     "Calculează k dintr-un experiment și verifică unitatea.",
+     "Greșeala frecventă: să iei ordinele egale cu coeficienții stoechiometrici fără date experimentale."
+    ],
+    "answers": [
+     "Dependența vitezei de concentrațiile reactanților",
+     "De temperatură și de catalizator",
+     "Suma ordinelor parțiale",
+     "Viteza se dublează",
+     "Experimental"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l09": {
+   "ro": {
+    "title": "Factori care influențează viteza: concentrație, suprafață de contact, temperatură",
+    "theory": "Pentru ca o reacție să aibă loc, particulele trebuie să se ciocnească cu energie suficientă și orientare potrivită (ciocniri eficace). Concentrația mai mare înseamnă mai multe ciocniri. Mărunțirea solidelor mărește suprafața de contact (praful de cărbune sau de făină poate exploda). Creșterea temperaturii mărește viteza particulelor și, mai ales, fracția celor cu energie suficientă; regula aproximativă (van ’t Hoff): la fiecare 10 °C, viteza crește de 2–4 ori. Refrigerarea încetinește alterarea alimentelor; gătitul sub presiune o accelerează.",
+    "sample": "Alimentele se păstrează mai mult în frigider pentru că reacțiile de alterare încetinesc.",
+    "worked": "Dacă viteza se dublează la fiecare 10 °C, de la 20 °C la 50 °C viteza crește de 2³ = 8 ori. O tabletă efervescentă se dizolvă mai repede pisată (suprafață mai mare) și în apă caldă (temperatură mai mare).",
+    "exercises": [
+     "De câte ori crește viteza de la 25 °C la 65 °C, dacă se dublează la fiecare 10 °C?",
+     "De ce rumegușul arde mai repede decât un buștean?",
+     "Explică prin ciocniri efectul concentrației asupra vitezei.",
+     "De ce oala sub presiune gătește mai repede?",
+     "De ce praful de făină din mori poate fi exploziv?"
+    ],
+    "test": [
+     "Ce sunt ciocnirile eficace?",
+     "Efectul mărunțirii unui solid?",
+     "Regula van ’t Hoff?",
+     "De ce frigiderul conservă alimentele?",
+     "Efectul creșterii concentrației?"
+    ],
+    "steps": [
+     "Identifică factorul modificat (concentrație, suprafață, temperatură).",
+     "Explică efectul prin numărul și energia ciocnirilor.",
+     "Calculează efectul cantitativ (de exemplu 2ⁿ pentru n intervale de 10 °C).",
+     "Greșeala frecventă: să crezi că temperatura mărește doar numărul ciocnirilor; contează mai ales creșterea fracției de ciocniri cu energie suficientă."
+    ],
+    "answers": [
+     "Ciocniri cu energie suficientă și orientare potrivită",
+     "Mărește viteza (suprafață de contact mai mare)",
+     "La fiecare 10 °C viteza crește de 2–4 ori",
+     "Temperatura scăzută încetinește reacțiile",
+     "Mai multe ciocniri, viteză mai mare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l10": {
+   "ro": {
+    "title": "Energia de activare; ecuația lui Arrhenius",
+    "theory": "Energia de activare Eₐ este energia minimă pe care trebuie să o aibă particulele care se ciocnesc pentru ca reacția să aibă loc; ea reprezintă „bariera” dintre reactanți și produși, trecând prin complexul activat. Ecuația lui Arrhenius leagă constanta de viteză de temperatură: k = A·e^(−Eₐ/RT). Cu cât Eₐ este mai mică sau T mai mare, cu atât k (și viteza) este mai mare. Diagrama energetică arată nivelul reactanților, al produșilor (diferența este ΔH) și vârful barierei (Eₐ). Chibritul nu se aprinde singur: frecarea furnizează energia de activare.",
+    "sample": "Hârtia nu se aprinde singură la temperatura camerei, deși arderea ei este exotermă.",
+    "worked": "Pentru o reacție cu Eₐ = 50 kJ/mol, la trecerea de la 300 K la 310 K: k₂/k₁ = e^[(Eₐ/R)(1/300 − 1/310)] = e^[(50 000/8,314)·1,075·10⁻⁴] = e^0,647 ≈ 1,9 — aproape dublare la 10 °C, în acord cu regula van ’t Hoff.",
+    "exercises": [
+     "Ce este energia de activare?",
+     "Desenează diagrama energetică a unei reacții exoterme, marcând Eₐ și ΔH.",
+     "Cum influențează scăderea Eₐ viteza de reacție?",
+     "Scrie ecuația lui Arrhenius și explică termenii.",
+     "De ce un amestec de H₂ și O₂ nu reacționează până nu apare o scânteie?"
+    ],
+    "test": [
+     "Ce este complexul activat?",
+     "Ecuația lui Arrhenius?",
+     "Ce se întâmplă cu k când T crește?",
+     "Ce reprezintă diferența de nivel reactanți–produși în diagramă?",
+     "Rolul scânteii la aprindere?"
+    ],
+    "steps": [
+     "Identifică Eₐ și ΔH pe diagrama energetică.",
+     "Folosește ecuația lui Arrhenius pentru a compara constante la temperaturi diferite.",
+     "Interpretează: Eₐ mică sau T mare ⇒ viteză mare.",
+     "Greșeala frecventă: să confunzi energia de activare cu ΔH; o reacție foarte exotermă poate avea o barieră mare."
+    ],
+    "answers": [
+     "Starea de energie maximă dintre reactanți și produși",
+     "k = A·e^(−Eₐ/RT)",
+     "Crește",
+     "Entalpia de reacție ΔH",
+     "Furnizează energia de activare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l11": {
+   "ro": {
+    "title": "Catalizatori și cataliză; inhibitori",
+    "theory": "Catalizatorii sunt substanțe care măresc viteza reacției fără să se consume: oferă un mecanism alternativ cu energie de activare mai mică. Nu modifică ΔH și nici poziția echilibrului, doar fac ca echilibrul să fie atins mai repede. Cataliza poate fi omogenă (catalizatorul în aceeași fază: H₂SO₄ la esterificare), eterogenă (pe suprafața unui solid: Fe la sinteza NH₃, Pt/Pd/Rh în convertorul catalitic al automobilelor) sau enzimatică. Inhibitorii încetinesc reacțiile nedorite (antioxidanții din alimente, inhibitorii de coroziune). Otrăvurile catalitice (plumbul, sulful) blochează catalizatorii.",
+    "sample": "Convertorul catalitic transformă gazele toxice din eșapament în substanțe mai puțin nocive.",
+    "worked": "Descompunerea apei oxigenate 2 H₂O₂ → 2 H₂O + O₂ este lentă; cu puțin MnO₂ sau cu enzima catalază (din cartof, ficat) devine spumoasă imediat. La final, MnO₂ se recuperează nemodificat. În convertor: 2 CO + 2 NO → 2 CO₂ + N₂ (catalizatori Pt, Rh).",
+    "exercises": [
+     "Ce efect are catalizatorul asupra energiei de activare și asupra ΔH?",
+     "Dă exemple de cataliză omogenă, eterogenă și enzimatică.",
+     "De ce benzina cu plumb nu se folosea la mașinile cu convertor catalitic?",
+     "Scrie reacția catalizată din convertor între CO și NO.",
+     "Ce sunt inhibitorii? Dă un exemplu din viața de zi cu zi."
+    ],
+    "test": [
+     "Ce este un catalizator?",
+     "Se consumă catalizatorul?",
+     "Modifică catalizatorul poziția echilibrului?",
+     "Ce este cataliza eterogenă?",
+     "Ce sunt inhibitorii?"
+    ],
+    "steps": [
+     "Identifică reacția și catalizatorul.",
+     "Explică mecanismul: drum nou cu Eₐ mai mică; ΔH și echilibrul neschimbate.",
+     "Clasifică tipul de cataliză și discută aplicațiile.",
+     "Greșeala frecventă: să crezi că un catalizator mărește cantitatea de produs; el doar o obține mai repede."
+    ],
+    "answers": [
+     "O substanță care mărește viteza fără să se consume",
+     "Nu",
+     "Nu",
+     "Catalizatorul este într-o fază diferită (de obicei solid)",
+     "Substanțe care încetinesc reacțiile"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l12": {
+   "ro": {
+    "title": "Echilibrul chimic și constanta de echilibru Kc",
+    "theory": "Într-o reacție reversibilă, la început viteza directă scade, iar cea inversă crește, până devin egale: s-a atins echilibrul chimic, dinamic (reacțiile continuă), cu concentrații constante. Pentru aA + bB ⇌ cC + dD, constanta de echilibru Kc = [C]ᶜ[D]ᵈ/([A]ᵃ[B]ᵇ), cu concentrațiile la echilibru; solidele și lichidele pure nu apar în expresie. Kc depinde doar de temperatură. Kc ≫ 1: echilibrul este deplasat spre produși; Kc ≪ 1: spre reactanți. Calculele folosesc tabelul inițial – transformat – echilibru.",
+    "sample": "La echilibru reacțiile nu se opresc; directa și inversa au loc cu aceeași viteză.",
+    "worked": "H₂ + I₂ ⇌ 2 HI, la o anumită temperatură Kc = 64. Pornim de la 1 mol/L H₂ și 1 mol/L I₂: (2x)²/(1 − x)² = 64 ⇒ 2x/(1 − x) = 8 ⇒ x = 0,8. La echilibru: [HI] = 1,6 M, [H₂] = [I₂] = 0,2 M.",
+    "exercises": [
+     "Scrie expresia Kc pentru N₂ + 3 H₂ ⇌ 2 NH₃.",
+     "Scrie Kc pentru CaCO₃(s) ⇌ CaO(s) + CO₂(g).",
+     "Ce înseamnă Kc = 10⁵? Dar Kc = 10⁻⁵?",
+     "Pentru H₂ + I₂ ⇌ 2 HI cu Kc = 4, calculează [HI] pornind de la 1 M din fiecare reactant.",
+     "De ce echilibrul chimic se numește dinamic?"
+    ],
+    "test": [
+     "Ce este echilibrul chimic?",
+     "De ce depinde Kc?",
+     "Apar solidele în expresia Kc?",
+     "Ce indică Kc foarte mare?",
+     "Ce instrument folosești la calcule de echilibru?"
+    ],
+    "steps": [
+     "Scrie ecuația echilibrată și expresia Kc (fără solide și lichide pure).",
+     "Completează tabelul inițial – transformat – echilibru.",
+     "Înlocuiește în Kc, rezolvă și verifică dacă valorile sunt pozitive și mai mici decât cele inițiale.",
+     "Greșeala frecventă: să introduci în Kc concentrațiile inițiale în locul celor de la echilibru."
+    ],
+    "answers": [
+     "Starea cu vitezele directă și inversă egale și concentrații constante",
+     "Doar de temperatură",
+     "Nu",
+     "Echilibrul este deplasat spre produși",
+     "Tabelul inițial – transformat – echilibru"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l13": {
+   "ro": {
+    "title": "Deplasarea echilibrului: principiul lui Le Châtelier; sinteza amoniacului",
+    "theory": "Principiul lui Le Châtelier: când asupra unui sistem în echilibru se exercită o constrângere, echilibrul se deplasează în sensul diminuării ei. Concentrație: adăugarea unui reactant deplasează echilibrul spre produși. Presiune (pentru gaze): creșterea presiunii deplasează echilibrul în sensul scăderii numărului de moli de gaz. Temperatură: încălzirea favorizează reacția endotermă, răcirea pe cea exotermă (și modifică Kc). Catalizatorul nu deplasează echilibrul. Sinteza NH₃ (N₂ + 3 H₂ ⇌ 2 NH₃, ΔH = −92 kJ) se face la presiune mare (≈ 200 atm), temperatură de compromis (≈ 450 °C) și catalizator de fier.",
+    "sample": "Creșterea presiunii favorizează formarea amoniacului, pentru că din 4 moli de gaz rezultă 2.",
+    "worked": "Pentru 2 SO₂ + O₂ ⇌ 2 SO₃ (ΔH < 0): mărirea presiunii → spre SO₃ (3 moli gaz → 2); încălzirea → spre SO₂ (sensul endoterm); îndepărtarea SO₃ → spre SO₃. La sinteza NH₃, temperatura joasă ar da mai mult amoniac, dar prea încet — de aceea se alege un compromis.",
+    "exercises": [
+     "Cum influențează creșterea presiunii echilibrul N₂ + O₂ ⇌ 2 NO?",
+     "Cum influențează încălzirea echilibrul N₂ + 3 H₂ ⇌ 2 NH₃ (ΔH < 0)?",
+     "Ce efect are adăugarea de H₂ în sinteza amoniacului?",
+     "De ce sinteza amoniacului nu se face la temperatura camerei?",
+     "Ce efect are catalizatorul de fier asupra randamentului de NH₃?"
+    ],
+    "test": [
+     "Enunțul principiului lui Le Châtelier?",
+     "Efectul creșterii presiunii?",
+     "Efectul încălzirii?",
+     "Modifică temperatura valoarea Kc?",
+     "Condițiile sintezei amoniacului?"
+    ],
+    "steps": [
+     "Identifică perturbarea (concentrație, presiune, temperatură).",
+     "Stabilește sensul care o diminuează (moli de gaz, sens endo/exo).",
+     "Formulează concluzia și discută compromisul industrial.",
+     "Greșeala frecventă: să aplici efectul presiunii la reacții cu același număr de moli de gaz în ambele părți; acolo presiunea nu deplasează echilibrul."
+    ],
+    "answers": [
+     "Echilibrul se deplasează în sensul diminuării constrângerii",
+     "Deplasare spre mai puțini moli de gaz",
+     "Favorizează reacția endotermă",
+     "Da",
+     "≈ 200 atm, ≈ 450 °C, catalizator de fier"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l14": {
+   "ro": {
+    "title": "Teoria protolitică (Brønsted–Lowry); perechi acid–bază conjugate",
+    "theory": "Conform teoriei protolitice, acizii sunt specii care cedează protoni (H⁺), iar bazele sunt specii care acceptă protoni. Reacția acido-bazică este un transfer de proton. Fiecare acid, cedând un proton, devine baza lui conjugată (HCl/Cl⁻, CH₃COOH/CH₃COO⁻, NH₄⁺/NH₃, H₃O⁺/H₂O). Speciile amfotere pot fi și acizi, și baze: apa (H₂O ⇌ H₃O⁺ / HO⁻), ionul HCO₃⁻, aminoacizii. Cu cât un acid este mai tare, cu atât baza lui conjugată este mai slabă.",
+    "sample": "În reacția amoniacului cu apa, apa joacă rolul de acid.",
+    "worked": "NH₃ + H₂O ⇌ NH₄⁺ + HO⁻: perechi NH₄⁺/NH₃ și H₂O/HO⁻. HCO₃⁻ + H₃O⁺ → H₂CO₃ + H₂O (bază); HCO₃⁻ + HO⁻ → CO₃²⁻ + H₂O (acid) — de aceea bicarbonatul este amfoter și neutralizează aciditatea gastrică.",
+    "exercises": [
+     "Identifică perechile conjugate în CH₃COOH + H₂O ⇌ CH₃COO⁻ + H₃O⁺.",
+     "Scrie baza conjugată a H₂SO₄, HSO₄⁻ și H₂O.",
+     "Scrie acidul conjugat al NH₃, HO⁻ și CO₃²⁻.",
+     "Arată prin ecuații că HCO₃⁻ este amfoter.",
+     "De ce Cl⁻ este o bază foarte slabă?"
+    ],
+    "test": [
+     "Ce este un acid după Brønsted?",
+     "Ce este o bază după Brønsted?",
+     "Baza conjugată a HCl?",
+     "Ce este o specie amfoteră?",
+     "Acidul conjugat al apei?"
+    ],
+    "steps": [
+     "Identifică specia care cedează proton (acid) și cea care îl acceptă (bază).",
+     "Scrie perechile conjugate (diferă printr-un H⁺).",
+     "Compară tăria (acid tare ⇒ bază conjugată slabă).",
+     "Greșeala frecventă: să scrii baza conjugată scoțând un atom de hidrogen fără să modifici sarcina (corect: scade cu o unitate)."
+    ],
+    "answers": [
+     "O specie care cedează protoni",
+     "O specie care acceptă protoni",
+     "Ionul clorură Cl⁻",
+     "O specie care poate fi și acid, și bază",
+     "Ionul hidroniu H₃O⁺"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l15": {
+   "ro": {
+    "title": "Constante de aciditate și bazicitate; pKa și pKb; Ka·Kb = Kw",
+    "theory": "Tăria unui acid slab se exprimă prin Kₐ = [A⁻][H₃O⁺]/[HA], iar a unei baze slabe prin K_b = [BH⁺][HO⁻]/[B]. Se folosesc și pKₐ = −lg Kₐ și pK_b = −lg K_b: cu cât pKₐ este mai mic, cu atât acidul este mai tare. Pentru o pereche conjugată, Kₐ·K_b = K_w = 10⁻¹⁴ (la 25 °C), adică pKₐ + pK_b = 14. Exemple: acid acetic Kₐ = 1,8·10⁻⁵ (pKₐ ≈ 4,74); amoniac K_b = 1,8·10⁻⁵ (pK_b ≈ 4,74); fenol Kₐ ≈ 10⁻¹⁰.",
+    "sample": "Acidul acetic, cu pKa 4,74, este mai tare decât fenolul, cu pKa aproximativ 10.",
+    "worked": "Baza conjugată a acidului acetic, ionul acetat: K_b = 10⁻¹⁴/1,8·10⁻⁵ ≈ 5,6·10⁻¹⁰ (pK_b ≈ 9,26) — o bază foarte slabă. Ionul amoniu: Kₐ = 10⁻¹⁴/1,8·10⁻⁵ ≈ 5,6·10⁻¹⁰.",
+    "exercises": [
+     "Scrie expresia Kₐ pentru HCN și K_b pentru CH₃NH₂.",
+     "Calculează pKₐ pentru un acid cu Kₐ = 10⁻⁴.",
+     "Calculează K_b a ionului F⁻ știind Kₐ(HF) = 6,8·10⁻⁴.",
+     "Ordonează după tărie: acid acetic (pKₐ 4,74), acid formic (3,75), fenol (10).",
+     "De ce pKₐ + pK_b = 14 pentru o pereche conjugată?"
+    ],
+    "test": [
+     "Ce măsoară Kₐ?",
+     "Definiția pKₐ?",
+     "Relația dintre Kₐ și K_b pentru o pereche conjugată?",
+     "Valoarea K_w la 25 °C?",
+     "Acidul mai tare are pKₐ mai mic sau mai mare?"
+    ],
+    "steps": [
+     "Scrie echilibrul de ionizare și expresia constantei.",
+     "Treci de la K la pK prin −lg (și invers prin 10⁻ᵖᴷ).",
+     "Folosește Kₐ·K_b = K_w pentru perechea conjugată.",
+     "Greșeala frecventă: să crezi că un pKₐ mai mare înseamnă un acid mai tare; este invers."
+    ],
+    "answers": [
+     "Tăria unui acid slab",
+     "pKₐ = −lg Kₐ",
+     "Kₐ·K_b = K_w",
+     "10⁻¹⁴",
+     "Mai mic"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l16": {
+   "ro": {
+    "title": "pH-ul soluțiilor de acizi și baze slabe",
+    "theory": "Pentru un acid slab HA de concentrație c (ionizare mică), [H₃O⁺] ≈ √(Kₐ·c); pentru o bază slabă, [HO⁻] ≈ √(K_b·c), apoi pOH = −lg[HO⁻] și pH = 14 − pOH. Gradul de ionizare α = [H₃O⁺]/c crește la diluare. Spre comparație, pentru acizi tari [H₃O⁺] = c, iar pentru baze tari [HO⁻] = c. Astfel, la aceeași concentrație, soluția de acid slab are pH mai mare decât soluția de acid tare.",
+    "sample": "O soluție de amoniac 0,1 M are pH în jur de 11, nu 13 ca o soluție de NaOH 0,1 M.",
+    "worked": "NH₃ 0,1 M (K_b = 1,8·10⁻⁵): [HO⁻] = √(1,8·10⁻⁶) ≈ 1,34·10⁻³ M; pOH ≈ 2,87; pH ≈ 11,13. Acid acetic 0,1 M: [H₃O⁺] ≈ 1,34·10⁻³ M, pH ≈ 2,87, α ≈ 1,34%.",
+    "exercises": [
+     "Calculează pH-ul unei soluții de HCOOH 0,1 M (Kₐ = 1,8·10⁻⁴).",
+     "Calculează pH-ul unei soluții de NH₃ 0,01 M (K_b = 1,8·10⁻⁵).",
+     "Calculează gradul de ionizare al acidului acetic 0,01 M.",
+     "Compară pH-ul soluțiilor 0,1 M de HCl și de CH₃COOH.",
+     "Cum se modifică α când soluția se diluează?"
+    ],
+    "test": [
+     "Formula [H₃O⁺] pentru un acid slab?",
+     "Formula [HO⁻] pentru o bază slabă?",
+     "Relația dintre pH și pOH?",
+     "Ce este gradul de ionizare?",
+     "Cum variază α la diluare?"
+    ],
+    "steps": [
+     "Identifică tipul electrolitului (acid/bază, tare/slab).",
+     "Aplică formula potrivită pentru [H₃O⁺] sau [HO⁻].",
+     "Calculează pH-ul (prin pOH pentru baze) și verifică dacă rezultatul are sens.",
+     "Greșeala frecventă: să calculezi pH = −lg[HO⁻] pentru o bază; aceea este valoarea pOH."
+    ],
+    "answers": [
+     "[H₃O⁺] ≈ √(Kₐ·c)",
+     "[HO⁻] ≈ √(K_b·c)",
+     "pH + pOH = 14",
+     "Fracția din moleculele dizolvate care ionizează",
+     "Crește"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l17": {
+   "ro": {
+    "title": "Hidroliza sărurilor",
+    "theory": "Unele săruri dizolvate în apă schimbă pH-ul, pentru că ionii lor reacționează cu apa (hidroliză). Sarea unui acid tare cu o bază tare (NaCl, KNO₃) nu hidrolizează: pH = 7. Sarea unui acid slab cu o bază tare (CH₃COONa, Na₂CO₃) are soluția bazică: anionul acceptă protoni de la apă (CH₃COO⁻ + H₂O ⇌ CH₃COOH + HO⁻). Sarea unui acid tare cu o bază slabă (NH₄Cl) are soluția acidă: NH₄⁺ + H₂O ⇌ NH₃ + H₃O⁺. Hidroliza explică de ce soda de rufe este bazică și de ce unele îngrășăminte acidifică solul.",
+    "sample": "Soluția de carbonat de sodiu înroșește fenolftaleina pentru că este bazică.",
+    "worked": "Prezicem pH-ul: NaCl → 7; CH₃COONa → > 7; NH₄Cl → < 7; Na₂CO₃ → > 7 (CO₃²⁻ + H₂O ⇌ HCO₃⁻ + HO⁻). Sulfatul de amoniu, folosit ca îngrășământ, acidifică treptat solul, care trebuie apoi amendat cu var.",
+    "exercises": [
+     "Prezice caracterul soluțiilor: KCl, K₂CO₃, NH₄NO₃, CH₃COOK.",
+     "Scrie ecuația de hidroliză a ionului acetat.",
+     "Scrie ecuația de hidroliză a ionului amoniu.",
+     "De ce soluția de NaCl este neutră?",
+     "De ce solurile tratate des cu îngrășăminte amoniacale devin acide?"
+    ],
+    "test": [
+     "Ce este hidroliza unei sări?",
+     "pH-ul soluției de NaCl?",
+     "Caracterul soluției de acetat de sodiu?",
+     "Caracterul soluției de clorură de amoniu?",
+     "Ce sare acidifică solul?"
+    ],
+    "steps": [
+     "Identifică acidul și baza din care provine sarea (tari sau slabi).",
+     "Ionul provenit din partenerul slab hidrolizează; scrie ecuația cu apa.",
+     "Deduce caracterul soluției (acid, bazic, neutru).",
+     "Greșeala frecventă: să consideri că toate sărurile au soluții neutre, ca sarea de bucătărie."
+    ],
+    "answers": [
+     "Reacția ionilor sării cu apa, care modifică pH-ul",
+     "7",
+     "Bazic",
+     "Acid",
+     "Sulfatul de amoniu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l18": {
+   "ro": {
+    "title": "Soluții tampon",
+    "theory": "O soluție tampon își menține pH-ul aproape constant la adăugarea unor cantități mici de acid sau bază ori la diluare. Este formată dintr-un acid slab și baza lui conjugată (CH₃COOH/CH₃COO⁻) sau dintr-o bază slabă și acidul ei conjugat (NH₃/NH₄⁺). Acidul adăugat este consumat de componenta bazică, iar baza adăugată de componenta acidă. pH-ul se calculează din [H₃O⁺] = Kₐ·c_acid/c_sare (pH = pKₐ + lg(c_sare/c_acid)). Sângele are pH 7,35–7,45, menținut de tamponul H₂CO₃/HCO₃⁻.",
+    "sample": "Sângele își păstrează pH-ul în jur de 7,4 datorită sistemelor tampon.",
+    "worked": "Tampon CH₃COOH 0,2 M + CH₃COONa 0,1 M: [H₃O⁺] = 1,8·10⁻⁵·0,2/0,1 = 3,6·10⁻⁵ M ⇒ pH ≈ 4,44. Dacă acidul și sarea au aceeași concentrație, pH = pKₐ = 4,74. Adăugând puțin HCl: CH₃COO⁻ + H₃O⁺ → CH₃COOH + H₂O, pH-ul scade foarte puțin.",
+    "exercises": [
+     "Ce componente are tamponul acetat?",
+     "Calculează pH-ul tamponului CH₃COOH 0,1 M / CH₃COONa 0,1 M.",
+     "Scrie reacțiile prin care tamponul amoniacal neutralizează HCl și NaOH.",
+     "De ce o soluție de HCl nu este tampon?",
+     "Ce sistem tampon menține pH-ul sângelui?"
+    ],
+    "test": [
+     "Ce este o soluție tampon?",
+     "Din ce este format un tampon?",
+     "pH-ul sângelui?",
+     "Cum se calculează [H₃O⁺] într-un tampon acid?",
+     "Când pH = pKₐ într-un tampon?"
+    ],
+    "steps": [
+     "Identifică perechea conjugată din tampon.",
+     "Calculează [H₃O⁺] = Kₐ·c_acid/c_sare și pH-ul.",
+     "Scrie reacțiile care consumă acidul sau baza adăugată.",
+     "Greșeala frecventă: să crezi că un tampon rezistă la orice cantitate de acid; capacitatea lui este limitată de cantitățile componentelor."
+    ],
+    "answers": [
+     "Soluție care își păstrează pH-ul aproape constant",
+     "Un acid slab și baza lui conjugată (sau invers)",
+     "7,35–7,45",
+     "[H₃O⁺] = Kₐ·c_acid/c_sare",
+     "Când concentrațiile acidului și sării sunt egale"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l19": {
+   "ro": {
+    "title": "Indicatori acido-bazici; titrarea acido-bazică",
+    "theory": "Indicatorii acido-bazici sunt acizi sau baze organice slabe care au culori diferite în forma acidă și în cea bazică; își schimbă culoarea într-un interval de pH (interval de viraj): metiloranj 3,1–4,4 (roșu → galben), turnesol 5–8 (roșu → albastru), fenolftaleină 8,2–10 (incolor → roșu-violet). Titrarea determină concentrația unei soluții (analit) prin adăugarea treptată, dintr-o biuretă, a unei soluții de concentrație cunoscută (titrant) până la punctul de echivalență, semnalat de viraj. Curba de titrare (pH în funcție de volum) are un salt brusc în jurul echivalenței; indicatorul se alege astfel încât virajul să fie în acest salt.",
+    "sample": "Fenolftaleina devine roșu-violet în soluțiile bazice și rămâne incoloră în cele acide.",
+    "worked": "La titrarea a 25 mL HCl cu NaOH 0,1 M s-au consumat 20 mL până la viraj: n(NaOH) = 2·10⁻³ mol = n(HCl) ⇒ c(HCl) = 2·10⁻³/0,025 = 0,08 M. Pentru acid slab cu bază tare (CH₃COOH + NaOH), soluția la echivalență este bazică (acetat) ⇒ se alege fenolftaleina.",
+    "exercises": [
+     "Ce culoare are metiloranjul la pH 2 și la pH 6?",
+     "Ce volum de NaOH 0,2 M neutralizează 10 mL H₂SO₄ 0,1 M?",
+     "Ce indicator alegi la titrarea acidului acetic cu NaOH? Justifică.",
+     "Descrie forma curbei de titrare acid tare–bază tare.",
+     "Calculează concentrația unei soluții de NaOH dacă 15 mL sunt neutralizați de 30 mL HCl 0,05 M."
+    ],
+    "test": [
+     "Ce este un indicator acido-bazic?",
+     "Intervalul de viraj al fenolftaleinei?",
+     "Ce este punctul de echivalență?",
+     "Ce instrument se folosește la titrare?",
+     "Culoarea turnesolului în mediu bazic?"
+    ],
+    "steps": [
+     "Scrie reacția de neutralizare și raportul molar.",
+     "Calculează numărul de moli de titrant consumat (n = c·V).",
+     "Deduce concentrația analitului și alege indicatorul potrivit saltului de pH.",
+     "Greșeala frecventă: să uiți raportul molar la acizii poliprotici (H₂SO₄ consumă 2 mol NaOH pe mol)."
+    ],
+    "answers": [
+     "Un acid sau o bază slabă cu culori diferite în formele acidă și bazică",
+     "8,2–10",
+     "Momentul în care acidul și baza au reacționat în raport stoechiometric",
+     "Biureta",
+     "Albastru"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l20": {
+   "ro": {
+    "title": "Potențiale standard de reducere; seria activității metalelor",
+    "theory": "Când un metal este introdus în soluția ionilor săi, apare o diferență de potențial (potențial de electrod). Potențialele se măsoară față de electrodul standard de hidrogen (E° = 0 V). Potențialul standard de reducere E° arată tendința speciei oxidate de a accepta electroni: Zn²⁺/Zn −0,76 V, Fe²⁺/Fe −0,44 V, 2H⁺/H₂ 0,00 V, Cu²⁺/Cu +0,34 V, Ag⁺/Ag +0,80 V. Metalele cu E° negativ (mai active) deplasează hidrogenul din acizi și reduc ionii metalelor cu E° mai mare: Zn reduce Cu²⁺, dar Cu nu reduce Zn²⁺.",
+    "sample": "O lamă de zinc introdusă în soluție de sulfat de cupru se acoperă cu cupru roșu.",
+    "worked": "Zn + CuSO₄ → ZnSO₄ + Cu (E°Cu > E°Zn). Cu + 2 AgNO₃ → Cu(NO₃)₂ + 2 Ag: soluția devine albastră, iar pe cupru se depune argint. Cuprul nu reacționează cu HCl (E° > 0), fierul da: Fe + 2 HCl → FeCl₂ + H₂.",
+    "exercises": [
+     "Reacționează fierul cu CuSO₄? Dar argintul cu HCl? Justifică.",
+     "Ordonează după caracterul reducător: Zn, Cu, Fe, Ag.",
+     "Scrie reacția cuprului cu azotatul de argint.",
+     "Ce masă de cupru se depune când 6,5 g zinc reacționează complet cu CuSO₄?",
+     "De ce aurul și platina se găsesc în natură în stare nativă?"
+    ],
+    "test": [
+     "Față de ce electrod se măsoară potențialele?",
+     "E° al electrodului de hidrogen?",
+     "Ce arată un E° foarte negativ?",
+     "E° pentru Cu²⁺/Cu?",
+     "Deplasează cuprul hidrogenul din HCl?"
+    ],
+    "steps": [
+     "Caută potențialele standard ale cuplurilor implicate.",
+     "Specia cu E° mai mare se reduce; metalul cu E° mai mic se oxidează.",
+     "Scrie reacția dacă este posibilă și calculează.",
+     "Greșeala frecventă: să crezi că orice metal reacționează cu orice acid; metalele cu E° pozitiv nu deplasează hidrogenul."
+    ],
+    "answers": [
+     "Electrodul standard de hidrogen",
+     "0 V",
+     "Un metal foarte activ, reducător puternic",
+     "+0,34 V",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l21": {
+   "ro": {
+    "title": "Pile galvanice: pila Daniell; tensiunea electromotoare",
+    "theory": "O pilă galvanică transformă energia chimică a unei reacții redox spontane în energie electrică. Pila Daniell: un electrod de zinc în soluție de ZnSO₄ (anod, polul negativ, unde are loc oxidarea Zn → Zn²⁺ + 2e⁻) și un electrod de cupru în CuSO₄ (catod, polul pozitiv, reducerea Cu²⁺ + 2e⁻ → Cu), legate printr-o punte de sare. Electronii circulă prin circuitul exterior de la anod la catod. Notația convențională: (−) Zn | Zn²⁺ ‖ Cu²⁺ | Cu (+). Tensiunea electromotoare standard: E° = E°catod − E°anod = 0,34 − (−0,76) = 1,10 V.",
+    "sample": "Pila Daniell produce o tensiune de aproximativ 1,1 volți.",
+    "worked": "Pila Zn–Ag: anod Zn (−0,76 V), catod Ag (+0,80 V) ⇒ E° = 0,80 − (−0,76) = 1,56 V. Reacția globală: Zn + 2 Ag⁺ → Zn²⁺ + 2 Ag. Puntea de sare (KNO₃) închide circuitul și păstrează neutralitatea electrică a soluțiilor.",
+    "exercises": [
+     "Scrie reacțiile la electrozi și reacția globală pentru pila Daniell.",
+     "Calculează E° pentru pila Fe–Cu.",
+     "Scrie notația convențională a pilei Zn–Ag.",
+     "Care este rolul punții de sare?",
+     "În ce sens circulă electronii în circuitul exterior?"
+    ],
+    "test": [
+     "Ce transformare de energie are loc într-o pilă?",
+     "Unde are loc oxidarea?",
+     "Polul pozitiv al pilei Daniell?",
+     "Formula tensiunii electromotoare?",
+     "Tensiunea pilei Daniell?"
+    ],
+    "steps": [
+     "Identifică electrodul cu E° mai mic (anod, oxidare) și pe cel cu E° mai mare (catod, reducere).",
+     "Scrie semireacțiile și reacția globală, egalând electronii.",
+     "Calculează E° = E°catod − E°anod și scrie notația convențională.",
+     "Greșeala frecventă: să înmulțești potențialul standard cu coeficientul semireacției; E° nu depinde de cantitate."
+    ],
+    "answers": [
+     "Energie chimică în energie electrică",
+     "La anod",
+     "Electrodul de cupru (catodul)",
+     "E° = E°catod − E°anod",
+     "≈ 1,10 V"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l22": {
+   "ro": {
+    "title": "Surse chimice de curent: acumulatorul cu plumb, bateria litiu-ion, pila de combustie",
+    "theory": "Pilele primare (pila alcalină zinc–dioxid de mangan) nu se reîncarcă. Acumulatorii (pile secundare) se reîncarcă prin trecerea curentului în sens invers. Acumulatorul cu plumb: electrozi de Pb și PbO₂ în H₂SO₄; la descărcare ambii se transformă în PbSO₄, iar concentrația acidului scade; un element dă ≈ 2 V, bateria auto are 6 elemente (12 V). Bateria litiu-ion (telefoane, laptopuri, mașini electrice): ionii Li⁺ migrează între electrozi (grafit și oxid metalic) prin electrolit; are energie mare pe masă. Pila de combustie hidrogen–oxigen produce curent și apă (≈ 1,23 V).",
+    "sample": "Bateria telefonului este un acumulator litiu-ion, care se poate reîncărca de sute de ori.",
+    "worked": "Acumulatorul cu plumb, la descărcare: Pb + PbO₂ + 2 H₂SO₄ → 2 PbSO₄ + 2 H₂O; densitatea electrolitului scade, de aceea se măsoară cu densimetrul starea de încărcare. Pila de combustie: 2 H₂ + O₂ → 2 H₂O, energia chimică devenind direct energie electrică.",
+    "exercises": [
+     "Ce diferență este între o pilă primară și un acumulator?",
+     "Scrie reacția globală de descărcare a acumulatorului cu plumb.",
+     "De ce bateria auto are 6 elemente?",
+     "Cum funcționează pe scurt bateria litiu-ion?",
+     "Ce avantaje și ce dificultăți are pila de combustie cu hidrogen?"
+    ],
+    "test": [
+     "Ce este un acumulator?",
+     "Tensiunea unui element al acumulatorului cu plumb?",
+     "Electrolitul acumulatorului cu plumb?",
+     "Ce ioni migrează în bateria litiu-ion?",
+     "Produsul pilei de combustie hidrogen–oxigen?"
+    ],
+    "steps": [
+     "Identifică electrozii, electrolitul și reacția globală.",
+     "Precizează procesele la descărcare și la încărcare.",
+     "Discută utilizarea, reciclarea și siguranța (bateriile uzate nu se aruncă la gunoi).",
+     "Greșeala frecventă: să crezi că la descărcarea acumulatorului cu plumb concentrația acidului crește; acidul se consumă."
+    ],
+    "answers": [
+     "O pilă care se poate reîncărca",
+     "≈ 2 V",
+     "Soluția de acid sulfuric",
+     "Ionii Li⁺",
+     "Apa"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l23": {
+   "ro": {
+    "title": "Coroziunea metalelor și protecția anticorosivă",
+    "theory": "Coroziunea este distrugerea metalelor prin reacții chimice sau electrochimice cu mediul. Ruginirea fierului necesită oxigen și apă și este accelerată de săruri (drumuri sărate iarna) și de contactul cu un metal mai puțin activ: fierul se oxidează (Fe → Fe²⁺ + 2e⁻), iar oxigenul se reduce; se formează rugina, oxid de fier hidratat. Protecție: vopsire, lăcuire, ungere; acoperiri metalice — zincarea (fierul zincat este protejat chiar dacă stratul este zgâriat, pentru că zincul, mai activ, se oxidează primul) și cositorirea (staniul protejează doar cât stratul este intact); protecția catodică cu anod de sacrificiu (Mg, Zn) pentru conducte și nave; aliaje inoxidabile (cu Cr, Ni).",
+    "sample": "Tablele zincate ruginesc greu chiar dacă sunt zgâriate.",
+    "worked": "O conductă de oțel îngropată este legată de blocuri de magneziu (E° = −2,37 V): magneziul se oxidează în locul fierului (E° = −0,44 V) și se înlocuiește periodic. O cutie de conserve cositorită zgâriată ruginește mai repede: fierul (mai activ decât staniul) devine anod.",
+    "exercises": [
+     "Ce condiții sunt necesare pentru ruginirea fierului?",
+     "De ce sarea de pe drumuri accelerează coroziunea mașinilor?",
+     "Compară protecția prin zincare și prin cositorire în caz de zgâriere.",
+     "Ce este un anod de sacrificiu?",
+     "Propune trei metode de protecție pentru o poartă metalică."
+    ],
+    "test": [
+     "Ce este coroziunea?",
+     "Ce condiții necesită ruginirea?",
+     "Ce metal se folosește la zincare?",
+     "Ce este protecția catodică?",
+     "Ce metale fac oțelul inoxidabil?"
+    ],
+    "steps": [
+     "Identifică metalul, mediul și eventualele metale în contact.",
+     "Compară potențialele: metalul mai activ se corodează primul.",
+     "Alege metoda de protecție potrivită și justific-o.",
+     "Greșeala frecventă: să crezi că orice strat metalic protejează la fel; staniul zgâriat accelerează ruginirea fierului."
+    ],
+    "answers": [
+     "Distrugerea metalelor prin reacții cu mediul",
+     "Oxigen și apă",
+     "Zincul",
+     "Protejarea unui metal legându-l de un metal mai activ care se oxidează în locul lui",
+     "Cromul și nichelul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l24": {
+   "ro": {
+    "title": "Electroliza soluțiilor apoase; aplicații",
+    "theory": "Electroliza este procesul redox nespontan produs de curentul electric continuu: la catod (−) are loc reducerea, la anod (+) oxidarea. În soluții apoase, la catod se reduc ionii metalelor puțin active (Cu²⁺, Ag⁺) sau, pentru metalele active (Na⁺, K⁺), apa, cu degajare de H₂. La anod se oxidează ionii Cl⁻ (Cl₂) sau apa (O₂) pentru anioni oxigenați (SO₄²⁻, NO₃⁻). Electroliza soluției de NaCl produce Cl₂, H₂ și NaOH (industria cloro-sodică). Aplicații: rafinarea cuprului, galvanizarea (nichelare, cromare, argintare), obținerea aluminiului.",
+    "sample": "La electroliza saramurii se obțin trei produse importante: clor, hidrogen și hidroxid de sodiu.",
+    "worked": "Electroliza soluției de CuSO₄ cu electrozi inerți: catod Cu²⁺ + 2e⁻ → Cu; anod 2 H₂O → O₂ + 4 H⁺ + 4e⁻; soluția devine acidă. La rafinarea cuprului, anodul de cupru impur se dizolvă, iar pe catod se depune cupru pur (99,99%).",
+    "exercises": [
+     "Scrie procesele la electrozi la electroliza soluției de NaCl.",
+     "Ce produse se obțin la electroliza soluției de CuSO₄ cu electrozi inerți?",
+     "De ce la electroliza soluției de NaCl nu se depune sodiu la catod?",
+     "Explică rafinarea electrolitică a cuprului.",
+     "Ce este galvanizarea? Dă un exemplu."
+    ],
+    "test": [
+     "Ce proces are loc la catod?",
+     "Ce proces are loc la anod?",
+     "Gazul degajat la catod la electroliza soluției de NaCl?",
+     "Ce se depune la catod la electroliza soluției de CuSO₄?",
+     "Ce este industria cloro-sodică?"
+    ],
+    "steps": [
+     "Listează ionii din soluție (inclusiv apa).",
+     "Alege ce se reduce la catod și ce se oxidează la anod, după activitatea metalelor și natura anionilor.",
+     "Scrie semireacțiile și reacția globală; precizează aplicația.",
+     "Greșeala frecventă: să scrii depunerea sodiului la catod în soluție apoasă; se reduce apa, cu degajare de hidrogen."
+    ],
+    "answers": [
+     "Reducerea",
+     "Oxidarea",
+     "Hidrogenul",
+     "Cuprul",
+     "Producerea clorului, hidrogenului și NaOH prin electroliza saramurii"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l25": {
+   "ro": {
+    "title": "Legile electrolizei (legile lui Faraday)",
+    "theory": "Masa de substanță depusă sau eliberată la un electrod este proporțională cu sarcina electrică trecută: m = A·I·t/(z·F), unde A este masa atomică (molară), I intensitatea (A), t timpul (s), z numărul de electroni schimbați pe atom, iar F = 96 500 C/mol constanta lui Faraday (sarcina unui mol de electroni). Astfel, aceeași sarcină depune cantități echivalente din substanțe diferite. Legea permite calculul timpului necesar galvanizării sau al grosimii stratului depus.",
+    "sample": "O sarcină de 96 500 de coulombi depune un mol de argint.",
+    "worked": "Electroliza CuSO₄ cu I = 2 A timp de 965 s: Q = 1930 C ⇒ n(e⁻) = 1930/96 500 = 0,02 mol ⇒ n(Cu) = 0,01 mol (z = 2) ⇒ m = 0,635 g. Pentru a depune 1,08 g argint (0,01 mol, z = 1) cu 0,5 A: t = 0,01·96 500/0,5 = 1930 s ≈ 32 min.",
+    "exercises": [
+     "Ce masă de argint se depune cu 1 A în 1 oră?",
+     "Cât timp trebuie pentru a depune 3,175 g cupru cu 5 A?",
+     "Ce volum de H₂ (c.n.) se degajă la catod cu 2 A în 9650 s?",
+     "Ce intensitate depune 0,27 g aluminiu (z = 3) în 965 s?",
+     "De ce aceeași sarcină depune mase diferite de Cu și Ag?"
+    ],
+    "test": [
+     "Formula legii lui Faraday?",
+     "Valoarea constantei lui Faraday?",
+     "Ce reprezintă z?",
+     "Masa de cupru depusă de 0,02 mol electroni?",
+     "Ce reprezintă F?"
+    ],
+    "steps": [
+     "Calculează sarcina Q = I·t (în coulombi, cu timpul în secunde).",
+     "Calculează moli de electroni Q/F și împarte la z.",
+     "Înmulțește cu masa molară sau volumul molar.",
+     "Greșeala frecventă: să folosești timpul în minute sau ore în loc de secunde."
+    ],
+    "answers": [
+     "m = A·I·t/(z·F)",
+     "96 500 C/mol",
+     "Numărul de electroni schimbați pe atom (ion)",
+     "0,635 g",
+     "Sarcina electrică a unui mol de electroni"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l26": {
+   "ro": {
+    "title": "Combinații complexe: structură, nomenclatură",
+    "theory": "O combinație complexă conține un ion metalic central (generator de complex, de obicei un metal tranzițional: Cu²⁺, Ag⁺, Fe²⁺, Fe³⁺, Zn²⁺, Al³⁺) legat prin legături coordinative de liganzi, molecule sau ioni cu perechi de electroni neparticipanți (NH₃, H₂O, CN⁻, HO⁻, Cl⁻). Numărul de liganzi legați direct este numărul de coordinare (2, 4, 6). Nomenclatura: se numesc liganzii (amino pentru NH₃, acva, ciano, hidroxo, cloro) cu prefixe numerice, apoi metalul cu starea de oxidare; în anionii complecși, metalul primește sufixul -at.",
+    "sample": "Reactivul Tollens conține ionul complex diaminoargint(I).",
+    "worked": "[Cu(NH₃)₄]SO₄ — sulfat de tetraaminocupru(II), număr de coordinare 4. [Ag(NH₃)₂]OH — hidroxid de diaminoargint(I). Na[Al(OH)₄] — tetrahidroxoaluminat de sodiu. K₄[Fe(CN)₆] — hexacianoferat(II) de potasiu: numărul de coordinare 6, sarcina ionului complex 2 + 6·(−1) = −4.",
+    "exercises": [
+     "Identifică ionul central, liganzii și numărul de coordinare în [Zn(NH₃)₄]Cl₂.",
+     "Denumește: [Ag(NH₃)₂]Cl și Na₂[Zn(OH)₄].",
+     "Calculează sarcina ionului complex [Fe(CN)₆] cu Fe³⁺.",
+     "Scrie formula sulfatului de tetraaminocupru(II).",
+     "De ce NH₃ poate fi ligand, iar CH₄ nu?"
+    ],
+    "test": [
+     "Ce este ionul central?",
+     "Ce sunt liganzii?",
+     "Ce este numărul de coordinare?",
+     "Ce tip de legătură leagă liganzii de ion?",
+     "Sufixul metalului în anionii complecși?"
+    ],
+    "steps": [
+     "Identifică ionul central și starea lui de oxidare.",
+     "Numără liganzii (numărul de coordinare) și calculează sarcina complexului.",
+     "Denumește: liganzi cu prefixe, metal cu starea de oxidare (-at pentru anioni).",
+     "Greșeala frecventă: să calculezi sarcina complexului ignorând sarcina liganzilor anionici (CN⁻, HO⁻, Cl⁻)."
+    ],
+    "answers": [
+     "Ionul metalic de care se leagă liganzii",
+     "Molecule sau ioni cu perechi de electroni neparticipanți",
+     "Numărul de liganzi legați direct de ionul central",
+     "Legătura coordinativă",
+     "-at"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l27": {
+   "ro": {
+    "title": "Geometria și stabilitatea combinațiilor complexe",
+    "theory": "Geometria complexului depinde de numărul de coordinare: 2 — liniară ([Ag(NH₃)₂]⁺); 4 — tetraedrică ([Zn(NH₃)₄]²⁺, [Zn(OH)₄]²⁻) sau plan-pătrată ([Cu(NH₃)₄]²⁺); 6 — octaedrică ([Fe(CN)₆]⁴⁻, [Fe(H₂O)₆]³⁺). Complecșii au culori caracteristice (cuprul hidratat albastru deschis, tetraaminocuprul albastru intens). Stabilitatea se exprimă prin constanta de stabilitate: cu cât este mai mare, cu atât complexul se descompune mai greu. Formarea complecșilor poate dizolva precipitate: AgCl se dizolvă în amoniac, Cu(OH)₂ în amoniac (reactivul Schweizer), Al(OH)₃ și Zn(OH)₂ în NaOH în exces (caracter amfoter).",
+    "sample": "Precipitatul alb de clorură de argint se dizolvă în soluție de amoniac.",
+    "worked": "AgCl + 2 NH₃ → [Ag(NH₃)₂]Cl (dizolvare prin complexare). Cu²⁺ + 2 HO⁻ → Cu(OH)₂↓ (albastru); Cu(OH)₂ + 4 NH₃ → [Cu(NH₃)₄](OH)₂ (soluție albastru intens). Zn(OH)₂ + 2 NaOH → Na₂[Zn(OH)₄].",
+    "exercises": [
+     "Ce geometrie are [Fe(CN)₆]⁴⁻? Dar [Ag(NH₃)₂]⁺?",
+     "Scrie reacția de dizolvare a AgCl în amoniac.",
+     "Scrie reacția de dizolvare a Al(OH)₃ în NaOH în exces.",
+     "Ce culoare are soluția de tetraaminocupru(II)?",
+     "Ce indică o constantă de stabilitate mare?"
+    ],
+    "test": [
+     "Geometria pentru numărul de coordinare 2?",
+     "Geometria pentru numărul de coordinare 6?",
+     "Geometria ionului [Cu(NH₃)₄]²⁺?",
+     "În ce se dizolvă AgCl?",
+     "Ce este reactivul Schweizer?"
+    ],
+    "steps": [
+     "Determină numărul de coordinare.",
+     "Asociază geometria (2 – liniară, 4 – tetraedrică sau plan-pătrată, 6 – octaedrică).",
+     "Scrie reacțiile de formare a complexului și interpretează stabilitatea.",
+     "Greșeala frecventă: să consideri că numărul de coordinare 4 înseamnă mereu geometrie tetraedrică; [Cu(NH₃)₄]²⁺ este plan-pătrat."
+    ],
+    "answers": [
+     "Liniară",
+     "Octaedrică",
+     "Plan-pătrată",
+     "În soluție de amoniac",
+     "Soluția de [Cu(NH₃)₄](OH)₂, care dizolvă celuloza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l28": {
+   "ro": {
+    "title": "Aplicații ale combinațiilor complexe",
+    "theory": "Combinațiile complexe au roluri esențiale: hemoglobina conține Fe²⁺ coordinat (transportul O₂; CO formează un complex mai stabil și blochează transportul), clorofila conține Mg²⁺ (fotosinteza), vitamina B₁₂ conține cobalt. În analiză: reactivul Tollens, reactivul Fehling, reactivul Schweizer, identificarea Fe³⁺ cu K₄[Fe(CN)₆] (albastru de Berlin) sau cu tiocianat (roșu). Agenți de complexare precum EDTA leagă ionii Ca²⁺ și Mg²⁺ (dedurizarea apei, determinarea durității) și ionii metalelor grele (tratamentul intoxicațiilor). Cisplatina, un complex al platinei, este un medicament anticancerigen.",
+    "sample": "Monoxidul de carbon este periculos pentru că se leagă de hemoglobină mai puternic decât oxigenul.",
+    "worked": "Fe³⁺ + 3 SCN⁻ → Fe(SCN)₃ (colorație roșie intensă) — permite detectarea unor urme de fier în apă. Un mol de EDTA leagă un mol de ioni Ca²⁺: pentru 0,002 mol Ca²⁺ dintr-un litru de apă dură trebuie 0,002 mol EDTA.",
+    "exercises": [
+     "Ce ion metalic conține hemoglobina? Dar clorofila?",
+     "De ce intoxicația cu CO este gravă?",
+     "Cum identifici ionul Fe³⁺ în soluție?",
+     "La ce se folosește EDTA?",
+     "Dă exemple de reactivi de laborator care conțin ioni complecși."
+    ],
+    "test": [
+     "Ionul metalic din hemoglobină?",
+     "Ionul metalic din clorofilă?",
+     "Culoarea dată de Fe³⁺ cu tiocianat?",
+     "Ce metal conține vitamina B₁₂?",
+     "Ce este cisplatina?"
+    ],
+    "steps": [
+     "Identifică ionul central și liganzii din exemplul dat.",
+     "Explică funcția (biologică, analitică, industrială) prin formarea sau stabilitatea complexului.",
+     "Scrie reacția de identificare sau calculează cantitățile necesare.",
+     "Greșeala frecventă: să crezi că legarea CO de hemoglobină este ușor reversibilă ca a oxigenului; complexul cu CO este mult mai stabil."
+    ],
+    "answers": [
+     "Fe²⁺",
+     "Mg²⁺",
+     "Roșie",
+     "Cobaltul",
+     "Un complex al platinei folosit ca medicament anticancerigen"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l29": {
+   "ro": {
+    "title": "Compuși greu solubili: produsul de solubilitate Ks",
+    "theory": "Pentru un compus greu solubil, în soluția saturată se stabilește echilibrul AgCl(s) ⇌ Ag⁺ + Cl⁻, cu produsul de solubilitate Ks = [Ag⁺][Cl⁻] (constant la o temperatură dată). Solubilitatea molară s se calculează din Ks: pentru AB, Ks = s²; pentru AB₂, Ks = 4s³. Un precipitat se formează când produsul ionic depășește Ks. Efectul ionului comun: adăugarea unui ion comun scade solubilitatea. Aplicații: sulfatul de bariu (Ks ≈ 1,1·10⁻¹⁰), foarte greu solubil, se folosește ca substanță de contrast la radiografii, deși ionii Ba²⁺ liberi sunt toxici.",
+    "sample": "Sulfatul de bariu poate fi înghițit la radiografii pentru că este practic insolubil.",
+    "worked": "AgCl, Ks = 1,8·10⁻¹⁰: s = √(1,8·10⁻¹⁰) ≈ 1,34·10⁻⁵ mol/L, adică ≈ 1,9 mg/L. Amestecăm volume egale de AgNO₃ 2·10⁻⁴ M și NaCl 2·10⁻⁴ M: după diluare, [Ag⁺][Cl⁻] = (10⁻⁴)² = 10⁻⁸ > Ks ⇒ precipită AgCl.",
+    "exercises": [
+     "Scrie expresia Ks pentru BaSO₄ și pentru CaF₂.",
+     "Calculează solubilitatea molară a BaSO₄ (Ks = 1,1·10⁻¹⁰).",
+     "Precipită AgCl dacă [Ag⁺] = [Cl⁻] = 10⁻⁶ M?",
+     "Explică efectul ionului comun pentru AgCl în soluție de NaCl.",
+     "De ce BaSO₄ nu este toxic, deși Ba²⁺ este toxic?"
+    ],
+    "test": [
+     "Ce este produsul de solubilitate?",
+     "Relația dintre Ks și s pentru AB?",
+     "Condiția de precipitare?",
+     "Ce este efectul ionului comun?",
+     "Ks al AgCl?"
+    ],
+    "steps": [
+     "Scrie echilibrul de dizolvare și expresia Ks (cu exponenții coeficienților).",
+     "Exprimă concentrațiile ionilor prin s și rezolvă.",
+     "Compară produsul ionic cu Ks pentru a prezice precipitarea.",
+     "Greșeala frecventă: să uiți exponenții: pentru CaF₂, Ks = [Ca²⁺][F⁻]², nu [Ca²⁺][F⁻]."
+    ],
+    "answers": [
+     "Produsul concentrațiilor ionilor în soluția saturată a unui compus greu solubil",
+     "Ks = s²",
+     "Produsul ionic depășește Ks",
+     "Scăderea solubilității prin adăugarea unui ion comun",
+     "1,8·10⁻¹⁰"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l30": {
+   "ro": {
+    "title": "Identificarea cationilor și anionilor",
+    "theory": "Analiza calitativă identifică ionii prin reacții cu efect vizibil. Anioni: Cl⁻ cu AgNO₃ — precipitat alb de AgCl, solubil în amoniac; SO₄²⁻ cu BaCl₂ — precipitat alb de BaSO₄, insolubil în acizi; CO₃²⁻ cu HCl — efervescență de CO₂ care tulbură apa de var. Cationi: Fe³⁺ cu KSCN — roșu, cu K₄[Fe(CN)₆] — albastru de Berlin, cu NaOH — precipitat brun-roșcat; Cu²⁺ cu NaOH — precipitat albastru, cu NH₃ în exces — albastru intens; NH₄⁺ cu NaOH la cald — NH₃ care albăstrește turnesolul umed. Testul flăcării: Na galben, K violet, Ca roșu-cărămiziu, Cu verde, Li și Sr roșu.",
+    "sample": "Sarea de bucătărie colorează flacăra aragazului în galben, datorită sodiului.",
+    "worked": "O soluție necunoscută dă precipitat albastru cu NaOH, care se dizolvă în amoniac formând o soluție albastru intens ⇒ conține Cu²⁺. Cu BaCl₂ dă precipitat alb insolubil în HCl ⇒ conține SO₄²⁻. Concluzie: CuSO₄.",
+    "exercises": [
+     "Cum identifici ionul clorură?",
+     "Cum deosebești Na₂SO₄ de Na₂CO₃?",
+     "Ce reactiv folosești pentru Fe³⁺ și ce observi?",
+     "Ce culoare dă potasiul în flacără?",
+     "Propune o schemă pentru a identifica NH₄Cl."
+    ],
+    "test": [
+     "Reactivul pentru ionul clorură?",
+     "Reactivul pentru ionul sulfat?",
+     "Culoarea flăcării sodiului?",
+     "Ce gaz degajă carbonații cu HCl?",
+     "Cum se identifică ionul amoniu?"
+    ],
+    "steps": [
+     "Formulează ipoteze despre ionii posibili.",
+     "Alege reactivi care dau efecte diferite și caracteristice.",
+     "Scrie observațiile, concluziile și ecuațiile ionice.",
+     "Greșeala frecventă: să tragi concluzia dintr-un singur test care poate da același rezultat cu mai mulți ioni (de exemplu precipitat alb), fără o confirmare."
+    ],
+    "answers": [
+     "Azotatul de argint",
+     "Clorura de bariu",
+     "Galbenă",
+     "Dioxidul de carbon",
+     "Cu NaOH la cald, degajă NH₃ care albăstrește turnesolul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-12-l31": {
+   "ro": {
+    "title": "Analiza cantitativă colorimetrică: legea Lambert–Beer",
+    "theory": "Soluțiile colorate absorb o parte din lumina care le traversează. Absorbanța A = lg(I₀/I) este proporțională cu concentrația și cu grosimea stratului: A = ε·l·c (legea Lambert–Beer), unde ε este coeficientul de absorbție molar, caracteristic substanței și lungimii de undă. Măsurând absorbanța cu un spectrofotometru (colorimetru) și folosind o curbă de calibrare (absorbanțe ale unor soluții etalon), se determină concentrația unei probe necunoscute. Metoda se folosește în analize medicale (glicemie, hemoglobină), controlul apei (nitrați, fier) și în industria alimentară.",
+    "sample": "Cu cât o soluție de sulfat de cupru este mai concentrată, cu atât este mai intens colorată și absoarbe mai multă lumină.",
+    "worked": "O soluție etalon 2·10⁻⁴ M are A = 0,40; proba necunoscută, în aceeași cuvă, are A = 0,30 ⇒ c = 2·10⁻⁴·0,30/0,40 = 1,5·10⁻⁴ M. Dacă 10% din lumină este transmisă (I = 0,1·I₀), A = lg 10 = 1.",
+    "exercises": [
+     "Scrie legea Lambert–Beer și explică termenii.",
+     "Calculează concentrația unei probe cu A = 0,60, știind că etalonul 1·10⁻⁴ M are A = 0,24.",
+     "Ce absorbanță are o soluție care transmite 1% din lumină?",
+     "Ce este curba de calibrare și cum se folosește?",
+     "Dă două aplicații ale analizei colorimetrice."
+    ],
+    "test": [
+     "Ce este absorbanța?",
+     "Enunțul legii Lambert–Beer?",
+     "Ce instrument măsoară absorbanța?",
+     "De ce depinde ε?",
+     "Ce este o soluție etalon?"
+    ],
+    "steps": [
+     "Măsoară absorbanța unor soluții etalon și trasează curba A = f(c).",
+     "Măsoară absorbanța probei în aceleași condiții (aceeași cuvă, aceeași lungime de undă).",
+     "Citește concentrația din curbă sau calculează-o prin proporționalitate.",
+     "Greșeala frecventă: să compari absorbanțe măsurate în cuve de grosimi diferite sau la lungimi de undă diferite."
+    ],
+    "answers": [
+     "A = lg(I₀/I)",
+     "A = ε·l·c",
+     "Spectrofotometrul (colorimetrul)",
+     "De substanță și de lungimea de undă",
+     "O soluție de concentrație cunoscută"
+    ]
+   }
+  }
+ }
+}

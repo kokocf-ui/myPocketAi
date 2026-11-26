@@ -1,0 +1,1321 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "9c6909599767f5775c9db5e1b3e4e11d62893d59be15f63e6a6164f2ceda943b",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2025/programe_scolare_cons_pub/Matematica_TC+CS_Real_Matematica_informatica_IX_XII.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Matematică TC+CS, filiera teoretică, profilul real, specializarea matematică-informatică, clasele a IX-a – a XII-a (programe OMEC 2025, conform planurilor-cadru OMEC nr. 4350/2025, aplicare din 2026–2027) — clasa a IX-a: logică matematică și inducție, șiruri și progresii, funcții (proprietăți generale, funcția de gradul al doilea, funcția putere și radical), funcții și ecuații trigonometrice, aplicații ale trigonometriei în geometrie, Menelaus și Ceva; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a IX-a (matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Elemente de logică matematică",
+   "keys": [
+    "eu-year-ro-medium-9-l01",
+    "eu-year-ro-medium-9-l02",
+    "eu-year-ro-medium-9-l03"
+   ]
+  },
+  {
+   "title": "Șiruri și progresii",
+   "keys": [
+    "eu-year-ro-medium-9-l04",
+    "eu-year-ro-medium-9-l05",
+    "eu-year-ro-medium-9-l06",
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08"
+   ]
+  },
+  {
+   "title": "Funcții: proprietăți generale",
+   "keys": [
+    "eu-year-ro-medium-9-l09",
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11",
+    "eu-year-ro-medium-9-l12",
+    "eu-year-ro-medium-9-l13",
+    "eu-year-ro-medium-9-l14"
+   ]
+  },
+  {
+   "title": "Funcția de gradul al doilea",
+   "keys": [
+    "eu-year-ro-medium-9-l15",
+    "eu-year-ro-medium-9-l16",
+    "eu-year-ro-medium-9-l17",
+    "eu-year-ro-medium-9-l18",
+    "eu-year-ro-medium-9-l19"
+   ]
+  },
+  {
+   "title": "Funcția putere cu exponent întreg; funcția radical",
+   "keys": [
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21",
+    "eu-year-ro-medium-9-l22"
+   ]
+  },
+  {
+   "title": "Funcții trigonometrice; ecuații trigonometrice",
+   "keys": [
+    "eu-year-ro-medium-9-l23",
+    "eu-year-ro-medium-9-l24",
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26",
+    "eu-year-ro-medium-9-l27",
+    "eu-year-ro-medium-9-l28",
+    "eu-year-ro-medium-9-l29",
+    "eu-year-ro-medium-9-l30"
+   ]
+  },
+  {
+   "title": "Aplicații ale trigonometriei în geometrie; relații metrice",
+   "keys": [
+    "eu-year-ro-medium-9-l31",
+    "eu-year-ro-medium-9-l32",
+    "eu-year-ro-medium-9-l33",
+    "eu-year-ro-medium-9-l34",
+    "eu-year-ro-medium-9-l35"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Propoziții; operații logice: negația, conjuncția, disjuncția, implicația, echivalența",
+    "theory": "O propoziție este un enunț despre care putem spune fără echivoc dacă este adevărat (valoarea 1) sau fals (valoarea 0). Negația non p are valoarea opusă. Conjuncția p și q este adevărată doar când ambele sunt adevărate; disjuncția p sau q este falsă doar când ambele sunt false. Implicația p ⇒ q este falsă doar când p este adevărată și q falsă. Echivalența p ⇔ q este adevărată când p și q au aceeași valoare. Le studiem cu tabele de adevăr. Legile lui De Morgan: non(p și q) = non p sau non q; non(p sau q) = non p și non q.",
+    "sample": "Propoziția „2 < 3 și 5 este par” este falsă, pentru că a doua parte este falsă.",
+    "worked": "Verificăm că p ⇒ q are aceeași valoare cu non p sau q. Tabel: p = 1, q = 1 → 1 și 1; p = 1, q = 0 → 0 și 0; p = 0, q = 1 → 1 și 1; p = 0, q = 0 → 1 și 1. Coloanele coincid, deci propozițiile sunt echivalente. Așa se explică de ce o implicație cu ipoteză falsă este adevărată.",
+    "exercises": [
+     "Stabilește valoarea de adevăr: „√2 este rațional sau 7 este prim”.",
+     "Scrie tabelul de adevăr pentru non(p și q) și pentru non p sau non q; compară.",
+     "Stabilește valoarea: „Dacă 3 > 5, atunci 2 = 1”.",
+     "Neagă propoziția „Ana are 15 ani și învață la liceu”.",
+     "Arată că (p ⇒ q) și (q ⇒ p) are aceeași valoare cu p ⇔ q."
+    ],
+    "test": [
+     "Când este falsă o conjuncție p și q?",
+     "Când este falsă o disjuncție p sau q?",
+     "Când este falsă implicația p ⇒ q?",
+     "Ce valoare are non p dacă p este adevărată?",
+     "Cum se neagă „p sau q”?"
+    ],
+    "steps": [
+     "Stabilește valoarea fiecărei propoziții simple.",
+     "Aplică tabelul operației (negație, conjuncție, disjuncție, implicație, echivalență).",
+     "Pentru propoziții compuse, lucrează din interior spre exterior, ca la paranteze.",
+     "Greșeala frecventă: să crezi că o implicație cu ipoteza falsă este falsă; ea este întotdeauna adevărată."
+    ],
+    "answers": [
+     "Când cel puțin una este falsă",
+     "Când ambele sunt false",
+     "Când p este adevărată și q falsă",
+     "Falsă",
+     "non p și non q"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Predicate și cuantificatori; reguli de negare; reducerea la absurd",
+    "theory": "Un predicat p(x) este un enunț care depinde de o variabilă și devine propoziție când înlocuim x. Cuantificatorul universal ∀ („oricare ar fi”) și cel existențial ∃ („există cel puțin un”) transformă predicatul în propoziție. Reguli de negare: non(∀x, p(x)) = ∃x, non p(x); non(∃x, p(x)) = ∀x, non p(x). Reducerea la absurd: presupunem că concluzia este falsă și ajungem la o contradicție.",
+    "sample": "Propoziția „∀x ∈ ℝ, x² ≥ 0” este adevărată, iar „∃x ∈ ℝ, x² < 0” este falsă.",
+    "worked": "Demonstrăm prin reducere la absurd că √2 este irațional. Presupunem √2 = a/b, fracție ireductibilă. Atunci a² = 2b², deci a este par, a = 2k; rezultă 4k² = 2b², b² = 2k², deci și b este par. Contradicție cu ireductibilitatea, deci √2 ∉ ℚ.",
+    "exercises": [
+     "Stabilește valoarea: „∃n ∈ ℕ, n² = 10”.",
+     "Neagă: „∀x ∈ ℝ, x + 1 > x”.",
+     "Neagă: „∃n ∈ ℕ, n este par și prim”. Este adevărată propoziția inițială?",
+     "Găsește un contraexemplu pentru „∀n ∈ ℕ, n² + n + 41 este prim” (încearcă n = 40).",
+     "Demonstrează prin reducere la absurd că √3 este irațional."
+    ],
+    "test": [
+     "Ce înseamnă ∀?",
+     "Ce înseamnă ∃?",
+     "Cum se neagă „∀x, p(x)”?",
+     "Este adevărată „∃x ∈ ℕ, x + 2 = 1”?",
+     "Ce presupui la reducerea la absurd?"
+    ],
+    "steps": [
+     "Identifică predicatul și domeniul variabilei.",
+     "La negare, schimbă ∀ cu ∃ (și invers) și neagă predicatul.",
+     "Pentru „∀” fals ajunge un singur contraexemplu; pentru „∃” adevărat ajunge un exemplu.",
+     "Greșeala frecventă: să neg „∀x, x > 0” prin „∀x, x ≤ 0”; negația corectă este „∃x, x ≤ 0”."
+    ],
+    "answers": [
+     "Oricare ar fi",
+     "Există cel puțin un",
+     "∃x, non p(x)",
+     "Nu",
+     "Că concluzia este falsă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Metoda inducției matematice",
+    "theory": "Pentru a demonstra că p(n) este adevărată pentru orice n ≥ n₀: 1) verificăm p(n₀) (etapa de verificare); 2) presupunem p(k) adevărată pentru un k ≥ n₀ oarecare și demonstrăm p(k + 1) (etapa de demonstrație). Atunci p(n) este adevărată pentru toate n ≥ n₀, ca într-un șir de domino.",
+    "sample": "Formula 1 + 2 + … + n = n(n + 1)/2 se demonstrează prin inducție.",
+    "worked": "Demonstrăm 1 + 3 + 5 + … + (2n − 1) = n². Verificare: n = 1, 1 = 1². Presupunem 1 + 3 + … + (2k − 1) = k². Atunci 1 + 3 + … + (2k − 1) + (2k + 1) = k² + 2k + 1 = (k + 1)², adică p(k + 1). Deci formula este adevărată pentru orice n ≥ 1.",
+    "exercises": [
+     "Demonstrează prin inducție: 1 + 2 + … + n = n(n + 1)/2.",
+     "Demonstrează: 1² + 2² + … + n² = n(n + 1)(2n + 1)/6.",
+     "Demonstrează că 3 | n³ + 2n pentru orice n natural.",
+     "Demonstrează: 2ⁿ > n pentru orice n natural.",
+     "Demonstrează: 2ⁿ ≥ n + 1 pentru orice n ≥ 0."
+    ],
+    "test": [
+     "Câte etape are metoda inducției?",
+     "Ce verifici în prima etapă?",
+     "Ce presupui în a doua etapă?",
+     "Ce trebuie să demonstrezi în a doua etapă?",
+     "Ajunge doar a doua etapă?"
+    ],
+    "steps": [
+     "Verifică afirmația pentru prima valoare n₀.",
+     "Scrie ipoteza de inducție p(k) și ce trebuie demonstrat, p(k + 1).",
+     "Folosește p(k) în demonstrarea lui p(k + 1) și formulează concluzia.",
+     "Greșeala frecventă: să sari peste verificarea primei valori; fără ea, „domino-ul” nu pornește și demonstrația nu este validă."
+    ],
+    "answers": [
+     "Două",
+     "Afirmația pentru prima valoare n₀",
+     "Că p(k) este adevărată",
+     "p(k + 1)",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Șiruri de numere reale; moduri de definire; monotonie și mărginire",
+    "theory": "Un șir este o funcție a: ℕ* → ℝ, notată (aₙ)ₙ≥₁; aₙ este termenul de rang n. Șirul se poate defini printr-o formulă a termenului general (aₙ = 2n + 1), printr-o relație de recurență (a₁ = 1, aₙ₊₁ = aₙ + 3) sau descriptiv. Șirul este crescător dacă aₙ₊₁ ≥ aₙ pentru orice n, descrescător dacă aₙ₊₁ ≤ aₙ; este mărginit dacă există m, M cu m ≤ aₙ ≤ M pentru orice n.",
+    "sample": "Pentru aₙ = n², primii termeni sunt 1, 4, 9, 16; șirul este strict crescător.",
+    "worked": "Studiem aₙ = n/(n + 1). Diferența aₙ₊₁ − aₙ = (n + 1)/(n + 2) − n/(n + 1) = 1/((n + 1)(n + 2)) > 0, deci șirul este strict crescător. În plus 1/2 ≤ aₙ < 1, deci este mărginit.",
+    "exercises": [
+     "Scrie primii 5 termeni pentru aₙ = (−1)ⁿ·n.",
+     "Șirul a₁ = 2, aₙ₊₁ = 2aₙ − 1. Calculează a₂, a₃, a₄.",
+     "Studiază monotonia șirului aₙ = 3 − 2n.",
+     "Arată că aₙ = (2n + 1)/(n + 3) este mărginit.",
+     "Găsește o formulă pentru termenul general al șirului 1, 4, 7, 10, …"
+    ],
+    "test": [
+     "Ce este a₃ pentru aₙ = 2n?",
+     "Este aₙ = 5 un șir?",
+     "Este aₙ = −n crescător?",
+     "Ce înseamnă relație de recurență?",
+     "Este aₙ = (−1)ⁿ mărginit?"
+    ],
+    "steps": [
+     "Scrie câțiva termeni pentru a intui comportarea șirului.",
+     "Studiază semnul diferenței aₙ₊₁ − aₙ (sau raportul, pentru termeni pozitivi).",
+     "Pentru mărginire, găsește explicit valorile m și M.",
+     "Greșeala frecventă: să tragi concluzia de monotonie din primii doi-trei termeni; trebuie demonstrat pentru orice n."
+    ],
+    "answers": [
+     "6",
+     "Da, un șir constant",
+     "Nu, este descrescător",
+     "Termenul următor se exprimă prin cei anteriori",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Progresii aritmetice: termenul general și suma primilor n termeni",
+    "theory": "O progresie aritmetică are fiecare termen, începând cu al doilea, egal cu precedentul plus același număr r (rația): aₙ₊₁ = aₙ + r. Termenul general: aₙ = a₁ + (n − 1)r. Suma primilor n termeni: Sₙ = (a₁ + aₙ)·n/2 = (2a₁ + (n − 1)r)·n/2. Trei numere a, b, c sunt în progresie aritmetică dacă și numai dacă 2b = a + c.",
+    "sample": "În progresia 3, 7, 11, 15, … rația este 4 și a₁₀ = 3 + 9·4 = 39.",
+    "worked": "Într-o progresie aritmetică a₃ = 10 și a₇ = 22. Atunci 4r = 12, r = 3, a₁ = 4. Suma primilor 20 de termeni: a₂₀ = 4 + 19·3 = 61, S₂₀ = (4 + 61)·20/2 = 650.",
+    "exercises": [
+     "Află a₁₅ în progresia 5, 9, 13, …",
+     "a₂ = 7, a₆ = 19. Află a₁ și r.",
+     "Calculează suma 2 + 5 + 8 + … + 98.",
+     "Află x pentru care x − 1, 2x, 4x + 1 sunt în progresie aritmetică.",
+     "Un om economisește 100 lei în prima lună și cu 20 lei mai mult în fiecare lună următoare. Cât economisește în 12 luni?"
+    ],
+    "test": [
+     "Rația progresiei 10, 7, 4?",
+     "a₁ = 2, r = 3: a₄?",
+     "Suma 1 + 2 + … + 10?",
+     "Condiția ca a, b, c să fie în progresie aritmetică?",
+     "a₁ = 5, r = 0: ce fel de șir este?"
+    ],
+    "steps": [
+     "Identifică a₁ și r (din doi termeni cunoscuți formezi un sistem).",
+     "Aplică formula termenului general aₙ = a₁ + (n − 1)r.",
+     "Pentru sumă, află ultimul termen și numărul termenilor, apoi Sₙ = (a₁ + aₙ)n/2.",
+     "Greșeala frecventă: să scrii aₙ = a₁ + nr; corect este a₁ + (n − 1)r (de la a₁ la aₙ sunt n − 1 pași)."
+    ],
+    "answers": [
+     "−3",
+     "11",
+     "55",
+     "2b = a + c",
+     "Un șir constant"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Progresii geometrice: termenul general și suma primilor n termeni",
+    "theory": "O progresie geometrică are a₁ ≠ 0 și fiecare termen egal cu precedentul înmulțit cu același număr q ≠ 0 (rația): bₙ₊₁ = bₙ·q. Termenul general: bₙ = b₁·qⁿ⁻¹. Suma: Sₙ = b₁(qⁿ − 1)/(q − 1) pentru q ≠ 1, iar Sₙ = n·b₁ pentru q = 1. Trei numere nenule a, b, c sunt în progresie geometrică dacă și numai dacă b² = a·c. Formula sumei se leagă de identitatea aⁿ − bⁿ = (a − b)(aⁿ⁻¹ + aⁿ⁻²b + … + bⁿ⁻¹).",
+    "sample": "În progresia 3, 6, 12, 24, … rația este 2 și b₈ = 3·2⁷ = 384.",
+    "worked": "Calculăm 1 + 2 + 4 + … + 2⁹: b₁ = 1, q = 2, n = 10, S₁₀ = (2¹⁰ − 1)/(2 − 1) = 1 023. Dobânda compusă: 1 000 lei cu 5% pe an devin după 3 ani 1 000·1,05³ = 1 157,63 lei (termenii formează o progresie geometrică cu q = 1,05).",
+    "exercises": [
+     "Află b₆ în progresia 2, 6, 18, …",
+     "b₂ = 6, b₅ = 162. Află b₁ și q.",
+     "Calculează 1 + 3 + 9 + … + 3⁷.",
+     "Află x pentru care x, x + 2, x + 8 sunt în progresie geometrică.",
+     "O populație de bacterii se dublează la fiecare oră. Dacă la început sunt 500, câte sunt după 10 ore?"
+    ],
+    "test": [
+     "Rația progresiei 5, 10, 20?",
+     "b₁ = 1, q = 3: b₄?",
+     "Condiția ca a, b, c să fie în progresie geometrică?",
+     "Suma 1 + 2 + 4 + 8?",
+     "b₁ = 4, q = 1/2: b₃?"
+    ],
+    "steps": [
+     "Identifică b₁ și q (raportul a doi termeni consecutivi).",
+     "Aplică bₙ = b₁·qⁿ⁻¹.",
+     "Pentru sumă folosește Sₙ = b₁(qⁿ − 1)/(q − 1), atent la cazul q = 1.",
+     "Greșeala frecventă: să aplici formula sumei pentru q = 1 (împărțire la 0); atunci suma este n·b₁."
+    ],
+    "answers": [
+     "2",
+     "27",
+     "b² = ac",
+     "15",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Caracterizarea progresiilor prin trei termeni consecutivi; probleme cu progresii",
+    "theory": "Un șir este progresie aritmetică dacă și numai dacă orice termen (începând cu al doilea) este media aritmetică a vecinilor: 2aₙ = aₙ₋₁ + aₙ₊₁. Un șir cu termeni pozitivi este progresie geometrică dacă și numai dacă orice termen este media geometrică a vecinilor: bₙ² = bₙ₋₁·bₙ₊₁. Pentru a demonstra că un șir dat prin formulă este progresie, calculăm aₙ₊₁ − aₙ (constant) sau bₙ₊₁/bₙ (constant).",
+    "sample": "Șirul aₙ = 5n − 2 este progresie aritmetică, pentru că aₙ₊₁ − aₙ = 5 pentru orice n.",
+    "worked": "Trei numere în progresie aritmetică au suma 15 și produsul 80. Le notăm a − r, a, a + r: 3a = 15, a = 5; (5 − r)·5·(5 + r) = 80, 25 − r² = 16, r = ±3. Numerele sunt 2, 5, 8 (sau 8, 5, 2).",
+    "exercises": [
+     "Arată că aₙ = 7 − 3n este progresie aritmetică.",
+     "Arată că bₙ = 3·2ⁿ este progresie geometrică și află rația.",
+     "Trei numere în progresie geometrică au produsul 64 și suma 14. Află-le.",
+     "Între 2 și 162 inserează trei numere astfel încât toate să fie în progresie geometrică.",
+     "Planul A: 1 000 lei plus 50 lei în fiecare lună; planul B: 1 000 lei crescând cu 4% pe lună. Compară sumele lunare după 12 luni."
+    ],
+    "test": [
+     "Pentru aₙ = 2n + 1, cât este aₙ₊₁ − aₙ?",
+     "Pentru bₙ = 5ⁿ, cât este bₙ₊₁/bₙ?",
+     "Este 4, 6, 9 progresie geometrică?",
+     "Este 1, 4, 7 progresie aritmetică?",
+     "Cum notezi convenabil trei numere în progresie aritmetică?"
+    ],
+    "steps": [
+     "Pentru progresii date prin formulă, calculează diferența sau raportul a doi termeni consecutivi.",
+     "Pentru numere necunoscute, folosește notații simetrice (a − r, a, a + r sau a/q, a, aq).",
+     "Rezolvă sistemul și verifică ambele condiții.",
+     "Greșeala frecventă: să verifici condiția doar pentru primii termeni; trebuie arătat că diferența (raportul) este constantă pentru orice n."
+    ],
+    "answers": [
+     "2",
+     "5",
+     "Da",
+     "Da",
+     "a − r, a, a + r"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Progresii în contexte practice: dobândă simplă, dobândă compusă, depreciere",
+    "theory": "La dobânda simplă, dobânda se calculează mereu la suma inițială: după n ani suma devine S·(1 + n·p/100), deci valorile formează o progresie aritmetică. La dobânda compusă, dobânda se adaugă la capital și produce la rândul ei dobândă: suma devine S·(1 + p/100)ⁿ, progresie geometrică. Deprecierea cu p% pe an dă valoarea V·(1 − p/100)ⁿ.",
+    "sample": "Cu dobândă simplă de 10% pe an, 2 000 lei devin după 3 ani 2 600 lei.",
+    "worked": "Comparăm 5 000 lei pe 4 ani la 6%: dobânda simplă dă 5 000·1,24 = 6 200 lei; dobânda compusă dă 5 000·1,06⁴ ≈ 6 312,38 lei. Un laptop de 4 000 lei care se depreciază cu 20% pe an valorează după 3 ani 4 000·0,8³ = 2 048 lei.",
+    "exercises": [
+     "Calculează suma după 5 ani pentru 3 000 lei cu dobândă simplă de 4%.",
+     "Calculează suma după 2 ani pentru 10 000 lei cu dobândă compusă de 5%.",
+     "O mașină de 50 000 lei se depreciază cu 15% pe an. Cât valorează după 2 ani?",
+     "În câți ani se dublează o sumă cu dobândă simplă de 8% pe an?",
+     "Un oraș are 100 000 de locuitori și crește cu 2% pe an. Estimează populația după 3 ani."
+    ],
+    "test": [
+     "Ce fel de progresie dau sumele la dobânda simplă?",
+     "Ce fel de progresie dau sumele la dobânda compusă?",
+     "1 000 lei cu 10% dobândă simplă, după 2 ani?",
+     "1 000 lei cu 10% dobândă compusă, după 2 ani?",
+     "Valoarea a 100 lei depreciată cu 50% pe an, după 2 ani?"
+    ],
+    "steps": [
+     "Stabilește dacă dobânda se aplică la suma inițială (simplă) sau la suma acumulată (compusă).",
+     "Alege modelul: progresie aritmetică sau geometrică.",
+     "Calculează termenul cerut și interpretează rezultatul.",
+     "Greșeala frecventă: să calculezi dobânda compusă ca n·p% din suma inițială; aceea este dobânda simplă."
+    ],
+    "answers": [
+     "Aritmetică",
+     "Geometrică",
+     "1 200 lei",
+     "1 210 lei",
+     "25 lei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Funcții: definiție, egalitate, restricție, imagine; funcțiile modul, parte întreagă și parte fracționară",
+    "theory": "O funcție f: A → B asociază fiecărui x ∈ A un unic f(x) ∈ B. Două funcții sunt egale dacă au același domeniu, același codomeniu și f(x) = g(x) pentru orice x. Restricția lui f la o submulțime D ⊂ A păstrează legea pe D. Imaginea Im f = {f(x) | x ∈ A}. Funcții speciale: modulul |x|; partea întreagă [x], cel mai mare întreg mai mic sau egal cu x; partea fracționară {x} = x − [x] ∈ [0, 1).",
+    "sample": "Pentru x = 2,7 avem [2,7] = 2 și {2,7} = 0,7; pentru x = −2,7 avem [−2,7] = −3.",
+    "worked": "Sunt egale f: ℝ → ℝ, f(x) = √(x²) și g: ℝ → ℝ, g(x) = |x|? Da: √(x²) = |x| pentru orice x real și domeniile și codomeniile coincid. Imaginea lui f: [−1, 2] → ℝ, f(x) = 2x + 1 este [−1, 5].",
+    "exercises": [
+     "Calculează [3,2], [−0,5], {−1,25}, [√10].",
+     "Sunt egale f(x) = x și g(x) = x²/x, definite pe ℝ*? Dar dacă f e definită pe ℝ?",
+     "Află imaginea funcției f: [0, 3] → ℝ, f(x) = −x + 4.",
+     "Rezolvă ecuația [x] = 3.",
+     "Scrie funcția f(x) = |x − 2| pe ramuri."
+    ],
+    "test": [
+     "Cât este [5]?",
+     "Cât este [−1,1]?",
+     "Cât este {4,8}?",
+     "Cât este |−7|?",
+     "În ce interval se află {x}?"
+    ],
+    "steps": [
+     "Verifică domeniul și codomeniul.",
+     "Pentru funcțiile speciale aplică definiția ([x] ≤ x < [x] + 1).",
+     "Pentru imagine, urmărește valorile lui f când x parcurge domeniul.",
+     "Greșeala frecventă: să crezi că [−2,7] = −2; partea întreagă rotunjește în jos, deci −3."
+    ],
+    "answers": [
+     "5",
+     "−2",
+     "0,8",
+     "7",
+     "[0, 1)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Reprezentarea grafică a unei funcții; intersecția cu axele; semnul funcției; ecuațiile f(x) = m și f(x) = g(x)",
+    "theory": "Graficul lui f este Gf = {(x, f(x)) | x ∈ A}. Intersecția cu Oy este (0, f(0)) (dacă 0 ∈ A), iar intersecțiile cu Ox sunt punctele (x, 0) cu f(x) = 0. Dreapta y = m este orizontală, x = m este verticală. Numărul soluțiilor ecuației f(x) = m este numărul punctelor de intersecție dintre grafic și dreapta y = m; soluțiile lui f(x) = g(x) sunt abscisele punctelor comune ale graficelor. Semnul lui f arată unde graficul este deasupra sau dedesubtul axei Ox.",
+    "sample": "Graficul funcției f(x) = |x| − 2 taie Ox în (−2, 0) și (2, 0) și Oy în (0, −2).",
+    "worked": "Pentru f(x) = |x| − 2: ecuația f(x) = m are două soluții dacă m > −2, una dacă m = −2 și niciuna dacă m < −2, citind intersecția cu dreapta y = m. f(x) < 0 pentru x ∈ (−2, 2), unde graficul este sub Ox.",
+    "exercises": [
+     "Reprezintă grafic f: ℝ → ℝ, f(x) = |x − 1|.",
+     "Află intersecțiile cu axele pentru f(x) = 3x − 6.",
+     "Discută numărul soluțiilor ecuației |x − 1| = m.",
+     "Rezolvă grafic și algebric 2x − 1 = −x + 5.",
+     "Stabilește semnul funcției f(x) = −2x + 4."
+    ],
+    "test": [
+     "Intersecția cu Oy pentru f(x) = x + 3?",
+     "Intersecția cu Ox pentru f(x) = x + 3?",
+     "Ce fel de dreaptă este y = 2?",
+     "Câte soluții are |x| = −1?",
+     "Ce reprezintă soluțiile ecuației f(x) = g(x) pe grafic?"
+    ],
+    "steps": [
+     "Fă un tabel de valori și reprezintă punctele (pe ramuri, dacă este cazul).",
+     "Calculează intersecțiile cu axele: f(0) și ecuația f(x) = 0.",
+     "Citește soluțiile ecuațiilor și semnul din poziția graficului față de drepte și axe.",
+     "Greșeala frecventă: să confunzi dreapta y = m (orizontală) cu x = m (verticală)."
+    ],
+    "answers": [
+     "(0, 3)",
+     "(−3, 0)",
+     "Orizontală",
+     "Niciuna",
+     "Abscisele punctelor de intersecție ale graficelor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Monotonie și mărginire",
+    "theory": "f este crescătoare pe un interval I dacă din x₁ < x₂ rezultă f(x₁) ≤ f(x₂) (strict crescătoare cu <); descrescătoare dacă f(x₁) ≥ f(x₂). Studiem monotonia cu raportul de variație R = (f(x₁) − f(x₂))/(x₁ − x₂): R > 0 înseamnă strict crescătoare, R < 0 strict descrescătoare. Funcția afină f(x) = ax + b are R = a. f este mărginită dacă există m, M cu m ≤ f(x) ≤ M pentru orice x.",
+    "sample": "Funcția f(x) = −3x + 2 are raportul de variație −3, deci este strict descrescătoare.",
+    "worked": "Studiem f: ℝ → ℝ, f(x) = x + 1 pentru x < 0 și f(x) = 2x + 1 pentru x ≥ 0. Fiecare ramură este strict crescătoare, iar la trecerea prin 0 valorile se continuă (ambele dau 1), deci f este strict crescătoare pe ℝ. f(x) = 1/(x² + 1) este mărginită: 0 < f(x) ≤ 1.",
+    "exercises": [
+     "Studiază monotonia funcției f(x) = 5 − 2x folosind raportul de variație.",
+     "Studiază monotonia funcției f(x) = |x| pe (−∞, 0] și [0, +∞).",
+     "Arată că f: [1, 4] → ℝ, f(x) = 3x − 1 este mărginită și află minimul și maximul.",
+     "Pentru ce valori ale lui m este f(x) = (m − 1)x + 3 strict crescătoare?",
+     "Este f(x) = x² mărginită pe ℝ? Dar pe [−2, 3]?"
+    ],
+    "test": [
+     "Este f(x) = 4x crescătoare?",
+     "Raportul de variație pentru f(x) = 7 − x?",
+     "Este |x| crescătoare pe ℝ?",
+     "Este f(x) = 2 mărginită?",
+     "Ce semn are raportul de variație la o funcție strict descrescătoare?"
+    ],
+    "steps": [
+     "Calculează raportul de variație sau compară f(x₁) cu f(x₂) pentru x₁ < x₂.",
+     "Pentru funcții pe ramuri, studiază fiecare ramură și legătura dintre ele.",
+     "Pentru mărginire, găsește valori m și M valabile pe tot domeniul.",
+     "Greșeala frecventă: să concluzionezi monotonia pe ℝ doar din monotonia fiecărei ramuri; verifică și punctul de legătură."
+    ],
+    "answers": [
+     "Da, strict",
+     "−1",
+     "Nu",
+     "Da",
+     "Negativ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Paritate și imparitate; convexitate și concavitate; lecturi grafice",
+    "theory": "f definită pe un domeniu simetric față de 0 este pară dacă f(−x) = f(x) (graficul simetric față de Oy) și impară dacă f(−x) = −f(x) (graficul simetric față de origine). O funcție este convexă pe un interval dacă graficul „ține apa” (orice coardă este deasupra graficului) și concavă dacă graficul este „în formă de boltă”. Proprietățile se citesc și din grafic.",
+    "sample": "Funcția f(x) = x² este pară, iar f(x) = x³ este impară.",
+    "worked": "f(x) = x⁴ − 3x² este pară: f(−x) = x⁴ − 3x² = f(x). g(x) = x³ − 2x este impară: g(−x) = −x³ + 2x = −g(x). h(x) = x + 1 nu este nici pară, nici impară: h(−1) = 0, h(1) = 2. Funcția |x| este convexă, iar −|x| este concavă.",
+    "exercises": [
+     "Stabilește paritatea: f(x) = 3x² + 1; g(x) = 5x; h(x) = x² + x.",
+     "Arată că f(x) = |x| este pară.",
+     "O funcție impară este definită în 0. Cât este f(0)?",
+     "Desenează o funcție convexă și una concavă și explică diferența.",
+     "Completează graficul unei funcții pare cunoscut doar pentru x ≥ 0."
+    ],
+    "test": [
+     "Este x² pară?",
+     "Este x³ pară?",
+     "Simetria graficului unei funcții impare?",
+     "Este |x| convexă?",
+     "Este x + 1 impară?"
+    ],
+    "steps": [
+     "Verifică dacă domeniul este simetric față de 0.",
+     "Calculează f(−x) și compară cu f(x) și cu −f(x).",
+     "Pentru convexitate, privește graficul: coardele deasupra (convexă) sau dedesubt (concavă).",
+     "Greșeala frecventă: să declari o funcție pară verificând doar un singur x; egalitatea trebuie să aibă loc pentru orice x din domeniu."
+    ],
+    "answers": [
+     "Da",
+     "Nu, este impară",
+     "Față de origine",
+     "Da",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Operații cu funcții; compunerea funcțiilor",
+    "theory": "Pe un domeniu comun putem defini f + g, f − g, f·g și f/g (unde g ≠ 0). Compunerea g ∘ f: A → C, (g ∘ f)(x) = g(f(x)), are sens dacă imaginea lui f este inclusă în domeniul lui g. Compunerea nu este comutativă în general, dar este asociativă. Funcția identică 1_A(x) = x este element neutru la compunere.",
+    "sample": "Pentru f(x) = x + 1 și g(x) = x², avem (g ∘ f)(x) = (x + 1)², dar (f ∘ g)(x) = x² + 1.",
+    "worked": "Fie f(x) = 2x − 3 și g(x) = 3x + 1. (f ∘ g)(x) = 2(3x + 1) − 3 = 6x − 1; (g ∘ f)(x) = 3(2x − 3) + 1 = 6x − 8. Cum 6x − 1 ≠ 6x − 8, compunerea nu este comutativă. (f ∘ f)(x) = 2(2x − 3) − 3 = 4x − 9.",
+    "exercises": [
+     "f(x) = x − 2, g(x) = 3x. Calculează f ∘ g și g ∘ f.",
+     "f(x) = x², g(x) = x + 4. Calculează (f ∘ g)(1) și (g ∘ f)(1).",
+     "f(x) = 2x + 1. Calculează f ∘ f ∘ f.",
+     "Află a pentru care f(x) = ax + 1 și g(x) = 2x + 3 comută (f ∘ g = g ∘ f).",
+     "f(x) = x + 1, g(x) = x − 1. Calculează f·g și f ∘ g."
+    ],
+    "test": [
+     "f(x) = x + 2, g(x) = 3x: (g ∘ f)(0)?",
+     "Este compunerea comutativă în general?",
+     "Care este elementul neutru la compunere?",
+     "f(x) = 2x: (f ∘ f)(x)?",
+     "f(x) = x², g(x) = x − 1: (f ∘ g)(3)?"
+    ],
+    "steps": [
+     "Scrie ordinea: g ∘ f înseamnă întâi f, apoi g.",
+     "Înlocuiește x din g cu întreaga expresie f(x).",
+     "Simplifică și verifică pe o valoare numerică.",
+     "Greșeala frecventă: să inversezi ordinea: (g ∘ f)(x) = g(f(x)), adică f se aplică primul."
+    ],
+    "answers": [
+     "6",
+     "Nu",
+     "Funcția identică",
+     "4x",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Funcții injective, surjective, bijective; funcția inversă",
+    "theory": "f: A → B este injectivă dacă x₁ ≠ x₂ implică f(x₁) ≠ f(x₂) (orice paralelă la Ox taie graficul în cel mult un punct); surjectivă dacă Im f = B (orice paralelă y = m, m ∈ B, taie graficul în cel puțin un punct); bijectivă dacă este injectivă și surjectivă. O funcție este inversabilă dacă și numai dacă este bijectivă; inversa f⁻¹: B → A verifică f(f⁻¹(y)) = y și f⁻¹(f(x)) = x. Graficele lui f și f⁻¹ sunt simetrice față de prima bisectoare y = x.",
+    "sample": "f: ℝ → ℝ, f(x) = 2x + 3 este bijectivă, cu inversa f⁻¹(y) = (y − 3)/2.",
+    "worked": "g: ℝ → ℝ, g(x) = x² nu este injectivă (g(−1) = g(1)) și nici surjectivă (−1 nu are preimagine). Restricția g: [0, +∞) → [0, +∞) este bijectivă, cu inversa √y. Pentru f(x) = 2x + 3: rezolvăm y = 2x + 3, obținem x = (y − 3)/2.",
+    "exercises": [
+     "Arată că f: ℝ → ℝ, f(x) = 5x − 2 este bijectivă și află inversa.",
+     "Este f: ℝ → ℝ, f(x) = |x| injectivă? Este surjectivă?",
+     "Arată că f: ℝ → [1, +∞), f(x) = x² + 1 este surjectivă, dar nu injectivă.",
+     "Restrânge domeniul lui f(x) = (x − 1)² astfel încât să devină injectivă.",
+     "Desenează graficele lui f(x) = 2x și f⁻¹ în același reper."
+    ],
+    "test": [
+     "Este f(x) = 3x injectivă pe ℝ?",
+     "Este x² injectivă pe ℝ?",
+     "Ce condiție este necesară și suficientă pentru inversabilitate?",
+     "Inversa lui f(x) = x + 5?",
+     "Față de ce dreaptă sunt simetrice graficele lui f și f⁻¹?"
+    ],
+    "steps": [
+     "Pentru injectivitate pornește de la f(x₁) = f(x₂) și arată că x₁ = x₂.",
+     "Pentru surjectivitate, rezolvă f(x) = y și arată că x există în domeniu pentru orice y din codomeniu.",
+     "Dacă ambele au loc, inversa este soluția x a ecuației f(x) = y.",
+     "Greșeala frecventă: să afirmi că o funcție este surjectivă fără a ține cont de codomeniu; aceeași lege poate fi surjectivă pe un codomeniu și nesurjectivă pe altul."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "Să fie bijectivă",
+     "f⁻¹(x) = x − 5",
+     "Prima bisectoare, y = x"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "Funcția de gradul al doilea: grafic, vârf, axă de simetrie, intersecții cu axele",
+    "theory": "f(x) = ax² + bx + c, a ≠ 0, are graficul o parabolă cu vârful V(−b/(2a), −Δ/(4a)), unde Δ = b² − 4ac, și axa de simetrie x = −b/(2a). Parabola are ramurile în sus dacă a > 0 și în jos dacă a < 0. Intersecția cu Oy este (0, c); intersecțiile cu Ox sunt soluțiile ecuației ax² + bx + c = 0: x = (−b ± √Δ)/(2a), formulă obținută prin formarea pătratului: ax² + bx + c = a(x + b/(2a))² − Δ/(4a).",
+    "sample": "Parabola y = x² − 4x + 3 are vârful (2, −1) și taie Ox în x = 1 și x = 3.",
+    "worked": "Pentru f(x) = −x² + 2x + 3: a = −1, Δ = 4 + 12 = 16, vârful V(1, 4), ramurile în jos. Oy: (0, 3). Ox: x = (−2 ± 4)/(−2), deci x = −1 și x = 3. Desenăm parabola prin aceste puncte, simetrică față de x = 1.",
+    "exercises": [
+     "Află vârful și axa de simetrie pentru f(x) = x² − 6x + 5.",
+     "Reprezintă grafic f(x) = x² − 2x − 3.",
+     "Află intersecțiile cu axele pentru f(x) = 2x² − 8.",
+     "Deduce formula soluțiilor prin formarea pătratului pentru x² + 6x + 5 = 0.",
+     "Află m pentru care vârful parabolei y = x² − 2x + m este pe axa Ox."
+    ],
+    "test": [
+     "Formula abscisei vârfului?",
+     "Unde sunt ramurile dacă a < 0?",
+     "Intersecția cu Oy pentru y = x² + 5x − 7?",
+     "Vârful parabolei y = x²?",
+     "Axa de simetrie pentru y = x² − 4x?"
+    ],
+    "steps": [
+     "Calculează Δ și vârful V(−b/2a, −Δ/4a).",
+     "Află intersecțiile cu axele și stabilește sensul ramurilor.",
+     "Desenează punctele simetric față de axa x = −b/2a și unește-le printr-o curbă netedă.",
+     "Greșeala frecventă: să greșești semnul abscisei vârfului: este −b/(2a), nu b/(2a)."
+    ],
+    "answers": [
+     "x = −b/(2a)",
+     "În jos",
+     "(0, −7)",
+     "(0, 0)",
+     "x = 2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "Monotonia funcției de gradul al doilea; punctul de extrem; probleme de optimizare",
+    "theory": "Pentru a > 0, f este descrescătoare pe (−∞, −b/(2a)] și crescătoare pe [−b/(2a), +∞); valoarea minimă este −Δ/(4a), atinsă în vârf. Pentru a < 0 este invers, iar −Δ/(4a) este valoarea maximă. Imaginea funcției este [−Δ/(4a), +∞) pentru a > 0 și (−∞, −Δ/(4a)] pentru a < 0. Aceste fapte rezolvă probleme de maxim și minim.",
+    "sample": "Funcția f(x) = x² − 2x + 5 are minimul 4, atins în x = 1.",
+    "worked": "Cu 40 m de gard împrejmuim un teren dreptunghiular. Laturile x și 20 − x dau aria A(x) = x(20 − x) = −x² + 20x, cu a < 0. Maximul se atinge în x = 10, deci terenul optim este un pătrat de 10 m, cu aria 100 m².",
+    "exercises": [
+     "Studiază monotonia funcției f(x) = x² − 4x + 1.",
+     "Află valoarea maximă a funcției f(x) = −2x² + 8x − 3.",
+     "Află imaginea funcției f(x) = x² + 2x + 3.",
+     "Suma a două numere este 16. Când produsul lor este maxim?",
+     "O minge aruncată vertical are înălțimea h(t) = −5t² + 20t metri. Care este înălțimea maximă și când se atinge?"
+    ],
+    "test": [
+     "Pentru a > 0, vârful este punct de…?",
+     "Valoarea minimă a lui x² + 1?",
+     "Pe ce interval descrește x² (a > 0)?",
+     "Valoarea extremă a funcției de gradul II este…?",
+     "Valoarea maximă a lui −x² + 4?"
+    ],
+    "steps": [
+     "Calculează abscisa vârfului −b/(2a).",
+     "Stabilește monotonia pe cele două intervale după semnul lui a.",
+     "Valoarea extremă este −Δ/(4a); în probleme practice verifică dacă vârful este în domeniul permis.",
+     "Greșeala frecventă: să confunzi abscisa vârfului (unde se atinge extremul) cu valoarea extremă însăși."
+    ],
+    "answers": [
+     "Minim",
+     "1",
+     "(−∞, 0]",
+     "−Δ/(4a)",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Semnul funcției de gradul al doilea; inecuații de gradul al doilea",
+    "theory": "Dacă Δ > 0, f are semnul lui a în afara rădăcinilor și semn contrar lui a între rădăcini. Dacă Δ = 0, f are semnul lui a, cu excepția rădăcinii duble unde se anulează. Dacă Δ < 0, f are semnul lui a pe tot ℝ. Geometric: unde parabola este deasupra lui Ox, f > 0. Așa rezolvăm inecuațiile ax² + bx + c > 0 (≥, <, ≤).",
+    "sample": "Inecuația x² − 5x + 6 < 0 are soluțiile x ∈ (2, 3).",
+    "worked": "Rezolvăm −x² + x + 6 ≥ 0. Rădăcinile: x = −2 și x = 3; a = −1 < 0, deci expresia este pozitivă între rădăcini. S = [−2, 3]. Pentru x² + x + 1 > 0, Δ = −3 < 0 și a > 0, deci S = ℝ.",
+    "exercises": [
+     "Rezolvă: x² − 9 > 0.",
+     "Rezolvă: x² − 4x + 4 ≤ 0.",
+     "Rezolvă: 2x² − x − 1 < 0.",
+     "Află m pentru care x² − 2x + m > 0 pentru orice x real.",
+     "Rezolvă sistemul: x² − 1 ≥ 0 și x² − 4 < 0."
+    ],
+    "test": [
+     "Semnul lui x² − 1 între rădăcini?",
+     "Soluțiile lui x² > 0?",
+     "Pentru Δ < 0, ce semn are f?",
+     "Soluțiile lui x² − 4 ≤ 0?",
+     "Câte soluții are x² + 1 < 0?"
+    ],
+    "steps": [
+     "Rezolvă ecuația atașată și află rădăcinile (sau Δ < 0).",
+     "Aplică regula semnului: semnul lui a în afara rădăcinilor, contrar între ele.",
+     "Alege intervalele cerute de inecuație și atent la capete (incluse sau nu).",
+     "Greșeala frecventă: să rezolvi x² > 9 prin x > 3 și să uiți soluțiile x < −3."
+    ],
+    "answers": [
+     "Negativ",
+     "ℝ \\ {0}",
+     "Semnul lui a pe tot ℝ",
+     "[−2, 2]",
+     "Niciuna"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Relațiile lui Viète și aplicații",
+    "theory": "Dacă x₁, x₂ sunt soluțiile ecuației ax² + bx + c = 0, atunci S = x₁ + x₂ = −b/a și P = x₁·x₂ = c/a. Invers, numerele cu suma S și produsul P sunt soluțiile ecuației x² − Sx + P = 0. Cu ajutorul lui S și P calculăm expresii simetrice, de exemplu x₁² + x₂² = S² − 2P, fără să rezolvăm ecuația, și stabilim semnul soluțiilor.",
+    "sample": "Pentru x² − 7x + 10 = 0, suma soluțiilor este 7, iar produsul 10 (soluțiile 2 și 5).",
+    "worked": "Pentru 2x² − 6x + 1 = 0: S = 3, P = 1/2. Atunci x₁² + x₂² = 9 − 1 = 8 și 1/x₁ + 1/x₂ = S/P = 6. Ecuația cu soluțiile 3 și −4: S = −1, P = −12, deci x² + x − 12 = 0.",
+    "exercises": [
+     "Pentru x² − 5x + 3 = 0 calculează x₁ + x₂, x₁x₂, x₁² + x₂².",
+     "Scrie ecuația de gradul al doilea cu soluțiile 2 și 7.",
+     "Află numerele cu suma 10 și produsul 21.",
+     "Pentru ce m ecuația x² − 4x + m = 0 are o soluție egală cu 1? Află cealaltă soluție.",
+     "Fără a rezolva, stabilește semnul soluțiilor ecuației x² − 3x − 10 = 0."
+    ],
+    "test": [
+     "Suma soluțiilor lui x² − 3x + 2 = 0?",
+     "Produsul soluțiilor lui x² − 3x + 2 = 0?",
+     "Ecuația cu S = 5 și P = 6?",
+     "x₁² + x₂² în funcție de S și P?",
+     "Dacă P < 0, ce semne au soluțiile?"
+    ],
+    "steps": [
+     "Identifică a, b, c și calculează S = −b/a, P = c/a.",
+     "Exprimă expresia cerută prin S și P.",
+     "Înlocuiește și calculează; pentru ecuația cu soluții date, scrie x² − Sx + P = 0.",
+     "Greșeala frecventă: să iei S = b/a; suma soluțiilor este −b/a."
+    ],
+    "answers": [
+     "3",
+     "2",
+     "x² − 5x + 6 = 0",
+     "S² − 2P",
+     "Semne contrare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Sisteme care conțin ecuații de gradul al doilea; interpretare geometrică",
+    "theory": "Tipuri de sisteme: o ecuație de gradul I și una de gradul al II-lea (exprimăm o necunoscută din ecuația de gradul I și înlocuim); sisteme simetrice (cu notațiile S = x + y, P = xy, iar x, y sunt soluțiile lui t² − St + P = 0); sisteme omogene (împărțim sau notăm y = tx). Sistemul format din ecuația unei drepte și y = ax² + bx + c are atâtea soluții câte puncte comune au dreapta și parabola.",
+    "sample": "Sistemul x + y = 5, xy = 6 are soluțiile (2, 3) și (3, 2).",
+    "worked": "Rezolvăm y = x² − 1, y = x + 1: x² − 1 = x + 1, x² − x − 2 = 0, x = 2 sau x = −1, deci (2, 3) și (−1, 0) — dreapta taie parabola în două puncte. Sistemul simetric x² + y² = 13, x + y = 5: S = 5, P = (25 − 13)/2 = 6, deci (2, 3) și (3, 2).",
+    "exercises": [
+     "Rezolvă: x − y = 1, x² + y² = 25.",
+     "Rezolvă: x + y = 7, xy = 12.",
+     "Rezolvă: x² + y² = 10, xy = 3.",
+     "Află m pentru care dreapta y = 2x + m este tangentă la parabola y = x².",
+     "Rezolvă sistemul omogen x² − 3xy + 2y² = 0, x + y = 6."
+    ],
+    "test": [
+     "Ce notații folosești la sistemele simetrice?",
+     "Câte soluții are sistemul dacă dreapta nu intersectează parabola?",
+     "x + y = 4, xy = 4: soluția?",
+     "Ce faci la un sistem cu o ecuație de gradul I?",
+     "Ce condiție dă tangența dreptei la parabolă?"
+    ],
+    "steps": [
+     "Recunoaște tipul sistemului.",
+     "Aplică metoda potrivită: substituție, notațiile S și P sau y = tx.",
+     "Află toate perechile și verifică-le în ambele ecuații.",
+     "Greșeala frecventă: la sistemele simetrice să uiți perechea inversată: dacă (2, 3) este soluție, și (3, 2) este."
+    ],
+    "answers": [
+     "S = x + y și P = xy",
+     "Niciuna",
+     "(2, 2)",
+     "Exprim o necunoscută și o înlocuiesc în cealaltă ecuație",
+     "Discriminantul ecuației rezultate este 0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Funcția putere cu exponent întreg",
+    "theory": "f(x) = xⁿ, n ∈ ℕ*: pentru n par funcția este pară, cu grafic asemănător parabolei; pentru n impar este impară, strict crescătoare și bijectivă pe ℝ. Pentru exponent întreg negativ, f(x) = x⁻ⁿ = 1/xⁿ este definită pe ℝ*: de exemplu 1/x (hiperbolă) este impară și descrescătoare pe fiecare dintre intervalele (−∞, 0) și (0, +∞). Regulile puterilor: xᵐ·xⁿ = xᵐ⁺ⁿ, (xᵐ)ⁿ = xᵐⁿ, x⁻ⁿ = 1/xⁿ.",
+    "sample": "Funcția f(x) = x³ este impară și strict crescătoare pe ℝ.",
+    "worked": "Comparăm 2⁻³ și 3⁻²: 2⁻³ = 1/8 = 0,125, iar 3⁻² = 1/9 ≈ 0,111, deci 2⁻³ > 3⁻² (la numărător egal, fracția cu numitorul mai mic este mai mare). Funcția f(x) = 1/x² este pară și ia doar valori pozitive, deci nu este surjectivă pe ℝ.",
+    "exercises": [
+     "Calculează: (−2)⁵, 2⁻⁴, (1/3)⁻².",
+     "Stabilește paritatea și monotonia lui f(x) = x⁴.",
+     "Rezolvă ecuația x³ = −27 și x⁴ = 16.",
+     "Reprezintă în același reper f(x) = 1/x și g(x) = x și află punctele comune.",
+     "Simplifică: (x³)²·x⁻⁴ : x⁻¹, x ≠ 0."
+    ],
+    "test": [
+     "Este x⁵ impară?",
+     "Cât este 10⁻²?",
+     "Domeniul lui f(x) = 1/x?",
+     "Este x² injectivă pe ℝ?",
+     "Soluțiile lui x² = 9?"
+    ],
+    "steps": [
+     "Stabilește dacă exponentul este par, impar sau negativ.",
+     "Deduce domeniul, paritatea și monotonia.",
+     "Folosește regulile puterilor pentru calcule și ecuații.",
+     "Greșeala frecventă: să crezi că x⁻² este negativ; exponentul negativ înseamnă inversul: x⁻² = 1/x² > 0."
+    ],
+    "answers": [
+     "Da",
+     "0,01",
+     "ℝ*",
+     "Nu",
+     "±3"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Radicali de ordin n; proprietăți; operații; expresii conjugate; funcția radical",
+    "theory": "Pentru n par, ⁿ√a este definit pentru a ≥ 0 și este numărul b ≥ 0 cu bⁿ = a; pentru n impar, ⁿ√a există pentru orice a real (³√(−8) = −2). Proprietăți: ⁿ√(ab) = ⁿ√a·ⁿ√b, ⁿ√(aᵐ) = a^(m/n), ⁿ√(ᵏ√a) = ⁿᵏ√a. Expresiile conjugate eliberează numitorul de radicali: (√a − √b)(√a + √b) = a − b și (³√a − ³√b)(³√a² + ³√(ab) + ³√b²) = a − b. Funcția radical f(x) = √x este definită pe [0, +∞), strict crescătoare; ³√x este definită pe ℝ.",
+    "sample": "Cu radicalul de ordin 3, ³√27 = 3 și ³√(−64) = −4.",
+    "worked": "Raționalizăm 1/(³√2 − 1): conjugatul este ³√4 + ³√2 + 1, iar produsul (³√2 − 1)(³√4 + ³√2 + 1) = 2 − 1 = 1, deci fracția devine ³√4 + ³√2 + 1. Simplificăm ⁶√(x³) = √x pentru x ≥ 0.",
+    "exercises": [
+     "Calculează: ⁴√81, ³√(−125), ⁵√32.",
+     "Simplifică: ³√54 − ³√16.",
+     "Raționalizează: 2/(√5 − √3).",
+     "Raționalizează: 1/(³√3 + 1) folosind a³ + b³.",
+     "Află domeniul de definiție al funcției f(x) = √(4 − x) + ³√x."
+    ],
+    "test": [
+     "Cât este ³√8?",
+     "Are sens √(−4) în ℝ?",
+     "Are sens ³√(−1) în ℝ?",
+     "Conjugatul lui √3 + 1?",
+     "Domeniul lui √x?"
+    ],
+    "steps": [
+     "Verifică existența radicalului (ordin par: radicand nenegativ).",
+     "Aplică proprietățile pentru a aduce radicalii la aceeași formă.",
+     "La numitor, amplifică cu expresia conjugată potrivită.",
+     "Greșeala frecventă: să consideri ³√(−8) fără sens; radicalii de ordin impar există și din numere negative."
+    ],
+    "answers": [
+     "2",
+     "Nu",
+     "Da, este −1",
+     "√3 − 1",
+     "[0, +∞)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Ecuații și inecuații cu radicali",
+    "theory": "Pentru a rezolva o ecuație cu radicali: 1) punem condițiile de existență (radicanzi nenegativi la ordin par, iar membrul egal cu un radical de ordin par trebuie să fie ≥ 0); 2) izolăm radicalul și ridicăm la puterea potrivită; 3) verificăm soluțiile obținute, deoarece ridicarea la pătrat poate introduce soluții străine. La inecuații ținem cont de semnul ambilor membri înainte de ridicarea la pătrat.",
+    "sample": "Ecuația √(x + 3) = 2 are soluția x = 1, pentru că 1 + 3 = 4.",
+    "worked": "Rezolvăm √(x + 7) = x + 1. Condiții: x ≥ −7 și x + 1 ≥ 0. Ridicăm la pătrat: x + 7 = x² + 2x + 1, x² + x − 6 = 0, x = 2 sau x = −3. x = −3 nu verifică x + 1 ≥ 0, deci singura soluție este x = 2. Verificare: √9 = 3.",
+    "exercises": [
+     "Rezolvă: √(2x − 1) = 3.",
+     "Rezolvă: √(x + 5) = x − 1.",
+     "Rezolvă: ³√(x − 2) = −1.",
+     "Rezolvă: √x + √(x + 5) = 5.",
+     "Rezolvă inecuația: √(x − 1) < 2."
+    ],
+    "test": [
+     "Soluția lui √x = 4?",
+     "Are soluții √x = −2?",
+     "Soluția lui ³√x = 2?",
+     "De ce verifici soluțiile la final?",
+     "Domeniul ecuației √(x − 3) = 1?"
+    ],
+    "steps": [
+     "Scrie condițiile de existență și de semn.",
+     "Izolează radicalul și ridică la puterea potrivită.",
+     "Rezolvă ecuația obținută și elimină soluțiile care nu verifică condițiile.",
+     "Greșeala frecventă: să păstrezi o soluție obținută după ridicarea la pătrat fără verificare; ea poate fi străină (ca x = −3 în exemplu)."
+    ],
+    "answers": [
+     "16",
+     "Nu",
+     "8",
+     "Ridicarea la pătrat poate introduce soluții străine",
+     "[3, +∞)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Cercul trigonometric; radianul; sinus și cosinus pe [0, 2π]; reducerea la primul cadran",
+    "theory": "Cercul trigonometric are centrul în origine și raza 1. Unghiurile se măsoară și în radiani: 180° = π rad. Punctului M de pe cerc, corespunzător unghiului x, îi asociem cos x = abscisa și sin x = ordonata, deci −1 ≤ sin x, cos x ≤ 1 și sin²x + cos²x = 1. Reducerea la primul cadran: sin(π − x) = sin x, cos(π − x) = −cos x, sin(π + x) = −sin x, cos(π + x) = −cos x, sin(2π − x) = −sin x, cos(2π − x) = cos x.",
+    "sample": "Unghiul de 60° are π/3 radiani, iar sin(π/3) = √3/2.",
+    "worked": "Calculăm sin(5π/6): 5π/6 = π − π/6, în cadranul II, deci sin(5π/6) = sin(π/6) = 1/2, iar cos(5π/6) = −√3/2. Calculăm cos(4π/3) = cos(π + π/3) = −1/2.",
+    "exercises": [
+     "Transformă în radiani: 30°, 135°, 270°; în grade: π/4, 5π/3.",
+     "Calculează sin(3π/4) și cos(3π/4).",
+     "Calculează sin(7π/6) și cos(11π/6).",
+     "Stabilește semnul lui sin 2 și cos 2 (2 radiani).",
+     "Știind sin x = 3/5, x ∈ (π/2, π), află cos x."
+    ],
+    "test": [
+     "Câți radiani are 180°?",
+     "Cât este sin(π/2)?",
+     "Cât este cos π?",
+     "În ce cadran este 4π/3?",
+     "Cât este sin²x + cos²x?"
+    ],
+    "steps": [
+     "Stabilește cadranul unghiului.",
+     "Scrie unghiul ca π ± α sau 2π − α, cu α din primul cadran.",
+     "Aplică formula de reducere și semnul funcției în acel cadran.",
+     "Greșeala frecventă: să uiți semnul: cos(5π/6) este negativ, pentru că în cadranul II abscisa este negativă."
+    ],
+    "answers": [
+     "π",
+     "1",
+     "−1",
+     "III",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Funcțiile sinus, cosinus, tangentă, cotangentă; periodicitate; relații între ele",
+    "theory": "Funcțiile sin, cos: ℝ → [−1, 1] sunt periodice cu perioada principală 2π; sin este impară, cos este pară. tg x = sin x/cos x (x ≠ π/2 + kπ) și ctg x = cos x/sin x (x ≠ kπ) au perioada π și sunt impare. Relații: sin(π/2 − x) = cos x, cos(π/2 − x) = sin x, 1 + tg²x = 1/cos²x, cos²x = 1/(1 + tg²x), sin²x = tg²x/(1 + tg²x).",
+    "sample": "Funcția sinus are perioada 2π, deci sin(x + 2π) = sin x pentru orice x.",
+    "worked": "Știind tg x = 2, x ∈ (0, π/2): cos²x = 1/(1 + 4) = 1/5, cos x = √5/5, sin x = tg x·cos x = 2√5/5. Verificăm: 4/5 + 1/5 = 1.",
+    "exercises": [
+     "Calculează tg(π/4), ctg(π/6), tg(2π/3).",
+     "Știind cos x = 1/3, x ∈ (0, π/2), află sin x, tg x, ctg x.",
+     "Arată că tg x · ctg x = 1 pe domeniul comun.",
+     "Află perioada principală a funcției f(x) = sin 2x.",
+     "Simplifică: sin(π/2 − x)·tg x."
+    ],
+    "test": [
+     "Perioada principală a lui sin?",
+     "Perioada principală a lui tg?",
+     "Este cos pară?",
+     "Cât este sin(π/2 − x)?",
+     "Unde nu este definită tg?"
+    ],
+    "steps": [
+     "Pornește de la definițiile tg = sin/cos, ctg = cos/sin și de la sin²x + cos²x = 1.",
+     "Folosește cadranul pentru a alege semnul.",
+     "Verifică rezultatul cu identitatea fundamentală.",
+     "Greșeala frecventă: să consideri perioada funcției tangentă 2π; perioada ei principală este π."
+    ],
+    "answers": [
+     "2π",
+     "π",
+     "Da",
+     "cos x",
+     "În x = π/2 + kπ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Formule pentru sinusul, cosinusul și tangenta sumei și diferenței",
+    "theory": "Pentru orice a, b reale: sin(a ± b) = sin a cos b ± cos a sin b; cos(a ± b) = cos a cos b ∓ sin a sin b; tg(a ± b) = (tg a ± tg b)/(1 ∓ tg a tg b), când expresiile au sens. Ele permit calculul valorilor pentru unghiuri ca 15° = 45° − 30° și stau la baza formulelor unghiului dublu.",
+    "sample": "Folosind formula diferenței, sin 15° = sin(45° − 30°) = (√6 − √2)/4.",
+    "worked": "Calculăm cos 75° = cos(45° + 30°) = cos 45° cos 30° − sin 45° sin 30° = (√2/2)(√3/2) − (√2/2)(1/2) = (√6 − √2)/4. Calculăm tg 105° = tg(60° + 45°) = (√3 + 1)/(1 − √3) = −2 − √3.",
+    "exercises": [
+     "Calculează sin 75° și cos 15°.",
+     "Calculează tg 15°.",
+     "Știind sin a = 3/5, cos b = 5/13, a, b ∈ (0, π/2), calculează sin(a + b).",
+     "Demonstrează: sin(a + b)·sin(a − b) = sin²a − sin²b.",
+     "Simplifică: sin 3x cos x − cos 3x sin x."
+    ],
+    "test": [
+     "Formula pentru sin(a + b)?",
+     "Formula pentru cos(a − b)?",
+     "Cât este sin(x + π)?",
+     "Cât este cos(a + b) pentru a = b = 0?",
+     "Ce unghiuri combini pentru 75°?"
+    ],
+    "steps": [
+     "Scrie unghiul ca sumă sau diferență de unghiuri cunoscute.",
+     "Aplică formula corespunzătoare, atent la semne.",
+     "Simplifică și raționalizează, dacă e cazul.",
+     "Greșeala frecventă: să scrii sin(a + b) = sin a + sin b; formula corectă conține produse încrucișate."
+    ],
+    "answers": [
+     "sin a cos b + cos a sin b",
+     "cos a cos b + sin a sin b",
+     "−sin x",
+     "1",
+     "45° și 30°"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Formule pentru unghiul dublu și unghiul pe jumătate",
+    "theory": "Din formulele sumei, cu a = b = x: sin 2x = 2 sin x cos x; cos 2x = cos²x − sin²x = 2cos²x − 1 = 1 − 2sin²x; tg 2x = 2tg x/(1 − tg²x). Din cos 2x deducem formulele pentru unghiul pe jumătate: sin²(x/2) = (1 − cos x)/2 și cos²(x/2) = (1 + cos x)/2, semnul alegându-se după cadranul lui x/2.",
+    "sample": "Pentru x = 30°, sin 60° = 2·(1/2)·(√3/2) = √3/2.",
+    "worked": "Știind sin x = 4/5, x ∈ (0, π/2): cos x = 3/5, sin 2x = 2·4/5·3/5 = 24/25, cos 2x = 9/25 − 16/25 = −7/25. Calculăm cos 22°30’: cos²(22°30’) = (1 + cos 45°)/2 = (2 + √2)/4, deci cos 22°30’ = √(2 + √2)/2.",
+    "exercises": [
+     "Știind cos x = 3/5, x ∈ (0, π/2), calculează sin 2x și cos 2x.",
+     "Calculează sin 22°30’.",
+     "Demonstrează: (sin x + cos x)² = 1 + sin 2x.",
+     "Exprimă cos 4x în funcție de cos x.",
+     "Simplifică: (1 − cos 2x)/sin 2x."
+    ],
+    "test": [
+     "Formula pentru sin 2x?",
+     "O formă pentru cos 2x?",
+     "Cât este 2 sin 15° cos 15°?",
+     "Cât este cos²x − sin²x pentru x = π/4?",
+     "Formula pentru cos²(x/2)?"
+    ],
+    "steps": [
+     "Recunoaște unghiul dublu sau pe jumătate.",
+     "Alege forma potrivită a lui cos 2x (cu sin, cu cos sau cu ambele).",
+     "Stabilește semnul după cadran și calculează.",
+     "Greșeala frecventă: să scrii sin 2x = 2 sin x; formula corectă este 2 sin x cos x."
+    ],
+    "answers": [
+     "2 sin x cos x",
+     "cos²x − sin²x",
+     "1/2",
+     "0",
+     "(1 + cos x)/2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "Transformarea sumelor în produse și a produselor în sume",
+    "theory": "Formule: sin a + sin b = 2 sin((a + b)/2) cos((a − b)/2); sin a − sin b = 2 sin((a − b)/2) cos((a + b)/2); cos a + cos b = 2 cos((a + b)/2) cos((a − b)/2); cos a − cos b = −2 sin((a + b)/2) sin((a − b)/2). Invers: sin a cos b = [sin(a + b) + sin(a − b)]/2, cos a cos b = [cos(a + b) + cos(a − b)]/2, sin a sin b = [cos(a − b) − cos(a + b)]/2. Le folosim la simplificări și ecuații.",
+    "sample": "Transformând suma în produs, sin 75° + sin 15° = 2 sin 45° cos 30° = √6/2.",
+    "worked": "Calculăm cos 75° − cos 15° = −2 sin 45° sin 30° = −2·(√2/2)·(1/2) = −√2/2. Transformăm 2 sin 3x cos x = sin 4x + sin 2x.",
+    "exercises": [
+     "Transformă în produs: sin 5x + sin x.",
+     "Transformă în produs: cos 3x − cos x.",
+     "Calculează: sin 105° − sin 15°.",
+     "Transformă în sumă: 2 cos 4x cos 2x.",
+     "Demonstrează: (sin 3x + sin x)/(cos 3x + cos x) = tg 2x."
+    ],
+    "test": [
+     "sin a + sin b = ?",
+     "cos a + cos b = ?",
+     "2 sin a cos b = ?",
+     "cos 60° + cos 0° în produs?",
+     "2 sin x sin y = ?"
+    ],
+    "steps": [
+     "Identifică tipul sumei (sinusuri sau cosinusuri, plus sau minus).",
+     "Calculează semisuma și semidiferența unghiurilor.",
+     "Aplică formula și simplifică.",
+     "Greșeala frecventă: să uiți semnul minus din formula cos a − cos b = −2 sin((a + b)/2) sin((a − b)/2)."
+    ],
+    "answers": [
+     "2 sin((a + b)/2) cos((a − b)/2)",
+     "2 cos((a + b)/2) cos((a − b)/2)",
+     "sin(a + b) + sin(a − b)",
+     "2 cos 30° cos 30°",
+     "cos(x − y) − cos(x + y)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l28": {
+   "ro": {
+    "title": "Funcții trigonometrice inverse",
+    "theory": "Restrângând funcțiile la intervale pe care sunt bijective obținem inversele: arcsin: [−1, 1] → [−π/2, π/2], arccos: [−1, 1] → [0, π], arctg: ℝ → (−π/2, π/2), arcctg: ℝ → (0, π). arcsin a este unghiul din [−π/2, π/2] al cărui sinus este a. Proprietăți: arcsin(−a) = −arcsin a, arccos(−a) = π − arccos a, arcsin a + arccos a = π/2.",
+    "sample": "arcsin(1/2) = π/6, pentru că π/6 ∈ [−π/2, π/2] și sin(π/6) = 1/2.",
+    "worked": "Calculăm arccos(−√2/2) = π − arccos(√2/2) = π − π/4 = 3π/4. Calculăm sin(arccos(3/5)): fie t = arccos(3/5) ∈ [0, π], cos t = 3/5, deci sin t = 4/5 (pozitiv în [0, π]).",
+    "exercises": [
+     "Calculează: arcsin(√3/2), arccos(0), arctg(1), arctg(−√3).",
+     "Calculează: arcsin(−1/2) + arccos(−1/2).",
+     "Calculează: cos(arcsin(5/13)).",
+     "Verifică: arcsin(1/3) + arccos(1/3) = π/2.",
+     "Calculează tg(arcsin(3/5))."
+    ],
+    "test": [
+     "arcsin 1?",
+     "arccos 1?",
+     "arctg 0?",
+     "Intervalul valorilor lui arccos?",
+     "arcsin a + arccos a = ?"
+    ],
+    "steps": [
+     "Stabilește intervalul de valori al funcției inverse.",
+     "Caută unghiul din acel interval care are valoarea trigonometrică dată.",
+     "Folosește proprietățile de imparitate și relațiile dintre inverse.",
+     "Greșeala frecventă: să răspunzi arcsin(1/2) = 5π/6; deși sin(5π/6) = 1/2, unghiul nu este în [−π/2, π/2]."
+    ],
+    "answers": [
+     "π/2",
+     "0",
+     "0",
+     "[0, π]",
+     "π/2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l29": {
+   "ro": {
+    "title": "Ecuații trigonometrice fundamentale: sin x = a, cos x = a, tg x = a, ctg x = a",
+    "theory": "sin x = a, |a| ≤ 1: x = (−1)ᵏ arcsin a + kπ, k ∈ ℤ. cos x = a, |a| ≤ 1: x = ± arccos a + 2kπ. tg x = a: x = arctg a + kπ. ctg x = a: x = arcctg a + kπ. Dacă |a| > 1, ecuațiile cu sinus și cosinus nu au soluții. Când se cer soluții într-un interval, alegem valorile lui k potrivite.",
+    "sample": "Ecuația sin x = 1/2 are soluțiile x = π/6 + 2kπ și x = 5π/6 + 2kπ.",
+    "worked": "Rezolvăm cos x = −1/2 pe [0, 2π]: arccos(−1/2) = 2π/3, deci x = ±2π/3 + 2kπ; în [0, 2π] obținem 2π/3 și 4π/3. Rezolvăm tg 2x = 1: 2x = π/4 + kπ, x = π/8 + kπ/2.",
+    "exercises": [
+     "Rezolvă: sin x = √2/2.",
+     "Rezolvă: cos x = 0.",
+     "Rezolvă pe [0, 2π]: tg x = −1.",
+     "Rezolvă: 2 sin x + 1 = 0.",
+     "Rezolvă: cos 3x = 1."
+    ],
+    "test": [
+     "Are soluții sin x = 2?",
+     "Soluțiile lui cos x = 1?",
+     "Soluțiile lui tg x = 0?",
+     "Soluțiile lui sin x = 0?",
+     "Soluția lui sin x = 1 din [0, 2π]?"
+    ],
+    "steps": [
+     "Adu ecuația la forma fundamentală și verifică |a| ≤ 1 pentru sin și cos.",
+     "Aplică formula generală a soluțiilor.",
+     "Dacă se cere un interval, dă valori lui k și păstrează soluțiile din interval.",
+     "Greșeala frecventă: la cos x = a să scrii doar x = arccos a + 2kπ, pierzând soluțiile −arccos a + 2kπ."
+    ],
+    "answers": [
+     "Nu",
+     "x = 2kπ",
+     "x = kπ",
+     "x = kπ",
+     "π/2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l30": {
+   "ro": {
+    "title": "Ecuații trigonometrice: sin f(x) = sin g(x), a sin x + b cos x = c și ecuații reductibile",
+    "theory": "sin f(x) = sin g(x) ⇔ f(x) = g(x) + 2kπ sau f(x) = π − g(x) + 2kπ. cos f(x) = cos g(x) ⇔ f(x) = ±g(x) + 2kπ. tg f(x) = tg g(x) ⇔ f(x) = g(x) + kπ (cu condițiile de existență). Ecuația a sin x + b cos x = c se rezolvă împărțind la √(a² + b²) și scriind membrul stâng ca sin(x + φ), sau cu substituția t = tg(x/2). Ecuațiile de tip polinomial în sin x sau cos x se rezolvă prin notație (t = sin x).",
+    "sample": "Ecuația sin 2x = sin x dă 2x = x + 2kπ sau 2x = π − x + 2kπ.",
+    "worked": "Rezolvăm sin x + cos x = 1: împărțim la √2, sin x·(√2/2) + cos x·(√2/2) = √2/2, adică sin(x + π/4) = √2/2. Deci x + π/4 = π/4 + 2kπ sau x + π/4 = 3π/4 + 2kπ, adică x = 2kπ sau x = π/2 + 2kπ. Rezolvăm 2sin²x − 3sin x + 1 = 0: t = sin x, t = 1 sau t = 1/2.",
+    "exercises": [
+     "Rezolvă: cos 3x = cos x.",
+     "Rezolvă: sin 2x = sin x.",
+     "Rezolvă: √3 sin x + cos x = 2.",
+     "Rezolvă: 2cos²x + cos x − 1 = 0.",
+     "Rezolvă: tg 2x = tg(x + π/4)."
+    ],
+    "test": [
+     "Soluțiile lui sin f = sin g, prima familie?",
+     "Soluțiile lui cos f = cos g?",
+     "Ce notație folosești la 2sin²x − sin x = 0?",
+     "Cu ce împarți la a sin x + b cos x = c?",
+     "Are soluții sin x + cos x = 3?"
+    ],
+    "steps": [
+     "Recunoaște tipul ecuației.",
+     "Aplică echivalența potrivită, notația sau transformarea în sin(x + φ).",
+     "Scrie familiile de soluții și verifică condițiile de existență.",
+     "Greșeala frecventă: la sin f = sin g să păstrezi doar f = g + 2kπ și să pierzi familia f = π − g + 2kπ."
+    ],
+    "answers": [
+     "f(x) = g(x) + 2kπ",
+     "f(x) = ±g(x) + 2kπ",
+     "t = sin x",
+     "√(a² + b²)",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l31": {
+   "ro": {
+    "title": "Teorema cosinusului",
+    "theory": "În orice triunghi ABC, cu laturile a = BC, b = CA, c = AB: a² = b² + c² − 2bc cos A (și analog pentru celelalte laturi). Teorema generalizează teorema lui Pitagora (pentru A = 90°, cos A = 0). Ea permite aflarea unei laturi când se cunosc două laturi și unghiul dintre ele, și a unghiurilor când se cunosc toate laturile. Semnul lui b² + c² − a² arată dacă unghiul A este ascuțit, drept sau obtuz.",
+    "sample": "Pentru b = 3, c = 5 și A = 60°, a² = 9 + 25 − 15 = 19, deci a = √19.",
+    "worked": "Triunghiul cu laturile 5, 7, 8: cel mai mare unghi se opune laturii 8. cos C = (25 + 49 − 64)/(2·5·7) = 10/70 = 1/7 > 0, deci triunghiul este ascuțitunghic. Pentru laturile 3, 5, 7: cos = (9 + 25 − 49)/30 = −1/2, unghiul de 120°.",
+    "exercises": [
+     "Află a știind b = 4, c = 6, A = 120°.",
+     "Află unghiul A al triunghiului cu laturile a = 7, b = 5, c = 8.",
+     "Stabilește natura triunghiului cu laturile 4, 5, 6.",
+     "Două drumuri pleacă din același punct sub 60°; după 3 km și 8 km, ce distanță este între capete?",
+     "Arată că teorema cosinusului devine teorema lui Pitagora pentru A = 90°."
+    ],
+    "test": [
+     "Formula teoremei cosinusului pentru a?",
+     "Dacă b² + c² − a² < 0, unghiul A este…?",
+     "Pentru A = 90°, ce teoremă obții?",
+     "cos A pentru laturile 3, 4, 5 cu a = 5?",
+     "Ce date sunt suficiente pentru a afla a?"
+    ],
+    "steps": [
+     "Identifică unghiul și laturile alăturate lui.",
+     "Aplică a² = b² + c² − 2bc cos A (sau formula pentru cos A).",
+     "Interpretează semnul cosinusului pentru natura triunghiului.",
+     "Greșeala frecventă: să greșești semnul termenului 2bc cos A când A este obtuz; cos A este negativ, deci termenul se adună."
+    ],
+    "answers": [
+     "a² = b² + c² − 2bc cos A",
+     "Obtuz",
+     "Teorema lui Pitagora",
+     "0",
+     "b, c și unghiul A"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l32": {
+   "ro": {
+    "title": "Teorema sinusurilor; rezolvarea triunghiurilor",
+    "theory": "În orice triunghi: a/sin A = b/sin B = c/sin C = 2R, unde R este raza cercului circumscris. Rezolvarea unui triunghi înseamnă aflarea tuturor laturilor și unghiurilor din trei date independente: LLL și LUL (cu teorema cosinusului), ULU și LUU (cu teorema sinusurilor și suma unghiurilor 180°). Cazul a două laturi și un unghi neinclus poate avea zero, una sau două soluții.",
+    "sample": "Pentru a = 10 și A = 30°, raza cercului circumscris este R = 10/(2·1/2) = 10.",
+    "worked": "Rezolvăm triunghiul cu A = 45°, B = 60°, a = 4. C = 75°. b = a sin B/sin A = 4·(√3/2)/(√2/2) = 2√6. c = a sin C/sin A = 4·((√6 + √2)/4)/(√2/2) = 2(√3 + 1).",
+    "exercises": [
+     "Află b știind a = 6, A = 30°, B = 45°.",
+     "Află raza cercului circumscris triunghiului cu a = 8 și A = 60°.",
+     "Rezolvă triunghiul cu b = 5, c = 7, A = 60°.",
+     "Un copac se vede din două puncte A și B, la 20 m unul de altul, sub unghiurile 30° și 45° față de AB. Află distanța de la B la copac.",
+     "Arată că într-un triunghi a = 2R sin A."
+    ],
+    "test": [
+     "Formula teoremei sinusurilor?",
+     "Cât este a/sin A în funcție de R?",
+     "Câte date independente trebuie pentru rezolvare?",
+     "A = 50°, B = 60°: C?",
+     "a = 2, A = 90°: R?"
+    ],
+    "steps": [
+     "Stabilește ce date ai (LLL, LUL, ULU, LUU).",
+     "Alege teorema: cosinusului pentru LLL și LUL, sinusurilor pentru unghiuri și o latură.",
+     "Află pe rând elementele lipsă și verifică suma unghiurilor.",
+     "Greșeala frecventă: să folosești teorema sinusurilor cu latura și unghiul care nu se opun una alteia; fiecare latură se împarte la sinusul unghiului opus."
+    ],
+    "answers": [
+     "a/sin A = b/sin B = c/sin C = 2R",
+     "2R",
+     "Trei",
+     "70°",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l33": {
+   "ro": {
+    "title": "Aria triunghiului; raza cercului înscris și a cercului circumscris",
+    "theory": "Formule pentru aria triunghiului: S = a·hₐ/2; S = (1/2)bc sin A; formula lui Heron S = √(p(p − a)(p − b)(p − c)), cu p semiperimetrul; S = abc/(4R); S = p·r. De aici aflăm R = abc/(4S) și r = S/p. Ariile figurilor descompuse în triunghiuri se obțin adunând ariile triunghiurilor.",
+    "sample": "Un triunghi cu b = 6, c = 8 și A = 30° are aria (1/2)·6·8·(1/2) = 12.",
+    "worked": "Triunghiul cu laturile 13, 14, 15: p = 21, S = √(21·8·7·6) = √7 056 = 84. R = 13·14·15/(4·84) = 2 730/336 = 65/8. r = 84/21 = 4.",
+    "exercises": [
+     "Află aria triunghiului cu laturile 5, 5, 6 cu formula lui Heron.",
+     "Află aria triunghiului cu a = 4, b = 7 și C = 150°.",
+     "Pentru triunghiul 3, 4, 5, află R și r.",
+     "Află aria unui paralelogram cu laturile 6 și 10 și unghiul de 60°.",
+     "Un triunghi echilateral are latura 6. Află R și r."
+    ],
+    "test": [
+     "Formula ariei cu sinus?",
+     "Formula lui Heron folosește…?",
+     "Cum afli raza cercului înscris r?",
+     "Cum afli raza cercului circumscris R?",
+     "Aria triunghiului 3, 4, 5?"
+    ],
+    "steps": [
+     "Alege formula potrivită datelor (înălțime, sinus, Heron).",
+     "Calculează aria și semiperimetrul.",
+     "Află R = abc/(4S) și r = S/p.",
+     "Greșeala frecventă: în formula lui Heron să folosești perimetrul în loc de semiperimetru."
+    ],
+    "answers": [
+     "S = (1/2)bc sin A",
+     "Semiperimetrul și laturile",
+     "S/p",
+     "abc/(4S)",
+     "6"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l34": {
+   "ro": {
+    "title": "Teorema bisectoarei; relația lui Stewart; lungimile medianei și bisectoarei",
+    "theory": "Teorema bisectoarei: bisectoarea din A împarte latura opusă în segmente proporționale cu laturile alăturate: BD/DC = AB/AC. Relația lui Stewart: pentru D ∈ (BC), AB²·DC + AC²·BD − AD²·BC = BC·BD·DC. Din ea obținem lungimea medianei: mₐ² = (2b² + 2c² − a²)/4, și a bisectoarei: lₐ² = bc(1 − a²/(b + c)²).",
+    "sample": "Dacă AB = 6, AC = 9 și BC = 10, bisectoarea din A împarte BC în 4 și 6.",
+    "worked": "Mediana din A a triunghiului cu a = 8, b = 6, c = 4: mₐ² = (72 + 32 − 64)/4 = 10, mₐ = √10. Bisectoarea din A pentru b = 6, c = 3, a = 6: lₐ² = 18(1 − 36/81) = 18·45/81 = 10, lₐ = √10.",
+    "exercises": [
+     "AB = 8, AC = 12, BC = 15. Află BD și DC, unde AD este bisectoare.",
+     "Află mediana din A pentru a = 10, b = 8, c = 6.",
+     "Verifică relația lui Stewart pentru mediana din exemplul cu a = 8, b = 6, c = 4.",
+     "Află lungimea bisectoarei din A pentru b = 4, c = 4, a = 4.",
+     "Arată că în triunghiul dreptunghic mediana corespunzătoare ipotenuzei are jumătate din ipotenuză."
+    ],
+    "test": [
+     "BD/DC pentru bisectoare = ?",
+     "Formula medianei mₐ²?",
+     "Pentru b = c = 2, a = 2, mediana mₐ?",
+     "În ce caz folosim relația lui Stewart?",
+     "AB = AC: bisectoarea din A împarte BC în…?"
+    ],
+    "steps": [
+     "Desenează segmentul din vârf către latura opusă și notează BD, DC.",
+     "Aplică teorema bisectoarei sau relația lui Stewart.",
+     "Pentru mediană și bisectoare folosește formulele deduse și verifică.",
+     "Greșeala frecventă: la teorema bisectoarei să scrii BD/DC = AC/AB (inversat); segmentul alăturat lui B corespunde laturii AB."
+    ],
+    "answers": [
+     "AB/AC",
+     "(2b² + 2c² − a²)/4",
+     "√3",
+     "Pentru un segment dintr-un vârf la un punct al laturii opuse",
+     "Două segmente egale"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l35": {
+   "ro": {
+    "title": "Concurență și coliniaritate: teorema lui Menelaus și teorema lui Ceva",
+    "theory": "Teorema lui Menelaus: dacă o dreaptă taie dreptele BC, CA, AB în D, E, F, atunci (DB/DC)·(EC/EA)·(FA/FB) = 1; reciproca arată coliniaritatea a trei puncte. Teorema lui Ceva: dreptele AD, BE, CF (D ∈ BC, E ∈ CA, F ∈ AB) sunt concurente dacă și numai dacă (DB/DC)·(EC/EA)·(FA/FB) = 1, cu punctele pe laturi. Ceva explică de ce medianele, bisectoarele și înălțimile sunt concurente.",
+    "sample": "Pentru mediane fiecare raport este 1, deci produsul este 1 și medianele sunt concurente.",
+    "worked": "Bisectoarele sunt concurente: DB/DC = c/b, EC/EA = a/c, FA/FB = b/a; produsul (c/b)(a/c)(b/a) = 1, deci, după Ceva, ele trec prin același punct. Cu Menelaus: în △ABC, M mijlocul lui AB, N pe AC cu AN/NC = 2; dreapta MN taie BC în P cu PB/PC·(NC/NA)·(MA/MB) = 1, deci PB/PC = 2.",
+    "exercises": [
+     "Arată cu teorema lui Ceva că medianele sunt concurente.",
+     "Pe laturile triunghiului avem BD/DC = 2, CE/EA = 3. Ce valoare trebuie să aibă AF/FB pentru concurență?",
+     "Arată că bisectoarele interioare sunt concurente.",
+     "Enunță reciproca teoremei lui Menelaus.",
+     "În exemplul cu M și N, verifică calculul pentru PB/PC."
+    ],
+    "test": [
+     "Ce demonstrează teorema lui Ceva?",
+     "Ce demonstrează reciproca teoremei lui Menelaus?",
+     "Produsul rapoartelor în teoremele lui Ceva și Menelaus este…?",
+     "Pentru mediane, fiecare raport este…?",
+     "Trebuie respectată ordinea de parcurgere a laturilor?"
+    ],
+    "steps": [
+     "Desenează triunghiul și punctele de pe laturi (sau de pe prelungiri).",
+     "Scrie produsul celor trei rapoarte parcurgând vârfurile în ordine circulară.",
+     "Verifică dacă produsul este 1 și concluzionează concurența (Ceva) sau coliniaritatea (Menelaus).",
+     "Greșeala frecventă: să scrii rapoartele într-o ordine amestecată; trebuie parcurs triunghiul circular (A → B → C → A)."
+    ],
+    "answers": [
+     "Concurența a trei drepte din vârfuri",
+     "Coliniaritatea a trei puncte",
+     "1",
+     "1",
+     "Da"
+    ]
+   }
+  }
+ }
+}

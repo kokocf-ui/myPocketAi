@@ -1,0 +1,201 @@
+{
+ "schema": "mypocket-literature-authored-catalog/v1",
+ "version": "1e6afdaf9d9b0e7d4920129165ef13bccd4b924719bf68d9c10a033818c1716e",
+ "years": [
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-1",
+     "version": "4d8f2dc606c80e13edff51d5a549837bb196a32f5d19d4255ea46b0814df43d4"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-2",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-2",
+     "version": "0e8abbf280f61bfbf67081b3a0a0e9fe90bb8284b407592597291e3da0c0ebf9"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "advanced",
+   "grade": "uni-ba-3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-uni-ba-3",
+     "version": "1a335f9c4521410b3abb49b269d7dadc36d939e44601ffe8619fba5b0caa4cd0"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "1",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-1",
+     "version": "ecab12c3169164c96fc4f64daaccf137c80e9baaa1e79e265d22d430a24eaee5"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "2",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-2",
+     "version": "d9293d22ec85fc1e9ded67f6bb972ead2548d736dd6593b40150db608829097f"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "3",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-3",
+     "version": "04ea9e12ab04e9bd5a2696162c9dbf9d0bb6a60c126d1d8f80f0b4d6ad3e8463"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "beginner",
+   "grade": "4",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-4",
+     "version": "7c3d20beb6af2b3276afdec43b29d6c4312b2222733fc6aedd944c120d89c622"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "5",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-5",
+     "version": "7c77459d219da638b4b29261b772ae9d6fee133cdbfdd51ed0c578702f010377"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "6",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-6",
+     "version": "585b30a006c403495cd60fdd8b5114ad0b42b059cbc8bfabc8ee57aae47c1914"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "7",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-7",
+     "version": "2809df17e521eac81719acd767e23c1c1ab5832a75695cddb19094b9c5b307fa"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "lower",
+   "grade": "8",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-8",
+     "version": "39eb61468b68a7ad868aa05c53ccc7a228b37893d1895bf128cc3aade9ab5be0"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "9",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-9",
+     "version": "9c6909599767f5775c9db5e1b3e4e11d62893d59be15f63e6a6164f2ceda943b"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "10",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-10",
+     "version": "0e15ff06e658ef52f1f57860050c796a59fac1ecdd75bef32ac31efd3bdb610a"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "11",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-11",
+     "version": "2528a34ac87f8f0b39fa520c257c2708c2d1c6d3df1eebb6d1b706f92167aa43"
+    }
+   ]
+  },
+  {
+   "country": "RO",
+   "stage": "medium",
+   "grade": "12",
+   "languages": [
+    {
+     "lang": "ro",
+     "name": "Română",
+     "file": "ro-12",
+     "version": "30fd0cd37103437111e4b4e8a01720b5c66e7236754002914fea0ba9ce67cf7a"
+    }
+   ]
+  }
+ ]
+}

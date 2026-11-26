@@ -20,7 +20,7 @@ const script=html.match(/<script>([\s\S]*?)<\/script>/)?.[1];
 assert.ok(script,'Browser script served');
 new vm.Script(script);
 for(const fragment of [
- "root.classList.toggle('science-scroll-stage',['subjects','years','topics','specialties','physics-laws','chemistry-laws','chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage));",
+ "root.classList.toggle('science-scroll-stage',['subjects','years','topics','national-lesson','specialties','physics-laws','chemistry-laws','chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage));",
  "lawsButton.onclick=()=>scienceJourneyShowChoices('physics-laws')",
  "if(current==='physics-laws'||current==='chemistry-laws')scienceJourney.stage='years';",
  "page.style.setProperty('--science-selector-height'",

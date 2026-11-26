@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "2528a34ac87f8f0b39fa520c257c2708c2d1c6d3df1eebb6d1b706f92167aa43",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Matematică pentru clasa a XI-a, ciclul superior al liceului, filiera teoretică, profilul real, specializarea matematică-informatică (programa M1 aprobată prin OMEC nr. 3252/13.02.2006, în vigoare pentru clasa a XI-a în 2026–2027, până la aplicarea progresivă a programelor OMEC 2025) — elemente de calcul matriceal și sisteme de ecuații liniare; elemente de analiză matematică (limite, continuitate, derivabilitate, studiul funcțiilor); lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a XI-a (matematică-informatică, M1)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Permutări",
+   "keys": [
+    "eu-year-ro-medium-11-l01",
+    "eu-year-ro-medium-11-l02"
+   ]
+  },
+  {
+   "title": "Matrice",
+   "keys": [
+    "eu-year-ro-medium-11-l03",
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05"
+   ]
+  },
+  {
+   "title": "Determinanți",
+   "keys": [
+    "eu-year-ro-medium-11-l06",
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08",
+    "eu-year-ro-medium-11-l09",
+    "eu-year-ro-medium-11-l10"
+   ]
+  },
+  {
+   "title": "Sisteme de ecuații liniare",
+   "keys": [
+    "eu-year-ro-medium-11-l11",
+    "eu-year-ro-medium-11-l12",
+    "eu-year-ro-medium-11-l13"
+   ]
+  },
+  {
+   "title": "Limite de șiruri",
+   "keys": [
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15",
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17"
+   ]
+  },
+  {
+   "title": "Limite de funcții; continuitate",
+   "keys": [
+    "eu-year-ro-medium-11-l18",
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21"
+   ]
+  },
+  {
+   "title": "Funcții derivabile",
+   "keys": [
+    "eu-year-ro-medium-11-l22",
+    "eu-year-ro-medium-11-l23",
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25"
+   ]
+  },
+  {
+   "title": "Studiul funcțiilor cu ajutorul derivatelor",
+   "keys": [
+    "eu-year-ro-medium-11-l26",
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28",
+    "eu-year-ro-medium-11-l29",
+    "eu-year-ro-medium-11-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Permutări: definiție, compunere, permutarea inversă",
+    "theory": "O permutare de gradul n este o funcție bijectivă σ: {1, 2, …, n} → {1, 2, …, n}; o scriem pe două rânduri, cu valorile σ(1), …, σ(n) sub numerele 1, …, n. Mulțimea lor, Sₙ, are n! elemente. Compunerea στ înseamnă: aplici întâi τ, apoi σ. Permutarea identică e lasă totul pe loc, iar inversa σ⁻¹ „întoarce” săgețile: σ⁻¹(σ(k)) = k. Compunerea nu este în general comutativă.",
+    "sample": "Permutarea σ = (1 2 3 / 2 3 1) trimite 1 → 2, 2 → 3, 3 → 1, iar inversa ei trimite 2 → 1, 3 → 2, 1 → 3.",
+    "worked": "Pentru σ = (1 2 3 / 2 3 1) și τ = (1 2 3 / 2 1 3): στ(1) = σ(τ(1)) = σ(2) = 3, στ(2) = σ(1) = 2, στ(3) = σ(3) = 1, deci στ = (1 2 3 / 3 2 1). Iar τσ(1) = τ(2) = 1, τσ(2) = τ(3) = 3, τσ(3) = τ(1) = 2, deci τσ = (1 2 3 / 1 3 2) ≠ στ.",
+    "exercises": [
+     "Câte permutări de gradul 4 există?",
+     "Pentru σ = (1 2 3 4 / 3 1 4 2), calculează σ².",
+     "Află inversa permutării σ = (1 2 3 4 / 2 4 1 3).",
+     "Calculează σ³ pentru σ = (1 2 3 / 2 3 1). Ce observi?",
+     "Rezolvă ecuația σx = τ în S₃, cu σ = (1 2 3 / 2 3 1), τ = (1 2 3 / 1 3 2)."
+    ],
+    "test": [
+     "Câte elemente are S₃?",
+     "Ce face permutarea identică?",
+     "Este compunerea permutărilor comutativă?",
+     "Ce este σ⁻¹σ?",
+     "Cum se citește στ: ce aplici întâi?"
+    ],
+    "steps": [
+     "Scrie permutările pe două rânduri.",
+     "Pentru compunere, urmărește fiecare număr: întâi prin permutarea din dreapta, apoi prin cea din stânga.",
+     "Pentru inversă, inversează rândurile și reordonează coloanele.",
+     "Greșeala frecventă: să compui de la stânga la dreapta; în στ se aplică întâi τ."
+    ],
+    "answers": [
+     "6",
+     "Lasă fiecare element pe loc",
+     "Nu, în general",
+     "Permutarea identică",
+     "Întâi τ, apoi σ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Inversiuni, signatura unei permutări, transpoziții",
+    "theory": "O inversiune a permutării σ este o pereche (i, j) cu i < j și σ(i) > σ(j). Notăm m(σ) numărul inversiunilor; signatura este ε(σ) = (−1)^m(σ). Permutarea este pară dacă ε = 1 și impară dacă ε = −1. O transpoziție schimbă între ele doar două elemente și este impară. Proprietate: ε(στ) = ε(σ)·ε(τ).",
+    "sample": "Permutarea (1 2 3 / 3 2 1) are inversiunile (1,2), (1,3), (2,3), deci este impară.",
+    "worked": "Pentru σ = (1 2 3 4 / 2 4 1 3), rândul de jos este 2, 4, 1, 3. Perechi inversate: 2 > 1, 4 > 1, 4 > 3, deci m(σ) = 3 și ε(σ) = −1 (impară). Pentru σ²: ε(σ²) = (−1)² = 1, deci σ² este pară, fără a o calcula.",
+    "exercises": [
+     "Numără inversiunile pentru (1 2 3 4 / 4 3 2 1).",
+     "Stabilește paritatea permutării (1 2 3 4 5 / 2 1 4 5 3).",
+     "Scrie transpoziția (2 4) din S₄ pe două rânduri și calculează-i signatura.",
+     "Arată că ε(σ⁻¹) = ε(σ).",
+     "Câte permutări pare are S₃? Enumeră-le."
+    ],
+    "test": [
+     "Câte inversiuni are identitatea?",
+     "Ce signatură are o transpoziție?",
+     "Ce înseamnă permutare pară?",
+     "ε(στ) = ?",
+     "Câte inversiuni are (1 2 / 2 1)?"
+    ],
+    "steps": [
+     "Scrie rândul de jos al permutării.",
+     "Numără, pentru fiecare element, câte elemente mai mici apar după el.",
+     "Adună (m(σ)) și calculează ε(σ) = (−1)^m(σ).",
+     "Greșeala frecventă: să numeri perechile cu i < j și σ(i) < σ(j); inversiunile sunt perechile „în ordine greșită”."
+    ],
+    "answers": [
+     "0",
+     "−1",
+     "Are signatura 1",
+     "ε(σ)·ε(τ)",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Matrice: tipuri, egalitate, adunare, înmulțire cu un scalar",
+    "theory": "O matrice de tip m × n este un tablou cu m linii și n coloane; elementul de pe linia i și coloana j se notează aᵢⱼ. Matricea pătratică are m = n; diagonala principală conține a₁₁, a₂₂, …. Matricea unitate Iₙ are 1 pe diagonală și 0 în rest; matricea nulă O are toate elementele 0. Două matrice de același tip sunt egale dacă au elementele corespunzătoare egale. Adunăm element cu element; la înmulțirea cu un număr se înmulțește fiecare element. Transpusa ᵗA schimbă liniile cu coloanele.",
+    "sample": "Suma matricelor (1 2 / 3 4) și (0 1 / 1 0) este (1 3 / 4 4).",
+    "worked": "Pentru A = (2 −1 / 0 3) și B = (1 4 / −2 5): 2A − B = (4 −2 / 0 6) − (1 4 / −2 5) = (3 −6 / 2 1). Transpusa lui A este ᵗA = (2 0 / −1 3).",
+    "exercises": [
+     "Calculează 3A + B pentru A = (1 0 / 2 −1), B = (4 2 / 1 3).",
+     "Află x, y din (x + 1 2 / 3 y) = (4 2 / 3 −5).",
+     "Scrie transpusa matricei (1 2 3 / 4 5 6).",
+     "Află matricea X din 2X + A = B, cu A = (1 1 / 1 1), B = (3 5 / 7 9).",
+     "Scrie matricea A de tip 3 × 3 cu aᵢⱼ = i + j."
+    ],
+    "test": [
+     "Câte elemente are o matrice 2 × 3?",
+     "Ce este matricea unitate I₂?",
+     "Ce tip are transpusa unei matrice 2 × 3?",
+     "Se pot aduna matrice de tipuri diferite?",
+     "Ce indică indicele j din aᵢⱼ?"
+    ],
+    "steps": [
+     "Verifică tipul matricelor (operațiile cer același tip).",
+     "Efectuează operația element cu element.",
+     "Verifică rezultatul pe un element ales.",
+     "Greșeala frecventă: să încerci să aduni matrice de tipuri diferite; adunarea este definită doar pentru același tip."
+    ],
+    "answers": [
+     "6",
+     "Matricea (1 0 / 0 1)",
+     "3 × 2",
+     "Nu",
+     "Coloana"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Înmulțirea matricelor; proprietăți",
+    "theory": "Produsul AB există când numărul de coloane ale lui A este egal cu numărul de linii ale lui B; dacă A este m × n și B este n × p, AB este m × p. Elementul (i, j) al lui AB este suma produselor dintre elementele liniei i din A și elementele coloanei j din B. Înmulțirea este asociativă și distributivă față de adunare, AIₙ = IₙA = A, dar NU este comutativă în general.",
+    "sample": "Produsul (1 2)·(3 / 4) al unei linii cu o coloană este 1·3 + 2·4 = 11.",
+    "worked": "Pentru A = (1 2 / 0 1) și B = (1 0 / 3 1): AB = (1·1 + 2·3  1·0 + 2·1 / 0·1 + 1·3  0·0 + 1·1) = (7 2 / 3 1), iar BA = (1 2 / 3 7). Deci AB ≠ BA.",
+    "exercises": [
+     "Calculează AB și BA pentru A = (2 1 / 1 0), B = (0 1 / 1 1).",
+     "Calculează (1 2 3)·(1 / 0 / −1).",
+     "Poți înmulți o matrice 2 × 3 cu una 2 × 3? Justifică.",
+     "Verifică pe un exemplu că (A + B)² ≠ A² + 2AB + B² când AB ≠ BA.",
+     "Află matricele X = (a b / c d) care comută cu A = (1 1 / 0 1)."
+    ],
+    "test": [
+     "Ce tip are produsul unei 2 × 3 cu o 3 × 4?",
+     "Este AB = BA mereu?",
+     "Cât este A·I₂ pentru A pătratică de ordin 2?",
+     "Ce condiție trebuie pentru a exista AB?",
+     "Ce dimensiune are (1 2)·(3 / 4)?"
+    ],
+    "steps": [
+     "Verifică compatibilitatea: coloanele lui A = liniile lui B.",
+     "Calculează fiecare element ca „linie din A ori coloană din B”.",
+     "Verifică tipul rezultatului (m × p).",
+     "Greșeala frecventă: să înmulțești element cu element (ca la adunare); produsul se face linie × coloană."
+    ],
+    "answers": [
+     "2 × 4",
+     "Nu",
+     "A",
+     "Coloanele lui A = liniile lui B",
+     "1 × 1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "Puteri ale unei matrice pătratice; demonstrații prin inducție",
+    "theory": "Pentru A pătratică definim A¹ = A, Aⁿ⁺¹ = Aⁿ·A. Pentru a calcula Aⁿ calculăm câteva puteri, intuim forma generală și o demonstrăm prin inducție matematică. Utilă este relația Hamilton–Cayley pentru matrice de ordin 2: A² − (a + d)A + (ad − bc)I₂ = O, unde A = (a b / c d).",
+    "sample": "Pentru A = (1 1 / 0 1) avem A² = (1 2 / 0 1), A³ = (1 3 / 0 1), deci intuim Aⁿ = (1 n / 0 1).",
+    "worked": "Demonstrăm Aⁿ = (1 n / 0 1) prin inducție: pentru n = 1 este adevărat. Dacă Aⁿ = (1 n / 0 1), atunci Aⁿ⁺¹ = (1 n / 0 1)(1 1 / 0 1) = (1 n + 1 / 0 1). Deci formula este adevărată pentru orice n ≥ 1.",
+    "exercises": [
+     "Calculează A² și A³ pentru A = (2 0 / 0 3) și scrie Aⁿ.",
+     "Calculează Aⁿ pentru A = (1 0 / 2 1).",
+     "Verifică relația Hamilton–Cayley pentru A = (1 2 / 3 4).",
+     "Pentru A = (0 1 / 0 0), calculează A². Ce observi?",
+     "Demonstrează prin inducție că (a 0 / 0 b)ⁿ = (aⁿ 0 / 0 bⁿ)."
+    ],
+    "test": [
+     "Cât este I₂ⁿ?",
+     "Formula lui Aⁿ pentru A = (1 1 / 0 1)?",
+     "Ce metodă confirmă formula lui Aⁿ?",
+     "Cât este (2I₂)³?",
+     "Ce afirmă Hamilton–Cayley pentru ordinul 2?"
+    ],
+    "steps": [
+     "Calculează A², A³ și caută o regulă.",
+     "Formulează forma generală pentru Aⁿ.",
+     "Demonstreaz-o prin inducție: verificare pentru n = 1, apoi pasul n → n + 1.",
+     "Greșeala frecventă: să ridici fiecare element la puterea n; (1 1 / 0 1)ⁿ nu este (1 1 / 0 1)."
+    ],
+    "answers": [
+     "I₂",
+     "(1 n / 0 1)",
+     "Inducția matematică",
+     "8I₂",
+     "A² − (a + d)A + (ad − bc)I₂ = O"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Determinantul de ordin 2 și de ordin 3; regula lui Sarrus",
+    "theory": "Determinantul de ordin 2: |a b / c d| = ad − bc. Determinantul de ordin 3 se calculează cu regula lui Sarrus (copiem primele două linii sub determinant, adunăm produsele pe diagonalele descendente și scădem produsele pe diagonalele ascendente) sau cu regula triunghiului. Determinantul este un număr asociat doar matricelor pătratice.",
+    "sample": "Determinantul de ordin 2 |3 1 / 4 2| este 3·2 − 1·4 = 2.",
+    "worked": "Calculăm |1 2 0 / 3 1 2 / 0 1 1| cu Sarrus: diagonale descendente 1·1·1 + 3·1·0 + 0·2·2 = 1; ascendente 0·1·0 + 2·1·1 + 1·2·3 = 0 + 2 + 6 = 8. Determinantul este 1 − 8 = −7 (verificare prin dezvoltare după prima linie: 1·(1 − 2) − 2·(3 − 0) + 0 = −7).",
+    "exercises": [
+     "Calculează: |5 −2 / 3 4|.",
+     "Calculează cu Sarrus: |2 0 1 / 1 3 0 / 0 1 2|.",
+     "Rezolvă ecuația |x 2 / 3 x| = 10.",
+     "Calculează determinantul matricei I₃.",
+     "Calculează: |1 1 1 / 1 2 3 / 1 4 9|."
+    ],
+    "test": [
+     "Formula determinantului de ordin 2?",
+     "Cât este det I₂?",
+     "|2 3 / 4 6| = ?",
+     "Are determinant o matrice 2 × 3?",
+     "Câte produse apar la Sarrus în total?"
+    ],
+    "steps": [
+     "Scrie elementele determinantului cu atenție la semne.",
+     "Aplică formula (ordin 2) sau regula lui Sarrus (ordin 3).",
+     "Adună produsele descendente, scade-le pe cele ascendente și verifică semnele.",
+     "Greșeala frecventă: să uiți să scazi produsele de pe diagonalele secundare sau să greșești semnele elementelor negative."
+    ],
+    "answers": [
+     "ad − bc",
+     "1",
+     "0",
+     "Nu",
+     "6"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Proprietățile determinanților; dezvoltarea după o linie",
+    "theory": "Proprietăți: det(ᵗA) = det A; schimbarea a două linii schimbă semnul; o linie de zerouri sau două linii proporționale dau determinantul 0; un factor comun al unei linii iese în fața determinantului; adunarea la o linie a unei alte linii înmulțite cu un număr nu schimbă determinantul; det(AB) = det A·det B. Determinantul se poate dezvolta după o linie: suma produselor elementelor liniei cu complemenții lor algebrici (−1)^(i+j)·minor.",
+    "sample": "Determinantul |1 2 3 / 2 4 6 / 7 8 9| este 0, pentru că linia a doua este dublul primei.",
+    "worked": "Calculăm |1 2 3 / 0 4 5 / 0 0 6|: matricea este triunghiulară, deci determinantul este produsul diagonalei, 1·4·6 = 24. Verificăm prin dezvoltare după coloana 1: 1·|4 5 / 0 6| = 1·24 = 24.",
+    "exercises": [
+     "Calculează fără Sarrus: |2 4 6 / 1 3 5 / 0 0 0|.",
+     "Calculează: |a a a / 1 2 3 / 4 5 6|.",
+     "Dezvoltă după prima linie: |2 1 0 / 1 3 1 / 0 1 2|.",
+     "Dacă det A = 3 pentru A de ordin 3, cât este det(2A)?",
+     "Arată că |1 a a² / 1 b b² / 1 c c²| = (b − a)(c − a)(c − b) pentru valorile a = 1, b = 2, c = 3."
+    ],
+    "test": [
+     "Ce se întâmplă la schimbarea a două linii?",
+     "det(ᵗA) comparat cu det A?",
+     "Determinant cu două linii egale?",
+     "det(AB) = ?",
+     "Determinantul unei matrice triunghiulare?"
+    ],
+    "steps": [
+     "Caută proprietăți care simplifică (linii proporționale, zerouri, factori comuni).",
+     "Fă zerouri pe o linie sau coloană prin operații permise.",
+     "Dezvoltă după linia cu cele mai multe zerouri.",
+     "Greșeala frecventă: să crezi că det(2A) = 2 det A pentru ordin 3; factorul iese din fiecare linie, deci det(2A) = 8 det A."
+    ],
+    "answers": [
+     "Se schimbă semnul",
+     "Sunt egale",
+     "0",
+     "det A·det B",
+     "Produsul elementelor de pe diagonală"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Aplicații ale determinanților în geometrie",
+    "theory": "Pentru punctele A(x₁, y₁), B(x₂, y₂), C(x₃, y₃) definim Δ = |x₁ y₁ 1 / x₂ y₂ 1 / x₃ y₃ 1|. Aria triunghiului ABC este |Δ|/2. Punctele sunt coliniare dacă și numai dacă Δ = 0. Ecuația dreptei prin A și B: |x y 1 / x₁ y₁ 1 / x₂ y₂ 1| = 0.",
+    "sample": "Punctele (0, 0), (1, 1), (2, 2) sunt coliniare, deoarece determinantul lor este 0.",
+    "worked": "Aria triunghiului A(1, 2), B(4, 2), C(1, 6): Δ = |1 2 1 / 4 2 1 / 1 6 1| = 1·(2 − 6) − 2·(4 − 1) + 1·(24 − 2) = −4 − 6 + 22 = 12, aria = 6. Verificare: catete 3 și 4, aria 6.",
+    "exercises": [
+     "Calculează aria triunghiului cu vârfurile (0, 0), (5, 0), (0, 4).",
+     "Verifică dacă punctele (1, 3), (2, 5), (4, 9) sunt coliniare.",
+     "Scrie cu determinant ecuația dreptei prin (1, 2) și (3, 8).",
+     "Află m pentru care punctele (1, 1), (2, m), (3, 5) sunt coliniare.",
+     "Calculează aria patrulaterului cu vârfurile (0, 0), (4, 0), (4, 3), (0, 3) împărțindu-l în două triunghiuri."
+    ],
+    "test": [
+     "Formula ariei cu determinant?",
+     "Când sunt trei puncte coliniare?",
+     "Ce coloană se adaugă în Δ?",
+     "Aria triunghiului (0, 0), (2, 0), (0, 3)?",
+     "Poate fi aria negativă?"
+    ],
+    "steps": [
+     "Scrie determinantul Δ cu coordonatele și coloana de 1.",
+     "Calculează-l (Sarrus sau dezvoltare).",
+     "Interpretează: aria = |Δ|/2, coliniaritate dacă Δ = 0.",
+     "Greșeala frecventă: să uiți modulul și jumătatea; aria este |Δ|/2, nu Δ."
+    ],
+    "answers": [
+     "|Δ|/2",
+     "Când Δ = 0",
+     "O coloană de 1",
+     "3",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Matrice inversabilă; inversa unei matrice; ecuații matriceale",
+    "theory": "Matricea pătratică A este inversabilă dacă există A⁻¹ cu AA⁻¹ = A⁻¹A = Iₙ; aceasta are loc dacă și numai dacă det A ≠ 0. Pentru ordinul 2: (a b / c d)⁻¹ = (1/(ad − bc))·(d −b / −c a). În general A⁻¹ = (1/det A)·A*, unde A* este adjuncta (transpusa matricei complemenților algebrici). Ecuațiile AX = B au soluția X = A⁻¹B, iar XA = B are X = BA⁻¹.",
+    "sample": "Matricea (2 1 / 5 3) are determinantul 1 și inversa (3 −1 / −5 2).",
+    "worked": "Rezolvăm (1 2 / 3 4)·X = (5 / 6): det = −2, inversa = (1/−2)(4 −2 / −3 1) = (−2 1 / 3/2 −1/2). X = (−2·5 + 1·6 / 3/2·5 − 1/2·6) = (−4 / 9/2). Verificăm: 1·(−4) + 2·4,5 = 5 și 3·(−4) + 4·4,5 = 6.",
+    "exercises": [
+     "Este inversabilă (2 4 / 1 2)? Justifică.",
+     "Calculează inversa lui (3 1 / 2 1).",
+     "Află m pentru care (m 2 / 3 m) este inversabilă.",
+     "Rezolvă ecuația X·(1 1 / 0 1) = (2 3 / 1 4).",
+     "Verifică AA⁻¹ = I₂ pentru A = (4 7 / 1 2)."
+    ],
+    "test": [
+     "Când este inversabilă o matrice?",
+     "Inversa lui I₂?",
+     "Soluția lui AX = B?",
+     "Inversa lui (2 0 / 0 2)?",
+     "Este inversabilă (1 2 / 2 4)?"
+    ],
+    "steps": [
+     "Calculează det A și verifică dacă este nenul.",
+     "Calculează inversa (formula de ordin 2 sau adjuncta).",
+     "Rezolvă ecuația înmulțind cu A⁻¹ pe partea corectă și verifică.",
+     "Greșeala frecventă: la XA = B să scrii X = A⁻¹B; corect este X = BA⁻¹, pentru că înmulțirea nu este comutativă."
+    ],
+    "answers": [
+     "Când det A ≠ 0",
+     "I₂",
+     "X = A⁻¹B",
+     "(1/2 0 / 0 1/2)",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Rangul unei matrice",
+    "theory": "Rangul unei matrice nenule este ordinul maxim al unui minor nenul (determinant format din elementele aflate la intersecția a k linii și k coloane). Practic: găsim un minor nenul de ordin k și verificăm doar minorii de ordin k + 1 care îl „bordează”; dacă toți sunt 0, rangul este k. Rangul nu se schimbă la transpunere și la transformări elementare pe linii.",
+    "sample": "Matricea (1 2 / 2 4) are rangul 1, pentru că determinantul ei este 0, dar are elemente nenule.",
+    "worked": "A = (1 2 3 / 2 4 6 / 1 0 1). Minorul |1 2 / 1 0| = −2 ≠ 0, deci rang ≥ 2. Unicul minor de ordin 3 este det A, care are liniile 1 și 2 proporționale, deci det A = 0. Rangul este 2.",
+    "exercises": [
+     "Află rangul matricei (1 2 / 3 4).",
+     "Află rangul matricei (1 −1 2 / −2 2 −4).",
+     "Află rangul matricei (1 0 1 / 0 1 1 / 1 1 2).",
+     "Discută după m rangul matricei (1 m / m 1).",
+     "Explică de ce rangul unei matrice 2 × 5 este cel mult 2."
+    ],
+    "test": [
+     "Rangul matricei nule?",
+     "Rangul lui I₃?",
+     "Rangul maxim al unei matrice 3 × 4?",
+     "Rangul lui (1 2 / 2 4)?",
+     "Ce înseamnă un minor bordat?"
+    ],
+    "steps": [
+     "Pornește de la un minor nenul de ordin mic.",
+     "Bordează-l cu o linie și o coloană și calculează minorii obținuți.",
+     "Dacă toți minorii bordați sunt 0, rangul este ordinul minorului nenul.",
+     "Greșeala frecventă: să concluzionezi rangul după un singur minor nul; trebuie verificați toți minorii bordați de ordinul următor."
+    ],
+    "answers": [
+     "0",
+     "3",
+     "3",
+     "1",
+     "Un minor extins cu o linie și o coloană"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Sisteme liniare: forma matriceală; regula lui Cramer",
+    "theory": "Un sistem de n ecuații liniare cu n necunoscute se scrie AX = B, unde A este matricea coeficienților. Dacă det A = Δ ≠ 0, sistemul este compatibil determinat (soluție unică), dată de regula lui Cramer: xᵢ = Δᵢ/Δ, unde Δᵢ se obține din Δ înlocuind coloana i cu coloana termenilor liberi. Un astfel de sistem se numește sistem Cramer.",
+    "sample": "Sistemul x + y = 3, x − y = 1 are Δ = −2, Δₓ = −4, Δᵧ = −2, deci x = 2, y = 1.",
+    "worked": "Sistemul x + y + z = 6, x − y + z = 2, 2x + y − z = 1: Δ = |1 1 1 / 1 −1 1 / 2 1 −1| = 6. Δₓ = |6 1 1 / 2 −1 1 / 1 1 −1| = 6, Δᵧ = 12, Δ_z = 18, deci x = 1, y = 2, z = 3. Verificare: 2 + 2 − 3 = 1.",
+    "exercises": [
+     "Rezolvă cu Cramer: 2x + 3y = 8, x − y = −1.",
+     "Scrie în formă matriceală: x + 2y − z = 1, 3x − y = 4, y + z = 2.",
+     "Rezolvă cu Cramer: x + y = 5, y + z = 7, x + z = 6.",
+     "Pentru ce m sistemul mx + y = 1, x + my = 1 este sistem Cramer?",
+     "Rezolvă sistemul de la exercițiul 1 și prin metoda reducerii și compară."
+    ],
+    "test": [
+     "Când este un sistem de tip Cramer?",
+     "Formula lui x prin Cramer?",
+     "Ce coloană înlocuiești în Δᵧ?",
+     "Câte soluții are un sistem Cramer?",
+     "Cum se scrie sistemul matriceal?"
+    ],
+    "steps": [
+     "Scrie matricea sistemului și calculează Δ.",
+     "Dacă Δ ≠ 0, calculează Δₓ, Δᵧ, Δ_z înlocuind coloana corespunzătoare.",
+     "Împarte și verifică soluția în toate ecuațiile.",
+     "Greșeala frecventă: să înlocuiești o linie în loc de coloană când formezi Δₓ."
+    ],
+    "answers": [
+     "Când Δ ≠ 0",
+     "x = Δₓ/Δ",
+     "Coloana lui y",
+     "Una singură",
+     "AX = B"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Compatibilitatea sistemelor; teoremele Kronecker–Capelli și Rouché; sisteme omogene",
+    "theory": "Teorema Kronecker–Capelli: un sistem este compatibil dacă și numai dacă rangul matricei sistemului este egal cu rangul matricei extinse (cu coloana termenilor liberi). Echivalent (Rouché), toți minorii caracteristici sunt nuli. Dacă rangul este egal cu numărul necunoscutelor, soluția este unică; dacă este mai mic, sistemul este compatibil nedeterminat (necunoscutele secundare devin parametri). Un sistem omogen (termeni liberi 0) are mereu soluția nulă; are și alte soluții dacă și numai dacă rangul este mai mic decât numărul necunoscutelor (pentru n × n: det = 0).",
+    "sample": "Sistemul x + y = 1, 2x + 2y = 3 este incompatibil: rangul matricei este 1, al celei extinse 2.",
+    "worked": "x + y + z = 3, x − y + z = 1, 2x + 2z = 4: Δ = 0, rangul matricei este 2 (minorul |1 1 / 1 −1| = −2). Minorul caracteristic |1 1 3 / 1 −1 1 / 2 0 4| = 0, deci compatibil nedeterminat. Cu z = t: x + y = 3 − t, x − y = 1 − t, deci x = 2 − t, y = 1, z = t.",
+    "exercises": [
+     "Studiază compatibilitatea: x + 2y = 3, 2x + 4y = 6.",
+     "Studiază compatibilitatea: x − y = 1, 2x − 2y = 5.",
+     "Rezolvă sistemul omogen x + y + z = 0, x − y = 0, y − z = 0.",
+     "Află m pentru care sistemul omogen x + my = 0, mx + 4y = 0 are soluții nenule.",
+     "Rezolvă: x + y − z = 1, 2x + 2y − 2z = 2."
+    ],
+    "test": [
+     "Condiția Kronecker–Capelli?",
+     "Are mereu soluții un sistem omogen?",
+     "Când are soluții nenule un sistem omogen n × n?",
+     "Rang < nr. necunoscute la un sistem compatibil înseamnă…?",
+     "Ce este matricea extinsă?"
+    ],
+    "steps": [
+     "Calculează rangul matricei sistemului (minor principal).",
+     "Verifică minorii caracteristici (sau rangul matricei extinse).",
+     "Dacă sistemul e compatibil, rezolvă ecuațiile principale cu necunoscutele secundare ca parametri.",
+     "Greșeala frecventă: să declari incompatibil un sistem cu Δ = 0; el poate fi compatibil nedeterminat — trebuie verificați minorii caracteristici."
+    ],
+    "answers": [
+     "Rang A = rang matrice extinsă",
+     "Da, soluția nulă",
+     "Când det = 0",
+     "Compatibil nedeterminat",
+     "Matricea sistemului cu coloana termenilor liberi"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Metoda lui Gauss (eliminarea succesivă)",
+    "theory": "Metoda lui Gauss transformă sistemul într-unul echivalent, triunghiular, folosind operații pe ecuații: schimbarea a două ecuații, înmulțirea unei ecuații cu un număr nenul, adunarea la o ecuație a alteia înmulțite cu un număr. Apoi rezolvăm de jos în sus. Metoda funcționează pentru orice sistem și arată direct dacă este incompatibil (apare o ecuație 0 = c, c ≠ 0) sau nedeterminat.",
+    "sample": "Din x + y = 4 și x − y = 2, scăzând ecuațiile obținem 2y = 2, deci y = 1 și x = 3.",
+    "worked": "x + y + z = 6, 2x + y − z = 1, x − y + 2z = 5. E₂ − 2E₁: −y − 3z = −11. E₃ − E₁: −2y + z = −1. Din a doua: y = 11 − 3z; înlocuim: −22 + 6z + z = −1, z = 3, y = 2, x = 1. Verificare: 1 − 2 + 6 = 5.",
+    "exercises": [
+     "Rezolvă prin Gauss: x + 2y = 5, 3x − y = 1.",
+     "Rezolvă prin Gauss: x + y + z = 3, x + 2y + 3z = 6, x + 4y + 9z = 14.",
+     "Rezolvă prin Gauss: x − y + z = 2, 2x − 2y + 2z = 5.",
+     "Rezolvă prin Gauss: x + y = 2, y + z = 3, x + 2y + z = 5.",
+     "Compară numărul de calcule la Cramer și la Gauss pentru un sistem 3 × 3."
+    ],
+    "test": [
+     "Ce formă urmărește metoda lui Gauss?",
+     "Ce indică ecuația 0 = 5 obținută?",
+     "Ce indică ecuația 0 = 0 obținută?",
+     "Este permisă înmulțirea unei ecuații cu 0?",
+     "În ce ordine se află necunoscutele la final?"
+    ],
+    "steps": [
+     "Folosește prima ecuație pentru a elimina x din celelalte.",
+     "Folosește a doua ecuație pentru a elimina y din a treia.",
+     "Rezolvă de jos în sus și verifică în ecuațiile inițiale.",
+     "Greșeala frecventă: să greșești semnul la scăderea ecuațiilor; scrie complet fiecare ecuație nouă."
+    ],
+    "answers": [
+     "Triunghiulară",
+     "Sistem incompatibil",
+     "O ecuație redundantă",
+     "Nu",
+     "De jos în sus"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Șiruri: mărginire, monotonie; vecinătăți; dreapta reală încheiată",
+    "theory": "Un șir (aₙ) este mărginit dacă există m, M cu m ≤ aₙ ≤ M pentru orice n; este crescător dacă aₙ₊₁ ≥ aₙ (strict dacă >). Monotonia se studiază cu diferența aₙ₊₁ − aₙ sau, pentru termeni pozitivi, cu raportul aₙ₊₁/aₙ. O vecinătate a lui a real conține un interval (a − ε, a + ε); vecinătățile lui +∞ conțin intervale (M, +∞). Dreapta încheiată ℝ̄ = ℝ ∪ {−∞, +∞}.",
+    "sample": "Șirul aₙ = 1/n este strict descrescător și mărginit între 0 și 1.",
+    "worked": "Studiem aₙ = n/(n + 1): aₙ₊₁ − aₙ = (n + 1)/(n + 2) − n/(n + 1) = 1/((n + 1)(n + 2)) > 0, deci șirul este strict crescător. Cum 0 < aₙ < 1, este mărginit.",
+    "exercises": [
+     "Studiază monotonia șirului aₙ = (2n − 1)/n.",
+     "Arată că aₙ = (−1)ⁿ/n este mărginit. Este monoton?",
+     "Studiază monotonia lui aₙ = 2ⁿ/n! cu ajutorul raportului.",
+     "Arată că aₙ = n² nu este mărginit superior.",
+     "Scrie o vecinătate a lui 3 și una a lui +∞."
+    ],
+    "test": [
+     "Este 1/n crescător?",
+     "Este (−1)ⁿ monoton?",
+     "Ce înseamnă șir mărginit?",
+     "Ce conține o vecinătate a lui +∞?",
+     "Este n/(n + 1) mărginit?"
+    ],
+    "steps": [
+     "Calculează aₙ₊₁ − aₙ (sau aₙ₊₁/aₙ pentru termeni pozitivi).",
+     "Stabilește semnul (sau compară raportul cu 1).",
+     "Pentru mărginire, găsește concret m și M.",
+     "Greșeala frecventă: să concluzionezi monotonia din primii doi-trei termeni fără calcul general."
+    ],
+    "answers": [
+     "Nu, este descrescător",
+     "Nu",
+     "Există m și M cu m ≤ aₙ ≤ M",
+     "Un interval (M, +∞)",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Limita unui șir; șiruri convergente; criterii de convergență",
+    "theory": "Șirul (aₙ) are limita l dacă orice vecinătate a lui l conține toți termenii șirului, cu excepția unui număr finit. Un șir cu limită finită este convergent; limita este unică. Teorema lui Weierstrass: orice șir monoton și mărginit este convergent. Criteriul cleștelui: dacă bₙ ≤ aₙ ≤ cₙ și bₙ, cₙ au aceeași limită l, atunci aₙ → l. Orice șir convergent este mărginit.",
+    "sample": "Șirul 1/n are limita 0, iar n² are limita +∞.",
+    "worked": "Calculăm lim sin n/n: −1/n ≤ sin n/n ≤ 1/n și ±1/n → 0, deci, prin criteriul cleștelui, limita este 0. Șirul aₙ = (−1)ⁿ nu are limită (termenii alternează între −1 și 1).",
+    "exercises": [
+     "Folosește criteriul cleștelui pentru lim cos n/n².",
+     "Arată că șirul aₙ = 1 − 1/2ⁿ este convergent folosind Weierstrass.",
+     "Are limită șirul aₙ = (−1)ⁿ·n?",
+     "Calculează lim (n + (−1)ⁿ)/n.",
+     "Explică de ce un șir nemărginit nu poate fi convergent."
+    ],
+    "test": [
+     "lim 1/n = ?",
+     "Este n² convergent?",
+     "Ce spune teorema lui Weierstrass?",
+     "Are limită (−1)ⁿ?",
+     "Este orice șir mărginit convergent?"
+    ],
+    "steps": [
+     "Stabilește ce instrument se potrivește: limită directă, clește sau Weierstrass.",
+     "Pentru clește, încadrează șirul între două șiruri cu aceeași limită.",
+     "Concluzionează și verifică pe câțiva termeni.",
+     "Greșeala frecventă: să crezi că orice șir mărginit este convergent; (−1)ⁿ este mărginit, dar nu are limită."
+    ],
+    "answers": [
+     "0",
+     "Nu",
+     "Monoton și mărginit ⇒ convergent",
+     "Nu",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Operații cu limite; cazuri de nedeterminare; limite de polinoame și fracții raționale",
+    "theory": "Limitele se adună, se înmulțesc și se împart (cu limita numitorului nenulă), cu regulile pentru ±∞: ∞ + ∞ = ∞, a·∞ = ∞ pentru a > 0, a/∞ = 0. Cazuri de nedeterminare: ∞ − ∞, 0·∞, ∞/∞, 0/0, 1^∞, ∞⁰, 0⁰. La polinoame, limita este dată de termenul de grad maxim. La fracții raționale, dăm factor comun forțat puterea cea mai mare: limita depinde de compararea gradelor.",
+    "sample": "Limita lui (3n² + 1)/(n² − 5) este 3, raportul coeficienților dominanți.",
+    "worked": "lim (2n³ − n)/(n² + 4) = +∞ (gradul numărătorului mai mare, coeficienții dominanți pozitivi). lim (√(n² + n) − n) este ∞ − ∞: amplificăm cu conjugata, obținem n/(√(n² + n) + n) = 1/(√(1 + 1/n) + 1) → 1/2.",
+    "exercises": [
+     "Calculează: lim (5n² − 3n + 1)/(2n² + 7).",
+     "Calculează: lim (n + 1)/(n³ + 2).",
+     "Calculează: lim (n² − 4n³).",
+     "Calculează: lim (√(n + 1) − √n).",
+     "Calculează: lim (3ⁿ + 2ⁿ)/(3ⁿ⁺¹ − 2ⁿ)."
+    ],
+    "test": [
+     "Este ∞ − ∞ caz de nedeterminare?",
+     "lim (n² + 1)/n² = ?",
+     "lim 1/n² = ?",
+     "Limita lui −n³ + n?",
+     "Ce faci la ∞ − ∞ cu radicali?"
+    ],
+    "steps": [
+     "Identifică forma limitei (determinată sau nedeterminare).",
+     "Elimină nedeterminarea: factor comun forțat, amplificare cu conjugata, grupare.",
+     "Aplică regulile operațiilor cu limite și calculează.",
+     "Greșeala frecventă: să scrii ∞ − ∞ = 0 sau ∞/∞ = 1; acestea sunt nedeterminări, rezultatul poate fi orice."
+    ],
+    "answers": [
+     "Da",
+     "1",
+     "0",
+     "−∞",
+     "Amplific cu conjugata"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Limite remarcabile de șiruri; numărul e",
+    "theory": "Limite importante: lim qⁿ = 0 pentru |q| < 1, = 1 pentru q = 1, = +∞ pentru q > 1, nu există pentru q ≤ −1. Șirul (1 + 1/n)ⁿ este crescător și mărginit, iar limita lui este numărul e ≈ 2,71828. Mai general, dacă xₙ → ±∞, (1 + 1/xₙ)^xₙ → e, iar dacă aₙ → 0, aₙ ≠ 0, (1 + aₙ)^(1/aₙ) → e. Cazul 1^∞ se reduce la e. Comparații: logaritm ≪ putere ≪ exponențială ≪ factorial.",
+    "sample": "Limita lui (1/2)ⁿ este 0, iar a lui 2ⁿ este +∞.",
+    "worked": "lim (1 + 3/n)ⁿ: scriem (1 + 3/n)ⁿ = [(1 + 3/n)^(n/3)]³ → e³. lim ((n + 2)/n)^(2n) = lim (1 + 2/n)^(2n) = [(1 + 2/n)^(n/2)]⁴ → e⁴.",
+    "exercises": [
+     "Calculează: lim (2/3)ⁿ și lim (5/4)ⁿ.",
+     "Calculează: lim (1 + 1/n)^(2n).",
+     "Calculează: lim (1 − 1/n)ⁿ.",
+     "Calculează: lim ((n + 1)/(n − 1))ⁿ.",
+     "Calculează: lim n²/2ⁿ (folosește compararea creșterilor)."
+    ],
+    "test": [
+     "lim (0,9)ⁿ = ?",
+     "lim (1 + 1/n)ⁿ = ?",
+     "Ce tip de nedeterminare dă e?",
+     "lim 3ⁿ = ?",
+     "Aproximativ, cât este e?"
+    ],
+    "steps": [
+     "Recunoaște cazul 1^∞ sau o progresie geometrică.",
+     "Pentru 1^∞, scrie expresia ca (1 + aₙ)^(1/aₙ) ridicată la o putere potrivită.",
+     "Calculează limita exponentului și scrie rezultatul ca putere a lui e.",
+     "Greșeala frecventă: să spui că (1 + 1/n)ⁿ tinde la 1 pentru că 1 + 1/n → 1; este nedeterminarea 1^∞, iar limita este e."
+    ],
+    "answers": [
+     "0",
+     "e",
+     "1^∞",
+     "+∞",
+     "2,718"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Limita unei funcții într-un punct; limite laterale",
+    "theory": "Funcția f are limita l în punctul a dacă, pentru orice șir xₙ → a (xₙ ≠ a), avem f(xₙ) → l. Limita la stânga (x → a, x < a) și limita la dreapta (x → a, x > a) se numesc limite laterale. Limita există dacă și numai dacă limitele laterale există și sunt egale. Valoarea f(a) nu contează pentru limită.",
+    "sample": "Funcția f(x) = x² are limita 4 în punctul 2.",
+    "worked": "f(x) = x + 1 pentru x < 1 și f(x) = 3x pentru x ≥ 1. Limita la stânga în 1: 1 + 1 = 2; la dreapta: 3·1 = 3. Limitele laterale diferă, deci f nu are limită în 1. lim 1/x când x → 0, x > 0 este +∞, iar când x < 0 este −∞.",
+    "exercises": [
+     "Calculează limitele laterale în 0 pentru f(x) = |x|/x.",
+     "Calculează lim (x² − 9)/(x − 3) când x → 3.",
+     "Pentru f(x) = 2x + a (x < 1) și x² + 1 (x ≥ 1), află a astfel încât f să aibă limită în 1.",
+     "Calculează lim 1/(x − 2)² când x → 2.",
+     "Are limită în 0 funcția partea întreagă [x]?"
+    ],
+    "test": [
+     "Când există limita într-un punct?",
+     "Contează f(a) pentru limită?",
+     "Limita la dreapta a lui 1/x în 0?",
+     "lim x³ când x → 2?",
+     "Limita lui |x| în 0?"
+    ],
+    "steps": [
+     "Încearcă înlocuirea directă; dacă dă formă determinată, ai limita.",
+     "La funcții pe ramuri, calculează separat limitele laterale.",
+     "Compară limitele laterale: egale ⇒ limita există.",
+     "Greșeala frecventă: să calculezi limita ca f(a); f(a) poate să nu existe sau să difere de limită."
+    ],
+    "answers": [
+     "Când limitele laterale sunt egale",
+     "Nu",
+     "+∞",
+     "8",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "Calculul limitelor de funcții; limite fundamentale",
+    "theory": "Limitele de funcții se calculează cu aceleași operații ca la șiruri. Nedeterminarea 0/0 la fracții se elimină prin simplificare (descompunere în factori sau amplificare cu conjugata). Limite fundamentale când x → 0: sin x/x → 1, tg x/x → 1, ln(1 + x)/x → 1, (aˣ − 1)/x → ln a, (1 + x)^(1/x) → e, ((1 + x)ʳ − 1)/x → r.",
+    "sample": "Cu limita fundamentală, sin 3x/x = 3·(sin 3x/(3x)) tinde la 3 când x → 0.",
+    "worked": "lim (x² − 4)/(x − 2) când x → 2: simplificăm prin x − 2 și obținem x + 2 → 4. lim (eˣ − 1)/(2x) când x → 0 = 1/2. lim (√(x + 1) − 1)/x = lim 1/(√(x + 1) + 1) = 1/2.",
+    "exercises": [
+     "Calculează: lim (x² − 5x + 6)/(x − 2), x → 2.",
+     "Calculează: lim sin 5x/sin 2x, x → 0.",
+     "Calculează: lim ln(1 + 3x)/x, x → 0.",
+     "Calculează: lim (2ˣ − 1)/x, x → 0.",
+     "Calculează: lim (x³ + 2x)/(4x³ − 1), x → +∞."
+    ],
+    "test": [
+     "lim sin x/x când x → 0?",
+     "lim (eˣ − 1)/x când x → 0?",
+     "lim (1 + x)^(1/x) când x → 0?",
+     "Ce faci la 0/0 cu polinoame?",
+     "lim tg x/x când x → 0?"
+    ],
+    "steps": [
+     "Înlocuiește și identifică forma.",
+     "Elimină nedeterminarea: simplificare, conjugată sau aducere la o limită fundamentală.",
+     "Calculează limita expresiei transformate.",
+     "Greșeala frecventă: să aplici sin x/x → 1 când x → ∞; limita fundamentală este pentru x → 0."
+    ],
+    "answers": [
+     "1",
+     "1",
+     "e",
+     "Descompun în factori și simplific",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Asimptote: orizontale, verticale, oblice",
+    "theory": "Dreapta y = l este asimptotă orizontală spre +∞ dacă lim f(x) = l când x → +∞. Dreapta x = a este asimptotă verticală dacă cel puțin o limită laterală în a este infinită. Dreapta y = mx + n (m ≠ 0) este asimptotă oblică spre +∞ dacă m = lim f(x)/x și n = lim (f(x) − mx) sunt finite. O funcție nu poate avea simultan asimptotă orizontală și oblică spre același infinit.",
+    "sample": "Funcția f(x) = 1/x are asimptota orizontală y = 0 și asimptota verticală x = 0.",
+    "worked": "f(x) = (x² + 1)/x. Verticală: x = 0 (limitele laterale ±∞). Oblică: m = lim (x² + 1)/x² = 1, n = lim ((x² + 1)/x − x) = lim 1/x = 0, deci y = x. Orizontală nu există (limita la ∞ este infinită).",
+    "exercises": [
+     "Află asimptotele funcției f(x) = (2x + 1)/(x − 3).",
+     "Află asimptotele funcției f(x) = x²/(x + 1).",
+     "Are asimptote verticale f(x) = 1/(x² + 1)?",
+     "Află asimptota orizontală spre −∞ a funcției eˣ.",
+     "Află asimptotele funcției f(x) = (x² − 1)/(x² − 4)."
+    ],
+    "test": [
+     "Asimptota orizontală a lui 1/x?",
+     "Unde caut asimptote verticale?",
+     "Formula pantei m a asimptotei oblice?",
+     "Are eˣ asimptotă spre +∞?",
+     "Asimptota verticală a lui 1/(x − 5)?"
+    ],
+    "steps": [
+     "Caută asimptote verticale în punctele unde funcția nu e definită (sau la capetele domeniului).",
+     "Calculează limitele la ±∞ pentru asimptote orizontale.",
+     "Dacă limita la infinit este infinită, calculează m și n pentru asimptota oblică.",
+     "Greșeala frecventă: să consideri asimptotă verticală orice punct exclus din domeniu; e nevoie ca limita laterală acolo să fie infinită."
+    ],
+    "answers": [
+     "y = 0",
+     "În punctele care nu aparțin domeniului",
+     "m = lim f(x)/x",
+     "Nu",
+     "x = 5"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Funcții continue; puncte de discontinuitate; proprietățile funcțiilor continue",
+    "theory": "f este continuă în a (din domeniu) dacă lim f(x) când x → a există și este egală cu f(a). Funcțiile elementare sunt continue pe domeniul lor. Puncte de discontinuitate: de speța I (limite laterale finite, dar diferite sau diferite de f(a)) și de speța a II-a (cel puțin o limită laterală infinită sau inexistentă). O funcție continuă pe un interval are proprietatea lui Darboux: nu „sare” peste valori; dacă f(a)·f(b) < 0, ecuația f(x) = 0 are o soluție în (a, b). Între două zerouri consecutive o funcție continuă își păstrează semnul.",
+    "sample": "Funcția f(x) = x² este continuă în orice punct, pentru că limita în a este a² = f(a).",
+    "worked": "Arătăm că x³ + x − 1 = 0 are o soluție în (0, 1): f este continuă, f(0) = −1 < 0, f(1) = 1 > 0, deci există c ∈ (0, 1) cu f(c) = 0. Pentru f(x) = x + a (x ≤ 2), 3x − 1 (x > 2): continuitate în 2 cere 2 + a = 5, deci a = 3.",
+    "exercises": [
+     "Studiază continuitatea în 0 a funcției f(x) = sin x/x (x ≠ 0), f(0) = 1.",
+     "Află a pentru care f(x) = ax + 1 (x < 1), x² + 2 (x ≥ 1) este continuă.",
+     "Arată că ecuația 2ˣ = 3x are o soluție în (0, 1).",
+     "Clasifică punctul de discontinuitate x = 0 pentru f(x) = 1/x² (x ≠ 0), f(0) = 0.",
+     "Stabilește semnul funcției f(x) = (x − 1)(x − 4) pe fiecare interval."
+    ],
+    "test": [
+     "Definiția continuității în a?",
+     "Este |x| continuă în 0?",
+     "Ce garantează f(a)·f(b) < 0 pentru f continuă?",
+     "Este [x] continuă în 1?",
+     "Ce speță are o discontinuitate cu limită infinită?"
+    ],
+    "steps": [
+     "Calculează limitele laterale în punctul studiat.",
+     "Compară-le între ele și cu valoarea f(a).",
+     "Concluzionează (continuă sau tipul discontinuității); pentru soluții, aplică proprietatea lui Darboux.",
+     "Greșeala frecventă: să aplici proprietatea lui Darboux unei funcții discontinue pe interval; continuitatea este obligatorie."
+    ],
+    "answers": [
+     "lim f(x) = f(a) când x → a",
+     "Da",
+     "Existența unei soluții în (a, b)",
+     "Nu",
+     "Speța a II-a"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Derivata unei funcții într-un punct; interpretarea geometrică; tangenta",
+    "theory": "Derivata lui f în a este f′(a) = lim (f(x) − f(a))/(x − a) când x → a, dacă există și este finită. Geometric, f′(a) este panta tangentei la grafic în punctul (a, f(a)); ecuația tangentei: y − f(a) = f′(a)(x − a). Fizic, derivata este viteza de variație (de exemplu viteza instantanee). Orice funcție derivabilă într-un punct este continuă acolo; reciproca este falsă (|x| în 0).",
+    "sample": "Pentru f(x) = x², derivata în 3 este lim (x² − 9)/(x − 3) = lim (x + 3) = 6.",
+    "worked": "Tangenta la graficul lui f(x) = x² în punctul de abscisă 1: f(1) = 1, f′(1) = 2, deci y − 1 = 2(x − 1), adică y = 2x − 1. Pentru |x| în 0: limita la stânga a raportului este −1, la dreapta 1, deci |x| nu este derivabilă în 0.",
+    "exercises": [
+     "Calculează cu definiția derivata lui f(x) = 3x + 2 în a = 5.",
+     "Calculează cu definiția f′(2) pentru f(x) = x³.",
+     "Scrie ecuația tangentei la f(x) = x² − 4x în punctul de abscisă 3.",
+     "Arată că f(x) = |x − 2| nu este derivabilă în 2.",
+     "Poziția unui mobil este s(t) = t² (metri, secunde). Află viteza la t = 4 s."
+    ],
+    "test": [
+     "Ce reprezintă geometric f′(a)?",
+     "Ecuația tangentei în a?",
+     "Este |x| derivabilă în 0?",
+     "Derivabil ⇒ continuu: adevărat?",
+     "Derivata lui 5x în orice punct?"
+    ],
+    "steps": [
+     "Scrie raportul (f(x) − f(a))/(x − a).",
+     "Simplifică și calculează limita când x → a.",
+     "Interpretează: panta tangentei sau viteza; scrie tangenta dacă se cere.",
+     "Greșeala frecventă: să crezi că orice funcție continuă este derivabilă; |x| este continuă, dar nu derivabilă în 0."
+    ],
+    "answers": [
+     "Panta tangentei",
+     "y − f(a) = f′(a)(x − a)",
+     "Nu",
+     "Da",
+     "5"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "Derivatele funcțiilor elementare; reguli de derivare",
+    "theory": "Derivate de bază: c′ = 0, (xⁿ)′ = nxⁿ⁻¹, (√x)′ = 1/(2√x), (eˣ)′ = eˣ, (aˣ)′ = aˣ ln a, (ln x)′ = 1/x, (sin x)′ = cos x, (cos x)′ = −sin x, (tg x)′ = 1/cos²x. Reguli: (f ± g)′ = f′ ± g′, (cf)′ = cf′, (fg)′ = f′g + fg′, (f/g)′ = (f′g − fg′)/g².",
+    "sample": "Derivata lui f(x) = x³ + 5x este f′(x) = 3x² + 5.",
+    "worked": "f(x) = x²·eˣ: f′(x) = 2x·eˣ + x²·eˣ = eˣ(x² + 2x). g(x) = (x + 1)/(x − 1): g′(x) = ((x − 1) − (x + 1))/(x − 1)² = −2/(x − 1)².",
+    "exercises": [
+     "Derivează: f(x) = 4x⁵ − 3x² + 7.",
+     "Derivează: f(x) = x·ln x.",
+     "Derivează: f(x) = sin x·cos x.",
+     "Derivează: f(x) = x²/(x + 1).",
+     "Derivează: f(x) = √x + 1/x."
+    ],
+    "test": [
+     "(x⁴)′ = ?",
+     "(eˣ)′ = ?",
+     "(ln x)′ = ?",
+     "(sin x)′ = ?",
+     "Derivata unei constante?"
+    ],
+    "steps": [
+     "Identifică structura: sumă, produs, cât.",
+     "Aplică regula corespunzătoare și derivatele de bază.",
+     "Simplifică rezultatul (factor comun, aducere la același numitor).",
+     "Greșeala frecventă: să derivezi produsul ca produsul derivatelor; (fg)′ = f′g + fg′."
+    ],
+    "answers": [
+     "4x³",
+     "eˣ",
+     "1/x",
+     "cos x",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Derivata funcției compuse și a funcției inverse; derivate de ordinul al doilea",
+    "theory": "Derivata compusei: (f(u(x)))′ = f′(u(x))·u′(x); de exemplu (sin u)′ = cos u·u′, (eᵘ)′ = eᵘ·u′, (ln u)′ = u′/u, (uⁿ)′ = nuⁿ⁻¹u′. Derivata inversei: (f⁻¹)′(y₀) = 1/f′(x₀), cu y₀ = f(x₀) și f′(x₀) ≠ 0; așa obținem (arcsin x)′ = 1/√(1 − x²), (arctg x)′ = 1/(1 + x²). Derivata a doua f″ este derivata lui f′.",
+    "sample": "Derivata lui sin(3x) este cos(3x)·3 = 3cos 3x.",
+    "worked": "f(x) = (x² + 1)⁵: f′(x) = 5(x² + 1)⁴·2x = 10x(x² + 1)⁴. g(x) = ln(x² + 4): g′(x) = 2x/(x² + 4). h(x) = x³ − 3x: h′ = 3x² − 3, h″ = 6x.",
+    "exercises": [
+     "Derivează: f(x) = e^(2x + 1).",
+     "Derivează: f(x) = √(x² + 9).",
+     "Derivează: f(x) = cos²x.",
+     "Calculează f″ pentru f(x) = x⁴ − 2x².",
+     "Derivează: f(x) = arctg(2x)."
+    ],
+    "test": [
+     "(e^(3x))′ = ?",
+     "(ln u)′ = ?",
+     "(arctg x)′ = ?",
+     "f″ pentru f(x) = x²?",
+     "(sin 2x)′ = ?"
+    ],
+    "steps": [
+     "Identifică funcția exterioară și funcția interioară u(x).",
+     "Derivează funcția exterioară în u, apoi înmulțește cu u′(x).",
+     "Simplifică; pentru f″, derivează încă o dată pe f′.",
+     "Greșeala frecventă: să uiți factorul u′(x) la derivarea compusei, de exemplu (sin 3x)′ = cos 3x în loc de 3cos 3x."
+    ],
+    "answers": [
+     "3e^(3x)",
+     "u′/u",
+     "1/(1 + x²)",
+     "2",
+     "2cos 2x"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Puncte de nederivabilitate: puncte unghiulare și de întoarcere",
+    "theory": "Dacă f este continuă în a și are derivate laterale diferite, cel puțin una finită, a este punct unghiular (graficul face „colț”, de exemplu |x| în 0). Dacă derivatele laterale sunt infinite, de semne opuse, a este punct de întoarcere (de exemplu √|x| în 0). Dacă derivata este ±∞ cu același semn de ambele părți, tangenta este verticală (de exemplu ³√x în 0). Derivatele laterale: f′ₛ(a) și f′_d(a) se calculează cu limitele laterale ale raportului.",
+    "sample": "Funcția |x| are în 0 derivatele laterale −1 și 1, deci 0 este punct unghiular.",
+    "worked": "f(x) = x² pentru x ≤ 1 și 2x − 1 pentru x > 1 este continuă în 1 (ambele dau 1). f′ₛ(1) = 2·1 = 2, f′_d(1) = 2. Derivatele laterale sunt egale, deci f este derivabilă în 1 cu f′(1) = 2 (graficul nu are colț).",
+    "exercises": [
+     "Calculează derivatele laterale în 2 pentru f(x) = |x − 2| + x.",
+     "Arată că 0 este punct de întoarcere pentru f(x) = √|x|.",
+     "Pentru f(x) = ax + b (x < 1), x² (x ≥ 1), află a, b astfel încât f să fie derivabilă în 1.",
+     "Studiază derivabilitatea lui ³√x în 0.",
+     "Precizează natura punctului 0 pentru f(x) = |x³|."
+    ],
+    "test": [
+     "Ce este un punct unghiular?",
+     "Natura lui 0 pentru |x|?",
+     "Tangenta lui ³√x în 0 este…?",
+     "Ce condiție precede derivabilitatea?",
+     "Derivatele laterale ale lui |x| în 0?"
+    ],
+    "steps": [
+     "Verifică întâi continuitatea în punct.",
+     "Calculează derivatele laterale.",
+     "Compară-le: egale și finite (derivabil), diferite (unghiular), infinite opuse (întoarcere).",
+     "Greșeala frecventă: să studiezi derivabilitatea fără a verifica continuitatea; o funcție discontinuă nu poate fi derivabilă."
+    ],
+    "answers": [
+     "Derivate laterale diferite, cel puțin una finită",
+     "Punct unghiular",
+     "Verticală",
+     "Continuitatea",
+     "−1 și 1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Teoremele lui Fermat, Rolle și Lagrange",
+    "theory": "Fermat: dacă f este derivabilă într-un punct de extrem interior c, atunci f′(c) = 0. Rolle: dacă f este continuă pe [a, b], derivabilă pe (a, b) și f(a) = f(b), există c ∈ (a, b) cu f′(c) = 0. Lagrange: dacă f este continuă pe [a, b] și derivabilă pe (a, b), există c ∈ (a, b) cu f(b) − f(a) = f′(c)(b − a) — geometric, există o tangentă paralelă cu coarda. Consecințe: f′ = 0 pe interval ⇒ f constantă.",
+    "sample": "Pentru f(x) = x² pe [−1, 1], f(−1) = f(1) și f′(0) = 0, ca în teorema lui Rolle.",
+    "worked": "Aplicăm Lagrange lui f(x) = x² pe [1, 3]: f(3) − f(1) = 8, b − a = 2, deci f′(c) = 2c = 4, c = 2 ∈ (1, 3). Teorema lui Rolle pentru x² − 4x pe [0, 4]: f(0) = f(4) = 0, f′(c) = 2c − 4 = 0, c = 2.",
+    "exercises": [
+     "Verifică ipotezele lui Rolle pentru f(x) = x² − 6x pe [1, 5] și află c.",
+     "Află punctul c din teorema lui Lagrange pentru f(x) = x³ pe [0, 3].",
+     "De ce nu se aplică Rolle funcției |x| pe [−1, 1]?",
+     "Folosind Lagrange, arată că |sin a − sin b| ≤ |a − b|.",
+     "Arată că dacă f′(x) = 0 pentru orice x dintr-un interval, f este constantă."
+    ],
+    "test": [
+     "Ce spune teorema lui Fermat?",
+     "Ce condiție suplimentară cere Rolle?",
+     "Interpretarea geometrică a lui Lagrange?",
+     "Se aplică Rolle lui |x| pe [−1, 1]?",
+     "f′ = 0 pe un interval implică…?"
+    ],
+    "steps": [
+     "Verifică ipotezele (continuitate pe [a, b], derivabilitate pe (a, b), eventual f(a) = f(b)).",
+     "Scrie concluzia teoremei ca ecuație în c.",
+     "Rezolvă și verifică faptul că c este în interiorul intervalului.",
+     "Greșeala frecventă: să aplici teorema fără verificarea ipotezelor; fără derivabilitate concluzia poate fi falsă."
+    ],
+    "answers": [
+     "În extremele interioare derivata este 0",
+     "f(a) = f(b)",
+     "Există tangentă paralelă cu coarda",
+     "Nu",
+     "f este constantă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l27": {
+   "ro": {
+    "title": "Monotonie și puncte de extrem cu ajutorul derivatei întâi",
+    "theory": "Pe un interval: dacă f′ > 0, f este strict crescătoare; dacă f′ < 0, strict descrescătoare. Punctele critice sunt soluțiile ecuației f′(x) = 0. Dacă f′ își schimbă semnul în c din + în −, c este punct de maxim local; din − în +, punct de minim local. Rezultatele se trec în tabelul de variație.",
+    "sample": "Pentru f(x) = x² avem f′(x) = 2x, negativă pe (−∞, 0) și pozitivă pe (0, +∞), deci 0 este punct de minim.",
+    "worked": "f(x) = x³ − 3x: f′(x) = 3x² − 3 = 3(x − 1)(x + 1). f′ > 0 pe (−∞, −1) și (1, +∞), f′ < 0 pe (−1, 1). Maxim local în −1, f(−1) = 2; minim local în 1, f(1) = −2.",
+    "exercises": [
+     "Studiază monotonia funcției f(x) = x² − 6x + 1.",
+     "Află punctele de extrem ale funcției f(x) = 2x³ − 9x² + 12x.",
+     "Studiază monotonia lui f(x) = x·eˣ.",
+     "Află extremele lui f(x) = x + 4/x, x > 0.",
+     "Arată că f(x) = x³ + x este strict crescătoare pe ℝ."
+    ],
+    "test": [
+     "f′ > 0 pe un interval înseamnă…?",
+     "Ce sunt punctele critice?",
+     "Schimbare de semn + → − a lui f′ indică…?",
+     "Este orice punct critic extrem?",
+     "Monotonia lui eˣ?"
+    ],
+    "steps": [
+     "Calculează f′ și rezolvă f′(x) = 0.",
+     "Stabilește semnul lui f′ pe intervalele determinate.",
+     "Completează tabelul de variație: monotonie și extreme cu valorile lor.",
+     "Greșeala frecventă: să consideri extrem orice punct cu f′ = 0; pentru x³ în 0 derivata nu își schimbă semnul, deci nu e extrem."
+    ],
+    "answers": [
+     "f strict crescătoare",
+     "Soluțiile lui f′(x) = 0",
+     "Maxim local",
+     "Nu",
+     "Strict crescătoare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l28": {
+   "ro": {
+    "title": "Convexitate, concavitate și puncte de inflexiune cu derivata a doua",
+    "theory": "Dacă f″ > 0 pe un interval, f este convexă (graficul „ține apă”, tangentele sunt sub grafic); dacă f″ < 0, f este concavă. Un punct în care f este continuă, are tangentă și f″ își schimbă semnul este punct de inflexiune: graficul trece de pe o parte pe alta a tangentei.",
+    "sample": "Funcția x² are f″ = 2 > 0, deci este convexă pe ℝ.",
+    "worked": "f(x) = x³ − 3x²: f′ = 3x² − 6x, f″ = 6x − 6. f″ < 0 pe (−∞, 1) (concavă), f″ > 0 pe (1, +∞) (convexă); punctul de inflexiune este (1, f(1)) = (1, −2).",
+    "exercises": [
+     "Studiază convexitatea funcției f(x) = x⁴.",
+     "Află punctele de inflexiune ale funcției f(x) = x³ + 3x² − 1.",
+     "Studiază convexitatea lui f(x) = ln x.",
+     "Studiază convexitatea lui f(x) = eˣ.",
+     "Este 0 punct de inflexiune pentru x⁴? Justifică."
+    ],
+    "test": [
+     "f″ > 0 înseamnă…?",
+     "Convexitatea lui −x²?",
+     "Ce caracterizează un punct de inflexiune?",
+     "Punctul de inflexiune al lui x³?",
+     "Concavitatea lui ln x?"
+    ],
+    "steps": [
+     "Calculează f″ și rezolvă f″(x) = 0.",
+     "Studiază semnul lui f″ pe intervale.",
+     "Precizează intervalele de convexitate/concavitate și punctele de inflexiune.",
+     "Greșeala frecventă: să declari inflexiune orice punct cu f″ = 0; pentru x⁴ în 0, f″ nu își schimbă semnul."
+    ],
+    "answers": [
+     "Funcție convexă",
+     "Concavă",
+     "f″ își schimbă semnul",
+     "(0, 0)",
+     "Concavă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l29": {
+   "ro": {
+    "title": "Regulile lui l’Hôpital",
+    "theory": "Dacă lim f(x)/g(x) are forma 0/0 sau ∞/∞, f și g sunt derivabile, g′ ≠ 0 în jurul punctului și lim f′(x)/g′(x) există, atunci lim f(x)/g(x) = lim f′(x)/g′(x). Celelalte nedeterminări (0·∞, ∞ − ∞, 1^∞, 0⁰, ∞⁰) se aduc mai întâi la 0/0 sau ∞/∞ (prin scrierea ca fracție sau logaritmare).",
+    "sample": "Cu l’Hôpital, lim (eˣ − 1)/x când x → 0 = lim eˣ/1 = 1.",
+    "worked": "lim ln x/x când x → +∞ (∞/∞) = lim (1/x)/1 = 0. lim x·ln x când x → 0, x > 0 (0·∞): scriem ln x/(1/x), derivăm: (1/x)/(−1/x²) = −x → 0.",
+    "exercises": [
+     "Calculează cu l’Hôpital: lim (x − sin x)/x³, x → 0.",
+     "Calculează: lim x²/eˣ, x → +∞.",
+     "Calculează: lim (1 − cos x)/x², x → 0.",
+     "Calculează: lim x·e⁻ˣ, x → +∞.",
+     "Calculează: lim (ln(1 + x) − x)/x², x → 0."
+    ],
+    "test": [
+     "Pentru ce forme se aplică l’Hôpital?",
+     "Derivezi fracția ca întreg sau separat?",
+     "lim ln x/x când x → +∞?",
+     "Cum tratezi 0·∞?",
+     "lim sin x/x prin l’Hôpital?"
+    ],
+    "steps": [
+     "Verifică forma 0/0 sau ∞/∞ (altfel transformă expresia).",
+     "Derivează separat numărătorul și numitorul.",
+     "Calculează limita noului raport; repetă dacă rămâne nedeterminare.",
+     "Greșeala frecventă: să derivezi fracția cu regula câtului; la l’Hôpital se derivează separat numărătorul și numitorul."
+    ],
+    "answers": [
+     "0/0 și ∞/∞",
+     "Separat",
+     "0",
+     "Îl scriu ca fracție",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l30": {
+   "ro": {
+    "title": "Reprezentarea grafică a funcțiilor; rezolvarea de ecuații și inegalități cu derivate",
+    "theory": "Pentru reprezentarea graficului: domeniul, intersecțiile cu axele, limitele la capete și asimptotele, f′ (monotonie, extreme), f″ (convexitate, inflexiune), tabelul de variație, apoi trasarea graficului. Cu derivatele numărăm soluțiile unei ecuații (intersecții cu dreapta y = m, folosind tabelul de variație) și demonstrăm inegalități (studiind minimul unei funcții diferență).",
+    "sample": "Graficul lui f(x) = x³ − 3x are un maxim în (−1, 2), un minim în (1, −2) și inflexiune în origine.",
+    "worked": "Arătăm eˣ ≥ x + 1 pentru orice x: g(x) = eˣ − x − 1, g′(x) = eˣ − 1, negativă pentru x < 0 și pozitivă pentru x > 0; minimul este g(0) = 0, deci g ≥ 0. Câte soluții are x³ − 3x = m pentru m = 1? Cum −2 < 1 < 2 (între minim și maxim), sunt trei soluții.",
+    "exercises": [
+     "Reprezintă grafic f(x) = x³ − 3x + 2 (fără asimptote).",
+     "Reprezintă grafic f(x) = x/(x² + 1), cu asimptote.",
+     "Arată că ln x ≤ x − 1 pentru x > 0.",
+     "Discută după m numărul soluțiilor ecuației x³ − 3x = m.",
+     "Reprezintă grafic f(x) = x·eˣ."
+    ],
+    "test": [
+     "Ce ultim pas urmează după tabelul de variație?",
+     "Cum demonstrezi o inegalitate cu derivate?",
+     "Câte soluții are x³ − 3x = 5?",
+     "Ce informație dă f″ pentru grafic?",
+     "De unde iei asimptotele?"
+    ],
+    "steps": [
+     "Parcurge etapele: domeniu, axe, limite și asimptote.",
+     "Studiază f′ și f″ și completează tabelul de variație.",
+     "Trasează graficul sau interpretează tabelul pentru ecuații/inegalități.",
+     "Greșeala frecventă: să trasezi graficul numai din câteva puncte calculate, fără tabelul de variație, ratând extremele."
+    ],
+    "answers": [
+     "Trasarea graficului",
+     "Studiez minimul funcției diferență",
+     "Una",
+     "Convexitatea și inflexiunea",
+     "Din limitele la capete și în punctele excluse"
+    ]
+   }
+  }
+ }
+}

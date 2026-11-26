@@ -1,0 +1,1167 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "1ec8d5e44255d7ee2a8be6f2aa35c5c2ad31cbaf98fa5b86edd8599bbde6d200",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Fizică pentru clasa a XI-a, ciclul superior al liceului, filiera teoretică, profilul real, specializarea matematică-informatică (OMEC nr. 3252/13.02.2006) — oscilații și unde mecanice, oscilații și unde electromagnetice, optică ondulatorie; programă în vigoare până la intrarea în aplicare a noii programe; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Fizică · Clasa a XI-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Oscilatorul mecanic",
+   "keys": [
+    "eu-year-ro-medium-11-l01",
+    "eu-year-ro-medium-11-l02",
+    "eu-year-ro-medium-11-l03",
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05",
+    "eu-year-ro-medium-11-l06"
+   ]
+  },
+  {
+   "title": "Oscilatori mecanici cuplați; rezonanța",
+   "keys": [
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08"
+   ]
+  },
+  {
+   "title": "Unde mecanice",
+   "keys": [
+    "eu-year-ro-medium-11-l09",
+    "eu-year-ro-medium-11-l10",
+    "eu-year-ro-medium-11-l11",
+    "eu-year-ro-medium-11-l12",
+    "eu-year-ro-medium-11-l13",
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15",
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17"
+   ]
+  },
+  {
+   "title": "Oscilații și unde electromagnetice",
+   "keys": [
+    "eu-year-ro-medium-11-l18",
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21",
+    "eu-year-ro-medium-11-l22",
+    "eu-year-ro-medium-11-l23"
+   ]
+  },
+  {
+   "title": "Optica ondulatorie",
+   "keys": [
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25",
+    "eu-year-ro-medium-11-l26",
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28",
+    "eu-year-ro-medium-11-l29",
+    "eu-year-ro-medium-11-l30",
+    "eu-year-ro-medium-11-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Fenomene periodice; mărimi caracteristice mișcării oscilatorii",
+    "theory": "Un fenomen periodic se repetă identic la intervale egale de timp (rotația Pământului, bătăile inimii). Mișcarea oscilatorie este o mișcare periodică de o parte și de alta a unei poziții de echilibru. Mărimi caracteristice: elongația x (abaterea de la echilibru), amplitudinea A (elongația maximă), perioada T (durata unei oscilații complete), frecvența ν = 1/T (Hz), pulsația ω = 2πν = 2π/T și faza (ωt + φ₀), care arată starea de oscilație la un moment dat.",
+    "sample": "Un pendul care face 30 de oscilații în 60 s are perioada de 2 s și frecvența de 0,5 Hz.",
+    "worked": "O lamă elastică vibrează cu 440 de oscilații pe secundă: ν = 440 Hz, T = 1/440 ≈ 2,27 ms, ω = 2π·440 ≈ 2 765 rad/s. Pe o oscilație completă, corpul parcurge distanța 4A (de exemplu, 4·5 cm = 20 cm pentru A = 5 cm).",
+    "exercises": [
+     "Un corp face 120 de oscilații în 1 minut. Află T, ν și ω.",
+     "Ce distanță parcurge în 3 perioade un oscilator cu A = 2 cm?",
+     "Dă trei exemple de procese oscilatorii în natură și trei în tehnică.",
+     "Ce înseamnă că două oscilatoare sunt în fază? Dar în opoziție de fază?",
+     "Transformă pulsația de 10π rad/s în frecvență și perioadă."
+    ],
+    "test": [
+     "Ce este amplitudinea?",
+     "Relația dintre pulsație și perioadă?",
+     "Ce este elongația?",
+     "Distanța parcursă într-o perioadă?",
+     "Unitatea frecvenței?"
+    ],
+    "steps": [
+     "Identifică numărul de oscilații și timpul, sau mărimea dată.",
+     "Calculează T, ν = 1/T și ω = 2π/T.",
+     "Verifică unitățile și interpretează faza sau distanța parcursă.",
+     "Greșeala frecventă: să consideri că într-o perioadă corpul parcurge distanța 2A; o oscilație completă înseamnă 4A."
+    ],
+    "answers": [
+     "Elongația maximă",
+     "ω = 2π/T",
+     "Abaterea de la poziția de echilibru",
+     "4A",
+     "Hertzul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Mișcarea oscilatorie armonică: ecuațiile x(t), v(t), a(t)",
+    "theory": "Mișcarea oscilatorie armonică este proiecția pe un diametru a unei mișcări circulare uniforme. Ecuațiile: x = A·sin(ωt + φ₀), v = ω·A·cos(ωt + φ₀), a = −ω²·A·sin(ωt + φ₀) = −ω²·x. Viteza este maximă (ωA) la trecerea prin echilibru și zero la extremități; accelerația este maximă (ω²A) la extremități și zero în echilibru, orientată mereu spre poziția de echilibru.",
+    "sample": "Pentru x = 0,1·sin(2t) (SI), amplitudinea este 0,1 m, iar viteza maximă 0,2 m/s.",
+    "worked": "Oscilator cu A = 4 cm și T = 0,5 s (ω = 4π rad/s), pornit din echilibru în sens pozitiv: x = 0,04·sin(4πt). v_max = 4π·0,04 ≈ 0,50 m/s, a_max = 16π²·0,04 ≈ 6,3 m/s². La t = T/4 = 0,125 s, corpul este la extremitate (x = 4 cm), cu v = 0.",
+    "exercises": [
+     "Scrie ecuația pentru A = 5 cm, ν = 2 Hz, φ₀ = 0. Află v_max și a_max.",
+     "Pentru x = 0,02·sin(10t + π/2), află poziția la t = 0.",
+     "În ce puncte viteza este maximă? Dar accelerația?",
+     "Arată că a = −ω²x și interpretează semnul minus.",
+     "La ce elongație viteza este jumătate din v_max?"
+    ],
+    "test": [
+     "Ecuația elongației?",
+     "Viteza maximă?",
+     "Accelerația maximă?",
+     "Relația dintre a și x?",
+     "Unde este viteza zero?"
+    ],
+    "steps": [
+     "Identifică A, ω și faza inițială din condițiile inițiale.",
+     "Scrie x(t), apoi v(t) și a(t).",
+     "Calculează valorile maxime și verifică pozițiile în care apar.",
+     "Greșeala frecventă: să crezi că accelerația este maximă în poziția de echilibru; acolo e maximă viteza, accelerația este zero."
+    ],
+    "answers": [
+     "x = A·sin(ωt + φ₀)",
+     "ω·A",
+     "ω²·A",
+     "a = −ω²·x",
+     "La extremități"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Pendulul elastic: perioada oscilatorului armonic",
+    "theory": "Un corp de masă m legat de un resort cu constanta k oscilează sub acțiunea forței elastice F = −k·x, de tip restabilire (proporțională cu elongația și opusă ei). Din F = m·a rezultă a = −(k/m)·x, deci ω = √(k/m) și T = 2π·√(m/k). Perioada nu depinde de amplitudine (izocronismul oscilațiilor mici). Resortul vertical oscilează în jurul noii poziții de echilibru, cu aceeași perioadă.",
+    "sample": "Un corp de 1 kg pe un resort cu k = 100 N/m oscilează cu perioada de aproximativ 0,63 s.",
+    "worked": "m = 0,4 kg, k = 160 N/m: ω = √400 = 20 rad/s, T = 2π/20 ≈ 0,314 s. Dacă masa crește de 4 ori (1,6 kg), perioada se dublează (≈ 0,628 s). Cu două resorturi identice în paralel (k = 320 N/m), T scade de √2 ori.",
+    "exercises": [
+     "Ce perioadă are un corp de 0,25 kg pe un resort cu k = 25 N/m?",
+     "Ce masă trebuie atârnată de un resort cu k = 400 N/m ca T = 1 s?",
+     "Cum se schimbă perioada dacă amplitudinea se dublează?",
+     "Determină k dacă un corp de 2 kg face 10 oscilații în 6,28 s.",
+     "De ce amortizoarele mașinii conțin și resorturi?"
+    ],
+    "test": [
+     "Perioada pendulului elastic?",
+     "Pulsația pendulului elastic?",
+     "Depinde perioada de amplitudine?",
+     "Ce este o forță de restabilire?",
+     "Cum se schimbă T dacă m crește de 4 ori?"
+    ],
+    "steps": [
+     "Verifică forța de restabilire F = −kx.",
+     "Calculează ω = √(k/m) și T = 2π√(m/k), cu masa în kg.",
+     "Interpretează dependențele (masa mare ⇒ T mare; resort rigid ⇒ T mic).",
+     "Greșeala frecventă: să scrii T = 2π√(k/m), inversând masa și constanta elastică."
+    ],
+    "answers": [
+     "T = 2π·√(m/k)",
+     "ω = √(k/m)",
+     "Nu",
+     "O forță proporțională și opusă elongației",
+     "Se dublează"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Pendulul gravitațional",
+    "theory": "Pendulul gravitațional (matematic) este un corp mic suspendat de un fir inextensibil de lungime l. Pentru unghiuri mici (sub ~5°), mișcarea este armonică, cu perioada T = 2π·√(l/g), independentă de masă și de amplitudine. Pendulul se folosește la ceasuri și la determinarea accelerației gravitaționale g = 4π²·l/T².",
+    "sample": "Un pendul de 1 m are perioada de aproximativ 2 s pe Pământ.",
+    "worked": "Măsurăm 20 de oscilații ale unui pendul de 0,80 m în 36 s: T = 1,8 s, g = 4π²·0,8/3,24 ≈ 9,75 m/s². Pe Lună (g ≈ 1,6 m/s²), același pendul ar avea T = 2π√(0,8/1,6) ≈ 4,4 s.",
+    "exercises": [
+     "Ce lungime are un pendul cu T = 1 s (g = 9,8 m/s²)?",
+     "Cum se schimbă perioada dacă lungimea crește de 9 ori?",
+     "De ce un ceas cu pendul o ia înainte iarna (firul se scurtează)?",
+     "Descrie un experiment de determinare a lui g cu pendulul.",
+     "De ce măsurăm timpul pentru mai multe oscilații, nu pentru una?"
+    ],
+    "test": [
+     "Perioada pendulului gravitațional?",
+     "Depinde perioada pendulului de masă?",
+     "Condiția pentru oscilații armonice?",
+     "Formula lui g din pendul?",
+     "Perioada unui pendul de 1 m?"
+    ],
+    "steps": [
+     "Măsoară lungimea până la centrul corpului și timpul pentru N oscilații.",
+     "Calculează T = t/N și aplică T = 2π√(l/g) sau g = 4π²l/T².",
+     "Estimează incertitudinea și compară cu valoarea cunoscută.",
+     "Greșeala frecventă: să crezi că un corp mai greu oscilează mai repede; perioada nu depinde de masă."
+    ],
+    "answers": [
+     "T = 2π·√(l/g)",
+     "Nu",
+     "Unghiuri mici",
+     "g = 4π²·l/T²",
+     "≈ 2 s"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "Energia oscilatorului armonic; oscilații amortizate",
+    "theory": "Energia oscilatorului armonic se conservă: E = Ec + Ep = k·A²/2 = m·ω²·A²/2. În echilibru toată energia este cinetică, la extremități toată este potențială. În realitate, frecările fac ca amplitudinea să scadă în timp: oscilațiile sunt amortizate. Amortizarea slabă păstrează oscilațiile, dar cu amplitudine descrescătoare; amortizarea puternică (critică) readuce corpul la echilibru fără oscilații — principiul amortizoarelor auto.",
+    "sample": "Un oscilator cu k = 200 N/m și A = 0,1 m are energia totală de 1 J.",
+    "worked": "k = 200 N/m, A = 0,1 m, m = 2 kg: E = 1 J; v_max = √(2E/m) = 1 m/s. La x = A/2 = 0,05 m: Ep = 200·0,0025/2 = 0,25 J, deci Ec = 0,75 J (trei sferturi din energie).",
+    "exercises": [
+     "Calculează energia unui oscilator cu m = 0,5 kg, ω = 10 rad/s, A = 4 cm.",
+     "La ce elongație energiile cinetică și potențială sunt egale?",
+     "De câte ori crește energia dacă amplitudinea se dublează?",
+     "Explică transformările de energie ale unui leagăn care se oprește treptat.",
+     "De ce amortizoarele mașinii folosesc amortizare puternică?"
+    ],
+    "test": [
+     "Energia totală a oscilatorului armonic?",
+     "Unde energia este doar cinetică?",
+     "Ce sunt oscilațiile amortizate?",
+     "Ce cauzează amortizarea?",
+     "Ce face amortizarea critică?"
+    ],
+    "steps": [
+     "Calculează energia totală din amplitudine (kA²/2).",
+     "Împarte-o în Ec și Ep pentru elongația dată (Ep = kx²/2).",
+     "Pentru oscilații reale, discută pierderile prin frecare și tipul amortizării.",
+     "Greșeala frecventă: să crezi că energia oscilatorului depinde liniar de amplitudine; depinde de pătratul ei."
+    ],
+    "answers": [
+     "E = k·A²/2",
+     "În poziția de echilibru",
+     "Oscilații cu amplitudine descrescătoare",
+     "Frecările",
+     "Readuce corpul la echilibru fără oscilații"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Compunerea oscilațiilor paralele; bătăi",
+    "theory": "Două oscilații pe aceeași direcție, cu aceeași frecvență, se compun într-o oscilație armonică de aceeași frecvență. Folosind fazorii (vectori rotitori), amplitudinea rezultantă este A² = A₁² + A₂² + 2A₁A₂·cos Δφ. În fază (Δφ = 0): A = A₁ + A₂; în opoziție (Δφ = π): A = |A₁ − A₂|. Două oscilații cu frecvențe apropiate produc bătăi: amplitudinea crește și scade periodic cu frecvența ν₁ − ν₂ (folosite la acordarea instrumentelor).",
+    "sample": "Două oscilații egale de 3 cm, în fază, dau o oscilație de 6 cm; în opoziție de fază se anulează.",
+    "worked": "A₁ = 3 cm, A₂ = 4 cm, Δφ = π/2: A = √(9 + 16) = 5 cm. Cu Δφ = π/3: A² = 9 + 16 + 24·0,5 = 37, A ≈ 6,1 cm. Două diapazoane de 440 Hz și 444 Hz produc 4 bătăi pe secundă.",
+    "exercises": [
+     "Compune două oscilații de 6 cm și 8 cm, defazate cu π/2.",
+     "Ce amplitudine rezultă din 5 cm și 3 cm în opoziție de fază?",
+     "Câte bătăi pe secundă produc două sunete de 256 Hz și 260 Hz?",
+     "Cum acordezi o chitară folosind bătăile?",
+     "Reprezintă fazorial compunerea pentru Δφ = π/3."
+    ],
+    "test": [
+     "Amplitudinea rezultantă în fază?",
+     "Amplitudinea rezultantă în opoziție?",
+     "Formula amplitudinii rezultante?",
+     "Frecvența bătăilor?",
+     "Ce este un fazor?"
+    ],
+    "steps": [
+     "Scrie cele două oscilații și defazajul dintre ele.",
+     "Desenează fazorii și aplică A² = A₁² + A₂² + 2A₁A₂cos Δφ.",
+     "Interpretează cazurile particulare (fază, opoziție, cuadratură).",
+     "Greșeala frecventă: să aduni amplitudinile direct indiferent de defazaj; doar în fază rezultanta este A₁ + A₂."
+    ],
+    "answers": [
+     "A₁ + A₂",
+     "|A₁ − A₂|",
+     "A² = A₁² + A₂² + 2A₁A₂·cos Δφ",
+     "ν₁ − ν₂",
+     "Un vector rotitor care reprezintă oscilația"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Oscilații întreținute și oscilații forțate",
+    "theory": "Pentru ca oscilațiile să nu se stingă, pierderile trebuie compensate: oscilațiile întreținute primesc energie de la o sursă, în ritmul propriu (ceasul cu arc, leagănul împins la momentul potrivit). Oscilațiile forțate apar când asupra sistemului acționează o forță periodică exterioară: după un regim tranzitoriu, sistemul oscilează cu frecvența forței exterioare, nu cu frecvența proprie. Oscilatorii cuplați își transferă energie unul altuia (două pendule legate printr-un resort).",
+    "sample": "Un leagăn împins la fiecare trecere prin punctul cel mai înalt are oscilații întreținute.",
+    "worked": "O mașină de spălat la centrifugare forțează podeaua să vibreze cu frecvența tamburului (de exemplu 1 000 rot/min ≈ 16,7 Hz). Două pendule identice cuplate printr-un fir: energia trece complet de la unul la altul și înapoi, periodic.",
+    "exercises": [
+     "Dă un exemplu de oscilație întreținută și explică de unde vine energia.",
+     "Cu ce frecvență vibrează un pod traversat ritmic de soldați?",
+     "Ce diferență este între frecvența proprie și frecvența forțată?",
+     "Descrie comportarea a două pendule cuplate.",
+     "De ce trebuie remontat (sau alimentat) un ceas mecanic?"
+    ],
+    "test": [
+     "Ce sunt oscilațiile întreținute?",
+     "Cu ce frecvență oscilează un sistem forțat (regim staționar)?",
+     "Ce este frecvența proprie?",
+     "Ce sunt oscilatorii cuplați?",
+     "Ce compensează sursa la oscilații întreținute?"
+    ],
+    "steps": [
+     "Identifică sursa de energie și ritmul în care acționează.",
+     "Stabilește dacă sistemul oscilează cu frecvența proprie (întreținut) sau cu cea exterioară (forțat).",
+     "Analizează transferul de energie și efectele practice.",
+     "Greșeala frecventă: să crezi că un sistem forțat oscilează cu frecvența lui proprie; în regim staționar oscilează cu frecvența forței."
+    ],
+    "answers": [
+     "Oscilații a căror energie pierdută este compensată",
+     "Cu frecvența forței exterioare",
+     "Frecvența cu care oscilează liber sistemul",
+     "Oscilatori care își transferă energie",
+     "Pierderile prin frecare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Rezonanța mecanică: consecințe și aplicații",
+    "theory": "Rezonanța apare când frecvența forței exterioare este egală (sau foarte apropiată) cu frecvența proprie a sistemului: amplitudinea devine maximă, limitată doar de amortizare. Consecințe periculoase: prăbușirea podurilor (Tacoma 1940, prin oscilații autoexcitate de vânt), vibrațiile clădirilor la cutremure, ruperea pieselor de mașini. Aplicații utile: instrumentele muzicale (cutia de rezonanță), leagănul, ceasul cu quartz, unele aparate medicale. Inginerii evită rezonanța prin amortizoare și prin alegerea frecvențelor proprii.",
+    "sample": "Un pahar de cristal se poate sparge dacă o notă cântată are exact frecvența lui proprie.",
+    "worked": "Un corp de 2 kg pe un resort cu k = 800 N/m are ω₀ = 20 rad/s, ν₀ = 20/(2π) ≈ 3,2 Hz. O forță periodică de 3,2 Hz produce rezonanța. La clădirile înalte se montează amortizoare cu masă acordată care oscilează în opoziție și reduc amplitudinea.",
+    "exercises": [
+     "Calculează frecvența de rezonanță pentru m = 0,5 kg și k = 50 N/m.",
+     "De ce soldații rup cadența pe poduri?",
+     "Cum protejează amortizoarele clădirile la cutremur?",
+     "Dă două aplicații utile ale rezonanței.",
+     "Cum influențează amortizarea amplitudinea la rezonanță?"
+    ],
+    "test": [
+     "Condiția de rezonanță?",
+     "Ce se întâmplă cu amplitudinea la rezonanță?",
+     "Ce limitează amplitudinea la rezonanță?",
+     "O aplicație utilă a rezonanței?",
+     "Un efect periculos al rezonanței?"
+    ],
+    "steps": [
+     "Calculează frecvența proprie a sistemului.",
+     "Compară cu frecvența forței exterioare.",
+     "Concluzionează riscul de rezonanță și măsurile de protecție (amortizare, schimbarea frecvenței).",
+     "Greșeala frecventă: să crezi că o forță mare este necesară pentru rezonanță; și forțe mici, aplicate în ritmul potrivit, produc amplitudini mari."
+    ],
+    "answers": [
+     "Frecvența forței egală cu frecvența proprie",
+     "Devine maximă",
+     "Amortizarea",
+     "Cutia de rezonanță a instrumentelor",
+     "Prăbușirea unor poduri sau ruperea pieselor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Propagarea unei perturbații într-un mediu elastic; tipuri de unde",
+    "theory": "O undă mecanică este propagarea unei perturbații (oscilații) printr-un mediu elastic, din aproape în aproape; se transportă energie, nu substanță. În undele transversale particulele oscilează perpendicular pe direcția de propagare (coarda); în cele longitudinale, pe direcția de propagare (sunetul în aer). Viteza undei depinde de mediu: pe o coardă v = √(F/µ), unde µ este masa pe unitatea de lungime. Undele mecanice nu se propagă în vid.",
+    "sample": "Valul de pe un stadion se deplasează, dar spectatorii rămân pe loc.",
+    "worked": "O coardă întinsă cu F = 100 N și µ = 0,01 kg/m: v = √(10 000) = 100 m/s. Dacă tensiunea crește de 4 ori, viteza se dublează. Sunetul se propagă în aer cu ~340 m/s, în apă cu ~1 500 m/s, în oțel cu ~5 000 m/s.",
+    "exercises": [
+     "Clasifică: unda pe coardă, sunetul în aer, undele de pe apă (aproximativ).",
+     "Calculează viteza undei pe o coardă cu F = 64 N și µ = 0,04 kg/m.",
+     "De ce nu se aude sunetul în vid?",
+     "Ce se transportă printr-o undă?",
+     "În ce mediu se propagă sunetul cel mai repede: aer, apă sau oțel?"
+    ],
+    "test": [
+     "Ce este o undă mecanică?",
+     "Ce este o undă transversală?",
+     "Ce este o undă longitudinală?",
+     "Viteza undei pe o coardă?",
+     "Se propagă undele mecanice în vid?"
+    ],
+    "steps": [
+     "Identifică mediul și direcția de oscilație față de direcția de propagare.",
+     "Clasifică unda și calculează viteza din proprietățile mediului.",
+     "Precizează ce se transportă (energie) și ce nu (substanță).",
+     "Greșeala frecventă: să crezi că unda transportă substanță; particulele doar oscilează în jurul pozițiilor lor."
+    ],
+    "answers": [
+     "Propagarea unei oscilații printr-un mediu elastic",
+     "Particulele oscilează perpendicular pe propagare",
+     "Particulele oscilează pe direcția de propagare",
+     "v = √(F/µ)",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Unda plană: periodicitate spațială și temporală; ecuația undei",
+    "theory": "Lungimea de undă λ este distanța parcursă de undă într-o perioadă: λ = v·T = v/ν; este și distanța dintre două puncte vecine care oscilează în fază. Ecuația undei plane care se propagă în sensul pozitiv al axei: y(x, t) = A·sin[2π(t/T − x/λ)]. Unda este periodică în timp (perioada T, într-un punct fix) și în spațiu (perioada λ, la un moment fix). Două puncte la distanța d au defazajul Δφ = 2π·d/λ.",
+    "sample": "Un sunet de 340 Hz în aer (v = 340 m/s) are lungimea de undă de 1 m.",
+    "worked": "O undă cu v = 20 m/s și ν = 5 Hz: λ = 4 m, T = 0,2 s. Ecuația: y = A·sin[2π(5t − x/4)]. Două puncte aflate la 1 m distanță au Δφ = 2π·1/4 = π/2; la 2 m sunt în opoziție de fază.",
+    "exercises": [
+     "Calculează lungimea de undă a unui sunet de 680 Hz în aer.",
+     "O undă are λ = 0,5 m și T = 0,01 s. Află viteza.",
+     "Scrie ecuația undei pentru A = 2 cm, T = 0,1 s, λ = 2 m.",
+     "Ce defazaj au două puncte aflate la λ/2? Dar la λ?",
+     "Ce lungime de undă are un ultrasunet de 2 MHz în țesut (v ≈ 1 500 m/s)?"
+    ],
+    "test": [
+     "Formula lungimii de undă?",
+     "Ce este lungimea de undă?",
+     "Defazajul a două puncte la distanța d?",
+     "Ecuația undei plane?",
+     "Ce înseamnă periodicitate spațială?"
+    ],
+    "steps": [
+     "Calculează λ = v·T și ω, k (sau T, λ) din date.",
+     "Scrie ecuația y(x, t) cu sensul de propagare corect.",
+     "Calculează defazajul dintre puncte și interpretează (fază sau opoziție).",
+     "Greșeala frecventă: să confunzi amplitudinea cu lungimea de undă; λ este distanța între puncte în fază, A este elongația maximă."
+    ],
+    "answers": [
+     "λ = v·T",
+     "Distanța parcursă de undă într-o perioadă",
+     "Δφ = 2π·d/λ",
+     "y = A·sin[2π(t/T − x/λ)]",
+     "Repetarea formei undei la distanța λ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Reflexia și refracția undelor mecanice; unde seismice",
+    "theory": "La întâlnirea unui obstacol, unda se reflectă (unghiul de reflexie egal cu unghiul de incidență); ecoul este reflexia sunetului. La trecerea în alt mediu, unda se refractă: își schimbă viteza și direcția, cu sin i/sin r = v₁/v₂, iar frecvența rămâne aceeași. La reflexia pe un capăt fix, unda se întoarce în opoziție de fază. Undele seismice: primare P (longitudinale, mai rapide), secundare S (transversale, nu trec prin lichide) și de suprafață (cele mai distructive). Din diferența de timp dintre undele P și S se află distanța la focar.",
+    "sample": "Ecoul se aude după 2 s: peretele se află la 340 m (sunetul parcurge 680 m dus-întors).",
+    "worked": "Undele P au ~6 km/s, undele S ~3,5 km/s. Diferența de sosire 10 s: d/3,5 − d/6 = 10 ⇒ d(6 − 3,5)/21 = 10 ⇒ d = 84 km. Faptul că undele S nu traversează nucleul extern a arătat că acesta este lichid.",
+    "exercises": [
+     "La ce distanță este un perete dacă ecoul revine după 0,5 s?",
+     "Un sunet trece din aer (340 m/s) în apă (1 500 m/s). Ce se întâmplă cu frecvența și lungimea de undă?",
+     "Calculează distanța la focar pentru o întârziere S–P de 20 s (vitezele din exemplu).",
+     "De ce undele S nu trec prin nucleul extern al Pământului?",
+     "Cum funcționează sonarul?"
+    ],
+    "test": [
+     "Legea reflexiei undelor?",
+     "Ce rămâne constant la refracție?",
+     "Ce sunt undele P?",
+     "De ce undele S nu trec prin lichide?",
+     "Ce este ecoul?"
+    ],
+    "steps": [
+     "Identifică fenomenul (reflexie sau refracție) și mediile.",
+     "Aplică legile: unghiuri egale, sin i/sin r = v₁/v₂, frecvență constantă.",
+     "Pentru distanțe, folosește drumul dus-întors sau diferența de timp între unde.",
+     "Greșeala frecventă: să uiți că la ecou sunetul parcurge distanța de două ori (dus și întors)."
+    ],
+    "answers": [
+     "Unghiul de reflexie egal cu cel de incidență",
+     "Frecvența",
+     "Unde longitudinale, cele mai rapide",
+     "Lichidele nu transmit unde transversale",
+     "Reflexia sunetului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Interferența undelor mecanice",
+    "theory": "Interferența este suprapunerea a două unde coerente (aceeași frecvență și defazaj constant), care produce o distribuție stabilă de maxime și minime. Într-un punct, diferența de drum Δr = r₂ − r₁ decide: maxim (întărire) dacă Δr = k·λ, minim (anulare) dacă Δr = (2k + 1)·λ/2, pentru surse în fază. Interferența se observă pe apă (două surse punctiforme) și cu sunetul (zone liniștite în jurul a două difuzoare).",
+    "sample": "Două difuzoare în fază: în punctele aflate la aceeași distanță de ele se aude un maxim.",
+    "worked": "Două surse în fază pe apă, cu λ = 2 cm. Un punct la 10 cm de prima și 14 cm de a doua: Δr = 4 cm = 2λ ⇒ maxim. Un punct cu Δr = 5 cm = 2,5λ ⇒ minim (apa aproape nemișcată).",
+    "exercises": [
+     "Două surse în fază au λ = 0,5 m. Un punct are Δr = 1,25 m. Este maxim sau minim?",
+     "Ce condiții trebuie să îndeplinească sursele pentru interferență stabilă?",
+     "Calculează cea mai mică diferență de drum pentru un minim când λ = 3 cm.",
+     "Explică funcționarea căștilor cu anulare a zgomotului.",
+     "De ce nu observăm interferență între două becuri obișnuite?"
+    ],
+    "test": [
+     "Ce este interferența?",
+     "Condiția de maxim?",
+     "Condiția de minim?",
+     "Ce sunt undele coerente?",
+     "Ce produce interferența destructivă?"
+    ],
+    "steps": [
+     "Verifică coerența surselor și faza lor inițială.",
+     "Calculează diferența de drum Δr și raportul Δr/λ.",
+     "Decide: număr întreg ⇒ maxim, semiîntreg ⇒ minim (pentru surse în fază).",
+     "Greșeala frecventă: să compari distanțele cu lungimea de undă în loc să compari diferența de drum."
+    ],
+    "answers": [
+     "Suprapunerea undelor coerente cu maxime și minime stabile",
+     "Δr = k·λ",
+     "Δr = (2k + 1)·λ/2",
+     "Unde cu aceeași frecvență și defazaj constant",
+     "Unde în opoziție de fază"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Unde staționare",
+    "theory": "Unda staționară se formează prin interferența undei incidente cu unda reflectată, de aceeași frecvență, care se propagă în sens opus. Apar noduri (puncte care nu oscilează) și ventre (oscilație maximă); distanța dintre două noduri vecine este λ/2. Pe o coardă fixată la ambele capete (lungime l): l = n·λ/2, deci frecvențele proprii sunt ν_n = n·v/(2l) — fundamentala (n = 1) și armonicele. Pe acest principiu funcționează instrumentele cu coarde și tuburile sonore.",
+    "sample": "Pe o coardă de 0,5 m, fundamentala are lungimea de undă de 1 m.",
+    "worked": "Coardă de chitară: l = 0,65 m, v = 286 m/s: ν₁ = 286/(2·0,65) = 220 Hz (nota La₃), armonica a doua 440 Hz. Apăsând coarda la jumătate (l = 0,325 m), fundamentala devine 440 Hz — o octavă mai sus.",
+    "exercises": [
+     "Calculează frecvența fundamentală a unei coarde de 0,8 m cu v = 320 m/s.",
+     "Câte noduri are a treia armonică pe o coardă fixată la capete?",
+     "Cum se schimbă frecvența dacă tensiunea în coardă crește de 4 ori?",
+     "Distanța dintre două noduri vecine este 15 cm. Ce lungime de undă are unda?",
+     "De ce sunetul unei viori diferă de al unui pian la aceeași notă?"
+    ],
+    "test": [
+     "Cum se formează unda staționară?",
+     "Distanța dintre două noduri vecine?",
+     "Condiția pentru coardă fixată la capete?",
+     "Frecvențele proprii ale coardei?",
+     "Ce sunt ventrele?"
+    ],
+    "steps": [
+     "Stabilește condițiile la capete (noduri la capetele fixe).",
+     "Scrie l = n·λ/2 și calculează λ_n și ν_n = n·v/(2l).",
+     "Interpretează: armonice, noduri, ventre.",
+     "Greșeala frecventă: să consideri că distanța dintre două noduri vecine este λ; ea este λ/2."
+    ],
+    "answers": [
+     "Prin interferența undei incidente cu cea reflectată",
+     "λ/2",
+     "l = n·λ/2",
+     "ν_n = n·v/(2l)",
+     "Punctele cu oscilație maximă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Tuburi sonore și instrumente muzicale",
+    "theory": "În coloana de aer dintr-un tub se formează unde staționare longitudinale. La un capăt închis apare un nod, la un capăt deschis un ventru. Tub deschis la ambele capete: l = n·λ/2, ν_n = n·v/(2l) (toate armonicele). Tub închis la un capăt: l = (2n − 1)·λ/4, ν = (2n − 1)·v/(4l) (doar armonicele impare). Instrumentele de suflat schimbă lungimea coloanei de aer (clape, pistoane); cele cu coarde schimbă lungimea, tensiunea sau masa coardei; cutia de rezonanță amplifică sunetul.",
+    "sample": "Un tub închis la un capăt, lung de 0,85 m, are fundamentala de 100 Hz (v = 340 m/s).",
+    "worked": "Tub deschis de 0,5 m: ν₁ = 340/(2·0,5) = 340 Hz, următoarele 680 Hz, 1 020 Hz. Același tub închis la un capăt: ν₁ = 340/(4·0,5) = 170 Hz, apoi 510 Hz, 850 Hz (doar impare). Sticla în care sufli sună mai înalt pe măsură ce o umpli cu apă, pentru că se scurtează coloana de aer.",
+    "exercises": [
+     "Calculează fundamentala unui tub deschis de 1,7 m (v = 340 m/s).",
+     "Ce lungime are un tub închis la un capăt cu fundamentala de 85 Hz?",
+     "De ce tubul închis nu emite armonica a doua?",
+     "Explică de ce sunetul unei sticle crește în înălțime când o umpli cu apă.",
+     "Cum schimbă un trompetist notele?"
+    ],
+    "test": [
+     "Ce apare la capătul închis al tubului?",
+     "Fundamentala tubului deschis?",
+     "Fundamentala tubului închis la un capăt?",
+     "Ce armonice are tubul închis?",
+     "Rolul cutiei de rezonanță?"
+    ],
+    "steps": [
+     "Stabilește capetele tubului: închis (nod) sau deschis (ventru).",
+     "Scrie condiția de formare (l = nλ/2 sau l = (2n − 1)λ/4) și calculează frecvențele.",
+     "Interpretează armonicele prezente și aplicația muzicală.",
+     "Greșeala frecventă: să aplici formula tubului deschis la un tub închis; fundamentala tubului închis este de două ori mai joasă."
+    ],
+    "answers": [
+     "Un nod",
+     "ν₁ = v/(2l)",
+     "ν₁ = v/(4l)",
+     "Doar armonicele impare",
+     "Amplifică sunetul instrumentului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Acustica: caracteristicile sunetului; nivelul de intensitate",
+    "theory": "Sunetul este o undă mecanică longitudinală cu frecvențe audibile între ~16 Hz și ~20 kHz. Calități: înălțimea (dată de frecvență), intensitatea (energia transportată pe unitatea de suprafață și de timp, W/m²) și timbrul (dat de armonicele prezente). Urechea percepe logaritmic: nivelul de intensitate N = 10·lg(I/I₀) dB, cu I₀ = 10⁻¹² W/m² (pragul de audibilitate). Expunerea îndelungată peste ~85 dB afectează auzul.",
+    "sample": "O creștere a nivelului sonor cu 10 dB înseamnă o intensitate de 10 ori mai mare.",
+    "worked": "Un sunet cu I = 10⁻⁶ W/m²: N = 10·lg(10⁶) = 60 dB (conversație). Două surse identice de 60 dB împreună: I = 2·10⁻⁶ ⇒ N = 60 + 10·lg 2 ≈ 63 dB, nu 120 dB. Un concert de 110 dB are intensitatea 10⁻¹ W/m², de 100 000 de ori mai mare.",
+    "exercises": [
+     "Calculează nivelul de intensitate pentru I = 10⁻⁴ W/m².",
+     "Ce intensitate are un sunet de 90 dB?",
+     "Cât devine nivelul dacă se adaugă o a doua sursă identică de 70 dB?",
+     "Ce calitate a sunetului ne permite să recunoaștem vocea unei persoane?",
+     "De ce trebuie protejat auzul la concerte?"
+    ],
+    "test": [
+     "Domeniul de frecvențe audibile?",
+     "De ce depinde înălțimea sunetului?",
+     "Formula nivelului de intensitate?",
+     "Ce determină timbrul?",
+     "Pragul de audibilitate I₀?"
+    ],
+    "steps": [
+     "Identifică mărimea dată (intensitate sau nivel).",
+     "Aplică N = 10·lg(I/I₀) sau I = I₀·10^(N/10).",
+     "Adună intensitățile (nu decibelii) pentru mai multe surse și interpretează.",
+     "Greșeala frecventă: să aduni direct nivelurile în decibeli: două surse de 60 dB dau ≈ 63 dB, nu 120 dB."
+    ],
+    "answers": [
+     "≈ 16 Hz – 20 kHz",
+     "De frecvență",
+     "N = 10·lg(I/I₀)",
+     "Armonicele prezente",
+     "10⁻¹² W/m²"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Efectul Doppler",
+    "theory": "Efectul Doppler este modificarea frecvenței percepute atunci când sursa și observatorul se mișcă unul față de altul. La apropiere frecvența percepută crește (sunet mai înalt), la depărtare scade. Pentru sursă în mișcare cu u spre observatorul fix: ν′ = ν·v/(v − u); la depărtare ν′ = ν·v/(v + u). Pentru observator care se apropie de sursa fixă: ν′ = ν·(v + u)/v. Aplicații: radarul de viteză, ecografia Doppler a fluxului sanguin, astronomie (deplasarea spre roșu).",
+    "sample": "Sirena ambulanței pare mai ascuțită când se apropie și mai gravă după ce trece.",
+    "worked": "Ambulanța emite 700 Hz și se apropie cu 20 m/s (v = 340 m/s): ν′ = 700·340/320 ≈ 744 Hz. După ce trece: ν′ = 700·340/360 ≈ 661 Hz. Diferența de ~83 Hz se aude clar.",
+    "exercises": [
+     "O sursă de 500 Hz se apropie cu 40 m/s. Ce frecvență percepe observatorul fix?",
+     "Un observator se depărtează cu 17 m/s de o sursă fixă de 680 Hz. Ce frecvență aude?",
+     "Cum măsoară poliția viteza cu radarul?",
+     "Ce informație dă deplasarea spre roșu a luminii galaxiilor?",
+     "Ce frecvență se aude dacă sursa este fixă și observatorul stă pe loc?"
+    ],
+    "test": [
+     "Ce este efectul Doppler?",
+     "Cum se schimbă frecvența la apropiere?",
+     "Formula pentru sursa care se apropie?",
+     "O aplicație medicală a efectului Doppler?",
+     "Ce înseamnă deplasarea spre roșu?"
+    ],
+    "steps": [
+     "Stabilește cine se mișcă (sursa sau observatorul) și sensul (apropiere sau depărtare).",
+     "Alege formula potrivită și semnele vitezelor.",
+     "Verifică: apropiere ⇒ frecvență mai mare, depărtare ⇒ mai mică.",
+     "Greșeala frecventă: să folosești semnul greșit: la apropierea sursei numitorul este v − u, ceea ce mărește frecvența."
+    ],
+    "answers": [
+     "Modificarea frecvenței la mișcarea relativă sursă–observator",
+     "Crește",
+     "ν′ = ν·v/(v − u)",
+     "Ecografia Doppler a fluxului sanguin",
+     "Galaxia se depărtează"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Ultrasunete și infrasunete: aplicații",
+    "theory": "Infrasunetele au frecvențe sub 16 Hz, ultrasunetele peste 20 kHz; omul nu le aude. Infrasunetele apar la cutremure, furtuni, explozii și erupții; unele animale (elefanții, balenele) comunică prin ele; la intensități mari pot provoca disconfort. Ultrasunetele au lungimi de undă mici, se pot concentra în fascicule și se reflectă la granița dintre țesuturi: ecografia, sonarul, detectarea defectelor din metale (defectoscopie), curățarea cu ultrasunete; liliecii și delfinii se orientează prin ecolocație.",
+    "sample": "Un sonar trimite un ultrasunet care revine după 0,4 s: fundul mării este la 300 m (v = 1 500 m/s).",
+    "worked": "Ecograful folosește 3 MHz în țesut (v ≈ 1 540 m/s): λ ≈ 0,5 mm, ceea ce permite distingerea detaliilor de ordinul milimetrului. Un liliac emite 50 kHz în aer: λ = 340/50 000 ≈ 6,8 mm — suficient pentru a detecta insecte mici.",
+    "exercises": [
+     "La ce adâncime este un banc de pești dacă ecoul sonarului revine după 0,2 s?",
+     "Calculează lungimea de undă a unui ultrasunet de 40 kHz în aer.",
+     "De ce ultrasunetele sunt potrivite pentru imagistică medicală?",
+     "Ce fenomene naturale produc infrasunete?",
+     "Cum se orientează liliecii pe întuneric?"
+    ],
+    "test": [
+     "Ce sunt infrasunetele?",
+     "Ce sunt ultrasunetele?",
+     "O aplicație medicală a ultrasunetelor?",
+     "Ce este ecolocația?",
+     "Ce este defectoscopia cu ultrasunete?"
+    ],
+    "steps": [
+     "Stabilește domeniul de frecvență (infra, audibil, ultra).",
+     "Calculează lungimea de undă sau distanța din timpul de ecou (dus-întors).",
+     "Leagă proprietățile (λ mic, reflexie) de aplicație.",
+     "Greșeala frecventă: să crezi că ultrasunetele sunt unde electromagnetice; ele sunt unde mecanice, ca sunetul."
+    ],
+    "answers": [
+     "Unde sonore sub 16 Hz",
+     "Unde sonore peste 20 kHz",
+     "Ecografia",
+     "Orientarea prin ecoul ultrasunetelor emise",
+     "Detectarea fisurilor din metale cu ultrasunete"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Circuitul RLC serie în curent alternativ; impedanța",
+    "theory": "Într-un circuit serie cu rezistor R, bobină L și condensator C, curentul este același prin toate elementele, dar tensiunile sunt defazate. Impedanța circuitului este Z = √(R² + (X_L − X_C)²), cu X_L = ωL și X_C = 1/(ωC); legea lui Ohm devine I = U/Z. Defazajul dintre tensiune și curent: tg φ = (X_L − X_C)/R; factorul de putere cos φ = R/Z. Diagrama fazorială ajută la rezolvare.",
+    "sample": "Cu R = 30 Ω și X_L − X_C = 40 Ω, impedanța circuitului este de 50 Ω.",
+    "worked": "R = 40 Ω, X_L = 50 Ω, X_C = 20 Ω, U = 100 V: Z = √(1 600 + 900) = 50 Ω, I = 2 A, U_R = 80 V, U_L = 100 V, U_C = 40 V (U_L − U_C = 60 V; √(80² + 60²) = 100 V). cos φ = 0,8; P = 100·2·0,8 = 160 W = I²R.",
+    "exercises": [
+     "Calculează impedanța pentru R = 60 Ω, X_L = 120 Ω, X_C = 40 Ω.",
+     "Ce curent trece la 230 V prin circuitul de mai sus?",
+     "Calculează defazajul pentru R = X_L − X_C.",
+     "De ce suma tensiunilor efective pe elemente diferă de tensiunea sursei?",
+     "Calculează puterea activă pentru R = 20 Ω și I = 3 A."
+    ],
+    "test": [
+     "Formula impedanței RLC serie?",
+     "Legea lui Ohm în c.a.?",
+     "Factorul de putere al circuitului RLC?",
+     "Tangenta defazajului?",
+     "Ce mărime este comună elementelor în serie?"
+    ],
+    "steps": [
+     "Calculează reactanțele X_L și X_C la frecvența dată.",
+     "Calculează Z, I = U/Z și tensiunile pe fiecare element.",
+     "Determină defazajul și puterea activă, verificând cu diagrama fazorială.",
+     "Greșeala frecventă: să aduni aritmetic tensiunile de pe R, L și C; ele se adună fazorial."
+    ],
+    "answers": [
+     "Z = √(R² + (X_L − X_C)²)",
+     "I = U/Z",
+     "cos φ = R/Z",
+     "tg φ = (X_L − X_C)/R",
+     "Curentul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "Rezonanța în circuitul RLC serie",
+    "theory": "Când X_L = X_C, adică ω₀ = 1/√(LC) (ν₀ = 1/(2π√(LC))), impedanța este minimă și egală cu R, curentul este maxim, iar tensiunea și curentul sunt în fază (cos φ = 1). Tensiunile pe bobină și pe condensator pot fi mult mai mari decât tensiunea sursei (rezonanța tensiunilor). Rezonanța permite selectarea unei frecvențe: acordul unui radio pe un post.",
+    "sample": "Un circuit cu L = 1 H și C = 1 µF intră în rezonanță la ω₀ = 1 000 rad/s.",
+    "worked": "L = 0,1 H, C = 10 µF: ω₀ = 1/√(10⁻⁶) = 1 000 rad/s, ν₀ ≈ 159 Hz. Cu R = 10 Ω și U = 10 V, la rezonanță I = 1 A, X_L = X_C = 100 Ω, deci U_L = U_C = 100 V — de 10 ori tensiunea sursei.",
+    "exercises": [
+     "Calculează frecvența de rezonanță pentru L = 10 mH și C = 1 µF.",
+     "Ce curent trece la rezonanță pentru R = 50 Ω și U = 100 V?",
+     "Ce capacitate acordează pe 1 MHz un circuit cu L = 25 µH?",
+     "De ce tensiunea pe condensator poate depăși tensiunea sursei la rezonanță?",
+     "Explică acordul unui receptor radio pe un post."
+    ],
+    "test": [
+     "Condiția de rezonanță RLC?",
+     "Pulsația de rezonanță?",
+     "Impedanța la rezonanță?",
+     "Defazajul la rezonanță?",
+     "Ce este rezonanța tensiunilor?"
+    ],
+    "steps": [
+     "Scrie condiția X_L = X_C.",
+     "Calculează ω₀ = 1/√(LC) și ν₀.",
+     "Calculează curentul maxim I = U/R și tensiunile pe L și C.",
+     "Greșeala frecventă: să uiți factorul 2π când treci de la pulsația ω₀ la frecvența ν₀."
+    ],
+    "answers": [
+     "X_L = X_C",
+     "ω₀ = 1/√(LC)",
+     "Z = R",
+     "Zero (curent și tensiune în fază)",
+     "U_L și U_C mult mai mari decât U"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Circuitul oscilant LC; oscilații electromagnetice libere",
+    "theory": "Un condensator încărcat descărcat printr-o bobină produce oscilații electromagnetice: energia trece periodic din câmpul electric al condensatorului (q²/(2C)) în câmpul magnetic al bobinei (L·i²/2) și înapoi. Perioada proprie este dată de formula lui Thomson: T = 2π√(LC). Analogia cu oscilatorul mecanic: L ↔ m, 1/C ↔ k, q ↔ x, i ↔ v. Rezistența firelor amortizează oscilațiile; pentru întreținere se folosește un amplificator (oscilator electronic).",
+    "sample": "Un circuit cu L = 1 mH și C = 1 nF oscilează cu frecvența de aproximativ 159 kHz.",
+    "worked": "C = 2 µF încărcat la 10 V are W = C·U²/2 = 10⁻⁴ J. Cu L = 0,5 H: T = 2π√(10⁻⁶) = 2π·10⁻³ ≈ 6,3 ms. Curentul maxim din L·I²/2 = 10⁻⁴: I = √(4·10⁻⁴) = 0,02 A.",
+    "exercises": [
+     "Calculează perioada unui circuit LC cu L = 4 mH și C = 1 µF.",
+     "Cum se schimbă frecvența dacă și L și C se dublează?",
+     "Calculează energia unui condensator de 10 µF încărcat la 20 V.",
+     "Explică analogia dintre circuitul LC și pendulul elastic.",
+     "De ce oscilațiile reale din circuit se sting?"
+    ],
+    "test": [
+     "Formula lui Thomson?",
+     "Unde este energia la condensatorul complet încărcat?",
+     "Energia câmpului electric din condensator?",
+     "Mărimea mecanică analoagă inductanței?",
+     "Ce amortizează oscilațiile LC?"
+    ],
+    "steps": [
+     "Calculează perioada proprie T = 2π√(LC).",
+     "Scrie conservarea energiei q²/(2C) + L·i²/2 = constant.",
+     "Află mărimile maxime și interpretează schimbul de energie.",
+     "Greșeala frecventă: să folosești unitățile fără prefixe corecte (µF, mH) și să obții frecvențe greșite cu ordine de mărime."
+    ],
+    "answers": [
+     "T = 2π√(LC)",
+     "În câmpul electric al condensatorului",
+     "W = q²/(2C) = C·U²/2",
+     "Masa",
+     "Rezistența conductoarelor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Câmpul electromagnetic; unda electromagnetică",
+    "theory": "Un câmp electric variabil produce un câmp magnetic, iar un câmp magnetic variabil produce un câmp electric (Maxwell). Împreună formează câmpul electromagnetic, care se propagă sub formă de undă electromagnetică: vectorii E și B oscilează în fază, perpendiculari unul pe altul și pe direcția de propagare (undă transversală). În vid viteza este c = 1/√(ε₀µ₀) ≈ 3·10⁸ m/s; λ = c/ν. Undele electromagnetice transportă energie și se propagă și în vid. Sursele lor sunt sarcinile accelerate (antena).",
+    "sample": "O undă radio de 100 MHz are lungimea de undă de 3 m.",
+    "worked": "Un post FM pe 90 MHz: λ = 3·10⁸/9·10⁷ ≈ 3,3 m; antena optimă are λ/2 ≈ 1,7 m sau λ/4 ≈ 0,83 m. Lumina Soarelui ajunge la Pământ (1,5·10¹¹ m) în 500 s ≈ 8,3 min.",
+    "exercises": [
+     "Calculează lungimea de undă pentru 2,4 GHz (Wi-Fi).",
+     "Ce frecvență are o undă electromagnetică de 600 nm?",
+     "În cât timp ajunge un semnal radio la Lună (3,84·10⁸ m)?",
+     "Descrie orientarea vectorilor E și B într-o undă electromagnetică.",
+     "De ce undele electromagnetice, spre deosebire de sunet, trec prin vid?"
+    ],
+    "test": [
+     "Viteza undelor EM în vid?",
+     "Ce tip de undă este unda EM?",
+     "Relația lungime de undă–frecvență?",
+     "Cine a prezis undele EM?",
+     "Ce produce undele EM?"
+    ],
+    "steps": [
+     "Identifică frecvența sau lungimea de undă dată.",
+     "Aplică λ = c/ν (sau t = d/c pentru timpi de propagare).",
+     "Interpretează rezultatul (domeniul spectral, dimensiunea antenei).",
+     "Greșeala frecventă: să crezi că undele electromagnetice au nevoie de un mediu ca să se propage."
+    ],
+    "answers": [
+     "≈ 3·10⁸ m/s",
+     "Transversală",
+     "λ = c/ν",
+     "Maxwell",
+     "Sarcinile electrice accelerate"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Spectrul undelor electromagnetice; aplicații",
+    "theory": "Undele electromagnetice se clasifică după frecvență (lungime de undă): unde radio (comunicații, radio, TV), microunde (radar, telefonie mobilă, cuptor), infraroșu (căldură, telecomenzi, camere termice), lumină vizibilă (380–760 nm), ultraviolet (sterilizare, bronzare, vitamina D, dar periculos), radiații X (radiografii, controlul bagajelor) și gamma (radioterapie, sterilizare). Energia transportată de fiecare foton crește cu frecvența, deci UV, X și gamma sunt ionizante și necesită protecție.",
+    "sample": "Telefonul mobil și cuptorul cu microunde folosesc microunde de frecvențe apropiate.",
+    "worked": "Pentru 2,45 GHz (cuptorul cu microunde) λ ≈ 12 cm; moleculele de apă din alimente absorb energia și se încălzesc. Radiația X folosită în radiografii are λ ≈ 0,1 nm, comparabilă cu distanțele dintre atomi, de aceea trece prin țesuturi moi, dar e absorbită de oase.",
+    "exercises": [
+     "Ordonează după frecvență: lumina vizibilă, radio, X, infraroșu, gamma.",
+     "Ce lungime de undă are o radiație UV de 1,5·10¹⁵ Hz?",
+     "De ce radiațiile UV sunt periculoase pentru piele?",
+     "Dă câte o aplicație pentru infraroșu și pentru radiația X.",
+     "Ce rol are stratul de ozon?"
+    ],
+    "test": [
+     "Domeniul luminii vizibile?",
+     "O aplicație a microundelor?",
+     "Care radiații sunt ionizante?",
+     "O aplicație a radiațiilor gamma?",
+     "Ce detectează camerele termice?"
+    ],
+    "steps": [
+     "Calculează λ sau ν și plasează radiația în spectru.",
+     "Leagă domeniul de proprietăți (pătrundere, absorbție, energie).",
+     "Precizează aplicațiile și măsurile de protecție necesare.",
+     "Greșeala frecventă: să crezi că doar radiația gamma este periculoasă; și UV și X sunt ionizante și cer protecție."
+    ],
+    "answers": [
+     "≈ 380–760 nm",
+     "Radarul sau telefonia mobilă",
+     "UV, X și gamma",
+     "Radioterapia",
+     "Radiația infraroșie emisă de corpuri"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "Transmiterea informației prin unde electromagnetice",
+    "theory": "Pentru a transmite sunet sau date, informația modulează o undă purtătoare de frecvență înaltă: în amplitudine (AM), în frecvență (FM) sau digital. Antena emițătoare radiază unda; antena receptoare captează semnale, iar circuitul oscilant acordat selectează frecvența dorită (rezonanță); semnalul este apoi demodulat și amplificat. Telefonia mobilă, Wi-Fi, televiziunea și GPS-ul folosesc unde radio și microunde; fibra optică transmite informația prin lumină.",
+    "sample": "Radioul se acordă pe un post modificând capacitatea circuitului oscilant până la rezonanță.",
+    "worked": "Pentru a recepționa 100 MHz cu o bobină de 0,25 µH: C = 1/(4π²ν²L) = 1/(39,5·10¹⁶·0,25·10⁻⁶) ≈ 1·10⁻¹¹ F = 10 pF. Semnalul GPS (~1,6 GHz) parcurge ~20 000 km în ~0,067 s; receptorul calculează distanțele din timpii de sosire.",
+    "exercises": [
+     "Ce diferență este între modularea AM și FM?",
+     "Ce capacitate acordează pe 1 MHz o bobină de 100 µH?",
+     "De ce purtătoarea are frecvență mult mai mare decât sunetul transmis?",
+     "Cum funcționează pe scurt un GPS?",
+     "Ce avantaje are fibra optică față de cablul de cupru?"
+    ],
+    "test": [
+     "Ce este modulația?",
+     "Ce înseamnă AM?",
+     "Rolul circuitului oscilant în receptor?",
+     "Ce folosește fibra optică?",
+     "Ce este unda purtătoare?"
+    ],
+    "steps": [
+     "Identifică etapele: modulare, emisie, recepție, acord, demodulare.",
+     "Calculează frecvența de acord din L și C (rezonanță).",
+     "Explică rolul fiecărei componente în lanțul de transmisie.",
+     "Greșeala frecventă: să crezi că sunetul este emis direct ca undă electromagnetică de 20 Hz–20 kHz; el modulează o purtătoare de înaltă frecvență."
+    ],
+    "answers": [
+     "Modificarea unei unde purtătoare după semnal",
+     "Modulație în amplitudine",
+     "Selectează frecvența prin rezonanță",
+     "Lumina",
+     "Unda de înaltă frecvență care transportă semnalul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Natura luminii; dispersia luminii",
+    "theory": "Lumina este o undă electromagnetică cu λ între ~380 nm (violet) și ~760 nm (roșu). Într-un mediu transparent viteza ei este v = c/n, unde n este indicele de refracție; frecvența rămâne aceeași, lungimea de undă scade. Indicele de refracție depinde de lungimea de undă: n este mai mare pentru violet decât pentru roșu. De aceea, prisma descompune lumina albă în spectru (dispersia luminii); curcubeul apare prin refracție, dispersie și reflexie în picăturile de apă.",
+    "sample": "În sticlă (n = 1,5) lumina se propagă cu 2·10⁸ m/s.",
+    "worked": "Lumina roșie de 700 nm intră în apă (n = 1,33): v ≈ 2,26·10⁸ m/s, λ_apă = 700/1,33 ≈ 526 nm, frecvența rămâne 3·10⁸/7·10⁻⁷ ≈ 4,3·10¹⁴ Hz. Culoarea este dată de frecvență, de aceea un obiect roșu rămâne roșu sub apă.",
+    "exercises": [
+     "Calculează viteza luminii într-un diamant cu n = 2,4.",
+     "Ce lungime de undă are în sticlă (n = 1,5) lumina de 600 nm din aer?",
+     "De ce prisma deviază violetul mai mult decât roșul?",
+     "Explică formarea curcubeului.",
+     "Ce mărime a luminii nu se schimbă la trecerea în alt mediu?"
+    ],
+    "test": [
+     "Domeniul lungimilor de undă vizibile?",
+     "Viteza luminii într-un mediu?",
+     "Ce este dispersia luminii?",
+     "Ce culoare deviază cel mai mult prisma?",
+     "Ce rămâne constant la refracție?"
+    ],
+    "steps": [
+     "Identifică mediul și indicele de refracție.",
+     "Calculează v = c/n și λ_mediu = λ₀/n; frecvența rămâne aceeași.",
+     "Explică fenomenul (dispersie, curcubeu) prin dependența lui n de λ.",
+     "Greșeala frecventă: să crezi că frecvența luminii se schimbă la refracție; se schimbă viteza și lungimea de undă."
+    ],
+    "answers": [
+     "≈ 380–760 nm",
+     "v = c/n",
+     "Descompunerea luminii albe în culori",
+     "Violetul",
+     "Frecvența"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Interferența luminii; condiții de coerență",
+    "theory": "Lumina poate interfera dacă provine din surse coerente; în practică, coerența se obține împărțind lumina unei singure surse în două fascicule (prin fante sau prin reflexii pe lame subțiri). Diferența de drum optic δ (drum geometric înmulțit cu indicele de refracție) decide rezultatul: maxim pentru δ = k·λ, minim pentru δ = (2k + 1)·λ/2. La reflexia pe un mediu mai refringent apare o pierdere de λ/2. Interferența a dovedit natura ondulatorie a luminii.",
+    "sample": "Două becuri separate nu produc franje de interferență, pentru că nu sunt coerente.",
+    "worked": "Două fascicule coerente de 500 nm ajung într-un punct cu diferența de drum 1 500 nm = 3λ ⇒ maxim (luminos). La 1 250 nm = 2,5λ ⇒ minim (întuneric). Același drum geometric de 1 mm în sticlă (n = 1,5) are drum optic 1,5 mm.",
+    "exercises": [
+     "Este maxim sau minim într-un punct cu δ = 2 µm pentru λ = 400 nm?",
+     "Calculează drumul optic pentru 2 cm de apă (n = 1,33).",
+     "De ce lumina a două lanterne nu interferă vizibil?",
+     "Cum se obțin practic două surse coerente?",
+     "Ce pierdere de drum apare la reflexia pe un mediu mai dens optic?"
+    ],
+    "test": [
+     "Condiția de maxim de interferență?",
+     "Condiția de minim de interferență?",
+     "Ce este drumul optic?",
+     "Cum se obțin surse coerente?",
+     "Ce a demonstrat interferența luminii?"
+    ],
+    "steps": [
+     "Calculează diferența de drum optic (inclusiv eventualele pierderi λ/2 la reflexie).",
+     "Împarte la λ și compară cu un întreg sau semiîntreg.",
+     "Concluzionează maxim sau minim și descrie figura de interferență.",
+     "Greșeala frecventă: să uiți indicele de refracție la calculul drumului optic într-un mediu transparent."
+    ],
+    "answers": [
+     "δ = k·λ",
+     "δ = (2k + 1)·λ/2",
+     "Drumul geometric înmulțit cu indicele de refracție",
+     "Împărțind lumina unei singure surse",
+     "Natura ondulatorie a luminii"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Dispozitivul lui Young",
+    "theory": "Dispozitivul lui Young are două fante înguste, apropiate (distanța 2ℓ sau a), luminate de aceeași sursă, și un ecran la distanța D. Pe ecran apar franje luminoase și întunecate echidistante. Poziția maximului de ordin k: x_k = k·λ·D/a; interfranja (distanța dintre două franje luminoase vecine) i = λ·D/a. Măsurând interfranja, se poate determina lungimea de undă a luminii.",
+    "sample": "Cu λ = 500 nm, D = 1 m și a = 0,5 mm, interfranja este de 1 mm.",
+    "worked": "a = 0,2 mm, D = 2 m, i măsurat 6 mm (de exemplu, 5 interfranje = 30 mm): λ = i·a/D = 6·10⁻³·2·10⁻⁴/2 = 6·10⁻⁷ m = 600 nm (portocaliu). Cu lumină albă, franja centrală este albă, iar celelalte sunt colorate.",
+    "exercises": [
+     "Calculează interfranja pentru λ = 650 nm, D = 1,5 m, a = 0,3 mm.",
+     "Ce lungime de undă are lumina dacă i = 2 mm, D = 2 m, a = 0,5 mm?",
+     "Cum se schimbă interfranja dacă distanța dintre fante se dublează?",
+     "La ce distanță de centru este maximul de ordin 3 în primul exercițiu?",
+     "De ce franja centrală este albă în lumină albă?"
+    ],
+    "test": [
+     "Formula interfranjei?",
+     "Poziția maximului de ordin k?",
+     "Cum variază i cu D?",
+     "Cum determini λ din experiment?",
+     "Ce culoare are franja centrală în lumină albă?"
+    ],
+    "steps": [
+     "Notează λ, D, a în metri.",
+     "Aplică i = λD/a și x_k = k·i.",
+     "Interpretează dependențele și verifică ordinul de mărime (milimetri).",
+     "Greșeala frecventă: să confunzi distanța dintre fante cu distanța până la ecran în formula interfranjei."
+    ],
+    "answers": [
+     "i = λ·D/a",
+     "x_k = k·λ·D/a",
+     "Crește proporțional",
+     "λ = i·a/D",
+     "Albă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l27": {
+   "ro": {
+    "title": "Interferența localizată: lame subțiri, pana optică, aplicații",
+    "theory": "Lumina reflectată pe cele două fețe ale unei lame subțiri (pelicula de săpun, pata de ulei, stratul de oxid) interferă: culorile depind de grosime și de unghi. Pentru o lamă cu grosimea d și indicele n, în incidență normală, diferența de drum este 2nd, plus λ/2 la reflexia pe mediul mai dens. Pana optică produce franje paralele echidistante; inelele lui Newton apar între o lentilă și o placă. Aplicații: straturile antireflex de pe ochelari și obiective (d = λ/(4n)), controlul planeității suprafețelor.",
+    "sample": "Baloanele de săpun au culori schimbătoare pentru că grosimea peliculei variază.",
+    "worked": "Strat antireflex de MgF₂ (n = 1,38) pentru λ = 550 nm: d = 550/(4·1,38) ≈ 100 nm. Ambele reflexii (aer–strat, strat–sticlă) au pierderi de λ/2, iar diferența suplimentară 2nd = λ/2 produce anularea luminii reflectate pentru verde.",
+    "exercises": [
+     "Calculează grosimea minimă a unui strat antireflex cu n = 1,25 pentru 500 nm.",
+     "De ce o pată de ulei pe asfaltul ud pare colorată?",
+     "Ce sunt inelele lui Newton și cum apar?",
+     "Cum se poate verifica planeitatea unei suprafețe prin interferență?",
+     "De ce ochelarii cu strat antireflex au o nuanță violet-verzuie?"
+    ],
+    "test": [
+     "Diferența de drum într-o lamă subțire?",
+     "Grosimea stratului antireflex?",
+     "Ce sunt inelele lui Newton?",
+     "De ce sunt colorate peliculele de săpun?",
+     "Ce figură produce pana optică?"
+    ],
+    "steps": [
+     "Identifică cele două raze care interferă și reflexiile cu pierdere de λ/2.",
+     "Scrie diferența de drum (2nd ± λ/2) și condiția de maxim sau minim.",
+     "Rezolvă pentru grosime sau lungime de undă și leagă de aplicație.",
+     "Greșeala frecventă: să ignori pierderea de λ/2 la reflexia pe mediul mai dens, inversând maximele cu minimele."
+    ],
+    "answers": [
+     "2nd (plus eventual λ/2)",
+     "d = λ/(4n)",
+     "Franje circulare între o lentilă și o placă",
+     "Grosimea peliculei variază",
+     "Franje paralele echidistante"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l28": {
+   "ro": {
+    "title": "Difracția luminii",
+    "theory": "Difracția este ocolirea obstacolelor de către unde și pătrunderea lor în zona de umbră geometrică; devine evidentă când dimensiunea fantei sau a obstacolului este comparabilă cu lungimea de undă. La difracția pe o fantă de lărgime b, minimele apar la b·sin θ = k·λ; maximul central este cel mai lat și mai luminos. Difracția limitează rezoluția instrumentelor optice (microscop, telescop) și se observă la CD-uri, la pene de pasăre sau la luminile văzute prin perdele.",
+    "sample": "Sunetul se aude după colț pentru că lungimea lui de undă este comparabilă cu ușa.",
+    "worked": "O fantă de 0,1 mm luminată cu laser de 633 nm: primul minim la sin θ = 6,33·10⁻⁷/10⁻⁴ ≈ 6,3·10⁻³, θ ≈ 0,36°. Pe un ecran la 2 m, maximul central are lățimea ≈ 2·2·6,3·10⁻³ ≈ 2,5 cm.",
+    "exercises": [
+     "Calculează unghiul primului minim pentru b = 0,05 mm și λ = 500 nm.",
+     "De ce auzim după colț, dar nu vedem după colț?",
+     "Cum se schimbă lățimea maximului central dacă fanta se îngustează?",
+     "De ce telescoapele mari au o rezoluție mai bună?",
+     "Descrie figura de difracție a unui laser pe un fir de păr."
+    ],
+    "test": [
+     "Ce este difracția?",
+     "Când este difracția evidentă?",
+     "Condiția de minim la o fantă?",
+     "Ce limitează difracția?",
+     "Care maxim este cel mai lat?"
+    ],
+    "steps": [
+     "Compară dimensiunea fantei cu lungimea de undă.",
+     "Aplică b·sin θ = kλ pentru minime și calculează pozițiile pe ecran.",
+     "Interpretează: fantă îngustă ⇒ figură largă.",
+     "Greșeala frecventă: să crezi că o fantă mai îngustă produce o figură mai îngustă; este invers, difracția crește."
+    ],
+    "answers": [
+     "Ocolirea obstacolelor de către unde",
+     "Când obstacolul e comparabil cu λ",
+     "b·sin θ = k·λ",
+     "Rezoluția instrumentelor optice",
+     "Maximul central"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l29": {
+   "ro": {
+    "title": "Rețeaua de difracție; spectroscopie",
+    "theory": "Rețeaua de difracție are un număr foarte mare de fante paralele echidistante (constanta rețelei d = 1/N, unde N este numărul de fante pe unitatea de lungime). Maximele principale apar la d·sin θ = k·λ; ele sunt înguste și luminoase. Deoarece unghiul depinde de λ, rețeaua descompune lumina în spectru mai precis decât prisma. Spectroscopia identifică elementele chimice după liniile spectrale (în laborator și în astronomie).",
+    "sample": "O rețea cu 500 de trăsături pe milimetru are constanta de 2 µm.",
+    "worked": "Rețea cu 600 trăsături/mm (d ≈ 1,67 µm), lumină de 500 nm: sin θ₁ = 0,5/1,67 ≈ 0,30, θ₁ ≈ 17,5°; sin θ₂ ≈ 0,60, θ₂ ≈ 36,9°. Ordinul maxim: k ≤ d/λ = 3,3, deci se văd ordinele 1, 2 și 3 de fiecare parte.",
+    "exercises": [
+     "Calculează constanta unei rețele cu 1 000 trăsături/mm.",
+     "Sub ce unghi apare maximul de ordin 1 pentru 600 nm cu d = 2 µm?",
+     "Câte ordine se pot observa pentru d = 2 µm și λ = 700 nm?",
+     "De ce un CD reflectă culorile curcubeului?",
+     "Cum se identifică un element chimic prin spectroscopie?"
+    ],
+    "test": [
+     "Condiția maximelor rețelei?",
+     "Ce este constanta rețelei?",
+     "Ordinul maxim observabil?",
+     "Ce studiază spectroscopia?",
+     "Avantajul rețelei față de prismă?"
+    ],
+    "steps": [
+     "Calculează constanta d = 1/N în metri.",
+     "Aplică d·sin θ = kλ pentru fiecare ordin cerut (cu sin θ ≤ 1).",
+     "Interpretează spectrul obținut și ordinele posibile.",
+     "Greșeala frecventă: să folosești N (trăsături pe mm) direct ca d; constanta este inversa lui N."
+    ],
+    "answers": [
+     "d·sin θ = k·λ",
+     "Distanța dintre două fante vecine",
+     "k ≤ d/λ",
+     "Liniile spectrale emise sau absorbite",
+     "Separare mai precisă a lungimilor de undă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l30": {
+   "ro": {
+    "title": "Polarizarea luminii",
+    "theory": "Lumina naturală are vectorul E oscilând în toate direcțiile perpendiculare pe propagare; lumina polarizată liniar are E pe o singură direcție. Polarizarea dovedește că lumina este o undă transversală. Se obține cu polaroizi (filtre), prin reflexie (total polarizată la unghiul Brewster: tg i_B = n) sau prin birefringență. Legea lui Malus: lumina polarizată care trece printr-un analizor rotit cu unghiul α are intensitatea I = I₀·cos²α. Aplicații: ochelari de soare polarizanți, ecrane LCD, cinematograf 3D, analiza tensiunilor din materiale.",
+    "sample": "Doi polaroizi rotiți la 90° unul față de altul nu lasă să treacă lumina.",
+    "worked": "Lumina naturală de intensitate I trece prin polarizor: I₀ = I/2. Prin analizorul la 60°: I₁ = (I/2)·cos²60° = I/8. Unghiul Brewster pentru sticlă (n = 1,5): tg i_B = 1,5, i_B ≈ 56,3°; ochelarii polarizanți opresc strălucirea reflectată de apă sau de șosea.",
+    "exercises": [
+     "Ce fracție din lumina polarizată trece printr-un analizor la 45°?",
+     "Calculează unghiul Brewster pentru apă (n = 1,33).",
+     "De ce ochelarii polarizanți reduc strălucirea de pe lacuri?",
+     "Ce dovedește polarizarea despre natura luminii?",
+     "Cum se schimbă intensitatea când rotești analizorul de la 0° la 90°?"
+    ],
+    "test": [
+     "Legea lui Malus?",
+     "Unghiul Brewster?",
+     "Ce dovedește polarizarea?",
+     "Intensitatea după primul polarizor?",
+     "O aplicație a polarizării?"
+    ],
+    "steps": [
+     "Stabilește starea de polarizare a luminii incidente.",
+     "Aplică I = I₀/2 la primul polarizor și I = I₀·cos²α la analizor (sau tg i_B = n).",
+     "Interpretează rezultatul și aplicația practică.",
+     "Greșeala frecventă: să folosești cos α în loc de cos²α în legea lui Malus."
+    ],
+    "answers": [
+     "I = I₀·cos²α",
+     "tg i_B = n",
+     "Lumina este undă transversală",
+     "Jumătate din intensitatea naturală",
+     "Ochelarii de soare polarizanți"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l31": {
+   "ro": {
+    "title": "Laserul și aplicații ale opticii ondulatorii",
+    "theory": "Laserul emite lumină coerentă, monocromatică, foarte direcționată și intensă, ceea ce îl face ideal pentru experimente de interferență și difracție. Holografia înregistrează, prin interferența unui fascicul de referință cu lumina împrăștiată de obiect, atât intensitatea, cât și faza, permițând imagini tridimensionale (folosite și ca elemente de siguranță pe bancnote și carduri). Alte aplicații: interferometrele măsoară distanțe de ordinul lungimii de undă (detectarea undelor gravitaționale), cititoarele de CD/DVD/Blu-ray, cititoarele de coduri de bare, chirurgia oculară. Laserul nu trebuie privit direct.",
+    "sample": "Bancnotele și cardurile bancare au holograme ca element de siguranță.",
+    "worked": "Un disc Blu-ray folosește laser de 405 nm față de 780 nm la CD; pentru că pata focalizată (limitată de difracție) este proporțională cu λ, pe un Blu-ray se pot scrie mult mai multe date. Un interferometru care numără 1 000 de franje la 633 nm a măsurat o deplasare a oglinzii de 1 000·633/2 nm ≈ 0,32 mm.",
+    "exercises": [
+     "Ce proprietăți are lumina laser față de lumina unui bec?",
+     "Ce informație înregistrează o hologramă în plus față de o fotografie?",
+     "Calculează deplasarea oglinzii unui interferometru la 500 de franje numărate cu λ = 600 nm.",
+     "De ce Blu-ray stochează mai multe date decât CD-ul?",
+     "Ce reguli de siguranță trebuie respectate la folosirea laserului?"
+    ],
+    "test": [
+     "Ce înseamnă lumină coerentă?",
+     "Ce înregistrează holografia?",
+     "La ce folosește interferometrul?",
+     "O aplicație a laserului în medicină?",
+     "De ce nu privim direct un laser?"
+    ],
+    "steps": [
+     "Identifică proprietatea undei folosită (coerență, interferență, difracție).",
+     "Leagă fenomenul de dispozitiv (hologramă, interferometru, cititor optic).",
+     "Calculează mărimea cerută și precizează măsurile de siguranță.",
+     "Greșeala frecventă: să crezi că laserul de mică putere este inofensiv pentru ochi; fasciculul concentrat poate afecta retina."
+    ],
+    "answers": [
+     "Undă cu defazaj constant, care poate interfera",
+     "Intensitatea și faza luminii",
+     "Măsoară distanțe foarte mici prin franje",
+     "Chirurgia oculară",
+     "Poate deteriora retina"
+    ]
+   }
+  }
+ }
+}

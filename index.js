@@ -43,6 +43,8 @@ import {EDUCATION_WORLDWIDE_SCHEMES,EDUCATION_WORLDWIDE_FALLBACK,worldwideSchool
 import {COMPUTING_LEVELS,COMPUTING_PATHS,COMPUTING_TOPICS} from './computing_curriculum.mjs';
 import {COMPUTING_UI_SCRIPT} from './computing_ui.mjs';
 import {COMPUTING_NATIONAL_PACKS_SCRIPT} from './computing_national_packs.mjs';
+import {MATH_NATIONAL_PACKS_SCRIPT} from './math_national_packs.mjs';
+import {SCIENCE_NATIONAL_PACKS_SCRIPT} from './science_national_packs.mjs';
 import {LIT_EU_COMMON} from './literature_common_program.mjs';
 import {literatureTracksForGrade,hungaryAdmissionTopicsForGrade,HUNGARY_ADMISSION_REFERENCES} from './literature_school_streams.mjs';
 import {LIT_OFFLINE_THEORY} from './literature_offline_theory.mjs';
@@ -8304,6 +8306,7 @@ function scienceBack(){
  else if(current==='workspace')scienceJourney.stage='chemistry-menu';
  else if(current==='chemistry-lessons'||current==='chemistry-lab')scienceJourney.stage='chemistry-menu';
  else if(current==='chemistry-menu')scienceJourney.stage='topics';
+ else if(current==='national-lesson')scienceJourney.stage='topics';
  else if(current==='topics')scienceJourney.stage=scienceJourney.level==='advanced'?'specialties':'years';
  else if(current==='specialties')scienceJourney.stage='years';
  else if(current==='years')scienceJourney.stage='subjects';
@@ -8398,6 +8401,10 @@ function scienceYearGroups(){
   let years=eduYearOptions(country,band.schoolStage==='upper'?'intermediate':band.schoolStage,'science').filter(entry=>entry&&entry.id);
   if(country==='RO'&&band.schoolStage==='lower')
    years=years.filter(entry=>Number.isInteger(Number(entry.id))&&Number(entry.id)>=minRo&&Number(entry.id)<=8);
+  // Romania: grades I–II science is Matematică și explorarea mediului (Math
+  // packs); Biology primary = Științe ale naturii, grades III–IV only.
+  if(country==='RO'&&band.schoolStage==='primary'&&scienceJourney.subject==='biology')
+   years=years.filter(entry=>['3','4'].includes(String(entry.id)));
   if(scienceJourney.subject==='physics'&&band.schoolStage==='lower'){
    const all=[...years];
    years=years.filter(entry=>SCIENCE_GRADE_TOPIC_PLAN({
@@ -8567,7 +8574,7 @@ function scienceJourneyShowChoices(stage){
  root.classList.toggle('science-choice-stage',stage!=='workspace');
  root.classList.toggle('science-subject-stage',stage==='subjects');
  root.classList.toggle('science-year-stage',stage==='years');
- root.classList.toggle('science-scroll-stage',['subjects','years','topics','specialties','physics-laws','chemistry-laws','chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage));
+ root.classList.toggle('science-scroll-stage',['subjects','years','topics','national-lesson','specialties','physics-laws','chemistry-laws','chemistry-menu','chemistry-lessons','chemistry-lab'].includes(stage));
  if(stage==='biology-reference')root.classList.add('science-scroll-stage');
  if(stage==='astronomy-laws')root.classList.add('science-scroll-stage');
  $('moduleTitle').textContent=learningLabel('Științe','Sciences')+
@@ -8617,6 +8624,7 @@ function scienceJourneyShowChoices(stage){
   bar.append(astroLaws);
  }
  host.append(bar);
+ if((stage==='topics'||stage==='national-lesson')&&typeof scienceNationalRender==='function'&&scienceNationalRender(stage,host)){requestAnimationFrame(()=>document.querySelector('main.page')?.scrollTo(0,0));return}
  const panel=document.createElement('div');panel.className='math-choice-panel science-choice-panel';
  const title=document.createElement('h2');
  title.textContent=stage==='subjects'?learningLabel('Alege materia','Choose subject'):
@@ -8775,6 +8783,8 @@ function scienceJourneyShowChoices(stage){
      else if(countryPlan.physicsTeachingKind==='mixed')tile.textContent+=' · '+
       learningLabel('Fizică–Chimie','Physics–Chemistry');
     }
+    if(educationCountrySelection.code==='RO'&&group.schoolStage==='primary'&&scienceJourney.subject==='biology')
+     tile.textContent=learningLabel('Clasa a '+year.id+'-a · Științe ale naturii','Grade '+year.id+' · Natural sciences');
     if(educationCountrySelection.code==='RO'&&group.schoolStage==='lower'&&
        ['physics','chemistry','biology'].includes(scienceJourney.subject)){
      const count=scienceRoAnnualCoverage({
@@ -13190,10 +13200,16 @@ function mathJourneyShowChoices(stage){
    },()=>mathJourneyShowChoices('stages'));
   }
   if(stage==='chapters')return mathJourneyShowChoices('branches');
+  if(stage==='national-lesson')return mathJourneyShowChoices('branches');
   return mathJourneyShowChoices('stages');
  };
  const bar=document.createElement('div');bar.className='education-toolbar';
  bar.append(back);host.append(bar);
+ // National year packs (e.g. Romania 1-4, 9-12, Licență): units and lessons
+ // from the authored pack replace the generic branches for that year.
+ if((stage==='branches'||stage==='national-lesson')&&typeof mathNationalRender==='function'&&mathNationalRender(stage,host)){
+  requestAnimationFrame(mathFitViewport);return;
+ }
  const panel=document.createElement('div');panel.className='math-choice-panel';
  const curLang=String(state.language||'ro');
  const title=document.createElement('h2');
@@ -16034,6 +16050,8 @@ function litWorkspace(panel){
 
 ${LITERATURE_TASK_UI_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
+${MATH_NATIONAL_PACKS_SCRIPT}
+${SCIENCE_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}

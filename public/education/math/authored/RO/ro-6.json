@@ -1,0 +1,1213 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "6",
+ "version": "585b30a006c403495cd60fdd8b5114ad0b42b059cbc8bfabc8ee57aae47c1914",
+ "source": "https://www.edu.ro/Ordin_ministru_3393_2017",
+ "sourceTitle": "Programa școlară pentru disciplina Matematică, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 (Anexa 2) — clasa a VI-a: mulțimi, divizibilitate (c.m.m.d.c., c.m.m.m.c.), rapoarte, proporții și procente, probabilități, numere întregi, numere raționale, unghiuri și drepte paralele, cercul, triunghiul și congruența; unitățile urmează manualele aprobate de Matematică clasa a VI-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a VI-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Mulțimi",
+   "keys": [
+    "eu-year-ro-lower-6-l01",
+    "eu-year-ro-lower-6-l02",
+    "eu-year-ro-lower-6-l03"
+   ]
+  },
+  {
+   "title": "Divizibilitate: descompunere în factori primi, c.m.m.d.c., c.m.m.m.c.",
+   "keys": [
+    "eu-year-ro-lower-6-l04",
+    "eu-year-ro-lower-6-l05",
+    "eu-year-ro-lower-6-l06",
+    "eu-year-ro-lower-6-l07"
+   ]
+  },
+  {
+   "title": "Rapoarte, proporții și procente",
+   "keys": [
+    "eu-year-ro-lower-6-l08",
+    "eu-year-ro-lower-6-l09",
+    "eu-year-ro-lower-6-l10",
+    "eu-year-ro-lower-6-l11",
+    "eu-year-ro-lower-6-l12",
+    "eu-year-ro-lower-6-l13"
+   ]
+  },
+  {
+   "title": "Numere întregi",
+   "keys": [
+    "eu-year-ro-lower-6-l14",
+    "eu-year-ro-lower-6-l15",
+    "eu-year-ro-lower-6-l16",
+    "eu-year-ro-lower-6-l17",
+    "eu-year-ro-lower-6-l18"
+   ]
+  },
+  {
+   "title": "Numere raționale",
+   "keys": [
+    "eu-year-ro-lower-6-l19",
+    "eu-year-ro-lower-6-l20",
+    "eu-year-ro-lower-6-l21",
+    "eu-year-ro-lower-6-l22"
+   ]
+  },
+  {
+   "title": "Unghiuri; drepte paralele",
+   "keys": [
+    "eu-year-ro-lower-6-l23",
+    "eu-year-ro-lower-6-l24",
+    "eu-year-ro-lower-6-l25",
+    "eu-year-ro-lower-6-l26",
+    "eu-year-ro-lower-6-l27"
+   ]
+  },
+  {
+   "title": "Triunghiul",
+   "keys": [
+    "eu-year-ro-lower-6-l28",
+    "eu-year-ro-lower-6-l29",
+    "eu-year-ro-lower-6-l30",
+    "eu-year-ro-lower-6-l31",
+    "eu-year-ro-lower-6-l32"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-6-l01": {
+   "ro": {
+    "title": "Mulțimi: descriere, notații, relația de apartenență",
+    "theory": "O mulțime este o colecție de obiecte bine determinate și distincte, numite elemente. Se notează cu litere mari și se descrie fie prin enumerare, A = {2, 4, 6}, fie printr-o proprietate, A = {x ∈ ℕ | x este par și 0 < x < 8}. Scriem 4 ∈ A (aparține) și 5 ∉ A (nu aparține). Numărul elementelor se numește cardinal: card A = 3. Mulțimea fără elemente este mulțimea vidă, ∅.",
+    "sample": "Mulțimea cifrelor numărului 2 026 este {0, 2, 6}; are cardinalul 3, pentru că fiecare element se scrie o singură dată.",
+    "worked": "Scriem prin enumerare B = {x ∈ ℕ | 3 ≤ x < 7}: x poate fi 3, 4, 5, 6, deci B = {3, 4, 5, 6} și card B = 4. Verificăm: 7 ∉ B, deoarece inegalitatea este strictă.",
+    "exercises": [
+     "Scrie prin enumerare: A = {x ∈ ℕ | x ≤ 5}.",
+     "Scrie mulțimea literelor cuvântului „matematica”.",
+     "Descrie printr-o proprietate mulțimea {5, 10, 15, 20}.",
+     "Află card {x ∈ ℕ | 10 < x ≤ 25}.",
+     "Dă un exemplu de mulțime vidă descrisă printr-o proprietate."
+    ],
+    "test": [
+     "Este 0 ∈ ℕ?",
+     "Care este cardinalul lui {a, b, c, d}?",
+     "Câte elemente are ∅?",
+     "Este 3 ∈ {x ∈ ℕ | x > 3}?",
+     "Câte elemente are mulțimea cifrelor lui 1 111?"
+    ],
+    "steps": [
+     "Citește atent proprietatea și condițiile (strict sau nestrict).",
+     "Enumeră fiecare element o singură dată.",
+     "Numără elementele pentru cardinal.",
+     "Greșeala frecventă: să scrii un element de două ori (mulțimea literelor din „ana” este {a, n}, nu {a, n, a})."
+    ],
+    "answers": [
+     "Da",
+     "4",
+     "0",
+     "Nu",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l02": {
+   "ro": {
+    "title": "Relații între mulțimi: incluziune, egalitate, submulțimi",
+    "theory": "A este inclusă în B (A ⊆ B) dacă fiecare element al lui A aparține lui B; spunem că A este submulțime a lui B. Două mulțimi sunt egale dacă au exact aceleași elemente (A ⊆ B și B ⊆ A). Mulțimea vidă și mulțimea însăși sunt submulțimi ale oricărei mulțimi. Mulțimile numerelor: ℕ ⊂ ℤ ⊂ ℚ. O mulțime cu n elemente are 2ⁿ submulțimi.",
+    "sample": "{1, 2} ⊆ {1, 2, 3}, dar {1, 4} ⊄ {1, 2, 3}, pentru că 4 nu este în a doua mulțime.",
+    "worked": "Scriem toate submulțimile lui A = {a, b, c}: ∅; {a}, {b}, {c}; {a, b}, {a, c}, {b, c}; {a, b, c}. Sunt 8 = 2³ submulțimi.",
+    "exercises": [
+     "Scrie toate submulțimile lui {1, 2}.",
+     "Verifică dacă {2, 4} ⊆ {x ∈ ℕ | x este par}.",
+     "Sunt egale {1, 2, 3} și {3, 1, 2}? Explică.",
+     "Câte submulțimi are o mulțime cu 4 elemente?",
+     "Scrie submulțimile cu două elemente ale lui {x, y, z, t}."
+    ],
+    "test": [
+     "Este ∅ submulțime a lui {5}?",
+     "Câte submulțimi are {a, b, c}?",
+     "Este {1} ⊆ {1, 2}?",
+     "Contează ordinea elementelor la egalitatea mulțimilor?",
+     "Este ℕ inclusă în ℤ?"
+    ],
+    "steps": [
+     "Ia fiecare element al primei mulțimi.",
+     "Verifică dacă el aparține și celei de-a doua.",
+     "Dacă unul singur lipsește, incluziunea nu are loc.",
+     "Greșeala frecventă: să confunzi ∈ cu ⊆: scriem 1 ∈ {1, 2}, dar {1} ⊆ {1, 2}."
+    ],
+    "answers": [
+     "Da",
+     "8",
+     "Da",
+     "Nu",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l03": {
+   "ro": {
+    "title": "Operații cu mulțimi: reuniune, intersecție, diferență",
+    "theory": "Reuniunea A ∪ B conține elementele care sunt în A sau în B (cel puțin în una). Intersecția A ∩ B conține elementele comune. Diferența A \\ B conține elementele lui A care nu sunt în B. Dacă A ∩ B = ∅, mulțimile sunt disjuncte. Pentru mulțimi finite: card(A ∪ B) = card A + card B − card(A ∩ B).",
+    "sample": "A = {1, 2, 3, 4}, B = {3, 4, 5}: A ∪ B = {1, 2, 3, 4, 5}, A ∩ B = {3, 4}, A \\ B = {1, 2}.",
+    "worked": "Într-o clasă, 18 elevi joacă fotbal, 12 joacă baschet, iar 5 joacă ambele. Câți elevi practică cel puțin un sport? 18 + 12 − 5 = 25. Diagrama Venn arată 13 doar fotbal, 7 doar baschet, 5 ambele.",
+    "exercises": [
+     "A = {0, 2, 4, 6}, B = {1, 2, 3, 4}. Află A ∪ B, A ∩ B, A \\ B, B \\ A.",
+     "Fie D₁₂ și D₁₈. Află intersecția lor.",
+     "Dă exemplu de două mulțimi disjuncte.",
+     "30 de elevi: 20 învață engleză, 15 franceză, toți învață cel puțin una. Câți le învață pe amândouă?",
+     "Desenează diagrama Venn pentru primul exercițiu."
+    ],
+    "test": [
+     "Cât este {1, 2} ∪ {2, 3}?",
+     "Cât este {1, 2} ∩ {2, 3}?",
+     "Cât este {1, 2} \\ {2, 3}?",
+     "Ce sunt mulțimile disjuncte?",
+     "Este A \\ B egal cu B \\ A în general?"
+    ],
+    "steps": [
+     "Scrie elementele fiecărei mulțimi.",
+     "Pentru reuniune ia toate elementele o dată; pentru intersecție doar cele comune; pentru diferență elimină elementele celei de-a doua.",
+     "Verifică cu o diagramă Venn.",
+     "Greșeala frecventă: la card(A ∪ B) să aduni simplu cardinalele, uitând să scazi elementele comune numărate de două ori."
+    ],
+    "answers": [
+     "{1, 2, 3}",
+     "{2}",
+     "{1}",
+     "Mulțimi fără elemente comune",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l04": {
+   "ro": {
+    "title": "Descompunerea numerelor naturale în produs de puteri de numere prime",
+    "theory": "Orice număr natural mai mare decât 1 se scrie în mod unic (până la ordinea factorilor) ca produs de puteri de numere prime. Descompunem împărțind repetat la cel mai mic număr prim posibil: 2, 3, 5, 7, 11… și scriem coloana de împărțiri. Din descompunere aflăm numărul divizorilor: dacă n = pᵃ·qᵇ, atunci n are (a + 1)(b + 1) divizori.",
+    "sample": "Descompunerea lui 360 este 2³·3²·5.",
+    "worked": "Descompunem 1 260: 1 260 : 2 = 630, : 2 = 315, : 3 = 105, : 3 = 35, : 5 = 7, : 7 = 1. Deci 1 260 = 2²·3²·5·7 și are (2 + 1)(2 + 1)(1 + 1)(1 + 1) = 36 de divizori.",
+    "exercises": [
+     "Descompune în factori primi: 84, 225, 1 000.",
+     "Câți divizori are 72?",
+     "Scrie numărul cu descompunerea 2⁴·3·5².",
+     "Este 2³·3² pătrat perfect? Dar 2⁴·3²?",
+     "Află cel mai mic număr natural cu care trebuie înmulțit 12 ca să devină pătrat perfect."
+    ],
+    "test": [
+     "Descompune 12.",
+     "Descompune 100.",
+     "Câți divizori are 2⁵?",
+     "Este 2·3·5 = 30?",
+     "Care este cel mai mic factor prim al lui 91?"
+    ],
+    "steps": [
+     "Împarte la cel mai mic număr prim care divide numărul.",
+     "Continuă cu câtul până obții 1.",
+     "Grupează factorii egali sub formă de puteri.",
+     "Greșeala frecventă: să folosești factori care nu sunt primi (de exemplu 4 sau 9) în coloana de descompunere."
+    ],
+    "answers": [
+     "2²·3",
+     "2²·5²",
+     "6",
+     "Da",
+     "7"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l05": {
+   "ro": {
+    "title": "Divizori comuni; cel mai mare divizor comun",
+    "theory": "Cel mai mare divizor comun (c.m.m.d.c.) al numerelor a și b, notat (a, b), este cel mai mare număr care le divide pe amândouă. Îl aflăm descompunând numerele și luând factorii primi comuni, fiecare la puterea cea mai mică. Dacă (a, b) = 1, numerele sunt prime între ele. C.m.m.d.c. ajută la simplificarea fracțiilor și la împărțirea în grupe egale.",
+    "sample": "C.m.m.d.c. al numerelor 12 și 18 este (12, 18) = 6.",
+    "worked": "Avem 48 de mere și 72 de pere și vrem pachete identice, cât mai multe. 48 = 2⁴·3, 72 = 2³·3²; (48, 72) = 2³·3 = 24 de pachete, fiecare cu 2 mere și 3 pere.",
+    "exercises": [
+     "Află (36, 60) și (84, 126).",
+     "Sunt 35 și 48 prime între ele?",
+     "Simplifică 168/252 folosind c.m.m.d.c.",
+     "Într-o livadă sunt 120 de meri și 90 de pruni, plantați în rânduri egale cu un singur tip de pom. Care este cel mai mare număr de pomi pe rând?",
+     "Află (2⁴·3²·5, 2²·3³·7)."
+    ],
+    "test": [
+     "Cât este (8, 12)?",
+     "Cât este (7, 13)?",
+     "Cât este (10, 100)?",
+     "Ce înseamnă numere prime între ele?",
+     "Cât este (15, 25)?"
+    ],
+    "steps": [
+     "Descompune fiecare număr în factori primi.",
+     "Alege numai factorii comuni.",
+     "Ia fiecare factor comun la puterea cea mai mică și înmulțește.",
+     "Greșeala frecventă: să iei puterea cea mai mare sau și factorii necomuni; aceea este regula pentru c.m.m.m.c."
+    ],
+    "answers": [
+     "4",
+     "1",
+     "10",
+     "C.m.m.d.c. lor este 1",
+     "5"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l06": {
+   "ro": {
+    "title": "Multipli comuni; cel mai mic multiplu comun",
+    "theory": "Cel mai mic multiplu comun (c.m.m.m.c.) al numerelor a și b, notat [a, b], este cel mai mic număr nenul care se divide cu ambele. Se ia fiecare factor prim (comun și necomun) la puterea cea mai mare. Are loc relația (a, b)·[a, b] = a·b. C.m.m.m.c. dă numitorul comun al fracțiilor și rezolvă probleme cu evenimente care se repetă.",
+    "sample": "C.m.m.m.c. al numerelor 4 și 6 este [4, 6] = 12.",
+    "worked": "Două autobuze pleacă din stație la ora 8:00; primul revine la 12 minute, al doilea la 18 minute. 12 = 2²·3, 18 = 2·3², [12, 18] = 2²·3² = 36. Vor pleca din nou împreună la 8:36. Verificare: 6·36 = 216 = 12·18.",
+    "exercises": [
+     "Află [24, 36] și [15, 20, 25].",
+     "Folosește [a, b] pentru a calcula 5/12 + 7/18.",
+     "Un număr împărțit la 6, la 8 sau la 10 dă de fiecare dată restul 3. Care este cel mai mic astfel de număr mai mare decât 3?",
+     "(a, b) = 6 și a·b = 360. Află [a, b].",
+     "Află cel mai mic număr de trei cifre divizibil cu 12 și cu 15."
+    ],
+    "test": [
+     "Cât este [3, 5]?",
+     "Cât este [4, 8]?",
+     "Cât este [6, 9]?",
+     "Dacă (a, b) = 1, cât este [a, b]?",
+     "Ce factori se iau la c.m.m.m.c.?"
+    ],
+    "steps": [
+     "Descompune numerele în factori primi.",
+     "Ia toți factorii, comuni și necomuni.",
+     "Fiecare factor la puterea cea mai mare; înmulțește.",
+     "Greșeala frecventă: să alegi produsul a·b ca multiplu comun cel mai mic; este multiplu comun, dar nu neapărat cel mai mic."
+    ],
+    "answers": [
+     "15",
+     "8",
+     "18",
+     "a·b",
+     "Toți, la puterea cea mai mare"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l07": {
+   "ro": {
+    "title": "Proprietăți ale divizibilității; probleme cu divizibilitate",
+    "theory": "Dacă a | b și b | c, atunci a | c (tranzitivitate). Dacă a | b, atunci a | b·k. Dacă un număr se divide cu două numere prime între ele, se divide și cu produsul lor: de exemplu, divizibil cu 2 și 3 înseamnă divizibil cu 6; cu 3 și 4 înseamnă cu 12. Criteriul cu 4: ultimele două cifre formează un număr divizibil cu 4. Criteriul cu 25: ultimele două cifre sunt 00, 25, 50 sau 75.",
+    "sample": "1 236 se divide cu 4 (36 se divide cu 4) și cu 3 (suma cifrelor 12), deci cu 12.",
+    "worked": "Aflăm cifrele a pentru care 52a se divide cu 6: trebuie să fie par (a ∈ {0, 2, 4, 6, 8}) și cu suma 7 + a divizibilă cu 3 (a ∈ {2, 5, 8}). Comun: a ∈ {2, 8}, numerele 522 și 528.",
+    "exercises": [
+     "Află cifrele x pentru care 3x4 se divide cu 4.",
+     "Află cifra a pentru care 7a5 se divide cu 15.",
+     "Arată că suma a trei numere naturale consecutive se divide cu 3.",
+     "Se divide 2·3·4·5 cu 8? Explică fără calcul complet.",
+     "Câte numere de două cifre se divid cu 6?"
+    ],
+    "test": [
+     "Se divide 116 cu 4?",
+     "Se divide 375 cu 25?",
+     "Dacă un număr se divide cu 2 și 5, se divide cu…?",
+     "Se divide 1 234 cu 6?",
+     "Dacă 3 | b, se divide 3 cu 5b?"
+    ],
+    "steps": [
+     "Scrie divizorul ca produs de numere prime între ele (6 = 2·3, 12 = 3·4).",
+     "Aplică criteriul fiecărui factor.",
+     "Păstrează doar valorile care satisfac toate criteriile.",
+     "Greșeala frecventă: să crezi că divizibil cu 2 și 4 înseamnă divizibil cu 8; 2 și 4 nu sunt prime între ele (12 nu se divide cu 8)."
+    ],
+    "answers": [
+     "Da",
+     "Da",
+     "10",
+     "Nu",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l08": {
+   "ro": {
+    "title": "Rapoarte; raportul a două mărimi",
+    "theory": "Raportul numerelor a și b (b ≠ 0) este câtul a : b, scris a/b. Raportul a două mărimi de același fel se calculează în aceeași unitate și nu are unitate de măsură (de exemplu scara hărții). Raportul a două mărimi diferite are unitate (viteza în km/h, densitatea în g/cm³). Rapoartele se simplifică la fel ca fracțiile.",
+    "sample": "O hartă la scara 1 : 100 000 arată 1 cm pentru 100 000 cm = 1 km în realitate.",
+    "worked": "Raportul dintre 40 cm și 2 m: transformăm 2 m = 200 cm, raportul 40/200 = 1/5. Pe o hartă 1 : 50 000, 6 cm reprezintă 300 000 cm = 3 km.",
+    "exercises": [
+     "Calculează raportul dintre 0,6 kg și 150 g.",
+     "Pe o hartă la scara 1 : 200 000, distanța este 4,5 cm. Care este distanța reală?",
+     "O mașină parcurge 210 km în 3 h. Care este viteza medie?",
+     "Într-o clasă sunt 12 fete și 16 băieți. Care este raportul fete/băieți?",
+     "Află x știind că raportul x/15 este 2/3."
+    ],
+    "test": [
+     "Simplifică raportul 15/20.",
+     "Raportul dintre 1 m și 25 cm?",
+     "Are unitate raportul a două lungimi?",
+     "Ce viteză are cine parcurge 100 km în 2 h?",
+     "Ce înseamnă scara 1 : 1 000?"
+    ],
+    "steps": [
+     "Adu mărimile de același fel la aceeași unitate.",
+     "Scrie raportul ca fracție.",
+     "Simplifică și interpretează rezultatul.",
+     "Greșeala frecventă: să calculezi raportul dintre mărimi exprimate în unități diferite (40 cm : 2 m = 20 e greșit; corect 1/5)."
+    ],
+    "answers": [
+     "3/4",
+     "4",
+     "Nu",
+     "50 km/h",
+     "1 cm pe hartă = 1 000 cm în realitate"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l09": {
+   "ro": {
+    "title": "Procente; aflarea unui procent dintr-un număr și a numărului",
+    "theory": "Raportul cu numitorul 100 se numește procent: p/100 = p%. p% din N = p·N/100. Dacă știm că p% dintr-un număr este x, numărul este x·100/p. Procentul pe care îl reprezintă a din b este a/b · 100%. La creșteri și reduceri succesive, al doilea procent se aplică noului preț.",
+    "sample": "15% din 200 lei = 30 lei.",
+    "worked": "Un produs de 400 lei se scumpește cu 10%, apoi se ieftinește cu 10%. După scumpire: 440 lei; după ieftinire: 440 − 44 = 396 lei, nu 400. Procentul pe care îl reprezintă 18 din 72: 18/72 · 100% = 25%.",
+    "exercises": [
+     "Calculează 35% din 260.",
+     "20% dintr-un număr este 46. Care este numărul?",
+     "Ce procent reprezintă 45 din 180?",
+     "Un salariu de 3 000 lei crește cu 8%. Care este noul salariu?",
+     "La un test, 24 din 30 de elevi au promovat. Ce procent au promovat?"
+    ],
+    "test": [
+     "Cât este 50% din 90?",
+     "Cât este 1% din 700?",
+     "Ce procent este 1/4?",
+     "Dacă 10% dintr-un număr este 7, care este numărul?",
+     "Ce procent reprezintă 3 din 12?"
+    ],
+    "steps": [
+     "Scrie procentul ca fracție cu numitorul 100.",
+     "Identifică ce se cunoaște: întregul, partea sau procentul.",
+     "Aplică formula potrivită și verifică.",
+     "Greșeala frecventă: să crezi că o creștere cu 10% urmată de o reducere cu 10% readuce prețul inițial."
+    ],
+    "answers": [
+     "45",
+     "7",
+     "25%",
+     "70",
+     "25%"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l10": {
+   "ro": {
+    "title": "Proporții; proprietatea fundamentală",
+    "theory": "O proporție este egalitatea a două rapoarte: a/b = c/d. a și d sunt extremi, b și c sunt mezi. Proprietatea fundamentală: produsul extremilor este egal cu produsul mezilor, a·d = b·c. O folosim pentru a afla un termen necunoscut și pentru a verifica dacă patru numere formează o proporție.",
+    "sample": "2/3 = 8/12 este proporție, pentru că 2·12 = 3·8 = 24.",
+    "worked": "Aflăm x din 5/x = 15/21: 15·x = 5·21, 15x = 105, x = 7. Verificăm: 5/7 = 15/21 (amplificare cu 3).",
+    "exercises": [
+     "Verifică dacă 4, 6, 10, 15 formează o proporție în această ordine.",
+     "Află x: x/8 = 9/12.",
+     "Află x: 3/(x + 1) = 6/10.",
+     "Scrie trei proporții cu numerele 2, 3, 4, 6.",
+     "Află media proporțională (geometrică) a numerelor 4 și 9: x/4 = 9/x."
+    ],
+    "test": [
+     "Care sunt extremii în a/b = c/d?",
+     "Este 1/2 = 3/6 proporție?",
+     "Află x: x/3 = 4/6.",
+     "Cât este produsul mezilor în 2/5 = 4/10?",
+     "Află x: 2/x = 4/10."
+    ],
+    "steps": [
+     "Identifică extremii și mezii.",
+     "Scrie egalitatea produsului extremilor cu produsul mezilor.",
+     "Rezolvă ecuația obținută și verifică prin înlocuire.",
+     "Greșeala frecventă: să înmulțești numărătorii între ei și numitorii între ei, ca la înmulțirea fracțiilor, în loc de „în cruce”."
+    ],
+    "answers": [
+     "a și d",
+     "Da",
+     "2",
+     "20",
+     "5"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l11": {
+   "ro": {
+    "title": "Proprietăți derivate ale proporțiilor; șir de rapoarte egale",
+    "theory": "Din a/b = c/d se obțin proporții derivate: schimbarea mezilor a/c = b/d, adunarea numitorilor (a + b)/b = (c + d)/d și altele. Într-un șir de rapoarte egale a/b = c/d = e/f = k, avem (a + c + e)/(b + d + f) = k. Mărimile direct proporționale cu numerele 2, 3, 5 se scriu x/2 = y/3 = z/5 = k.",
+    "sample": "Dacă x/2 = y/3 = k și x + y = 25, atunci k = 25 : 5 = 5, x = 10, y = 15.",
+    "worked": "Împărțim 180 lei în părți direct proporționale cu 2, 3 și 4: x/2 = y/3 = z/4 = (x + y + z)/9 = 180/9 = 20. Deci x = 40, y = 60, z = 80 lei; verificăm suma: 180.",
+    "exercises": [
+     "Împarte 240 în părți direct proporționale cu 3, 4, 5.",
+     "x/3 = y/7 și y − x = 20. Află x și y.",
+     "Dacă a/b = 3/4, calculează (a + b)/b.",
+     "Trei frați împart 900 lei proporțional cu vârstele 6, 9, 15 ani. Cât primește fiecare?",
+     "Dacă a/b = 2/5, calculează (3a + b)/b."
+    ],
+    "test": [
+     "x/1 = y/2 și x + y = 12. Cât este x?",
+     "În aceeași situație, cât este y?",
+     "Dacă a/b = 1/2, cât este (a + b)/b?",
+     "Ce obținem schimbând mezii în a/b = c/d?",
+     "Împarte 10 proporțional cu 2 și 3: partea mică?"
+    ],
+    "steps": [
+     "Notează valoarea comună a rapoartelor cu k.",
+     "Folosește suma sau diferența termenilor pentru a afla k.",
+     "Înmulțește k cu fiecare număr de proporționalitate.",
+     "Greșeala frecventă: să împarți totalul la numărul de persoane (3) în loc de suma coeficienților (2 + 3 + 4 = 9)."
+    ],
+    "answers": [
+     "4",
+     "8",
+     "3/2",
+     "a/c = b/d",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l12": {
+   "ro": {
+    "title": "Mărimi direct proporționale și invers proporționale; regula de trei simplă",
+    "theory": "Două mărimi sunt direct proporționale dacă, atunci când una crește de un număr de ori, cealaltă crește de același număr de ori (raportul lor este constant: y = k·x). Sunt invers proporționale dacă una crește de câte ori cealaltă scade (produsul lor este constant: x·y = k). Regula de trei simplă scrie datele pe două rânduri și formează proporția potrivită.",
+    "sample": "Prețul este direct proporțional cu cantitatea; timpul de lucru este invers proporțional cu numărul de muncitori.",
+    "worked": "Regula de trei, direct: 5 kg costă 35 lei; 8 kg costă x. x = 8·35 : 5 = 56 lei. Invers: 6 robinete umplu bazinul în 10 h; 4 robinete în x ore: 6·10 = 4·x, x = 15 h.",
+    "exercises": [
+     "3 m de stofă costă 87 lei. Cât costă 7 m?",
+     "La 60 km/h un drum durează 4 h. Cât durează la 80 km/h?",
+     "Împarte 140 în părți invers proporționale cu 2 și 5.",
+     "Stabilește tipul de proporționalitate: latura pătratului și perimetrul; viteza și timpul pe același drum.",
+     "8 muncitori termină o lucrare în 15 zile. În câte zile o termină 12 muncitori?"
+    ],
+    "test": [
+     "Sunt latura și perimetrul pătratului direct proporționale?",
+     "2 caiete costă 10 lei. Cât costă 6 caiete?",
+     "Ce este constant la mărimile invers proporționale?",
+     "4 muncitori fac o lucrare în 6 zile. Câte zile le trebuie la 8 muncitori?",
+     "Ce este constant la mărimile direct proporționale?"
+    ],
+    "steps": [
+     "Stabilește tipul de proporționalitate gândind: dacă una crește, cealaltă crește sau scade?",
+     "Scrie datele pe două rânduri, aceleași mărimi una sub alta.",
+     "Formează proporția (raport constant sau produs constant) și rezolvă.",
+     "Greșeala frecventă: să aplici automat regula directă: dublarea vitezei nu dublează timpul, ci îl înjumătățește."
+    ],
+    "answers": [
+     "Da",
+     "30 lei",
+     "Produsul lor",
+     "3",
+     "Raportul lor"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l13": {
+   "ro": {
+    "title": "Elemente de organizare a datelor; probabilități",
+    "theory": "Datele se organizează în tabele și grafice (bare, linii, diagrame circulare, unde unghiul sectorului este procent·360°). Probabilitatea unui eveniment, când toate cazurile sunt la fel de posibile, este P = numărul cazurilor favorabile / numărul cazurilor posibile. Are valori între 0 (eveniment imposibil) și 1 (eveniment sigur).",
+    "sample": "La aruncarea unui zar, probabilitatea de a obține un număr par este 3/6 = 1/2.",
+    "worked": "Într-o urnă sunt 4 bile roșii, 5 albastre și 1 verde. P(roșie) = 4/10 = 2/5. Într-o diagramă circulară, culoarea albastră (50%) ocupă 180°, cea roșie (40%) 144°, cea verde (10%) 36°.",
+    "exercises": [
+     "Care este probabilitatea ca la aruncarea unui zar să apară un număr prim?",
+     "Alegem un număr de la 1 la 20. Probabilitatea să fie multiplu de 3?",
+     "Într-o clasă de 25 de elevi, 10 au ochi albaștri. Desenează diagrama circulară (unghiurile).",
+     "Dă exemplu de eveniment sigur și de eveniment imposibil la aruncarea zarului.",
+     "Probabilitatea să extragem o bilă roșie este 3/8, iar în urnă sunt 24 de bile. Câte sunt roșii?"
+    ],
+    "test": [
+     "Probabilitatea de a obține 7 cu un zar?",
+     "Probabilitatea de a obține cap la o monedă?",
+     "Ce valoare are probabilitatea unui eveniment sigur?",
+     "Probabilitatea de a obține 6 cu un zar?",
+     "Câte grade are sectorul pentru 25%?"
+    ],
+    "steps": [
+     "Numără toate cazurile posibile, la fel de probabile.",
+     "Numără cazurile favorabile evenimentului.",
+     "Împarte favorabilele la posibile și simplifică.",
+     "Greșeala frecventă: să împarți cazurile favorabile la cele nefavorabile (la zar, par: 3/3) în loc de toate cazurile posibile (3/6)."
+    ],
+    "answers": [
+     "0",
+     "1/2",
+     "1",
+     "1/6",
+     "90°"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l14": {
+   "ro": {
+    "title": "Mulțimea numerelor întregi; opus, modul, comparare, axă",
+    "theory": "Numerele întregi ℤ = {…, −3, −2, −1, 0, 1, 2, 3, …} apar la temperaturi sub zero, datorii, altitudini sub nivelul mării. Pe axă, numerele negative sunt la stânga lui 0. Opusul lui a este −a. Modulul |a| este distanța de la a la 0: |−5| = |5| = 5. Dintre două numere negative, mai mare este cel cu modulul mai mic: −2 > −7.",
+    "sample": "Temperatura de −3 °C este mai mare decât −8 °C.",
+    "worked": "Ordonăm −4, 3, 0, −10, 7: pe axă de la stânga la dreapta: −10 < −4 < 0 < 3 < 7. |−10| = 10, iar opusul lui −10 este 10.",
+    "exercises": [
+     "Ordonează crescător: 5, −6, −1, 0, 12, −15.",
+     "Calculează: |−9|, |0|, |14|, −|−3|.",
+     "Scrie numerele întregi x cu |x| < 3.",
+     "Reprezintă pe axă: −3, −1, 2, 4.",
+     "Care este distanța pe axă dintre −4 și 5?"
+    ],
+    "test": [
+     "Care este opusul lui −8?",
+     "Cât este |−12|?",
+     "Care este mai mare: −5 sau −2?",
+     "Este −3 număr natural?",
+     "Câte numere întregi au modulul 4?"
+    ],
+    "steps": [
+     "Așază numerele pe axă: negativele la stânga lui 0.",
+     "Mai mare este cel aflat mai la dreapta.",
+     "Modulul este distanța până la 0, deci nu este niciodată negativ.",
+     "Greșeala frecventă: să crezi că −7 > −2 pentru că 7 > 2; la negative, cel mai apropiat de 0 este mai mare."
+    ],
+    "answers": [
+     "8",
+     "12",
+     "−2",
+     "Nu",
+     "Două (4 și −4)"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l15": {
+   "ro": {
+    "title": "Adunarea și scăderea numerelor întregi",
+    "theory": "Pentru numere cu același semn, adunăm modulele și păstrăm semnul: (−3) + (−5) = −8. Pentru semne diferite, scădem modulele și luăm semnul numărului cu modulul mai mare: (−9) + 4 = −5. Scăderea înseamnă adunarea opusului: a − b = a + (−b), deci 3 − (−4) = 3 + 4 = 7.",
+    "sample": "Temperatura este −2 °C și crește cu 7 °C: −2 + 7 = 5 °C.",
+    "worked": "Calculăm −8 − (−3) + (−6) − 4 = −8 + 3 − 6 − 4 = −15. Altfel: pozitivele dau 3, negativele dau −18, suma −15.",
+    "exercises": [
+     "Calculează: (−7) + (−12); 15 + (−20); (−8) + 8.",
+     "Calculează: 6 − 14; −5 − 9; −3 − (−10).",
+     "Calculează: −12 + 7 − (−4) − 9.",
+     "Un submarin la −120 m urcă 45 m. La ce adâncime ajunge?",
+     "Află x: x + 9 = −4."
+    ],
+    "test": [
+     "Cât este −4 + (−6)?",
+     "Cât este −4 + 6?",
+     "Cât este 2 − 9?",
+     "Cât este −3 − (−3)?",
+     "Cât este 0 − 5?"
+    ],
+    "steps": [
+     "Transformă scăderile în adunări cu opusul.",
+     "Grupează numerele pozitive și pe cele negative.",
+     "Adună fiecare grup și apoi fă diferența modulelor, cu semnul celui mai mare.",
+     "Greșeala frecventă: la −3 − (−10) să scrii −13; minus urmat de minus devine plus: −3 + 10 = 7."
+    ],
+    "answers": [
+     "−10",
+     "2",
+     "−7",
+     "0",
+     "−5"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l16": {
+   "ro": {
+    "title": "Înmulțirea și împărțirea numerelor întregi; puteri",
+    "theory": "La înmulțire și împărțire, rezultatul are modulul egal cu produsul (câtul) modulelor și semnul: plus dacă factorii au același semn, minus dacă au semne diferite. Un produs cu număr par de factori negativi este pozitiv, cu număr impar este negativ. Așadar (−a)ⁿ este pozitiv pentru n par și negativ pentru n impar.",
+    "sample": "(−4)·(−5) = 20; (−24) : 6 = −4.",
+    "worked": "Calculăm (−2)³ = −8 și (−2)⁴ = 16. Atenție: −2⁴ = −(2⁴) = −16, pentru că puterea se aplică doar lui 2. Calculăm (−3)·4·(−1)·(−2) = −24 (trei factori negativi).",
+    "exercises": [
+     "Calculează: (−6)·7; (−8)·(−9); 36 : (−4); (−50) : (−5).",
+     "Calculează: (−1)²⁰²⁶; (−1)²⁰²⁵; (−3)³.",
+     "Compară: −3² și (−3)².",
+     "Calculează: (−2)·(−3)·(−4)·(−5).",
+     "Calculează: [(−12) : 3 + 5]·(−7)."
+    ],
+    "test": [
+     "Cât este (−3)·(−3)?",
+     "Cât este (−20) : 4?",
+     "Cât este (−1)⁷?",
+     "Cât este (−5)²?",
+     "Cât este −5²?"
+    ],
+    "steps": [
+     "Numără factorii negativi pentru a stabili semnul.",
+     "Calculează produsul sau câtul modulelor.",
+     "La puteri, verifică dacă minusul este în paranteză.",
+     "Greșeala frecventă: să consideri −5² egal cu 25; fără paranteze, −5² = −25."
+    ],
+    "answers": [
+     "9",
+     "−5",
+     "−1",
+     "25",
+     "−25"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l17": {
+   "ro": {
+    "title": "Ordinea operațiilor cu numere întregi; ecuații în ℤ",
+    "theory": "Ordinea efectuării operațiilor rămâne aceeași: paranteze, puteri, înmulțiri și împărțiri, adunări și scăderi. O ecuație este o egalitate care conține o necunoscută; a o rezolva înseamnă a găsi valorile care o verifică. Folosim operațiile inverse: termenul trece în celălalt membru cu semn schimbat, factorul se împarte.",
+    "sample": "x − 7 = −3 ⇒ x = −3 + 7 = 4.",
+    "worked": "Rezolvăm 3x + 11 = −10: 3x = −10 − 11 = −21, x = −7. Verificare: 3·(−7) + 11 = −21 + 11 = −10. Rezolvăm 2(x − 4) = −6: x − 4 = −3, x = 1.",
+    "exercises": [
+     "Calculează: −2·(−3)² + 4·(−5) − (−10).",
+     "Rezolvă: x + 15 = 3; x − (−4) = −9.",
+     "Rezolvă: −5x = 35; 4x − 7 = −27.",
+     "Rezolvă: 3(x + 2) = −12.",
+     "Un număr înmulțit cu −4 și adunat cu 10 dă −14. Care este numărul?"
+    ],
+    "test": [
+     "Rezolvă: x + 5 = 2.",
+     "Rezolvă: −2x = 8.",
+     "Rezolvă: x − 3 = −3.",
+     "Cât este 2 − 3·(−2)?",
+     "Rezolvă: 2x + 1 = −5."
+    ],
+    "steps": [
+     "Adu termenii fără necunoscută în membrul drept, schimbându-le semnul.",
+     "Împarte la coeficientul necunoscutei, atent la semn.",
+     "Verifică soluția prin înlocuire.",
+     "Greșeala frecventă: la −5x = 35 să scrii x = 7; semnul coeficientului contează: x = −7."
+    ],
+    "answers": [
+     "−3",
+     "−4",
+     "0",
+     "8",
+     "−3"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l18": {
+   "ro": {
+    "title": "Inecuații în ℤ; probleme cu numere întregi",
+    "theory": "O inecuație conține semnele <, >, ≤, ≥. Se rezolvă ca ecuația, cu o regulă în plus: când înmulțim sau împărțim ambii membri cu un număr negativ, sensul inegalității se schimbă. Soluțiile se scriu ca mulțime și, dacă se cer întregi, le enumerăm când sunt în număr finit.",
+    "sample": "x + 3 < 1 ⇒ x < −2; soluțiile întregi: …, −5, −4, −3.",
+    "worked": "Rezolvăm −2x + 1 ≥ −7 în ℤ, cu x ≥ −2: −2x ≥ −8, împărțim la −2 și schimbăm sensul: x ≤ 4. Cu x ≥ −2: x ∈ {−2, −1, 0, 1, 2, 3, 4}.",
+    "exercises": [
+     "Rezolvă în ℤ: x − 4 < −1.",
+     "Rezolvă în ℤ: −3x > 12.",
+     "Află numerele întregi x cu −3 < 2x + 1 ≤ 7.",
+     "Temperatura a scăzut cu 3 °C pe oră timp de 5 ore și a ajuns la −8 °C. Care a fost temperatura inițială?",
+     "Scrie mulțimea {x ∈ ℤ | |x| ≤ 2} prin enumerare."
+    ],
+    "test": [
+     "Rezolvă: x + 2 > 5.",
+     "Rezolvă: −x < 3.",
+     "Ce se întâmplă cu sensul când împarți la −4?",
+     "Câte numere întregi verifică −1 ≤ x ≤ 1?",
+     "Este −5 soluție pentru x > −4?"
+    ],
+    "steps": [
+     "Izolează termenul cu necunoscuta.",
+     "Împarte la coeficient; dacă este negativ, schimbă sensul inegalității.",
+     "Scrie mulțimea soluțiilor și verifică un element.",
+     "Greșeala frecventă: să uiți să schimbi sensul la împărțirea cu un număr negativ (−3x > 12 dă x < −4, nu x > −4)."
+    ],
+    "answers": [
+     "x > 3",
+     "x > −3",
+     "Se schimbă",
+     "3",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l19": {
+   "ro": {
+    "title": "Mulțimea numerelor raționale; reprezentare pe axă, opus, modul",
+    "theory": "Numerele raționale ℚ sunt cele care se pot scrie ca fracție a/b cu a, b întregi și b ≠ 0: 3/4, −2/5, 0,7, −1,(3). Avem ℕ ⊂ ℤ ⊂ ℚ. Fiecare număr rațional are un punct pe axă; opusul lui −3/4 este 3/4, iar |−3/4| = 3/4. Compararea se face ca la întregi, folosind numitor comun.",
+    "sample": "−1/2 > −3/4, pentru că −2/4 > −3/4.",
+    "worked": "Ordonăm −0,5, 1/3, −2/3, 0,25: în fracții cu numitorul 12 obținem −6/12, 4/12, −8/12, 3/12. Crescător: −2/3 < −0,5 < 0,25 < 1/3.",
+    "exercises": [
+     "Scrie trei numere raționale care nu sunt întregi.",
+     "Ordonează crescător: −1,2; 3/5; −3/2; 0; 0,6.",
+     "Reprezintă pe axă: −1/2, 3/4, −5/4.",
+     "Calculează: |−2,5|, |3/7|, −|−1/4|.",
+     "Scrie un număr rațional între −1/3 și −1/4."
+    ],
+    "test": [
+     "Este −4 număr rațional?",
+     "Care este opusul lui 2/9?",
+     "Cât este |−0,8|?",
+     "Care este mai mare: −1/3 sau −1/2?",
+     "Este 0,(6) număr rațional?"
+    ],
+    "steps": [
+     "Scrie numerele în aceeași formă (fracții cu același numitor sau zecimale).",
+     "Așază-le pe axă sau compară numărătorii.",
+     "La negative, mai mare este cel cu modulul mai mic.",
+     "Greșeala frecventă: să crezi că numerele zecimale periodice nu sunt raționale; 0,(6) = 2/3."
+    ],
+    "answers": [
+     "Da",
+     "−2/9",
+     "0,8",
+     "−1/3",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l20": {
+   "ro": {
+    "title": "Adunarea și scăderea numerelor raționale",
+    "theory": "Adunăm și scădem numerele raționale cu regulile semnelor de la întregi și cu regulile fracțiilor: aducem la numitor comun sau transformăm totul în zecimale. Adunarea rămâne comutativă și asociativă, cu elementul neutru 0, iar a + (−a) = 0.",
+    "sample": "−1/2 + 1/3 = −3/6 + 2/6 = −1/6.",
+    "worked": "Calculăm 2,5 − 3/4 − (−1/2): 5/2 − 3/4 + 1/2 = 10/4 − 3/4 + 2/4 = 9/4 = 2,25.",
+    "exercises": [
+     "Calculează: −3/5 + 1/2; 2/3 − 5/6.",
+     "Calculează: −1,25 + 3/4.",
+     "Calculează: −2/7 − (−3/14).",
+     "Rezolvă: x + 2/3 = −1/6.",
+     "Calculează: 1 − 1/2 + 1/3 − 1/4."
+    ],
+    "test": [
+     "Cât este −1/4 + 1/4?",
+     "Cât este 1/2 − 1?",
+     "Cât este −0,5 − 0,5?",
+     "Cât este −1/3 − (−1/3)?",
+     "Cât este 0,2 + (−1/5)?"
+    ],
+    "steps": [
+     "Transformă toate numerele în fracții (sau toate în zecimale).",
+     "Adu fracțiile la numitor comun.",
+     "Aplică regulile semnelor ca la întregi și simplifică.",
+     "Greșeala frecventă: la −2/7 − (−3/14) să păstrezi minusul în fața celei de-a doua fracții; devine plus: −4/14 + 3/14 = −1/14."
+    ],
+    "answers": [
+     "0",
+     "−1/2",
+     "−1",
+     "0",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l21": {
+   "ro": {
+    "title": "Înmulțirea, împărțirea și puterea numerelor raționale",
+    "theory": "Înmulțim fracțiile numărător cu numărător și numitor cu numitor, iar semnul se stabilește ca la întregi. Împărțirea înseamnă înmulțirea cu inversul (−2/3 are inversul −3/2). Pentru puteri: (a/b)ⁿ = aⁿ/bⁿ; regulile de calcul cu puteri rămân valabile. Puterea cu exponent negativ: a⁻ⁿ = 1/aⁿ (a ≠ 0).",
+    "sample": "(−2/3)·(9/4) = −3/2.",
+    "worked": "Calculăm (−3/4)² : (−9/8) = 9/16 · (−8/9) = −1/2. Calculăm 2⁻³ = 1/8 și (−1/2)³ = −1/8.",
+    "exercises": [
+     "Calculează: (−4/5)·(15/8); (−0,6)·(−2/3).",
+     "Calculează: (−7/9) : (14/3).",
+     "Calculează: (2/3)³; (−1/3)⁴.",
+     "Calculează: 3⁻² și (1/2)⁻².",
+     "Calculează: (−1/2)² + (−1/2)³."
+    ],
+    "test": [
+     "Cât este (−1/2)·(−4)?",
+     "Care este inversul lui −5?",
+     "Cât este (1/3)²?",
+     "Cât este 1/2 : (−1/4)?",
+     "Cât este 10⁻¹?"
+    ],
+    "steps": [
+     "Stabilește semnul rezultatului.",
+     "Transformă împărțirea în înmulțire cu inversul.",
+     "Simplifică în cruce și calculează.",
+     "Greșeala frecventă: să confunzi opusul cu inversul (opusul lui 2/3 este −2/3, inversul este 3/2)."
+    ],
+    "answers": [
+     "2",
+     "−1/5",
+     "1/9",
+     "−2",
+     "1/10 (0,1)"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l22": {
+   "ro": {
+    "title": "Ordinea operațiilor și ecuații cu numere raționale",
+    "theory": "În exerciții cu numere raționale aplicăm ordinea operațiilor și proprietățile (distributivitate, factor comun). Ecuațiile de forma a·x + b = c cu a, b, c raționale se rezolvă ca în ℤ: izolăm termenul cu x, apoi împărțim la a (a ≠ 0). Fracțiile se pot elimina înmulțind ambii membri cu numitorul comun.",
+    "sample": "Din x/3 = −2 obținem x = −2·3 = −6.",
+    "worked": "Rezolvăm x/2 + x/3 = 5: înmulțim cu 6, 3x + 2x = 30, 5x = 30, x = 6. Verificare: 3 + 2 = 5.",
+    "exercises": [
+     "Calculează: (1/2 − 2/3)·(−6) + 1/4 : (−1/2).",
+     "Rezolvă: 2x − 1/3 = 1/2.",
+     "Rezolvă: −0,4x = 1,2.",
+     "Rezolvă: x/4 − x/6 = 1.",
+     "Un număr adunat cu jumătatea lui dă −9. Care este numărul?"
+    ],
+    "test": [
+     "Rezolvă: x/2 = 4.",
+     "Rezolvă: x + 1/2 = 0.",
+     "Rezolvă: 3x = −1.",
+     "Cât este (−1/2)·2 + 1?",
+     "Rezolvă: x − 0,5 = −0,5."
+    ],
+    "steps": [
+     "Elimină numitorii înmulțind ambii membri cu numitorul comun.",
+     "Grupează termenii cu x și termenii liberi.",
+     "Împarte la coeficient și verifică.",
+     "Greșeala frecventă: când înmulțești cu numitorul comun, să înmulțești doar un termen și să uiți membrul drept."
+    ],
+    "answers": [
+     "8",
+     "−1/2",
+     "−1/3",
+     "0",
+     "0"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l23": {
+   "ro": {
+    "title": "Unghiuri adiacente; bisectoarea unui unghi",
+    "theory": "Două unghiuri sunt adiacente dacă au vârful comun, o latură comună și interioarele disjuncte (laturile necomune sunt de o parte și de alta a laturii comune). Măsura unghiului format de laturile necomune este suma măsurilor. Bisectoarea unui unghi este semidreapta interioară care îl împarte în două unghiuri congruente.",
+    "sample": "Unghiurile ∢AOB = 30° și ∢BOC = 50°, adiacente, formează ∢AOC = 80°.",
+    "worked": "Fie ∢AOB = 110° și (OC bisectoarea lui. Atunci ∢AOC = ∢COB = 55°. Construim bisectoarea cu raportorul: măsurăm 55° de la (OA.",
+    "exercises": [
+     "Desenează două unghiuri adiacente de 40° și 65° și află unghiul format de laturile necomune.",
+     "∢AOB = 140°, (OC bisectoare. Află ∢AOC.",
+     "∢AOB și ∢BOC sunt adiacente, ∢AOC = 120°, ∢AOB = 3·∢BOC. Află unghiurile.",
+     "Construiește bisectoarea unui unghi de 90°.",
+     "Unghiurile formate de bisectoare cu laturile au 37°. Cât are unghiul?"
+    ],
+    "test": [
+     "Au două unghiuri adiacente vârful comun?",
+     "Bisectoarea unui unghi de 80° formează unghiuri de…?",
+     "Adiacente de 20° și 30° formează un unghi de…?",
+     "Unde se află bisectoarea?",
+     "Dacă bisectoarea dă 45°, unghiul are…?"
+    ],
+    "steps": [
+     "Verifică vârful comun, latura comună și interioarele disjuncte.",
+     "Pentru adiacente, adună măsurile.",
+     "Pentru bisectoare, împarte unghiul la 2.",
+     "Greșeala frecventă: să consideri adiacente două unghiuri care au o latură comună dar se suprapun (unul este în interiorul celuilalt)."
+    ],
+    "answers": [
+     "Da",
+     "40°",
+     "50°",
+     "În interiorul unghiului",
+     "90°"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l24": {
+   "ro": {
+    "title": "Unghiuri complementare și suplementare; unghiuri opuse la vârf",
+    "theory": "Două unghiuri sunt complementare dacă suma măsurilor lor este 90° și suplementare dacă suma este 180°. Unghiurile adiacente suplementare formează o linie dreaptă. Două drepte concurente formează două perechi de unghiuri opuse la vârf, care sunt congruente. Suma unghiurilor din jurul unui punct este 360°.",
+    "sample": "Complementul lui 35° este 55°, iar suplementul lui 35° este 145°.",
+    "worked": "Două drepte se intersectează și unul dintre unghiuri are 70°. Opusul la vârf are 70°, iar celelalte două (suplemente) au câte 110°. Verificăm: 70 + 110 + 70 + 110 = 360°.",
+    "exercises": [
+     "Află complementul și suplementul unghiului de 48°15’.",
+     "Un unghi este dublul complementului său. Află unghiul.",
+     "Un unghi are cu 40° mai mult decât suplementul său. Află-l.",
+     "Două drepte concurente formează un unghi de 125°. Află celelalte trei.",
+     "În jurul unui punct sunt unghiurile x, 2x, 3x. Află x."
+    ],
+    "test": [
+     "Complementul lui 60°?",
+     "Suplementul lui 100°?",
+     "Ce relație au unghiurile opuse la vârf?",
+     "Suma unghiurilor în jurul unui punct?",
+     "Poate un unghi obtuz să aibă complement?"
+    ],
+    "steps": [
+     "Identifică relația: complementare (90°), suplementare (180°), în jurul unui punct (360°).",
+     "Scrie ecuația cu măsurile.",
+     "Rezolvă și verifică suma.",
+     "Greșeala frecventă: să confunzi complementul cu suplementul; ține minte: „c” vine înaintea lui „s”, ca 90° înaintea lui 180°."
+    ],
+    "answers": [
+     "30°",
+     "80°",
+     "Sunt congruente",
+     "360°",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l25": {
+   "ro": {
+    "title": "Drepte paralele; unghiuri formate de două drepte cu o secantă",
+    "theory": "Două drepte tăiate de o secantă formează 8 unghiuri: alterne interne, alterne externe, corespondente, interne de aceeași parte a secantei. Dreptele sunt paralele dacă și numai dacă unghiurile alterne interne sunt congruente (echivalent: corespondentele sunt congruente sau internele de aceeași parte sunt suplementare). Axioma paralelelor: printr-un punct exterior unei drepte trece o singură paralelă la ea.",
+    "sample": "Șinele de tren tăiate de o traversă diagonală formează unghiuri alterne interne egale.",
+    "worked": "Dacă a ∥ b și secanta formează cu a un unghi de 65°, atunci unghiul alterne intern cu el pe b are 65°, iar unghiul intern de aceeași parte are 180° − 65° = 115°.",
+    "exercises": [
+     "Desenează două drepte paralele și o secantă; notează cele 8 unghiuri.",
+     "a ∥ b, iar un unghi format cu secanta are 72°. Află toate cele 8 unghiuri.",
+     "Două unghiuri interne de aceeași parte a secantei au 105° și 75°. Sunt dreptele paralele?",
+     "Două unghiuri alterne interne au 3x + 10° și 5x − 30°. Află x pentru ca dreptele să fie paralele.",
+     "Construiește cu echerul și rigla paralela printr-un punct la o dreaptă."
+    ],
+    "test": [
+     "Ce relație au unghiurile alterne interne la drepte paralele?",
+     "Cât fac internele de aceeași parte la paralele?",
+     "Câte paralele printr-un punct exterior?",
+     "Câte unghiuri formează două drepte cu o secantă?",
+     "Dacă corespondentele sunt congruente, dreptele sunt…?"
+    ],
+    "steps": [
+     "Identifică perechea de unghiuri (alterne, corespondente, interne de aceeași parte).",
+     "Aplică relația: congruente sau suplementare.",
+     "Concluzionează despre paralelism sau calculează unghiul.",
+     "Greșeala frecventă: să crezi că internele de aceeași parte sunt congruente; la paralele ele sunt suplementare (sumă 180°)."
+    ],
+    "answers": [
+     "Sunt congruente",
+     "180°",
+     "Una singură",
+     "8",
+     "Paralele"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l26": {
+   "ro": {
+    "title": "Drepte perpendiculare; distanța de la un punct la o dreaptă; mediatoarea",
+    "theory": "Două drepte sunt perpendiculare dacă formează un unghi drept (a ⊥ b). Printr-un punct trece o singură perpendiculară pe o dreaptă dată. Lungimea segmentului perpendicular din punct pe dreaptă este distanța de la punct la dreaptă (cea mai scurtă). Mediatoarea unui segment este perpendiculara în mijlocul lui; orice punct de pe mediatoare este egal depărtat de capetele segmentului.",
+    "sample": "Stâlpul vertical și solul orizontal sunt perpendiculare.",
+    "worked": "Dacă a ⊥ c și b ⊥ c, atunci a ∥ b (două perpendiculare pe aceeași dreaptă sunt paralele). Un punct M pe mediatoarea lui [AB] cu MA = 7 cm are MB = 7 cm.",
+    "exercises": [
+     "Construiește cu echerul perpendiculara dintr-un punct pe o dreaptă.",
+     "Construiește mediatoarea unui segment de 6 cm.",
+     "M este pe mediatoarea lui [AB] și MA = 4,5 cm. Cât este MB?",
+     "Dacă a ⊥ b și b ∥ c, ce poziție au a și c?",
+     "De ce distanța de la un punct la o dreaptă se măsoară pe perpendiculară?"
+    ],
+    "test": [
+     "Ce unghi formează două drepte perpendiculare?",
+     "Două perpendiculare pe aceeași dreaptă sunt…?",
+     "Unde intersectează mediatoarea segmentul?",
+     "MA = 5 cm, M pe mediatoarea lui [AB]. MB = ?",
+     "Câte perpendiculare printr-un punct pe o dreaptă?"
+    ],
+    "steps": [
+     "Așază echerul cu o catetă pe dreaptă.",
+     "Trasează perpendiculara prin punctul dat.",
+     "Măsoară distanța pe perpendiculară sau folosește proprietatea mediatoarei.",
+     "Greșeala frecventă: să măsori distanța de la punct la dreaptă pe un segment oblic; distanța este doar pe perpendiculară."
+    ],
+    "answers": [
+     "90°",
+     "Paralele",
+     "În mijloc",
+     "5 cm",
+     "Una"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l27": {
+   "ro": {
+    "title": "Cercul: elemente, poziții relative, unghi la centru",
+    "theory": "Cercul de centru O și rază r este mulțimea punctelor aflate la distanța r de O. Elemente: raza, coarda, diametrul (coarda prin centru, d = 2r), arcul. Unghiul la centru are vârful în O, iar măsura arcului cuprins este egală cu măsura unghiului la centru. Un punct poate fi interior (OP < r), pe cerc (OP = r) sau exterior (OP > r). O dreaptă poate fi secantă, tangentă (perpendiculară pe rază în punctul de contact) sau exterioară.",
+    "sample": "Un cerc cu raza 4 cm are diametrul 8 cm.",
+    "worked": "Cercul este împărțit de 3 raze în unghiuri la centru de 100°, 140° și x. x = 360° − 240° = 120°, deci arcul corespunzător are 120°. Punctul P cu OP = 3 cm este interior cercului de rază 4 cm.",
+    "exercises": [
+     "Desenează un cerc cu raza 3 cm, o coardă, un diametru și un unghi la centru de 60°.",
+     "Un unghi la centru are 75°. Ce măsură are arcul mic? Dar arcul mare?",
+     "Stabilește poziția punctelor A, B, C cu OA = 2 cm, OB = 5 cm, OC = 7 cm față de cercul C(O, 5 cm).",
+     "Distanța de la centru la o dreaptă este 6 cm, raza 6 cm. Ce poziție are dreapta?",
+     "Care este cea mai lungă coardă a unui cerc?"
+    ],
+    "test": [
+     "Diametrul unui cerc cu raza 5 cm?",
+     "Măsura arcului pentru un unghi la centru de 90°?",
+     "Dacă OP < r, punctul este…?",
+     "Ce unghi formează tangenta cu raza în punctul de contact?",
+     "Câte grade are cercul întreg?"
+    ],
+    "steps": [
+     "Identifică centrul și raza.",
+     "Compară distanța de la centru cu raza pentru poziții.",
+     "Pentru arce, folosește egalitatea cu unghiul la centru și suma de 360°.",
+     "Greșeala frecventă: să confunzi raza cu diametrul în calcule (diametrul este de două ori raza)."
+    ],
+    "answers": [
+     "10 cm",
+     "90°",
+     "Interior",
+     "90°",
+     "360°"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l28": {
+   "ro": {
+    "title": "Triunghiul: elemente, clasificare, perimetru",
+    "theory": "Triunghiul ABC are trei vârfuri, trei laturi și trei unghiuri. După laturi: scalen (laturi diferite), isoscel (două laturi congruente), echilateral (toate congruente). După unghiuri: ascuțitunghic, dreptunghic (un unghi de 90°), obtuzunghic (un unghi obtuz). Perimetrul este suma laturilor. Inegalitatea triunghiului: fiecare latură este mai mică decât suma celorlalte două.",
+    "sample": "Laturile 3 cm, 4 cm, 5 cm formează un triunghi (5 < 3 + 4) cu perimetrul 12 cm.",
+    "worked": "Pot fi 2 cm, 3 cm, 6 cm laturi ale unui triunghi? 6 > 2 + 3 = 5, deci nu. Un triunghi isoscel cu baza 8 cm și perimetrul 30 cm are laturile congruente de (30 − 8) : 2 = 11 cm.",
+    "exercises": [
+     "Clasifică după laturi triunghiurile cu laturile: 5, 5, 5; 4, 6, 4; 3, 7, 8.",
+     "Verifică dacă există triunghi cu laturile 4 cm, 9 cm, 4 cm.",
+     "Un triunghi echilateral are perimetrul 27 cm. Află latura.",
+     "Un triunghi isoscel are laturile de 7 cm și 3 cm. Care este baza? Află perimetrul.",
+     "Desenează un triunghi obtuzunghic și unul dreptunghic."
+    ],
+    "test": [
+     "Câte laturi congruente are un triunghi echilateral?",
+     "Ce triunghi are un unghi de 90°?",
+     "Perimetrul triunghiului cu laturile 3, 4, 5?",
+     "Există triunghi cu laturile 1, 2, 3?",
+     "Cum se numește triunghiul cu toate laturile diferite?"
+    ],
+    "steps": [
+     "Clasifică după laturi și după unghiuri.",
+     "Verifică inegalitatea triunghiului pentru latura cea mai mare.",
+     "Calculează perimetrul ca sumă a laturilor.",
+     "Greșeala frecventă: să accepți laturile 1, 2, 3; triunghiul există doar dacă latura cea mai mare este strict mai mică decât suma celorlalte."
+    ],
+    "answers": [
+     "3",
+     "Dreptunghic",
+     "12",
+     "Nu",
+     "Scalen"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l29": {
+   "ro": {
+    "title": "Suma măsurilor unghiurilor unui triunghi; unghiul exterior",
+    "theory": "Suma măsurilor unghiurilor unui triunghi este 180° (se arată ducând prin un vârf paralela la latura opusă). Unghiul exterior este suplementul unghiului interior adiacent și are măsura egală cu suma celor două unghiuri interioare neadiacente. În triunghiul dreptunghic, unghiurile ascuțite sunt complementare.",
+    "sample": "Dacă ∢A = 50° și ∢B = 60°, atunci ∢C = 70°.",
+    "worked": "Într-un triunghi isoscel cu unghiul de la vârf de 40°, unghiurile bazei au (180° − 40°) : 2 = 70°. Unghiul exterior de lângă C, când ∢A = 45° și ∢B = 75°, are 45° + 75° = 120°.",
+    "exercises": [
+     "Află al treilea unghi: 35° și 85°.",
+     "Unghiurile unui triunghi sunt proporționale cu 2, 3, 4. Află-le.",
+     "Într-un triunghi dreptunghic un unghi ascuțit are 28°. Află-l pe celălalt.",
+     "Un unghi exterior are 130°, iar un unghi interior neadiacent 70°. Află unghiurile triunghiului.",
+     "Câte grade are fiecare unghi al triunghiului echilateral? Explică."
+    ],
+    "test": [
+     "Suma unghiurilor unui triunghi?",
+     "Unghiurile 90° și 30°; al treilea?",
+     "Ce măsură au unghiurile triunghiului echilateral?",
+     "Poate un triunghi să aibă două unghiuri obtuze?",
+     "Unghiul exterior este egal cu…?"
+    ],
+    "steps": [
+     "Scrie suma unghiurilor egală cu 180°.",
+     "Înlocuiește unghiurile cunoscute (sau exprimate cu x).",
+     "Rezolvă și verifică dacă toate unghiurile sunt pozitive.",
+     "Greșeala frecventă: să aduni unghiul exterior la suma celor trei unghiuri interioare; el nu face parte din cele 180°."
+    ],
+    "answers": [
+     "180°",
+     "60°",
+     "60°",
+     "Nu",
+     "Suma unghiurilor interioare neadiacente"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l30": {
+   "ro": {
+    "title": "Linii importante în triunghi: bisectoare, mediatoare, înălțime, mediană",
+    "theory": "Bisectoarele unghiurilor se intersectează în centrul cercului înscris (egal depărtat de laturi). Mediatoarele laturilor se intersectează în centrul cercului circumscris (egal depărtat de vârfuri). Înălțimea este perpendiculara dintr-un vârf pe latura opusă; înălțimile sunt concurente în ortocentru. Mediana unește un vârf cu mijlocul laturii opuse; medianele sunt concurente în centrul de greutate G, aflat la 2/3 de vârf pe fiecare mediană.",
+    "sample": "Într-un triunghi cu mediana AM = 9 cm, centrul de greutate este la 6 cm de A.",
+    "worked": "Aria triunghiului este jumătate din produsul dintre o latură și înălțimea corespunzătoare: A = b·h/2. Un triunghi cu baza 10 cm și înălțimea 6 cm are aria 30 cm². În triunghiul dreptunghic, catetele sunt înălțimi una pentru cealaltă.",
+    "exercises": [
+     "Desenează un triunghi ascuțitunghic și cele trei înălțimi.",
+     "Mediana AM are 12 cm. Află AG și GM.",
+     "Construiește cercul circumscris unui triunghi.",
+     "Un triunghi are baza 8 cm și înălțimea 5 cm. Află aria.",
+     "Unde se află ortocentrul într-un triunghi dreptunghic?"
+    ],
+    "test": [
+     "Ce unește mediana?",
+     "În ce punct se intersectează medianele?",
+     "Ce centru dau mediatoarele?",
+     "Aria unui triunghi cu baza 6 și înălțimea 4?",
+     "Ce centru dau bisectoarele?"
+    ],
+    "steps": [
+     "Identifică linia cerută după definiție (unghi, mijloc, perpendiculară).",
+     "Folosește punctul de intersecție potrivit.",
+     "Aplică proprietatea (raportul 2/3, egalitatea distanțelor, aria).",
+     "Greșeala frecventă: să confunzi mediana cu înălțimea; mediana merge la mijlocul laturii, înălțimea este perpendiculară pe latură."
+    ],
+    "answers": [
+     "Un vârf cu mijlocul laturii opuse",
+     "Centrul de greutate",
+     "Centrul cercului circumscris",
+     "12",
+     "Centrul cercului înscris"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l31": {
+   "ro": {
+    "title": "Congruența triunghiurilor: cazurile LUL, ULU, LLL",
+    "theory": "Două triunghiuri sunt congruente dacă au laturile și unghiurile respectiv congruente. Este suficient să verificăm unul dintre cazuri: LUL (două laturi și unghiul dintre ele), ULU (o latură și unghiurile alăturate ei), LLL (toate laturile). Din congruență deducem egalitatea celorlalte elemente.",
+    "sample": "Dacă AB = DE, ∢B = ∢E, BC = EF, atunci △ABC ≡ △DEF (LUL).",
+    "worked": "Fie O mijlocul segmentelor [AC] și [BD]. Atunci OA = OC, OB = OD și ∢AOB = ∢COD (opuse la vârf), deci △AOB ≡ △COD (LUL) și AB = CD.",
+    "exercises": [
+     "Scrie ce elemente trebuie să fie congruente pentru cazul ULU.",
+     "În triunghiul isoscel ABC (AB = AC), M este mijlocul lui [BC]. Arată că △ABM ≡ △ACM.",
+     "De ce două triunghiuri cu toate unghiurile congruente nu sunt neapărat congruente?",
+     "Punctul M este pe bisectoarea unghiului ∢xOy, iar A ∈ Ox, B ∈ Oy cu OA = OB. Arată că MA = MB.",
+     "Desenează două triunghiuri congruente și marchează elementele egale."
+    ],
+    "test": [
+     "Ce înseamnă LUL?",
+     "Ce înseamnă LLL?",
+     "Este UUU un caz de congruență?",
+     "În ULU, unde se află latura?",
+     "Ce obținem din congruență?"
+    ],
+    "steps": [
+     "Scrie perechile de elemente congruente cunoscute.",
+     "Alege cazul potrivit, verificând poziția unghiului față de laturi.",
+     "Concluzionează și deduce celelalte egalități.",
+     "Greșeala frecventă: să folosești „LLU” (două laturi și un unghi care nu este între ele); nu este caz de congruență."
+    ],
+    "answers": [
+     "Latură–unghi–latură (unghiul cuprins)",
+     "Toate cele trei laturi",
+     "Nu",
+     "Între cele două unghiuri",
+     "Egalitatea celorlalte laturi și unghiuri"
+    ]
+   }
+  },
+  "eu-year-ro-lower-6-l32": {
+   "ro": {
+    "title": "Cazurile de congruență ale triunghiurilor dreptunghice; aplicații",
+    "theory": "Pentru triunghiurile dreptunghice avem cazurile: CC (catetă–catetă), CU (catetă și unghi ascuțit), IU (ipotenuză și unghi ascuțit), IC (ipotenuză și catetă). Aplicații: proprietatea bisectoarei (punctele ei sunt egal depărtate de laturi), proprietatea mediatoarei, triunghiul isoscel are unghiurile bazei congruente, iar înălțimea din vârf este și mediană și bisectoare.",
+    "sample": "Într-un triunghi isoscel, înălțimea din vârf împarte baza în două segmente egale.",
+    "worked": "Fie P pe bisectoarea unghiului ∢AOB, PM ⊥ OA și PN ⊥ OB. Triunghiurile OMP și ONP sunt dreptunghice, au ipotenuza comună OP și ∢MOP = ∢NOP, deci sunt congruente (IU) și PM = PN.",
+    "exercises": [
+     "Enumeră cazurile de congruență ale triunghiurilor dreptunghice.",
+     "În triunghiul isoscel ABC cu baza BC = 10 cm, AD ⊥ BC. Află BD.",
+     "Arată că, într-un triunghi isoscel, înălțimea din vârf este bisectoare.",
+     "Unghiurile bazei unui triunghi isoscel au 65°. Află unghiul din vârf.",
+     "Un punct de pe bisectoare este la 4 cm de o latură. La ce distanță este de cealaltă?"
+    ],
+    "test": [
+     "Ce înseamnă cazul IC?",
+     "Ce înseamnă cazul CC?",
+     "Ce proprietate au unghiurile bazei triunghiului isoscel?",
+     "Înălțimea din vârful unui triunghi isoscel este și…?",
+     "Distanța de la un punct al bisectoarei la laturi este…?"
+    ],
+    "steps": [
+     "Verifică unghiul drept în ambele triunghiuri.",
+     "Identifică elementele congruente (catete, ipotenuză, unghi ascuțit).",
+     "Alege cazul (CC, CU, IU, IC) și deduce concluzia.",
+     "Greșeala frecventă: să aplici cazurile pentru triunghiuri dreptunghice unor triunghiuri care nu au unghi drept."
+    ],
+    "answers": [
+     "Ipotenuză–catetă",
+     "Catetă–catetă",
+     "Sunt congruente",
+     "Mediană și bisectoare",
+     "Aceeași"
+    ]
+   }
+  }
+ }
+}

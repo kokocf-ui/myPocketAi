@@ -1,0 +1,1182 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "9",
+ "version": "5ce84fe8cd9a3578d8498704b29c91666f42c5e03ca42b093025df8b19be7093",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Minister/2025/programe_scolare_cons_pub/Fizica_TC_CS_IX.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Fizică – TC + CS, clasa a IX-a, filiera teoretică, profilul real, specializarea matematică-informatică (programele asociate planurilor-cadru aprobate prin OMEC nr. 4350/2025, aplicare din anul școlar 2026–2027) — noțiuni introductive și metode de lucru, cinematică, principiile mecanicii newtoniene, teoreme de variație și legi de conservare, echilibru mecanic, elemente de mecanică cerească, statica și dinamica fluidelor; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Fizică · Clasa a IX-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Noțiuni introductive și metode de lucru în fizică",
+   "keys": [
+    "eu-year-ro-medium-9-l01",
+    "eu-year-ro-medium-9-l02",
+    "eu-year-ro-medium-9-l03",
+    "eu-year-ro-medium-9-l04"
+   ]
+  },
+  {
+   "title": "Elemente de cinematică",
+   "keys": [
+    "eu-year-ro-medium-9-l05",
+    "eu-year-ro-medium-9-l06",
+    "eu-year-ro-medium-9-l07",
+    "eu-year-ro-medium-9-l08",
+    "eu-year-ro-medium-9-l09"
+   ]
+  },
+  {
+   "title": "Principiile mecanicii newtoniene și aplicarea acestora",
+   "keys": [
+    "eu-year-ro-medium-9-l10",
+    "eu-year-ro-medium-9-l11",
+    "eu-year-ro-medium-9-l12",
+    "eu-year-ro-medium-9-l13",
+    "eu-year-ro-medium-9-l14",
+    "eu-year-ro-medium-9-l15"
+   ]
+  },
+  {
+   "title": "Teoreme de variație și legi de conservare în mecanică",
+   "keys": [
+    "eu-year-ro-medium-9-l16",
+    "eu-year-ro-medium-9-l17",
+    "eu-year-ro-medium-9-l18",
+    "eu-year-ro-medium-9-l19",
+    "eu-year-ro-medium-9-l20",
+    "eu-year-ro-medium-9-l21",
+    "eu-year-ro-medium-9-l22"
+   ]
+  },
+  {
+   "title": "Echilibrul mecanic",
+   "keys": [
+    "eu-year-ro-medium-9-l23",
+    "eu-year-ro-medium-9-l24"
+   ]
+  },
+  {
+   "title": "Elemente de mecanică cerească",
+   "keys": [
+    "eu-year-ro-medium-9-l25",
+    "eu-year-ro-medium-9-l26"
+   ]
+  },
+  {
+   "title": "Noțiuni de statica fluidelor",
+   "keys": [
+    "eu-year-ro-medium-9-l27",
+    "eu-year-ro-medium-9-l28",
+    "eu-year-ro-medium-9-l29"
+   ]
+  },
+  {
+   "title": "Noțiuni de dinamica fluidelor",
+   "keys": [
+    "eu-year-ro-medium-9-l30",
+    "eu-year-ro-medium-9-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-9-l01": {
+   "ro": {
+    "title": "Mărimi fizice și unități SI; ordin de mărime; analiza dimensională",
+    "theory": "O mărime fizică este o proprietate care se poate măsura: are o valoare numerică și o unitate. Sistemul internațional (SI) are șapte unități fundamentale; în mecanică folosim metrul (m), kilogramul (kg) și secunda (s). Celelalte unități sunt derivate: m/s pentru viteză, N = kg·m/s² pentru forță, J = N·m pentru energie. Prefixele scriu comod numerele mari sau mici: k = 10³, M = 10⁶, m = 10⁻³, µ = 10⁻⁶. Ordinul de mărime este puterea lui 10 cea mai apropiată. Analiza dimensională verifică o formulă: ambii membri trebuie să aibă aceeași unitate.",
+    "sample": "Viteza de 72 km/h înseamnă 72 000 m în 3 600 s, adică 20 m/s.",
+    "worked": "Verificăm formula d = v·t + a·t²/2: [v·t] = (m/s)·s = m, [a·t²] = (m/s²)·s² = m, deci toți termenii sunt în metri — formula este omogenă. O formulă de tipul d = v + a·t ar aduna m/s cu m/s, dar ar da viteză, nu distanță, deci este greșită pentru d.",
+    "exercises": [
+     "Transformă în SI: 54 km/h, 250 g, 3 min, 2,5 cm.",
+     "Scrie în notație științifică: 0,000 45 m și 380 000 000 m.",
+     "Verifică omogenitatea formulei E = m·v²/2.",
+     "Estimează ordinul de mărime al numărului de secunde dintr-un an.",
+     "Ce unitate are mărimea F·t (forță ori timp)?"
+    ],
+    "test": [
+     "Unitatea SI a masei?",
+     "Cât înseamnă prefixul k (kilo)?",
+     "Câți m/s înseamnă 36 km/h?",
+     "Ce verifică analiza dimensională?",
+     "Cum se scrie newtonul în unități fundamentale?"
+    ],
+    "steps": [
+     "Scrie fiecare mărime cu valoarea și unitatea ei.",
+     "Transformă totul în unități SI înainte de calcul (folosește prefixele).",
+     "Verifică rezultatul prin analiză dimensională și ordin de mărime.",
+     "Greșeala frecventă: să amesteci unități (km/h cu secunde sau grame cu newtoni) fără să le transformi în SI."
+    ],
+    "answers": [
+     "Kilogramul",
+     "10³",
+     "10 m/s",
+     "Că ambii membri ai formulei au aceeași unitate",
+     "kg·m/s²"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l02": {
+   "ro": {
+    "title": "Măsurări, erori și incertitudini; cifre semnificative",
+    "theory": "Orice măsurare are o incertitudine. Erorile sistematice deplasează toate rezultatele în același sens (instrument decalibrat); erorile aleatoare le împrăștie (reflexe, citire). Repetăm măsurarea și calculăm media; incertitudinea se poate estima prin abaterea medie sau jumătatea amplitudinii. Rezultatul se scrie x = (x̄ ± Δx) unitate, cu un număr rezonabil de cifre semnificative. Precizia descrie cât de apropiate sunt măsurările între ele, acuratețea — cât de aproape sunt de valoarea adevărată.",
+    "sample": "Dacă un cronometru dă 2,1 s; 2,3 s; 2,2 s, media timpului este 2,2 s.",
+    "worked": "Măsurăm lungimea: 12,3 cm; 12,5 cm; 12,4 cm; 12,6 cm; 12,2 cm. Media: 62/5 = 12,4 cm. Abaterile absolute: 0,1; 0,1; 0; 0,2; 0,2, media lor 0,12 ≈ 0,1 cm. Rezultat: L = (12,4 ± 0,1) cm, incertitudinea relativă ≈ 0,8%.",
+    "exercises": [
+     "Calculează media și incertitudinea pentru 5,2 s; 5,4 s; 5,1 s; 5,3 s.",
+     "Câte cifre semnificative are 0,004 50?",
+     "Rotunjește corect 9,876 m la trei cifre semnificative.",
+     "Dă un exemplu de eroare sistematică la cântărire.",
+     "Explică diferența dintre precizie și acuratețe cu exemplul unei ținte."
+    ],
+    "test": [
+     "Ce este o eroare sistematică?",
+     "Cum reduci efectul erorilor aleatoare?",
+     "Cifre semnificative în 3,20?",
+     "Forma corectă a unui rezultat?",
+     "Ce descrie acuratețea?"
+    ],
+    "steps": [
+     "Repetă măsurarea de mai multe ori și notează valorile.",
+     "Calculează media și incertitudinea (abaterea medie).",
+     "Scrie rezultatul (x̄ ± Δx) cu unitate și cifre semnificative potrivite.",
+     "Greșeala frecventă: să scrii rezultatul cu toate zecimalele din calculator (de exemplu 12,4000 ± 0,1243 cm); incertitudinea limitează cifrele utile."
+    ],
+    "answers": [
+     "O eroare care deplasează rezultatele în același sens",
+     "Repetând măsurarea și făcând media",
+     "3",
+     "(x̄ ± Δx) unitate",
+     "Apropierea de valoarea adevărată"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l03": {
+   "ro": {
+    "title": "Reprezentări grafice: pantă, arie, dependență liniară",
+    "theory": "Un grafic arată cum depinde o mărime de alta. Pe axe trecem mărimea și unitatea, alegem o scară convenabilă și marcăm punctele experimentale. Dacă punctele se așază aproximativ pe o dreaptă, dependența este liniară, y = a·x + b. Panta a = Δy/Δx are o semnificație fizică (de exemplu, panta graficului x(t) este viteza). Aria de sub grafic are și ea un sens (aria de sub v(t) este distanța, aria de sub F(x) este lucrul mecanic).",
+    "sample": "Panta graficului poziție–timp al unei mișcări uniforme este viteza.",
+    "worked": "Un resort: F = 1 N, ΔL = 2 cm; F = 2 N, ΔL = 4 cm; F = 3 N, ΔL = 6 cm. Graficul F(ΔL) este o dreaptă prin origine, cu panta k = ΔF/ΔL = 1 N/0,02 m = 50 N/m — constanta elastică. Aria de sub v(t) pentru v = 4 m/s timp de 5 s este 20 m.",
+    "exercises": [
+     "Reprezintă grafic x(t) pentru x = 2 + 3t (SI), t între 0 și 4 s.",
+     "Calculează panta graficului care trece prin (1 s; 5 m) și (3 s; 11 m).",
+     "Ce reprezintă aria de sub graficul v(t)?",
+     "Din graficul v(t) liniar de la 0 la 10 m/s în 5 s, află accelerația și distanța.",
+     "Cum recunoști pe grafic o valoare experimentală greșită?"
+    ],
+    "test": [
+     "Ce reprezintă panta lui x(t)?",
+     "Ce reprezintă aria de sub v(t)?",
+     "Formula pantei?",
+     "Cum arată o dependență liniară?",
+     "Ce scrii pe axe?"
+    ],
+    "steps": [
+     "Alege mărimile de pe axe și scara, cu unități.",
+     "Marchează punctele și trasează dreapta (curba) care le aproximează cel mai bine.",
+     "Calculează panta sau aria și interpretează-le fizic.",
+     "Greșeala frecventă: să calculezi panta din pătrățelele hârtiei, fără să ții cont de scara și unitățile axelor."
+    ],
+    "answers": [
+     "Viteza",
+     "Distanța parcursă",
+     "Δy/Δx",
+     "Ca o dreaptă",
+     "Mărimea și unitatea ei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l04": {
+   "ro": {
+    "title": "Mărimi scalare și vectoriale; operații cu vectori",
+    "theory": "Mărimile scalare au doar valoare (masă, timp, energie); cele vectoriale au și direcție și sens (deplasare, viteză, forță). Vectorii se adună cu regula paralelogramului sau a triunghiului. Pentru doi vectori perpendiculari, rezultanta are modulul √(a² + b²). Un vector se descompune în componente pe axe: Fₓ = F·cos α, F_y = F·sin α. Componentele pe aceeași axă se adună algebric.",
+    "sample": "Două forțe de 3 N și 4 N, perpendiculare, au rezultanta de 5 N.",
+    "worked": "O forță F = 10 N face 30° cu orizontala: Fₓ = 10·cos 30° ≈ 8,7 N, F_y = 10·sin 30° = 5 N. Două forțe de 6 N pe aceeași direcție dau 12 N dacă au același sens și 0 N dacă au sensuri opuse.",
+    "exercises": [
+     "Află rezultanta forțelor de 6 N și 8 N perpendiculare.",
+     "Descompune o forță de 20 N care face 60° cu orizontala.",
+     "Două forțe de 5 N fac între ele 60°. Află rezultanta (regula paralelogramului).",
+     "Clasifică: masă, viteză, temperatură, forță, deplasare.",
+     "Un om merge 3 km spre est, apoi 4 km spre nord. Află deplasarea totală."
+    ],
+    "test": [
+     "Este masa vectorială?",
+     "Rezultanta a doi vectori perpendiculari 3 și 4?",
+     "Componenta orizontală Fₓ?",
+     "Rezultanta a două forțe egale și opuse?",
+     "Ce are în plus un vector față de un scalar?"
+    ],
+    "steps": [
+     "Desenează vectorii cu originea comună și alege axele.",
+     "Descompune fiecare vector în componente pe axe și adună componentele.",
+     "Recompune rezultanta: modul √(Rₓ² + R_y²) și direcția.",
+     "Greșeala frecventă: să aduni modulele vectorilor care nu au aceeași direcție (3 N + 4 N = 7 N în loc de 5 N pentru forțe perpendiculare)."
+    ],
+    "answers": [
+     "Nu",
+     "5",
+     "F·cos α",
+     "Zero",
+     "Direcție și sens"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l05": {
+   "ro": {
+    "title": "Mișcare și repaus; sistem de referință; traiectorie, poziție, deplasare",
+    "theory": "Mișcarea este relativă: un corp se mișcă față de un sistem de referință (un corp de referință, un sistem de axe și un ceas). Modelul punct material neglijează dimensiunile corpului când acestea nu contează. Traiectoria este linia descrisă de corp. Poziția se dă prin coordonate; deplasarea este vectorul de la poziția inițială la cea finală și poate fi mai mică decât distanța parcursă pe traiectorie.",
+    "sample": "Un pasager stă în repaus față de tren, dar se mișcă față de peron.",
+    "worked": "Un atlet aleargă un tur de pistă de 400 m și revine la start: distanța parcursă este 400 m, deplasarea este 0. Un mobil trece de la x₁ = 2 m la x₂ = −3 m: deplasarea Δx = −5 m (în sens negativ), distanța 5 m.",
+    "exercises": [
+     "Dă un exemplu în care același corp este simultan în repaus și în mișcare.",
+     "Când poți considera Pământul punct material?",
+     "Află deplasarea și distanța pentru un mobil care merge de la x = 0 la x = 8 m și înapoi la x = 3 m.",
+     "Ce traiectorie are o piatră aruncată oblic?",
+     "Ce elemente formează un sistem de referință?"
+    ],
+    "test": [
+     "Este mișcarea absolută sau relativă?",
+     "Ce este un punct material?",
+     "Deplasarea la un tur complet de pistă?",
+     "Ce este traiectoria?",
+     "Poate deplasarea fi mai mare decât distanța?"
+    ],
+    "steps": [
+     "Fixează sistemul de referință (corp, axe, ceas).",
+     "Stabilește pozițiile inițială și finală și traiectoria.",
+     "Calculează deplasarea (vector) și distanța (lungimea drumului) și compară-le.",
+     "Greșeala frecventă: să confunzi distanța parcursă cu deplasarea; la drumuri cu întoarcere ele diferă."
+    ],
+    "answers": [
+     "Relativă",
+     "Un corp ale cărui dimensiuni pot fi neglijate",
+     "Zero",
+     "Linia descrisă de corp în mișcare",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l06": {
+   "ro": {
+    "title": "Viteza medie și instantanee; compunerea vitezelor; mișcarea rectilinie uniformă",
+    "theory": "Viteza medie este v = Δx/Δt; viteza instantanee este viteza la un moment dat (indicată de vitezometru). În mișcarea rectilinie uniformă (MRU) viteza este constantă, iar legea mișcării este x = x₀ + v·t; graficul x(t) este o dreaptă, iar v(t) o dreaptă orizontală. Viteza față de un alt sistem se compune vectorial: v (față de sol) = v (față de mijloc) + v (mijloc față de sol).",
+    "sample": "Un mobil cu v = 5 m/s parcurge în 10 s distanța de 50 m.",
+    "worked": "Un autoturism parcurge 60 km cu 60 km/h și încă 60 km cu 120 km/h. Timpii: 1 h și 0,5 h; viteza medie = 120 km/1,5 h = 80 km/h (nu media aritmetică 90 km/h). O barcă cu 4 m/s față de apă, pe un râu cu 3 m/s, traversând perpendicular, are față de mal 5 m/s.",
+    "exercises": [
+     "Scrie legea de mișcare pentru x₀ = 10 m și v = −2 m/s; când trece prin origine?",
+     "Doi mobili pornesc unul spre altul de la 300 m, cu 10 m/s și 5 m/s. Când și unde se întâlnesc?",
+     "Calculează viteza medie pentru 30 km cu 30 km/h și 30 km cu 90 km/h.",
+     "Un înotător cu 1 m/s față de apă înoată în sensul curentului de 0,5 m/s. Ce viteză are față de mal?",
+     "Interpretează graficul x(t) al unei drepte descrescătoare."
+    ],
+    "test": [
+     "Formula vitezei medii?",
+     "Legea mișcării MRU?",
+     "Cum arată v(t) la MRU?",
+     "Viteza față de mal: barca 4 m/s în sensul râului de 1 m/s?",
+     "Ce indică vitezometrul?"
+    ],
+    "steps": [
+     "Alege sensul pozitiv și originea axei.",
+     "Scrie legea de mișcare pentru fiecare mobil (sau calculează timpii pe porțiuni).",
+     "Rezolvă (de exemplu x₁ = x₂ la întâlnire) și verifică semnele și unitățile.",
+     "Greșeala frecventă: să calculezi viteza medie ca medie aritmetică a vitezelor; ea este distanța totală supra timpul total."
+    ],
+    "answers": [
+     "v = Δx/Δt",
+     "x = x₀ + v·t",
+     "O dreaptă orizontală",
+     "5 m/s",
+     "Viteza instantanee"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l07": {
+   "ro": {
+    "title": "Accelerația; mișcarea rectilinie uniform variată",
+    "theory": "Accelerația medie este a = Δv/Δt (unitatea m/s²). În mișcarea rectilinie uniform variată (MRUV) accelerația este constantă: v = v₀ + a·t, x = x₀ + v₀·t + a·t²/2 și ecuația lui Galilei v² = v₀² + 2a·Δx. Dacă a are același semn cu v, mișcarea este accelerată; dacă au semne opuse, este încetinită. Graficul v(t) este o dreaptă cu panta a, iar aria de sub el este deplasarea.",
+    "sample": "O mașină care trece de la 0 la 20 m/s în 10 s are accelerația de 2 m/s².",
+    "worked": "O mașină cu 20 m/s frânează cu a = −5 m/s². Timpul de oprire: 0 = 20 − 5t, t = 4 s. Distanța de frânare: v² = v₀² + 2a·d ⇒ 0 = 400 − 10d, d = 40 m. La viteză dublă (40 m/s), distanța de frânare devine de 4 ori mai mare: 160 m.",
+    "exercises": [
+     "Un tren pornește din repaus cu a = 0,5 m/s². Ce viteză are după 20 s și ce distanță a parcurs?",
+     "Un biciclist frânează de la 10 m/s până la oprire pe 25 m. Află accelerația.",
+     "Din graficul v(t): v crește liniar de la 2 m/s la 8 m/s în 3 s. Află a și deplasarea.",
+     "Explică de ce distanța de frânare crește cu pătratul vitezei.",
+     "Scrie legea x(t) pentru x₀ = 0, v₀ = 10 m/s, a = −2 m/s² și află poziția de oprire."
+    ],
+    "test": [
+     "Formula accelerației medii?",
+     "Ecuația lui Galilei?",
+     "Legea vitezei la MRUV?",
+     "Mișcare încetinită: semnele lui a și v?",
+     "Unitatea accelerației?"
+    ],
+    "steps": [
+     "Notează datele cu semne, alegând sensul pozitiv.",
+     "Alege ecuația potrivită (cu timp sau ecuația lui Galilei, fără timp).",
+     "Rezolvă și verifică dacă rezultatul are sens (timp pozitiv, distanță realistă).",
+     "Greșeala frecventă: să uiți semnul minus al accelerației la frânare, obținând distanțe sau timpi imposibili."
+    ],
+    "answers": [
+     "a = Δv/Δt",
+     "v² = v₀² + 2a·Δx",
+     "v = v₀ + a·t",
+     "Opuse",
+     "m/s²"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l08": {
+   "ro": {
+    "title": "Căderea liberă și aruncarea pe verticală",
+    "theory": "În apropierea Pământului, neglijând rezistența aerului, toate corpurile cad cu aceeași accelerație g ≈ 9,8 m/s² (în probleme adesea 10 m/s²), indiferent de masă. Căderea liberă este o MRUV cu v₀ = 0: v = g·t, h = g·t²/2. La aruncarea în sus cu v₀, corpul încetinește până la oprire în punctul de înălțime maximă h_max = v₀²/(2g), după timpul t_urcare = v₀/g, apoi cade înapoi; revine cu aceeași viteză (în modul) cu care a fost aruncat.",
+    "sample": "Un corp lăsat liber cade în primele 2 s o înălțime de 10·4/2 = 20 m (g = 10 m/s²).",
+    "worked": "O minge aruncată în sus cu 20 m/s (g = 10 m/s²): urcă 2 s, h_max = 400/20 = 20 m, revine după 4 s cu 20 m/s în jos. O piatră lăsată să cadă într-o fântână se aude după 2 s (neglijăm timpul sunetului): adâncimea ≈ 10·4/2 = 20 m.",
+    "exercises": [
+     "De la ce înălțime cade un corp care atinge solul după 3 s? Cu ce viteză?",
+     "Cu ce viteză trebuie aruncat în sus un corp ca să urce 45 m?",
+     "O minge este aruncată în sus cu 15 m/s. După cât timp revine?",
+     "De ce o pană cade mai încet decât o bilă în aer, dar la fel în vid?",
+     "Un corp cade de la 80 m. Ce distanță parcurge în ultima secundă?"
+    ],
+    "test": [
+     "Valoarea aproximativă a lui g?",
+     "Depinde accelerația căderii libere de masă (în vid)?",
+     "Formula înălțimii maxime?",
+     "Timpul de urcare?",
+     "Viteza de revenire comparată cu cea de aruncare?"
+    ],
+    "steps": [
+     "Alege axa verticală și sensul pozitiv; notează g cu semnul corespunzător.",
+     "Aplică ecuațiile MRUV cu a = ±g.",
+     "Folosește simetria urcare–coborâre și verifică rezultatul.",
+     "Greșeala frecventă: să crezi că în punctul cel mai înalt accelerația este zero; viteza este zero, dar accelerația rămâne g."
+    ],
+    "answers": [
+     "10 m/s²",
+     "Nu",
+     "v₀²/(2g)",
+     "v₀/g",
+     "Egală în modul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l09": {
+   "ro": {
+    "title": "Mișcarea circulară uniformă",
+    "theory": "În mișcarea circulară uniformă (MCU) corpul parcurge cercul cu viteză constantă în modul, dar direcția vitezei se schimbă continuu (tangentă la cerc). Perioada T este durata unei rotații, frecvența ν = 1/T (Hz), viteza unghiulară ω = 2π/T (rad/s), viteza liniară v = ω·R. Accelerația este orientată spre centru (centripetă), cu modulul a_cp = v²/R = ω²·R.",
+    "sample": "O roată care face 2 rotații pe secundă are frecvența de 2 Hz și perioada de 0,5 s.",
+    "worked": "Un punct la marginea unui disc cu R = 0,2 m, la 300 rotații pe minut: ν = 5 Hz, ω = 2π·5 ≈ 31,4 rad/s, v = ω·R ≈ 6,28 m/s, a_cp = ω²·R ≈ 197 m/s² (de aproape 20 de ori g).",
+    "exercises": [
+     "Calculează viteza unghiulară a acului minutar.",
+     "O mașină ia o curbă cu R = 50 m cu 10 m/s. Află accelerația centripetă.",
+     "Calculează viteza liniară a unui punct de pe ecuator datorită rotației Pământului (R ≈ 6 400 km).",
+     "Un CD se rotește cu 500 rot/min. Află perioada și frecvența.",
+     "De ce are accelerație un corp în MCU, deși viteza are modulul constant?"
+    ],
+    "test": [
+     "Relația dintre perioadă și frecvență?",
+     "Formula vitezei unghiulare?",
+     "Direcția accelerației în MCU?",
+     "Formula accelerației centripete?",
+     "Relația dintre v și ω?"
+    ],
+    "steps": [
+     "Transformă turațiile în frecvență (Hz) și calculează T.",
+     "Calculează ω = 2πν și v = ωR.",
+     "Calculează accelerația centripetă și verifică unitățile.",
+     "Greșeala frecventă: să consideri că MCU nu are accelerație pentru că viteza este constantă în modul; direcția ei se schimbă."
+    ],
+    "answers": [
+     "ν = 1/T",
+     "ω = 2π/T",
+     "Spre centru",
+     "v²/R",
+     "v = ω·R"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l10": {
+   "ro": {
+    "title": "Principiul inerției; masa; sisteme de referință inerțiale",
+    "theory": "Principiul I (al inerției): un corp își păstrează starea de repaus sau de mișcare rectilinie uniformă cât timp asupra lui nu acționează forțe sau forțele se anulează. Inerția este tendința corpului de a-și păstra starea de mișcare; masa este măsura inerției. Sistemele în care principiul inerției este valabil se numesc inerțiale (de exemplu solul, cu bună aproximație).",
+    "sample": "Când autobuzul frânează brusc, pasagerii sunt împinși înainte din cauza inerției.",
+    "worked": "O minge pe podeaua unui vagon care pornește brusc pare să „fugă” spre spatele vagonului: față de sol, ea rămâne pe loc (nu acționează nicio forță orizontală), iar vagonul pleacă de sub ea. Vagonul care accelerează nu este un sistem inerțial. Centura de siguranță oprește corpul care, prin inerție, ar continua mișcarea la impact.",
+    "exercises": [
+     "Explică rolul centurii de siguranță folosind principiul inerției.",
+     "De ce o față de masă poate fi trasă repede fără să răstoarne vasele?",
+     "Un corp alunecă pe gheață aproape fără frecare. Ce mișcare are?",
+     "Este un lift care accelerează un sistem inerțial? Justifică.",
+     "Care corp are inerție mai mare: un camion sau o bicicletă? De ce?"
+    ],
+    "test": [
+     "Ce afirmă principiul inerției?",
+     "Ce măsoară masa?",
+     "Ce este un sistem inerțial?",
+     "Ce mișcare are un corp asupra căruia forțele se anulează?",
+     "Este un autobuz care frânează sistem inerțial?"
+    ],
+    "steps": [
+     "Identifică toate forțele care acționează asupra corpului.",
+     "Verifică dacă rezultanta lor este nulă.",
+     "Aplică principiul inerției: rezultantă nulă ⇒ repaus sau MRU (într-un sistem inerțial).",
+     "Greșeala frecventă: să crezi că este nevoie de o forță ca să menții o mișcare uniformă; forța este necesară doar pentru a schimba viteza."
+    ],
+    "answers": [
+     "Fără forță rezultantă corpul își păstrează starea de mișcare",
+     "Inerția corpului",
+     "Un sistem în care e valabil principiul inerției",
+     "Repaus sau MRU",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l11": {
+   "ro": {
+    "title": "Principiul fundamental al dinamicii",
+    "theory": "Principiul al II-lea: accelerația unui corp este proporțională cu forța rezultantă și invers proporțională cu masa: F_rez = m·a, cu accelerația pe direcția și în sensul forței rezultante. Unitatea de forță este newtonul: 1 N = 1 kg·m/s². Pentru un sistem de corpuri legate, aplicăm principiul fiecărui corp (sau întregului sistem pentru accelerația comună).",
+    "sample": "O forță rezultantă de 10 N imprimă unui corp de 2 kg o accelerație de 5 m/s².",
+    "worked": "Două corpuri de 2 kg și 3 kg, legate cu un fir, sunt trase pe o suprafață fără frecare cu F = 20 N aplicată corpului de 3 kg. Sistemul: a = 20/5 = 4 m/s². Pentru corpul de 2 kg, tensiunea din fir este singura forță orizontală: T = 2·4 = 8 N.",
+    "exercises": [
+     "Ce forță rezultantă trebuie pentru ca un corp de 1 200 kg să accelereze cu 2 m/s²?",
+     "Un corp de 5 kg este tras cu 30 N, iar frecarea este 10 N. Află accelerația.",
+     "Două corpuri de 1 kg și 4 kg legate sunt trase cu 15 N fără frecare. Află a și tensiunea.",
+     "Cum se schimbă accelerația dacă dublezi forța și înjumătățești masa?",
+     "Un lift de 500 kg urcă accelerat cu 2 m/s². Ce tensiune are cablul (g = 10 m/s²)?"
+    ],
+    "test": [
+     "Formula principiului fundamental?",
+     "1 N în unități fundamentale?",
+     "Ce direcție are accelerația?",
+     "a pentru F = 12 N, m = 4 kg?",
+     "Ce forță intră în F = m·a?"
+    ],
+    "steps": [
+     "Desenează diagrama forțelor pentru fiecare corp.",
+     "Alege axele în sensul mișcării și scrie F_rez = m·a pe fiecare axă.",
+     "Rezolvă sistemul de ecuații și verifică unitățile și semnele.",
+     "Greșeala frecventă: să pui în F = m·a o singură forță în loc de rezultanta tuturor forțelor."
+    ],
+    "answers": [
+     "F_rez = m·a",
+     "kg·m/s²",
+     "Direcția forței rezultante",
+     "3 m/s²",
+     "Forța rezultantă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l12": {
+   "ro": {
+    "title": "Principiul acțiunii și reacțiunii; greutatea, forța normală, tensiunea",
+    "theory": "Principiul al III-lea: dacă un corp acționează asupra altuia cu o forță, al doilea acționează asupra primului cu o forță egală în modul și de sens opus; cele două forțe acționează asupra unor corpuri diferite, deci nu se anulează. Greutatea G = m·g este forța cu care Pământul atrage corpul. Forța normală N este reacțiunea suprafeței, perpendiculară pe ea. Tensiunea T este forța transmisă printr-un fir.",
+    "sample": "Când împingi peretele cu 50 N, peretele te împinge înapoi tot cu 50 N.",
+    "worked": "O carte de 1 kg pe masă: G = 10 N în jos, N = 10 N în sus (echilibru) — acestea NU sunt pereche acțiune–reacțiune, deoarece acționează asupra aceluiași corp. Perechea greutății este forța cu care cartea atrage Pământul. Pe un plan înclinat cu unghiul α, N = m·g·cos α.",
+    "exercises": [
+     "Identifică perechile acțiune–reacțiune când stai în picioare pe podea.",
+     "De ce se mișcă înainte un înotător care împinge apa înapoi?",
+     "Calculează greutatea unui corp de 60 kg (g = 9,8 m/s²).",
+     "Un corp de 2 kg stă pe un plan înclinat la 30°. Calculează forța normală.",
+     "Ce tensiune are firul de care atârnă în repaus un corp de 3 kg?"
+    ],
+    "test": [
+     "Ce afirmă principiul al III-lea?",
+     "Se anulează acțiunea și reacțiunea?",
+     "Formula greutății?",
+     "Direcția forței normale?",
+     "N pe un plan înclinat?"
+    ],
+    "steps": [
+     "Identifică corpul studiat și toate corpurile care interacționează cu el.",
+     "Pentru fiecare interacțiune, scrie forța asupra corpului (greutate, normală, tensiune).",
+     "Verifică perechile acțiune–reacțiune: aceleași module, sensuri opuse, corpuri diferite.",
+     "Greșeala frecventă: să consideri greutatea și forța normală o pereche acțiune–reacțiune; ele acționează asupra aceluiași corp."
+    ],
+    "answers": [
+     "Forțe egale și opuse între două corpuri",
+     "Nu, acționează asupra unor corpuri diferite",
+     "G = m·g",
+     "Perpendiculară pe suprafață",
+     "m·g·cos α"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l13": {
+   "ro": {
+    "title": "Forța de frecare; mișcarea pe planul înclinat",
+    "theory": "Forța de frecare la alunecare se opune mișcării relative și are modulul F_f = µ·N, unde µ este coeficientul de frecare (depinde de natura suprafețelor, nu de aria de contact). Frecarea statică împiedică pornirea, până la o valoare maximă. Pe un plan înclinat cu unghiul α: componenta greutății de-a lungul planului este m·g·sin α, iar N = m·g·cos α. Corpul alunecă uniform când tg α = µ (unghiul de frecare).",
+    "sample": "Un corp de 10 kg pe o podea cu µ = 0,2 are o forță de frecare de 0,2·100 = 20 N.",
+    "worked": "Un corp alunecă pe un plan înclinat la 30° cu µ = 0,2 (g = 10 m/s²): a = g(sin α − µ·cos α) = 10(0,5 − 0,2·0,866) ≈ 10(0,5 − 0,173) ≈ 3,3 m/s². Fără frecare, a = 5 m/s².",
+    "exercises": [
+     "Ce forță orizontală deplasează uniform o ladă de 50 kg cu µ = 0,3?",
+     "Află accelerația unui corp pe plan înclinat la 45° fără frecare.",
+     "La ce unghi alunecă uniform un corp cu µ = 0,577?",
+     "De ce crește distanța de frânare pe asfalt ud?",
+     "Un corp urcă pe un plan înclinat la 30° cu µ = 0,1. Află decelerația."
+    ],
+    "test": [
+     "Formula forței de frecare la alunecare?",
+     "Depinde µ de aria de contact?",
+     "Componenta greutății de-a lungul planului?",
+     "Condiția de alunecare uniformă pe plan?",
+     "Sensul forței de frecare?"
+    ],
+    "steps": [
+     "Desenează forțele: greutate (descompusă), normală, frecare (opusă mișcării).",
+     "Scrie N din echilibrul pe direcția perpendiculară și F_f = µ·N.",
+     "Aplică F_rez = m·a pe direcția mișcării și calculează.",
+     "Greșeala frecventă: să scrii N = m·g și pe planul înclinat; acolo N = m·g·cos α."
+    ],
+    "answers": [
+     "F_f = µ·N",
+     "Nu",
+     "m·g·sin α",
+     "tg α = µ",
+     "Opus mișcării relative"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l14": {
+   "ro": {
+    "title": "Forța elastică; legea lui Hooke",
+    "theory": "Un corp elastic deformat revine la forma inițială când forța încetează. În domeniul elastic, forța elastică este proporțională cu deformarea: F_e = −k·Δl (legea lui Hooke), unde k este constanta elastică (N/m), iar semnul minus arată că forța se opune deformării. Pentru un fir sau o bară, F/S = E·Δl/l₀ (E — modulul lui Young). Resorturile legate în serie au 1/k = 1/k₁ + 1/k₂, iar în paralel k = k₁ + k₂.",
+    "sample": "Un resort cu k = 100 N/m alungit cu 5 cm exercită o forță de 5 N.",
+    "worked": "Un corp de 0,5 kg atârnat de un resort îl alungește cu 2 cm la echilibru: k·Δl = m·g ⇒ k = 5 N/0,02 m = 250 N/m. Două astfel de resorturi în serie au k = 125 N/m, deci alungirea se dublează (4 cm); în paralel, k = 500 N/m, alungirea 1 cm.",
+    "exercises": [
+     "Ce alungire produce un corp de 2 kg suspendat de un resort cu k = 400 N/m?",
+     "Determină k dintr-un grafic F(Δl) care trece prin (0,03 m; 6 N).",
+     "Calculează constanta echivalentă pentru 200 N/m și 300 N/m în serie.",
+     "Ce se întâmplă dacă depășești limita de elasticitate?",
+     "Un fir de oțel cu l₀ = 2 m, S = 1 mm², E = 2·10¹¹ N/m² este tras cu 100 N. Află alungirea."
+    ],
+    "test": [
+     "Legea lui Hooke?",
+     "Unitatea constantei elastice?",
+     "k echivalent în paralel?",
+     "Ce semnifică semnul minus?",
+     "Ce este domeniul elastic?"
+    ],
+    "steps": [
+     "Scrie echilibrul sau ecuația mișcării cu F_e = k·Δl.",
+     "Calculează constanta (din date sau din panta graficului) sau alungirea.",
+     "Verifică faptul că rămâi în domeniul elastic și că unitățile sunt SI.",
+     "Greșeala frecventă: să folosești lungimea totală a resortului în loc de alungire (Δl = l − l₀)."
+    ],
+    "answers": [
+     "F_e = −k·Δl",
+     "N/m",
+     "k = k₁ + k₂",
+     "Forța se opune deformării",
+     "Intervalul în care deformarea dispare după încetarea forței"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l15": {
+   "ro": {
+    "title": "Dinamica mișcării circulare: forța centripetă",
+    "theory": "Pentru ca un corp să se miște pe un cerc, este necesară o forță rezultantă orientată spre centru: F_cp = m·v²/R = m·ω²·R. Forța centripetă nu este un nou tip de forță; rolul ei îl joacă o forță reală: tensiunea din fir, frecarea dintre roți și șosea, greutatea, atracția gravitațională. Viteza maximă într-o curbă orizontală cu frecare: v_max = √(µ·g·R).",
+    "sample": "Un corp de 1 kg rotit cu 2 m/s pe un cerc de 0,5 m are nevoie de o forță centripetă de 8 N.",
+    "worked": "O mașină ia o curbă cu R = 80 m pe asfalt uscat (µ = 0,5): v_max = √(0,5·10·80) = √400 = 20 m/s = 72 km/h. Pe gheață (µ = 0,1): v_max = √80 ≈ 8,9 m/s ≈ 32 km/h. De aceea, iarna se reduce viteza în curbe.",
+    "exercises": [
+     "O piatră de 0,2 kg este rotită pe un cerc orizontal de 1 m cu 5 m/s. Ce tensiune are firul?",
+     "Calculează viteza maximă într-o curbă cu R = 50 m și µ = 0,4.",
+     "Ce forță joacă rolul de forță centripetă pentru Lună?",
+     "La ce viteză minimă trece o găleată cu apă prin punctul de sus al unui cerc vertical cu R = 1 m fără să curgă apa?",
+     "De ce sunt înclinate curbele pistelor de curse?"
+    ],
+    "test": [
+     "Formula forței centripete?",
+     "Ce forță ține mașina în curbă pe drum orizontal?",
+     "v_max într-o curbă cu frecare?",
+     "Este forța centripetă un tip nou de forță?",
+     "Ce se întâmplă dacă forța centripetă dispare?"
+    ],
+    "steps": [
+     "Identifică forțele reale care acționează asupra corpului.",
+     "Proiectează-le pe direcția spre centru și egalează rezultanta cu m·v²/R.",
+     "Rezolvă pentru mărimea cerută și verifică realismul rezultatului.",
+     "Greșeala frecventă: să adaugi „forța centripetă” ca forță în plus pe diagramă, pe lângă forțele reale care o produc."
+    ],
+    "answers": [
+     "m·v²/R",
+     "Frecarea dintre roți și șosea",
+     "√(µ·g·R)",
+     "Nu",
+     "Corpul pleacă pe tangentă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l16": {
+   "ro": {
+    "title": "Lucrul mecanic",
+    "theory": "Lucrul mecanic al unei forțe constante pe o deplasare d este L = F·d·cos α, unde α este unghiul dintre forță și deplasare; unitatea este joule-ul (J). Lucrul este pozitiv (motor) când forța ajută mișcarea, negativ (rezistent) când se opune și zero când forța este perpendiculară pe deplasare. Lucrul greutății nu depinde de drum: L_G = m·g·h la coborâre. Pentru o forță variabilă, lucrul este aria de sub graficul F(x); pentru forța elastică, L = k·x²/2.",
+    "sample": "Ridicând un corp de 2 kg la 3 m înălțime, greutatea efectuează un lucru mecanic de −60 J.",
+    "worked": "O ladă este trasă 10 m cu o forță de 50 N la 60° față de orizontală: L = 50·10·cos 60° = 250 J. Forța de frecare de 20 N efectuează L_f = −20·10 = −200 J. Forța normală nu efectuează lucru mecanic (este perpendiculară pe deplasare).",
+    "exercises": [
+     "Calculează lucrul forței de 100 N care deplasează un corp 5 m pe direcția ei.",
+     "Ce lucru mecanic efectuează greutatea unui corp de 3 kg care cade 4 m?",
+     "Calculează lucrul forței elastice la comprimarea unui resort cu k = 200 N/m cu 10 cm.",
+     "De ce forța centripetă nu efectuează lucru mecanic în MCU?",
+     "Din graficul F(x) (F crește liniar de la 0 la 20 N pe 2 m) află lucrul mecanic."
+    ],
+    "test": [
+     "Formula lucrului mecanic?",
+     "Lucrul unei forțe perpendiculare pe deplasare?",
+     "Unitatea lucrului mecanic?",
+     "Depinde lucrul greutății de drum?",
+     "Lucrul mecanic din graficul F(x)?"
+    ],
+    "steps": [
+     "Identifică forța, deplasarea și unghiul dintre ele.",
+     "Aplică L = F·d·cos α (sau aria de sub F(x) pentru forțe variabile).",
+     "Stabilește semnul lucrului (motor sau rezistent) și verifică unitatea (J).",
+     "Greșeala frecventă: să folosești unghiul dintre forță și orizontală în loc de unghiul dintre forță și deplasare."
+    ],
+    "answers": [
+     "L = F·d·cos α",
+     "Zero",
+     "Joule-ul",
+     "Nu",
+     "Aria de sub grafic"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l17": {
+   "ro": {
+    "title": "Puterea mecanică; randamentul",
+    "theory": "Puterea arată cât de repede se efectuează lucrul mecanic: P = L/t, cu unitatea watt (W = J/s). Pentru o forță constantă care mișcă un corp cu viteza v pe direcția ei, P = F·v. Randamentul unei mașini sau al unui plan înclinat este η = L_util/L_consumat (sau P_util/P_consumată), mereu mai mic decât 1 (100%) din cauza frecărilor.",
+    "sample": "Un motor care efectuează 6 000 J în 2 minute are puterea de 50 W.",
+    "worked": "Ridicăm uniform un corp de 50 kg la 2 m pe un plan înclinat lung de 5 m, cu o forță de 250 N. L_util = m·g·h = 1 000 J, L_consumat = 250·5 = 1 250 J, η = 0,8 = 80%. O mașină care merge cu 20 m/s învingând rezistențe de 500 N dezvoltă P = 10 000 W = 10 kW.",
+    "exercises": [
+     "Ce putere dezvoltă un om de 70 kg care urcă 3 m în 5 s?",
+     "Un motor de 2 kW ridică un corp de 100 kg. Cu ce viteză (randament 100%)?",
+     "Calculează randamentul unui plan înclinat cu h = 1 m, l = 4 m, pentru un corp de 40 kg tras cu 125 N.",
+     "Transformă 1 CP ≈ 736 W și compară cu o mașină de 100 kW.",
+     "De ce randamentul nu poate depăși 100%?"
+    ],
+    "test": [
+     "Formula puterii?",
+     "Unitatea puterii?",
+     "Relația dintre putere, forță și viteză?",
+     "Definiția randamentului?",
+     "Poate randamentul fi mai mare decât 1?"
+    ],
+    "steps": [
+     "Calculează lucrul mecanic util și pe cel consumat (sau forța și viteza).",
+     "Aplică P = L/t sau P = F·v; η = L_util/L_consumat.",
+     "Exprimă rezultatul în W (kW) sau procente și verifică plauzibilitatea.",
+     "Greșeala frecventă: să confunzi puterea (W) cu energia (J sau kWh); kWh este unitate de energie."
+    ],
+    "answers": [
+     "P = L/t",
+     "Wattul",
+     "P = F·v",
+     "η = L_util/L_consumat",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l18": {
+   "ro": {
+    "title": "Energia cinetică; teorema variației energiei cinetice",
+    "theory": "Un corp de masă m cu viteza v are energia cinetică Ec = m·v²/2. Teorema variației energiei cinetice: variația energiei cinetice este egală cu lucrul mecanic al tuturor forțelor care acționează asupra corpului: ΔEc = L_total. Teorema rezolvă ușor probleme în care nu ne interesează timpul.",
+    "sample": "Un corp de 2 kg cu viteza de 3 m/s are energia cinetică de 9 J.",
+    "worked": "O mașină de 1 000 kg cu 20 m/s frânează până la oprire: ΔEc = 0 − 1 000·400/2 = −200 000 J. Dacă forța de frânare este 5 000 N: −5 000·d = −200 000 ⇒ d = 40 m. La viteză dublă, Ec de 4 ori mai mare ⇒ distanța de frânare de 4 ori mai mare.",
+    "exercises": [
+     "Calculează energia cinetică a unui glonț de 10 g cu 400 m/s.",
+     "Ce lucru mecanic accelerează un corp de 5 kg de la 2 m/s la 6 m/s?",
+     "Un corp de 2 kg alunecă pe orizontală cu 4 m/s și se oprește după 8 m. Află forța de frecare.",
+     "De câte ori crește Ec dacă viteza se triplează?",
+     "Folosește teorema pentru a afla viteza după ce o forță de 10 N acționează 5 m asupra unui corp de 1 kg pornit din repaus."
+    ],
+    "test": [
+     "Formula energiei cinetice?",
+     "Enunțul teoremei variației energiei cinetice?",
+     "Ec pentru m = 4 kg, v = 1 m/s?",
+     "Ce se întâmplă cu Ec la dublarea vitezei?",
+     "Poate Ec fi negativă?"
+    ],
+    "steps": [
+     "Calculează energia cinetică inițială și finală.",
+     "Calculează lucrul mecanic al tuturor forțelor (motoare și rezistente).",
+     "Egalează ΔEc cu L_total și rezolvă pentru necunoscută.",
+     "Greșeala frecventă: să uiți o forță (de exemplu frecarea) din lucrul mecanic total."
+    ],
+    "answers": [
+     "Ec = m·v²/2",
+     "ΔEc = L_total",
+     "2 J",
+     "Crește de 4 ori",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l19": {
+   "ro": {
+    "title": "Energia potențială gravitațională și elastică",
+    "theory": "Energia potențială este energia datorată poziției sau deformării. Energia potențială gravitațională în apropierea Pământului: Ep = m·g·h, față de un nivel de referință ales (Ep = 0 la acel nivel). Energia potențială elastică a unui resort deformat cu x: Ep = k·x²/2. Lucrul mecanic al greutății sau al forței elastice este egal cu minus variația energiei potențiale: L = −ΔEp (forțe conservative).",
+    "sample": "Un corp de 3 kg aflat la 10 m deasupra solului are Ep = 300 J față de sol (g = 10 m/s²).",
+    "worked": "Un resort cu k = 400 N/m comprimat cu 5 cm înmagazinează Ep = 400·0,0025/2 = 0,5 J. Un corp de 2 kg urcă de la 1 m la 4 m: ΔEp = 2·10·3 = 60 J, iar lucrul greutății este −60 J.",
+    "exercises": [
+     "Calculează Ep a unui corp de 5 kg la 20 m înălțime față de sol.",
+     "Ce energie înmagazinează un resort cu k = 1 000 N/m întins cu 2 cm?",
+     "Cum depinde valoarea lui Ep de nivelul de referință ales?",
+     "Un corp coboară 5 m. Ce semn are ΔEp? Dar lucrul greutății?",
+     "De câte ori crește energia elastică dacă deformarea se dublează?"
+    ],
+    "test": [
+     "Formula Ep gravitaționale?",
+     "Formula Ep elastice?",
+     "Relația dintre lucrul greutății și ΔEp?",
+     "Ep la nivelul de referință?",
+     "Ce sunt forțele conservative?"
+    ],
+    "steps": [
+     "Alege nivelul de referință (Ep = 0) sau starea nedeformată a resortului.",
+     "Calculează Ep în stările inițială și finală.",
+     "Calculează variația și, dacă se cere, lucrul mecanic L = −ΔEp.",
+     "Greșeala frecventă: să crezi că Ep are o valoare absolută; ea depinde de nivelul de referință, doar variațiile ei au sens fizic."
+    ],
+    "answers": [
+     "Ep = m·g·h",
+     "Ep = k·x²/2",
+     "L = −ΔEp",
+     "Zero",
+     "Forțe al căror lucru nu depinde de drum"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l20": {
+   "ro": {
+    "title": "Legea conservării energiei mecanice",
+    "theory": "Energia mecanică E = Ec + Ep. Dacă asupra corpului lucrează numai forțe conservative (greutate, forță elastică), energia mecanică se conservă: Ec + Ep = constant. Dacă există frecări, energia mecanică scade, iar diferența se transformă în căldură: ΔE = L_frecare. Legea permite aflarea vitezelor fără a studia detaliat mișcarea.",
+    "sample": "Un corp lăsat liber de la 5 m ajunge la sol cu v = √(2gh) = 10 m/s (g = 10 m/s²).",
+    "worked": "Un schior pleacă din repaus de la 20 m înălțime pe o pârtie fără frecare: la baza pârtiei v = √(2·10·20) = 20 m/s, indiferent de forma pârtiei. Dacă ajunge cu 16 m/s și are 60 kg, energia pierdută prin frecare este 60·10·20 − 60·256/2 = 12 000 − 7 680 = 4 320 J.",
+    "exercises": [
+     "Cu ce viteză ajunge la sol un corp căzut liber de la 45 m?",
+     "Un pendul este ridicat 0,2 m față de poziția de echilibru. Ce viteză are la trecerea prin echilibru?",
+     "Un resort cu k = 200 N/m comprimat cu 10 cm lansează un corp de 0,1 kg. Ce viteză obține?",
+     "O minge de 0,5 kg cade de la 10 m și ajunge cu 12 m/s. Câtă energie s-a pierdut?",
+     "Explică transformările de energie la un leagăn."
+    ],
+    "test": [
+     "Când se conservă energia mecanică?",
+     "Formula energiei mecanice?",
+     "Viteza la căderea de la înălțimea h?",
+     "Unde merge energia pierdută prin frecare?",
+     "Depinde viteza finală de forma pârtiei fără frecare?"
+    ],
+    "steps": [
+     "Alege nivelul de referință și stările inițială și finală.",
+     "Scrie energia mecanică în cele două stări (Ec + Ep).",
+     "Egalează energiile (sau adaugă lucrul forțelor de frecare) și rezolvă.",
+     "Greșeala frecventă: să aplici conservarea energiei mecanice în prezența frecării; atunci energia mecanică scade."
+    ],
+    "answers": [
+     "Când lucrează doar forțe conservative",
+     "E = Ec + Ep",
+     "v = √(2gh)",
+     "Se transformă în căldură",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l21": {
+   "ro": {
+    "title": "Impulsul; teorema variației impulsului",
+    "theory": "Impulsul (cantitatea de mișcare) este vectorul p = m·v (kg·m/s). Teorema variației impulsului: Δp = F·Δt — variația impulsului este egală cu impulsul forței rezultante. Aceeași variație de impuls cu un timp de acțiune mai lung înseamnă o forță mai mică: de aceea airbagurile, genunchii flexați la aterizare și zonele deformabile ale mașinilor protejează.",
+    "sample": "O minge de 0,5 kg cu 10 m/s are impulsul de 5 kg·m/s.",
+    "worked": "O minge de 0,2 kg lovește peretele cu 10 m/s și revine cu 10 m/s: Δp = 0,2·(−10) − 0,2·10 = −4 kg·m/s (atenție la sens). Dacă ciocnirea durează 0,02 s, forța medie are modulul 4/0,02 = 200 N. Un pasager de 70 kg oprit de la 15 m/s în 0,1 s suportă 10 500 N; cu airbag (0,5 s), doar 2 100 N.",
+    "exercises": [
+     "Calculează impulsul unui camion de 10 t cu 20 m/s.",
+     "Ce forță medie oprește în 0,05 s o minge de 0,4 kg cu 20 m/s?",
+     "De ce un ou aruncat pe o pernă nu se sparge, iar pe podea se sparge?",
+     "O minge de 0,1 kg cade cu 5 m/s și ricoșează cu 4 m/s. Află variația impulsului.",
+     "Explică rolul zonelor deformabile ale unei mașini."
+    ],
+    "test": [
+     "Formula impulsului?",
+     "Teorema variației impulsului?",
+     "Este impulsul scalar sau vector?",
+     "Unitatea impulsului?",
+     "Cum reduce airbagul forța?"
+    ],
+    "steps": [
+     "Alege sensul pozitiv și scrie vitezele cu semn.",
+     "Calculează impulsurile inițial și final și variația lor.",
+     "Aplică Δp = F·Δt pentru forța medie sau durată.",
+     "Greșeala frecventă: să calculezi variația impulsului la ricoșeu ca diferența modulelor (zero), uitând că sensul vitezei se schimbă."
+    ],
+    "answers": [
+     "p = m·v",
+     "Δp = F·Δt",
+     "Vector",
+     "kg·m/s",
+     "Mărește durata opririi"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l22": {
+   "ro": {
+    "title": "Conservarea impulsului; ciocniri elastice și plastice",
+    "theory": "Pentru un sistem izolat (forțele exterioare se anulează sau sunt neglijabile în timpul interacțiunii), impulsul total se conservă: m₁v₁ + m₂v₂ = m₁v₁′ + m₂v₂′. În ciocnirea plastică (perfect inelastică) corpurile rămân lipite: v′ = (m₁v₁ + m₂v₂)/(m₁ + m₂), iar o parte din energia cinetică se transformă în căldură și deformare. În ciocnirea perfect elastică se conservă și energia cinetică. Reculul armelor și propulsia rachetelor se explică prin conservarea impulsului.",
+    "sample": "Un tun de 1 000 kg care trage un proiectil de 10 kg cu 500 m/s are viteza de recul de 5 m/s.",
+    "worked": "Un vagon de 20 t cu 2 m/s lovește un vagon de 30 t în repaus și se cuplează: v′ = 20·2/50 = 0,8 m/s. Ec inițială = 20 000·4/2 = 40 000 J, finală = 50 000·0,64/2 = 16 000 J: s-au pierdut 24 000 J. La ciocnirea elastică frontală a două bile egale, bila lovitoare se oprește, iar cealaltă pleacă cu viteza ei.",
+    "exercises": [
+     "Un glonț de 10 g cu 300 m/s se înfige într-un bloc de 2 kg în repaus. Ce viteză capătă blocul?",
+     "Un patinator de 60 kg aruncă înainte o minge de 2 kg cu 15 m/s. Cu ce viteză se deplasează înapoi?",
+     "Două bile de 1 kg vin una spre alta cu 3 m/s și 1 m/s și se lipesc. Află viteza comună.",
+     "Calculează energia pierdută la exercițiul 1.",
+     "Explică de ce o rachetă poate accelera în vid."
+    ],
+    "test": [
+     "Când se conservă impulsul?",
+     "Ce se conservă la ciocnirea elastică?",
+     "Viteza după ciocnirea plastică?",
+     "Se conservă energia cinetică la ciocnirea plastică?",
+     "Ce explică reculul armei?"
+    ],
+    "steps": [
+     "Verifică faptul că sistemul este izolat pe durata interacțiunii.",
+     "Scrie conservarea impulsului (cu semne) și, pentru ciocniri elastice, și conservarea energiei cinetice.",
+     "Rezolvă și verifică bilanțul de energie.",
+     "Greșeala frecventă: să aplici conservarea energiei cinetice la ciocnirile plastice; acolo se conservă doar impulsul."
+    ],
+    "answers": [
+     "Când sistemul este izolat",
+     "Impulsul și energia cinetică",
+     "(m₁v₁ + m₂v₂)/(m₁ + m₂)",
+     "Nu",
+     "Conservarea impulsului"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l23": {
+   "ro": {
+    "title": "Echilibrul de translație",
+    "theory": "Un corp este în echilibru de translație (repaus sau MRU) dacă suma vectorială a forțelor care acționează asupra lui este zero: ΣF = 0, adică ΣFₓ = 0 și ΣF_y = 0. Rezolvăm desenând forțele, descompunându-le pe axe și scriind condițiile de echilibru pe fiecare axă.",
+    "sample": "Un corp atârnat în repaus de un fir are tensiunea egală cu greutatea.",
+    "worked": "Un corp de 10 kg atârnă de două fire care fac fiecare 30° cu verticala. Pe verticală: 2T·cos 30° = m·g ⇒ T = 100/(2·0,866) ≈ 57,7 N. Pe orizontală, componentele T·sin 30° se anulează. Cu cât firele sunt mai înclinate față de verticală, cu atât tensiunea crește.",
+    "exercises": [
+     "Un corp de 5 kg stă pe un plan înclinat la 30° ținut de un fir paralel cu planul (fără frecare). Află tensiunea.",
+     "Un tablou de 4 kg atârnă de două fire la 45° față de verticală. Află tensiunile.",
+     "De ce un fir întins perfect orizontal nu poate susține un corp la mijloc?",
+     "Un corp este tras uniform pe orizontală cu 30 N. Cât este frecarea?",
+     "Scrie condițiile de echilibru pentru un corp asupra căruia acționează trei forțe."
+    ],
+    "test": [
+     "Condiția echilibrului de translație?",
+     "Ce mișcare are un corp în echilibru de translație?",
+     "Tensiunea firului de care atârnă în repaus un corp de 2 kg?",
+     "Ce faci cu forțele oblice?",
+     "Câte ecuații scrii în plan?"
+    ],
+    "steps": [
+     "Desenează toate forțele care acționează asupra corpului.",
+     "Alege axele și descompune forțele oblice.",
+     "Scrie ΣFₓ = 0 și ΣF_y = 0 și rezolvă sistemul.",
+     "Greșeala frecventă: să consideri echilibrul doar ca repaus; și un corp în MRU este în echilibru de translație."
+    ],
+    "answers": [
+     "ΣF = 0",
+     "Repaus sau MRU",
+     "20 N",
+     "Le descompui pe axe",
+     "Două"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l24": {
+   "ro": {
+    "title": "Momentul forței; echilibrul de rotație; centrul de greutate; pârghii",
+    "theory": "Momentul unei forțe față de o axă este M = F·b, unde b (brațul) este distanța de la axă la dreapta-suport a forței; momentul are semn după sensul de rotație pe care îl produce. Echilibrul de rotație cere ca suma momentelor să fie zero. Un corp rigid este în echilibru total dacă ΣF = 0 și ΣM = 0. Centrul de greutate este punctul în care putem considera aplicată greutatea. Pârghia este în echilibru când F₁·b₁ = F₂·b₂.",
+    "sample": "O forță de 20 N aplicată la 0,5 m de axă, perpendicular, are momentul de 10 N·m.",
+    "worked": "O bară omogenă de 2 m și 10 kg sprijinită la capete susține un corp de 20 kg la 0,5 m de capătul A. Momentele față de A: N_B·2 = 100·1 + 200·0,5 ⇒ N_B = 100 N; din ΣF = 0: N_A = 300 − 100 = 200 N. Clanța este departe de balamale pentru ca brațul să fie mare și forța mică.",
+    "exercises": [
+     "Cu ce forță echilibrezi la 2 m de punctul de sprijin o greutate de 600 N aflată la 0,5 m?",
+     "Calculează momentul unei forțe de 50 N aplicate la 0,4 m de axă, sub 30° față de bară.",
+     "O scândură de 4 m și 20 kg are sprijin la mijloc; un copil de 30 kg stă la 1,5 m de mijloc. Unde stă un copil de 25 kg pentru echilibru?",
+     "De ce este mai ușor să deșurubezi o piuliță cu o cheie lungă?",
+     "Unde se află centrul de greutate al unei bare omogene?"
+    ],
+    "test": [
+     "Formula momentului forței?",
+     "Ce este brațul forței?",
+     "Condiția echilibrului de rotație?",
+     "Condiția de echilibru a pârghiei?",
+     "Momentul unei forțe care trece prin axă?"
+    ],
+    "steps": [
+     "Alege axa de rotație (convenabil, prin punctul unei forțe necunoscute).",
+     "Calculează momentele cu semn (brațul este perpendiculara din axă pe suportul forței).",
+     "Scrie ΣM = 0 și, dacă trebuie, ΣF = 0; rezolvă.",
+     "Greșeala frecventă: să iei ca braț distanța până la punctul de aplicație, nu distanța până la dreapta-suport a forței."
+    ],
+    "answers": [
+     "M = F·b",
+     "Distanța de la axă la dreapta-suport a forței",
+     "ΣM = 0",
+     "F₁·b₁ = F₂·b₂",
+     "Zero"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l25": {
+   "ro": {
+    "title": "Legea atracției universale; câmpul gravitațional",
+    "theory": "Două corpuri de mase m₁ și m₂ aflate la distanța r se atrag cu forța F = K·m₁·m₂/r², unde K ≈ 6,67·10⁻¹¹ N·m²/kg² (constanta atracției universale). Câmpul gravitațional al unui corp este descris de intensitatea g = F/m; la suprafața Pământului g₀ = K·M/R² ≈ 9,8 m/s², iar la înălțimea h: g = g₀·R²/(R + h)². Greutatea unui corp este atracția gravitațională a planetei.",
+    "sample": "La o distanță de două ori mai mare, forța gravitațională devine de 4 ori mai mică.",
+    "worked": "Masa Pământului din g₀ = K·M/R²: M = g₀·R²/K = 9,8·(6,4·10⁶)²/6,67·10⁻¹¹ ≈ 6·10²⁴ kg. La h = R (6 400 km altitudine), g = g₀/4 ≈ 2,45 m/s². Doi oameni de 70 kg la 1 m se atrag cu 6,67·10⁻¹¹·4 900 ≈ 3,3·10⁻⁷ N — neglijabil.",
+    "exercises": [
+     "Calculează forța de atracție dintre două corpuri de 1 000 kg aflate la 10 m.",
+     "La ce înălțime g este jumătate din g₀? (exprimă prin R)",
+     "Pe Lună g ≈ 1,6 m/s². Cât cântărește acolo un astronaut de 80 kg?",
+     "Cum se schimbă forța dacă ambele mase se dublează și distanța se dublează?",
+     "De ce greutatea scade cu altitudinea?"
+    ],
+    "test": [
+     "Formula atracției universale?",
+     "Valoarea lui K?",
+     "g la înălțimea h = R?",
+     "Ce reprezintă intensitatea câmpului gravitațional?",
+     "Depinde forța de distanță?"
+    ],
+    "steps": [
+     "Scrie legea atracției universale cu masele și distanța dintre centre.",
+     "Folosește rapoarte (de exemplu g/g₀) pentru a evita calcule cu K când e posibil.",
+     "Calculează și verifică ordinul de mărime.",
+     "Greșeala frecventă: să măsori distanța de la suprafața planetei în loc de la centrul ei (r = R + h)."
+    ],
+    "answers": [
+     "F = K·m₁·m₂/r²",
+     "6,67·10⁻¹¹ N·m²/kg²",
+     "g₀/4",
+     "Forța gravitațională pe unitatea de masă",
+     "Da, invers proporțional cu pătratul ei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l26": {
+   "ro": {
+    "title": "Mișcarea sateliților; legile lui Kepler; viteze cosmice",
+    "theory": "Un satelit pe orbită circulară are forța gravitațională drept forță centripetă: K·M·m/r² = m·v²/r ⇒ v = √(K·M/r). Prima viteză cosmică (orbită razantă) v₁ = √(g₀·R) ≈ 7,9 km/s; a doua viteză cosmică (de evadare) v₂ = √2·v₁ ≈ 11,2 km/s. Legile lui Kepler: planetele descriu elipse cu Soarele într-un focar; raza vectoare mătură arii egale în timpi egali; T²/a³ este același pentru toate planetele. Sateliții geostaționari au T = 24 h.",
+    "sample": "Cu cât orbita este mai înaltă, cu atât viteza satelitului este mai mică.",
+    "worked": "v₁ = √(9,8·6,4·10⁶) = √(6,27·10⁷) ≈ 7 920 m/s. Perioada orbitei razante T = 2πR/v₁ ≈ 2·3,14·6,4·10⁶/7 920 ≈ 5 080 s ≈ 85 min. Stația spațială (≈ 400 km) are o perioadă de circa 92 min, apropiată.",
+    "exercises": [
+     "Calculează viteza unui satelit la h = R deasupra Pământului (folosește v₁).",
+     "Folosind a treia lege a lui Kepler, compară perioadele a doi sateliți cu razele orbitelor r și 4r.",
+     "De ce astronauții din stația spațială par fără greutate?",
+     "Ce înseamnă satelit geostaționar și la ce folosește?",
+     "Explică a doua lege a lui Kepler pentru viteza Pământului la periheliu și afeliu."
+    ],
+    "test": [
+     "Formula vitezei orbitale?",
+     "Valoarea primei viteze cosmice?",
+     "Valoarea vitezei de evadare?",
+     "A treia lege a lui Kepler?",
+     "Perioada unui satelit geostaționar?"
+    ],
+    "steps": [
+     "Egalează forța gravitațională cu forța centripetă.",
+     "Exprimă viteza sau perioada în funcție de rază (folosește g₀R² = KM).",
+     "Compară cu vitezele cosmice și verifică plauzibilitatea.",
+     "Greșeala frecventă: să crezi că pe orbită nu există gravitație; ea există și este exact forța care curbează traiectoria."
+    ],
+    "answers": [
+     "v = √(K·M/r)",
+     "≈ 7,9 km/s",
+     "≈ 11,2 km/s",
+     "T²/a³ = constant",
+     "24 h"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l27": {
+   "ro": {
+    "title": "Presiunea; presiunea hidrostatică; presiunea atmosferică",
+    "theory": "Presiunea este forța care apasă perpendicular pe unitatea de suprafață: p = F/S (pascal, Pa = N/m²). Într-un lichid în repaus, presiunea crește cu adâncimea: p = p₀ + ρ·g·h (legea fundamentală a hidrostaticii); nu depinde de forma vasului (paradoxul hidrostatic). Presiunea atmosferică normală este p₀ ≈ 101 325 Pa ≈ 10⁵ Pa (experimentul lui Torricelli: o coloană de 760 mm de mercur). Vasele comunicante au lichidul la același nivel.",
+    "sample": "La 10 m adâncime în apă, presiunea hidrostatică este 1000·10·10 = 10⁵ Pa, cât încă o atmosferă.",
+    "worked": "Un scafandru la 30 m: p = 10⁵ + 1 000·10·30 = 4·10⁵ Pa (de 4 ori presiunea atmosferică). Un baraj are peretele mai gros la bază, pentru că presiunea crește cu adâncimea. Un cui ascuțit pătrunde ușor: aceeași forță pe o suprafață foarte mică dă o presiune foarte mare.",
+    "exercises": [
+     "Ce presiune exercită pe sol o ladă de 60 kg cu baza de 0,3 m²?",
+     "Calculează presiunea totală la 5 m adâncime într-un lac.",
+     "De ce schiurile împiedică scufundarea în zăpadă?",
+     "Ce înălțime ar avea coloana lui Torricelli cu apă în loc de mercur?",
+     "Explică principiul vaselor comunicante cu exemplul unui ceainic."
+    ],
+    "test": [
+     "Formula presiunii?",
+     "Unitatea presiunii?",
+     "Legea fundamentală a hidrostaticii?",
+     "Presiunea atmosferică normală?",
+     "Depinde presiunea hidrostatică de forma vasului?"
+    ],
+    "steps": [
+     "Identifică forța normală și suprafața sau adâncimea și densitatea.",
+     "Aplică p = F/S sau p = p₀ + ρgh.",
+     "Exprimă rezultatul în Pa și compară cu presiunea atmosferică.",
+     "Greșeala frecventă: să crezi că presiunea pe fundul unui vas depinde de cantitatea totală de lichid; depinde doar de adâncime și densitate."
+    ],
+    "answers": [
+     "p = F/S",
+     "Pascalul",
+     "p = p₀ + ρ·g·h",
+     "≈ 10⁵ Pa",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l28": {
+   "ro": {
+    "title": "Legea lui Pascal; presa hidraulică",
+    "theory": "Legea lui Pascal: o presiune exercitată asupra unui lichid închis se transmite integral în toate punctele lichidului și pe pereții vasului. Presa hidraulică are două pistoane de arii S₁ < S₂: F₁/S₁ = F₂/S₂, deci F₂ = F₁·S₂/S₁ — o forță mică produce o forță mare. Volumul de lichid deplasat este același: S₁·d₁ = S₂·d₂, așa că pistonul mare se mișcă mai puțin (lucrul mecanic nu se multiplică).",
+    "sample": "Cu pistoane de arii 1 cm² și 100 cm², o forță de 10 N produce o forță de 1 000 N.",
+    "worked": "Un cric hidraulic: S₁ = 2 cm², S₂ = 200 cm². Pentru a ridica o mașină de 1 000 kg (10⁴ N) este nevoie de F₁ = 10⁴/100 = 100 N. Ca mașina să urce 1 cm, pistonul mic coboară 100 cm (în mai multe curse). Frânele hidraulice ale autovehiculelor folosesc același principiu.",
+    "exercises": [
+     "Ce forță trebuie pe un piston de 5 cm² ca să ridici 2 000 kg pe un piston de 500 cm²?",
+     "Pistonul mic coboară 20 cm. Cât urcă pistonul mare (raportul ariilor 50)?",
+     "Explică de ce presa hidraulică nu încalcă conservarea energiei.",
+     "Dă două aplicații tehnice ale legii lui Pascal.",
+     "De ce aerul din circuitul de frână reduce eficiența frânării?"
+    ],
+    "test": [
+     "Enunțul legii lui Pascal?",
+     "Relația forțelor la presa hidraulică?",
+     "Se multiplică lucrul mecanic la presa hidraulică?",
+     "Relația deplasărilor pistoanelor?",
+     "O aplicație a legii lui Pascal?"
+    ],
+    "steps": [
+     "Scrie egalitatea presiunilor pe cele două pistoane: F₁/S₁ = F₂/S₂.",
+     "Calculează forța necunoscută și, dacă se cere, deplasările din S₁d₁ = S₂d₂.",
+     "Verifică faptul că lucrul mecanic este același la ambele pistoane (fără pierderi).",
+     "Greșeala frecventă: să crezi că presa hidraulică „produce” energie; câștigi forță, dar pierzi în deplasare."
+    ],
+    "answers": [
+     "Presiunea se transmite integral în tot lichidul",
+     "F₁/S₁ = F₂/S₂",
+     "Nu",
+     "S₁·d₁ = S₂·d₂",
+     "Frânele hidraulice"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l29": {
+   "ro": {
+    "title": "Legea lui Arhimede; plutirea corpurilor",
+    "theory": "Un corp scufundat (total sau parțial) într-un fluid este împins de jos în sus cu o forță egală cu greutatea fluidului dezlocuit: F_A = ρ_fluid·g·V_scufundat. Corpul plutește la suprafață dacă densitatea lui medie este mai mică decât a fluidului, plutește în interior dacă densitățile sunt egale și se scufundă dacă este mai dens. La plutire, F_A = G: fracția scufundată este ρ_corp/ρ_fluid.",
+    "sample": "Un corp de 1 dm³ complet scufundat în apă primește o forță arhimedică de 10 N.",
+    "worked": "Un aisberg cu densitatea 900 kg/m³ în apă de mare (1 030 kg/m³) are scufundată fracția 900/1 030 ≈ 0,87 — de aceea se vede doar ~13%. O piatră cântărește 30 N în aer și 20 N în apă: F_A = 10 N ⇒ V = 10⁻³ m³, ρ = 3 kg/1 dm³ = 3 000 kg/m³.",
+    "exercises": [
+     "Ce forță arhimedică acționează asupra unui corp de 0,5 dm³ scufundat în apă?",
+     "Un corp de lemn (600 kg/m³) plutește în apă. Ce fracție din volum este scufundată?",
+     "Un corp cântărește 50 N în aer și 30 N în apă. Află volumul și densitatea.",
+     "De ce plutește un vapor de oțel?",
+     "Cum urcă și coboară un submarin?"
+    ],
+    "test": [
+     "Enunțul legii lui Arhimede?",
+     "Formula forței arhimedice?",
+     "Condiția de plutire la suprafață?",
+     "Fracția scufundată la plutire?",
+     "Depinde F_A de densitatea corpului?"
+    ],
+    "steps": [
+     "Calculează volumul scufundat și densitatea fluidului.",
+     "Aplică F_A = ρ_fluid·g·V și compară cu greutatea.",
+     "Concluzionează (plutește, plutește în interior, se scufundă) sau calculează fracția scufundată.",
+     "Greșeala frecventă: să folosești densitatea corpului în formula forței arhimedice; în formulă intră densitatea fluidului."
+    ],
+    "answers": [
+     "Fluidul împinge corpul cu greutatea fluidului dezlocuit",
+     "F_A = ρ_fluid·g·V",
+     "ρ_corp < ρ_fluid",
+     "ρ_corp/ρ_fluid",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l30": {
+   "ro": {
+    "title": "Debitul; ecuația de continuitate",
+    "theory": "Pentru un fluid ideal (incompresibil, fără frecări interne) în curgere staționară, debitul volumic Q = S·v (m³/s) este același în orice secțiune a tubului: S₁·v₁ = S₂·v₂ (ecuația de continuitate). Unde tubul se îngustează, fluidul curge mai repede. Debitul masic este ρ·Q (kg/s).",
+    "sample": "Dacă aria secțiunii se înjumătățește, viteza fluidului se dublează.",
+    "worked": "Un furtun cu S₁ = 2 cm² prin care apa curge cu 1 m/s are Q = 2·10⁻⁴ m³/s = 0,2 L/s. Strângând capătul la 0,5 cm², viteza devine 4 m/s — de aceea jetul ajunge mai departe. O găleată de 10 L se umple în 50 s.",
+    "exercises": [
+     "Calculează debitul unei conducte cu diametrul de 2 cm prin care apa curge cu 2 m/s.",
+     "O arteră se îngustează la jumătate din arie. Cum se schimbă viteza sângelui?",
+     "În cât timp se umple o cadă de 150 L cu debitul de 0,25 L/s?",
+     "Calculează debitul masic de apă pentru Q = 3 L/s.",
+     "De ce un râu curge mai repede prin zonele înguste?"
+    ],
+    "test": [
+     "Formula debitului volumic?",
+     "Ecuația de continuitate?",
+     "Ce se întâmplă cu viteza la îngustare?",
+     "Unitatea debitului volumic?",
+     "Ce este un fluid ideal?"
+    ],
+    "steps": [
+     "Calculează aria secțiunii (din diametru, dacă e cazul).",
+     "Aplică Q = S·v și S₁v₁ = S₂v₂.",
+     "Transformă unitățile (L, cm², min) în SI și verifică rezultatul.",
+     "Greșeala frecventă: să folosești diametrul în loc de arie; aria crește cu pătratul diametrului."
+    ],
+    "answers": [
+     "Q = S·v",
+     "S₁·v₁ = S₂·v₂",
+     "Crește",
+     "m³/s",
+     "Incompresibil și fără frecări interne"
+    ]
+   }
+  },
+  "eu-year-ro-medium-9-l31": {
+   "ro": {
+    "title": "Legea lui Bernoulli și aplicații",
+    "theory": "Pentru un fluid ideal în curgere staționară, de-a lungul unui tub de curent: p + ρ·v²/2 + ρ·g·h = constant (legea lui Bernoulli). p este presiunea statică, ρv²/2 presiunea dinamică, ρgh presiunea de poziție. Unde fluidul curge mai repede (la același nivel), presiunea este mai mică. Aplicații: tubul Venturi (debitmetru), portanța aripii, pulverizatorul, formula lui Torricelli v = √(2gh) pentru curgerea printr-un orificiu.",
+    "sample": "Apa iese dintr-un orificiu aflat la 5 m sub nivelul liber cu v = √(2·10·5) = 10 m/s.",
+    "worked": "Într-un tub orizontal, apa trece de la 2 m/s la 6 m/s la o îngustare. Diferența de presiune: p₁ − p₂ = ρ(v₂² − v₁²)/2 = 1 000·(36 − 4)/2 = 16 000 Pa. Pe aripa avionului, aerul curge mai repede deasupra, presiunea acolo este mai mică, iar diferența produce forța de portanță.",
+    "exercises": [
+     "Cu ce viteză curge apa printr-un orificiu aflat la 1,25 m sub nivelul apei?",
+     "Într-un tub orizontal viteza crește de la 1 m/s la 3 m/s. Află scăderea presiunii.",
+     "Explică de ce o foaie de hârtie se ridică atunci când sufli deasupra ei.",
+     "Explică funcționarea unui pulverizator de parfum.",
+     "De ce acoperișurile pot fi smulse de vânturile puternice?"
+    ],
+    "test": [
+     "Legea lui Bernoulli?",
+     "Ce este presiunea dinamică?",
+     "Formula lui Torricelli?",
+     "Unde este presiunea mai mică într-un tub orizontal?",
+     "Ce produce portanța aripii?"
+    ],
+    "steps": [
+     "Alege două puncte pe același tub de curent și notează p, v, h.",
+     "Folosește continuitatea pentru vitezele necunoscute și scrie Bernoulli între cele două puncte.",
+     "Rezolvă pentru presiune sau viteză și interpretează fenomenul.",
+     "Greșeala frecventă: să crezi că presiunea este mai mare acolo unde fluidul curge mai repede; la același nivel, viteza mare înseamnă presiune mică."
+    ],
+    "answers": [
+     "p + ρv²/2 + ρgh = constant",
+     "ρv²/2",
+     "v = √(2gh)",
+     "Unde viteza este mai mare",
+     "Diferența de presiune dintre fețele aripii"
+    ]
+   }
+  }
+ }
+}

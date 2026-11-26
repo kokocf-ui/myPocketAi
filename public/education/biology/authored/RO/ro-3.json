@@ -1,0 +1,1254 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "3",
+ "version": "8261bc973ab59073ae0fc1cafd8875604724a79860fac76a3c5e611c9a0b58c1",
+ "source": "https://rocnee.eu/images/rocnee/fisiere/programe_scolare/Inv%20primar/OMEN%205003_MATEMATICA_STIINTE_CLS%20III_IV.pdf",
+ "sourceTitle": "Programa școlară pentru disciplina Științe ale naturii, clasele a III-a – a IV-a, Anexa nr. 2 la OMEN nr. 5003/02.12.2014 — clasa a III-a: Științele vieții (caracteristici ale lumii vii, reacții ale plantelor și animalelor, grupe de animale, activitate și odihnă), Științele pământului (apă, aer, sol, resurse naturale, mișcarea apei, circuitul apei, fenomene ale naturii, poluare), Științele fizicii (proprietăți ale corpurilor, stări de agregare, metale, magneți și busola, interacțiuni, transformări de stare, mișcare și repaus); unitățile urmează manualele aprobate de Științe ale naturii clasa a III-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Științe ale naturii · Clasa a III-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Caracteristici ale lumii vii",
+   "keys": [
+    "eu-year-ro-beginner-3-l01",
+    "eu-year-ro-beginner-3-l02",
+    "eu-year-ro-beginner-3-l03",
+    "eu-year-ro-beginner-3-l04",
+    "eu-year-ro-beginner-3-l05",
+    "eu-year-ro-beginner-3-l06"
+   ]
+  },
+  {
+   "title": "Principalele grupe de animale",
+   "keys": [
+    "eu-year-ro-beginner-3-l07",
+    "eu-year-ro-beginner-3-l08",
+    "eu-year-ro-beginner-3-l09",
+    "eu-year-ro-beginner-3-l10",
+    "eu-year-ro-beginner-3-l11"
+   ]
+  },
+  {
+   "title": "Omul — menținerea stării de sănătate",
+   "keys": [
+    "eu-year-ro-beginner-3-l12",
+    "eu-year-ro-beginner-3-l13"
+   ]
+  },
+  {
+   "title": "Pământul — mediu de viață",
+   "keys": [
+    "eu-year-ro-beginner-3-l14",
+    "eu-year-ro-beginner-3-l15",
+    "eu-year-ro-beginner-3-l16",
+    "eu-year-ro-beginner-3-l17",
+    "eu-year-ro-beginner-3-l18",
+    "eu-year-ro-beginner-3-l19"
+   ]
+  },
+  {
+   "title": "Apa și fenomenele naturii",
+   "keys": [
+    "eu-year-ro-beginner-3-l20",
+    "eu-year-ro-beginner-3-l21",
+    "eu-year-ro-beginner-3-l22"
+   ]
+  },
+  {
+   "title": "Influența omului asupra mediului",
+   "keys": [
+    "eu-year-ro-beginner-3-l23",
+    "eu-year-ro-beginner-3-l24"
+   ]
+  },
+  {
+   "title": "Corpuri și proprietățile lor",
+   "keys": [
+    "eu-year-ro-beginner-3-l25",
+    "eu-year-ro-beginner-3-l26",
+    "eu-year-ro-beginner-3-l27",
+    "eu-year-ro-beginner-3-l28"
+   ]
+  },
+  {
+   "title": "Interacțiuni, forțe și mișcare",
+   "keys": [
+    "eu-year-ro-beginner-3-l29",
+    "eu-year-ro-beginner-3-l30",
+    "eu-year-ro-beginner-3-l31",
+    "eu-year-ro-beginner-3-l32",
+    "eu-year-ro-beginner-3-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-3-l01": {
+   "ro": {
+    "title": "Corpuri vii și corpuri nevii",
+    "theory": "În jurul nostru sunt corpuri vii (plante, animale, oameni, ciuperci) și corpuri nevii (pietre, apă, aer, obiecte). Un corp este viu dacă se hrănește, respiră, crește, se înmulțește și reacționează la ce se întâmplă în jur. O piatră poate deveni mai mică prin rostogolire, dar nu crește și nu se înmulțește, deci nu este vie.",
+    "sample": "Un ghiocel răsare primăvara și se întoarce spre lumină, pe când o pietricică de lângă el rămâne neschimbată.",
+    "worked": "Verificăm dacă focul este viu: se „mișcă”, „consumă” lemne și „crește”. Dar nu se înmulțește prin urmași, nu crește din interior și nu are celule. Deci focul este un fenomen, nu un corp viu.",
+    "exercises": [
+     "Fă două coloane, „viu” și „neviu”, și scrie câte cinci exemple.",
+     "Alege un corp viu din curtea școlii și arată două semne că este viu.",
+     "Este o sămânță uscată un corp viu? Explică.",
+     "De ce un robot care se mișcă nu este viu?",
+     "Desenează un corp viu și unul neviu din același loc."
+    ],
+    "test": [
+     "Este ciuperca un corp viu?",
+     "Numește un corp neviu din clasă.",
+     "Crește o piatră?",
+     "Ce face un corp viu ca să rămână în viață?",
+     "Este norul un corp viu?"
+    ],
+    "steps": [
+     "Alege corpul pe care vrei să-l analizezi.",
+     "Verifică semnele vieții: hrănire, respirație, creștere, înmulțire, reacție.",
+     "Dacă lipsesc aceste semne, corpul este neviu.",
+     "Greșeala frecventă: să crezi că orice lucru care se mișcă este viu (vântul, o mașină). Mișcarea singură nu înseamnă viață."
+    ],
+    "answers": [
+     "Da",
+     "De exemplu, banca sau creionul",
+     "Nu",
+     "Se hrănește, respiră, crește",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l02": {
+   "ro": {
+    "title": "Nevoile de bază ale viețuitoarelor: apă, aer, hrană",
+    "theory": "Toate viețuitoarele au nevoie de apă, aer și hrană. Plantele își fac singure hrana în frunze, folosind lumina Soarelui, apa și aerul. Animalele și oamenii își iau hrana mâncând plante sau alte animale. Fără apă, o plantă se ofilește; fără aer, un animal nu poate trăi.",
+    "sample": "O plantă uitată fără apă câteva zile își lasă frunzele în jos; după udare își revine.",
+    "worked": "Experiment: punem două plante la fel, una udată, alta nu, la aceeași lumină. După o săptămână, planta neudată este ofilită. Concluzie: apa este o nevoie de bază a plantei.",
+    "exercises": [
+     "Scrie de unde își ia apa o plantă, un câine și un om.",
+     "De ce peștii mor dacă sunt scoși din apă mult timp?",
+     "Ce s-ar întâmpla cu o plantă ținută în întuneric complet?",
+     "Numește trei animale care mănâncă plante.",
+     "Explică de ce trebuie să schimbăm apa din vasul animalului de companie."
+    ],
+    "test": [
+     "Care sunt cele trei nevoi de bază?",
+     "Unde își fac plantele hrana?",
+     "Are nevoie un pește de aer?",
+     "Ce se întâmplă cu o plantă neudată?",
+     "De unde își iau animalele hrana?"
+    ],
+    "steps": [
+     "Identifică viețuitoarea.",
+     "Caută cum își procură apa, aerul și hrana.",
+     "Gândește-te ce s-ar întâmpla dacă una dintre ele ar lipsi.",
+     "Greșeala frecventă: să crezi că peștii nu au nevoie de aer. Ei iau aerul dizolvat în apă cu ajutorul branhiilor."
+    ],
+    "answers": [
+     "Apă, aer, hrană",
+     "În frunze",
+     "Da, de aerul din apă",
+     "Se ofilește",
+     "Mănâncă plante sau alte animale"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l03": {
+   "ro": {
+    "title": "Hrănirea, creșterea și înmulțirea viețuitoarelor",
+    "theory": "Viețuitoarele cresc: o sămânță devine plantă, un pui devine adult. Pentru creștere au nevoie de hrană. Ele se și înmulțesc, adică dau naștere la urmași: plantele prin semințe (și uneori prin bulbi sau butași), animalele prin ouă sau pui născuți vii.",
+    "sample": "Puiul de găină iese din ou, crește și devine găină care va face la rândul ei ouă.",
+    "worked": "Comparăm: un cățel se naște viu și suge lapte de la mamă; un pui de rață iese din ou și caută singur hrană. Ambii cresc și, adulți, vor avea urmași. Așa se păstrează specia.",
+    "exercises": [
+     "Scrie trei animale care fac ouă și trei care nasc pui vii.",
+     "Cum se înmulțește un măr? Dar o lalea?",
+     "Măsoară o plantă de fasole timp de două săptămâni și notează înălțimea.",
+     "De ce are nevoie un pui de hrană multă?",
+     "Ce se întâmplă cu o specie care nu mai are urmași?"
+    ],
+    "test": [
+     "Cum se înmulțește găina?",
+     "Cum se înmulțește floarea-soarelui?",
+     "Naște vaca pui vii?",
+     "De ce crește un pui?",
+     "Ce sunt urmașii?"
+    ],
+    "steps": [
+     "Observă cum apare noul organism: din sămânță, din ou sau născut viu.",
+     "Urmărește cum crește și de ce are nevoie.",
+     "Leagă înmulțirea de păstrarea speciei.",
+     "Greșeala frecventă: să crezi că plantele nu se înmulțesc pentru că nu au pui. Ele au semințe, bulbi sau butași."
+    ],
+    "answers": [
+     "Prin ouă",
+     "Prin semințe",
+     "Da",
+     "Pentru că se hrănește",
+     "Puii sau plantele noi apărute din părinți"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l04": {
+   "ro": {
+    "title": "Cum reacționează plantele la schimbările mediului",
+    "theory": "Plantele nu se pot deplasa, dar reacționează: se întorc spre lumină, își închid florile seara sau pe vreme rece, își pierd frunzele toamna, se ofilesc pe secetă. Rădăcina crește spre apă, iar tulpina spre lumină.",
+    "sample": "Un mușcat de pe pervaz își întoarce frunzele spre fereastră.",
+    "worked": "Experiment: punem un ghiveci într-o cutie cu o singură gaură laterală. După câteva zile tulpina se apleacă spre gaură. Concluzie: plantele cresc spre lumină.",
+    "exercises": [
+     "Ce se întâmplă cu floarea-soarelui în timpul zilei?",
+     "De ce își pierd copacii frunzele toamna?",
+     "Plănuiește un experiment cu o plantă la lumină și una la întuneric.",
+     "Ce face o plantă pe timp de secetă?",
+     "Numește o floare care se închide seara."
+    ],
+    "test": [
+     "Spre ce crește tulpina?",
+     "Spre ce crește rădăcina?",
+     "Ce face planta când îi lipsește apa?",
+     "Ce se întâmplă cu planta ținută în întuneric?",
+     "Pot plantele reacționa la mediu?"
+    ],
+    "steps": [
+     "Schimbă o singură condiție (lumină, apă, temperatură).",
+     "Observă planta câteva zile și notează ce vezi.",
+     "Compară cu o plantă lăsată în condiții obișnuite.",
+     "Greșeala frecventă: să schimbi mai multe condiții deodată. Atunci nu știi care dintre ele a produs schimbarea."
+    ],
+    "answers": [
+     "Spre lumină",
+     "Spre apă (în jos)",
+     "Se ofilește",
+     "Se îngălbenește și crește slab",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l05": {
+   "ro": {
+    "title": "Cum reacționează animalele la schimbările de temperatură",
+    "theory": "Animalele se apără de frig și de căldură în moduri diferite. Unele își schimbă blana (mai deasă iarna), altele hibernează (ursul, ariciul), altele migrează spre locuri calde (berzele, rândunelele). Pe căldură, câinele gâfâie, iar unele animale se ascund la umbră.",
+    "sample": "Ursul doarme iarna în bârlog, consumând grăsimea strânsă vara și toamna.",
+    "worked": "Comparăm două păsări: barza pleacă toamna în Africa, unde găsește hrană; vrabia rămâne și își înfoaie penele ca să păstreze aerul cald lângă corp.",
+    "exercises": [
+     "Numește două animale care hibernează.",
+     "Numește două păsări călătoare.",
+     "Cum se apără câinele de căldură?",
+     "De ce are vulpea blana mai deasă iarna?",
+     "Ce fac broaștele iarna?"
+    ],
+    "test": [
+     "Ce face ursul iarna?",
+     "Unde pleacă berzele toamna?",
+     "Cum își păstrează vrabia căldura?",
+     "Ce face câinele când îi este cald?",
+     "Ce înseamnă a migra?"
+    ],
+    "steps": [
+     "Gândește-te la anotimp și la temperatura de afară.",
+     "Vezi dacă animalul pleacă, doarme sau se adaptează pe loc.",
+     "Leagă reacția de nevoia de hrană și căldură.",
+     "Greșeala frecventă: să crezi că toate păsările pleacă iarna. Vrabia, cioara și pițigoiul rămân."
+    ],
+    "answers": [
+     "Hibernează",
+     "În țările calde (Africa)",
+     "Își înfoaie penele",
+     "Gâfâie",
+     "A pleca în alt loc pentru o perioadă"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l06": {
+   "ro": {
+    "title": "Cum reacționează animalele la pericol și în mișcare",
+    "theory": "La pericol, animalele fug (iepurele), se ascund (melcul în cochilie), se fac ghem (ariciul), își schimbă culoarea (cameleonul) sau se apără (pisica scoate ghearele). Când se mișcă mult, inima bate mai repede și respiră mai des, la fel ca omul după alergare.",
+    "sample": "Ariciul se strânge ghem, iar țepii îl apără de vulpe.",
+    "worked": "Observăm un câine după o alergare: respiră repede, are limba scoasă, bea apă. După odihnă respirația revine la normal. Corpul are nevoie de mai mult aer și energie când se mișcă.",
+    "exercises": [
+     "Descrie cum se apără un melc, o broască-țestoasă și o pisică.",
+     "De ce respiră câinele mai repede după alergare?",
+     "Numără-ți respirațiile într-un minut în repaus și după 20 de sărituri.",
+     "Ce animal își schimbă culoarea ca să nu fie văzut?",
+     "Desenează un arici ghem."
+    ],
+    "test": [
+     "Ce face iepurele la pericol?",
+     "Cum se apără broasca-țestoasă?",
+     "Ce se întâmplă cu respirația după alergare?",
+     "Ce face ariciul la pericol?",
+     "De ce bea animalul apă după efort?"
+    ],
+    "steps": [
+     "Identifică situația: pericol sau efort.",
+     "Observă reacția corpului (fugă, ascundere, respirație).",
+     "Explică ce îl ajută reacția pe animal.",
+     "Greșeala frecventă: să crezi că animalul ascuns „s-a speriat degeaba”. Ascunderea este o reacție care îl apără."
+    ],
+    "answers": [
+     "Fuge",
+     "Se retrage în carapace",
+     "Devine mai rapidă",
+     "Se face ghem",
+     "Pentru că a pierdut apă prin efort"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l07": {
+   "ro": {
+    "title": "Insectele",
+    "theory": "Insectele au corpul împărțit în trei părți (cap, torace, abdomen), șase picioare și, de obicei, aripi și două antene. Sunt cele mai numeroase animale de pe Pământ. Exemple: albina, fluturele, gărgărița, furnica, musca.",
+    "sample": "Albina polenizează florile și produce miere.",
+    "worked": "Verificăm dacă păianjenul este insectă: numărăm picioarele — are opt. Corpul are două părți și nu are antene. Deci păianjenul nu este insectă.",
+    "exercises": [
+     "Desenează o insectă și notează părțile corpului.",
+     "Numește trei insecte folositoare și explică de ce.",
+     "Este râma insectă? Explică.",
+     "Câte picioare au trei furnici împreună?",
+     "Observă o insectă (fără să o prinzi) și descrie-o."
+    ],
+    "test": [
+     "Câte picioare are o insectă?",
+     "În câte părți este împărțit corpul insectei?",
+     "Este păianjenul insectă?",
+     "Ce produce albina?",
+     "Numește o insectă cu aripi colorate."
+    ],
+    "steps": [
+     "Numără picioarele animalului.",
+     "Verifică dacă are corpul în trei părți și antene.",
+     "Dacă da, este insectă.",
+     "Greșeala frecventă: să numești insecte toate vietățile mici (păianjen, râmă, melc). Doar cele cu șase picioare sunt insecte."
+    ],
+    "answers": [
+     "Șase",
+     "Trei",
+     "Nu",
+     "Miere",
+     "Fluturele"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l08": {
+   "ro": {
+    "title": "Peștii",
+    "theory": "Peștii trăiesc în apă, au corpul acoperit cu solzi, respiră prin branhii și înoată cu ajutorul înotătoarelor. Cei mai mulți depun icre (ouă). Sunt animale cu schelet intern, numite vertebrate. Exemple: crapul, păstrăvul, știuca, somnul.",
+    "sample": "Păstrăvul trăiește în apele reci și repezi de munte.",
+    "worked": "Comparăm peștele cu delfinul: ambii trăiesc în apă și au formă alungită. Dar delfinul respiră aer prin plămâni și își alăptează puii, deci este mamifer, nu pește.",
+    "exercises": [
+     "Desenează un pește și notează solzii, branhiile și înotătoarele.",
+     "Numește trei pești din râurile României.",
+     "De ce nu poate trăi peștele mult timp în afara apei?",
+     "Este balena pește? Explică.",
+     "Ce sunt icrele?"
+    ],
+    "test": [
+     "Cu ce respiră peștii?",
+     "Cu ce este acoperit corpul peștelui?",
+     "Ce rol au înotătoarele?",
+     "Cum se înmulțesc cei mai mulți pești?",
+     "Este delfinul pește?"
+    ],
+    "steps": [
+     "Verifică unde trăiește animalul.",
+     "Caută solzi, branhii și înotătoare.",
+     "Verifică dacă respiră aer sau ia oxigen din apă.",
+     "Greșeala frecventă: să crezi că orice animal care înoată este pește (delfin, balenă). Ei respiră aer și sunt mamifere."
+    ],
+    "answers": [
+     "Prin branhii",
+     "Cu solzi",
+     "Ajută la înot",
+     "Prin icre",
+     "Nu, este mamifer"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l09": {
+   "ro": {
+    "title": "Amfibienii și reptilele",
+    "theory": "Amfibienii (broasca, salamandra) trăiesc la început în apă (mormolocii respiră prin branhii) și apoi pe uscat, au pielea umedă și fără solzi. Reptilele (șopârla, șarpele, broasca-țestoasă) au pielea uscată, acoperită cu solzi sau plăci, și fac ouă cu coajă pe uscat.",
+    "sample": "Broasca depune ouăle în apă, iar mormolocii devin broscuțe.",
+    "worked": "Comparăm broasca și șopârla: broasca are pielea umedă și netedă, ouă în apă; șopârla are pielea uscată cu solzi, ouă pe uscat. Prima este amfibian, a doua reptilă.",
+    "exercises": [
+     "Fă un tabel cu deosebirile dintre broască și șopârlă.",
+     "Numește două reptile din România.",
+     "De ce își ține broasca pielea umedă?",
+     "Este broasca-țestoasă amfibian sau reptilă?",
+     "Desenează etapele: ou – mormoloc – broască."
+    ],
+    "test": [
+     "Ce fel de piele are broasca?",
+     "Unde depun reptilele ouăle?",
+     "Ce este mormolocul?",
+     "Este șarpele reptilă?",
+     "În ce mediu trăiesc amfibienii?"
+    ],
+    "steps": [
+     "Observă pielea: umedă și netedă sau uscată cu solzi.",
+     "Află unde depune ouăle animalul.",
+     "Stabilește grupa: amfibian sau reptilă.",
+     "Greșeala frecventă: să crezi că broasca-țestoasă este amfibian pentru că se numește „broască”. Are carapace și piele uscată: este reptilă."
+    ],
+    "answers": [
+     "Umedă, netedă",
+     "Pe uscat",
+     "Puiul broaștei, care trăiește în apă",
+     "Da",
+     "În apă și pe uscat"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l10": {
+   "ro": {
+    "title": "Păsările",
+    "theory": "Păsările au corpul acoperit cu pene, două picioare, două aripi și cioc fără dinți. Fac ouă cu coajă tare, pe care le clocesc. Cele mai multe pot zbura, dar unele nu (struțul, pinguinul). Forma ciocului arată ce mănâncă pasărea.",
+    "sample": "Ciocănitoarea are ciocul tare și ascuțit, cu care scoate larvele din scoarța copacilor.",
+    "worked": "Comparăm ciocurile: vrabia are cioc scurt și gros pentru semințe; barza are cioc lung pentru a prinde broaște în apă puțin adâncă; vulturul are cioc încovoiat pentru a rupe carnea.",
+    "exercises": [
+     "Numește cinci păsări din curte sau din parc.",
+     "Ce mănâncă o pasăre cu cioc scurt și gros?",
+     "Este liliacul pasăre? Explică.",
+     "De ce clocește găina ouăle?",
+     "Desenează o pasăre și numește părțile corpului."
+    ],
+    "test": [
+     "Cu ce este acoperit corpul păsării?",
+     "Câte picioare are o pasăre?",
+     "Poate zbura struțul?",
+     "Ce face pasărea cu ouăle?",
+     "Are pasărea dinți?"
+    ],
+    "steps": [
+     "Verifică dacă animalul are pene.",
+     "Observă ciocul și picioarele.",
+     "Leagă forma ciocului de hrană.",
+     "Greșeala frecventă: să crezi că liliacul este pasăre pentru că zboară. Are blană și alăptează puii: este mamifer."
+    ],
+    "answers": [
+     "Cu pene",
+     "Două",
+     "Nu",
+     "Le clocește",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l11": {
+   "ro": {
+    "title": "Mamiferele",
+    "theory": "Mamiferele au corpul acoperit cu păr sau blană, nasc pui vii (în general) și îi hrănesc cu lapte. Respiră prin plămâni. Exemple: câinele, vaca, ursul, liliacul, delfinul și omul. Ele trăiesc în medii foarte diferite: pe uscat, în apă și în aer.",
+    "sample": "Vaca își hrănește vițelul cu lapte.",
+    "worked": "Grupăm animalele: pisică (blană, pui vii, lapte) – mamifer; găină (pene, ouă) – pasăre; crap (solzi, branhii) – pește. Folosim pentru fiecare două-trei caracteristici, nu doar una.",
+    "exercises": [
+     "Numește trei mamifere domestice și trei sălbatice.",
+     "De ce sunt delfinul și liliacul mamifere?",
+     "Este omul mamifer? Explică.",
+     "Grupează: rândunică, urs, crap, șarpe, albină, câine.",
+     "Ce au în comun toate mamiferele?"
+    ],
+    "test": [
+     "Cu ce își hrănesc mamiferele puii?",
+     "Cu ce este acoperit corpul mamiferelor?",
+     "Este balena mamifer?",
+     "Prin ce respiră mamiferele?",
+     "Este omul mamifer?"
+    ],
+    "steps": [
+     "Caută păr sau blană.",
+     "Verifică dacă puii sunt hrăniți cu lapte.",
+     "Folosește mai multe caracteristici pentru a încadra animalul.",
+     "Greșeala frecventă: să clasifici animalul după mediul în care trăiește (balena în apă, deci pește). Contează caracteristicile corpului."
+    ],
+    "answers": [
+     "Cu lapte",
+     "Cu păr sau blană",
+     "Da",
+     "Prin plămâni",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l12": {
+   "ro": {
+    "title": "Activitate și odihnă activă",
+    "theory": "Corpul nostru are nevoie atât de activitate (învățat, mișcare, joacă), cât și de odihnă. Odihna activă înseamnă să schimbi activitatea: după ce ai stat mult la birou, te miști, citești ceva relaxant, desenezi sau faci sport. Oboseala ne scade atenția și ne face mai iritați.",
+    "sample": "După două ore de teme, o plimbare de 20 de minute în parc te ajută să te concentrezi din nou.",
+    "worked": "Ana învață o oră matematică, apoi face o pauză de 10 minute în care se întinde și bea apă. Când revine, rezolvă exercițiile mai repede decât dacă ar fi continuat fără pauză.",
+    "exercises": [
+     "Scrie trei forme de odihnă activă care îți plac.",
+     "Ce simți când ești obosit? Notează două semne.",
+     "De ce nu este bine să te uiți la telefon în toate pauzele?",
+     "Planifică o după-amiază cu teme, joacă și odihnă.",
+     "Explică de ce sportivii au zile de odihnă."
+    ],
+    "test": [
+     "Ce este odihna activă?",
+     "Dă un exemplu de odihnă activă.",
+     "Ce se întâmplă cu atenția când suntem obosiți?",
+     "De ce facem pauze între teme?",
+     "Este somnul o formă de odihnă?"
+    ],
+    "steps": [
+     "Observă cât timp ai lucrat la aceeași activitate.",
+     "Alege o pauză care schimbă tipul de efort.",
+     "Revino la activitate după pauză.",
+     "Greșeala frecventă: să crezi că odihna înseamnă doar să stai nemișcat. Și mișcarea sau desenul pot odihni mintea."
+    ],
+    "answers": [
+     "Schimbarea activității pentru a te reface",
+     "Plimbarea, desenul, sportul",
+     "Scade",
+     "Ca să ne refacem puterea de concentrare",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l13": {
+   "ro": {
+    "title": "Somnul și programul zilnic",
+    "theory": "Somnul este cea mai importantă formă de odihnă: în timpul lui corpul crește și se reface, iar mintea pune în ordine ce am învățat. Un copil de vârsta ta are nevoie de 9–11 ore de somn. Un program zilnic echilibrat împarte timpul între școală, teme, mișcare, joacă și somn.",
+    "sample": "Dacă te culci la ora 21 și te trezești la 7, dormi 10 ore.",
+    "worked": "Facem programul lui Mihai: 8–13 școală, 13–14 masă și odihnă, 14–16 teme, 16–18 joacă afară, 18–20 cină și activități în familie, 20:30 pregătirea de somn, 21 culcare. Calculăm somnul: de la 21 la 7 = 10 ore.",
+    "exercises": [
+     "Calculează câte ore dormi tu într-o noapte obișnuită.",
+     "Scrie-ți programul pentru o zi de școală.",
+     "De ce nu e bine să folosim ecrane înainte de culcare?",
+     "Ce s-ar întâmpla dacă ai dormi doar 5 ore?",
+     "Propune trei obiceiuri pentru un somn bun."
+    ],
+    "test": [
+     "Câte ore de somn îi trebuie unui copil de 9 ani?",
+     "De la 22 la 7 câte ore sunt?",
+     "Ce face corpul în timpul somnului?",
+     "Este bine să ai o oră fixă de culcare?",
+     "Ce activități include un program echilibrat?"
+    ],
+    "steps": [
+     "Notează ora de culcare și ora de trezire.",
+     "Calculează orele de somn.",
+     "Compară cu necesarul (9–11 ore) și ajustează programul.",
+     "Greșeala frecventă: să recuperezi somnul doar în weekend. Corpul are nevoie de somn suficient în fiecare noapte."
+    ],
+    "answers": [
+     "9–11 ore",
+     "9 ore",
+     "Se reface și crește",
+     "Da",
+     "Școală, teme, mișcare, joacă, somn"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l14": {
+   "ro": {
+    "title": "Apa: surse de apă, tipuri și utilizări",
+    "theory": "Apa acoperă cea mai mare parte a Pământului. Majoritatea este apă sărată (mări, oceane); apa dulce se găsește în râuri, lacuri, izvoare, ape subterane și ghețari. Folosim apa pentru băut, gătit, igienă, agricultură, industrie și producerea curentului electric.",
+    "sample": "Apa de la robinet vine adesea dintr-un râu sau din fântâni de mare adâncime, după ce este curățată.",
+    "worked": "Comparăm: apa mării este sărată și nu se poate bea; apa unui izvor de munte este dulce și, de obicei, potabilă. Apa unui râu poate fi dulce, dar trebuie tratată înainte de a fi băută.",
+    "exercises": [
+     "Numește patru surse de apă dulce.",
+     "Scrie cinci moduri în care folosești apa într-o zi.",
+     "De ce nu putem bea apa mării?",
+     "Cum poți economisi apa acasă? Dă trei exemple.",
+     "Ce este apa potabilă?"
+    ],
+    "test": [
+     "Este apa mării dulce sau sărată?",
+     "Numește o sursă de apă subterană.",
+     "Ce înseamnă apă potabilă?",
+     "Pentru ce folosesc fermierii apa?",
+     "Unde se găsește multă apă dulce înghețată?"
+    ],
+    "steps": [
+     "Identifică sursa de apă.",
+     "Stabilește dacă este dulce sau sărată.",
+     "Gândește-te la utilizare și dacă trebuie curățată.",
+     "Greșeala frecventă: să crezi că orice apă limpede se poate bea. Poate conține microbi; apa potabilă este verificată."
+    ],
+    "answers": [
+     "Sărată",
+     "Fântâna sau apa freatică",
+     "Apă bună de băut",
+     "Pentru irigat culturile",
+     "În ghețari"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l15": {
+   "ro": {
+    "title": "Aerul",
+    "theory": "Aerul ne înconjoară peste tot, chiar dacă nu îl vedem. Este un amestec de gaze; unul dintre ele, oxigenul, este necesar pentru respirație. Aerul ocupă loc, are greutate și se mișcă (vântul). Plantele, animalele și oamenii nu pot trăi fără aer.",
+    "sample": "Când umfli un balon, aerul pe care îl sufli îi ocupă interiorul și îl face mare.",
+    "worked": "Experiment: răsturnăm un pahar cu un șervețel lipit pe fund și îl împingem drept în apă. Șervețelul rămâne uscat, pentru că aerul din pahar ocupă locul și nu lasă apa să intre.",
+    "exercises": [
+     "Cum îți dai seama că există aer, deși nu îl vezi?",
+     "Numește trei lucruri care funcționează datorită aerului în mișcare.",
+     "De ce plutesc baloanele cu aer cald?",
+     "Ce gaz din aer este necesar pentru respirație?",
+     "Fă experimentul cu paharul și șervețelul și descrie-l."
+    ],
+    "test": [
+     "Se vede aerul?",
+     "Ce gaz din aer folosim la respirație?",
+     "Ce este vântul?",
+     "Ocupă aerul loc?",
+     "Pot trăi viețuitoarele fără aer?"
+    ],
+    "steps": [
+     "Observă efectele aerului (balon, vânt, bule în apă).",
+     "Fă un experiment simplu care arată că aerul ocupă loc.",
+     "Formulează o concluzie.",
+     "Greșeala frecventă: să crezi că un pahar „gol” nu conține nimic. El este plin cu aer."
+    ],
+    "answers": [
+     "Nu",
+     "Oxigenul",
+     "Aerul în mișcare",
+     "Da",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l16": {
+   "ro": {
+    "title": "Solul",
+    "theory": "Solul este stratul afânat de la suprafața Pământului în care cresc plantele. Este format din bucăți mici de roci (nisip, argilă), resturi de plante și animale (humus), apă și aer. Solul fertil, bogat în humus, este închis la culoare. În sol trăiesc râme, insecte și microorganisme.",
+    "sample": "Râmele sapă galerii prin care intră aerul și apa în sol.",
+    "worked": "Punem pământ într-un borcan cu apă, agităm și lăsăm să se așeze. Observăm straturi: jos pietricele și nisip, apoi argilă, la suprafață resturi de plante. Deasupra apar bule de aer.",
+    "exercises": [
+     "Din ce este format solul?",
+     "De ce sunt râmele folositoare?",
+     "Fă experimentul cu borcanul și desenează straturile.",
+     "Ce plantă crește bine în sol nisipos?",
+     "De ce nu trebuie aruncate deșeuri pe sol?"
+    ],
+    "test": [
+     "Ce este humusul?",
+     "Ce viețuitoare trăiește în sol?",
+     "Ce culoare are de obicei solul fertil?",
+     "Conține solul aer?",
+     "La ce folosește solul plantelor?"
+    ],
+    "steps": [
+     "Ia o probă de sol și observă-o cu lupa.",
+     "Identifică părțile: nisip, argilă, resturi de plante, viețuitoare.",
+     "Leagă compoziția de fertilitate.",
+     "Greșeala frecventă: să crezi că solul este doar „pământ mort”. El conține viețuitoare și resturi care hrănesc plantele."
+    ],
+    "answers": [
+     "Resturi de plante și animale descompuse",
+     "Râma",
+     "Închisă la culoare",
+     "Da",
+     "Le fixează și le dă apă și hrană"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l17": {
+   "ro": {
+    "title": "Resurse naturale: rocile și minereurile",
+    "theory": "Resursele naturale sunt bogății pe care le luăm din natură. Rocile (granit, calcar, marmură, nisip) se folosesc la construcții. Din minereuri obținem metale (fier, cupru, aur). Unele resurse se refac (lemnul, apa), altele nu (minereurile, cărbunele), de aceea trebuie folosite cu grijă.",
+    "sample": "Sarea din salinele României (Praid, Turda) este o rocă scoasă din adâncuri.",
+    "worked": "Grupăm: lemnul – resursă care se reface dacă plantăm copaci; minereul de fier – resursă care nu se reface; nisipul – rocă folosită la beton și sticlă.",
+    "exercises": [
+     "Numește trei roci și o utilizare pentru fiecare.",
+     "Ce metal obținem din minereul de fier?",
+     "Ce înseamnă o resursă care nu se reface?",
+     "Ce obiecte din casă sunt făcute din metal?",
+     "Caută pe hartă o salină din România."
+    ],
+    "test": [
+     "Ce este o resursă naturală?",
+     "Din ce obținem metalele?",
+     "Se folosește marmura în construcții?",
+     "Se reface minereul de cupru?",
+     "Ce rocă se folosește la sticlă?"
+    ],
+    "steps": [
+     "Identifică resursa și de unde provine.",
+     "Află la ce se folosește.",
+     "Stabilește dacă se reface sau nu.",
+     "Greșeala frecventă: să crezi că resursele naturale sunt nesfârșite. Multe se termină dacă le risipim."
+    ],
+    "answers": [
+     "O bogăție luată din natură",
+     "Din minereuri",
+     "Da",
+     "Nu",
+     "Nisipul"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l18": {
+   "ro": {
+    "title": "Lemnul și combustibilii; folosirea responsabilă a resurselor",
+    "theory": "Lemnul ne dă mobilă, hârtie și căldură. Combustibilii (lemnul, cărbunele, petrolul, gazul natural) ard și produc căldură și energie. Arderea lor murdărește aerul, iar cărbunele, petrolul și gazul se termină într-o zi. Folosirea responsabilă înseamnă: economisim, refolosim, reciclăm și plantăm copaci.",
+    "sample": "Hârtia reciclată salvează copaci: dintr-o tonă de maculatură se face hârtie nouă.",
+    "worked": "Familia Popescu închide caloriferele când aerisește, stinge lumina când iese din cameră și duce hârtia la reciclat. Astfel consumă mai puțin gaz și curent și protejează pădurile.",
+    "exercises": [
+     "Numește patru combustibili.",
+     "Scrie trei obiecte făcute din lemn.",
+     "Ce poți face tu ca să economisești energia?",
+     "De ce trebuie plantați copaci noi?",
+     "Explică ce înseamnă reciclare."
+    ],
+    "test": [
+     "Ce produce arderea combustibililor?",
+     "Este petrolul o resursă care se termină?",
+     "Din ce se face hârtia?",
+     "Ce înseamnă a recicla?",
+     "Dă un exemplu de economisire a energiei."
+    ],
+    "steps": [
+     "Identifică resursa folosită.",
+     "Gândește-te cum poate fi economisită sau înlocuită.",
+     "Alege o faptă concretă pe care o poți face zilnic.",
+     "Greșeala frecventă: să crezi că un singur om nu contează. Faptele mici, făcute de mulți, schimbă mult."
+    ],
+    "answers": [
+     "Căldură (și fum)",
+     "Da",
+     "Din lemn",
+     "A folosi materialul din nou pentru obiecte noi",
+     "Sting lumina când ies din cameră"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l19": {
+   "ro": {
+    "title": "Mișcarea apei pe suprafața Pământului",
+    "theory": "Apa curge mereu de sus în jos. Izvoarele dau naștere pârâurilor, care se unesc în râuri; râurile se varsă în fluvii, iar fluviile în mări și oceane. Mările și oceanele au valuri produse de vânt și maree. Lacurile au apa liniștită, adunată într-o adâncitură.",
+    "sample": "Dunărea se varsă în Marea Neagră printr-o deltă.",
+    "worked": "Urmărim drumul unei picături: cade ca ploaie pe munte, intră în sol, iese la un izvor, curge în pârâu, apoi în râul Olt, apoi în Dunăre și ajunge în Marea Neagră.",
+    "exercises": [
+     "Desenează drumul apei de la izvor la mare.",
+     "Care este diferența dintre o mare și un ocean?",
+     "Numește trei râuri din România.",
+     "De ce curge apa râurilor la vale?",
+     "Ce sunt valurile?"
+    ],
+    "test": [
+     "Unde se varsă Dunărea?",
+     "În ce direcție curge apa?",
+     "Ce dă naștere unui pârâu?",
+     "Ce mișcă apa mării la suprafață?",
+     "Este un lac apă curgătoare?"
+    ],
+    "steps": [
+     "Pornește de la locul cel mai înalt (izvor).",
+     "Urmărește apa la vale, de la pârâu la râu, fluviu și mare.",
+     "Explică ce forță pune apa în mișcare.",
+     "Greșeala frecventă: să crezi că apa poate urca singură la deal. Apa curge mereu de sus în jos."
+    ],
+    "answers": [
+     "În Marea Neagră",
+     "De sus în jos",
+     "Un izvor",
+     "Vântul (valurile)",
+     "Nu, are apă stătătoare"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l20": {
+   "ro": {
+    "title": "Stările de agregare ale apei",
+    "theory": "Apa se găsește în trei stări: solidă (gheață, zăpadă), lichidă (apa din pahar) și gazoasă (vapori, pe care nu îi vedem). Apa trece dintr-o stare în alta când se încălzește sau se răcește: gheața se topește la căldură, apa îngheață la frig, apa fierbinte se evaporă.",
+    "sample": "Un cub de gheață lăsat pe masă se transformă în apă după câteva minute.",
+    "worked": "Încălzim gheață într-un vas: întâi se topește (solid → lichid); continuăm, apa fierbe și iese aburi (lichid → gaz). Ținem un capac rece deasupra: pe el apar picături (gaz → lichid).",
+    "exercises": [
+     "Numește apa în fiecare stare de agregare.",
+     "Ce se întâmplă cu un om de zăpadă primăvara?",
+     "De ce se aburesc geamurile iarna?",
+     "Cum se usucă rufele întinse?",
+     "Desenează cele trei stări ale apei."
+    ],
+    "test": [
+     "În ce stare este gheața?",
+     "Ce se întâmplă cu apa la frig puternic?",
+     "Vedem vaporii de apă?",
+     "Ce produce topirea gheții?",
+     "Cum trece apa în vapori?"
+    ],
+    "steps": [
+     "Observă starea apei (solid, lichid, gaz).",
+     "Gândește-te dacă s-a încălzit sau s-a răcit.",
+     "Numește transformarea.",
+     "Greșeala frecventă: să crezi că „aburul” alb de deasupra ceainicului este gaz. Este format din picături mici de apă; vaporii adevărați nu se văd."
+    ],
+    "answers": [
+     "Solidă",
+     "Îngheață",
+     "Nu",
+     "Apă lichidă",
+     "Prin încălzire (evaporare)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l21": {
+   "ro": {
+    "title": "Circuitul apei în natură",
+    "theory": "Soarele încălzește apa mărilor, lacurilor și râurilor, care se evaporă. Vaporii urcă, se răcesc și formează norii (condensare). Din nori cad precipitații: ploaie, ninsoare, grindină. Apa ajunge din nou în râuri, mări și în sol, iar circuitul se reia. Și plantele dau vapori prin frunze.",
+    "sample": "Ploaia care cade azi pe câmp poate fi fost cândva apă din Marea Neagră.",
+    "worked": "Model în borcan: punem apă caldă, acoperim cu o farfurie cu cuburi de gheață. Vaporii urcă, se răcesc pe farfurie și cad înapoi ca picături. Am reprodus în mic circuitul apei.",
+    "exercises": [
+     "Desenează circuitul apei și numește etapele.",
+     "Ce rol are Soarele în circuitul apei?",
+     "Din ce sunt formați norii?",
+     "Fă modelul în borcan și descrie ce vezi.",
+     "Contribuie plantele la circuitul apei? Explică."
+    ],
+    "test": [
+     "Ce se întâmplă cu apa încălzită de Soare?",
+     "Cum se formează norii?",
+     "Numește două tipuri de precipitații.",
+     "Unde ajunge apa de ploaie?",
+     "Se termină vreodată circuitul apei?"
+    ],
+    "steps": [
+     "Pornește de la apa încălzită de Soare.",
+     "Urmărește vaporii care urcă și se răcesc în nori.",
+     "Încheie cu precipitațiile care ajung înapoi pe Pământ.",
+     "Greșeala frecventă: să crezi că norii sunt din fum sau vată. Sunt picături mici de apă sau cristale de gheață."
+    ],
+    "answers": [
+     "Se evaporă",
+     "Prin răcirea vaporilor (condensare)",
+     "Ploaie și ninsoare",
+     "În râuri, mări și sol",
+     "Nu, se reia mereu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l22": {
+   "ro": {
+    "title": "Fenomene ale naturii: ploaie, ninsoare, vânt, fulger, tunet",
+    "theory": "Ploaia cade când picăturile din nori devin grele. Ninsoarea apare când e frig și picăturile îngheață sub formă de fulgi. Vântul este aer în mișcare. Fulgerul este o scânteie electrică uriașă între nori sau între nor și pământ, iar tunetul este zgomotul produs de fulger. Vedem fulgerul înainte să auzim tunetul, pentru că lumina călătorește mai repede decât sunetul.",
+    "sample": "Dacă numeri trei secunde între fulger și tunet, furtuna este la aproximativ un kilometru.",
+    "worked": "Pe furtună: nu stăm sub copaci izolați, nu facem baie în lac, ne adăpostim într-o clădire. Numărăm secundele dintre fulger și tunet: dacă intervalul scade, furtuna se apropie.",
+    "exercises": [
+     "Explică de ce vedem fulgerul înainte să auzim tunetul.",
+     "Numește trei reguli de siguranță pe furtună.",
+     "Când ninge în loc să plouă?",
+     "Ce putem face cu ajutorul vântului?",
+     "Ține un jurnal al vremii timp de o săptămână."
+    ],
+    "test": [
+     "Ce este vântul?",
+     "Ce este tunetul?",
+     "Ce apare primul: fulgerul sau tunetul?",
+     "E bine să stai sub un copac pe furtună?",
+     "Ce condiție trebuie pentru ninsoare?"
+    ],
+    "steps": [
+     "Observă fenomenul și condițiile (temperatură, nori, vânt).",
+     "Explică ce îl produce.",
+     "Amintește-ți regulile de siguranță.",
+     "Greșeala frecventă: să te adăpostești sub un copac înalt pe furtună. Fulgerul lovește adesea copacii izolați."
+    ],
+    "answers": [
+     "Aer în mișcare",
+     "Zgomotul produs de fulger",
+     "Fulgerul (se vede primul)",
+     "Nu",
+     "Temperatură scăzută (frig)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l23": {
+   "ro": {
+    "title": "Poluarea apei",
+    "theory": "Apa este poluată când în ea ajung substanțe sau deșeuri dăunătoare: gunoaie, deversări din fabrici, detergenți, îngrășăminte de pe câmpuri, petrol. Apa poluată îmbolnăvește peștii, plantele și oamenii. O putem proteja nearuncând gunoaie și folosind cu grijă detergenții.",
+    "sample": "După o deversare de petrol, păsările de pe mare au penele lipite și nu mai pot zbura.",
+    "worked": "Experiment: punem câteva picături de ulei într-un vas cu apă și o pană. Uleiul plutește, se lipește de pană și nu se mai îndepărtează ușor. Așa ajung să sufere păsările afectate de poluare.",
+    "exercises": [
+     "Numește trei cauze ale poluării apei.",
+     "Ce efecte are apa poluată asupra peștilor?",
+     "De ce nu aruncăm uleiul de gătit în chiuvetă?",
+     "Propune trei reguli pentru un râu curat.",
+     "Desenează un afiș „Apă curată pentru toți”."
+    ],
+    "test": [
+     "Ce este poluarea apei?",
+     "Dă un exemplu de poluant al apei.",
+     "Cine este afectat de apa poluată?",
+     "Unde aruncăm uleiul folosit?",
+     "Cum poți ajuta la o apă curată?"
+    ],
+    "steps": [
+     "Identifică sursa poluării.",
+     "Gândește-te pe cine afectează.",
+     "Propune o măsură de protecție.",
+     "Greșeala frecventă: să crezi că un râu mare „spală” orice gunoi. Poluanții ajung mai departe, în alte ape și în mare."
+    ],
+    "answers": [
+     "Murdărirea apei cu substanțe dăunătoare",
+     "Petrolul sau gunoaiele",
+     "Plantele, animalele și oamenii",
+     "La centrele de colectare, nu în chiuvetă",
+     "Nu arunc gunoaie în apă"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l24": {
+   "ro": {
+    "title": "Poluarea solului și a aerului",
+    "theory": "Solul este poluat de gunoaie, de plastic, de baterii aruncate și de prea multe substanțe chimice. Aerul este poluat de fumul fabricilor, al mașinilor și al arderii deșeurilor. Aerul poluat ne îmbolnăvește plămânii. Ne ajută: plantarea copacilor, mersul pe jos sau cu bicicleta, colectarea selectivă a deșeurilor.",
+    "sample": "O baterie aruncată în pământ poate polua solul mulți ani.",
+    "worked": "Comparăm două drumuri spre școală: cu mașina – fum și zgomot; pe jos sau cu bicicleta – fără poluare și cu mișcare pentru sănătate. Pentru distanțe scurte, a doua variantă protejează aerul.",
+    "exercises": [
+     "Numește trei surse de poluare a aerului.",
+     "De ce nu aruncăm bateriile la gunoiul obișnuit?",
+     "Cum ajută copacii la curățarea aerului?",
+     "Sortează: sticlă, hârtie, plastic, resturi de mâncare.",
+     "Propune o acțiune ecologică pentru clasa ta."
+    ],
+    "test": [
+     "Ce poluează aerul în orașe?",
+     "Unde ducem bateriile uzate?",
+     "Ce face colectarea selectivă?",
+     "Cum ne afectează aerul poluat?",
+     "Ce plantăm pentru un aer mai curat?"
+    ],
+    "steps": [
+     "Observă de unde vin fumul sau deșeurile.",
+     "Gândește-te ce efecte au asupra viețuitoarelor.",
+     "Alege o soluție: reducere, reciclare, plantare.",
+     "Greșeala frecventă: să arzi frunzele sau gunoaiele în curte crezând că „dispar”. Fumul poluează aerul."
+    ],
+    "answers": [
+     "Mașinile și fabricile",
+     "La puncte speciale de colectare",
+     "Separă deșeurile pe tipuri pentru reciclare",
+     "Ne îmbolnăvește plămânii",
+     "Copaci"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l25": {
+   "ro": {
+    "title": "Proprietăți ale corpurilor: formă, culoare, lungime, masă, volum",
+    "theory": "Fiecare corp are proprietăți pe care le putem observa sau măsura: forma (rotundă, pătrată), culoarea, lungimea (cu rigla, în cm sau m), masa (cu cântarul, în kg sau g), volumul (cât spațiu ocupă, în litri pentru lichide). Unele corpuri se pot întinde (elasticul), altele nu.",
+    "sample": "O minge de fotbal este rotundă, albă cu negru, cântărește cam 430 g și ocupă mai mult loc decât o minge de tenis.",
+    "worked": "Comparăm un cub de lemn și un cub de fier de aceeași mărime: au aceeași formă și același volum, dar cel de fier are masa mai mare. Volumul și masa sunt proprietăți diferite.",
+    "exercises": [
+     "Descrie o radieră: formă, culoare, lungime, masă aproximativă.",
+     "Măsoară lungimea caietului cu rigla.",
+     "Ce instrument măsoară masa?",
+     "Ce corp ocupă mai mult loc: o minge de baschet sau o minge de ping-pong?",
+     "Găsește un obiect care se întinde și unul care nu se întinde."
+    ],
+    "test": [
+     "Ce instrument măsoară lungimea?",
+     "În ce se măsoară masa?",
+     "Ce înseamnă volumul unui corp?",
+     "Au două corpuri de aceeași mărime aceeași masă întotdeauna?",
+     "Se întinde un elastic?"
+    ],
+    "steps": [
+     "Observă forma și culoarea.",
+     "Măsoară lungimea și masa cu instrumentele potrivite.",
+     "Compară volumul (cât loc ocupă).",
+     "Greșeala frecventă: să crezi că un corp mai mare este întotdeauna mai greu. Un balon mare este mai ușor decât o bilă mică de fier."
+    ],
+    "answers": [
+     "Rigla (metrul)",
+     "În kilograme sau grame",
+     "Cât spațiu ocupă",
+     "Nu",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l26": {
+   "ro": {
+    "title": "Stări de agregare: solid, lichid, gazos",
+    "theory": "Corpurile solide au formă proprie și volum propriu (o piatră). Lichidele au volum propriu, dar iau forma vasului (apa, laptele). Gazele nu au nici formă, nici volum propriu: ocupă tot vasul în care se află (aerul dintr-un balon).",
+    "sample": "Apa turnată dintr-o sticlă într-o farfurie își schimbă forma, dar nu cantitatea.",
+    "worked": "Turnăm 200 ml de suc dintr-un pahar înalt într-unul lat: forma se schimbă, volumul rămâne 200 ml. Punem o piatră în ambele pahare: forma pietrei rămâne aceeași.",
+    "exercises": [
+     "Scrie câte trei exemple de solide, lichide și gaze.",
+     "Ce formă ia apa turnată într-o sticlă?",
+     "De ce se umple tot balonul cu aer?",
+     "În ce stare este nisipul? Explică.",
+     "Fă experimentul cu paharele și notează ce observi."
+    ],
+    "test": [
+     "Are lichidul formă proprie?",
+     "Ce stare de agregare are lemnul?",
+     "Ocupă gazul tot vasul?",
+     "Ce rămâne neschimbat când turnăm un lichid în alt vas?",
+     "În ce stare este aerul?"
+    ],
+    "steps": [
+     "Verifică dacă își păstrează forma.",
+     "Verifică dacă își păstrează volumul.",
+     "Stabilește starea: solid, lichid sau gaz.",
+     "Greșeala frecventă: să crezi că nisipul este lichid pentru că „curge”. Fiecare grăunte are formă proprie: nisipul este solid."
+    ],
+    "answers": [
+     "Nu",
+     "Solidă",
+     "Da",
+     "Volumul",
+     "Gazoasă"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l27": {
+   "ro": {
+    "title": "Proprietățile metalelor și utilizările lor",
+    "theory": "Metalele (fierul, cuprul, aluminiul, aurul) sunt de obicei lucioase, tari, conduc bine căldura și curentul electric și pot fi îndoite sau trase în fire. De aceea facem din ele oale, cabluri electrice, unelte și podoabe. Fierul ruginește în prezența apei și a aerului.",
+    "sample": "Firele electrice din casă sunt din cupru, acoperite cu plastic.",
+    "worked": "Punem o lingură de metal și una de lemn în ceai fierbinte. După un minut, coada lingurii de metal este caldă, a celei de lemn nu. Metalul conduce căldura.",
+    "exercises": [
+     "Numește patru obiecte din metal și metalul din care sunt făcute.",
+     "De ce oalele sunt din metal, dar mânerele adesea din plastic?",
+     "De ce firele electrice sunt din cupru?",
+     "Ce se întâmplă cu un cui de fier lăsat în ploaie?",
+     "Compară o lingură de metal cu una de lemn."
+    ],
+    "test": [
+     "Conduc metalele căldura?",
+     "Din ce metal sunt firele electrice?",
+     "Ce se întâmplă cu fierul la umezeală?",
+     "Sunt metalele lucioase?",
+     "Din ce metal se fac adesea podoabele?"
+    ],
+    "steps": [
+     "Observă aspectul (luciu, duritate).",
+     "Testează dacă se încălzește repede sau dacă se îndoaie.",
+     "Leagă proprietatea de utilizare.",
+     "Greșeala frecventă: să crezi că toate metalele sunt atrase de magnet. Aluminiul și cuprul nu sunt atrase."
+    ],
+    "answers": [
+     "Da",
+     "Cupru",
+     "Ruginește",
+     "Da",
+     "Aur sau argint"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l28": {
+   "ro": {
+    "title": "Topirea, solidificarea, vaporizarea și condensarea",
+    "theory": "Materia își poate schimba starea. Topirea: solid → lichid (gheața se topește). Solidificarea: lichid → solid (apa îngheață, ceara se întărește). Vaporizarea: lichid → gaz (apa fierbe sau se evaporă). Condensarea: gaz → lichid (vaporii se fac picături pe o oglindă rece). Corpul rămâne același material, doar starea se schimbă.",
+    "sample": "O lumânare aprinsă își topește ceara, iar ceara care se scurge se solidifică din nou.",
+    "worked": "Topim ciocolată la bain-marie și o turnăm în forme: s-a topit (solid → lichid), iar în frigider se solidifică (lichid → solid). Rămâne tot ciocolată.",
+    "exercises": [
+     "Numește transformarea: unt pe pâine caldă; băltoacă ce dispare la soare.",
+     "Ce se întâmplă cu oglinda din baie după duș?",
+     "Cum se obțin cuburile de gheață?",
+     "Dă un exemplu de solidificare în afară de apă.",
+     "Desenează schema celor patru transformări."
+    ],
+    "test": [
+     "Cum se numește trecerea din solid în lichid?",
+     "Cum se numește trecerea din lichid în solid?",
+     "Ce este vaporizarea?",
+     "Cum se numește trecerea din gaz în lichid?",
+     "Se schimbă materialul când se topește?"
+    ],
+    "steps": [
+     "Identifică starea de la început.",
+     "Identifică starea de la sfârșit.",
+     "Numește transformarea și cauza ei (încălzire sau răcire).",
+     "Greșeala frecventă: să confunzi topirea cu dizolvarea. Gheața se topește; zahărul în apă se dizolvă."
+    ],
+    "answers": [
+     "Topire",
+     "Solidificare",
+     "Trecerea din lichid în gaz",
+     "Condensare",
+     "Nu, se schimbă doar starea"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l29": {
+   "ro": {
+    "title": "Interacțiuni între corpuri: gravitațională și de contact (frecarea)",
+    "theory": "Corpurile acționează unele asupra altora. Pământul atrage toate corpurile spre el (interacțiune gravitațională): de aceea obiectele cad. Când un corp alunecă pe altul, apare frecarea, care îl încetinește. Pe gheață frecarea este mică, pe asfalt aspru este mare.",
+    "sample": "Iarna se presară nisip pe trotuar ca să crească frecarea și să nu alunecăm.",
+    "worked": "Împingem aceeași mașinuță pe parchet și pe covor. Pe covor se oprește mai repede, pentru că frecarea este mai mare. Pe parchet merge mai departe.",
+    "exercises": [
+     "De ce cade un măr din copac?",
+     "De ce alunecăm pe gheață?",
+     "Unde ne ajută frecarea? Dă două exemple.",
+     "Fă experimentul cu mașinuța pe două suprafețe.",
+     "De ce au pantofii de sport talpă cu striații?"
+    ],
+    "test": [
+     "Ce forță face corpurile să cadă?",
+     "Ce încetinește o minge care se rostogolește?",
+     "Este frecarea mare pe gheață?",
+     "De ce se presară nisip iarna?",
+     "Ce suprafață oprește mai repede o mașinuță: covorul sau parchetul?"
+    ],
+    "steps": [
+     "Observă ce se întâmplă cu corpul (cade, se oprește).",
+     "Identifică interacțiunea: atracția Pământului sau frecarea.",
+     "Compară suprafețe sau situații diferite.",
+     "Greșeala frecventă: să crezi că frecarea este mereu rea. Fără ea nu am putea merge și mașinile nu ar frâna."
+    ],
+    "answers": [
+     "Atracția Pământului (gravitațională)",
+     "Frecarea",
+     "Nu, este mică",
+     "Ca să crească frecarea",
+     "Covorul"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l30": {
+   "ro": {
+    "title": "Magneții și busola",
+    "theory": "Magneții atrag obiectele din fier și oțel, dar nu lemnul, plasticul sau hârtia. Fiecare magnet are doi poli, Nord și Sud: polii diferiți se atrag, polii la fel se resping. Busola are un ac magnetic care se orientează mereu spre Nord și ne ajută să ne orientăm.",
+    "sample": "Magneții de frigider țin lipite foile de ușa de oțel.",
+    "worked": "Testăm cu un magnet: agrafă (atrasă), monedă de cupru (nu), cui (atras), creion (nu), capac de aluminiu (nu). Concluzie: magnetul atrage doar anumite metale, precum fierul.",
+    "exercises": [
+     "Testează cu un magnet cinci obiecte și notează rezultatele.",
+     "Ce se întâmplă când apropii doi poli Nord?",
+     "La ce folosește busola?",
+     "Numește trei utilizări ale magneților.",
+     "Este atras de magnet un pahar de sticlă?"
+    ],
+    "test": [
+     "Atrage magnetul lemnul?",
+     "Câți poli are un magnet?",
+     "Polii la fel se atrag sau se resping?",
+     "Spre ce arată acul busolei?",
+     "Atrage magnetul o agrafă de oțel?"
+    ],
+    "steps": [
+     "Apropie magnetul de obiect.",
+     "Observă dacă este atras sau nu.",
+     "Grupează obiectele și trage o concluzie.",
+     "Greșeala frecventă: să crezi că magnetul atrage toate metalele. Cuprul și aluminiul nu sunt atrase."
+    ],
+    "answers": [
+     "Nu",
+     "Doi (Nord și Sud)",
+     "Se resping",
+     "Spre Nord",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l31": {
+   "ro": {
+    "title": "Interacțiunea electrică",
+    "theory": "Dacă frecăm un balon de păr sau de o haină de lână, balonul se încarcă electric și poate atrage bucățele de hârtie sau firele de păr. Uneori, când ne scoatem puloverul, auzim mici pocnituri: sunt mici descărcări electrice. Aceasta este interacțiunea electrică.",
+    "sample": "După ce îți piepteni părul uscat, pieptenele atrage bucățele mici de hârtie.",
+    "worked": "Frecăm o riglă de plastic de un pulover și o apropiem de un fir subțire de apă de la robinet: firul se curbează spre riglă. Rigla încărcată electric atrage apa.",
+    "exercises": [
+     "Fă experimentul cu balonul și bucățelele de hârtie.",
+     "De ce se ridică părul după ce scoți căciula?",
+     "Ce sunt pocniturile de la pulover?",
+     "Ce material trebuie frecat pentru a încărca balonul?",
+     "Încearcă experimentul cu firul de apă și descrie-l."
+    ],
+    "test": [
+     "Ce se întâmplă cu balonul frecat de păr?",
+     "Ce atrage pieptenele încărcat?",
+     "Ce sunt pocniturile de la haine?",
+     "Cum se numește această interacțiune?",
+     "Se curbează apa spre rigla încărcată?"
+    ],
+    "steps": [
+     "Freacă obiectul de plastic de lână sau păr.",
+     "Apropie-l de bucăți mici de hârtie.",
+     "Observă atracția și explică-o.",
+     "Greșeala frecventă: să crezi că balonul frecat este magnetic. Atracția este electrică, nu magnetică."
+    ],
+    "answers": [
+     "Se încarcă electric",
+     "Bucățele de hârtie",
+     "Mici descărcări electrice",
+     "Interacțiune electrică",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l32": {
+   "ro": {
+    "title": "Efectele interacțiunilor: deformare și mișcare",
+    "theory": "Când un corp acționează asupra altuia, îl poate deforma (îi schimbă forma) sau îi poate schimba mișcarea (îl pune în mișcare, îl oprește, îi schimbă direcția sau viteza). Unele deformări dispar (elasticul revine), altele rămân (plastilina rămâne turtită).",
+    "sample": "Când lovești mingea, aceasta se deformează puțin și pleacă în altă direcție.",
+    "worked": "Apăsăm un burete: se turtește și revine (deformare elastică). Apăsăm plastilina: rămâne turtită (deformare plastică). Împingem o bilă: pornește din loc (efect asupra mișcării).",
+    "exercises": [
+     "Dă două exemple de deformare care dispare și două care rămân.",
+     "Ce efect are lovitura asupra mingii?",
+     "Cum oprește portarul mingea?",
+     "Ce se întâmplă cu un arc tras și apoi eliberat?",
+     "Desenează trei efecte ale unei împingeri."
+    ],
+    "test": [
+     "Ce face plastilina apăsată?",
+     "Revine buretele la forma inițială?",
+     "Poate o forță să oprească un corp?",
+     "Ce efect are vântul asupra unui steag?",
+     "Poate o lovitură să schimbe direcția mingii?"
+    ],
+    "steps": [
+     "Observă corpul înainte și după interacțiune.",
+     "Verifică dacă s-a schimbat forma sau mișcarea.",
+     "Spune dacă deformarea dispare sau rămâne.",
+     "Greșeala frecventă: să crezi că o forță doar pune corpurile în mișcare. Ea le poate și opri, devia sau deforma."
+    ],
+    "answers": [
+     "Rămâne turtită",
+     "Da",
+     "Da",
+     "Îl pune în mișcare (flutură)",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-3-l33": {
+   "ro": {
+    "title": "Mișcare și repaus: distanță, durată, rapiditate",
+    "theory": "Un corp este în mișcare dacă își schimbă poziția față de alt corp și în repaus dacă nu și-o schimbă. Pentru a descrie mișcarea folosim distanța parcursă (metri, kilometri), durata (secunde, minute, ore) și rapiditatea (cât de repede). Mai rapid este cel care parcurge aceeași distanță în mai puțin timp.",
+    "sample": "Un elev aleargă 60 m în 10 secunde, altul în 12 secunde: primul este mai rapid.",
+    "worked": "Comparăm doi bicicliști: Dan parcurge 2 km în 10 minute, Ion parcurge 2 km în 8 minute. Distanța este aceeași, Ion a avut nevoie de mai puțin timp, deci Ion a fost mai rapid.",
+    "exercises": [
+     "Numește două corpuri în mișcare și două în repaus în clasă.",
+     "Măsoară în câte secunde parcurgi 20 m mergând și alergând.",
+     "Cine e mai rapid: 100 m în 15 s sau 100 m în 20 s?",
+     "Ce aparat din mașină arată cât de repede mergem?",
+     "Este pasagerul unui tren în mișcare? Față de ce?"
+    ],
+    "test": [
+     "Ce instrument măsoară distanța?",
+     "Ce instrument măsoară durata?",
+     "Cine e mai rapid la aceeași distanță?",
+     "Este banca în repaus față de tablă?",
+     "În ce unitate măsurăm distanțele mari?"
+    ],
+    "steps": [
+     "Alege un reper (un corp considerat fix).",
+     "Verifică dacă poziția corpului se schimbă față de reper.",
+     "Compară distanțele și duratele pentru a afla cine e mai rapid.",
+     "Greșeala frecventă: să spui că este mai rapid cel care a avut nevoie de mai mult timp. La aceeași distanță, câștigă timpul mai mic."
+    ],
+    "answers": [
+     "Rigla sau ruleta",
+     "Cronometrul (ceasul)",
+     "Cel care are nevoie de mai puțin timp",
+     "Da",
+     "În kilometri"
+    ]
+   }
+  }
+ }
+}

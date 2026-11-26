@@ -1,0 +1,1146 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "lower",
+ "grade": "8",
+ "version": "39eb61468b68a7ad868aa05c53ccc7a228b37893d1895bf128cc3aade9ab5be0",
+ "source": "https://www.edu.ro/Ordin_ministru_3393_2017",
+ "sourceTitle": "Programa școlară pentru disciplina Matematică, clasele a V-a – a VIII-a, aprobată prin OMEN nr. 3393/28.02.2017 (Anexa 2) — clasa a VIII-a: intervale și inecuații, calcul algebric (formule, descompuneri, fracții algebrice, ecuația de gradul al II-lea), funcții, organizarea datelor și probabilități, geometrie în spațiu (paralelism, perpendicularitate, proiecții, unghiuri, distanțe), corpuri geometrice, arii și volume; unitățile urmează manualele aprobate de Matematică clasa a VIII-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică · Clasa a VIII-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Intervale de numere reale; inecuații în ℝ",
+   "keys": [
+    "eu-year-ro-lower-8-l01",
+    "eu-year-ro-lower-8-l02",
+    "eu-year-ro-lower-8-l03"
+   ]
+  },
+  {
+   "title": "Calcul algebric în ℝ",
+   "keys": [
+    "eu-year-ro-lower-8-l04",
+    "eu-year-ro-lower-8-l05",
+    "eu-year-ro-lower-8-l06",
+    "eu-year-ro-lower-8-l07",
+    "eu-year-ro-lower-8-l08",
+    "eu-year-ro-lower-8-l09"
+   ]
+  },
+  {
+   "title": "Funcții",
+   "keys": [
+    "eu-year-ro-lower-8-l10",
+    "eu-year-ro-lower-8-l11",
+    "eu-year-ro-lower-8-l12",
+    "eu-year-ro-lower-8-l13"
+   ]
+  },
+  {
+   "title": "Elemente de organizare a datelor și probabilități",
+   "keys": [
+    "eu-year-ro-lower-8-l14",
+    "eu-year-ro-lower-8-l15"
+   ]
+  },
+  {
+   "title": "Geometrie în spațiu: puncte, drepte, plane",
+   "keys": [
+    "eu-year-ro-lower-8-l16",
+    "eu-year-ro-lower-8-l17",
+    "eu-year-ro-lower-8-l18"
+   ]
+  },
+  {
+   "title": "Corpuri geometrice: prisme, piramide, corpuri rotunde",
+   "keys": [
+    "eu-year-ro-lower-8-l19",
+    "eu-year-ro-lower-8-l20",
+    "eu-year-ro-lower-8-l21"
+   ]
+  },
+  {
+   "title": "Perpendicularitate în spațiu; proiecții; distanțe și unghiuri",
+   "keys": [
+    "eu-year-ro-lower-8-l22",
+    "eu-year-ro-lower-8-l23",
+    "eu-year-ro-lower-8-l24",
+    "eu-year-ro-lower-8-l25"
+   ]
+  },
+  {
+   "title": "Arii și volume ale corpurilor geometrice",
+   "keys": [
+    "eu-year-ro-lower-8-l26",
+    "eu-year-ro-lower-8-l27",
+    "eu-year-ro-lower-8-l28",
+    "eu-year-ro-lower-8-l29",
+    "eu-year-ro-lower-8-l30"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-lower-8-l01": {
+   "ro": {
+    "title": "Intervale de numere reale; reprezentare pe axă",
+    "theory": "Un interval este mulțimea numerelor reale cuprinse între două capete. [a, b] = {x | a ≤ x ≤ b} (închis), (a, b) = {x | a < x < b} (deschis), [a, b) și (a, b] (semideschise). Intervalele nemărginite: [a, +∞), (a, +∞), (−∞, b], (−∞, b). Pe axă, capătul inclus se marchează cu punct plin, cel exclus cu punct gol; la ∞ paranteza este mereu rotundă.",
+    "sample": "Intervalul [−2, 3) conține −2 și 0, dar nu conține 3.",
+    "worked": "Scriem ca interval {x ∈ ℝ | x ≥ 5}: [5, +∞). Scriem {x ∈ ℝ | −1 < x ≤ 4}: (−1, 4]. Numerele întregi din (−1, 4] sunt 0, 1, 2, 3, 4.",
+    "exercises": [
+     "Scrie ca interval: {x ∈ ℝ | x < 7}; {x ∈ ℝ | −3 ≤ x ≤ 0}.",
+     "Reprezintă pe axă: [1, 5) și (−∞, 2].",
+     "Câte numere întregi conține intervalul [−3, 2)?",
+     "Aparține √10 intervalului (3, 4)?",
+     "Scrie printr-o inegalitate intervalul (−2, +∞)."
+    ],
+    "test": [
+     "Conține [2, 5] numărul 5?",
+     "Conține (2, 5) numărul 2?",
+     "Cum se scrie {x | x ≤ 1}?",
+     "Ce paranteză se pune la +∞?",
+     "Câte numere întregi sunt în (0, 3)?"
+    ],
+    "steps": [
+     "Citește inegalitatea și stabilește dacă fiecare capăt este inclus.",
+     "Pune paranteză dreaptă pentru capăt inclus, rotundă pentru exclus sau infinit.",
+     "Reprezintă pe axă cu punct plin sau gol.",
+     "Greșeala frecventă: să scrii [5, +∞]; infinitul nu este număr și nu se include niciodată."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "(−∞, 1]",
+     "Rotundă",
+     "Două"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l02": {
+   "ro": {
+    "title": "Operații cu intervale: reuniune, intersecție, diferență",
+    "theory": "Reuniunea a două intervale conține numerele din cel puțin unul dintre ele, iar intersecția numerele comune. Le aflăm cel mai ușor reprezentând ambele intervale pe aceeași axă și citind zonele. Intersecția poate fi vidă, un punct sau un interval.",
+    "sample": "Intersecția intervalelor [1, 5] și [3, 8] este [3, 5].",
+    "worked": "Pentru A = (−2, 4] și B = [1, 6): A ∪ B = (−2, 6), A ∩ B = [1, 4], A \\ B = (−2, 1). Pentru (−∞, 0) ∩ (0, +∞) obținem ∅.",
+    "exercises": [
+     "Află [0, 3] ∪ [2, 7] și [0, 3] ∩ [2, 7].",
+     "Află (−∞, 2) ∩ [−1, +∞).",
+     "Află [−4, 4] \\ (0, 2).",
+     "Află [1, 2] ∩ [3, 4].",
+     "Scrie ℝ \\ [0, 1] ca reuniune de intervale."
+    ],
+    "test": [
+     "Cât este [1, 3] ∩ [2, 4]?",
+     "Cât este [1, 3] ∪ [2, 4]?",
+     "Cât este [0, 1] ∩ [1, 2]?",
+     "Cât este (0, 1) ∩ (1, 2)?",
+     "Cât este [0, 5] \\ [0, 2]?"
+    ],
+    "steps": [
+     "Reprezintă intervalele pe aceeași axă, unul deasupra celuilalt.",
+     "Citește zona comună (intersecție) sau acoperită (reuniune).",
+     "Stabilește cu atenție capetele: incluse sau nu.",
+     "Greșeala frecventă: să greșești capetele: [0, 1] ∩ [1, 2] = {1}, dar (0, 1) ∩ (1, 2) = ∅."
+    ],
+    "answers": [
+     "[2, 3]",
+     "[1, 4]",
+     "{1}",
+     "∅",
+     "(2, 5]"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l03": {
+   "ro": {
+    "title": "Inecuații de forma ax + b ≥ 0 (>, ≤, <) în ℝ",
+    "theory": "Rezolvăm inecuațiile ca ecuațiile, cu regula semnului: împărțind sau înmulțind cu un număr negativ, schimbăm sensul inegalității. Mulțimea soluțiilor în ℝ se scrie ca interval. Dacă se cer soluții într-o mulțime (ℕ, ℤ), intersectăm intervalul cu acea mulțime.",
+    "sample": "Din 2x − 6 > 0 obținem x > 3, adică x ∈ (3, +∞).",
+    "worked": "Rezolvăm −3x + 5 ≥ 11: −3x ≥ 6, x ≤ −2, deci S = (−∞, −2]. Rezolvăm sistemul de inecuații 2x − 1 < 5 și x + 3 ≥ 1: x < 3 și x ≥ −2, deci S = [−2, 3).",
+    "exercises": [
+     "Rezolvă în ℝ: 4x − 8 ≤ 0; −2x + 1 > 7.",
+     "Rezolvă: 3(x − 1) ≥ x + 5.",
+     "Rezolvă în ℕ: 2x + 3 < 11.",
+     "Rezolvă sistemul: x − 1 ≥ 0 și 5 − x > 0.",
+     "Rezolvă: (x − 1)/2 ≤ (x + 2)/3."
+    ],
+    "test": [
+     "Rezolvă: x − 4 > 0.",
+     "Rezolvă: −x ≥ 2.",
+     "Rezolvă în ℕ: x < 3.",
+     "Rezolvă: 2x ≤ 10.",
+     "Ce se întâmplă cu sensul la împărțirea cu −5?"
+    ],
+    "steps": [
+     "Desfă parantezele, elimină numitorii și grupează termenii.",
+     "Împarte la coeficientul lui x; dacă e negativ, schimbă sensul.",
+     "Scrie soluția ca interval și, la nevoie, intersectează cu ℕ sau ℤ.",
+     "Greșeala frecventă: să scrii soluția ca număr (x = 3) în loc de interval; inecuația are o infinitate de soluții."
+    ],
+    "answers": [
+     "(4, +∞)",
+     "(−∞, −2]",
+     "{0, 1, 2}",
+     "(−∞, 5]",
+     "Se schimbă"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l04": {
+   "ro": {
+    "title": "Numere reale reprezentate prin litere; adunarea, scăderea și înmulțirea expresiilor",
+    "theory": "O expresie algebrică conține numere și litere legate prin operații. Termenii asemenea au aceeași parte literală (3x²y și −5x²y) și se adună adunând coeficienții. Înmulțim monoamele înmulțind coeficienții și adunând exponenții literelor; înmulțim o sumă cu o sumă fiecare termen cu fiecare. Valoarea numerică se obține înlocuind literele cu numere.",
+    "sample": "Reducând termenii asemenea, 3a + 5a − 2a = 6a.",
+    "worked": "Calculăm (2x + 3)(x − 4) = 2x² − 8x + 3x − 12 = 2x² − 5x − 12. Pentru x = 1 valoarea este 2 − 5 − 12 = −15; verificăm în forma inițială: 5·(−3) = −15.",
+    "exercises": [
+     "Reduce termenii asemenea: 4x² − 3x + 2x² + 7x − 5.",
+     "Calculează: 3a²b · (−2ab³).",
+     "Calculează: (x + 5)(x − 2).",
+     "Calculează: 2x(3x − 1) − x(x + 4).",
+     "Calculează valoarea expresiei a² − 2a + 3 pentru a = −2."
+    ],
+    "test": [
+     "Cât este 2x + 3x?",
+     "Cât este x²·x³?",
+     "Cât este 3x·4x?",
+     "Cât este x(x + 1)?",
+     "Sunt 2x și 2x² termeni asemenea?"
+    ],
+    "steps": [
+     "Desfă parantezele (fiecare termen cu fiecare).",
+     "Grupează termenii asemenea.",
+     "Adună coeficienții lor și ordonează după puterile lui x.",
+     "Greșeala frecventă: să aduni termeni neasemenea, de exemplu 2x + 3x² = 5x³."
+    ],
+    "answers": [
+     "5x",
+     "x⁵",
+     "12x²",
+     "x² + x",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l05": {
+   "ro": {
+    "title": "Formule de calcul prescurtat cu expresii algebrice",
+    "theory": "Pentru orice expresii a și b: (a ± b)² = a² ± 2ab + b²; (a + b)(a − b) = a² − b²; (a + b + c)² = a² + b² + c² + 2ab + 2ac + 2bc. Le folosim pentru a dezvolta rapid expresii și pentru a simplifica calcule.",
+    "sample": "Cu pătratul sumei, (x + 3)² = x² + 6x + 9.",
+    "worked": "Calculăm (2x − 5)² = 4x² − 20x + 25 și (3a + 2b)(3a − 2b) = 9a² − 4b². Simplificăm (x + 1)² − (x − 1)² = (x² + 2x + 1) − (x² − 2x + 1) = 4x.",
+    "exercises": [
+     "Dezvoltă: (x + 7)²; (3y − 2)².",
+     "Calculează: (2x + 1)(2x − 1).",
+     "Calculează: (x + 2)² − (x + 3)(x − 3).",
+     "Dezvoltă: (a + b + 1)².",
+     "Arată că (n + 1)² − n² este un număr impar pentru orice n natural."
+    ],
+    "test": [
+     "Dezvoltă (x + 1)².",
+     "Dezvoltă (x − 2)².",
+     "Calculează (x + 4)(x − 4).",
+     "Dezvoltă (2x)².",
+     "Calculează (a + b)² − (a² + b²)."
+    ],
+    "steps": [
+     "Identifică formula și expresiile a și b.",
+     "Calculează a², b² și termenul 2ab, cu semnul corect.",
+     "Reduce termenii asemenea, dacă există.",
+     "Greșeala frecventă: la (3y − 2)² să scrii 3y² − 4; trebuie 9y² − 12y + 4."
+    ],
+    "answers": [
+     "x² + 2x + 1",
+     "x² − 4x + 4",
+     "x² − 16",
+     "4x²",
+     "2ab"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l06": {
+   "ro": {
+    "title": "Descompunerea în factori a expresiilor algebrice",
+    "theory": "Metode de descompunere: factor comun (ax + ay = a(x + y)); gruparea termenilor; formulele a² − b² = (a − b)(a + b) și a² ± 2ab + b² = (a ± b)²; trinomul x² + sx + p = (x + m)(x + n) când m + n = s și m·n = p. Începem mereu cu factorul comun, apoi încercăm formulele.",
+    "sample": "Prin factor comun, 6x² + 9x = 3x(2x + 3).",
+    "worked": "Descompunem 2x² − 18 = 2(x² − 9) = 2(x − 3)(x + 3). Descompunem x² + 5x + 6: căutăm m + n = 5, m·n = 6, deci 2 și 3; rezultă (x + 2)(x + 3). Prin grupare: ax + ay + bx + by = a(x + y) + b(x + y) = (x + y)(a + b).",
+    "exercises": [
+     "Descompune: 5a − 15b; x³ − x².",
+     "Descompune: 4x² − 25; x² − 10x + 25.",
+     "Descompune: x² + 7x + 12; x² − x − 6.",
+     "Descompune prin grupare: x² + 3x + 2x + 6.",
+     "Descompune complet: 3x³ − 12x."
+    ],
+    "test": [
+     "Descompune: x² − 1.",
+     "Descompune: x² + 2x + 1.",
+     "Descompune: 2x + 2y.",
+     "Descompune: x² + 3x + 2.",
+     "Descompune: x² − 4x."
+    ],
+    "steps": [
+     "Scoate întâi factorul comun.",
+     "Recunoaște o formulă sau caută două numere cu suma și produsul cerute.",
+     "Continuă până când factorii nu se mai pot descompune și verifică prin înmulțire.",
+     "Greșeala frecventă: să te oprești după factorul comun: 3x³ − 12x = 3x(x² − 4) se mai descompune în 3x(x − 2)(x + 2)."
+    ],
+    "answers": [
+     "(x − 1)(x + 1)",
+     "(x + 1)²",
+     "2(x + y)",
+     "(x + 1)(x + 2)",
+     "x(x − 4)"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l07": {
+   "ro": {
+    "title": "Fracții algebrice: domeniu de definiție, amplificare, simplificare",
+    "theory": "O fracție algebrică are expresii algebrice la numărător și numitor, de exemplu (x + 1)/(x − 2). Ea are sens doar pentru valorile care nu anulează numitorul (aici x ≠ 2). Simplificăm descompunând numărătorul și numitorul în factori și împărțind la factorii comuni. Amplificăm înmulțind ambii termeni cu aceeași expresie nenulă.",
+    "sample": "Fracția 1/(x − 3) are sens pentru orice x real diferit de 3.",
+    "worked": "Simplificăm (x² − 9)/(x² + 3x) = (x − 3)(x + 3)/(x(x + 3)) = (x − 3)/x, pentru x ≠ 0 și x ≠ −3. Simplificăm (2x + 4)/(x² + 4x + 4) = 2(x + 2)/(x + 2)² = 2/(x + 2), x ≠ −2.",
+    "exercises": [
+     "Pentru ce valori are sens (x + 5)/(2x − 6)?",
+     "Simplifică: (3x + 6)/(x + 2).",
+     "Simplifică: (x² − 4)/(x² − 4x + 4).",
+     "Simplifică: (x² + x)/(x² − 1).",
+     "Amplifică (x − 1)/x cu x + 1."
+    ],
+    "test": [
+     "Pentru ce x nu are sens 1/x?",
+     "Pentru ce x nu are sens 3/(x + 1)?",
+     "Simplifică: 2x/4.",
+     "Simplifică: (x − 1)/(x² − 1).",
+     "Simplifică: x²/x (x ≠ 0)."
+    ],
+    "steps": [
+     "Află valorile care anulează numitorul și exclude-le.",
+     "Descompune numărătorul și numitorul în factori.",
+     "Simplifică factorii comuni (nu termenii).",
+     "Greșeala frecventă: să simplifici termeni dintr-o sumă, de exemplu (x + 3)/3 = x; se simplifică doar factori."
+    ],
+    "answers": [
+     "x = 0",
+     "x = −1",
+     "x/2",
+     "1/(x + 1)",
+     "x"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l08": {
+   "ro": {
+    "title": "Operații cu fracții algebrice",
+    "theory": "Fracțiile algebrice se adună și se scad aducându-le la numitor comun (cel mai mic multiplu comun al numitorilor descompuși în factori). Se înmulțesc numărător cu numărător și numitor cu numitor; împărțirea înseamnă înmulțirea cu inversa. Simplificăm la final și păstrăm condițiile de existență.",
+    "sample": "Fracțiile cu același numitor se adună direct: 1/x + 2/x = 3/x.",
+    "worked": "Calculăm 1/(x − 1) − 1/(x + 1) = ((x + 1) − (x − 1))/((x − 1)(x + 1)) = 2/(x² − 1), pentru x ≠ ±1. Calculăm (x² − 4)/x · 3x/(x + 2) = 3(x − 2), pentru x ≠ 0, x ≠ −2.",
+    "exercises": [
+     "Calculează: 2/x + 3/(2x).",
+     "Calculează: x/(x + 2) + 2/(x + 2).",
+     "Calculează: 1/(x − 2) + 1/(x + 2).",
+     "Calculează: (x + 1)/(x − 3) · (x² − 9)/(x² + x).",
+     "Calculează: (x² − 1)/(2x) : (x − 1)/(4x²)."
+    ],
+    "test": [
+     "Cât este 1/x + 1/x?",
+     "Cât este x/2 · 4/x?",
+     "Care este numitorul comun pentru 1/x și 1/x²?",
+     "Cât este 1/a : 1/b?",
+     "Cât este (x + 1)/x − 1/x?"
+    ],
+    "steps": [
+     "Descompune numitorii în factori.",
+     "Adu la numitor comun sau transformă împărțirea în înmulțire cu inversa.",
+     "Efectuează calculul, simplifică și scrie condițiile de existență.",
+     "Greșeala frecventă: să aduni numitorii între ei (1/x + 1/y = 2/(x + y)); se aduce la numitor comun: (x + y)/(xy)."
+    ],
+    "answers": [
+     "2/x",
+     "2",
+     "x²",
+     "b/a",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l09": {
+   "ro": {
+    "title": "Ecuația de forma ax² + bx + c = 0",
+    "theory": "Ecuația de gradul al doilea ax² + bx + c = 0 (a ≠ 0) se rezolvă cu discriminantul Δ = b² − 4ac. Dacă Δ > 0 are două soluții reale x = (−b ± √Δ)/(2a); dacă Δ = 0 are o soluție (dublă) x = −b/(2a); dacă Δ < 0 nu are soluții reale. Unele ecuații se rezolvă mai repede prin descompunere: un produs este 0 dacă unul dintre factori este 0.",
+    "sample": "Ecuația x² − 5x + 6 = 0 are Δ = 1 și soluțiile 2 și 3.",
+    "worked": "Rezolvăm 2x² + 3x − 2 = 0: Δ = 9 + 16 = 25, x = (−3 ± 5)/4, deci x₁ = 1/2, x₂ = −2. Rezolvăm x² − 4x = 0 prin descompunere: x(x − 4) = 0, x = 0 sau x = 4.",
+    "exercises": [
+     "Rezolvă: x² − 7x + 10 = 0.",
+     "Rezolvă: x² + 6x + 9 = 0.",
+     "Rezolvă: x² + x + 1 = 0.",
+     "Rezolvă prin descompunere: x² − 16 = 0; 3x² + 6x = 0.",
+     "Un dreptunghi are aria 24 cm², iar lungimea este cu 2 cm mai mare decât lățimea. Află dimensiunile."
+    ],
+    "test": [
+     "Formula discriminantului?",
+     "Câte soluții are ecuația dacă Δ < 0?",
+     "Δ pentru x² − 2x + 1 = 0?",
+     "Soluțiile ecuației x(x − 1) = 0?",
+     "Câte soluții are ecuația dacă Δ = 0?"
+    ],
+    "steps": [
+     "Scrie ecuația în forma ax² + bx + c = 0 și identifică a, b, c.",
+     "Calculează Δ = b² − 4ac și studiază semnul.",
+     "Aplică formula soluțiilor și verifică prin înlocuire.",
+     "Greșeala frecventă: să greșești semnul lui b în formulă sau să calculezi −b² în loc de b²; Δ = b² − 4ac, cu b² mereu pozitiv."
+    ],
+    "answers": [
+     "Δ = b² − 4ac",
+     "Nicio soluție reală",
+     "0",
+     "0 și 1",
+     "Una"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l10": {
+   "ro": {
+    "title": "Noțiunea de funcție; moduri de definire; graficul unei funcții",
+    "theory": "O funcție f: A → B este o regulă prin care fiecărui element x din domeniul A i se asociază un singur element f(x) din codomeniul B. O funcție se poate da printr-un tabel, o diagramă sau o formulă. Graficul funcției este mulțimea punctelor (x, f(x)); un punct M(a, b) aparține graficului dacă f(a) = b.",
+    "sample": "Pentru f(x) = 2x + 1 avem f(3) = 7, deci punctul (3, 7) este pe grafic.",
+    "worked": "Fie f: {−1, 0, 1, 2} → ℝ, f(x) = x². Tabelul: −1 → 1, 0 → 0, 1 → 1, 2 → 4. Graficul este format din punctele (−1, 1), (0, 0), (1, 1), (2, 4). Punctul (2, 3) nu aparține graficului, pentru că f(2) = 4.",
+    "exercises": [
+     "f(x) = 3x − 2. Calculează f(0), f(2), f(−1).",
+     "Verifică dacă A(1, 5) aparține graficului funcției f(x) = 4x + 1.",
+     "Reprezintă graficul funcției f: {0, 1, 2, 3} → ℝ, f(x) = 2x.",
+     "Este o funcție corespondența care asociază fiecărui elev nota la un test? Explică.",
+     "Află a dacă punctul (a, 9) este pe graficul lui f(x) = 2x + 3."
+    ],
+    "test": [
+     "f(x) = x + 5. Cât este f(2)?",
+     "Câte valori asociază o funcție fiecărui x din domeniu?",
+     "Este (0, 1) pe graficul lui f(x) = x + 1?",
+     "Ce este graficul unei funcții?",
+     "f(x) = −x. Cât este f(−3)?"
+    ],
+    "steps": [
+     "Înlocuiește x cu valoarea dată în formulă.",
+     "Calculează f(x) și formează punctul (x, f(x)).",
+     "Pentru apartenență, compară f(a) cu ordonata punctului.",
+     "Greșeala frecventă: să inversezi coordonatele punctului: în (a, b), a este x, iar b este f(a)."
+    ],
+    "answers": [
+     "7",
+     "Una singură",
+     "Da",
+     "Mulțimea punctelor (x, f(x))",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l11": {
+   "ro": {
+    "title": "Funcția liniară f(x) = ax + b; reprezentarea grafică",
+    "theory": "Funcția f: ℝ → ℝ, f(x) = ax + b are graficul o dreaptă. Pentru a o desena sunt suficiente două puncte, de obicei intersecțiile cu axele: cu Oy în (0, b) și cu Ox în (−b/a, 0) când a ≠ 0. Dacă a > 0 funcția este crescătoare, dacă a < 0 descrescătoare, iar dacă a = 0 funcția este constantă (dreaptă orizontală).",
+    "sample": "Graficul funcției f(x) = 2x − 4 taie axele în (0, −4) și (2, 0).",
+    "worked": "Reprezentăm f(x) = −x + 3: intersecția cu Oy este (0, 3), cu Ox: −x + 3 = 0, x = 3, deci (3, 0). Unim punctele; funcția este descrescătoare (a = −1 < 0).",
+    "exercises": [
+     "Reprezintă grafic f(x) = x + 2.",
+     "Află intersecțiile cu axele pentru f(x) = 3x − 6.",
+     "Stabilește monotonia funcțiilor f(x) = −2x + 1 și g(x) = 5x.",
+     "Reprezintă grafic funcția constantă f(x) = 3.",
+     "Află funcția liniară al cărei grafic trece prin (0, 1) și (2, 5)."
+    ],
+    "test": [
+     "Ce formă are graficul unei funcții liniare?",
+     "Unde taie f(x) = x + 4 axa Oy?",
+     "Este f(x) = −3x + 1 crescătoare?",
+     "Unde taie f(x) = 2x − 2 axa Ox?",
+     "Câte puncte sunt suficiente pentru a desena graficul?"
+    ],
+    "steps": [
+     "Calculează f(0) pentru intersecția cu Oy.",
+     "Rezolvă f(x) = 0 pentru intersecția cu Ox.",
+     "Reprezintă cele două puncte și trasează dreapta.",
+     "Greșeala frecventă: să unești punctele printr-un segment; graficul pe ℝ este o dreaptă întreagă, care se prelungește."
+    ],
+    "answers": [
+     "O dreaptă",
+     "(0, 4)",
+     "Nu",
+     "(1, 0)",
+     "Două"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l12": {
+   "ro": {
+    "title": "Determinarea funcției liniare; intersecția a două grafice",
+    "theory": "O funcție liniară este determinată de două puncte ale graficului: înlocuim coordonatele în f(x) = ax + b și rezolvăm sistemul în a și b. Punctul de intersecție a graficelor lui f și g are coordonatele soluției ecuației f(x) = g(x), adică ale sistemului y = f(x), y = g(x).",
+    "sample": "Graficele lui f(x) = x și g(x) = −x + 4 se intersectează în (2, 2).",
+    "worked": "Graficul trece prin A(1, 3) și B(3, 7): a + b = 3, 3a + b = 7, deci a = 2, b = 1 și f(x) = 2x + 1. Intersecția graficelor f(x) = 2x + 1 și g(x) = x + 4: 2x + 1 = x + 4, x = 3, y = 7, punctul (3, 7).",
+    "exercises": [
+     "Află funcția liniară al cărei grafic trece prin (0, −2) și (1, 1).",
+     "Află funcția al cărei grafic trece prin (2, 0) și (4, 6).",
+     "Află intersecția graficelor f(x) = 3x − 1 și g(x) = −x + 7.",
+     "Află m dacă punctul (2, 5) este pe graficul lui f(x) = mx + 1.",
+     "Calculează aria triunghiului format de graficul lui f(x) = −2x + 4 cu axele."
+    ],
+    "test": [
+     "f(x) = ax + 2 trece prin (1, 5). Cât este a?",
+     "Intersecția lui f(x) = x cu g(x) = 2 este punctul…?",
+     "Ce ecuație rezolvi pentru intersecția graficelor?",
+     "f(x) = 2x + b trece prin (0, 3). Cât este b?",
+     "Intersecția lui f(x) = x + 1 cu axa Oy?"
+    ],
+    "steps": [
+     "Înlocuiește coordonatele punctelor date în f(x) = ax + b.",
+     "Rezolvă sistemul obținut în a și b.",
+     "Pentru intersecție, egalează formulele și află x, apoi y.",
+     "Greșeala frecventă: să înlocuiești coordonatele inversat (x în locul lui y), ceea ce dă altă funcție."
+    ],
+    "answers": [
+     "3",
+     "(2, 2)",
+     "f(x) = g(x)",
+     "3",
+     "(0, 1)"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l13": {
+   "ro": {
+    "title": "Funcții în viața de zi cu zi; interpretarea graficelor",
+    "theory": "Multe situații reale se descriu prin funcții liniare: costul unei călătorii cu taxiul (taxă de pornire + preț pe km), distanța parcursă cu viteză constantă (d = v·t), temperatura în grade Fahrenheit (F = 1,8C + 32). Din grafic citim valori, comparăm oferte și aflăm unde două mărimi devin egale.",
+    "sample": "Taxiul cu 5 lei pornirea și 3 lei pe km costă f(x) = 3x + 5 lei pentru x km.",
+    "worked": "Oferta A: 20 lei abonament + 0,5 lei pe minut; oferta B: 1 leu pe minut. f(x) = 0,5x + 20, g(x) = x. Egalăm: 0,5x + 20 = x, x = 40 de minute. Sub 40 de minute B este mai ieftină, peste 40 de minute A.",
+    "exercises": [
+     "Scrie funcția pentru costul a x kg de mere la 6 lei/kg plus 2 lei punga și calculează costul pentru 3 kg.",
+     "Un biciclist merge cu 15 km/h. Scrie distanța în funcție de timp și reprezintă graficul pentru 0–4 h.",
+     "Transformă 25 °C în grade Fahrenheit.",
+     "Compară ofertele f(x) = 2x + 10 și g(x) = 4x. De la ce valoare este f mai avantajoasă?",
+     "Un rezervor de 60 l pierde 4 l pe oră. Scrie funcția și află când se golește."
+    ],
+    "test": [
+     "Cât costă 4 km cu taxiul din exemplu?",
+     "Ce distanță parcurge cineva cu 50 km/h în 2 h?",
+     "Cât este 0 °C în Fahrenheit?",
+     "La câte minute ofertele A și B costă la fel?",
+     "Ce reprezintă b în f(x) = ax + b la taxi?"
+    ],
+    "steps": [
+     "Identifică partea fixă (b) și partea care crește proporțional (a·x).",
+     "Scrie funcția și calculează valorile cerute.",
+     "Pentru comparare, află intersecția graficelor și interpretează.",
+     "Greșeala frecventă: să uiți partea fixă (taxa de pornire sau abonamentul) din formula costului."
+    ],
+    "answers": [
+     "17 lei",
+     "100 km",
+     "32 °F",
+     "40",
+     "Taxa de pornire"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l14": {
+   "ro": {
+    "title": "Indicatori statistici: media, mediana, modul, amplitudinea",
+    "theory": "Pentru un set de date: media aritmetică este suma valorilor împărțită la numărul lor; mediana este valoarea din mijloc după ordonare (sau media celor două din mijloc când numărul de date este par); modul este valoarea cea mai frecventă; amplitudinea este diferența dintre valoarea maximă și cea minimă. Indicatorii descriu „centrul” și „împrăștierea” datelor.",
+    "sample": "Pentru datele 3, 5, 5, 8, 9, mediana este 5, modul 5, iar amplitudinea 6.",
+    "worked": "Notele 4, 7, 8, 8, 9, 10: media = 46 : 6 ≈ 7,67; mediana = (8 + 8) : 2 = 8; modul = 8; amplitudinea = 10 − 4 = 6. Nota 4 trage media în jos, dar mediana rămâne 8.",
+    "exercises": [
+     "Calculează media, mediana, modul pentru 2, 4, 4, 5, 7, 8, 12.",
+     "Calculează mediana pentru 10, 3, 7, 1.",
+     "Temperaturile într-o săptămână au fost 5, 7, 6, 9, 11, 10, 8. Află media și amplitudinea.",
+     "De ce mediana este uneori mai potrivită decât media? Dă un exemplu cu salarii.",
+     "Adaugă o valoare la setul 2, 4, 6 astfel încât media să devină 5."
+    ],
+    "test": [
+     "Mediana pentru 1, 2, 3?",
+     "Modul pentru 2, 3, 3, 4?",
+     "Amplitudinea pentru 5, 9, 12?",
+     "Media pentru 2, 4, 6, 8?",
+     "Mediana pentru 1, 2, 3, 4?"
+    ],
+    "steps": [
+     "Ordonează datele crescător.",
+     "Calculează media, găsește valoarea (valorile) din mijloc și valoarea cea mai frecventă.",
+     "Calculează amplitudinea ca maxim minus minim.",
+     "Greșeala frecventă: să iei mediana din datele neordonate; ordonează mai întâi."
+    ],
+    "answers": [
+     "2",
+     "3",
+     "7",
+     "5",
+     "2,5"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l15": {
+   "ro": {
+    "title": "Probabilitatea realizării unui eveniment; probleme",
+    "theory": "Când toate rezultatele sunt la fel de posibile, P(A) = numărul cazurilor favorabile / numărul cazurilor posibile, cu 0 ≤ P(A) ≤ 1. Evenimentul contrar (A nu se întâmplă) are probabilitatea 1 − P(A). Pentru două alegeri succesive numărăm cazurile posibile prin înmulțire (de exemplu 2 zaruri: 6·6 = 36 de cazuri).",
+    "sample": "Probabilitatea de a extrage un număr par din {1, 2, …, 10} este 5/10 = 1/2.",
+    "worked": "Aruncăm două zaruri. Suma 7 apare în 6 cazuri: (1, 6), (2, 5), (3, 4), (4, 3), (5, 2), (6, 1), deci P = 6/36 = 1/6. Probabilitatea ca suma să nu fie 7 este 5/6.",
+    "exercises": [
+     "Alegem un număr de două cifre. Care este probabilitatea să fie pătrat perfect?",
+     "Dintr-o urnă cu 3 bile albe și 7 negre, care este probabilitatea să extragem o bilă albă? Dar negră?",
+     "Aruncăm două monede. Care este probabilitatea să obținem două capete?",
+     "Aruncăm două zaruri. Care este probabilitatea ca suma să fie 12?",
+     "Alegem o literă din cuvântul „MATEMATICA”. Care este probabilitatea să fie A?"
+    ],
+    "test": [
+     "Probabilitatea unui eveniment imposibil?",
+     "Dacă P(A) = 0,3, cât este P(contrar)?",
+     "Câte cazuri posibile la două zaruri?",
+     "Probabilitatea de a obține 3 la un zar?",
+     "Probabilitatea unui eveniment sigur?"
+    ],
+    "steps": [
+     "Numără toate cazurile posibile (la alegeri succesive, prin înmulțire).",
+     "Numără cazurile favorabile, eventual enumerându-le.",
+     "Calculează raportul și verifică dacă este între 0 și 1.",
+     "Greșeala frecventă: la două zaruri să consideri (2, 5) și (5, 2) același caz; sunt cazuri diferite."
+    ],
+    "answers": [
+     "0",
+     "0,7",
+     "36",
+     "1/6",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l16": {
+   "ro": {
+    "title": "Puncte, drepte, plane; determinarea planului",
+    "theory": "În spațiu, planul este o suprafață plană nelimitată (sugerată de o tablă sau de suprafața apei liniștite). Un plan este determinat de: trei puncte necoliniare; o dreaptă și un punct exterior ei; două drepte concurente; două drepte paralele. Dacă două puncte ale unei drepte sunt într-un plan, toată dreapta este în acel plan.",
+    "sample": "Un taburet cu trei picioare nu se clatină, pentru că trei puncte necoliniare determină un plan.",
+    "worked": "Într-un cub ABCDA’B’C’D’, punctele A, B, C determină planul bazei (ABC), iar dreptele AB și AA’ (concurente) determină planul feței (ABB’). Patru puncte pot să nu fie în același plan: A, B, C, A’ sunt necoplanare.",
+    "exercises": [
+     "Câte plane determină 4 puncte necoplanare?",
+     "Enumeră cele 6 plane ale fețelor unui cub.",
+     "De ce o masă cu patru picioare se poate clătina?",
+     "Determină două drepte paralele un plan? Dar două drepte oarecare?",
+     "Dă trei exemple din clasă de plane și de drepte."
+    ],
+    "test": [
+     "Câte puncte necoliniare determină un plan?",
+     "Determină o dreaptă și un punct exterior un plan?",
+     "Câte fețe are cubul?",
+     "Determină un plan două drepte concurente?",
+     "Dacă două puncte ale unei drepte sunt în plan, ce se întâmplă cu dreapta?"
+    ],
+    "steps": [
+     "Identifică elementele date (puncte, drepte).",
+     "Verifică un mod de determinare a planului.",
+     "Desenează planul ca paralelogram, cu dreptele și punctele pe el.",
+     "Greșeala frecventă: să crezi că oricare patru puncte sunt coplanare; doar trei puncte necoliniare determină sigur un plan."
+    ],
+    "answers": [
+     "Trei",
+     "Da",
+     "6",
+     "Da",
+     "Este conținută în plan"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l17": {
+   "ro": {
+    "title": "Pozițiile relative a două drepte în spațiu; unghiul a două drepte",
+    "theory": "Două drepte în spațiu pot fi: concurente (un punct comun), paralele (coplanare, fără puncte comune) sau necoplanare (nu există un plan care să le conțină pe amândouă). Unghiul a două drepte necoplanare se măsoară ducând printr-un punct o paralelă la una dintre ele. Două drepte necoplanare care formează 90° sunt perpendiculare.",
+    "sample": "Într-un cub, muchiile AB și CC’ sunt necoplanare și perpendiculare.",
+    "worked": "În cubul ABCDA’B’C’D’, unghiul dintre AB și B’C’ este unghiul dintre AB și BC (pentru că B’C’ ∥ BC), deci 90°. Unghiul dintre AB și A’C’ este unghiul dintre AB și AC (pentru că A’C’ ∥ AC); AC este diagonala pătratului ABCD, deci unghiul are 45°.",
+    "exercises": [
+     "În cub, precizează poziția dreptelor: AB și DC; AB și CC’; AA’ și BB’.",
+     "Află unghiul dintre AD și B’C’ în cub.",
+     "Află unghiul dintre AB și D’B’ în cub.",
+     "Desenează două drepte necoplanare folosind un paralelipiped.",
+     "Câte muchii ale cubului sunt necoplanare cu muchia AB?"
+    ],
+    "test": [
+     "Câte puncte comune au două drepte paralele?",
+     "Sunt AB și CC’ coplanare în cub?",
+     "Unghiul dintre AB și CD în cub?",
+     "Unghiul dintre AB și CC’ în cub?",
+     "Pot două drepte necoplanare să fie paralele?"
+    ],
+    "steps": [
+     "Verifică dacă dreptele au un punct comun sau sunt în același plan.",
+     "Pentru unghi, înlocuiește una dintre drepte cu o paralelă care o intersectează pe cealaltă.",
+     "Calculează unghiul în triunghiul format.",
+     "Greșeala frecventă: să crezi că două drepte care nu se intersectează sunt paralele; în spațiu pot fi necoplanare."
+    ],
+    "answers": [
+     "Niciunul",
+     "Nu",
+     "0°",
+     "90°",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l18": {
+   "ro": {
+    "title": "Dreaptă paralelă cu un plan; plane paralele; secțiuni",
+    "theory": "O dreaptă poate fi conținută într-un plan, secantă (un punct comun) sau paralelă cu planul (niciun punct comun). O dreaptă este paralelă cu un plan dacă este paralelă cu o dreaptă din plan. Două plane pot fi secante (se intersectează după o dreaptă) sau paralele; sunt paralele dacă unul conține două drepte concurente paralele cu celălalt. Un plan paralel cu baza unei piramide o taie după un poligon asemenea cu baza.",
+    "sample": "Într-un cub, muchia A’B’ este paralelă cu planul bazei (ABC).",
+    "worked": "În paralelipipedul ABCDA’B’C’D’, planele (ABC) și (A’B’C’) sunt paralele. Planul (ABC’) taie paralelipipedul după dreptunghiul ABC’D’. Dreapta A’C’ este paralelă cu planul (ABC), pentru că A’C’ ∥ AC.",
+    "exercises": [
+     "Numește trei muchii ale cubului paralele cu planul (ABC).",
+     "Numește două plane paralele în cub.",
+     "Care este intersecția planelor (ABB’) și (BCC’) în cub?",
+     "Ce figură obții secționând cubul cu planul (ACC’)?",
+     "Arată că MN ∥ (ABC) dacă M și N sunt mijloacele lui VA și VB în piramida VABC."
+    ],
+    "test": [
+     "Câte puncte comune are o dreaptă paralelă cu un plan?",
+     "După ce se intersectează două plane secante?",
+     "Sunt paralele fețele opuse ale cubului?",
+     "Când este o dreaptă paralelă cu un plan?",
+     "Poate o dreaptă să aibă exact două puncte comune cu un plan?"
+    ],
+    "steps": [
+     "Caută în plan o dreaptă paralelă cu dreapta dată.",
+     "Pentru plane, caută două drepte concurente paralele cu celălalt plan.",
+     "Determină intersecțiile și secțiunile desenând atent figura.",
+     "Greșeala frecventă: să crezi că o dreaptă paralelă cu o dreaptă din plan este automat paralelă cu planul; ea poate fi și conținută în plan."
+    ],
+    "answers": [
+     "Niciunul",
+     "După o dreaptă",
+     "Da",
+     "Când este paralelă cu o dreaptă din plan și nu e conținută în el",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l19": {
+   "ro": {
+    "title": "Prisma dreaptă: cub, paralelipiped, prismă triunghiulară, prismă hexagonală; desfășurări",
+    "theory": "O prismă dreaptă are două baze poligoane congruente în plane paralele și fețe laterale dreptunghiuri; muchiile laterale sunt perpendiculare pe baze și au lungimea egală cu înălțimea. Prisma regulată are baza poligon regulat. Cubul și paralelipipedul dreptunghic sunt prisme patrulatere. Desfășurarea prismei este formată din cele două baze și dreptunghiul suprafeței laterale (lungimea = perimetrul bazei, lățimea = înălțimea).",
+    "sample": "O prismă triunghiulară are 6 vârfuri, 9 muchii și 5 fețe.",
+    "worked": "Diagonala unui paralelipiped cu dimensiunile 3, 4, 12 cm este √(9 + 16 + 144) = √169 = 13 cm. Diagonala cubului cu muchia l este l√3. Suprafața laterală a prismei triunghiulare regulate cu latura 4 și înălțimea 10 este un dreptunghi de 12 × 10.",
+    "exercises": [
+     "Câte vârfuri, muchii și fețe are o prismă hexagonală?",
+     "Calculează diagonala cubului cu muchia 5 cm.",
+     "Calculează diagonala paralelipipedului cu dimensiunile 2, 3, 6 cm.",
+     "Desenează desfășurarea unui paralelipiped dreptunghic.",
+     "Diagonala unui cub are 6√3 cm. Află muchia."
+    ],
+    "test": [
+     "Câte muchii are cubul?",
+     "Ce formă au fețele laterale ale prismei drepte?",
+     "Diagonala cubului cu muchia 1?",
+     "Câte fețe are o prismă triunghiulară?",
+     "Diagonala paralelipipedului 1, 2, 2?"
+    ],
+    "steps": [
+     "Identifică baza și înălțimea prismei.",
+     "Pentru diagonală, aplică Pitagora de două ori: d² = L² + l² + h².",
+     "Pentru desfășurare, desenează bazele și dreptunghiul lateral.",
+     "Greșeala frecventă: să confunzi diagonala unei fețe (l√2) cu diagonala cubului (l√3)."
+    ],
+    "answers": [
+     "12",
+     "Dreptunghiuri",
+     "√3",
+     "5",
+     "3"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l20": {
+   "ro": {
+    "title": "Piramida: piramida regulată, tetraedrul regulat; elemente; desfășurări",
+    "theory": "Piramida are o bază poligon și fețe laterale triunghiuri cu un vârf comun. Piramida regulată are baza poligon regulat, iar piciorul înălțimii este centrul bazei; fețele laterale sunt triunghiuri isoscele congruente, iar înălțimea unei fețe laterale se numește apotema piramidei. Între înălțime h, apotema bazei a_b și apotema piramidei a_p avem a_p² = h² + a_b². Tetraedrul regulat are toate cele 4 fețe triunghiuri echilaterale.",
+    "sample": "O piramidă patrulateră regulată are 5 vârfuri, 8 muchii și 5 fețe.",
+    "worked": "Piramida patrulateră regulată cu latura bazei 12 cm și înălțimea 8 cm are apotema bazei 6 cm și apotema piramidei √(64 + 36) = 10 cm. Muchia laterală: diagonala bazei este 12√2, jumătatea 6√2, deci muchia este √(64 + 72) = √136 = 2√34 cm.",
+    "exercises": [
+     "Câte muchii are o piramidă hexagonală?",
+     "Piramida patrulateră regulată are latura bazei 6 cm și înălțimea 4 cm. Află apotema piramidei.",
+     "Apotema piramidei patrulatere regulate este 13 cm, iar latura bazei 10 cm. Află înălțimea.",
+     "Desenează desfășurarea unei piramide triunghiulare regulate.",
+     "Câte muchii are tetraedrul regulat și cum sunt ele?"
+    ],
+    "test": [
+     "Ce formă au fețele laterale ale piramidei?",
+     "Unde cade înălțimea piramidei regulate?",
+     "Relația dintre a_p, h și a_b?",
+     "Câte fețe are tetraedrul?",
+     "Apotema bazei pentru pătratul cu latura 8?"
+    ],
+    "steps": [
+     "Desenează piramida și înălțimea până în centrul bazei.",
+     "Identifică triunghiul dreptunghic potrivit (înălțime, apotema bazei, apotema piramidei sau muchie).",
+     "Aplică teorema lui Pitagora.",
+     "Greșeala frecventă: să confunzi apotema piramidei (înălțimea feței laterale) cu muchia laterală."
+    ],
+    "answers": [
+     "Triunghiuri",
+     "În centrul bazei",
+     "a_p² = h² + a_b²",
+     "4",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l21": {
+   "ro": {
+    "title": "Corpuri rotunde: cilindrul circular drept, conul circular drept, sfera",
+    "theory": "Cilindrul circular drept se obține rotind un dreptunghi în jurul unei laturi: are două baze discuri, raza R și generatoarea G egală cu înălțimea. Conul circular drept se obține rotind un triunghi dreptunghic în jurul unei catete: G² = R² + h². Sfera se obține rotind un semicerc în jurul diametrului. Secțiunea axială a cilindrului este un dreptunghi, a conului un triunghi isoscel. Desfășurarea suprafeței laterale a cilindrului este un dreptunghi, a conului un sector de disc.",
+    "sample": "Un con cu raza 3 cm și înălțimea 4 cm are generatoarea 5 cm.",
+    "worked": "Un cilindru cu R = 5 cm și G = 12 cm are secțiunea axială un dreptunghi de 10 × 12 cm, cu diagonala √(100 + 144) = √244 = 2√61 cm. Desfășurarea laterală este un dreptunghi cu lungimea 2π·5 = 10π cm și lățimea 12 cm.",
+    "exercises": [
+     "Conul are R = 6 cm, h = 8 cm. Află generatoarea.",
+     "Conul are G = 13 cm, R = 5 cm. Află înălțimea.",
+     "Cilindrul are R = 3 cm, h = 8 cm. Descrie desfășurarea laterală.",
+     "Secțiunea axială a unui con este un triunghi echilateral cu latura 10 cm. Află R și h.",
+     "Ce corp obții rotind un triunghi dreptunghic în jurul unei catete?"
+    ],
+    "test": [
+     "Ce corp obții rotind un dreptunghi în jurul unei laturi?",
+     "Generatoarea conului cu R = 3, h = 4?",
+     "Ce formă are secțiunea axială a cilindrului?",
+     "Ce corp obții rotind un semicerc în jurul diametrului?",
+     "Ce formă are desfășurarea laterală a cilindrului?"
+    ],
+    "steps": [
+     "Identifică raza, înălțimea și generatoarea.",
+     "Pentru con, folosește triunghiul dreptunghic R, h, G.",
+     "Desenează secțiunea axială sau desfășurarea și calculează.",
+     "Greșeala frecventă: la con să crezi că generatoarea este egală cu înălțimea, ca la cilindru; la con G² = R² + h²."
+    ],
+    "answers": [
+     "Cilindru",
+     "5",
+     "Dreptunghi",
+     "Sferă",
+     "Dreptunghi"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l22": {
+   "ro": {
+    "title": "Dreaptă perpendiculară pe un plan; distanța de la un punct la un plan",
+    "theory": "O dreaptă este perpendiculară pe un plan dacă este perpendiculară pe orice dreaptă din plan; este suficient să fie perpendiculară pe două drepte concurente din plan. Distanța de la un punct la un plan este lungimea segmentului perpendicular din punct pe plan. Înălțimea unui corp este distanța de la vârf (sau de la o bază) la planul bazei.",
+    "sample": "Muchia AA’ a cubului este perpendiculară pe planul (ABC), pentru că AA’ ⊥ AB și AA’ ⊥ AD.",
+    "worked": "În cubul cu muchia 6 cm, distanța de la A’ la planul (ABC) este AA’ = 6 cm. În piramida patrulateră regulată VABCD cu centrul bazei O, VO ⊥ (ABC), deci distanța de la V la planul bazei este înălțimea VO.",
+    "exercises": [
+     "Arată că BB’ ⊥ (ABC) în cub.",
+     "În cubul cu muchia 4 cm, află distanța de la C’ la planul (ABC).",
+     "În paralelipipedul cu dimensiunile 3, 4, 5 cm (înălțimea 5), află distanța de la B’ la planul bazei.",
+     "Ce condiție minimă verifici pentru a arăta că o dreaptă este perpendiculară pe un plan?",
+     "Dreapta d ⊥ α și d ∥ d’. Ce poziție are d’ față de α?"
+    ],
+    "test": [
+     "Pe câte drepte concurente din plan trebuie să fie perpendiculară o dreaptă?",
+     "Este AA’ ⊥ (ABC) în cub?",
+     "Distanța de la A’ la (ABC) în cubul cu muchia 3?",
+     "Cum se măsoară distanța de la un punct la un plan?",
+     "Ce este VO în piramida regulată?"
+    ],
+    "steps": [
+     "Găsește două drepte concurente din plan.",
+     "Arată că dreapta este perpendiculară pe ambele.",
+     "Concluzionează perpendicularitatea și calculează distanța pe perpendiculară.",
+     "Greșeala frecventă: să verifici perpendicularitatea pe o singură dreaptă din plan sau pe două drepte paralele; trebuie două drepte concurente."
+    ],
+    "answers": [
+     "Două",
+     "Da",
+     "3",
+     "Pe perpendiculara din punct pe plan",
+     "Înălțimea piramidei"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l23": {
+   "ro": {
+    "title": "Teorema celor trei perpendiculare; calculul distanței de la un punct la o dreaptă",
+    "theory": "Teorema celor trei perpendiculare: dacă AB ⊥ α (B ∈ α), d ⊂ α, iar BC ⊥ d (C ∈ d), atunci AC ⊥ d. Teorema permite să găsim perpendiculara dintr-un punct exterior pe o dreaptă din plan și, astfel, distanța de la punct la dreaptă, folosind apoi teorema lui Pitagora în triunghiul ABC.",
+    "sample": "Dacă VO este înălțimea piramidei și OM ⊥ BC, atunci VM ⊥ BC, iar VM este apotema.",
+    "worked": "Fie ABCD un pătrat cu latura 6 cm și MA ⊥ (ABC), MA = 8 cm. Distanța de la M la BC: AB ⊥ BC și MA ⊥ (ABC), deci MB ⊥ BC (T3P). MB = √(64 + 36) = 10 cm.",
+    "exercises": [
+     "În configurația din exemplu, află distanța de la M la CD.",
+     "În configurația din exemplu, află distanța de la M la BD (indiciu: AO ⊥ BD).",
+     "Triunghiul ABC este dreptunghic în A, AB = 6, AC = 8, iar MA ⊥ (ABC), MA = 4,8. Află distanța de la M la BC.",
+     "Scrie ipotezele teoremei celor trei perpendiculare pe un desen propriu.",
+     "În cubul cu muchia a, află distanța de la A’ la BD."
+    ],
+    "test": [
+     "Câte perpendiculare apar în teoremă?",
+     "Dacă MA ⊥ (ABC) și AB ⊥ BC, ce relație are MB cu BC?",
+     "Ce teoremă folosești apoi pentru calcul?",
+     "În exemplu, distanța de la M la BC?",
+     "Este distanța de la punct la dreaptă lungimea perpendicularei?"
+    ],
+    "steps": [
+     "Identifică perpendiculara pe plan și piciorul ei.",
+     "Din picior, du perpendiculara pe dreapta din plan.",
+     "Aplică T3P și calculează distanța cu Pitagora.",
+     "Greșeala frecventă: să alegi un picior al perpendicularei pe dreaptă fără să pornești din piciorul perpendicularei pe plan."
+    ],
+    "answers": [
+     "Trei",
+     "MB ⊥ BC",
+     "Teorema lui Pitagora",
+     "10 cm",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l24": {
+   "ro": {
+    "title": "Proiecții pe un plan; unghiul dintre o dreaptă și un plan",
+    "theory": "Proiecția unui punct pe un plan este piciorul perpendicularei din punct pe plan. Proiecția unei drepte (neperpendiculare pe plan) este o dreaptă. Unghiul dintre o dreaptă oblică și un plan este unghiul dintre dreaptă și proiecția ei pe plan. Dacă dreapta este perpendiculară pe plan, unghiul este 90°; dacă este paralelă sau conținută, 0°.",
+    "sample": "Unghiul dintre diagonala A’C a cubului și planul bazei este unghiul ∢A’CA.",
+    "worked": "În cubul cu muchia a, proiecția lui A’C pe (ABC) este AC = a√2. tg(∢A’CA) = AA’/AC = a/(a√2) = √2/2. În piramida patrulateră regulată cu muchia laterală 10 și înălțimea 5√2, sinusul unghiului muchiei laterale cu baza este 5√2/10 = √2/2, deci unghiul este 45°.",
+    "exercises": [
+     "În cub, află unghiul dintre A’B și planul (ABC).",
+     "În cub, care este proiecția lui A’C’ pe planul (ABC)?",
+     "Un segment de 10 cm face 30° cu un plan. Află lungimea proiecției lui.",
+     "În piramida VABCD regulată cu AB = 8 și VO = 4√2, află unghiul dintre VA și planul bazei (indiciu: AO = 4√2).",
+     "Un stâlp de 6 m este legat de sol cu un cablu de 12 m. Ce unghi face cablul cu solul?"
+    ],
+    "test": [
+     "Unghiul dintre o dreaptă perpendiculară pe plan și plan?",
+     "Unghiul dintre A’B și (ABC) în cub?",
+     "Proiecția unui punct pe un plan este…?",
+     "Unghiul dintre o dreaptă paralelă cu planul și plan?",
+     "Proiecția lui AA’ pe (ABC) în cub?"
+    ],
+    "steps": [
+     "Află proiecția pe plan a două puncte ale dreptei (unul poate fi intersecția cu planul).",
+     "Unghiul căutat este între dreaptă și proiecția ei.",
+     "Calculează-l într-un triunghi dreptunghic cu funcții trigonometrice.",
+     "Greșeala frecventă: să alegi unghiul dintre dreaptă și o dreaptă oarecare din plan, nu dintre dreaptă și proiecția ei."
+    ],
+    "answers": [
+     "90°",
+     "45°",
+     "Piciorul perpendicularei din punct pe plan",
+     "0°",
+     "Punctul A"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l25": {
+   "ro": {
+    "title": "Unghi diedru; plane perpendiculare",
+    "theory": "Unghiul diedru este figura formată de două semiplane cu muchia comună. Măsura lui este măsura unghiului plan obținut ducând, dintr-un punct al muchiei, câte o perpendiculară pe muchie în fiecare semiplan. Două plane sunt perpendiculare dacă unghiul diedru dintre ele este drept; un plan care conține o dreaptă perpendiculară pe alt plan este perpendicular pe acel plan.",
+    "sample": "Fețele (ABB’) și (ABC) ale cubului sunt plane perpendiculare.",
+    "worked": "În piramida patrulateră regulată VABCD cu latura bazei 12 și înălțimea 6√3, unghiul dintre fața (VBC) și bază: OM ⊥ BC și VM ⊥ BC (T3P), deci unghiul este ∢VMO. tg(∢VMO) = 6√3/6 = √3, deci unghiul este 60°.",
+    "exercises": [
+     "Arată că planele (ABB’) și (BCC’) ale cubului sunt perpendiculare.",
+     "În cub, află unghiul dintre planele (A’BC) și (ABC).",
+     "Piramida patrulateră regulată are latura bazei 8 și înălțimea 4. Află unghiul dintre o față laterală și bază.",
+     "Construiește unghiul plan al unui unghi diedru pe un desen.",
+     "Este planul (ACC’) perpendicular pe planul (ABC) în cub? Explică."
+    ],
+    "test": [
+     "Ce este un unghi diedru?",
+     "Cum se măsoară unghiul diedru?",
+     "Sunt fețele alăturate ale cubului perpendiculare?",
+     "Unghiul dintre (A’BC) și (ABC) în cub?",
+     "Dacă un plan conține o perpendiculară pe alt plan, cum sunt planele?"
+    ],
+    "steps": [
+     "Găsește muchia comună a celor două plane.",
+     "Du în fiecare plan câte o perpendiculară pe muchie din același punct (adesea cu T3P).",
+     "Calculează unghiul plan obținut în triunghiul dreptunghic.",
+     "Greșeala frecventă: să măsori unghiul diedru cu drepte care nu sunt perpendiculare pe muchie; atunci unghiul obținut nu este unghiul diedru."
+    ],
+    "answers": [
+     "Figura a două semiplane cu muchia comună",
+     "Prin unghiul plan dintre perpendicularele pe muchie",
+     "Da",
+     "45°",
+     "Perpendiculare"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l26": {
+   "ro": {
+    "title": "Aria și volumul prismei drepte (cub, paralelipiped, prismă regulată)",
+    "theory": "Aria laterală a prismei drepte este perimetrul bazei înmulțit cu înălțimea: A_l = P_b·h. Aria totală adaugă cele două baze: A_t = A_l + 2A_b. Volumul este V = A_b·h. Cubul: A_t = 6l², V = l³. Paralelipipedul: A_t = 2(Ll + Lh + lh), V = L·l·h. Volumele se exprimă în unități cubice; 1 dm³ = 1 l.",
+    "sample": "Un cub cu muchia 4 cm are aria totală 96 cm² și volumul 64 cm³.",
+    "worked": "Prisma triunghiulară regulată cu latura bazei 6 cm și înălțimea 10 cm: A_b = 36√3/4 = 9√3 cm², A_l = 18·10 = 180 cm², A_t = 180 + 18√3 cm², V = 90√3 cm³.",
+    "exercises": [
+     "Calculează aria totală și volumul paralelipipedului cu dimensiunile 5, 4, 3 cm.",
+     "Un cub are volumul 125 cm³. Află aria totală.",
+     "Prisma patrulateră regulată are latura bazei 5 cm și înălțimea 8 cm. Află aria laterală și volumul.",
+     "Câți litri încap într-un acvariu de 60 × 30 × 40 cm?",
+     "Prisma hexagonală regulată are latura bazei 2 cm și înălțimea 5 cm. Află volumul."
+    ],
+    "test": [
+     "Volumul cubului cu muchia 2?",
+     "Aria totală a cubului cu muchia 1?",
+     "Formula volumului prismei?",
+     "Volumul paralelipipedului 2 × 3 × 4?",
+     "Câți litri are 1 dm³?"
+    ],
+    "steps": [
+     "Identifică baza și înălțimea prismei.",
+     "Calculează aria bazei, perimetrul bazei și aplică formulele.",
+     "Exprimă rezultatul în unitatea cerută (cm², cm³, litri).",
+     "Greșeala frecventă: să uiți că aria totală include ambele baze (se adaugă 2A_b, nu A_b)."
+    ],
+    "answers": [
+     "8",
+     "6",
+     "V = A_b·h",
+     "24",
+     "1"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l27": {
+   "ro": {
+    "title": "Aria și volumul piramidei regulate",
+    "theory": "Aria laterală a piramidei regulate este semiperimetrul bazei înmulțit cu apotema piramidei: A_l = P_b·a_p/2. Aria totală: A_t = A_l + A_b. Volumul este o treime din aria bazei înmulțită cu înălțimea: V = A_b·h/3 (o piramidă are o treime din volumul prismei cu aceeași bază și înălțime).",
+    "sample": "O piramidă cu aria bazei 30 cm² și înălțimea 6 cm are volumul 60 cm³.",
+    "worked": "Piramida patrulateră regulată cu latura bazei 6 cm și înălțimea 4 cm: a_b = 3, a_p = √(16 + 9) = 5 cm. A_l = 24·5/2 = 60 cm², A_t = 60 + 36 = 96 cm², V = 36·4/3 = 48 cm³.",
+    "exercises": [
+     "Piramida patrulateră regulată are latura bazei 10 cm și înălțimea 12 cm. Află aria totală și volumul.",
+     "Piramida triunghiulară regulată are aria bazei 9√3 cm² și înălțimea 8 cm. Află volumul.",
+     "Volumul unei piramide este 100 cm³, iar aria bazei 25 cm². Află înălțimea.",
+     "Calculează volumul tetraedrului regulat cu muchia 6 cm (h = l√6/3).",
+     "Compară volumul unei piramide cu volumul prismei cu aceeași bază și înălțime."
+    ],
+    "test": [
+     "Formula volumului piramidei?",
+     "Volumul piramidei cu A_b = 9 și h = 3?",
+     "Formula ariei laterale a piramidei regulate?",
+     "A_t = A_l + …?",
+     "De câte ori este mai mic volumul piramidei decât al prismei cu aceeași bază și înălțime?"
+    ],
+    "steps": [
+     "Află apotema bazei, apoi apotema piramidei cu Pitagora.",
+     "Calculează aria laterală, aria bazei și aria totală.",
+     "Calculează volumul cu A_b·h/3.",
+     "Greșeala frecventă: să uiți împărțirea la 3 în formula volumului piramidei."
+    ],
+    "answers": [
+     "V = A_b·h/3",
+     "9",
+     "A_l = P_b·a_p/2",
+     "A_b",
+     "De 3 ori"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l28": {
+   "ro": {
+    "title": "Trunchiul de piramidă regulată: arii și volum",
+    "theory": "Trunchiul de piramidă se obține tăind o piramidă cu un plan paralel cu baza. Are baza mare, baza mică (poligoane asemenea), înălțimea h și apotema trunchiului (înălțimea feței laterale, un trapez isoscel). A_l = (P_B + P_b)·a_t/2; A_t = A_l + A_B + A_b; V = h(A_B + A_b + √(A_B·A_b))/3.",
+    "sample": "Fețele laterale ale trunchiului de piramidă regulată sunt trapeze isoscele congruente.",
+    "worked": "Trunchiul de piramidă patrulateră regulată cu laturile bazelor 10 cm și 4 cm și înălțimea 4 cm: diferența apotemelor bazelor este 5 − 2 = 3, apotema trunchiului √(16 + 9) = 5 cm. A_l = (40 + 16)·5/2 = 140 cm², V = 4(100 + 16 + 40)/3 = 208 cm³.",
+    "exercises": [
+     "Trunchiul de piramidă patrulateră regulată are laturile bazelor 8 și 2 cm și înălțimea 4 cm. Află apotema trunchiului.",
+     "Pentru trunchiul de mai sus, calculează aria laterală.",
+     "Pentru același trunchi, calculează volumul.",
+     "Ce formă au fețele laterale ale unui trunchi de piramidă regulată?",
+     "Volumul trunchiului este diferența volumelor a două piramide. Verifică pe exemplul din lecție (piramida mare are h = 20/3)."
+    ],
+    "test": [
+     "Ce plan taie piramida pentru a obține un trunchi?",
+     "Ce formă are o față laterală a trunchiului regulat?",
+     "Câte baze are trunchiul?",
+     "Cum sunt bazele trunchiului între ele?",
+     "Ce înălțime are fața laterală?"
+    ],
+    "steps": [
+     "Desenează secțiunea care conține înălțimea și apotemele (un trapez dreptunghic).",
+     "Află apotema trunchiului cu Pitagora.",
+     "Aplică formulele ariei și volumului.",
+     "Greșeala frecventă: să folosești în formula volumului (A_B + A_b)/2 ca la trapez; formula corectă are și termenul √(A_B·A_b) și se împarte la 3."
+    ],
+    "answers": [
+     "Un plan paralel cu baza",
+     "Trapez isoscel",
+     "Două",
+     "Asemenea",
+     "Apotema trunchiului"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l29": {
+   "ro": {
+    "title": "Aria și volumul cilindrului și conului circular drept",
+    "theory": "Cilindrul: A_l = 2πRG, A_t = 2πR(G + R), V = πR²h (cu G = h). Conul: A_l = πRG, A_t = πR(G + R), V = πR²h/3. Trunchiul de con are A_l = πG(R + r) și V = πh(R² + r² + Rr)/3. Un con are o treime din volumul cilindrului cu aceeași bază și înălțime.",
+    "sample": "Un cilindru cu R = 2 cm și h = 5 cm are volumul 20π cm³.",
+    "worked": "Conul cu R = 6 cm și h = 8 cm are G = 10 cm, A_l = 60π cm², A_t = 60π + 36π = 96π cm², V = 36π·8/3 = 96π cm³. Cilindrul cu aceeași bază și înălțime are V = 288π cm³, de trei ori mai mult.",
+    "exercises": [
+     "Cilindrul are R = 3 cm și G = 10 cm. Află aria totală și volumul.",
+     "Conul are R = 5 cm și G = 13 cm. Află aria laterală și volumul.",
+     "Câți litri încap într-un butoi cilindric cu R = 3 dm și h = 10 dm? (π ≈ 3,14)",
+     "Un con are volumul 12π cm³ și raza 3 cm. Află înălțimea.",
+     "Trunchiul de con are R = 6, r = 3, h = 4 cm. Află generatoarea și volumul."
+    ],
+    "test": [
+     "Volumul cilindrului cu R = 1, h = 1?",
+     "Formula ariei laterale a conului?",
+     "Volumul conului cu R = 3, h = 1?",
+     "De câte ori este mai mare volumul cilindrului decât al conului cu aceeași bază și înălțime?",
+     "Aria laterală a cilindrului cu R = 1, G = 2?"
+    ],
+    "steps": [
+     "Identifică R, h și G (pentru con G² = R² + h²).",
+     "Aplică formula potrivită pentru arie sau volum.",
+     "Lasă rezultatul în funcție de π sau aproximează, după cerință.",
+     "Greșeala frecventă: la aria laterală a conului să folosești înălțimea în loc de generatoare (πRh în loc de πRG)."
+    ],
+    "answers": [
+     "π",
+     "A_l = πRG",
+     "3π",
+     "De 3 ori",
+     "4π"
+    ]
+   }
+  },
+  "eu-year-ro-lower-8-l30": {
+   "ro": {
+    "title": "Sfera: aria și volumul; probleme recapitulative cu corpuri",
+    "theory": "Aria sferei de rază R este A = 4πR², iar volumul V = 4πR³/3. În probleme cu mai multe corpuri (de exemplu o sferă înscrisă într-un cilindru sau un corp compus din cilindru și con), descompunem corpul în corpuri cunoscute și adunăm sau scădem volumele.",
+    "sample": "O sferă cu raza 3 cm are aria 36π cm² și volumul 36π cm³.",
+    "worked": "O minge cu diametrul 20 cm are R = 10 cm, aria 400π cm² și volumul 4 000π/3 cm³. Un corp format dintr-un cilindru (R = 3, h = 10) cu un con deasupra (R = 3, h = 4) are V = 90π + 12π = 102π cm³.",
+    "exercises": [
+     "Calculează aria și volumul sferei cu raza 6 cm.",
+     "O sferă are aria 100π cm². Află raza și volumul.",
+     "O sferă este înscrisă într-un cub cu muchia 10 cm. Află volumul sferei.",
+     "Câte bile cu raza 1 cm se pot turna dintr-un cub de metal cu muchia 4 cm (fără pierderi)? (π ≈ 3,14)",
+     "Un corp este format dintr-o semisferă de rază 3 cm așezată pe un cilindru cu aceeași rază și înălțimea 5 cm. Află volumul."
+    ],
+    "test": [
+     "Formula ariei sferei?",
+     "Formula volumului sferei?",
+     "Aria sferei cu R = 1?",
+     "Volumul sferei cu R = 3?",
+     "Raza sferei înscrise într-un cub cu muchia 4?"
+    ],
+    "steps": [
+     "Află raza (din diametru, arie sau din corpul în care este înscrisă sfera).",
+     "Aplică A = 4πR² sau V = 4πR³/3.",
+     "Pentru corpuri compuse, adună sau scade volumele părților.",
+     "Greșeala frecventă: să folosești diametrul în loc de rază în formule, ceea ce înmulțește volumul cu 8."
+    ],
+    "answers": [
+     "A = 4πR²",
+     "V = 4πR³/3",
+     "4π",
+     "36π",
+     "2"
+    ]
+   }
+  }
+ }
+}
