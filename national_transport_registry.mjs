@@ -1,3 +1,4 @@
+import {digitransitNationalConfigured} from './digitransit_national_transit.mjs';
 import {enturNationalConfigured} from './entur_national_transit.mjs';
 import {EUROPE_COUNTRIES,europeanCountrySources} from './europe_country_sources.mjs';
 // One domestic-transport record per country. A catalog entry is NOT an adapter,
@@ -5,7 +6,9 @@ import {EUROPE_COUNTRIES,europeanCountrySources} from './europe_country_sources.
 const implemented={
  RO:{urban_transport:['ro_urban_gtfs'],intercity_transport:['ro_national_transit']},
  GB:{urban_transport:['tfl','en_urban_gtfs'],intercity_transport:['uk_national_transit']},
- NO:{urban_transport:['entur_national_transit'],intercity_transport:['entur_national_transit'],domesticPlanner:'entur_national_transit'}
+ NO:{urban_transport:['entur_national_transit'],intercity_transport:['entur_national_transit'],domesticPlanner:'entur_national_transit'},
+ FI:{urban_transport:['digitransit_national_transit'],intercity_transport:['digitransit_national_transit'],domesticPlanner:'digitransit_national_transit'},
+ EE:{urban_transport:['digitransit_national_transit'],intercity_transport:['digitransit_national_transit'],domesticPlanner:'digitransit_national_transit'}
 };
 export const NATIONAL_TRANSPORT_COUNTRIES=Object.freeze(Object.fromEntries(
  EUROPE_COUNTRIES.map(country=>[country,Object.freeze({
@@ -14,7 +17,7 @@ export const NATIONAL_TRANSPORT_COUNTRIES=Object.freeze(Object.fromEntries(
   intercity_transport:Object.freeze(implemented[country]?.intercity_transport||[]),
   domesticPlanner:implemented[country]?.domesticPlanner||null,
   timetableCoverage:'not_verified_countrywide',
-  validationStatus:country==='NO'?'contract_tests_only':'live_coverage_not_reverified',
+  validationStatus:['NO','FI','EE'].includes(country)?'contract_tests_only':implemented[country]?'live_coverage_not_reverified':'not_implemented',
   integrationStatus:implemented[country]?'implemented_adapters':'sources_require_integration'
  })])
 ));
@@ -26,6 +29,7 @@ export function configuredNationalTransportProviders(env={}){
  };
  return [
   enturNationalConfigured(env)?'entur_national_transit':null,
+  digitransitNationalConfigured(env)?'digitransit_national_transit':null,
   String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
   privateReady(env.RO_URBAN_VPC,env.RO_URBAN_API_URL,env.RO_URBAN_API_TOKEN)?'ro_urban_gtfs':null,
   String(env.TRANSCAPI_API_KEY||'').trim()?'uk_national_transit':null,

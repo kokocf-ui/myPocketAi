@@ -24,7 +24,7 @@ test('Norway opt-in requires both explicit switches and an identifying client he
 test('Country policy is domestic-only for all 49 countries; catalog is never a connection',()=>{
  for(const country of EUROPE_COUNTRIES){
   assert.equal(policy({originCountry:country,destinationCountry:country==='GB'?'RO':'GB',enabledProviders:['entur_national_transit']}).status,'international_destination');
-  if(!['RO','GB','NO'].includes(country)){
+  if(!['RO','GB','NO','FI','EE'].includes(country)){
    assert.equal(policy({originCountry:country,destinationCountry:country,enabledProviders:['entur_national_transit']}).status,'country_provider_not_connected');
    assert.deepEqual(nationalTransportCoverage(country,configuredNationalTransportProviders(env)).configured_adapters,[]);
   }
@@ -32,6 +32,7 @@ test('Country policy is domestic-only for all 49 countries; catalog is never a c
  assert.equal(Object.keys(NATIONAL_TRANSPORT_COUNTRIES).length,49);
  assert.equal(policy({originCountry:'NO',destinationCountry:'NO',enabledProviders:['entur_national_transit']}).provider,'entur_national_transit');
  assert.equal(policy({originCountry:'NO',destinationCountry:'NO'}).status,'national_provider_not_connected');
+ assert.equal(policy({originCountry:'FI',destinationCountry:'FI',enabledProviders:['entur_national_transit']}).status,'national_provider_not_connected','Norwegian adapter never enables Finland');
 });
 test('Request uses pinned HTTPS endpoint, GraphQL variables, explicit walking access and no credentials in URLs',async()=>{
  const calls=[];

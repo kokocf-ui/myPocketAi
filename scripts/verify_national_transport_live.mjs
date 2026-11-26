@@ -3,11 +3,20 @@
 // reviewed provider config and a GEOAPIFY_API_KEY already in the environment.
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {planEnturNationalJourney,enturNationalConfigured} from '../entur_national_transit.mjs';
+import {planDigitransitNationalJourney,digitransitNationalConfigured} from '../digitransit_national_transit.mjs';
 import {verifiedGpsCountry} from '../country_gps_resolution.mjs';
 const args=process.argv.slice(2),country=args.find(a=>a.startsWith('--country='))?.slice(10)||'NO';
-if(country!=='NO')throw Error('This live verifier currently implements NO only; no other country is silently mapped to Entur.');
+if(!['NO','FI','EE'].includes(country))throw Error('Only NO, FI and EE have implemented live verifiers; other countries are never silently mapped to them.');
+const plan=country!=='NO'?planDigitransitNationalJourney:planEnturNationalJourney;
+const configured=country!=='NO'?digitransitNationalConfigured:enturNationalConfigured;
 const live=args.includes('--allow-network');
-const cases=[
+const cases=country==='EE'?[
+ {id:'tallinn-local',from:{latitude:59.439,longitude:24.737},to:{latitude:59.437,longitude:24.755}},
+ {id:'tallinn-tartu-intercity',from:{latitude:59.439,longitude:24.737},to:{latitude:58.373,longitude:26.707}}
+]:country==='FI'?[
+ {id:'helsinki-local',from:{latitude:60.171,longitude:24.941},to:{latitude:60.178,longitude:24.95}},
+ {id:'helsinki-tampere-intercity',from:{latitude:60.171,longitude:24.941},to:{latitude:61.498,longitude:23.773}}
+]:[
  {id:'oslo-local',from:{latitude:59.9109,longitude:10.7526},to:{latitude:59.914,longitude:10.732}},
  {id:'oslo-lillehammer-intercity',from:{latitude:59.9109,longitude:10.7526},to:{latitude:61.1145,longitude:10.4664}}
 ];
@@ -15,7 +24,7 @@ const report={country,run_at:new Date().toISOString(),status:'not_run',live_requ
  countrywide_coverage_verified:false,physical_navigation_verified:false,cases:cases.map(c=>({id:c.id,status:'not_run'}))};
 if(!live){
  report.reason='offline_only_use_allow_network_after_access_and_terms_review';
-}else if(!enturNationalConfigured(process.env)||!process.env.GEOAPIFY_API_KEY){
+}else if(!configured(process.env)||!process.env.GEOAPIFY_API_KEY){
  report.reason='reviewed_provider_configuration_and_geocoder_key_required';process.exitCode=2;
 }else{
  report.live_requests=true;
@@ -23,7 +32,7 @@ if(!live){
  const verifyCountry=p=>verifiedGpsCountry({...p,geoapifyKey:process.env.GEOAPIFY_API_KEY,timeoutMs:1800});
  for(const [i,c] of cases.entries()){
   const [originCountry,destinationCountry]=await Promise.all([verifyCountry(c.from),verifyCountry(c.to)]);
-  const result=await planEnturNationalJourney(process.env,{...c,originCountry,destinationCountry,departureAt:at.toISOString(),limit:3},{verifyCountry});
+  const result=await plan(process.env,{...c,originCountry,destinationCountry,departureAt:at.toISOString(),limit:3},{verifyCountry});
   report.cases[i]={id:c.id,status:result.status,verified_itineraries:result.journeys.length,
    all_returned_stop_countries_checked:result.journeys.length>0&&result.journeys.every(j=>j.stop_countries_verified),source_status:result.source_status||null};
  }

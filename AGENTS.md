@@ -8,6 +8,47 @@
 ## 1. Reguli permanente de lucru cu utilizatorul
 
 
+**ETAPĂ ACTUALĂ / DIGITRANSIT FI+EE ȘI CHEI API (2026-11-26, după78091ff):**
+User cere continuarea conectărilor și linkuri/pași ca să obțină cheia și să o
+introducă el în Cloudflare. NU cere cheia în chat/capturi/GitHub/APK. Nu a
+revocat refuzul publicării. Raport+ghid `DIGITRANSIT_CONNECTION_SETUP_2026-11-26.md`.
+Portal dat în conversație: https://portal-api.digitransit.fi/ ; Sign up/email/2FA
+→ Products → produs care include Routing API → Subscribe/formular/termeni →
+Profile/Subscriptions/Show. Numele exact al produsului nu e confirmat: cere
+captură Products FĂRĂ chei/date personale dacă e neclar. Secret exact
+`DIGITRANSIT_API_KEY` în backend **lifewise-ai-api**, nu frontend. Cloudflare
+Workers & Pages → Worker → Settings → Variables and Secrets → Add → Secret.
+Documentația indică Deploy ca ultim pas de aplicare; avertizat să NU îl apese
+încă sub interdicția publicării. Poate obține și păstra privat cheia, apoi spune
+numai „am cheia”. `wrangler secret put` poate publica: nu ocoli interdicția.
+Cloudflare connector lookup: unsupported; nicio operație remote prin connector.
+Cod: `digitransit_national_transit.mjs` Routing v2/planConnection, endpoint
+/routing/v2/finland/gtfs/v1 documentat OFICIAL pentru Finlanda ȘI Estonia. Profile
+FI/EE distincte, fus Helsinki/Tallinn, același secret și adaptor; interțări
+respinse și toate stațiile verificate în țara cererii. Nu e adaptor Entur copiat;
+query verificat după schema HSL UI d036f3cc710c005ec244c092a489722165311ea9,
+fără câmpuri depreciate. Docs HSL site7ec6fbb56eaee2b37429086c9d5ac220b7bb1f7b.
+Necesită separat KEY + DIGITRANSIT_NATIONAL_ENABLED=true +
+DIGITRANSIT_TERMS_REVIEWED=true; DEFAULT OFF, nimic setat în Wrangler/remote.
+Termenii/limitele produsului trebuie acceptate/revizuite, nu seta singur review.
+Secret numai în headerul digitransit-subscription-key; niciodată URL/body/UI;
+erorile furnizorului nu sunt expuse. StopCalls complet cu capete validate,
+cronologie/anulări/moduri/goluri, bus-only local, fără fare/stock/transferuri false.
+Atribuire ©Digitransit+data/oră+CCBY4.0 și OSM/ODbL în date/reply/detalii UI
+(opțional, textContent, wrap). `national_transport_validation.mjs` comun NO/FI/EE
+max36puncte/6.5s/4concurent; doar stații, nu frontiera continuă a șinei/șoselei,
+rute complexe/flex pot fi excluse. NO regresii păstrate.
+PASS9 adaptor+5 Worker noi; test:national-transport17comenzi, transit19,
+orientation11/check, scheme FI șiNO, dryruns2, browser3suite360/393/430 inclusiv
+FI/EE atribuire/timestamp/licențe și NO. HTML6991306B. Scheme/tooling ignorate
+.bundle-check, fără dependency nouă. Scriptlive extins FI/EE, rulat DOAR OFFLINE
+statusnot_run/live_requestsfalse; sandbox nu permite api.digitransit.fi/Geoapify.
+Nu afirma conectat live; 5profileimplementate RO/GB/NO/FI/EE, ultimele3 OFF;
+44intrări fărăadaptor. **NUDEPLOY/NUAPK/NUOracle/NUworkflow/NU PR/merge**;
+ultimlivrat501884/backendv183. Urmează ajutor portal/secret în cadru autorizat,
+probe reale+următoarele țări; nu publica implicit pentru a verifica cheia.
+
+
 **ETAPĂ ACTUALĂ / CONECTARE PE FIECARE ȚARĂ (2026-11-26, după b707204):**
 Utilizatorul cere conectări pe țări; poate verifica fizic numai Anglia și un
 prieten România. Nu promite că formatul UK garantează funcționarea altor țări.

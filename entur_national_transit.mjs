@@ -1,3 +1,4 @@
+import {verifyDomesticJourneys,selectNationalJourneys} from './national_transport_validation.mjs';
 // Norway-only opt-in adapter. API contract checked against Entur's published
 // GraphQL schema; this is NOT proof of live availability or reuse approval.
 import {pointDistanceMeters} from './regional_gtfs_registry.mjs';
@@ -25,7 +26,6 @@ const supportedModes={foot:'walking',bus:'bus',coach:'coach',trolleybus:'trolley
 const str=(v,n=180)=>typeof v==='string'?v.trim().slice(0,n):'';
 const point=p=>p&&typeof p.latitude==='number'&&typeof p.longitude==='number'&&Number.isFinite(p.latitude)&&Number.isFinite(p.longitude)&&Math.abs(p.latitude)<=90&&Math.abs(p.longitude)<=180?{latitude:p.latitude,longitude:p.longitude}:null;
 const iso=v=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.test(v)&&Number.isFinite(Date.parse(v))?new Date(v).toISOString():null;
-const key=p=>p.latitude.toFixed(6)+','+p.longitude.toFixed(6);
 const busOnly=j=>j.legs.some(l=>['bus','coach','trolleybus'].includes(l.mode))&&j.legs.every(l=>['walking','bus','coach','trolleybus'].includes(l.mode));
 export function enturNationalConfigured(env={}){
  return env.ENTUR_NATIONAL_ENABLED==='true'&&env.ENTUR_TERMS_REVIEWED==='true'&&
@@ -116,35 +116,9 @@ export async function planEnturNationalJourney(env,{from,to,originCountry,destin
  // country GPS pair is not enough: a provider may return an international train.
  // Bound total geocoder subrequests and latency, deduplicate within this request
  // only; never persist precise passenger coordinates or geocoder payloads.
- const countryCache=new Map();let checks=0,rejected=0;
- const deadline=Date.now()+6500;
- const verify=p=>{
-  const k=key(p);if(countryCache.has(k))return countryCache.get(k);
-  if(checks>=36||Date.now()>=deadline)return Promise.resolve(null);
-  checks++;
-  const job=Promise.resolve().then(()=>opts.verifyCountry(p)).catch(()=>null);
-  const bounded=new Promise(resolve=>{const timer=setTimeout(()=>resolve(null),Math.max(1,deadline-Date.now()));
-   job.then(v=>{clearTimeout(timer);resolve(v);});});
-  countryCache.set(k,bounded);return bounded;
- };
- const seen=new Set(),journeys=[];
- for(const j of candidates){
-  const points=[...new Map(j._countryCheckPoints.map(p=>[key(p),p])).values()];
-  if(points.length>36){rejected++;continue;}
-  let domestic=true;
-  for(let i=0;i<points.length;i+=4){
-   const countries=await Promise.all(points.slice(i,i+4).map(verify));
-   if(countries.some(c=>c!=='NO')){domestic=false;break;}
-  }
-  if(!domestic){rejected++;continue;}
-  const signature=JSON.stringify(j.legs.map(l=>[l.mode,l.fromStopId,l.toStopId,l.from,l.to,l.departureTime,l.arrivalTime,l.lineNames]));
-  if(seen.has(signature))continue;seen.add(signature);
-  const {_countryCheckPoints,...publicJourney}=j;
-  journeys.push({...publicJourney,stop_countries_verified:true});
- }
- journeys.sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime));
- const selected=journeys.slice(0,max),road=journeys.find(busOnly);
- if(max>1&&road&&!selected.some(busOnly)){if(selected.length>=max)selected.pop();selected.push(road);selected.sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime));}
+ const verified=await verifyDomesticJourneys(candidates,'NO',opts.verifyCountry);
+ const selected=selectNationalJourneys(verified.journeys,max);
+ const rejected=verified.rejected,checks=verified.checks;
  return {status:selected.length?'ok':candidates.length&&rejected?'domestic_route_unverified':sources.some(s=>s.status==='ok')?'no_valid_itinerary':main.status,
   journeys:selected,source_status:{main:main.status,bus:bus?.status||'not_requested'},country_checks:checks};
 }

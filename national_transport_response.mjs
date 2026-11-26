@@ -19,7 +19,7 @@ export function nationalTransportResponse(result,{country,provider,language='ro'
    (en?'Source: ':'Sursa: ')+provider+'. '+
    (en?'Provider timetable; live updates only where explicitly supplied. Walking access and transfers need separate navigation checks.':
     'Orarul furnizorului; actualizări în timp real numai unde sunt furnizate explicit. Accesul pietonal și transferurile necesită verificare separată pentru navigare.')+
-   '\n'+transportNoticeLine(journeys[0],language)
+   '\n'+transportNoticeLine(journeys[0],language)+(journeys[0].attribution?.text?'\n'+journeys[0].attribution.text:'')
   :unavailable;
  return {reply,national_public_transport:true,country_code:country,mixed_journey:false,international_journey:false,
   transit_available:journeys.length>0,route_available:false,route_geometry_available:false,transit_geometry_available:false,

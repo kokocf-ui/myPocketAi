@@ -34,7 +34,7 @@ try{
   });
   await page.goto('http://127.0.0.1:'+server.address().port+'/?nativeLaunch=1');
   const body=page.locator('#moduleLayerBody'),field=body.locator('.journey-one-field-input');
-  for(const code of ['RO','GB','NO']){
+  for(const code of ['RO','GB','NO','FI','EE']){
    country=code;await page.evaluate(()=>window.__national.init());
    await field.waitFor();await page.waitForFunction(()=>!document.querySelector('.journey-one-field-input')?.disabled);
    assert.match(await body.innerText(),/Acoperirea locală se verifică la căutare/);
@@ -51,7 +51,7 @@ try{
   country='DE';await page.evaluate(()=>window.__national.init());
   await body.getByText('Nu este conectat încă un motor verificat de transport public pentru această țară.',{exact:true}).waitFor();
   assert.equal(await field.isDisabled(),true,'Catalog-only countries cannot pretend to plan routes');
-  assert.equal(lookups,4);assert.deepEqual(errors,[]);await page.close();
+  assert.equal(lookups,6);assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS national transport production browser 360/393/430: RO/GB/NO coverage notice, GPS lookup, no horizontal overflow, DE fails honestly, reduced viewport');
+ console.log('PASS national transport production browser 360/393/430: RO/GB/NO/FI/EE coverage notice, GPS lookup, no horizontal overflow, DE fails honestly, reduced viewport');
 }finally{await browser.close();await new Promise(ok=>server.close(ok));}

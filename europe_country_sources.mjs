@@ -34,6 +34,7 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
  NL:{transport:[source('nl_ndov','NDOV public transport feed (agreement needed)','https://www2.ndovloket.nl/','national','data_feed','agreement_required')],general:[]},
  NO:{transport:[source('no_entur','Entur Journey Planner v3','https://developer.entur.no/docs/open-services/journey-planner','national','api','attribution_required')],general:[]},
  SE:{transport:[source('se_trafiklab','Trafiklab public transport open-data APIs','https://www.trafiklab.se/','national','api','registration_review')],general:[]},
+ EE:{transport:[source('ee_digitransit','Digitransit Routing v2 documented Estonia coverage','https://digitransit.fi/en/developers/apis/','national','api','api_key_required')],general:[]},
  FI:{transport:[source('fi_digitransit','Digitransit Routing API','https://digitransit.fi/en/developers/apis/','national','api','api_key_required')],general:[]},
  CH:{transport:[source('ch_transportdata','Swiss national public transport GTFS','https://opentransportdata.swiss/en/cookbook/timetable-cookbook/gtfs/','national','dataset')],general:[]},
  AT:{transport:[source('at_mobility_data','Austria transport association open data','https://data.mobilitaetsverbuende.at/de/data-sets','national','dataset')],general:[]},

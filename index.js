@@ -21481,6 +21481,11 @@ function appendTransitLegs(host,journey){
   const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);appendTransitStopCount(action,leg);appendTransportTicketAction(action,leg);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));action.append(provider)}
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
+ if(typeof journey?.attribution?.text==='string'&&journey.attribution.text.trim()){
+  const attribution=document.createElement('p');attribution.className='transit-source-attribution';
+  attribution.style.cssText='font-size:12px;line-height:1.4;overflow-wrap:anywhere;color:#bdd6e3';
+  attribution.textContent=journey.attribution.text.trim().slice(0,700);host.append(attribution);
+ }
 }
 // Provider boarding times are never shifted. This only calculates a leave-by
 // recommendation so an access walk has a practical buffer before boarding.
