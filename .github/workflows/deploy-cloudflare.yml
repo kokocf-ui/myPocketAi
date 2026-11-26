@@ -353,7 +353,7 @@ jobs:
           retention-days: 7
 
       - name: Verify authorized Finland and Estonia public transport LIVE
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
         run: node scripts/smoke_digitransit_worker_live.mjs --allow-network
       - name: Save Finland and Estonia verification report
         if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}

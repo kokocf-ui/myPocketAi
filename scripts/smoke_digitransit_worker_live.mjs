@@ -46,6 +46,7 @@ export async function runSmoke(fetcher=fetch){
    else {validateJourneyResponse(d,c.country);row.modes=[...new Set(d.transit.flatMap(j=>j.legs.map(l=>l.mode)))];}
    row.status='pass';
   }catch(e){row.error=e?.code==='ERR_ASSERTION'?'response_contract_assertion_failed':'request_failed';}
+  if(process.env.GITHUB_ACTIONS==='true')console.log('::notice title=Digitransit live probe::'+JSON.stringify(row));
   save();
  }
  report.status=report.results.every(r=>r.status==='pass')?'live_smoke_pass':'live_smoke_incomplete';save();
