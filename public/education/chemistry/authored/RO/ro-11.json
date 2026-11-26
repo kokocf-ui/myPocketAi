@@ -1,0 +1,1264 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "11",
+ "version": "04504483d3de0323064ef73484ddd3cd7952fe6b951c895396662b02df49ddc9",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Chimie pentru clasa a XI-a, ciclul superior al liceului, filiera teoretică, profilul real (OMEC nr. 3252/13.02.2006) — chimie organică: nomenclatură, izomerie optică, tipuri de reacții, reactivitatea hidrocarburilor, compuși halogenați, alcooli, fenoli, amine, compuși carbonilici, acizi carboxilici și derivați, aminoacizi, peptide, proteine, enzime, zaharide, polimeri de policondensare; teme corelate cu programa de bacalaureat la chimie organică; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Chimie · Clasa a XI-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Structura și reactivitatea compușilor organici",
+   "keys": [
+    "eu-year-ro-medium-11-l01",
+    "eu-year-ro-medium-11-l02",
+    "eu-year-ro-medium-11-l03"
+   ]
+  },
+  {
+   "title": "Hidrocarburi: reactivitate comparată",
+   "keys": [
+    "eu-year-ro-medium-11-l04",
+    "eu-year-ro-medium-11-l05"
+   ]
+  },
+  {
+   "title": "Compuși halogenați",
+   "keys": [
+    "eu-year-ro-medium-11-l06",
+    "eu-year-ro-medium-11-l07",
+    "eu-year-ro-medium-11-l08"
+   ]
+  },
+  {
+   "title": "Alcooli și fenoli",
+   "keys": [
+    "eu-year-ro-medium-11-l09",
+    "eu-year-ro-medium-11-l10",
+    "eu-year-ro-medium-11-l11",
+    "eu-year-ro-medium-11-l12",
+    "eu-year-ro-medium-11-l13"
+   ]
+  },
+  {
+   "title": "Amine",
+   "keys": [
+    "eu-year-ro-medium-11-l14",
+    "eu-year-ro-medium-11-l15"
+   ]
+  },
+  {
+   "title": "Compuși carbonilici",
+   "keys": [
+    "eu-year-ro-medium-11-l16",
+    "eu-year-ro-medium-11-l17",
+    "eu-year-ro-medium-11-l18"
+   ]
+  },
+  {
+   "title": "Acizi carboxilici și derivați funcționali",
+   "keys": [
+    "eu-year-ro-medium-11-l19",
+    "eu-year-ro-medium-11-l20",
+    "eu-year-ro-medium-11-l21",
+    "eu-year-ro-medium-11-l22"
+   ]
+  },
+  {
+   "title": "Compuși cu funcțiuni mixte: aminoacizi și proteine",
+   "keys": [
+    "eu-year-ro-medium-11-l23",
+    "eu-year-ro-medium-11-l24",
+    "eu-year-ro-medium-11-l25",
+    "eu-year-ro-medium-11-l26"
+   ]
+  },
+  {
+   "title": "Compuși cu funcțiuni mixte: zaharide",
+   "keys": [
+    "eu-year-ro-medium-11-l27",
+    "eu-year-ro-medium-11-l28",
+    "eu-year-ro-medium-11-l29",
+    "eu-year-ro-medium-11-l30"
+   ]
+  },
+  {
+   "title": "Polimeri de policondensare; identificarea compușilor organici",
+   "keys": [
+    "eu-year-ro-medium-11-l31",
+    "eu-year-ro-medium-11-l32",
+    "eu-year-ro-medium-11-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-11-l01": {
+   "ro": {
+    "title": "Nomenclatura IUPAC a compușilor organici cu funcțiuni",
+    "theory": "Denumirea IUPAC pornește de la catena principală, care conține grupa funcțională cea mai importantă și numărul maxim de legături multiple. Grupa principală primește sufixul (-ol la alcooli, -al la aldehide, -onă la cetone, -oic la acizi, -amină la amine), iar celelalte grupe apar ca prefixe (cloro-, hidroxi-, amino-, oxo-). Ordinea de prioritate descrescătoare: acid carboxilic > ester > amidă > nitril > aldehidă > cetonă > alcool > amină. Numerotarea dă grupei principale indicele cel mai mic; substituenții se scriu în ordine alfabetică.",
+    "sample": "CH₃–CH(OH)–CH₃ se numește 2-propanol, deoarece grupa –OH este la carbonul 2.",
+    "worked": "CH₃–CH(Cl)–CH₂–COOH: grupa principală este –COOH (C1), clorul este la C3 ⇒ acid 3-clorobutanoic. HO–CH₂–CH₂–CHO: aldehida are prioritate față de alcool ⇒ 3-hidroxipropanal. CH₃–CO–CH₂–CH₃: butanonă.",
+    "exercises": [
+     "Denumește: CH₃–CH₂–CH(OH)–CH₃.",
+     "Denumește: CH₃–CH(NH₂)–COOH.",
+     "Scrie formula acidului 2-hidroxipropanoic.",
+     "Denumește: CH₃–CH₂–CO–CH₃ și CH₃–CH₂–CHO.",
+     "Care grupă are prioritate: –OH sau –CHO? Justifică cu un exemplu."
+    ],
+    "test": [
+     "Sufixul alcoolilor?",
+     "Sufixul aldehidelor?",
+     "Sufixul cetonelor?",
+     "Grupa cu prioritatea cea mai mare dintre cele studiate?",
+     "Cum se scriu substituenții în nume?"
+    ],
+    "steps": [
+     "Identifică grupa funcțională principală după ordinea de prioritate.",
+     "Alege catena principală și numerotează pentru indicele minim al grupei principale.",
+     "Scrie prefixele în ordine alfabetică, catena și sufixul.",
+     "Greșeala frecventă: să numerotezi pentru a da indice minim unui substituent (de exemplu clorul) în loc de grupa funcțională principală."
+    ],
+    "answers": [
+     "-ol",
+     "-al",
+     "-onă",
+     "Acidul carboxilic (–COOH)",
+     "În ordine alfabetică, ca prefixe"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l02": {
+   "ro": {
+    "title": "Izomeria optică: chiralitate, enantiomeri, amestec racemic",
+    "theory": "Un atom de carbon asimetric (stereocentru) este legat de patru substituenți diferiți. O moleculă cu un carbon asimetric este chirală: nu se suprapune peste imaginea ei în oglindă, ca mâna dreaptă și cea stângă. Cele două forme se numesc enantiomeri; au aceleași proprietăți fizice, dar rotesc planul luminii polarizate cu același unghi, în sensuri opuse (dextrogir +, levogir −). Amestecul echimolecular de enantiomeri (racemicul) este optic inactiv. Cu n atomi de carbon asimetrici există cel mult 2ⁿ stereoizomeri. Enantiomerii pot avea efecte biologice diferite (medicamente, arome).",
+    "sample": "Acidul lactic din lapte are un carbon asimetric și există sub forma a doi enantiomeri.",
+    "worked": "Acidul lactic CH₃–C*H(OH)–COOH: carbonul 2 are patru substituenți diferiți (H, OH, CH₃, COOH) ⇒ 2 enantiomeri. 2,3-dihidroxibutanalul are 2 carboni asimetrici ⇒ cel mult 2² = 4 stereoizomeri. 2-propanolul nu este chiral: C2 are două grupe CH₃ identice.",
+    "exercises": [
+     "Marchează carbonii asimetrici din 2-butanol și 2-cloropropan.",
+     "Câți stereoizomeri are o moleculă cu 3 carboni asimetrici?",
+     "De ce racemicul nu rotește planul luminii polarizate?",
+     "Are glicina carbon asimetric? Dar α-alanina?",
+     "Explică de ce chiralitatea contează la medicamente."
+    ],
+    "test": [
+     "Ce este un carbon asimetric?",
+     "Ce sunt enantiomerii?",
+     "Ce este un amestec racemic?",
+     "Câți stereoizomeri pentru n carboni asimetrici?",
+     "Ce rotește un compus optic activ?"
+    ],
+    "steps": [
+     "Examinează fiecare carbon sp³ și listează cei patru substituenți.",
+     "Marchează carbonii cu patru substituenți diferiți (C*).",
+     "Calculează numărul de stereoizomeri (2ⁿ) și precizează enantiomerii.",
+     "Greșeala frecventă: să consideri asimetric un carbon care are două grupe identice (de exemplu două grupe CH₃)."
+    ],
+    "answers": [
+     "Un carbon legat de patru substituenți diferiți",
+     "Stereoizomeri care sunt imagini în oglindă nesuperpozabile",
+     "Amestecul echimolecular de enantiomeri, optic inactiv",
+     "Cel mult 2ⁿ",
+     "Planul luminii polarizate"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l03": {
+   "ro": {
+    "title": "Tipuri de reacții organice: substituție, adiție, eliminare, transpoziție",
+    "theory": "Reacțiile organice se clasifică după modul în care se transformă structura. Substituția: un atom sau o grupă este înlocuită cu altul (halogenarea alcanilor, nitrarea benzenului, hidroliza compușilor halogenați). Adiția: se rup legături π și se leagă atomi noi (hidrogenarea alchenelor, adiția HCl la acetilenă). Eliminarea: se desprinde o moleculă mică (H₂O, HX, H₂) cu formarea unei legături multiple (deshidratarea alcoolilor, dehidrohalogenarea). Transpoziția (izomerizarea): se rearanjează atomii fără schimbarea formulei moleculare (n-butan → izobutan). Cunoașterea tipului de reacție ajută la prezicerea produșilor.",
+    "sample": "Deshidratarea etanolului la etenă este o reacție de eliminare.",
+    "worked": "CH₃–CH₂–Br + NaOH(aq) → CH₃–CH₂–OH + NaBr: substituție. CH₃–CH₂–Br + KOH (alcool) → CH₂=CH₂ + KBr + H₂O: eliminare. Aceeași substanță dă produși diferiți în funcție de condiții — de aceea condițiile se scriu întotdeauna deasupra săgeții.",
+    "exercises": [
+     "Clasifică: CH₄ + Cl₂ → CH₃Cl + HCl.",
+     "Clasifică: CH₂=CH₂ + H₂O → C₂H₅OH.",
+     "Clasifică: C₂H₅OH → C₂H₄ + H₂O.",
+     "Dă un exemplu de transpoziție.",
+     "De ce bromoetanul dă produși diferiți cu NaOH apos și cu KOH alcoolic?"
+    ],
+    "test": [
+     "Ce este substituția?",
+     "Ce este adiția?",
+     "Ce este eliminarea?",
+     "Ce este transpoziția?",
+     "Ce legătură se rupe la adiție?"
+    ],
+    "steps": [
+     "Compară reactanții și produșii (ce atomi s-au adăugat, înlocuit sau eliminat).",
+     "Verifică apariția sau dispariția legăturilor multiple.",
+     "Încadrează reacția și notează condițiile.",
+     "Greșeala frecventă: să ignori condițiile de reacție; ele decid dacă are loc substituția sau eliminarea."
+    ],
+    "answers": [
+     "Înlocuirea unui atom sau a unei grupe cu altul",
+     "Legarea de atomi noi prin ruperea legăturilor π",
+     "Desprinderea unei molecule mici cu formarea unei legături multiple",
+     "Rearanjarea atomilor fără schimbarea formulei moleculare",
+     "Legătura π"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l04": {
+   "ro": {
+    "title": "Reactivitatea comparată a hidrocarburilor; identificarea nesaturării",
+    "theory": "Alcanii (doar legături σ) dau substituție și ardere; alchenele și alchinele (legături π) dau ușor adiție, polimerizare și oxidare; arenele (sextet aromatic stabil) preferă substituția, iar adiția are loc doar în condiții energice. Testele de identificare: apa de brom și soluția de KMnO₄ se decolorează cu alchenele și alchinele, dar nu cu alcanii și benzenul. Alchinele cu tripla legătură la capătul catenei (alchine marginale) dau în plus precipitate cu reactivii Tollens și Ilosvay.",
+    "sample": "Hexena decolorează apa de brom, iar hexanul nu.",
+    "worked": "Trei flacoane conțin hexan, 1-hexenă și benzen. Cu apa de brom doar 1-hexena decolorează instantaneu ⇒ identificată. Hexanul și benzenul nu reacționează la rece; benzenul are miros caracteristic și arde cu flacără foarte fumeagă (conținut mare de carbon: 92,3% față de 83,7% la hexan).",
+    "exercises": [
+     "Cum deosebești etanul de etenă?",
+     "Cum deosebești 1-butina de 2-butină?",
+     "De ce benzenul nu decolorează apa de brom?",
+     "Calculează procentul de carbon din etină și din etan.",
+     "Propune o schemă de identificare pentru hexan, ciclohexenă și toluen."
+    ],
+    "test": [
+     "Ce reacții dau alcanii?",
+     "Ce reacții dau ușor alchenele?",
+     "Ce reacții preferă arenele?",
+     "Ce test identifică nesaturarea?",
+     "Ce alchine dau precipitat cu reactivul Tollens?"
+    ],
+    "steps": [
+     "Analizează tipul legăturilor din fiecare hidrocarbură.",
+     "Alege reactivul care dă un efect vizibil doar cu una dintre substanțe.",
+     "Formulează concluzia și scrie ecuațiile.",
+     "Greșeala frecventă: să consideri benzenul o alchenă obișnuită care decolorează apa de brom."
+    ],
+    "answers": [
+     "Substituție și ardere",
+     "Adiție, polimerizare, oxidare",
+     "Substituția",
+     "Decolorarea apei de brom sau a KMnO₄",
+     "Alchinele marginale"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l05": {
+   "ro": {
+    "title": "Caracterul slab acid al alchinelor marginale; acetiluri",
+    "theory": "În acetilenă, hidrogenul legat de carbonul sp are un caracter slab acid, mai pronunțat decât în etenă sau etan. De aceea acetilena și alchinele marginale reacționează cu sodiul (formând acetilură de sodiu și H₂), cu reactivul Tollens [Ag(NH₃)₂]OH (precipitat alb-gălbui de acetilură de argint) și cu reactivul Ilosvay [Cu(NH₃)₂]Cl (precipitat roșu-cărămiziu de acetilură de cupru). Alchinele interne (2-butina) nu au hidrogen la tripla legătură și nu dau aceste reacții. Acetilurile metalelor grele sunt explozive în stare uscată.",
+    "sample": "Propina dă precipitat cu reactivul Tollens, iar 2-butina nu.",
+    "worked": "HC≡CH + 2 Na → NaC≡CNa + H₂. Ce volum de H₂ (c.n.) degajă 2,6 g acetilenă (0,1 mol) cu sodiu în exces? 0,1 mol H₂ = 2,24 L. HC≡CH + 2 [Cu(NH₃)₂]Cl → CuC≡CCu↓ + 2 NH₄Cl + 2 NH₃.",
+    "exercises": [
+     "Scrie ecuația reacției propinei cu sodiul.",
+     "Scrie reacția acetilenei cu reactivul Tollens.",
+     "Care dintre C₄H₆ izomere (1-butină, 2-butină) dă precipitat cu reactivul Ilosvay?",
+     "Ce masă de sodiu reacționează cu 0,2 mol acetilenă?",
+     "De ce acetilurile de argint se manipulează cu grijă?"
+    ],
+    "test": [
+     "Ce hidrogen este slab acid în acetilenă?",
+     "Precipitatul cu reactivul Ilosvay?",
+     "Reacționează 2-butina cu sodiul?",
+     "Gazul degajat cu sodiul?",
+     "Hibridizarea carbonului care poartă hidrogenul acid?"
+    ],
+    "steps": [
+     "Verifică dacă alchina are hidrogen la tripla legătură.",
+     "Scrie înlocuirea hidrogenului cu metalul (Na, Ag, Cu).",
+     "Notează efectul vizibil și calculează stoechiometric.",
+     "Greșeala frecventă: să aștepți reacția și la alchinele interne, care nu au hidrogen la tripla legătură."
+    ],
+    "answers": [
+     "Hidrogenul legat de carbonul legăturii triple",
+     "Roșu-cărămiziu, acetilură de cupru",
+     "Nu",
+     "Hidrogenul",
+     "sp"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l06": {
+   "ro": {
+    "title": "Compuși halogenați: clasificare, obținere, proprietăți fizice",
+    "theory": "Compușii halogenați R–X se clasifică după natura halogenului (fluorurați, clorurați, bromurați, iodurați), după numărul atomilor de halogen (mono-, di-, polihalogenați; geminali – pe același carbon, vicinali – pe carboni vecini) și după tipul restului (saturați, nesaturați, aromatici). Se obțin prin substituție (alcan + X₂ la lumină, arenă + X₂ cu FeX₃) sau adiție (alchenă + HX sau X₂, alchină + HX). Au temperaturi de fierbere mai mari decât hidrocarburile corespunzătoare, sunt insolubili în apă și, cei polihalogenați, mai denși decât apa.",
+    "sample": "Prin adiția bromului la etenă se obține 1,2-dibromoetan, un compus dihalogenat vicinal.",
+    "worked": "CH₃–CH=CH₂ + HBr → CH₃–CHBr–CH₃ (2-bromopropan, Markovnikov). 1,1-dicloroetanul (geminal) se obține din acetilenă + 2 HCl. Procentul de brom din C₂H₄Br₂ (M = 188): 160/188 ≈ 85,1%.",
+    "exercises": [
+     "Clasifică: CH₂Cl–CH₂Cl, CH₃–CHCl₂, C₆H₅Cl, CH₂=CHCl.",
+     "Scrie două căi de obținere a cloroetanului.",
+     "Calculează procentul de clor din CH₂Cl₂.",
+     "Ce compus dihalogenat se obține din propenă și Cl₂?",
+     "De ce tetraclorura de carbon se află sub apă într-un amestec?"
+    ],
+    "test": [
+     "Ce sunt compușii halogenați geminali?",
+     "Ce sunt compușii vicinali?",
+     "Un compus halogenat aromatic?",
+     "Sunt compușii halogenați solubili în apă?",
+     "Prin ce reacție se obține clorobenzenul?"
+    ],
+    "steps": [
+     "Identifică halogenul, numărul atomilor și poziția lor.",
+     "Clasifică (geminal/vicinal, saturat/nesaturat/aromatic).",
+     "Alege reacția de obținere potrivită și calculează compoziția.",
+     "Greșeala frecventă: să confunzi compușii geminali (halogeni pe același carbon) cu cei vicinali (pe carboni vecini)."
+    ],
+    "answers": [
+     "Cu doi halogeni la același atom de carbon",
+     "Cu halogeni la atomi de carbon vecini",
+     "Clorobenzenul C₆H₅Cl",
+     "Nu",
+     "Clorurarea benzenului cu FeCl₃"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l07": {
+   "ro": {
+    "title": "Reacțiile compușilor halogenați: substituție și eliminare (regula lui Zaițev)",
+    "theory": "Legătura polară C–X permite substituția halogenului: hidroliza cu NaOH apos dă alcooli (R–X + HO⁻ → R–OH + X⁻), cu KCN dă nitrili (alungirea catenei cu un carbon), cu NH₃ dă amine, iar cu benzen (AlCl₃) dă alchilarea. Cu KOH în soluție alcoolică, la cald, are loc eliminarea de HX (dehidrohalogenare) cu formare de alchene. Regula lui Zaițev: hidrogenul se elimină de preferință de la carbonul vecin cel mai sărac în hidrogen, formând alchena cea mai substituită. Compușii dihalogenați geminali hidrolizează la compuși carbonilici.",
+    "sample": "Prin hidroliza bazică a cloroetanului se obține etanol.",
+    "worked": "2-bromobutanul cu KOH/etanol: majoritar 2-butenă (cis și trans), minoritar 1-butenă. CH₃–CHCl₂ + 2 NaOH → CH₃–CHO + 2 NaCl + H₂O (acetaldehidă). C₂H₅Cl + KCN → C₂H₅–CN + KCl (propanonitril, trei atomi de carbon).",
+    "exercises": [
+     "Scrie hidroliza bazică a 2-cloropropanului.",
+     "Ce produs principal dă 2-clorobutanul cu KOH alcoolic?",
+     "Scrie reacția bromoetanului cu KCN.",
+     "Ce produs dă hidroliza 2,2-dicloropropanului?",
+     "Ce masă de etanol se obține din 12,9 g cloroetan?"
+    ],
+    "test": [
+     "Produsul hidrolizei unui monohalogenat?",
+     "Condițiile eliminării de HX?",
+     "Enunțul regulii lui Zaițev?",
+     "Produsul reacției cu KCN?",
+     "Produsul hidrolizei unui derivat dihalogenat geminal?"
+    ],
+    "steps": [
+     "Identifică reactantul și condițiile (NaOH apos – substituție; KOH alcoolic – eliminare).",
+     "Scrie produsul (alcool, nitril, amină sau alchenă).",
+     "La eliminare, aplică regula lui Zaițev pentru produsul principal.",
+     "Greșeala frecventă: să alegi la eliminare alchena cu dubla legătură marginală ca produs principal, contrar regulii lui Zaițev."
+    ],
+    "answers": [
+     "Un alcool",
+     "KOH în soluție alcoolică, la cald",
+     "Se formează alchena cea mai substituită",
+     "Un nitril",
+     "Un compus carbonilic"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l08": {
+   "ro": {
+    "title": "Utilizările și impactul compușilor halogenați",
+    "theory": "Compușii halogenați au multe utilizări: solvenți (diclorometan), monomeri (clorura de vinil pentru PVC, cloroprenul pentru cauciuc, tetrafluoroetena pentru teflon), agenți frigorifici și propulsori (freonii CFC, acum înlocuiți), anestezice (halotanul), insecticide (DDT, interzis). Mulți sunt stabili și persistenți: se acumulează în lanțurile trofice (DDT), iar freonii eliberează atomi de clor în stratosferă, care descompun ozonul (Protocolul de la Montreal, 1987). Alegerea substituenților mai puțin persistenți și reciclarea sunt soluții chimice responsabile.",
+    "sample": "Protocolul de la Montreal a interzis treptat freonii care distrugeau stratul de ozon.",
+    "worked": "Un singur atom de clor eliberat dintr-un freon poate distruge, în lanț, mii de molecule de ozon: Cl + O₃ → ClO + O₂, ClO + O → Cl + O₂ (clorul se regenerează). De aceea chiar cantități mici de CFC au efect mare.",
+    "exercises": [
+     "Dă trei utilizări ale compușilor halogenați.",
+     "Scrie reacțiile prin care clorul distruge ozonul.",
+     "De ce DDT-ul a fost interzis?",
+     "Ce monomer halogenat stă la baza PVC-ului?",
+     "Ce substanțe au înlocuit freonii în frigidere?"
+    ],
+    "test": [
+     "Ce sunt freonii?",
+     "Ce protocol a interzis freonii?",
+     "De ce DDT-ul este periculos?",
+     "Un anestezic halogenat?",
+     "Ce polimer antiaderent conține fluor?"
+    ],
+    "steps": [
+     "Identifică compusul și utilizarea lui.",
+     "Analizează stabilitatea și efectele asupra mediului.",
+     "Propune alternative sau măsuri de protecție.",
+     "Greșeala frecventă: să crezi că doar cantitățile mari de freoni contează; clorul acționează catalitic și se regenerează."
+    ],
+    "answers": [
+     "Compuși cu clor și fluor folosiți ca agenți frigorifici",
+     "Protocolul de la Montreal",
+     "Se acumulează în lanțurile trofice",
+     "Halotanul",
+     "Teflonul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l09": {
+   "ro": {
+    "title": "Alcooli: clasificare, structură, proprietăți fizice",
+    "theory": "Alcoolii au grupa –OH legată de un carbon sp³. După numărul grupelor –OH: monoalcooli, dioli, trioli, polioli; după carbonul care poartă –OH: primari (CH₃–CH₂–OH), secundari (CH₃–CH(OH)–CH₃), terțiari ((CH₃)₃C–OH). Grupa –OH formează legături de hidrogen: temperaturi de fierbere ridicate și solubilitate în apă pentru termenii inferiori; solubilitatea scade când catena hidrocarbonată crește (butanolul este puțin solubil, octanolul insolubil). Alcoolii se obțin prin adiția apei la alchene, hidroliza compușilor halogenați sau fermentație.",
+    "sample": "Alcoolul terț-butilic are grupa –OH la un carbon legat de alți trei atomi de carbon.",
+    "worked": "Comparăm temperaturile de fierbere: propan −42 °C, etanol 78 °C (M apropiate, 44 și 46 g/mol) — diferența vine din legăturile de hidrogen. Izomerii C₄H₉OH: 1-butanol (primar), 2-butanol (secundar), 2-metil-1-propanol (primar), 2-metil-2-propanol (terțiar).",
+    "exercises": [
+     "Scrie și clasifică izomerii alcoolilor C₄H₁₀O.",
+     "De ce etanolul fierbe la temperatură mult mai mare decât propanul?",
+     "Ordonează după solubilitatea în apă: metanol, butanol, octanol.",
+     "Clasifică: 2-metil-2-butanol și 3-pentanol.",
+     "Scrie trei metode de obținere a etanolului."
+    ],
+    "test": [
+     "Ce este un alcool secundar?",
+     "Ce este un alcool terțiar?",
+     "Ce legături explică fierberea ridicată a alcoolilor?",
+     "Cum variază solubilitatea cu lungimea catenei?",
+     "Ce este un diol?"
+    ],
+    "steps": [
+     "Identifică carbonul care poartă grupa –OH.",
+     "Numără atomii de carbon legați de el: 1 – primar, 2 – secundar, 3 – terțiar.",
+     "Leagă structura de proprietățile fizice prin legăturile de hidrogen.",
+     "Greșeala frecventă: să clasifici alcoolul după numărul de grupe –OH când se cere clasificarea în primar, secundar și terțiar."
+    ],
+    "answers": [
+     "Grupa –OH pe un carbon legat de doi atomi de carbon",
+     "Grupa –OH pe un carbon legat de trei atomi de carbon",
+     "Legăturile de hidrogen",
+     "Scade când catena crește",
+     "Un alcool cu două grupe –OH"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l10": {
+   "ro": {
+    "title": "Reacțiile alcoolilor: cu sodiul, deshidratare, oxidare, esterificare",
+    "theory": "Alcoolii au caracter foarte slab acid: reacționează cu metalele alcaline (2 R–OH + 2 Na → 2 R–ONa + H₂), dar nu cu NaOH. Deshidratarea intramoleculară (H₂SO₄, temperatură ridicată) dă alchene (regula lui Zaițev); cea intermoleculară, la temperatură mai mică, dă eteri. Oxidarea cu K₂Cr₂O₇/H₂SO₄: alcoolii primari → aldehide → acizi; secundari → cetone; terțiari nu se oxidează în aceste condiții. Cu acizii formează esteri (cu acizi carboxilici sau anorganici, de exemplu HNO₃).",
+    "sample": "Etanolul degajă hidrogen în contact cu sodiul, dar mai liniștit decât apa.",
+    "worked": "2-butanolul cu H₂SO₄ la cald dă majoritar 2-butenă; oxidat cu K₂Cr₂O₇/H₂SO₄ dă butanonă. 4,6 g etanol (0,1 mol) cu sodiu în exces: 0,05 mol H₂ = 1,12 L (c.n.). Alcoolul terț-butilic nu schimbă culoarea dicromatului.",
+    "exercises": [
+     "Scrie reacția metanolului cu sodiul.",
+     "Ce produs dă oxidarea 2-propanolului? Dar a 1-propanolului?",
+     "Ce alchenă principală dă deshidratarea 2-metil-2-butanolului?",
+     "Cum deosebești un alcool terțiar de unul primar?",
+     "Ce volum de H₂ (c.n.) degajă 6 g 1-propanol cu sodiu?"
+    ],
+    "test": [
+     "Reacționează alcoolii cu NaOH?",
+     "Produsul oxidării unui alcool secundar?",
+     "Se oxidează alcoolii terțiari cu dicromat?",
+     "Produsul deshidratării intramoleculare?",
+     "Produsul deshidratării intermoleculare?"
+    ],
+    "steps": [
+     "Stabilește tipul alcoolului (primar, secundar, terțiar).",
+     "Alege reacția și condițiile și scrie produsul (alchenă, eter, compus carbonilic, ester, alcoxid).",
+     "Echilibrează și calculează stoechiometric.",
+     "Greșeala frecventă: să scrii că alcoolii terțiari se oxidează la cetone; ei nu au hidrogen la carbonul cu –OH."
+    ],
+    "answers": [
+     "Nu",
+     "O cetonă",
+     "Nu",
+     "O alchenă",
+     "Un eter"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l11": {
+   "ro": {
+    "title": "Polialcooli: glicolul și glicerina; trinitratul de glicerină",
+    "theory": "Etandiolul (glicolul) HO–CH₂–CH₂–OH este un lichid vâscos, dulceag, toxic, folosit ca antigel și la fabricarea poliesterilor (PET). Propantriolul (glicerina) HO–CH₂–CH(OH)–CH₂–OH este un lichid vâscos, dulce, netoxic, higroscopic, miscibil cu apa; se obține la saponificarea grăsimilor și se folosește în cosmetice, farmacie, alimentație. Cu acidul azotic (H₂SO₄) glicerina formează trinitratul de glicerină (numit impropriu nitroglicerină), un exploziv foarte sensibil (stabilizat de Alfred Nobel sub formă de dinamită) și, în doze mici, un medicament vasodilatator pentru inimă.",
+    "sample": "Glicerina se adaugă în creme pentru că reține apa și hidratează pielea.",
+    "worked": "C₃H₅(OH)₃ + 3 HNO₃ → C₃H₅(ONO₂)₃ + 3 H₂O. Din 46 g glicerină (0,5 mol) se obțin teoretic 0,5·227 = 113,5 g trinitrat de glicerină și sunt necesari 1,5 mol HNO₃ = 94,5 g.",
+    "exercises": [
+     "Scrie formulele glicolului și glicerinei.",
+     "De ce glicolul este folosit ca antigel?",
+     "Scrie ecuația obținerii trinitratului de glicerină.",
+     "Ce masă de HNO₃ reacționează cu 9,2 g glicerină?",
+     "De ce denumirea „nitroglicerină” este improprie?"
+    ],
+    "test": [
+     "Formula glicolului?",
+     "Ce caracter are glicerina față de apă?",
+     "De unde se obține glicerina?",
+     "Ce exploziv a inventat Nobel?",
+     "Un medicament derivat din glicerină?"
+    ],
+    "steps": [
+     "Identifică numărul grupelor –OH.",
+     "Leagă structura de proprietăți (vâscozitate, solubilitate, higroscopicitate).",
+     "Scrie reacția de esterificare cu HNO₃ și calculează.",
+     "Greșeala frecventă: să consideri trinitratul de glicerină un nitroderivat; el este un ester al acidului azotic (legături C–O–NO₂)."
+    ],
+    "answers": [
+     "HO–CH₂–CH₂–OH",
+     "Este higroscopică și miscibilă cu apa",
+     "Din saponificarea grăsimilor",
+     "Dinamita",
+     "Trinitratul de glicerină, vasodilatator"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l12": {
+   "ro": {
+    "title": "Fenoli: structură și caracter acid",
+    "theory": "Fenolii au grupa –OH legată direct de un nucleu aromatic; cel mai simplu este fenolul C₆H₅–OH (o substanță solidă, toxică, caustică). Datorită interacției cu nucleul, hidrogenul din –OH este mai acid decât la alcooli: fenolul reacționează cu Na și cu NaOH, formând fenoxid de sodiu, dar nu reacționează cu NaHCO₃. Scara acidității: acid carboxilic > acid carbonic > fenol > apă > alcool. De aceea CO₂ barbotat în soluția de fenoxid eliberează fenolul. Fenolii dau cu FeCl₃ o colorație violetă (reacția de identificare).",
+    "sample": "Fenolul reacționează cu hidroxidul de sodiu, iar etanolul nu.",
+    "worked": "C₆H₅OH + NaOH → C₆H₅ONa + H₂O. C₆H₅ONa + CO₂ + H₂O → C₆H₅OH + NaHCO₃ (acidul carbonic, mai tare, scoate fenolul din sare). Pentru 9,4 g fenol (0,1 mol) sunt necesari 4 g NaOH.",
+    "exercises": [
+     "Scrie reacția fenolului cu NaOH.",
+     "De ce fenolul nu reacționează cu NaHCO₃?",
+     "Ordonează după aciditate: etanol, fenol, acid acetic, apă.",
+     "Cum identifici fenolul în laborator?",
+     "Ce masă de fenoxid de sodiu se obține din 18,8 g fenol?"
+    ],
+    "test": [
+     "Ce sunt fenolii?",
+     "Reacționează fenolul cu NaOH?",
+     "Culoarea dată de fenoli cu FeCl₃?",
+     "Este fenolul mai acid decât acidul carbonic?",
+     "Ce produs dă fenolul cu NaOH?"
+    ],
+    "steps": [
+     "Verifică dacă –OH este legat direct de nucleu (fenol) sau de un carbon sp³ (alcool).",
+     "Compară aciditatea cu scara: acid carboxilic > H₂CO₃ > fenol > apă > alcool.",
+     "Un acid mai tare scoate un acid mai slab din sarea lui: scrie reacțiile posibile.",
+     "Greșeala frecventă: să consideri alcoolul benzilic C₆H₅–CH₂–OH un fenol; grupa –OH nu este legată direct de nucleu."
+    ],
+    "answers": [
+     "Compuși cu –OH legat direct de un nucleu aromatic",
+     "Da",
+     "Violetă",
+     "Nu",
+     "Fenoxid de sodiu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l13": {
+   "ro": {
+    "title": "Reacțiile fenolului la nucleu; utilizări",
+    "theory": "Grupa –OH (substituent de ordinul I) activează puternic nucleul și orientează în pozițiile orto și para. Fenolul reacționează cu apa de brom fără catalizator, formând un precipitat alb de 2,4,6-tribromofenol; cu HNO₃ diluat dă o- și p-nitrofenol, iar cu HNO₃ concentrat acid picric (2,4,6-trinitrofenol). Cu formaldehida formează rășini fenol-formaldehidice (bachelită). Utilizări: dezinfectanți (istoric, fenolul la Lister), rășini, coloranți, medicamente (acidul salicilic → aspirină), antioxidanți.",
+    "sample": "Apa de brom formează imediat un precipitat alb cu fenolul.",
+    "worked": "C₆H₅OH + 3 Br₂ → C₆H₂Br₃OH↓ + 3 HBr. Din 4,7 g fenol (0,05 mol) se obțin 0,05·331 = 16,55 g tribromofenol, cu 0,15 mol Br₂ = 24 g. Benzenul, pentru bromurare, are nevoie de FeBr₃: –OH activează nucleul.",
+    "exercises": [
+     "Scrie reacția fenolului cu apa de brom.",
+     "Ce produși dă nitrarea fenolului cu HNO₃ diluat?",
+     "De ce fenolul se bromurează mai ușor decât benzenul?",
+     "Ce masă de brom reacționează cu 9,4 g fenol?",
+     "Dă trei utilizări ale fenolului."
+    ],
+    "test": [
+     "Ce efect are –OH asupra nucleului?",
+     "În ce poziții orientează –OH?",
+     "Produsul cu apa de brom?",
+     "Ce este acidul picric?",
+     "Ce rășină se obține din fenol și formaldehidă?"
+    ],
+    "steps": [
+     "Identifică substituentul și efectul lui (activare, orientare o/p).",
+     "Scrie produșii de substituție (mono- sau trisubstituiți, după condiții).",
+     "Calculează stoechiometric și leagă de utilizări.",
+     "Greșeala frecventă: să scrii produsul monobromurat la reacția cu apa de brom în exces; se formează 2,4,6-tribromofenol."
+    ],
+    "answers": [
+     "Îl activează",
+     "Orto și para",
+     "2,4,6-tribromofenolul",
+     "2,4,6-trinitrofenolul",
+     "Bachelita"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l14": {
+   "ro": {
+    "title": "Amine: structură, clasificare, caracter bazic",
+    "theory": "Aminele sunt derivați ai amoniacului în care unul, doi sau trei atomi de H sunt înlocuiți cu radicali: primare R–NH₂ (metilamina), secundare R₂NH (dimetilamina), terțiare R₃N (trimetilamina); alifatice sau aromatice (anilina C₆H₅–NH₂). Perechea de electroni neparticipanți a azotului acceptă un proton: aminele sunt baze slabe (R–NH₂ + H₂O ⇌ R–NH₃⁺ + HO⁻) și formează săruri cu acizii (R–NH₃⁺Cl⁻). Bazicitatea: amine alifatice > NH₃ > amine aromatice (la anilină, perechea de electroni este atrasă de nucleu). Aminele inferioare au miros de pește.",
+    "sample": "Mirosul peștelui se datorează unor amine, iar lămâia îl atenuează transformându-le în săruri.",
+    "worked": "CH₃–NH₂ + HCl → CH₃–NH₃⁺Cl⁻ (clorură de metilamoniu). 3,1 g metilamină (0,1 mol) neutralizează 0,1 mol HCl = 3,65 g. Ordinea bazicității: CH₃NH₂ > NH₃ > C₆H₅NH₂.",
+    "exercises": [
+     "Clasifică: C₂H₅NH₂, (CH₃)₂NH, (CH₃)₃N, C₆H₅NH₂.",
+     "Scrie reacția etilaminei cu HCl.",
+     "Ordonează după bazicitate: anilină, amoniac, metilamină.",
+     "De ce lămâia atenuează mirosul de pește?",
+     "Ce masă de HCl reacționează cu 9,3 g anilină?"
+    ],
+    "test": [
+     "Ce este o amină primară?",
+     "De ce aminele sunt baze?",
+     "Este anilina mai bazică decât amoniacul?",
+     "Ce formează aminele cu acizii?",
+     "Formula anilinei?"
+    ],
+    "steps": [
+     "Numără radicalii legați de azot (primară, secundară, terțiară).",
+     "Identifică perechea de electroni a azotului și efectul radicalilor.",
+     "Scrie reacția cu acizii și compară bazicitatea.",
+     "Greșeala frecventă: să clasifici aminele după tipul carbonului (ca la alcooli); contează câți radicali sunt legați de azot."
+    ],
+    "answers": [
+     "O amină cu un singur radical legat de azot",
+     "Azotul are o pereche de electroni care acceptă un proton",
+     "Nu",
+     "Săruri de amoniu",
+     "C₆H₅–NH₂"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l15": {
+   "ro": {
+    "title": "Reacțiile aminelor: alchilare, acilare, diazotare; anilina și coloranții",
+    "theory": "Aminele primare și secundare se alchilează cu compuși halogenați (formând amine superioare și săruri cuaternare de amoniu) și se acilează cu cloruri acide sau anhidride (formând amide: C₆H₅–NH₂ + (CH₃CO)₂O → C₆H₅–NH–CO–CH₃, acetanilidă). Anilina se obține prin reducerea nitrobenzenului (Fe + HCl). Aminele aromatice primare dau, cu NaNO₂ și HCl la 0–5 °C, săruri de diazoniu (diazotare), care se cuplează cu fenoli sau amine aromatice formând azoderivați colorați — baza coloranților azoici (de exemplu metiloranjul, indicator acido-bazic).",
+    "sample": "Indicatorul metiloranj este un colorant azoic.",
+    "worked": "C₆H₅–NO₂ + 6 [H] → C₆H₅–NH₂ + 2 H₂O. Din 24,6 g nitrobenzen (0,2 mol) se obțin teoretic 0,2·93 = 18,6 g anilină; la randament 80%: 14,88 g. Diazotare: C₆H₅NH₂ + NaNO₂ + 2 HCl → C₆H₅N₂⁺Cl⁻ + NaCl + 2 H₂O.",
+    "exercises": [
+     "Scrie reacția de obținere a anilinei din nitrobenzen.",
+     "Scrie reacția de acilare a anilinei cu anhidridă acetică.",
+     "Ce este diazotarea și în ce condiții are loc?",
+     "Ce masă de anilină se obține din 12,3 g nitrobenzen la randament 90%?",
+     "La ce se folosesc coloranții azoici?"
+    ],
+    "test": [
+     "Ce produs dă acilarea aminelor?",
+     "Cum se obține anilina?",
+     "Temperatura diazotării?",
+     "Ce formează sărurile de diazoniu cu fenolii?",
+     "Un indicator azoic?"
+    ],
+    "steps": [
+     "Identifică amina (primară, secundară; alifatică sau aromatică).",
+     "Alege reacția (alchilare, acilare, diazotare) și scrie produsul.",
+     "Calculează cu randamentul și precizează utilizarea.",
+     "Greșeala frecventă: să faci diazotarea la temperatura camerei; sărurile de diazoniu se descompun și trebuie lucrat la 0–5 °C."
+    ],
+    "answers": [
+     "O amidă",
+     "Prin reducerea nitrobenzenului",
+     "0–5 °C",
+     "Azoderivați colorați",
+     "Metiloranjul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l16": {
+   "ro": {
+    "title": "Aldehide și cetone: structură, denumire, obținere",
+    "theory": "Compușii carbonilici conțin grupa >C=O, polară, cu carbonul sp². Aldehidele R–CHO: metanal (formaldehidă), etanal (acetaldehidă), benzaldehidă. Cetonele R–CO–R′: propanonă (acetonă), butanonă, acetofenonă. Se obțin prin oxidarea blândă a alcoolilor (primari → aldehide, secundari → cetone), prin adiția apei la alchine (acetilena → acetaldehidă, celelalte alchine → cetone) și prin hidroliza compușilor dihalogenați geminali. Nu formează legături de hidrogen între ele, deci fierb mai jos decât alcoolii corespunzători; termenii inferiori sunt solubili în apă.",
+    "sample": "Propina adiționează apă și formează acetonă.",
+    "worked": "CH₃–C≡CH + H₂O (HgSO₄/H₂SO₄) → CH₃–CO–CH₃. Izomerii C₃H₆O carbonilici: propanal (aldehidă) și propanonă (cetonă) — izomeri de funcțiune. Temperaturi de fierbere: propanal 49 °C, 1-propanol 97 °C.",
+    "exercises": [
+     "Scrie formulele: metanal, etanal, benzaldehidă, acetonă.",
+     "Scrie izomerii carbonilici C₄H₈O.",
+     "Ce compus carbonilic dă adiția apei la 1-butină?",
+     "De ce aldehidele fierb mai jos decât alcoolii corespunzători?",
+     "Scrie oxidarea blândă a 1-propanolului."
+    ],
+    "test": [
+     "Hibridizarea carbonului carbonilic?",
+     "Ce grupă au aldehidele?",
+     "Ce compus dă adiția apei la acetilenă?",
+     "Ce sunt propanalul și propanona între ei?",
+     "Formează compușii carbonilici legături de hidrogen între molecule?"
+    ],
+    "steps": [
+     "Identifică poziția grupei carbonil.",
+     "Denumește aldehida (-al) sau cetona (-onă).",
+     "Alege metoda de obținere potrivită și verifică produsul.",
+     "Greșeala frecventă: să scrii aldehidă ca produs al adiției apei la propină; doar acetilena dă aldehidă, celelalte alchine dau cetone."
+    ],
+    "answers": [
+     "sp²",
+     "–CHO",
+     "Acetaldehida",
+     "Izomeri de funcțiune",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l17": {
+   "ro": {
+    "title": "Reacții de adiție și de condensare ale compușilor carbonilici",
+    "theory": "Legătura C=O este polară, iar compușii carbonilici dau adiții: hidrogenarea (Ni) transformă aldehidele în alcooli primari și cetonele în alcooli secundari; adiția HCN formează cianhidrine (alungirea catenei). Condensarea aldolică: un compus carbonilic cu hidrogen la carbonul vecin carbonilului (Cα) se adiționează la grupa carbonil a altei molecule (mediu bazic), formând un aldol; prin eliminarea apei se obține un compus carbonilic nesaturat (condensare crotonică). Condensarea fenolului cu formaldehida dă rășinile fenol-formaldehidice.",
+    "sample": "Prin hidrogenarea acetonei se obține 2-propanol.",
+    "worked": "2 CH₃–CHO → CH₃–CH(OH)–CH₂–CHO (3-hidroxibutanal, aldol) → CH₃–CH=CH–CHO + H₂O (2-butenal, crotonaldehidă). CH₃–CHO + HCN → CH₃–CH(OH)–CN, din care prin hidroliză se obține acidul lactic. Formaldehida nu are Cα–H și nu poate fi componentă metilenică.",
+    "exercises": [
+     "Scrie hidrogenarea propanalului și a butanonei.",
+     "Scrie adiția HCN la acetonă.",
+     "Scrie condensarea aldolică și crotonică a acetaldehidei.",
+     "Poate benzaldehida să fie componentă metilenică? Justifică.",
+     "Ce volum de H₂ (c.n.) reduce 5,8 g acetonă?"
+    ],
+    "test": [
+     "Produsul hidrogenării unei aldehide?",
+     "Produsul hidrogenării unei cetone?",
+     "Ce este o cianhidrină?",
+     "Ce condiție trebuie să îndeplinească componenta metilenică?",
+     "Ce se elimină la condensarea crotonică?"
+    ],
+    "steps": [
+     "Identifică grupa carbonil și prezența Cα–H.",
+     "Alege reacția (hidrogenare, HCN, aldolică, crotonică).",
+     "Scrie produsul și calculează stoechiometric.",
+     "Greșeala frecventă: să alegi formaldehida sau benzaldehida drept componentă metilenică; ele nu au hidrogen la carbonul α."
+    ],
+    "answers": [
+     "Un alcool primar",
+     "Un alcool secundar",
+     "Produsul adiției HCN la grupa carbonil",
+     "Să aibă hidrogen la carbonul α",
+     "O moleculă de apă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l18": {
+   "ro": {
+    "title": "Oxidarea compușilor carbonilici: reactivii Tollens și Fehling; utilizări",
+    "theory": "Aldehidele se oxidează ușor la acizi carboxilici, chiar cu oxidanți slabi, de aceea sunt reducătoare: cu reactivul Tollens (azotat de argint amoniacal) depun argint metalic — oglinda de argint; cu reactivul Fehling (Cu²⁺ în mediu bazic, cu tartrat) formează un precipitat roșu-cărămiziu de Cu₂O. Cetonele nu dau aceste reacții, ceea ce permite deosebirea lor. Utilizări: formaldehida (formol, rășini, conservarea preparatelor), acetaldehida (acid acetic), acetona (solvent), benzaldehida (aroma de migdale amare), vanilina (aromă).",
+    "sample": "O eprubetă cu glucoză și reactiv Tollens se acoperă cu un strat de argint.",
+    "worked": "CH₃–CHO + 2 [Ag(NH₃)₂]OH → CH₃–COOH + 2 Ag↓ + 4 NH₃ + H₂O. 4,4 g acetaldehidă (0,1 mol) depun 0,2 mol Ag = 21,6 g. Cu Fehling: CH₃–CHO + 2 Cu(OH)₂ → CH₃–COOH + Cu₂O↓ + 2 H₂O; 0,1 mol aldehidă dă 0,1·144 = 14,4 g Cu₂O.",
+    "exercises": [
+     "Scrie reacția propanalului cu reactivul Tollens.",
+     "Cum deosebești propanalul de propanonă?",
+     "Ce masă de argint depun 2,9 g propanal?",
+     "Scrie reacția formaldehidei cu reactivul Fehling.",
+     "Dă trei utilizări ale compușilor carbonilici."
+    ],
+    "test": [
+     "Ce este reactivul Tollens?",
+     "Ce precipitat dă reactivul Fehling?",
+     "Dau cetonele reacția Tollens?",
+     "Produsul oxidării unei aldehide?",
+     "Ce aromă are benzaldehida?"
+    ],
+    "steps": [
+     "Verifică dacă compusul are grupa –CHO.",
+     "Scrie oxidarea la acid și reducerea reactivului (Ag sau Cu₂O).",
+     "Folosește raportul molar (1 aldehidă : 2 Ag sau 1 Cu₂O) pentru calcul.",
+     "Greșeala frecventă: să folosești raportul 1 : 1 între aldehidă și argint; se depun doi atomi de argint pentru fiecare grupă –CHO."
+    ],
+    "answers": [
+     "Soluție de azotat de argint amoniacal",
+     "Cu₂O, roșu-cărămiziu",
+     "Nu",
+     "Acidul carboxilic corespunzător",
+     "De migdale amare"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l19": {
+   "ro": {
+    "title": "Acizi carboxilici: clasificare, denumire, tăria acidă",
+    "theory": "Acizii carboxilici conțin grupa –COOH. Clasificare: monocarboxilici (acid formic HCOOH, acetic, propanoic, benzoic), dicarboxilici (oxalic HOOC–COOH, adipic, tereftalic), saturați, nesaturați (acrilic), aromatici. Sunt acizi slabi, cu ionizare parțială: R–COOH + H₂O ⇌ R–COO⁻ + H₃O⁺; tăria se exprimă prin constanta de aciditate Kₐ = [R–COO⁻][H₃O⁺]/[R–COOH] (acid acetic Kₐ ≈ 1,8·10⁻⁵). Cu cât Kₐ este mai mare, cu atât acidul este mai tare. Formic > acetic > propanoic; grupele electronegative (Cl) în vecinătate măresc aciditatea.",
+    "sample": "Acidul formic se găsește în furnici și în urzici și provoacă usturimea.",
+    "worked": "pH-ul unei soluții de acid acetic 0,1 M: [H₃O⁺] ≈ √(Kₐ·c) = √(1,8·10⁻⁵·0,1) = √(1,8·10⁻⁶) ≈ 1,34·10⁻³ M ⇒ pH ≈ 2,87. Un acid tare de aceeași concentrație ar avea pH = 1.",
+    "exercises": [
+     "Scrie formulele acizilor formic, oxalic și benzoic.",
+     "Scrie expresia Kₐ pentru acidul formic.",
+     "Calculează pH-ul unei soluții 0,01 M de acid acetic (Kₐ = 1,8·10⁻⁵).",
+     "Ordonează după aciditate: acid acetic, acid cloroacetic, acid propanoic.",
+     "De ce soluția de acid acetic 0,1 M are pH mai mare decât HCl 0,1 M?"
+    ],
+    "test": [
+     "Grupa funcțională a acizilor carboxilici?",
+     "Sunt acizii carboxilici tari sau slabi?",
+     "Ce arată constanta Kₐ?",
+     "Un acid dicarboxilic?",
+     "Unde se găsește acidul formic?"
+    ],
+    "steps": [
+     "Scrie ecuația de ionizare și expresia Kₐ.",
+     "Pentru acizi slabi, calculează [H₃O⁺] = √(Kₐ·c).",
+     "Calculează pH-ul și compară cu un acid tare.",
+     "Greșeala frecventă: să consideri [H₃O⁺] egală cu concentrația acidului pentru un acid slab; ionizarea este parțială."
+    ],
+    "answers": [
+     "Carboxil (–COOH)",
+     "Slabi",
+     "Tăria acidului",
+     "Acidul oxalic",
+     "În furnici și în urzici"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l20": {
+   "ro": {
+    "title": "Proprietățile chimice ale acizilor carboxilici",
+    "theory": "Acizii carboxilici au toate proprietățile acizilor: înroșesc turnesolul; reacționează cu metalele active (H₂), cu oxizii și hidroxizii metalici (sare + apă), cu carbonații și bicarbonații (CO₂ — reacție care îi deosebește de fenoli) și cu sărurile acizilor mai slabi. Un acid mai tare scoate un acid mai slab din sărurile lui: acidul acetic scoate acidul carbonic din carbonați, dar acidul clorhidric scoate acidul acetic din acetați. Sărurile acizilor carboxilici (acetați, benzoat de sodiu) se folosesc ca aditivi alimentari și conservanți.",
+    "sample": "Bicarbonatul de sodiu face spumă cu oțetul pentru că se degajă CO₂.",
+    "worked": "CH₃COOH + NaHCO₃ → CH₃COONa + CO₂↑ + H₂O; 6 g acid acetic (0,1 mol) degajă 2,24 L CO₂ (c.n.). CH₃COONa + HCl → CH₃COOH + NaCl (HCl, acid tare, eliberează acidul acetic). Fenolul nu degajă CO₂ cu bicarbonatul.",
+    "exercises": [
+     "Scrie reacțiile acidului formic cu Zn, CuO și NaOH.",
+     "Cum deosebești acidul acetic de fenol cu un singur reactiv?",
+     "Ce volum de CO₂ (c.n.) degajă 12 g acid acetic cu NaHCO₃ în exces?",
+     "Scrie reacția acetatului de sodiu cu HCl.",
+     "Ce este benzoatul de sodiu și unde se folosește?"
+    ],
+    "test": [
+     "Gazul degajat cu metalele active?",
+     "Gazul degajat cu carbonații?",
+     "Reacționează fenolul cu NaHCO₃?",
+     "Poate acidul acetic scoate HCl din NaCl?",
+     "Ce este un acetat?"
+    ],
+    "steps": [
+     "Identifică reactantul (metal, oxid, bază, carbonat, sare).",
+     "Aplică regula: acidul mai tare scoate acidul mai slab din sare.",
+     "Scrie ecuația și calculează volumul de gaz sau masa de sare.",
+     "Greșeala frecventă: să crezi că acidul acetic poate elibera HCl din NaCl; un acid slab nu scoate un acid tare din sarea lui."
+    ],
+    "answers": [
+     "Hidrogenul",
+     "Dioxidul de carbon",
+     "Nu",
+     "Nu",
+     "O sare a acidului acetic"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l21": {
+   "ro": {
+    "title": "Esterificarea: echilibru chimic, constanta Kc, principiul lui Le Châtelier",
+    "theory": "Esterificarea acid carboxilic + alcool ⇌ ester + apă (catalizator H⁺) este o reacție reversibilă care ajunge la echilibru: vitezele reacției directe și inverse devin egale, iar concentrațiile rămân constante. Constanta de echilibru Kc = [ester][apă]/([acid][alcool]) depinde doar de temperatură. Principiul lui Le Châtelier: un sistem în echilibru supus unei perturbări evoluează în sensul diminuării ei — excesul unui reactant sau îndepărtarea apei deplasează echilibrul spre ester și măresc randamentul.",
+    "sample": "Folosirea unui exces de alcool mărește cantitatea de ester obținută.",
+    "worked": "Acid acetic + etanol, Kc = 4. Pornim de la 1 mol acid și 2 mol alcool: x²/((1 − x)(2 − x)) = 4 ⇒ x² = 4(2 − 3x + x²) ⇒ 3x² − 12x + 8 = 0 ⇒ x = (12 − √48)/6 ≈ 0,845 mol ester. Față de 0,667 mol (raport 1 : 1), randamentul în acid crește de la 66,7% la 84,5%.",
+    "exercises": [
+     "Scrie expresia Kc pentru esterificarea acidului propanoic cu metanolul.",
+     "Calculează esterul la echilibru pornind de la 1 mol acid și 1 mol alcool (Kc = 4).",
+     "Cum influențează îndepărtarea apei echilibrul?",
+     "Ce efect are catalizatorul asupra poziției echilibrului?",
+     "Explică de ce hidroliza esterului în mediu acid nu este totală."
+    ],
+    "test": [
+     "Ce este echilibrul chimic?",
+     "De ce depinde Kc?",
+     "Enunțul principiului lui Le Châtelier?",
+     "Efectul excesului de alcool?",
+     "Ce face catalizatorul?"
+    ],
+    "steps": [
+     "Scrie ecuația și expresia Kc.",
+     "Construiește tabelul: inițial – transformat – echilibru (x moli).",
+     "Rezolvă ecuația și aplică Le Châtelier pentru a interpreta.",
+     "Greșeala frecventă: să crezi că un catalizator mărește randamentul; el doar atinge mai repede echilibrul."
+    ],
+    "answers": [
+     "Starea în care vitezele reacțiilor directă și inversă sunt egale",
+     "Doar de temperatură",
+     "Sistemul evoluează în sensul diminuării perturbării",
+     "Deplasează echilibrul spre ester",
+     "Atinge mai repede echilibrul, fără a-l deplasa"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l22": {
+   "ro": {
+    "title": "Derivați funcționali ai acizilor: esteri, anhidride, amide, nitrili; hidroliza",
+    "theory": "Prin înlocuirea grupei –OH din –COOH se obțin derivații funcționali: cloruri acide (R–COCl), anhidride ((R–CO)₂O), esteri (R–COO–R′), amide (R–CO–NH₂) și nitrili (R–C≡N). Toți hidrolizează la acidul de origine. Esterii hidrolizează reversibil în mediu acid și total în mediu bazic (saponificare). Amidele și nitrilii hidrolizează în mediu acid sau bazic; nitrilul trece prin amidă. Anhidrida acetică acilează acidul salicilic formând aspirina (acidul acetilsalicilic). Ureea H₂N–CO–NH₂ este diamida acidului carbonic (îngrășământ).",
+    "sample": "Aspirina se obține prin acilarea acidului salicilic cu anhidridă acetică.",
+    "worked": "CH₃–C≡N + H₂O → CH₃–CO–NH₂; CH₃–CO–NH₂ + H₂O → CH₃–COOH + NH₃. CH₃–COO–C₂H₅ + NaOH → CH₃COONa + C₂H₅OH: 8,8 g acetat de etil (0,1 mol) consumă 4 g NaOH.",
+    "exercises": [
+     "Scrie formulele: clorură de acetil, anhidridă acetică, acetamidă, acetonitril.",
+     "Scrie hidroliza totală a propanonitrilului.",
+     "De ce saponificarea esterilor este ireversibilă?",
+     "Ce masă de NaOH saponifică 17,6 g acetat de etil?",
+     "Ce este ureea și la ce se folosește?"
+    ],
+    "test": [
+     "Ce este o amidă?",
+     "Produsul final al hidrolizei unui nitril?",
+     "Hidroliza bazică a esterilor se numește?",
+     "Ce acilează anhidrida acetică la obținerea aspirinei?",
+     "Formula ureei?"
+    ],
+    "steps": [
+     "Identifică derivatul funcțional după grupa care înlocuiește –OH.",
+     "Scrie hidroliza până la acidul de origine (sau sarea lui, în mediu bazic).",
+     "Calculează stoechiometric.",
+     "Greșeala frecventă: să scrii acidul liber ca produs al saponificării; în mediu bazic se formează sarea acidului."
+    ],
+    "answers": [
+     "Un derivat cu grupa –CO–NH₂",
+     "Acidul carboxilic (și amoniac)",
+     "Saponificare",
+     "Acidul salicilic",
+     "H₂N–CO–NH₂"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l23": {
+   "ro": {
+    "title": "Aminoacizi: structură, amfion, caracter amfoter",
+    "theory": "Aminoacizii conțin cel puțin o grupă –NH₂ și o grupă –COOH. În proteine se găsesc circa 20 de α-aminoacizi, dintre care unii sunt esențiali (organismul nu îi poate sintetiza: valina, leucina, lizina etc.). Exemple: glicina (singurul fără carbon asimetric), α-alanina, serina, cisteina, acidul glutamic, lizina. În stare solidă și în soluție, aminoacizii există sub formă de amfion (H₃N⁺–CH₂–COO⁻), de aceea sunt solizi cu temperaturi de topire ridicate și solubili în apă. Au caracter amfoter: reacționează cu acizii (prin –NH₂) și cu bazele (prin –COOH).",
+    "sample": "Glicina reacționează atât cu acidul clorhidric, cât și cu hidroxidul de sodiu.",
+    "worked": "H₂N–CH₂–COOH + HCl → Cl⁻H₃N⁺–CH₂–COOH; H₂N–CH₂–COOH + NaOH → H₂N–CH₂–COONa + H₂O. 7,5 g glicină (0,1 mol) reacționează cu 4 g NaOH sau cu 3,65 g HCl. Lizina are două grupe amino (aminoacid bazic), acidul glutamic două grupe carboxil (aminoacid acid).",
+    "exercises": [
+     "Scrie forma de amfion a α-alaninei.",
+     "Scrie reacțiile α-alaninei cu HCl și NaOH.",
+     "De ce aminoacizii au temperaturi de topire ridicate?",
+     "Ce sunt aminoacizii esențiali? Dă exemple.",
+     "Ce masă de NaOH reacționează cu 8,9 g α-alanină?"
+    ],
+    "test": [
+     "Ce grupe funcționale au aminoacizii?",
+     "Ce este un amfion?",
+     "Ce înseamnă caracter amfoter?",
+     "Aminoacidul fără carbon asimetric?",
+     "Ce sunt aminoacizii esențiali?"
+    ],
+    "steps": [
+     "Identifică grupele –NH₂ și –COOH.",
+     "Scrie amfionul (proton transferat de la –COOH la –NH₂).",
+     "Scrie reacțiile cu acizi și baze și calculează.",
+     "Greșeala frecventă: să reprezinți aminoacizii solizi ca molecule neutre H₂N–R–COOH; ei există ca amfioni."
+    ],
+    "answers": [
+     "Amino și carboxil",
+     "Ion cu sarcină pozitivă și negativă în aceeași moleculă",
+     "Reacționează și cu acizi, și cu baze",
+     "Glicina",
+     "Aminoacizi pe care organismul nu îi poate sintetiza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l24": {
+   "ro": {
+    "title": "Peptide: legătura peptidică; izomeria peptidelor",
+    "theory": "Prin condensarea grupei –COOH a unui aminoacid cu grupa –NH₂ a altuia, cu eliminarea apei, se formează legătura peptidică –CO–NH–. După numărul de resturi: dipeptide, tripeptide, oligopeptide, polipeptide. Peptida se scrie de la capătul N-terminal (grupa –NH₂ liberă) la capătul C-terminal (grupa –COOH liberă). Din n aminoacizi diferiți, folosiți o singură dată, se pot forma n! peptide izomere. Hidroliza (acizi, baze sau enzime) rupe legăturile peptidice și eliberează aminoacizii.",
+    "sample": "Glicil-alanina și alanil-glicina sunt dipeptide izomere.",
+    "worked": "Masa unei tripeptide Gly-Ala-Val: 75 + 89 + 117 − 2·18 = 245 g/mol (s-au eliminat 2 molecule de apă). Din glicină, alanină și valină se pot forma 3! = 6 tripeptide diferite. Hidroliza a 24,5 g tripeptidă (0,1 mol) consumă 0,2 mol apă = 3,6 g.",
+    "exercises": [
+     "Scrie formula de structură a dipeptidei Ala-Gly.",
+     "Câte tripeptide se pot forma din trei aminoacizi diferiți, fiecare folosit o dată?",
+     "Calculează masa molară a dipeptidei Gly-Gly.",
+     "Câte legături peptidice are o pentapeptidă?",
+     "Ce aminoacizi rezultă la hidroliza Gly-Ala-Ser?"
+    ],
+    "test": [
+     "Ce este legătura peptidică?",
+     "Ce se elimină la formarea legăturii peptidice?",
+     "Ce este capătul N-terminal?",
+     "Câte peptide din n aminoacizi diferiți?",
+     "Ce rupe hidroliza peptidelor?"
+    ],
+    "steps": [
+     "Așază aminoacizii de la N-terminal la C-terminal.",
+     "Formează legăturile peptidice eliminând câte o moleculă de apă.",
+     "Calculează masa (suma maselor minus apa) sau numărul de izomeri (n!).",
+     "Greșeala frecventă: să uiți să scazi apa eliminată la fiecare legătură peptidică când calculezi masa molară."
+    ],
+    "answers": [
+     "Legătura –CO–NH– dintre doi aminoacizi",
+     "O moleculă de apă",
+     "Capătul cu grupa –NH₂ liberă",
+     "n!",
+     "Legăturile peptidice"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l25": {
+   "ro": {
+    "title": "Proteine: structură, proprietăți, denaturare, reacții de identificare",
+    "theory": "Proteinele sunt polipeptide cu masă moleculară mare. Structura primară este secvența aminoacizilor; structura secundară – plierea în elice α sau foi β prin legături de hidrogen; terțiară – forma spațială a lanțului (punți disulfură, interacții); cuaternară – asocierea mai multor lanțuri (hemoglobina). Proteinele simple sunt formate doar din aminoacizi, cele conjugate au și o componentă neproteică. Denaturarea (căldură, acizi, baze, alcool, săruri ale metalelor grele) distruge structurile secundară–cuaternară și funcția. Identificare: reacția biuretului (violet cu CuSO₄ în mediu bazic) și reacția xantoproteică (galben cu HNO₃ concentrat).",
+    "sample": "Laptele se brânzește când se adaugă lămâie: proteinele se coagulează în mediu acid.",
+    "worked": "Hemoglobina are patru lanțuri polipeptidice (structură cuaternară) și transportă O₂. Intoxicația cu săruri de plumb sau mercur se tratează de urgență cu lapte sau albuș: proteinele lor se denaturează legând ionii metalici, protejând proteinele organismului.",
+    "exercises": [
+     "Descrie cele patru niveluri de structură ale proteinelor.",
+     "Ce factori produc denaturarea?",
+     "Cum identifici prezența proteinelor într-un aliment?",
+     "De ce se dă lapte în intoxicațiile cu metale grele?",
+     "Dă exemple de proteine și funcțiile lor (structurală, transport, enzimatică, apărare)."
+    ],
+    "test": [
+     "Ce este structura primară?",
+     "Ce legături stabilizează structura secundară?",
+     "Culoarea reacției biuretului?",
+     "Culoarea reacției xantoproteice?",
+     "Ce se pierde la denaturare?"
+    ],
+    "steps": [
+     "Identifică nivelul de structură în discuție.",
+     "Explică legăturile care îl stabilizează și efectul factorilor denaturanți.",
+     "Folosește reacțiile de identificare și leagă de funcțiile biologice.",
+     "Greșeala frecventă: să crezi că denaturarea rupe legăturile peptidice; structura primară rămâne, se distruge forma spațială."
+    ],
+    "answers": [
+     "Secvența aminoacizilor din lanț",
+     "Legăturile de hidrogen",
+     "Violet",
+     "Galben",
+     "Structura spațială și funcția biologică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l26": {
+   "ro": {
+    "title": "Enzime: catalizatori biologici",
+    "theory": "Enzimele sunt proteine (uneori cu o componentă neproteică, coenzimă) care catalizează reacțiile din organism. Ele scad energia de activare, sunt foarte eficiente și specifice: fiecare enzimă acționează asupra unui anumit substrat, care se potrivește în centrul activ ca o cheie în broască. Activitatea depinde de temperatură (optim ≈ 37 °C la om; la temperaturi mari enzima se denaturează) și de pH (pepsina din stomac – pH ≈ 2, tripsina din intestin – pH ≈ 8). Aplicații: detergenți enzimatici, industria alimentară (cheag, panificație), medicamente digestive.",
+    "sample": "Amilaza din salivă începe digestia amidonului încă din gură.",
+    "worked": "Un detergent enzimatic spală bine la 40 °C, dar mai slab la 90 °C: la temperatură mare enzimele (proteaze, lipaze) se denaturează. Pepsina lucrează în mediul acid al stomacului, dar se inactivează în intestinul subțire, unde pH-ul este slab bazic.",
+    "exercises": [
+     "Ce sunt enzimele și ce rol au?",
+     "Explică modelul „cheie–broască”.",
+     "De ce febra foarte mare este periculoasă pentru enzime?",
+     "Compară pH-ul optim al pepsinei și al tripsinei.",
+     "Dă trei aplicații practice ale enzimelor."
+    ],
+    "test": [
+     "Ce natură chimică au enzimele?",
+     "Ce scad enzimele?",
+     "Temperatura optimă a enzimelor umane?",
+     "pH-ul optim al pepsinei?",
+     "Ce enzimă din salivă digeră amidonul?"
+    ],
+    "steps": [
+     "Identifică enzima, substratul și reacția catalizată.",
+     "Analizează condițiile (temperatură, pH) față de optimul enzimei.",
+     "Explică efectul asupra activității (inclusiv denaturarea) și aplicațiile.",
+     "Greșeala frecventă: să crezi că enzimele lucrează tot mai bine pe măsură ce crește temperatura; peste optim ele se denaturează."
+    ],
+    "answers": [
+     "Proteine",
+     "Energia de activare",
+     "≈ 37 °C",
+     "≈ 2",
+     "Amilaza"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l27": {
+   "ro": {
+    "title": "Monozaharide: glucoza și fructoza — structuri aciclice și ciclice",
+    "theory": "Monozaharidele sunt polihidroxialdehide (aldoze) sau polihidroxicetone (cetoze). Glucoza este o aldohexoză cu 4 carboni asimetrici în forma aciclică; fructoza este o cetohexoză. În soluție, monozaharidele există mai ales sub formă ciclică: grupa –OH de la C5 se adiționează la grupa carbonil, formând un ciclu de 6 atomi (piranoză) la glucoză sau de 5 atomi (furanoză) la fructoză. Carbonul 1 devine asimetric, rezultând doi anomeri, α și β, care diferă prin poziția grupei –OH glicozidice.",
+    "sample": "În soluție, majoritatea moleculelor de glucoză sunt ciclice.",
+    "worked": "Forma aciclică a glucozei: OHC–(CHOH)₄–CH₂OH ⇒ 4 carboni asimetrici (C2–C5) ⇒ 2⁴ = 16 aldohexoze stereoizomere, glucoza fiind una dintre ele. După ciclizare apare al 5-lea carbon asimetric (C1), deci doi anomeri: α-glucopiranoza și β-glucopiranoza.",
+    "exercises": [
+     "Scrie formula aciclică a glucozei și marchează carbonii asimetrici.",
+     "Ce diferență este între o aldoză și o cetoză?",
+     "Explică formarea ciclului piranozic.",
+     "Ce sunt anomerii α și β?",
+     "Câți carboni asimetrici are forma aciclică a fructozei?"
+    ],
+    "test": [
+     "Ce este o aldohexoză?",
+     "Ce este fructoza?",
+     "Câți atomi are ciclul piranozic?",
+     "Câți atomi are ciclul furanozic?",
+     "Ce carbon devine asimetric la ciclizare?"
+    ],
+    "steps": [
+     "Scrie forma aciclică și identifică grupa carbonil.",
+     "Leagă –OH de la C5 de carbonul carbonilic pentru a forma ciclul.",
+     "Precizează anomerul după poziția –OH glicozidic.",
+     "Greșeala frecventă: să consideri glucoza ciclică și cea aciclică substanțe diferite; ele sunt forme ale aceleiași substanțe, în echilibru."
+    ],
+    "answers": [
+     "O monozaharidă cu 6 atomi de carbon și grupă aldehidă",
+     "O cetohexoză",
+     "Șase (5 C și un O)",
+     "Cinci (4 C și un O)",
+     "Carbonul carbonilic (C1 la glucoză)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l28": {
+   "ro": {
+    "title": "Proprietățile chimice ale monozaharidelor",
+    "theory": "Glucoza are caracter reducător datorită grupei aldehidă: reduce reactivul Tollens (oglinda de argint) și reactivul Fehling (Cu₂O roșu-cărămiziu), oxidându-se la acid gluconic. Prin hidrogenare (reducere) formează sorbitolul, un îndulcitor. Prin fermentație alcoolică dă etanol și CO₂; prin fermentație lactică — acid lactic (în mușchi, iaurt, murături). În organism, glucoza este oxidată complet la CO₂ și H₂O, eliberând energie (respirația celulară): C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O.",
+    "sample": "Murăturile capătă gust acru datorită acidului lactic format prin fermentație.",
+    "worked": "Fermentația lactică: C₆H₁₂O₆ → 2 CH₃–CH(OH)–COOH. Din 90 g glucoză (0,5 mol) se obțin 1 mol acid lactic = 90 g. Cu reactivul Tollens, 18 g glucoză (0,1 mol) depun 0,2 mol Ag = 21,6 g.",
+    "exercises": [
+     "Scrie reacția glucozei cu reactivul Fehling.",
+     "Ce produs dă hidrogenarea glucozei și la ce se folosește?",
+     "Scrie ecuația fermentației lactice.",
+     "Ce masă de argint depun 36 g glucoză?",
+     "Ce volum de O₂ (c.n.) oxidează complet 9 g glucoză în organism?"
+    ],
+    "test": [
+     "De ce glucoza este reducătoare?",
+     "Produsul oxidării glucozei cu Tollens?",
+     "Produsul hidrogenării glucozei?",
+     "Produsul fermentației lactice?",
+     "Unde are loc fermentația lactică?"
+    ],
+    "steps": [
+     "Identifică grupa funcțională implicată (aldehidă sau grupele –OH).",
+     "Scrie reacția (oxidare, reducere, fermentație, ardere).",
+     "Calculează folosind raporturile molare din ecuație.",
+     "Greșeala frecventă: să confunzi fermentația alcoolică (etanol + CO₂) cu fermentația lactică (acid lactic)."
+    ],
+    "answers": [
+     "Are grupă aldehidă",
+     "Acidul gluconic",
+     "Sorbitolul",
+     "Acidul lactic",
+     "În mușchi, iaurt, murături"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l29": {
+   "ro": {
+    "title": "Dizaharide: zaharoza, maltoza, lactoza",
+    "theory": "Dizaharidele se formează din două monozaharide unite prin legătură glicozidică, cu eliminarea apei: C₁₂H₂₂O₁₁. Zaharoza (zahărul din sfeclă și trestie) este formată din glucoză și fructoză legate prin ambele grupe –OH glicozidice, deci nu are grupă carbonil liberă: este nereducătoare (nu reacționează cu Tollens, Fehling). Maltoza (două molecule de glucoză, din hidroliza amidonului) și lactoza (galactoză + glucoză, zahărul din lapte) sunt reducătoare. Hidroliza zaharozei dă un amestec echimolecular de glucoză și fructoză (zahăr invertit).",
+    "sample": "Zaharoza nu dă oglinda de argint, dar maltoza da.",
+    "worked": "C₁₂H₂₂O₁₁ + H₂O → C₆H₁₂O₆ (glucoză) + C₆H₁₂O₆ (fructoză). Din 34,2 g zaharoză (0,1 mol) se obțin 18 g glucoză și 18 g fructoză. Soluția după hidroliză reduce reactivul Fehling, deși zaharoza inițială nu îl reducea. Intoleranța la lactoză apare când lipsește enzima lactază.",
+    "exercises": [
+     "Ce monozaharide formează zaharoza, maltoza și lactoza?",
+     "De ce zaharoza este nereducătoare?",
+     "Ce masă de glucoză se obține din 68,4 g zaharoză?",
+     "Cum demonstrezi experimental hidroliza zaharozei?",
+     "Ce este intoleranța la lactoză?"
+    ],
+    "test": [
+     "Formula moleculară a dizaharidelor?",
+     "Este zaharoza reducătoare?",
+     "Din ce se formează maltoza?",
+     "Zahărul din lapte?",
+     "Ce este zahărul invertit?"
+    ],
+    "steps": [
+     "Identifică monozaharidele componente și legătura glicozidică.",
+     "Verifică dacă rămâne o grupă –OH glicozidică liberă (caracter reducător).",
+     "Scrie hidroliza și calculează.",
+     "Greșeala frecventă: să consideri toate dizaharidele reducătoare; zaharoza nu are grupă carbonil liberă."
+    ],
+    "answers": [
+     "C₁₂H₂₂O₁₁",
+     "Nu",
+     "Din două molecule de glucoză",
+     "Lactoza",
+     "Amestecul echimolecular de glucoză și fructoză"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l30": {
+   "ro": {
+    "title": "Polizaharide: amidonul și celuloza — structură și transformări",
+    "theory": "Amidonul este format din resturi de α-glucoză: amiloza (catene liniare, legături α-1,4, colorată în albastru cu iodul) și amilopectina (catene ramificate, legături α-1,4 și α-1,6). Celuloza este formată din resturi de β-glucoză (legături β-1,4), cu catene lungi, liniare, unite prin legături de hidrogen în fibre rezistente; este insolubilă în apă, dar solubilă în reactivul Schweizer. Prin esterificare, celuloza dă nitrați de celuloză (fulmicoton, explozibil; colodiu) și acetat de celuloză (fibre, filme); viscoza este celuloză regenerată (fibre textile).",
+    "sample": "Bumbacul este aproape celuloză pură.",
+    "worked": "O macromoleculă de celuloză cu M = 810 000 g/mol conține 810 000/162 = 5 000 resturi de glucoză. Fiecare rest are 3 grupe –OH libere: trinitratul de celuloză [C₆H₇O₂(ONO₂)₃]ₙ are unitatea cu M = 297 g/mol și conține 14,14% azot.",
+    "exercises": [
+     "Compară structura amilozei, amilopectinei și celulozei.",
+     "De ce celuloza formează fibre rezistente?",
+     "Calculează numărul de resturi de glucoză dintr-o celuloză cu M = 1 620 000 g/mol.",
+     "Ce sunt nitrații și acetatul de celuloză și la ce se folosesc?",
+     "Ce este viscoza?"
+    ],
+    "test": [
+     "Ce glucoză formează amidonul?",
+     "Ce glucoză formează celuloza?",
+     "Ce legături are amilopectina?",
+     "În ce reactiv se dizolvă celuloza?",
+     "Câte grupe –OH libere are un rest de glucoză din celuloză?"
+    ],
+    "steps": [
+     "Identifică monomerul (α- sau β-glucoză) și tipul legăturilor.",
+     "Leagă structura de proprietăți (solubilitate, rezistență, colorația cu iod).",
+     "Scrie transformările (hidroliză, esterificare) și calculează gradul de polimerizare.",
+     "Greșeala frecventă: să consideri amidonul și celuloza identice pentru că au aceeași formulă (C₆H₁₀O₅)ₙ; ele diferă prin tipul glucozei și al legăturilor."
+    ],
+    "answers": [
+     "α-glucoza",
+     "β-glucoza",
+     "α-1,4 și α-1,6",
+     "Reactivul Schweizer",
+     "Trei"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l31": {
+   "ro": {
+    "title": "Policondensarea: rășini fenol-formaldehidice",
+    "theory": "Policondensarea este reacția prin care monomeri cu cel puțin două grupe funcționale se unesc în macromolecule, cu eliminarea unor molecule mici (de obicei apă). Spre deosebire de polimerizare, unitatea structurală a polimerului nu are aceeași compoziție ca monomerii. Fenolul condensează cu formaldehida: în mediu acid se formează novolacul (catene liniare, termoplastic), iar în mediu bazic rezolul, care prin încălzire trece în bachelită (rețea tridimensională, termorigidă, dură, izolatoare electric, nu se mai înmoaie la încălzire).",
+    "sample": "Prizele și întrerupătoarele vechi erau adesea făcute din bachelită.",
+    "worked": "Condensarea fenolului cu formaldehida leagă nucleele prin punți –CH₂– în pozițiile orto și para, eliminând apă: C₆H₅OH + HCHO → HO–C₆H₄–CH₂OH (alcool hidroxibenzilic), care condensează mai departe. Bachelita nu poate fi topită și remodelată, de aceea se reciclează greu.",
+    "exercises": [
+     "Ce diferență este între polimerizare și policondensare?",
+     "Scrie reacția fenolului cu formaldehida la alcoolul o-hidroxibenzilic.",
+     "Compară novolacul și bachelita.",
+     "De ce bachelita este folosită ca izolator electric?",
+     "De ce se reciclează greu polimerii termorigizi?"
+    ],
+    "test": [
+     "Ce este policondensarea?",
+     "Ce moleculă se elimină de obicei?",
+     "Monomerii bachelitei?",
+     "Ce este un polimer termorigid?",
+     "În ce mediu se obține novolacul?"
+    ],
+    "steps": [
+     "Identifică monomerii și grupele funcționale care reacționează.",
+     "Scrie legăturile formate și molecula mică eliminată.",
+     "Leagă structura (liniară sau tridimensională) de proprietăți și utilizări.",
+     "Greșeala frecventă: să consideri policondensarea o polimerizare obișnuită; la policondensare se elimină molecule mici."
+    ],
+    "answers": [
+     "Unirea monomerilor polifuncționali cu eliminare de molecule mici",
+     "Apa",
+     "Fenolul și formaldehida",
+     "Un polimer cu rețea tridimensională care nu se înmoaie la încălzire",
+     "În mediu acid"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l32": {
+   "ro": {
+    "title": "Poliamide și poliesteri: nailonul și PET-ul",
+    "theory": "Poliamidele se obțin prin policondensarea unui acid dicarboxilic cu o diamină: acidul adipic + hexametilendiamina → nailon-6,6, legat prin grupe amidice –CO–NH– (ca proteinele). Poliesterii se obțin din acizi dicarboxilici și dioli: acidul tereftalic + etilenglicolul → polietilentereftalat (PET), legat prin grupe esterice –COO–. Ambele sunt termoplastice, rezistente, folosite pentru fibre textile (nailon, poliester), frânghii, sticle (PET). PET-ul se reciclează mecanic sau chimic (hidroliză la monomeri).",
+    "sample": "Sticlele de apă minerală sunt din PET, un poliester.",
+    "worked": "Unitatea nailonului-6,6: –[NH–(CH₂)₆–NH–CO–(CH₂)₄–CO]–, M = 226 g/mol. O macromoleculă cu M = 22 600 g/mol are 100 de unități. Unitatea PET: –[O–CH₂–CH₂–O–CO–C₆H₄–CO]–, M = 192 g/mol.",
+    "exercises": [
+     "Scrie monomerii nailonului-6,6 și grupa care se formează.",
+     "Scrie monomerii PET-ului.",
+     "Calculează numărul de unități dintr-un PET cu M = 38 400 g/mol.",
+     "Ce asemănare există între nailon și proteine?",
+     "De ce este importantă reciclarea PET-ului?"
+    ],
+    "test": [
+     "Ce grupă leagă unitățile în poliamide?",
+     "Ce grupă leagă unitățile în poliesteri?",
+     "Monomerii nailonului-6,6?",
+     "Monomerii PET-ului?",
+     "La ce se folosește PET-ul?"
+    ],
+    "steps": [
+     "Identifică perechea de monomeri (diacid + diamină sau diacid + diol).",
+     "Scrie unitatea repetitivă și grupa formată (amidică sau esterică).",
+     "Calculează masa unității și gradul de policondensare; discută reciclarea.",
+     "Greșeala frecventă: să uiți apa eliminată când calculezi masa unității repetitive."
+    ],
+    "answers": [
+     "Grupa amidică –CO–NH–",
+     "Grupa esterică –COO–",
+     "Acidul adipic și hexametilendiamina",
+     "Acidul tereftalic și etilenglicolul",
+     "La sticle și fibre textile"
+    ]
+   }
+  },
+  "eu-year-ro-medium-11-l33": {
+   "ro": {
+    "title": "Identificarea grupelor funcționale: reacții caracteristice",
+    "theory": "Grupele funcționale se recunosc prin reacții cu efect vizibil: nesaturarea – decolorarea apei de brom și a KMnO₄; alchinele marginale – precipitat cu Tollens sau Ilosvay; fenolii – colorație violetă cu FeCl₃ și precipitat alb cu apa de brom; alcoolii primari și secundari – virarea dicromatului de la portocaliu la verde; aldehidele – oglinda de argint (Tollens) și Cu₂O roșu (Fehling); acizii carboxilici – efervescență cu NaHCO₃ și înroșirea turnesolului; amidonul – albastru cu iodul; proteinele – reacțiile biuretului și xantoproteică.",
+    "sample": "Picurând iod pe o felie de pâine apare culoarea albastră a amidonului.",
+    "worked": "Patru flacoane nemarcate: etanol, acid acetic, acetaldehidă, fenol. NaHCO₃ face efervescență doar cu acidul acetic; FeCl₃ colorează violet doar fenolul; Tollens dă oglinda de argint doar cu acetaldehida; etanolul rămas virează dicromatul la verde. Patru reactivi, patru identificări.",
+    "exercises": [
+     "Propune un reactiv pentru a deosebi glucoza de zaharoză.",
+     "Cum deosebești fenolul de etanol?",
+     "Cum deosebești acidul formic de acidul acetic? (Indiciu: acidul formic are și caracter reducător.)",
+     "Ce reactiv identifică amidonul?",
+     "Propune o schemă de identificare pentru propenă, propanal și acid propanoic."
+    ],
+    "test": [
+     "Reactivul care identifică fenolii?",
+     "Reacția de identificare a aldehidelor?",
+     "Cum recunoști un acid carboxilic?",
+     "Reacția de identificare a amidonului?",
+     "Ce reacție recunoaște proteinele?"
+    ],
+    "steps": [
+     "Listează grupele funcționale posibile.",
+     "Alege, pe rând, reactivi care dau efect vizibil doar cu una dintre substanțe.",
+     "Notează observațiile, concluziile și ecuațiile.",
+     "Greșeala frecventă: să alegi un reactiv care dă același efect cu mai multe substanțe (de exemplu KMnO₄ cu alchene și cu aldehide) și să tragi o concluzie greșită."
+    ],
+    "answers": [
+     "FeCl₃ (colorație violetă)",
+     "Oglinda de argint cu reactivul Tollens",
+     "Efervescență cu NaHCO₃",
+     "Colorația albastră cu iod",
+     "Reacția biuretului"
+    ]
+   }
+  }
+ }
+}
