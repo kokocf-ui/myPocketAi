@@ -26,8 +26,14 @@
 - `tests_communication_delivery_browser.mjs` extins: PASS cu WebCrypto real, imagini trimise/primite și URL păstrat la poll, export PNG cu bridge simulat, feedback salvat/anulat/eroare, confirmare livrare din conversație chiar când `pending_messages` răspunde 501. Testele anterioare audio/receipt/retry/idempotent/timeouts/tastatură păstrate. Oracle și dialogul Android sunt simulate, nu benchmark live.
 - `tests_communication_media.mjs`: PASS loturi 80/80/21, excludere proprii/deja citite, retry la eșec, zero-ack respins, contracte Java trusted-origin/SAF/limite și 156 interpretări.
 - Unități Divertisment/navigation/frontend presence, communication UI/redesign/anchored menus/final compact/inline voice/message controls/e2e/Oracle/FCM PASS (SQLite experimental warning în e2e).
-- `npm run check` și snapshot Android PASS.
+- `npm run check` și snapshot Android PASS. Regresiile browser pentru containment mobil și practica tuturor celor 19 variante de limbi PASS pe bundle-ul final.
+- Suita UI istorică plus cele 9 comenzi suplimentare: **109/111 PASS**. Rămân cele două erori cunoscute: `tests_education_ui_locales.mjs:88` (etichetă examene EN) și `tests_extra_tools_workspace.mjs:23` (25 versus 24 intrări).
+- `test:foreign-resources` și `test:education-input` PASS. `test:android` s-a oprit la regula globală din `tests_shopping_workspace.mjs:13`, care detectează un `window.confirm` **preexistent** în `practical_workshop_ui.mjs` (verificat identic în commitul de bază al etapei `4817108`). Nu este un dialog nou din chat/Divertisment. Celelalte 7 comenzi Android rulate separat PASS. Nu raporta întreaga suită Android ca verde.
 
 ## Livrare și limite
 
-Cod în ramura curentă, fără PR/merge/deploy/promovare latest. APK corectiv semnat cu aceeași cheie urmează după verificările finale; versiune obligatoriu peste 501881. Nu declara reparate fizic salvarea, livrarea vechiului vocal sau traducerea APK doar pe baza acestor teste. Traducerea rămâne amânată conform instrucțiunilor existente.
+Cod în ramura curentă, fără PR/merge/deploy/promovare latest. **APK 501882 publicat:** aplicație commit `ea16a87290ab3950a30a3dbf2e0d93e9ac003a22`, workflow [45835785202](https://github.com/kokocf-ui/myPocketAi/actions/runs/45835785202), `signed-branch-preview` SUCCESS, debug SKIPPED. Pașii de compilare Java/semnare și verificare certificat permanent/identitate/versiune/snapshot sunt SUCCESS. Prerelease `education-test-45835785202`, nu latest; asset `796190334`, uploaded **77.634.768 B**. VersionCode **501882**, confirmat în notele release-ului, peste 501881; actualizare fără dezinstalare. Digest din metadatele GitHub (nu calcul local independent): `sha256:315e0c05bad0c76919f77619da912353aa4add5cad11619aacc4e7c11fb747e3`.
+
+Link direct: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45835785202/myPocketAI-signed-education-test.apk
+
+Logul brut CI nu a putut fi descărcat din hostul de loguri în acest sandbox (EOF); concluziile pașilor, SHA-ul commitului, notele release-ului și metadatele assetului au fost verificate prin GitHub API. Nu declara reparate fizic salvarea, livrarea vechiului vocal sau traducerea APK doar pe baza acestor teste. Traducerea rămâne amânată conform instrucțiunilor existente.
