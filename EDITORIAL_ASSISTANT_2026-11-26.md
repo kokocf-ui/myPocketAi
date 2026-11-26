@@ -44,3 +44,15 @@ Nu s-a verificat model live sau înțelegere perfectă în toate limbile. Nu s-a
 Întregul `test:ui`: 99/102 inițial; testul culinar izolat nu furniza noua dependență `state` și aștepta vechea expresie `locationIntent`. Actualizat harnessul VM cu starea/helperul reale și aserțiunea gate-ului; rerun PASS. Total **100/102**, numai cele două erori istorice locales/tools. Nicio modificare runtime necesară pentru acest test.
 
 Run45841006585 a construit/semnat/verificat/publicat cu succes c83cc83, dar a rezultat **versionCode501882 duplicat**, nu versiunea nouă cerută. Nu a fost livrat utilizatorului. Cauză: notele release501882 editate anterior nu mai conțineau markerul literal `versionCode`, iar allocatorul căuta numai acel marker. Markerul a fost restaurat pe release anterior și allocatorul acceptă și formularea `APK 501882`/`APK501882` ca fallback. Un nou build din commitul de remediere trebuie să producă >501882; nu declara prima versiune adecvată actualizării noi.
+
+
+### Livrare finală 501883
+
+- App commit **b448f2b9516412c1771719a0140af364cb2b740f**.
+- Run **45841412388 SUCCESS**, signed-branch-preview; snapshot, semnare permanentă și verificări certificat/identitate/versionCode/snapshot PASS; debug SKIPPED.
+- **versionCode 501883**, peste501882; aceeași cheie, update fără dezinstalare.
+- Prerelease `education-test-45841412388`, nu latest. Asset796329101, **77,641,360B**.
+- Direct: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45841412388/myPocketAI-signed-education-test.apk
+- Digest raportat de GitHub (nu recalculat local): `sha256:1f26d943e70e508270c235113d5ec24cd174b3852488a52c25029d5feaa1fe27`.
+- Note release actualizate cu conținutul real, markerul permanent `versionCode 501883` și avertismentul explicit backend NEPUBLICAT. Releaseintermediar45841006585marcatsuperseded.
+- FărăPR/merge/deploy/latest. APIremoteexistent rămâne; îmbunătățirileserver necesită autorizare separată. AșteaptătestfizicAPK, nu pretinde rezolvarecompletăserver/AIînainteapublicării.
