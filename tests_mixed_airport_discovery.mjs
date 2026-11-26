@@ -38,3 +38,16 @@ assert.equal((await discoverAirportCandidates({GEOAPIFY_API_KEY:'x'},
  {latitude:47,longitude:21},{fetcher:async()=>({ok:false,status:429})})).status,
  'provider_http_429');
 console.log('PASS airport discovery: verified geographies, border-crossing candidates, no invented flights');
+
+const militaryByName=feature('MIL','RAF Example',100,'GB');
+const militaryByTag=feature('ARM','Example Base',200,'GB');
+militaryByTag.properties.datasource.raw['aerodrome:type']='military';
+const noScheduled=feature('NSS','Example airstrip',300,'GB');
+noScheduled.properties.datasource.raw.scheduled_service='no';
+const privateAccess=feature('PRI','Restricted airfield',400,'GB');
+privateAccess.properties.datasource.raw.access='private';
+const stillUnknown=feature('UNK','Ordinary geographic airport',500,'GB');
+assert.deepEqual(normalizeAirportCandidates({features:[militaryByName,militaryByTag,noScheduled,privateAccess,stillUnknown]},
+ {latitude:51,longitude:0}).map(a=>a.iata),['UNK'],
+ 'Exclude explicit unsuitable gateway evidence; missing scheduled-service tag does not fabricate absence');
+assert.equal((await discoverAirportCandidates({GEOAPIFY_API_KEY:'fixture'}, {latitude:null,longitude:null},{fetcher:fake})).status,'location_unverified');

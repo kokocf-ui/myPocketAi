@@ -56,3 +56,14 @@ assert.equal((await searchSerpApiFreeFlights(env,params,{fetcher:quotaZero})).st
 assert.equal((await searchSerpApiFreeFlights({...env,SERPAPI_FLIGHTS_TERMS_REVIEWED:'false'},params,{fetcher})).status,'disabled');
 assert.equal((await searchSerpApiFreeFlights(env,{...params,userInitiated:false},{fetcher})).status,'disabled');
 console.log('PASS optional free-flight pilot: multi-airport one-search, quotas, no paid plans, no fabricated UTC/booking');
+
+for(const httpStatus of [200,400]){
+ const unsupported=await searchSerpApiFreeFlights(env,params,{fetcher:async input=>{
+  const u=new URL(input);
+  if(u.pathname==='/account.json')return Response.json({plan_monthly_price:0,plan_searches_left:60});
+  return Response.json({error:'Invalid departure_id airport. api_key=free-test-key https://provider.example/path'}, {status:httpStatus});
+ }});
+ assert.equal(unsupported.status,'invalid_airport_query');
+ assert.ok(!unsupported.diagnostic.includes('free-test-key'));
+ assert.ok(!unsupported.diagnostic.includes('https://'));
+}

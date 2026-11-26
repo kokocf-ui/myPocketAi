@@ -109,7 +109,7 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
     if(params.signal?.aborted)return {status:'search_timeout',candidates:[]};
     url.searchParams.set('api_key',key);
     const response = await fetcher(url,{signal:boundedSignal(20000)});
-    if (!response.ok) return {status:'search_http_'+response.status,candidates:[]};
+    if (!response.ok&&response.status!==400) return {status:'search_http_'+response.status,candidates:[]};
     const payload = await response.json();
     // This exact provider response means this airport/date query is empty,
     // not that credentials failed or that nearby airports have no flights.
@@ -121,8 +121,11 @@ export async function searchSerpApiFreeFlights(env,params,{fetcher=fetch}={}) {
         .replaceAll(key,'[redacted]')
         .replace(/api_key[^ ]*/gi,'api_key=[redacted]')
         .replace(/https?:[^ ]+/gi,'[url]').slice(0,180);
-      return {status:'provider_error',diagnostic,candidates:[]};
+      const invalidAirport=/(?:departure_id|arrival_id|airport)/i.test(diagnostic)&&
+        /(?:invalid|not valid|unsupported|not supported|not found|unknown)/i.test(diagnostic);
+      return {status:invalidAirport?'invalid_airport_query':'provider_error',diagnostic,candidates:[]};
     }
+    if(!response.ok)return {status:'search_http_'+response.status,candidates:[]};
     return {status:'candidate_results_only',
       candidates:normalizeFlightSearchResults(payload,{currency:params.currency||'GBP',date:params.outboundDate}),
       searchedAirports:{departure:codes(params.departureAirports),arrival:codes(params.arrivalAirports)},

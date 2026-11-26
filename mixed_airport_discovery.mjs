@@ -2,7 +2,8 @@
 // This module returns LOCATIONS ONLY; it never asserts a scheduled flight,
 // ticket availability, or a verified road/rail connection to an airport.
 // A separate licensed flight supplier must confirm actual dated services.
-const point=value=>value&&Number.isFinite(Number(value.latitude))&&Math.abs(Number(value.latitude))<=90&&
+const point=value=>value&&value.latitude!=null&&value.longitude!=null&&
+  value.latitude!==''&&value.longitude!==''&&Number.isFinite(Number(value.latitude))&&Math.abs(Number(value.latitude))<=90&&
   Number.isFinite(Number(value.longitude))&&Math.abs(Number(value.longitude))<=180?
   {latitude:Number(value.latitude),longitude:Number(value.longitude)}:null;
 const airportCode=props=>{
@@ -22,7 +23,18 @@ export function normalizeAirportCandidates(data,origin,{limit=20}={}){
    const categories=Array.isArray(props.categories)?props.categories:[];
    if(!loc||!categories.some(c=>String(c).startsWith('airport'))||
       categories.some(c=>/airport\.(?:gliding|airfield)$/.test(String(c))))continue;
-   const iata=airportCode(props),name=String(props.name||'').trim();
+   const raw=props?.datasource?.raw||{};
+   const name=String(props.name||'').trim();
+   // Geographic IATA presence is NOT passenger-service eligibility. Exclude
+   // explicit military/private/no-scheduled-service evidence, not a hardcoded
+   // airport list, and do not require a missing OSM tag to say "yes".
+   const classification=[raw['aerodrome:type'],raw.aerodrome,raw.military,raw.landuse,
+     ...categories].filter(Boolean).join(' ');
+   if(/(?:military|airbase|air_base|airport\.private)/i.test(classification)||
+      /\b(?:RAF|Royal Air Force|military|air base)\b/i.test(name)||
+      String(raw.access||'').toLowerCase()==='private'||
+      String(raw.scheduled_service??props.scheduled_service??'').toLowerCase()==='no')continue;
+   const iata=airportCode(props);
    // Without a verifiable airport code a flight supplier cannot be queried
    // reliably; keep such records out of the usable shortlist.
    if(!iata||!name||seen.has(iata))continue;

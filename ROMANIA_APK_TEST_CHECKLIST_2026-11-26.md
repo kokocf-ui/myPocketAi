@@ -1,11 +1,17 @@
 # myPocketAI — test Android în România
 
+> **Retest fizic 501887: NEGATIV (26 noiembrie, 21:07–21:08).** User raportează
+> transport public nefuncțional și mixt mai rău, fără variante. Nu recomanda încă
+> APK501887 drept corecție validată și nu cere repetarea identică a testului.
+> Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
+
+
 ## Retest ACTUAL — APK501887 + backend v187
 
 [**Descarcă APK-ul semnat 501887**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45894780817/myPocketAI-signed-education-test.apk)
 
 Publicat la 26 noiembrie 2026 din `f7ab634`. Buildul, certificatul de semnare
-(în CI) și backendul au trecut verificările. **Nu este încă validat fizic.**
+(în CI) și backendul au trecut verificările. **Retestul fizic ulterior a eșuat; vezi avertismentul de mai sus.**
 Instalează peste aplicația existentă, **fără dezinstalare/ștergerea datelor**,
 apoi închide și redeschide aplicația. Dacă actualizarea e refuzată, păstrează
 mesajul exact; nu dezinstala pentru a o forța.

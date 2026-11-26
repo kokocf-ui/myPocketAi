@@ -20,8 +20,19 @@ Workflowmanualexistent `mixed-live-diagnostic.yml` (run_live=false): DOARprezen�
 flags+aggregateCFhourlyoutcomes+flighthealthaccountfărăsearchcredits; fără
 Exa/Brave/transport/livejourneyqueries/expunerikeys. Rezultatesanitizatenotices
 încheckannotations(artefacte/logredirectsblocate). Noulworkflowseparatnuputea
-fi dispatch-uit înainte deprezențaped efaultbranch(404); mutatînexistent, nu
-crea/schimbaaltebranchuri. Încănerulatlaînscriereanotei.
+fi dispatch-uit înainte deprezențapedefaultbranch(404); mutatînexistent, nu
+crea/schimbaaltebranchuri. RULAT45896433916/check140171374773SUCCESS19dea1c:
+flightfree_active/freePlan/hasQuotatrue,nocreditsconsumed; NUexhaustioncauzădovedită.
+MOTIS_API_BASE_URLabsent; GEO/Exa/Brave/Serp/TfL/TransCAPI/ROurbanbindingspresent.
+Hourlyaggregate50success/384subreq/0errors,33clientDisconnected/71subreq/0errors;
+NUeatribuireutilizator, NUconfirmăsubrequestlimit. Standardusage_model,noreadkeys.
+Raport `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md` cuceștim/necunoscut.
+FixDOARBRANCH: excludeexplicitmilitary/RAF/private/scheduled_service=no airport;
+invalidairporterrorsseparate(HTTP200/400), continuăNUMAIaltequeryplanificateîn
+bugetulexistent/norepeat; quota/auth/unknownstop. Offlinemixed/transitaudit/check
++airport/providerfixturesPASS, NUprobarealăcăastaa fostcauzauser. Niciodeploy/APK
+nou, prodrămânef7ab634v187/501887negativfizic; HEREOFF0/max2. Diagnosticground
+exactîncănecunoscut; nuconsumaExa/Bravefărăcotăgratuităconfirmată.
 Nu elibera altAPK doar pentruverdeCI/mock; întâicauzareală și dovadărelevantă.
 
 

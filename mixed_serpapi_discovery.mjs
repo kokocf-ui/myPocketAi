@@ -142,7 +142,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  const days=departureAt?1:Math.max(1,Math.min(7,maxDays));
  const maxQueries=Math.max(1,Math.min(12,Number(maxProviderQueries)||9));
  const datesChecked=[],all=[],seen=new Set();
- let lastStatus='no_candidates',queries=0,cachedProviderResponses=0,queryBudgetExhausted=false;
+ let lastStatus='no_candidates',queries=0,cachedProviderResponses=0,queryBudgetExhausted=false,airportQueryRejected=false;
  for(let offset=0;offset<days&&queries<maxQueries;offset++){
   const outboundDate=day(start+offset*86400000);
   // One pooled query, then independently scan airports which the pooled
@@ -196,7 +196,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    }catch{result={status:'provider_unavailable',candidates:[]};}
    lastStatus=result?.status||'provider_unavailable';
    if(result?.cacheReused)cachedProviderResponses++;
-   if(lastStatus==='provider_error')providerDiagnostic=String(result?.diagnostic||'provider_error').slice(0,120);
+   if(['provider_error','invalid_airport_query'].includes(lastStatus))providerDiagnostic=String(result?.diagnostic||'provider_error').slice(0,120);
    for(const candidate of result?.candidates||[]){
     if(!departureAt&&candidate.legs?.[0]?.startLocal &&
        candidate.legs[0].startLocal.slice(0,10)<day(now))continue;
@@ -206,6 +206,13 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
    }
    // Do not continue to burn quota or report false 'no flights' when access
    // is disabled, exhausted, or credentials/provider requests fail.
+   // One unsupported airport in a pooled query must not suppress every
+   // later independently planned gateway. Never repeat that same request or
+   // expand the existing total query budget. Credential/quota/unknown errors
+   // still stop immediately; each later call keeps its own FREE-plan guard.
+   if(lastStatus==='invalid_airport_query'){
+    airportQueryRejected=true;continue;
+   }
    if(lastStatus!=='candidate_results_only')break;
    // A direct flight from one airport does NOT prove there are no other direct
    // flights from nearby airports. Keep checking the independent airport scans.
@@ -228,7 +235,8 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
  return {status:all.length?'candidate_results_only':lastStatus,
   candidates:rankMixedFlightCandidates(all,{max:20}),datesChecked,
   departureAirports,arrivalAirports,borderAirport,airportCandidates,providerSearchCount:queries,
-  searchIncomplete:controller.signal.aborted||queryBudgetExhausted||lastStatus!=='candidate_results_only',
+  searchIncomplete:controller.signal.aborted||queryBudgetExhausted||airportQueryRejected||lastStatus!=='candidate_results_only',
+  airportQueryRejected,
   terminationStatus:controller.signal.aborted?'search_timeout':queryBudgetExhausted?'query_budget_exhausted':lastStatus,
   fromCachedProviderResults:cachedProviderResponses>0,
   completeDoorToDoor:false,timezoneAndTransfersUnverified:true};
