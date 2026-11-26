@@ -44,6 +44,8 @@ try{
   assert.ok(await body.locator('.mixed-stage-gap').count()>=2,'Missing airport access/egress is explicit, not an invented connection');
   await body.getByRole('button',{name:'← Înapoi la variante',exact:true}).tap();
   await body.locator('.mixed-unverified-candidate').first().tap();
+  assert.match(await body.locator('.mixed-operator-changes-disclosure').innerText(),/poate include schimburi organizate de operator/);
+  assert.match(await body.locator('.mixed-operator-changes-disclosure').innerText(),/Nu am confirmat dacă este directă/);
   assert.equal(await body.getByRole('link',{name:'Bilete și rezervare · FlixBus'}).getAttribute('href'),'https://www.flixbus.co.uk/bus-routes/london-oradea');
   // Surface-only results must survive an empty/disabled flight source, with
   // ordinary local access/egress gaps disclosed rather than an airport screen.

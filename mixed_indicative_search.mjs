@@ -28,24 +28,32 @@ export async function searchMixedIndicativeOptions(env,{
  const groundWork=()=>beforeTransitAbort(()=>discoverGround(env,{origin,destination,signal:groundAbort.signal,
   onProgress:partial=>{partialGround={...partialGround,...partial};}}),groundAbort.signal,null);
  const groundFallback=()=>({...partialGround,status:partialGround?.status||'search_timeout',searchIncomplete:true});
- const [air,groundResult]=await Promise.all([
-  (international||km>=150)?bounded(()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000}),25000,{status:'provider_unavailable',candidates:[]}):Promise.resolve({status:'disabled',candidates:[]}),
+ // Enrich the air branch as soon as its own candidates arrive. Ground
+ // discovery must neither wait for this nor delay it by up to twenty seconds.
+ const airWork=(async()=>{
+  const air=(international||km>=150)?await bounded(
+   ()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000}),
+   25000,{status:'provider_unavailable',candidates:[]}):{status:'disabled',candidates:[]};
+  let flights=Array.isArray(air?.candidates)?air.candidates.slice(0,6):[],ready=false;
+  if(flights.length){
+   let timeout;
+   try{
+    const enriched=await Promise.race([
+     prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
+      {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional}),
+     new Promise(resolve=>{timeout=setTimeout(()=>resolve(null),8500)})
+    ]);
+    if(Array.isArray(enriched)&&enriched.length){flights=enriched;ready=true;}
+   }catch{}finally{clearTimeout(timeout)}
+  }
+  return {air,flights,ready};
+ })();
+ const [{air,flights,ready},groundResult]=await Promise.all([
+  airWork,
   km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]})
  ]);
  clearTimeout(groundTimer);groundAbort.abort();
  const ground=groundResult||groundFallback();
- let flights=Array.isArray(air?.candidates)?air.candidates.slice(0,6):[],ready=false;
- if(flights.length){
-  let timeout;
-  try{
-   const enriched=await Promise.race([
-    prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
-     {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional}),
-    new Promise(resolve=>{timeout=setTimeout(()=>resolve(null),8500)})
-   ]);
-   if(Array.isArray(enriched)&&enriched.length){flights=enriched;ready=true;}
-  }catch{}finally{clearTimeout(timeout)}
- }
  return {
   planning_scope:'indicative_multimodal',seat_confirmation_required:false,
   flight_search_status:air?.status||'provider_unavailable',

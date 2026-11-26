@@ -7,6 +7,29 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**IMPLEMENTARE INCREMENTALĂ MULTIRAMURĂ (2026-11-26, după confirmarea user):**
+User a cerut deja afiliereOmio; ei i-au cerut maimulțiabonați (relatareauser).
+Cerința e căutare+armonizareproprie: FlixBus UK→Oradea poate fi ofertă cu schimb,
+nu doar autocar direct; caută cap-coadă laoperator ȘI compuneriîntreoperatori.
+Implementare NOUĂDOARBRANCH, raport `MIXED_PARALLEL_BRANCHES_2026-11-26.md`:
+- înlocuit2queriesgenerice cu coach/rail explicite și paralele; Bravefallbackidem;
+- corridor pornește alături decitypair, nu după; eliminat earlyreturn careanula
+  corridorcândcitypairfail; progressperresponsepăstrat fărăașteptarecelălaltmod;
+- max6operatorcards intercalatecoach/train; citypairroute_scopeexplicit, schimburi
+  unknown, direct_service_verified/through_ticket_verified=false. UIexplicăcă
+  poateincludeschimburi; NUextragepuncteintermediareimaginate dinexcerpt;
+- aircandidateenrichmentparalelcuground, nu dupăterminareaground;
+- încăUNSINGURrăspunsagregatcătretelefon, NUstreamingUI. NicioprobăliveFlixBus,
+  ore/data/stații/conexiunecompletă, nicioaplicațieAPKnouă/deploy/HERE.
+Bugeteleexistente:2Exainitial+max2Bravefallback+6corridor; singleprovidermax8,
+ambii+fallbackmax10; max4corridorworkers+2citypair. NUgaranteazăcotăgratuităcont.
+Testnou `tests_mixed_parallel_branches.mjs` inclusînmixedgate: barriersconcurență,
+citypairfail/corridorsuccess, coachprogressînainteRail, modefairnessmax6,
+throughofferincert+enrichmentindependentPASS. Fullmixed/transitaudit/national/check/
+bootsyntax+browser360/393/430+2WranglerdryrunsPASSoffline. Raportcudistincțiiclar.
+Prodrămânev186+APK501886; HEREOFF0/max2; nuconfundaacestincrementcuplanificare
+completăRome2Rio sau localconnectionsverificatepentruoriceoperatorroutepage.
+
 **ROMЕ2RIO STUDIAT CA REPER DE CĂUTARE MULTIRAMURĂ (2026-11-26):**
 User a reiterat că sugestia Rome2Rio era să studiem cum explorează/afișează
 mai multe combinații simultan, NU doar link afiliat/alt furnizor de zboruri.

@@ -22273,8 +22273,8 @@ function appendMixedGroundOperatorCards(host,options,choice){
     ' '+String(f.currency||''):dialogText('Preț de verificat la operator','Check fare with operator');
   mixedCandidateCard(host,{
    name:label,icons,summary:option.operator+' · '+fare,
-   subtitle:dialogText('Tronson găsit pe pagina operatorului; legăturile de la/la adresă și orarul nu sunt confirmate.',
-    'Operator route page found; local transfers and timetable unconfirmed.'),
+   subtitle:dialogText('Rută publicată de operator, posibil cu schimburi; orarul și legăturile locale nu sunt confirmate.',
+    'Operator route, possibly with changes; timetable and local transfers unconfirmed.'),
    onSelect:()=>{
     const body=mixedCandidateDetailShell(label,()=>renderMixedUnifiedResults(dataForMixed(),choice));
     if(!body)return;
@@ -22282,6 +22282,10 @@ function appendMixedGroundOperatorCards(host,options,choice){
     p.textContent=dialogText('Variantă orientativă. Verifică plecarea, durata, tariful și locurile la operator. Eva nu face rezervări.',
      'Indicative option. Verify departure, duration, fare and seats with the operator. Eva does not book.');
     body.append(p);
+    const changes=document.createElement('p');changes.className='mixed-operator-changes-disclosure';
+    changes.textContent=dialogText('Această rută poate include schimburi organizate de operator. Nu am confirmat dacă este directă, punctele de schimbare sau dacă un singur bilet acoperă călătoria.',
+     'This route may include operator-arranged changes. Direct service, interchange points and through-ticket coverage are not confirmed.');
+    body.append(changes);
     // A route-page result cannot prove first/last mile: show both gaps.
     const fromAddress=String(choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||
      dialogText('Adresa de plecare','Starting address'));
