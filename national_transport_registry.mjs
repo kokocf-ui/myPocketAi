@@ -1,16 +1,20 @@
+import {enturNationalConfigured} from './entur_national_transit.mjs';
 import {EUROPE_COUNTRIES,europeanCountrySources} from './europe_country_sources.mjs';
 // One domestic-transport record per country. A catalog entry is NOT an adapter,
 // an imported timetable, an active feed, or evidence of countrywide coverage.
 const implemented={
  RO:{urban_transport:['ro_urban_gtfs'],intercity_transport:['ro_national_transit']},
- GB:{urban_transport:['tfl','en_urban_gtfs'],intercity_transport:['uk_national_transit']}
+ GB:{urban_transport:['tfl','en_urban_gtfs'],intercity_transport:['uk_national_transit']},
+ NO:{urban_transport:['entur_national_transit'],intercity_transport:['entur_national_transit'],domesticPlanner:'entur_national_transit'}
 };
 export const NATIONAL_TRANSPORT_COUNTRIES=Object.freeze(Object.fromEntries(
  EUROPE_COUNTRIES.map(country=>[country,Object.freeze({
   country,domesticOnly:true,gpsCountryRequired:true,
   urban_transport:Object.freeze(implemented[country]?.urban_transport||[]),
   intercity_transport:Object.freeze(implemented[country]?.intercity_transport||[]),
+  domesticPlanner:implemented[country]?.domesticPlanner||null,
   timetableCoverage:'not_verified_countrywide',
+  validationStatus:country==='NO'?'contract_tests_only':'live_coverage_not_reverified',
   integrationStatus:implemented[country]?'implemented_adapters':'sources_require_integration'
  })])
 ));
@@ -21,6 +25,7 @@ export function configuredNationalTransportProviders(env={}){
   try{const u=new URL(String(url||'').trim());return u.protocol==='https:'&&!u.username&&!u.password&&!u.search&&!u.hash&&u.pathname==='/';}catch{return false;}
  };
  return [
+  enturNationalConfigured(env)?'entur_national_transit':null,
   String(env.BILO_API_KEY||'').trim()?'ro_national_transit':null,
   privateReady(env.RO_URBAN_VPC,env.RO_URBAN_API_URL,env.RO_URBAN_API_TOKEN)?'ro_urban_gtfs':null,
   String(env.TRANSCAPI_API_KEY||'').trim()?'uk_national_transit':null,
@@ -35,7 +40,8 @@ export function nationalTransportCoverage(country,enabledProviders=[]){
  const urban=profile.urban_transport.filter(id=>enabled.has(id)),intercity=profile.intercity_transport.filter(id=>enabled.has(id));
  return {country:code,domestic_only:true,gps_country_required:true,
   urban_configured:urban.length>0,intercity_configured:intercity.length>0,
-  configured_adapters:[...urban,...intercity],
+  configured_adapters:[...new Set([...urban,...intercity])],
+  validation_status:profile.validationStatus,
   integration_status:profile.integrationStatus,
   coverage_status:urban.length||intercity.length?'configured_adapters_coverage_not_verified':'not_connected',
   countrywide_coverage_verified:false,

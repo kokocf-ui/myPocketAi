@@ -1,3 +1,5 @@
+import {planEnturNationalJourney} from './entur_national_transit.mjs';
+import {nationalTransportResponse} from './national_transport_response.mjs';
 import {configuredNationalTransportProviders,nationalTransportCoverage} from './national_transport_registry.mjs';
 import {searchMixedIndicativeOptions} from './mixed_indicative_search.mjs';
 import {transportTicketUrl} from './transport_ticket_links.mjs';
@@ -3971,6 +3973,17 @@ export default {
         return reject(authorization.status,errors[authorization.status]||errors.national_provider_not_connected);
       }
       authorizedNationalProvider=authorization.provider;verifiedNationalCountry=originCountry;
+      if(authorization.provider==='entur_national_transit'){
+        const selectedAt=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
+        const result=await planEnturNationalJourney(env,{
+          from:{latitude,longitude},to:{latitude:destLat,longitude:destLon},originCountry,destinationCountry,
+          departureAt:selectedAt||null,limit:requestedTransitCount(message,data.transit_count),
+          preference:data.transit_preference==='bus_only'?'bus_only':'all'
+        },{verifyCountry:p=>verifiedGpsCountry({...p,geoapifyKey:env.GEOAPIFY_API_KEY,timeoutMs:1800})});
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          ...nationalTransportResponse(result,{country:originCountry,provider:'Entur',language:lang,
+            destination:{latitude:destLat,longitude:destLon,label:String(destination.label)},departureAt:selectedAt})});
+      }
       // Downstream planners must use the same points/country just verified,
       // not stale mixed-route origins or an autocomplete country label.
       data.journey_origin={latitude,longitude,country_code:originCountry};

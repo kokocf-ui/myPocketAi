@@ -8,6 +8,42 @@
 ## 1. Reguli permanente de lucru cu utilizatorul
 
 
+**ETAPĂ ACTUALĂ / CONECTARE PE FIECARE ȚARĂ (2026-11-26, după b707204):**
+Utilizatorul cere conectări pe țări; poate verifica fizic numai Anglia și un
+prieten România. Nu promite că formatul UK garantează funcționarea altor țări.
+Raport/matrice 49 țări: `NATIONAL_TRANSPORT_CONNECTIONS_2026-11-26.md`.
+Primul adaptor nou este NO/Entur (`entur_national_transit.mjs`), HTTP GraphQL
+real implementat și integrat în gate/Worker național, dar **default OFF și
+NEVERIFICAT LIVE**. Activare numai cu ENTUR_NATIONAL_ENABLED=true +
+ENTUR_TERMS_REVIEWED=true + ENTUR_CLIENT_NAME valid; nicio valoare remote/în
+wrangler nu a fost setată. Termenii/atribuirea/limitele/privacy încă de revizuit;
+fixture-urile cu flagul true NU sunt aprobare de utilizare. Registry: implementări
+RO/GB/NO, celelalte46 încă fără adaptor; `validation_status:contract_tests_only`
+NO și `countrywide_coverage_verified:false`. Nu spune „toate țările conectate”.
+Local + interurban NO, autobuz alternativ la <=80km; timpi/moduri/anulări/goluri
+validate; opriri intermediare + capete geoverificate NO (max36 puncte/6.5s/4 în
+paralel), fără cache persistent de GPS. Rute complexe pot fi respinse; verifică
+stațiile, NU frontiera continuă dintre ele. Fără geometrii/transferuri/tarife/
+locuri inventate. Răspuns național generic `national_transport_response.mjs`,
+UI comun existent, nu suplimente Directions/UK/RO pentru noul adaptor.
+Surse: repo oficial Entur MCP bb688c10d473f639411ab05faa50972e74f1d80a,
+schema Entur Tavla1b117d48af5f25a0a85aefa188e2617d658a4573. Interogare validată
+cu graphql16.12.0 față de schema publicată (nu API live), script offline
+`scripts/check_entur_schema_contract.mjs`; schema/tooling ignorate .bundle-check.
+Sandbox permite GitHub/npm, NU api.entur.io/Geoapify; nu ocoli prin workflows.
+PASS9 adaptor +3 Worker; test:national-transport15 comenzi, transit19,
+orientation11/check/2dryruns, browser360/393/430 coverageRO/GB/NO + detaliiEntur
+sintetice. HTML6990923B. Probe live pregătite în
+`scripts/verify_national_transport_live.mjs` (NO local+interurban), rulat numai
+OFFLINE: statusnot_run/live_requestsfalse. Necesită acces real și config
+revizuită; nu îl activa singur. **NUDEPLOY/NUAPK/NUOracle/NUworkflow/NU PR/merge**,
+refuz publicare încă în vigoare; ultimlivrat501884/backendv183. Pasul următor:
+condiții + live NO, surse/adaptoare/importuri pentru celelalte țări, probe reale
+RO/GB; nu depinde de prieteni în fiecare țară pentru teste automate, dar nu
+înlocui proba live cu fixture. Testul sourceassert city_choice_resume istoric
+rămâne separat, nu declara toată suita repo verde.
+
+
 **ETAPĂ ACTUALĂ / TRANSPORT NAȚIONAL PE ȚĂRI (2026-11-26, după 5aa5336):**
 User vrea Transport public adaptat țării GPS, local + interurban în aceeași țară,
 nu transfrontalier; România dincolo de București, o singură aplicație într-un loc
