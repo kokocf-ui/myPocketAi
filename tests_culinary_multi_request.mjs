@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import {assistantUnderstandRequest} from './assistant_understanding.mjs';
 import {parseCulinaryRequest,recipeDishKeywords,recipeSpeciesCompatible,culinarySearchQuery,humanizeRecipeDuration,humanizeRecipeServings} from './culinary_intent.mjs';
 import {classifyAssistantFeedback,resolveRecipeFollowupComplaint,resolveRecipeRequestRecall,formatRecipeRequestRecall} from './social_feedback.mjs';
 import {assembleSourcedRecipeVariants,recipeIngredientSignature,recipeQualityGate} from './culinary_multi.mjs';
@@ -92,7 +93,7 @@ const casualEnd=index.indexOf('function requestUsesLocation(text){',uiEnd);
 const locationEnd=index.indexOf('async function coordinatesForRequest(text){',casualEnd);
 const needsStart=index.indexOf('function needsLocation(text){',locationEnd);
 assert.ok(uiStart>=0&&uiEnd>uiStart&&casualEnd>uiEnd&&locationEnd>casualEnd);
-const uiContext=vm.createContext({needsLocation:()=>false});
+const uiContext=vm.createContext({needsLocation:()=>false,state:{currentView:'assistant'},assistantUnderstandRequest});
 vm.runInContext(index.slice(uiStart,locationEnd),uiContext);
 for(const sentence of ['Găsește-mi trei rețete de guacamole','Arată-mi o rețetă de sarmale','Find three guacamole recipes']){
  assert.equal(vm.runInContext('isRecipeQuestion('+JSON.stringify(sentence)+')',uiContext),true,sentence);
@@ -105,7 +106,7 @@ for(const sentence of ['ești varză','esti varza','nu te pricepi','you are wron
 for(const place of ['Aldi','Decathlon'])assert.equal(vm.runInContext('isCasualConversationReply('+JSON.stringify(place)+')',uiContext),false,'a business name must not be social feedback: '+place);
 // The index.js text is an HTML template; literal double-escaped regexes are resolved
 // when the Worker serves the browser script, so do not evaluate its POI regex raw.
-assert.match(index,/const locationIntent=!isRecipeQuestion\(text\)/);
+assert.match(index,/const locationIntent=semanticLocationAllowed&&!isRecipeQuestion\(text\)/);
 
 for(const [text,expected] of [
  ['Ești varză','negative'],['esti varza','negative'],

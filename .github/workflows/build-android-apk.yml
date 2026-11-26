@@ -184,7 +184,7 @@ jobs:
           PREVIEW_NOTES=$(gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" --jq '.[] | select(.prerelease == true and (.tag_name | startswith("education-test-"))) | .body')
           while read -r PREVIEW_CODE; do
             if [[ "$PREVIEW_CODE" =~ ^[0-9]+$ ]] && test "$PREVIEW_CODE" -gt "$MAX_CODE"; then MAX_CODE=$PREVIEW_CODE; fi
-          done < <(printf '%s\n' "$PREVIEW_NOTES" | sed -nE 's/.*versionCode ([0-9]+).*/\1/p')
+          done < <(printf '%s\n' "$PREVIEW_NOTES" | sed -nE 's/.*(versionCode|APK)[[:space:]]*([0-9]{5,10}).*/\2/p')
           test "$MAX_CODE" -lt 2100000000
           echo "POCKET_VERSION_CODE=$((MAX_CODE + 1))" >> "$GITHUB_ENV"
           echo "POCKET_KEY_ALIAS=mypocketai-release" >> "$GITHUB_ENV"

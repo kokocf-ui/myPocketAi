@@ -38,3 +38,9 @@ Instrucțiuni comune: ultimul mesaj are prioritate față de subiecte vechi; o s
 - `tests.mjs` se oprește la27: hoteluri2000m în loc de5000m. Reprodus identic cu backendul din HEAD1866535 înainte de modificări; nu declaratverde și nu modificatcolateral. ErorileUIlocale/tools/shopping anterioare rămân în rapoartele precedente.
 
 Nu s-a verificat model live sau înțelegere perfectă în toate limbile. Nu s-au retestat fizic SAF/chat/oldvoice și nu se declară traducerea APK reparată. Nu PR/merge/latest/deploy.
+
+### Verificare suplimentară / build intermediar
+
+Întregul `test:ui`: 99/102 inițial; testul culinar izolat nu furniza noua dependență `state` și aștepta vechea expresie `locationIntent`. Actualizat harnessul VM cu starea/helperul reale și aserțiunea gate-ului; rerun PASS. Total **100/102**, numai cele două erori istorice locales/tools. Nicio modificare runtime necesară pentru acest test.
+
+Run45841006585 a construit/semnat/verificat/publicat cu succes c83cc83, dar a rezultat **versionCode501882 duplicat**, nu versiunea nouă cerută. Nu a fost livrat utilizatorului. Cauză: notele release501882 editate anterior nu mai conțineau markerul literal `versionCode`, iar allocatorul căuta numai acel marker. Markerul a fost restaurat pe release anterior și allocatorul acceptă și formularea `APK 501882`/`APK501882` ca fallback. Un nou build din commitul de remediere trebuie să producă >501882; nu declara prima versiune adecvată actualizării noi.
