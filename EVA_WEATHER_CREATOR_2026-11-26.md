@@ -38,3 +38,13 @@ Cerere: utilizatorul autorizează explicit publicarea îmbunătățirilor server
 Run45846296656: preflight57PASS, deploybackendSUCCESS, verificaredeprecatOracle410PASS, frontendSKIPPED; smokeFAIL, deci run întregFAIL. Rețea directă sandboxCloudflareindisponibilă; logsrawGitHubhostexternEOF. Îmbunătățitraportulsmokecusavepartial+errorannotation șiadăugatverify_onlypentrunurepublicabackenduldoarpentrutest.
 
 Run45846797008verify_only: deploySKIPPED, preflightPASS; numeleCostiverificatv183, meteoactualproviderverificatv183cuhainegroaseînlocdejachetă la0,3°Cresimțite. Smoke a eșuat exclusiv pe aserțiunea prea strictă că punctul GPS SINTETIC51.479,0.29trebuiesăfieGrays; reverse live a returnat **South Ockendon**. Nu se forțează niciodatăGrayspe coordonate! Corectattestulcerândlocalitateprezentă/fărăsuburbie. Unitățile demonstreazăseparatcăadresa{town:Grays,suburb:SouthStifford}afișeazăGrays. Urmeazărerunverify-only,fărăunredeploy inutil. Nu declara că testul ar demonstra poziția fizică a utilizatorului.
+
+## Rezultat final verificat
+
+- **BACKEND PUBLICAT v183**, sursă9ae99ac92ccabedb40b35ae98801cf21e64ad854: pasuldepublicarerun45846296656SUCCESS; runîntregFAILdoardinasserțiuneasmokeexplicatămaisus. Nuurunbackendîntregverdeînainteaderemediereatestului.
+- **VerificareLIVE45847046647SUCCESS**, sursă85fec9d: preflight57/57, backenddeploySKIPPED(verify_only), frontendSKIPPED, legacychat410PASS, scenariuexactCosti/nocelebrity/nosearch+prognozăreală+codurineconfirmateascunse+Eva conversațiePASS. DateGPSsintetice, nu poziția fizicăa utilizatorului. Artifactraportcreat; downloadlocalblocatEOFdehostexternBlob, deci conținutulintegralnus-afabricat/nurecitat; concluziipașișiasserțiuniscriptverificateprinGitHubAPI.
+- **APK501884**, appcommit85fec9de682848b8ac94f41c9e6b7975a4ea6753; run**45847070121SUCCESS**, signedbranchpreview, debugSKIPPED. Snapshot/compile/semnare/certificatpermanent/identitate/versionCodeîncreștere/assetpublicarePASS.
+- Prerelease`education-test-45847070121`,NUlatest; asset796461877,**77,647,460B**; digestGitHub(nurecalculatlocal)`sha256:a670b078ee824e100a4d42c4b439353eaa350eca1f0c2d362eb0212b353c4d1e`.
+- Direct: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45847070121/myPocketAI-signed-education-test.apk . Aceeașicheie,updatefărădezinstalarepeste501883.
+- Snapshotfinal**6,981,550B<8,000,000B**; producțiebundleguardPASS; browserfinalEva/Creator+editorial+Divertisment+communicationdeliveryPASS. UltimaUI:100/102,numaivechilelocalesexamși25!=24tools.
+- FărăPR/merge/frontenddeploy/latest/Studioindependentdeploy/Oracle/schema. Nu garantămsemanticămodelperfectă, localizarefizicăexactă,sunetfizicSAF/oldvoice/translatorreparat. AșteaptăacceptarefizicăAPK.
