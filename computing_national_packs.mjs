@@ -85,6 +85,7 @@ function computingRenderNationalTracks(panel){
 
 function computingRenderNationalChapters(panel){
  const pack=COMPUTING_NATIONAL.pack;if(!pack){computingOpen('levels');return true}
+ if(pack&&typeof eduYearWorkspaceButton==='function')eduYearWorkspaceButton(panel,{pack,subject:'computing'});
  const university=/^uni-/.test(String(pack.grade));
  computingParagraph(panel,educationCountrySelection.label+' · '+computingNationalYearLabel(pack.grade));
  computingParagraph(panel,university?

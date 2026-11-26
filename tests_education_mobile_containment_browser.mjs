@@ -11,8 +11,8 @@ let html=await(await app.fetch(new Request('https://mobile.test/'))).text();
 const hook=String.raw`
 window.__mobile={
  init(){state.language='ro';state.currentModule='learning';educationCountrySelection.code='RO';educationCountrySelection.label='România';showView('module');pocketRevealMainApp();$('view-module').classList.add('learning-active');Object.assign(languageJourney,{language:'en',variant:'GB',level:'A1',topic:'conversation'});languageOpen('topics')},
- resources(){languageResourcesOpen()},tutor(){languageConversationStart('conversation')},back(){window.pocketAndroidBack()},
- async math(){const {catalog}=await literatureLoadAuthoredCatalog({subject:'math'});const entry=catalog.years.find(y=>y.country==='RO'&&y.grade==='8');const pack=await literatureLoadNationalYear(entry,'ro',{subject:'math'});const key=Object.keys(pack.chapters).find(k=>pack.chapters[k].ro.title.startsWith('Intervale de numere reale'));Object.assign(mathJourney,{stage:'national-lesson',schoolStage:'lower',grade:'8'});Object.assign(MATH_NATIONAL,{id:mathNationalKey().id,pack,lesson:key});mathJourneyShowChoices('national-lesson')}
+ lesson(){languageJourney.cardIndex=0;languageOpen('lesson')},resources(){languageResourcesOpen()},tutor(){languageConversationStart('conversation')},back(){window.pocketAndroidBack()},
+ async math(){const {catalog}=await literatureLoadAuthoredCatalog({subject:'math'});const entry=catalog.years.find(y=>y.country==='RO'&&y.grade==='8');const pack=await literatureLoadNationalYear(entry,'ro',{subject:'math'});const key=Object.keys(pack.chapters).find(k=>pack.chapters[k].ro.title.startsWith('Intervale de numere reale'));Object.assign(mathJourney,{stage:'national-lesson',schoolStage:'lower',grade:'8'});Object.assign(MATH_NATIONAL,{id:mathNationalKey().id,pack,lesson:key});mathJourneyShowChoices('national-lesson')},mathTopics(){mathJourneyShowChoices('branches')}
 };
 `;
 html=html.replace('function languageOpen(stage){',hook+'\nfunction languageOpen(stage){');
@@ -44,7 +44,7 @@ try{
      tutorCalls++;if(holdAI){seenAI?.();await new Promise(ok=>releaseAI=ok)}
      try{return await route.fulfill({status:failAI?503:200,contentType:'application/json',body:JSON.stringify({status:'success',reply:'Hello! /həˈləʊ/ — Salut. Context: o întâlnire informală. '+('Exemplu și explicație pentru conversație. '.repeat(35))})})}catch{return}
     }
-    return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'success',reply:'Rezolvare orientativă: 5 este inclus în interval deoarece capătul este închis.'})});
+    return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'success',reply:'**Rezolvare orientativă**: 5 este inclus în interval deoarece capătul este închis. '+('Pas explicat și verificat. '.repeat(90))})});
    }
    if(!req.url().startsWith('http://127.0.0.1:'))return route.abort();return route.continue();
   });
@@ -85,19 +85,38 @@ try{
   // Closing an in-flight tutor cannot leave the next dialog's Send disabled.
   holdAI=true;const requestedAI=new Promise(ok=>seenAI=ok);await page.evaluate(()=>window.__mobile.tutor());await requestedAI;await page.evaluate(()=>window.__mobile.back());await tutor.waitFor({state:'detached'});holdAI=false;releaseAI();
   failAI=true;await page.evaluate(()=>window.__mobile.tutor());await tutor.getByText(/Răspuns indisponibil/).waitFor();assert.equal(await tutor.getByRole('button',{name:'Trimite / Continuă',exact:true}).isEnabled(),true);failAI=false;await page.evaluate(()=>window.__mobile.back());await tutor.waitFor({state:'detached'});
-  // Reproduce the exact Romanian VIII interval lesson from the screenshot.
-  await page.evaluate(()=>window.__mobile.math());await page.locator('.edu-lesson-workspace').waitFor();
-  const panel=page.locator('.math-national-panel'),work=panel.locator('.edu-lesson-workspace'),list=panel.locator('.math-national-actions');
-  const layout=await panel.evaluate(p=>{const nodes=[...p.children].filter(n=>getComputedStyle(n).display!=='none');return{overflow:getComputedStyle(p).overflowY,rows:nodes.map(n=>({class:n.className,top:n.getBoundingClientRect().top,bottom:n.getBoundingClientRect().bottom}))}});
-  assert.equal(layout.overflow,'auto');for(let i=1;i<layout.rows.length;i++)assert.ok(layout.rows[i].top>=layout.rows[i-1].bottom-1,'No overlapping math panels: '+JSON.stringify(layout));
-  const wr=await work.boundingBox(),lr=await list.boundingBox();assert.ok(wr.y>=lr.y+lr.height);
+  // The actual language lesson card: inherited flex-basis must not form columns.
+  await page.evaluate(()=>window.__mobile.lesson());
+  const wordCard=page.locator('.foreign-stage-lesson .foreign-word-card');await wordCard.waitFor();
+  await tap(wordCard.locator('summary'));
+  const cardLayout=await wordCard.evaluate(c=>{const r=c.getBoundingClientRect();return{left:r.left,right:r.right,scroll:c.scrollWidth,width:c.clientWidth,rows:[...c.children].filter(n=>!n.hidden).map(n=>{const b=n.getBoundingClientRect();return{left:b.left,right:b.right,top:b.top,bottom:b.bottom}})}});
+  assert.ok(cardLayout.scroll<=cardLayout.width+1,JSON.stringify(cardLayout));
+  for(let i=0;i<cardLayout.rows.length;i++){const r=cardLayout.rows[i];assert.ok(r.left>=cardLayout.left&&r.right<=cardLayout.right+1,JSON.stringify(cardLayout));if(i)assert.ok(r.top>=cardLayout.rows[i-1].bottom-1,JSON.stringify(cardLayout))}
+  await wordCard.scrollIntoViewIfNeeded();await page.screenshot({path:'.bundle-check/mobile-containment/language-card-'+viewport.width+'.png'});
+  // Reproduce RO VIII intervals. Topics, workspace and results are separate.
+  await page.evaluate(()=>window.__mobile.math());
+  const panel=page.locator('.math-national-panel'),list=panel.locator('.math-national-actions');
+  assert.equal(await panel.locator('.edu-lesson-workspace').count(),0,'No inline workspace in topic/activity menu');
   await tap(list.getByRole('button',{name:'📘 Teorie pas cu pas',exact:true}));await page.locator('#educationPagedLessonDialog').waitFor();await page.evaluate(()=>window.__mobile.back());await page.locator('#educationPagedLessonDialog').waitFor({state:'detached'});
+  await tap(panel.locator('.edu-workspace-open'));
+  const modal=page.locator('.edu-workspace-dialog'),work=modal.locator('.edu-lesson-workspace');await work.waitFor();
+  assert.equal(await work.evaluate(w=>w.closest('#moduleContent')),null);
   const answer=work.getByRole('textbox',{name:'Rezolvarea ta',exact:true});await answer.fill('Da, deoarece capătul 5 este inclus în [2,5].');
-  await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));await work.getByText(/Compară singur/).waitFor();
-  await tap(work.getByRole('button',{name:'✓ Verifică rezolvarea',exact:true}));await work.getByText(/Evaluare automată orientativă/).waitFor();
+  await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));const reader=page.locator('#educationPagedLessonDialog');await reader.getByText(/Compară singur/).waitFor();
+  await page.evaluate(()=>window.__mobile.back());await reader.waitFor({state:'detached'});assert.ok(await modal.isVisible());
+  await tap(work.getByRole('button',{name:'🧩 Rezolvă pas cu pas',exact:true}));await reader.waitFor();
+  assert.equal(await work.locator('[data-workspace-result]').isVisible(),false,'No inline result');
+  await page.screenshot({path:'.bundle-check/mobile-containment/math-result-'+viewport.width+'.png'});
+  const nextPage=reader.getByRole('button',{name:/Următor|Next/});await tap(nextPage);await page.evaluate(()=>window.__mobile.back());await reader.waitFor({state:'detached'});
   await answer.scrollIntoViewIfNeeded();await page.screenshot({path:'.bundle-check/mobile-containment/math-'+viewport.width+'.png'});
-  await page.setViewportSize({width:viewport.width,height:430});await answer.fill('Rezolvare păstrată cu tastatura deschisă.');await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));await page.setViewportSize(viewport);
+  await page.setViewportSize({width:viewport.width,height:430});await answer.fill('Rezolvare păstrată cu tastatura deschisă.');await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));await page.evaluate(()=>window.__mobile.back());await page.setViewportSize(viewport);
+  await page.evaluate(()=>window.__mobile.back());await modal.waitFor({state:'detached'});
+  await tap(panel.locator('.edu-workspace-open'));await work.waitFor();assert.equal(await answer.inputValue(),'Rezolvare păstrată cu tastatura deschisă.');await page.evaluate(()=>window.__mobile.back());await modal.waitFor({state:'detached'});
+  await page.evaluate(()=>window.__mobile.mathTopics());
+  const yearLaunch=page.locator('.edu-year-workspace-open');await yearLaunch.waitFor();
+  const first=await page.locator('.math-national-panel button').first().getAttribute('class');assert.ok(first.includes('edu-year-workspace-open'),'Work area is the first class action');
+  await tap(yearLaunch);await modal.waitFor();await modal.getByRole('textbox',{name:'Enunțul problemei',exact:true}).fill('2x + 3 = 9');await page.evaluate(()=>window.__mobile.back());await modal.waitFor({state:'detached'});
   await context.close();
  }
- assert.deepEqual(errors,[]);console.log('PASS touch/geometry regressions: 393×817 and 360×640, keyboard 430px, resource palette/tabs visible and responsive, TTS, AI tutor input/tools/actions non-overlap, cancelled/error AI retry, Android Back, exact RO VIII interval lesson scroll/actions/workspace');
+ assert.deepEqual(errors,[]);console.log('PASS touch/geometry regressions: 393×817 and 360×640, keyboard 430px, resource palette/tabs visible and responsive, TTS, AI tutor input/tools/actions non-overlap, cancelled/error AI retry, Android Back, nonoverlapping language cards, exact RO VIII interval lesson, first class workspace entry, separate modal, paginated results and draft return');
 }finally{await browser.close();server.close();server.closeAllConnections?.()}

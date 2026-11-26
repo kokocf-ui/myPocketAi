@@ -33,7 +33,7 @@ async function languageResourcesOpen(initialTab='dictionary'){
  const header=document.createElement('header');header.className='foreign-resource-head';header.append(heading,close);
  content.tabIndex=-1;content.setAttribute('aria-live','polite');
  dialog.append(header,toolbar,status,tabs,content);document.body.append(dialog);
- let alive=true,pack=null,tab=initialTab,translation={},translating=false;
+ let alive=true,pack=null,tab=initialTab,translation={},translating=false,grammarIndex=0,guideIndex=0;
  let recorder=null,stream=null,recordingToken=0,recordTimer=null,audioURL=null,audioEl=null;
  function stopCapture(discard=false){
   if(discard)recordingToken++;
@@ -69,7 +69,7 @@ async function languageResourcesOpen(initialTab='dictionary'){
  function entryCard(row,parent){
   const card=el('article',undefined,parent);card.className='foreign-resource-entry';
   el('strong',row.term,card,pack.locale);
-  el('p',({ipa:'IPA',pinyin:'Pinyin',romaji:'Rōmaji',transliteration:learningLabel('Transliterare','Transliteration')})[row.notation]+': '+row.phonetic,card);
+  if(row.phonetic!=='—')el('p',({ipa:'IPA',pinyin:'Pinyin',romaji:'Rōmaji',transliteration:learningLabel('Transliterare','Transliteration')})[row.notation]+': '+row.phonetic,card);
   const translated=translation['gloss-'+row.id];el('p',translated||row.gloss,card,translated?(state.language||'ro'):row.glossLanguage);
   playButtons(card,row.term);return card;
  }
@@ -94,6 +94,13 @@ async function languageResourcesOpen(initialTab='dictionary'){
   finally{translating=false;if(alive)translateButton.disabled=false}
  }
  const translateButton=foreignStudyButton(learningLabel('Tradu / reîncearcă explicațiile','Translate / retry explanations'),translate);toolbar.append(translateButton);
+ function progression(index,total,onChange){
+  const nav=el('nav',undefined,content);nav.className='foreign-resource-actions foreign-resource-progression';nav.setAttribute('aria-label',learningLabel('Parcurgere material','Material progression'));
+  const previous=foreignStudyButton(learningLabel('← Anterior','← Previous'),()=>onChange(index-1));previous.disabled=index===0;
+  const count=el('span',(index+1)+' / '+total);nav.style.cssText='display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;';count.setAttribute('role','status');
+  const next=foreignStudyButton(learningLabel('Următor →','Next →'),()=>onChange(index+1));next.disabled=index===total-1;nav.append(previous,count,next);
+  if(index===total-1)el('p',learningLabel('Ultima temă din acest pachet local. Nu este un curs complet; poți recapitula temele anterioare.','Last topic in this local pack. This is not a complete course; you can review previous topics.'),content);
+ }
  function render(){
   cleanupAudio();content.replaceChildren();
   const names={dictionary:learningLabel('Dicționar','Dictionary'),grammar:learningLabel('Teme și conjugări','Topics and conjugations'),guide:learningLabel('Ghid de conversație','Conversation guide'),audio:learningLabel('Laborator audio','Audio lab')};
@@ -110,28 +117,33 @@ async function languageResourcesOpen(initialTab='dictionary'){
    const update=()=>{results.replaceChildren();const query=norm(search.value||'');const rows=pack.dictionary.filter(x=>norm([x.term,x.phonetic,x.gloss,txt('gloss-'+x.id,'')].join(' ')).includes(query));count.textContent=rows.length+' / '+pack.dictionary.length;if(!rows.length)el('p',learningLabel('Niciun rezultat în lexicul introductiv local.','No results in the local introductory lexicon.'),results);rows.forEach(x=>entryCard(x,results))};search.addEventListener('input',update);update();
   }else if(tab==='grammar'){
    el('p',learningLabel('Teme introductive: citește explicația, compară formele, completează și verifică. Nu toate limbile conjugă după persoană.','Starter topics: read the explanation, compare forms, complete and check. Not every language conjugates for person.'),info);
-   pack.lessons.forEach(lesson=>{
-    const card=el('article',undefined,content);card.className='foreign-resource-entry';el('h3',lesson.title,card,pack.locale);el('p',txt('explain-'+lesson.id,lesson.explanation),card,translation['explain-'+lesson.id]?(state.language||'ro'):'ro');
+   progression(grammarIndex,pack.lessons.length,i=>{grammarIndex=i;render();content.scrollTop=0});
+   pack.lessons.slice(grammarIndex,grammarIndex+1).forEach(lesson=>{
+    const card=el('article',undefined,content);card.className='foreign-resource-entry';el('h3',lesson.title,card,pack.locale);const explanation=el('details',undefined,card);explanation.className='foreign-grammar-explanation';el('summary',learningLabel('Explicație și greșeli frecvente','Explanation and common mistakes'),explanation);el('p',txt('explain-'+lesson.id,lesson.explanation),explanation,translation['explain-'+lesson.id]?(state.language||'ro'):'ro');
     const table=el('table',undefined,card);const caption=el('caption',learningLabel('Forme de învățat','Forms to learn'),table);const body=el('tbody',undefined,table);
     lesson.forms.forEach(f=>{const tr=el('tr',undefined,body),th=el('th',f.person,tr,pack.locale);th.scope='row';el('td',f.form,tr,pack.locale);const td=el('td',undefined,tr);td.append(foreignStudyButton('🔊',()=>speech(f.form)));td.firstChild.setAttribute('aria-label',learningLabel('Ascultă: ','Listen: ')+f.form)});
     el('p',lesson.task.prompt,card,pack.locale);
     const input=el('input',undefined,card);input.type='text';input.autocomplete='off';input.setAttribute('aria-label',learningLabel('Completează forma lipsă','Complete the missing form'));input.lang=pack.locale;
     const feedback=el('p','',card);feedback.setAttribute('role','status');
     const norm=x=>String(x).normalize('NFC').trim().toLocaleLowerCase();
-    card.append(foreignStudyButton(learningLabel('Verifică','Check'),()=>{feedback.textContent=lesson.task.answers.some(x=>norm(x)===norm(input.value))?learningLabel('Corect!','Correct!'):learningLabel('Mai încearcă. ','Try again. ')+txt('feedback-'+lesson.id,lesson.task.feedback)}));
-    const solution=el('details',undefined,card);el('summary',learningLabel('Arată răspunsul','Show answer'),solution);el('p',lesson.task.answers.join(' / '),solution,pack.locale);
+    card.append(foreignStudyButton(learningLabel('Verifică','Check'),()=>{const ok=lesson.task.answers.some(x=>norm(x)===norm(input.value));feedback.textContent=ok?learningLabel('Corect! Continuă cu Tema următoare sau recapitulează la final.','Correct! Continue with Next topic or review at the end.'):learningLabel('Mai încearcă. ','Try again. ')+txt('feedback-'+lesson.id,lesson.task.feedback)}));
+    const solution=el('details',undefined,card);solution.className='foreign-grammar-answer';el('summary',learningLabel('Arată răspunsul','Show answer'),solution);el('p',lesson.task.answers.join(' / '),solution,pack.locale);
    });
   }else if(tab==='guide'){
-   pack.guide.forEach(group=>{const section=el('section',undefined,content);el('h3',txt('guide-'+group.id,group.title),section);if(group.note)el('p',txt('note-'+group.id,group.note),section);group.entryIds.forEach(id=>entryCard(pack.dictionary.find(x=>x.id===id),section))});
+   progression(guideIndex,pack.guide.length,i=>{guideIndex=i;render();content.scrollTop=0});
+   pack.guide.slice(guideIndex,guideIndex+1).forEach(group=>{const section=el('section',undefined,content);el('h3',txt('guide-'+group.id,group.title),section);if(group.note)el('p',txt('note-'+group.id,group.note),section);group.entryIds.forEach(id=>entryCard(pack.dictionary.find(x=>x.id===id),section))});
   }else{
-   el('p',learningLabel('Ascultă fără text, scrie ce auzi și deschide răspunsul. Verificarea compară textul, nu pronunția.','Listen without text, write what you hear, then reveal the answer. Checking compares text, not pronunciation.'),content);
-   const picker=el('select',undefined,content);picker.setAttribute('aria-label',learningLabel('Exemplul audio','Audio example'));pack.dictionary.forEach((x,i)=>{const option=el('option',String(i+1),picker);option.value=x.id});
-   const playback=el('div',undefined,content);let selected=pack.dictionary[0];
+   el('p',learningLabel('Alege un model din lista cu denumiri, ascultă, repetă și scrie ce ai auzit. Deschide răspunsul pentru transcriere. Verificarea compară textul, nu pronunția.','Choose a named model, listen, repeat and write what you heard. Reveal the answer for its transcription. Checking compares text, not pronunciation.'),content);
+   el('p',learningLabel('Alege un cuvânt, o expresie sau o formă gramaticală. Lista include tot materialul disponibil al pachetului; meniul oferă căutare și pagini. Săgețile trec direct la exemplul anterior sau următor. Normal: 0,80×; lent: 0,40× (viteza efectivă depinde de motorul TTS).','Choose a word, phrase or grammar form. The list covers this entire pack; its menu has search and pages. Arrows move to the previous or next example. Normal: 0.80×; slow: 0.40× (actual speed depends on the TTS engine).'),info);
+   const examples=[...pack.dictionary,...pack.lessons.flatMap(l=>l.forms.map((f,i)=>({id:'form-'+l.id+'-'+i,term:f.form,phonetic:'—',gloss:l.title+' · '+f.person,glossLanguage:pack.language==='ro'?'en':'ro',notation:'transliteration'})))];
+   const picker=el('select',undefined,content);picker.setAttribute('aria-label',learningLabel('Exemplul audio','Audio example'));examples.forEach((x,i)=>{const option=el('option',(i+1)+' / '+examples.length+' · '+x.term+' — '+x.gloss,picker);option.value=x.id});
+   const playback=el('div',undefined,content);let selected=examples[0];
    const answer=el('input',undefined,content);answer.type='text';answer.setAttribute('aria-label',learningLabel('Scrie ce auzi','Write what you hear'));answer.lang=pack.locale;
    const feedback=el('p','',content);feedback.setAttribute('role','status');
    content.append(foreignStudyButton(learningLabel('Verifică textul','Check text'),()=>{const norm=x=>x.normalize('NFKC').toLocaleLowerCase().replace(/[.,!?;:。！？]/g,'').replace(/\s+/g,' ').trim();feedback.textContent=norm(answer.value)===norm(selected.term)?learningLabel('Text corect; nu este scor fonetic.','Correct text; this is not a pronunciation score.'):learningLabel('Compară cu răspunsul și încearcă din nou.','Compare with the answer and try again.')}));
    const reveal=el('details',undefined,content);el('summary',learningLabel('Arată textul și transcrierea','Reveal text and transcription'),reveal);const revealed=el('div',undefined,reveal);
-   const choose=()=>{cleanupAudio();selected=pack.dictionary.find(x=>x.id===picker.value)||pack.dictionary[0];answer.value='';feedback.textContent='';reveal.open=false;playback.replaceChildren();revealed.replaceChildren();playButtons(playback,selected.term);entryCard(selected,revealed)};picker.addEventListener('change',choose);choose();
+   const choose=()=>{cleanupAudio();selected=examples.find(x=>x.id===picker.value)||examples[0];answer.value='';feedback.textContent='';reveal.open=false;playback.replaceChildren();revealed.replaceChildren();playButtons(playback,selected.term);entryCard(selected,revealed)};picker.addEventListener('change',choose);choose();
+   const audioNav=el('nav',undefined,content);audioNav.className='foreign-resource-actions';const move=delta=>{picker.selectedIndex=Math.max(0,Math.min(examples.length-1,picker.selectedIndex+delta));picker.dispatchEvent(new Event('change',{bubbles:true}))};audioNav.append(foreignStudyButton(learningLabel('← Exemplul anterior','← Previous example'),()=>move(-1)),foreignStudyButton(learningLabel('Exemplul următor →','Next example →'),()=>move(1)));
    const own=el('section',undefined,content);own.className='foreign-resource-entry';el('h3',learningLabel('Înregistrează și ascultă propria voce','Record and replay your voice'),own);
    el('p',learningLabel('Opțional: microfonul necesită permisiune. Maximum 45 secunde. Înregistrarea rămâne în memoria acestei ferestre, nu se încarcă pe server și se șterge la schimbarea secțiunii sau închidere. Nu există evaluare acustică automată.','Optional: microphone permission required. Maximum 45 seconds. The recording stays in this dialog’s memory, is not uploaded and is discarded when switching sections or closing. There is no automated acoustic scoring.'),own);
    const recordingStatus=el('p','',own);recordingStatus.setAttribute('role','status');

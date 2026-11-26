@@ -8111,7 +8111,7 @@ function pocketBackInsideModule(){
 }
 window.pocketAndroidBack=function(){
  const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
- if(topLayer?.matches?.('.foreign-resource-dialog,.language-tutor-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
+ if(topLayer?.matches?.('.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
  // The paged Mathematics/Theory reader is layered above the theory catalogue.
  // Close its TOP layer before touching the underlying dialogue or app navigation.
  // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.
@@ -14298,14 +14298,14 @@ function languageSpeak(text){
  ):learningLabel('Se redă pronunția…','Playing pronunciation…');
  languageStatus(note);
  if(pocketNativeVoiceAvailable()){
-  if(!pocketNativeVoiceSend({action:'speak',language:locale,text:String(text),rate:languageJourney.slow?0.7:0.88}))
+  if(!pocketNativeVoiceSend({action:'speak',language:locale,text:String(text),rate:languageJourney.slow?0.4:0.8}))
    languageStatus(learningLabel('Voce indisponibilă. Verifică motorul TTS Android.','Voice unavailable. Check Android TTS settings.'));
   return;
  }
  if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){
   languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return;
  }
- const v=new SpeechSynthesisUtterance(String(text));v.lang=locale;v.rate=languageJourney.slow?0.7:0.88;
+ const v=new SpeechSynthesisUtterance(String(text));v.lang=locale;v.rate=languageJourney.slow?0.4:0.8;
  const voices=window.speechSynthesis.getVoices?.()||[];const voice=voices.find(x=>x.lang.toLowerCase()===locale.toLowerCase())||voices.find(x=>x.lang.split('-')[0]===locale.split('-')[0]);if(voice)v.voice=voice;
  v.onerror=()=>languageStatus(learningLabel('Motorul vocal nu poate reda acest text.','The voice engine cannot play this text.'));
  window.speechSynthesis.cancel();window.speechSynthesis.speak(v);

@@ -110,6 +110,7 @@ function scienceNationalRender(stage,host){
  }
  if(stage!=='topics')return false;
  add('h2',scienceNationalLabel('Alege lecția','Choose a lesson'));
+ if(typeof eduYearWorkspaceButton==='function')eduYearWorkspaceButton(panel,{pack,subject:key.subject});
  add('p',where+' · '+yearLabel);
  const university=pack.stage==='advanced';
  add('p',university?

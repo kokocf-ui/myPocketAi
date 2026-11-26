@@ -110,6 +110,7 @@ function mathNationalRender(stage,host){
  }
  if(stage!=='branches')return false;
  add('h2',mathNationalLabel('Alege lecția','Choose a lesson'));
+ if(typeof eduYearWorkspaceButton==='function')eduYearWorkspaceButton(panel,{pack,subject:'math'});
  add('p',where+' · '+yearLabel);
  const university=pack.stage==='advanced';
  add('p',university?

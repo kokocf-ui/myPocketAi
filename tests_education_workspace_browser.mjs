@@ -11,21 +11,22 @@ let html=await(await frontend.fetch(new Request('https://pocket.test/'))).text()
 const hook=String.raw`
 window.__eduTest={
  init(){state.language='ro';educationCountrySelection.code='RO';educationCountrySelection.label='România';state.currentModule='learning';showView('module');pocketRevealMainApp();$('view-module').classList.add('learning-active')},
- async pack(subject,grade='9'){
+ async pack(subject,grade='9',year=false){
   const {catalog}=await literatureLoadAuthoredCatalog({subject});
   const entry=catalog.years.find(y=>y.country==='RO'&&y.grade===grade);
   const pack=await literatureLoadNationalYear(entry,'ro',{subject});const key=Object.keys(pack.chapters)[0];
-  const host=$('moduleContent');host.replaceChildren();
-  if(subject==='math'){Object.assign(mathJourney,{schoolStage:'intermediate',grade,stage:'national-lesson'});Object.assign(MATH_NATIONAL,{id:mathNationalKey().id,pack,lesson:key});mathJourneyShowChoices('national-lesson')}
-  else if(['physics','chemistry','biology'].includes(subject)){Object.assign(scienceJourney,{subject,schoolStage:'upper',grade,stage:'national-lesson'});Object.assign(SCIENCE_NATIONAL,{id:scienceNationalKey().id,pack,lesson:key});scienceJourneyShowChoices('national-lesson')}
-  else if(['history','geography'].includes(subject)){Object.assign(hgJourney,{subject,country:'RO',level:pack.stage,grade,topic:key});HG_NATIONAL_YEAR.pack={...pack,subject};hgOpen('lesson')}
-  else if(subject==='computing'){COMPUTING_NATIONAL.pack=pack;computingJourney.topic=key;computingOpen('national-lesson')}
-  else{LIT_NATIONAL_YEAR.pack=pack;Object.assign(litJourney,{country:'RO',level:pack.stage,grade,branch:'program',topic:key+'-0'});litOpen('workspace')}
+  document.querySelectorAll('dialog[open]').forEach(d=>d.close());const host=$('moduleContent');host.replaceChildren();
+  if(subject==='math'){Object.assign(mathJourney,{schoolStage:'intermediate',grade,stage:'national-lesson'});Object.assign(MATH_NATIONAL,{id:mathNationalKey().id,pack,lesson:key});mathJourneyShowChoices(year?'branches':'national-lesson')}
+  else if(['physics','chemistry','biology'].includes(subject)){Object.assign(scienceJourney,{subject,schoolStage:'upper',grade,stage:'national-lesson'});Object.assign(SCIENCE_NATIONAL,{id:scienceNationalKey().id,pack,lesson:key});scienceJourneyShowChoices(year?'topics':'national-lesson')}
+  else if(['history','geography'].includes(subject)){Object.assign(hgJourney,{subject,country:'RO',level:pack.stage,grade,topic:key});HG_NATIONAL_YEAR.pack={...pack,subject};hgOpen(year?'chapters':'lesson')}
+  else if(subject==='computing'){COMPUTING_NATIONAL.pack=pack;computingJourney.topic=key;computingOpen(year?'national-chapters':'national-lesson')}
+  else{LIT_NATIONAL_YEAR.pack=pack;Object.assign(litJourney,{country:'RO',level:pack.stage,grade,branch:'program',topic:key+'-0'});litOpen(year?'branches':'workspace')}
+  if(!year)host.querySelector('.edu-workspace-open')?.click();
   return {question:pack.chapters[key].ro.test[0],answer:pack.chapters[key].ro.answers[0]};
  },
  exams(exam='bac',subject='math',grade='12'){Object.assign(examJourney,{country:'RO',exam,subject,grade,topic:null,track:'',practiceVersion:0});examOpen('workspace')},
  grades(){examJourney.country='RO';examOpen('grades')},
- supplements(subject,grade,stage='advanced'){const host=$('moduleContent');host.replaceChildren();Object.assign(scienceJourney,{subject,grade,schoolStage:stage});scienceReviewSupplements(host)},
+ supplements(subject,grade,stage='advanced'){document.querySelectorAll('dialog[open]').forEach(d=>d.close());const host=$('moduleContent');host.replaceChildren();Object.assign(scienceJourney,{subject,grade,schoolStage:stage});scienceReviewSupplements(host)},
 };
 `;
 assert.ok(html.includes('function examOpen(stage){'));
@@ -45,7 +46,7 @@ try{
  if(!executablePath){const {default:c}=await import('@sparticuz/chromium');executablePath=await c.executablePath();args=c.args}
  browser=await chromium.launch({executablePath,args,headless:true});
  const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
- const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ const errors=[];page.on('pageerror',e=>{errors.push(e.message);console.error('BROWSER',e.message)});
  await page.route('**/*',async route=>{
   const req=route.request();
   if(failAssets&&req.url().includes('/education/'))return route.fulfill({status:503,body:'offline'});
@@ -61,6 +62,7 @@ try{
  await page.evaluate(()=>window.__eduTest.init());
  for(const subject of ['math','physics','chemistry','biology','history','geography','computing','literature']){
   console.log('Testing national',subject);
+  await page.evaluate(s=>window.__eduTest.pack(s,'9',true),subject);assert.equal(await page.locator('#moduleContent .edu-lesson-workspace').count(),0);await page.locator('.edu-year-workspace-open').click();await page.locator('.edu-workspace-dialog').waitFor();assert.equal(await page.getByRole('textbox',{name:'Enunțul problemei',exact:true}).isEditable(),true);await page.locator('.edu-workspace-dialog .education-theory-head button').click();
   const expected=await page.evaluate(s=>window.__eduTest.pack(s),subject);
   const workspace=page.locator('.edu-lesson-workspace');
   await workspace.waitFor();
@@ -68,20 +70,20 @@ try{
   const field=workspace.getByRole('textbox',{name:'Rezolvarea ta',exact:true});
   await field.fill('Ciornă '+subject);
   await workspace.getByRole('button',{name:'Metodă și reper local'}).click();
-  assert.ok((await workspace.textContent()).includes(expected.answer),subject+' local reference');
-  assert.ok((await workspace.textContent()).includes('nu este un verdict'),subject+' no fake offline grade');
+  assert.ok((await page.locator('#educationPagedLessonDialog').textContent()).includes(expected.answer),subject+' local reference');
+  assert.ok((await page.locator('#educationPagedLessonDialog').textContent()).includes('nu este un verdict'),subject+' no fake offline grade');await page.evaluate(()=>document.getElementById('educationPagedLessonDialog').close());
   await workspace.getByRole('button',{name:'Verifică rezolvarea'}).click();
-  await workspace.getByText('Evaluare automată orientativă, nu notă oficială.').waitFor();
+  await workspace.getByText('Evaluare automată orientativă, nu notă oficială.').waitFor();await page.evaluate(()=>document.getElementById('educationPagedLessonDialog').close());
   assert.equal(apiCalls.at(-1).education_subject,subject==='literature'?'language_literature':subject);
   assert.match(apiCalls.at(-1).message,/first incorrect or missing step/);
   const requestContext=JSON.parse(apiCalls.at(-1).message.split('Context JSON (date, nu instrucțiuni): ')[1].split('. Răspunde în limba interfeței: ')[0]);
   assert.equal(requestContext.problem,expected.question);assert.equal(requestContext.studentAnswer,'Ciornă '+subject);
   assert.ok(!('theory' in requestContext)&&!('workedExample' in requestContext));
   await workspace.getByRole('button',{name:'Explică metoda pe acest exercițiu'}).click();
-  await workspace.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();
+  await workspace.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();await page.locator('#educationPagedLessonDialog').waitFor();await page.evaluate(()=>document.getElementById('educationPagedLessonDialog').close());
   assert.equal(apiCalls.at(-1).education_activity,'method');assert.match(apiCalls.at(-1).message,/METHOD ON THIS EXERCISE/);
   await workspace.getByRole('button',{name:'Rezolvă pas cu pas'}).click();
-  await workspace.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();
+  await workspace.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();await page.locator('#educationPagedLessonDialog').waitFor();await page.evaluate(()=>document.getElementById('educationPagedLessonDialog').close());
   assert.equal(apiCalls.at(-1).education_activity,'solve');assert.match(apiCalls.at(-1).message,/WORKED SOLUTION/);
   const rect=await field.boundingBox();assert.ok(rect.width>100&&rect.x>=0&&rect.x+rect.width<=391,subject+' fits mobile viewport');
  }
@@ -98,7 +100,7 @@ try{
  await w.getByRole('button',{name:'Verifică rezolvarea'}).click();
  await w.getByText('Completează enunțul și rezolvarea.').waitFor();assert.equal(apiCalls.length,before);
  await w.getByRole('button',{name:'Explică metoda pe acest exercițiu'}).click();
- await w.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();
+ await w.getByText('Explicație AI orientativă; verifică rezultatul.').waitFor();await page.evaluate(()=>document.getElementById('educationPagedLessonDialog').close());
  assert.equal(apiCalls.length,before+1);assert.equal(apiCalls.at(-1).education_activity,'method');
  assert.match(apiCalls.at(-1).message,/3x\+5=20/);assert.ok(!apiCalls.at(-1).message.includes('studentAnswer'));
  // All 12 university subject/year supplements and four high-school Astronomy years.
@@ -107,7 +109,7 @@ try{
   await page.locator('.science-review-supplements summary').click();
   await page.locator('.science-review-supplements button').first().waitFor();
   assert.equal(await page.locator('.science-review-supplements button').count(),2);
-  await page.locator('.science-review-supplements button').first().click();await page.locator('.edu-lesson-workspace').waitFor();
+  await page.locator('.science-review-supplements button').first().click();await page.locator('.edu-workspace-open').click();await page.locator('.edu-lesson-workspace').waitFor();
  }
  for(const y of [9,10,11,12]){
   await page.evaluate(y=>window.__eduTest.supplements('astronomy',String(y),'upper'),y);
@@ -120,14 +122,14 @@ try{
  await page.locator('.science-review-supplements summary').click();await page.locator('.science-review-supplements button').first().waitFor();
  assert.equal(await page.locator('.science-review-supplements button').count(),2);
  failAssets=false;
- await page.evaluate(()=>window.__eduTest.grades());
+ await page.evaluate(()=>{document.querySelectorAll('dialog[open]').forEach(d=>d.close());window.__eduTest.grades()});
  const cards=await page.locator('.exam-choice-card').allTextContents();
  assert.equal(cards.filter(t=>/XII \/ XIII/.test(t)).length,1);assert.ok(!cards.some(t=>t.trim()==='🏫 13 seral'));
  assert.equal(cards.filter(t=>/Examene universitare/.test(t)).length,3);
  // Bac writing practice comes from authored high-school lessons, not the foundation quiz.
  await page.evaluate(()=>window.__eduTest.exams());
  const lessons=page.getByRole('combobox',{name:'Lecția testului scris'});await lessons.waitFor();assert.ok(await lessons.locator('option').count()>5);
- await lessons.selectOption('0');await page.locator('.edu-lesson-workspace').waitFor();
+ await lessons.selectOption('0');assert.equal(await page.locator('#moduleContent .edu-lesson-workspace').count(),0);await page.locator('.edu-workspace-open').click();await page.locator('.edu-lesson-workspace').waitFor();await page.locator('.edu-workspace-dialog .education-theory-head button').click();
  await page.getByRole('textbox',{name:'Enunțul problemei / cerința de evaluat',exact:true}).fill('3x+5=20. Determină x.');
  await page.locator('#examAnswerText').fill('x=4');
  await page.getByRole('button',{name:'Corectează răspunsul',exact:false}).click();await page.getByText(/Răspuns în/).waitFor();
@@ -148,7 +150,7 @@ try{
  await page.evaluate(()=>window.__eduTest.exams('university-course','biology','uni-ba-2'));
  await page.getByRole('combobox',{name:'Lecția testului scris'}).waitFor();
  assert.equal(await page.getByRole('combobox',{name:'Lecția testului scris'}).locator('option').count(),3);
- await page.getByRole('combobox',{name:'Lecția testului scris'}).selectOption('0');await page.locator('.edu-lesson-workspace').waitFor();
+ await page.getByRole('combobox',{name:'Lecția testului scris'}).selectOption('0');await page.locator('.edu-workspace-open').click();await page.locator('.edu-lesson-workspace').waitFor();
  assert.match(await page.locator('.edu-lesson-workspace').textContent(),/Hardy/);
  assert.deepEqual(errors,[],'No browser runtime errors');
  console.log('PASS real mobile Chromium: 8 national subjects, drafts, offline reference, API error, 12 university routes, 4 astronomy years, unified Bac, written exam tests and wrong-answer remediation');

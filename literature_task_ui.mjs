@@ -102,6 +102,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
    }
   }
   const shown=originalOpen(stage);
+  if(['branches','topics'].includes(stage)&&typeof $==='function'){const panel=$('moduleContent')?.querySelector?.('.lit-panel'),pack=typeof LIT_NATIONAL_YEAR==='object'?LIT_NATIONAL_YEAR.pack:null;if(panel&&pack&&typeof eduYearWorkspaceButton==='function'){const b=eduYearWorkspaceButton(panel,{pack,subject:'literature'});panel.querySelector('.lit-options')?.before(b)}}
   // Textbook units as headings between the lesson cards (full grid width).
   if(stage==='topics'&&litJourney.branch==='program'&&typeof $==='function'){
    const units=litProgram()?.units||[];

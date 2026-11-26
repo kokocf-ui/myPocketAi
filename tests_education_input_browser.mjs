@@ -13,7 +13,7 @@ window.__eduTest={
  outsideLearning(){state.currentModule='organize';const f=document.createElement('textarea');f.id='outsideLearning';document.body.append(f)},
  genericComputing(){const t=COMPUTING_TOPICS_DATA[0];Object.assign(computingJourney,{level:'beginner',grade:'5',path:t.path,topic:t.id});$('moduleContent').replaceChildren();computingWorkspace($('moduleContent'))},
  foreignPlacement(){languageJourney.language='en';languageFullPlacement()},
- genericMath(){Object.assign(mathJourney,{stage:'workspace',topic:'algebra',level:'intermediate',schoolStage:'upper',grade:'9',chapter:null});openLearningSubjectAfterCountry('math',true)},
+ genericMath(){document.querySelectorAll('dialog[open]').forEach(d=>d.close());Object.assign(mathJourney,{stage:'workspace',topic:'algebra',level:'intermediate',schoolStage:'upper',grade:'9',chapter:null});openLearningSubjectAfterCountry('math',true)},
  genericScience(subject){activeLearningSubject=LEARNING_SUBJECTS.find(x=>x[0]==='science');Object.assign(scienceJourney,{stage:'workspace',subject,level:'beginner',schoolStage:'lower',grade:'6',topic:subject==='physics'?'kinematics':'solutions'});$('moduleContent').replaceChildren();scienceOpenWorkspace()},
 
  init(){state.language='ro';educationCountrySelection.code='RO';educationCountrySelection.label='România';state.currentModule='learning';showView('module');pocketRevealMainApp();$('view-module').classList.add('learning-active')},
@@ -21,17 +21,18 @@ window.__eduTest={
   const {catalog}=await literatureLoadAuthoredCatalog({subject});
   const entry=catalog.years.find(y=>y.country==='RO'&&y.grade===grade);
   const pack=await literatureLoadNationalYear(entry,'ro',{subject});const key=Object.keys(pack.chapters)[0];
-  const host=$('moduleContent');host.replaceChildren();
+  document.querySelectorAll('dialog[open]').forEach(d=>d.close());const host=$('moduleContent');host.replaceChildren();
   if(subject==='math'){Object.assign(mathJourney,{schoolStage:'intermediate',grade,stage:'national-lesson'});Object.assign(MATH_NATIONAL,{id:mathNationalKey().id,pack,lesson:key});mathJourneyShowChoices('national-lesson')}
   else if(['physics','chemistry','biology'].includes(subject)){Object.assign(scienceJourney,{subject,schoolStage:'upper',grade,stage:'national-lesson'});Object.assign(SCIENCE_NATIONAL,{id:scienceNationalKey().id,pack,lesson:key});scienceJourneyShowChoices('national-lesson')}
   else if(['history','geography'].includes(subject)){Object.assign(hgJourney,{subject,country:'RO',level:pack.stage,grade,topic:key});HG_NATIONAL_YEAR.pack={...pack,subject};hgOpen('lesson')}
   else if(subject==='computing'){COMPUTING_NATIONAL.pack=pack;computingJourney.topic=key;computingOpen('national-lesson')}
   else{LIT_NATIONAL_YEAR.pack=pack;Object.assign(litJourney,{country:'RO',level:pack.stage,grade,branch:'program',topic:key+'-0'});litOpen('workspace')}
+  host.querySelector('.edu-workspace-open')?.click();
   return {question:pack.chapters[key].ro.test[0],answer:pack.chapters[key].ro.answers[0]};
  },
  exams(exam='bac',subject='math',grade='12'){Object.assign(examJourney,{country:'RO',exam,subject,grade,topic:null,track:'',practiceVersion:0});examOpen('workspace')},
  grades(){examJourney.country='RO';examOpen('grades')},
- supplements(subject,grade,stage='advanced'){const host=$('moduleContent');host.replaceChildren();Object.assign(scienceJourney,{subject,grade,schoolStage:stage});scienceReviewSupplements(host)},
+ supplements(subject,grade,stage='advanced'){document.querySelectorAll('dialog[open]').forEach(d=>d.close());const host=$('moduleContent');host.replaceChildren();Object.assign(scienceJourney,{subject,grade,schoolStage:stage});scienceReviewSupplements(host)},
 };
 `;
 assert.ok(html.includes('function examOpen(stage){'));

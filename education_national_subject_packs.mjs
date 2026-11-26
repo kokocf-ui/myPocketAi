@@ -40,6 +40,7 @@ function hgWithNationalYear(proceed,fallback){
 function hgRenderNationalChapters(panel){
  const pack=hgNationalPackActive();if(!pack)return false;
  const country=hgCountry?.();
+ if(typeof eduYearWorkspaceButton==='function')eduYearWorkspaceButton(panel,{pack,subject:pack.subject});
  const where=country?hgL(country.ro,country.en):(educationCountrySelection?.label||pack.country);
  const yearLabel=(document.querySelector?.('.hg-year-tile[aria-current="true"]')?.textContent)||
   (/^\d+$/.test(pack.grade)?hgL('Clasa a '+pack.grade+'-a','Grade '+pack.grade):

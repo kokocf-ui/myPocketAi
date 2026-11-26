@@ -1,14 +1,14 @@
 {
   "schema": "mypocket-language-resources/v1",
   "key": "en-GB",
-  "version": "e3a3c9fcf75a0680553e6737bdced24ccd895f944b65b80c0b1f4e1c6a5bc630",
+  "version": "545d433b40a4aba030ece581e6e90ec0204c3bd4116b2497f4fda2d3fc6b78a4",
   "language": "en",
   "variant": "GB",
   "sourceLanguage": "ro",
   "level": "A1",
   "locale": "en-GB",
-  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
-  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context. Expresiile suplimentare au transcriere IPA britanică largă; redarea US are accent american și poate diferi de aceste transcrieri. TTS este sinteză, nu înregistrare umană.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat. Engleză: 12 teme gramaticale, 6 situații de conversație; parcurgere explicită înainte/înapoi. Acoperire introductivă, nu certificare de nivel.",
   "provenance": [
     "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
     "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
@@ -121,6 +121,222 @@
       "glossLanguage": "ro",
       "category": "directions",
       "notation": "ipa"
+    },
+    {
+      "id": "phrase-0",
+      "term": "Hello.",
+      "phonetic": "/həˈləʊ/",
+      "gloss": "Salut.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-1",
+      "term": "Good morning.",
+      "phonetic": "/ɡʊd ˈmɔːnɪŋ/",
+      "gloss": "Bună dimineața.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-2",
+      "term": "My name is Ana.",
+      "phonetic": "/maɪ neɪm ɪz ˈænə/",
+      "gloss": "Mă numesc Ana.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-3",
+      "term": "Nice to meet you.",
+      "phonetic": "/naɪs tə miːt juː/",
+      "gloss": "Îmi pare bine să te cunosc.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-4",
+      "term": "Where is the station?",
+      "phonetic": "/weər ɪz ðə ˈsteɪʃən/",
+      "gloss": "Unde este gara?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-5",
+      "term": "Is this the right bus?",
+      "phonetic": "/ɪz ðɪs ðə raɪt bʌs/",
+      "gloss": "Acesta este autobuzul potrivit?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-6",
+      "term": "What time does it leave?",
+      "phonetic": "/wɒt taɪm dʌz ɪt liːv/",
+      "gloss": "La ce oră pleacă?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-7",
+      "term": "Can I pay by card?",
+      "phonetic": "/kən aɪ peɪ baɪ kɑːd/",
+      "gloss": "Pot plăti cu cardul?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-8",
+      "term": "A table for two, please.",
+      "phonetic": "/ə ˈteɪbəl fə tuː pliːz/",
+      "gloss": "O masă pentru două persoane, vă rog.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-9",
+      "term": "Could I have the menu, please?",
+      "phonetic": "/kʊd aɪ hæv ðə ˈmenjuː pliːz/",
+      "gloss": "Îmi puteți aduce meniul, vă rog?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-10",
+      "term": "I would like some water.",
+      "phonetic": "/aɪ wʊd laɪk səm ˈwɔːtə/",
+      "gloss": "Aș dori apă.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-11",
+      "term": "The bill, please.",
+      "phonetic": "/ðə bɪl pliːz/",
+      "gloss": "Nota, vă rog.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-12",
+      "term": "Please speak more slowly.",
+      "phonetic": "/pliːz spiːk mɔː ˈsləʊli/",
+      "gloss": "Vorbiți mai rar, vă rog.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-13",
+      "term": "Could you write it down?",
+      "phonetic": "/kʊd juː raɪt ɪt daʊn/",
+      "gloss": "Puteți scrie acest lucru?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-14",
+      "term": "What does this word mean?",
+      "phonetic": "/wɒt dʌz ðɪs wɜːd miːn/",
+      "gloss": "Ce înseamnă acest cuvânt?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-15",
+      "term": "I need help.",
+      "phonetic": "/aɪ niːd help/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-16",
+      "term": "How much is this?",
+      "phonetic": "/haʊ mʌtʃ ɪz ðɪs/",
+      "gloss": "Cât costă acest lucru?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-17",
+      "term": "Do you have a smaller size?",
+      "phonetic": "/duː juː hæv ə ˈsmɔːlə saɪz/",
+      "gloss": "Aveți o mărime mai mică?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-18",
+      "term": "I am just looking, thank you.",
+      "phonetic": "/aɪ əm dʒʌst ˈlʊkɪŋ θæŋk juː/",
+      "gloss": "Doar mă uit, mulțumesc.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-19",
+      "term": "May I have a receipt?",
+      "phonetic": "/meɪ aɪ hæv ə rɪˈsiːt/",
+      "gloss": "Pot primi un bon?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-20",
+      "term": "I study in the morning.",
+      "phonetic": "/aɪ ˈstʌdi ɪn ðə ˈmɔːnɪŋ/",
+      "gloss": "Studiez dimineața.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-21",
+      "term": "What do you do after school?",
+      "phonetic": "/wɒt duː juː duː ˈɑːftə skuːl/",
+      "gloss": "Ce faci după școală?",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-22",
+      "term": "I usually walk home.",
+      "phonetic": "/aɪ ˈjuːʒuəli wɔːk həʊm/",
+      "gloss": "De obicei merg pe jos acasă.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
+    },
+    {
+      "id": "phrase-23",
+      "term": "See you tomorrow.",
+      "phonetic": "/siː juː təˈmɒrəʊ/",
+      "gloss": "Ne vedem mâine.",
+      "glossLanguage": "ro",
+      "category": "phrase",
+      "notation": "ipa"
     }
   ],
   "lessons": [
@@ -201,15 +417,333 @@
         ],
         "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
       }
+    },
+    {
+      "id": "grammar-2",
+      "title": "have — present",
+      "explanation": "Have exprimă posesia. Folosește has la he/she/it, have la celelalte persoane. În întrebările cu does folosește have, nu has. Greșeală frecventă: Does she has? în loc de Does she have?",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I / you / we / they",
+          "form": "have"
+        },
+        {
+          "person": "he / she / it",
+          "form": "has"
+        },
+        {
+          "person": "question",
+          "form": "Does she have a book?"
+        },
+        {
+          "person": "negative",
+          "form": "She does not have a book."
+        }
+      ],
+      "task": {
+        "prompt": "He ___ a book.",
+        "answers": [
+          "has"
+        ],
+        "feedback": "He este persoana a III-a singular: has."
+      }
+    },
+    {
+      "id": "grammar-3",
+      "title": "do / does — questions",
+      "explanation": "La prezent simplu, o întrebare folosește do sau does + subiect + verb de bază. Does preia marca persoanei a III-a; nu mai pune -s la verb. Verbul be nu folosește do în acest model.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I / you / we / they",
+          "form": "Do you learn English?"
+        },
+        {
+          "person": "he / she / it",
+          "form": "Does he learn English?"
+        },
+        {
+          "person": "short answer",
+          "form": "Yes, he does."
+        },
+        {
+          "person": "short negative answer",
+          "form": "No, he does not."
+        }
+      ],
+      "task": {
+        "prompt": "___ she learn English?",
+        "answers": [
+          "Does",
+          "does"
+        ],
+        "feedback": "She cere does, iar learn rămâne forma de bază."
+      }
+    },
+    {
+      "id": "grammar-4",
+      "title": "do not / does not — negatives",
+      "explanation": "Negația prezentului simplu: do not / does not + verb de bază. Formele scurte sunt don’t și doesn’t. Greșeală: She doesn’t learns. Corect: She doesn’t learn.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I / you / we / they",
+          "form": "do not learn"
+        },
+        {
+          "person": "he / she / it",
+          "form": "does not learn"
+        },
+        {
+          "person": "contraction",
+          "form": "does not = doesn’t"
+        }
+      ],
+      "task": {
+        "prompt": "She does not ___ English.",
+        "answers": [
+          "learn"
+        ],
+        "feedback": "După does not folosește learn fără -s."
+      }
+    },
+    {
+      "id": "grammar-5",
+      "title": "be — past",
+      "explanation": "Trecutul lui be este was cu I/he/she/it și were cu you/we/they. Negația adaugă not; întrebarea inversează subiectul și verbul. Nu adăuga did înaintea lui was/were.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I / he / she / it",
+          "form": "was"
+        },
+        {
+          "person": "you / we / they",
+          "form": "were"
+        },
+        {
+          "person": "question",
+          "form": "Were they at home?"
+        },
+        {
+          "person": "negative",
+          "form": "They were not at home."
+        }
+      ],
+      "task": {
+        "prompt": "They ___ at home yesterday.",
+        "answers": [
+          "were"
+        ],
+        "feedback": "They se combină cu were."
+      }
+    },
+    {
+      "id": "grammar-6",
+      "title": "learn — past simple",
+      "explanation": "Verbele regulate primesc de obicei -ed în trecut. Learn are learned și, mai ales în engleza britanică, learnt. După did / did not revii la learn. Nu spune Did she learned?",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "affirmative",
+          "form": "She learned English."
+        },
+        {
+          "person": "negative",
+          "form": "She did not learn English."
+        },
+        {
+          "person": "question",
+          "form": "Did she learn English?"
+        }
+      ],
+      "task": {
+        "prompt": "Did he ___ English?",
+        "answers": [
+          "learn"
+        ],
+        "feedback": "Did marchează trecutul; learn rămâne forma de bază."
+      }
+    },
+    {
+      "id": "grammar-7",
+      "title": "be + -ing — present continuous",
+      "explanation": "Pentru o acțiune în desfășurare folosește am/is/are + verb cu -ing. Nu omite be: She learning este incomplet. Compară rutina She learns every day cu acțiunea She is learning now.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "I",
+          "form": "am learning"
+        },
+        {
+          "person": "he / she / it",
+          "form": "is learning"
+        },
+        {
+          "person": "you / we / they",
+          "form": "are learning"
+        },
+        {
+          "person": "question",
+          "form": "Are you learning?"
+        }
+      ],
+      "task": {
+        "prompt": "She ___ learning now.",
+        "answers": [
+          "is"
+        ],
+        "feedback": "She cere is; learning este deja în enunț."
+      }
+    },
+    {
+      "id": "grammar-8",
+      "title": "can — ability and requests",
+      "explanation": "Can exprimă capacitatea sau o cerere. După can urmează verbul de bază fără to. Nu adăuga -s: She can swim, nu She cans swims. Întrebarea începe cu Can.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "affirmative",
+          "form": "She can swim."
+        },
+        {
+          "person": "negative",
+          "form": "She cannot swim."
+        },
+        {
+          "person": "question",
+          "form": "Can she swim?"
+        },
+        {
+          "person": "request",
+          "form": "Can you help me?"
+        }
+      ],
+      "task": {
+        "prompt": "She can ___ . (swim / swims)",
+        "answers": [
+          "swim"
+        ],
+        "feedback": "După can se folosește swim, fără -s și fără to."
+      }
+    },
+    {
+      "id": "grammar-9",
+      "title": "a / an / the — articles",
+      "explanation": "A/an introduc un substantiv singular numărabil nespecific. Alegerea se face după sunet: a book, an apple, an hour. The identifică un lucru deja cunoscut. Nu spune a water când te referi la apă ca substanță.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "consonant sound",
+          "form": "a book"
+        },
+        {
+          "person": "vowel sound",
+          "form": "an apple"
+        },
+        {
+          "person": "silent h",
+          "form": "an hour"
+        },
+        {
+          "person": "known object",
+          "form": "the book on the table"
+        }
+      ],
+      "task": {
+        "prompt": "I have ___ apple.",
+        "answers": [
+          "an"
+        ],
+        "feedback": "Apple începe cu sunet vocalic: an apple."
+      }
+    },
+    {
+      "id": "grammar-10",
+      "title": "there is / there are",
+      "explanation": "There is introduce un lucru singular sau nenumărabil; there are introduce pluralul. Nu confunda there cu their (lor). La întrebare inversează: Is there...? / Are there...?",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "singular",
+          "form": "There is a book."
+        },
+        {
+          "person": "plural",
+          "form": "There are two books."
+        },
+        {
+          "person": "question",
+          "form": "Are there two books?"
+        },
+        {
+          "person": "negative",
+          "form": "There is not a book."
+        }
+      ],
+      "task": {
+        "prompt": "There ___ two books.",
+        "answers": [
+          "are"
+        ],
+        "feedback": "Two books este plural: there are."
+      }
+    },
+    {
+      "id": "grammar-11",
+      "title": "some / any",
+      "explanation": "La nivel introductiv, some apare des în afirmații, any în întrebări neutre și negații. Ofertele/cererile politicoase pot folosi some: Would you like some water? Nu este o regulă fără excepții.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "affirmative",
+          "form": "I have some water."
+        },
+        {
+          "person": "question",
+          "form": "Do you have any water?"
+        },
+        {
+          "person": "negative",
+          "form": "I do not have any water."
+        },
+        {
+          "person": "offer",
+          "form": "Would you like some water?"
+        }
+      ],
+      "task": {
+        "prompt": "I do not have ___ water.",
+        "answers": [
+          "any"
+        ],
+        "feedback": "Negația neutră folosește any."
+      }
     }
   ],
   "guide": [
+    {
+      "id": "greeting",
+      "title": "Salut și prezentare",
+      "note": "Citește pe rând, ascultă și apoi încearcă să reconstruiești expresia fără model.",
+      "entryIds": [
+        "phrase-0",
+        "phrase-1",
+        "phrase-2",
+        "phrase-3"
+      ]
+    },
     {
       "id": "directions",
       "title": "Bilete și transport",
       "note": "",
       "entryIds": [
-        "travel"
+        "travel",
+        "phrase-4",
+        "phrase-5",
+        "phrase-6",
+        "phrase-7"
       ]
     },
     {
@@ -217,7 +751,22 @@
       "title": "La masă",
       "note": "",
       "entryIds": [
-        "entry-10"
+        "entry-10",
+        "phrase-8",
+        "phrase-9",
+        "phrase-10",
+        "phrase-11"
+      ]
+    },
+    {
+      "id": "shopping",
+      "title": "La cumpărături",
+      "note": "Citește pe rând, ascultă și apoi încearcă să reconstruiești expresia fără model.",
+      "entryIds": [
+        "phrase-16",
+        "phrase-17",
+        "phrase-18",
+        "phrase-19"
       ]
     },
     {
@@ -226,7 +775,22 @@
       "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
       "entryIds": [
         "entry-11",
-        "entry-12"
+        "entry-12",
+        "phrase-12",
+        "phrase-13",
+        "phrase-14",
+        "phrase-15"
+      ]
+    },
+    {
+      "id": "routine",
+      "title": "Rutina și planificarea zilei",
+      "note": "Citește pe rând, ascultă și apoi încearcă să reconstruiești expresia fără model.",
+      "entryIds": [
+        "phrase-20",
+        "phrase-21",
+        "phrase-22",
+        "phrase-23"
       ]
     }
   ]
