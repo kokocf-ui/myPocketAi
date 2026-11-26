@@ -7,6 +7,40 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**COMPARAȚIE SERVICII/COSTURI DE (2026-11-26, după 4be7e8f):**
+User aprobă comparația găzduire proprie vs comercială, NU achiziție/activare.
+Raport nou `GERMANY_PROVIDER_COMPARISON_2026-11-26.md`: surse oficiale, scenarii
+cost și email englezesc pregătit către triptix, NETRIMIS. Nu a fost modificat
+codul produsului/configurația, nu teste API/live/deploy/workflow/Oracle/APK/merge.
+Livrat v185+APK501884 neschimbat, DE OFF. Niciun cont/card/cheie/contract creat.
+triptix: hosting MOTIS/consultanță confirmate în declarația fondatorului
+https://github.com/public-transport/transitous/pull/2606#discussion_r4415897799
+(2026-10-29); spune filtrează NC sau obține acorduri. Contact confirmat oficial
+https://triptix.tech/legal/imprint/ felix@triptix.tech. Nu deduce acoperire DE,
+APIv6 sau licență pentru myPocketAI. Pricing/docs au eșuat la fetch; PREȚNECUNOSCUT.
+Cifra1000€/lună din alt comentariu e infrastructura comunitară, NU oferta DE!
+HERE public pricing citit3chunks: Public Transit5000free/lună apoi2.33€/1000
+în5001–200000; 1.87€/1000 la200001–1M; estimări supuse acordului. O cerere=o
+tranzacție PT; Intermodal/RoutingBus au alt sens/preț. Scenarii2calls/search:
+5000căutări=10000requests→11.65€,10000→34.95€,50000→221.35€, fărăalteAPI/taxe.
+HERE nou candidat, NU implementat/compatibil MOTIS. Necesită adaptor separat,
+identificare/reject scheduled-vs-estimated (documentează realtime/timetable/
+estimated!), copii integrale sections[].attributions (UI700charNUgarantează).
+BasePlan are excluderi AssetManagement/UBI/Optimization+AppID rules; trebuie
+clarificat cazul aplicației GPS, nu declara automat eligibil sau interzis.
+Coverage-transit e tabel paginat, citite doar primele rânduri; DE indicat în
+recent-changes-transit, NU acoperire integrală verificată. Nicio probă ruteHERE.
+Prețuri hardware NBG1 citite Hetzner regular-performance: CPX42 8sharedvCPU/
+16GB/320GB=69.99€net/lună, CPX62 16shared/32GB/640GB=130.49€net. Sunt referințe,
+NU sizing validat/totalTCO/garanție stoc (pagina include unavailable). Nu cita
+prețul fromHEL1 ca prețGermania. Trebuie benchmark import/RAM/disc/refresh etc.
+Navitia pricing a redirecționat Hove fără tarifDE verificabil; NU99€dinagregator.
+Recomandare: ofertă triptix + clarificări HERE înainte de server/plată. User
+încă NU a ales furnizor/buget/trimis oferta; continuă de aici fără alte scaffolduri
+sau deploy automat. SecretDigitransitNUsefoloseșteDE. Aritmetica verificată offline,
+raport/docs only; nu afirma teste software noi în această etapă.
+
+
 **ETAPĂ GERMANIA / PREGĂTIRE, NU LIVE (2026-11-26, după afc0153):**
 User a aprobat continuarea cu DE, fără publicări până la explicarea accesului.
 Am verificat politica oficială Transitous: comercial INTERZIS; nu ocoli prin

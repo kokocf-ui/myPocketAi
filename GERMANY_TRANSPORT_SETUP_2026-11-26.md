@@ -1,5 +1,11 @@
 # Germania — adaptor pregătit, serviciu încă neconectat
 
+> **Comparație ulterioară pregătită:** `GERMANY_PROVIDER_COMPARISON_2026-11-26.md`
+> include triptix (ofertă necesară), HERE Public Transit (alt protocol/adaptor,
+> tarife publice și condiții de clarificat), referințe de cost pentru hardware și
+> un email netrimis. Nu este ales/contractat/activat niciun serviciu; DE rămâne OFF.
+
+
 ## Starea exactă
 
 **Nu am conectat Germania live.** Am implementat și integrat în Worker un adaptor
