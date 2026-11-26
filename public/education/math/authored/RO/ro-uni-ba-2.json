@@ -3,7 +3,7 @@
  "country": "RO",
  "stage": "advanced",
  "grade": "uni-ba-2",
- "version": "f1d4a9cc06fb43d5e5a9614f84f779fbb17f1ad347536cfbdfaf28f5f2839f4a",
+ "version": "0e8abbf280f61bfbf67081b3a0a0e9fe90bb8284b407592597291e3da0c0ebf9",
  "source": "https://www.aracis.ro/standarde-specifice/",
  "sourceTitle": "Sinteză orientativă a disciplinelor fundamentale comune programelor de licență Matematică din România (domeniul de licență Matematică, 180 ECTS), conform standardelor specifice ARACIS și planurilor de învățământ publicate de Universitatea din București (fmi.unibuc.ro), Universitatea Babeș-Bolyai (math.ubbcluj.ro) și Universitatea „Alexandru Ioan Cuza” din Iași (math.uaic.ro) — anul II: calcul integral în ℝⁿ, ecuații diferențiale, algebră (inele de polinoame, extinderi de corpuri, corpuri finite, Sylow), geometrie diferențială, probabilități, analiză numerică; fiecare facultate are planul propriu, iar ordinea și denumirile cursurilor pot diferi; lecții originale, fără text copiat din cursuri sau manuale",
  "status": "partial-original-material-independent-review-pending",
@@ -27,55 +27,57 @@
     "eu-year-ro-advanced-uni-ba-2-l02",
     "eu-year-ro-advanced-uni-ba-2-l03",
     "eu-year-ro-advanced-uni-ba-2-l04",
-    "eu-year-ro-advanced-uni-ba-2-l05"
+    "eu-year-ro-advanced-uni-ba-2-l05",
+    "eu-year-ro-advanced-uni-ba-2-l06"
    ]
   },
   {
    "title": "Ecuații diferențiale",
    "keys": [
-    "eu-year-ro-advanced-uni-ba-2-l06",
     "eu-year-ro-advanced-uni-ba-2-l07",
     "eu-year-ro-advanced-uni-ba-2-l08",
     "eu-year-ro-advanced-uni-ba-2-l09",
     "eu-year-ro-advanced-uni-ba-2-l10",
     "eu-year-ro-advanced-uni-ba-2-l11",
-    "eu-year-ro-advanced-uni-ba-2-l12"
+    "eu-year-ro-advanced-uni-ba-2-l12",
+    "eu-year-ro-advanced-uni-ba-2-l13",
+    "eu-year-ro-advanced-uni-ba-2-l14"
    ]
   },
   {
    "title": "Algebră II",
    "keys": [
-    "eu-year-ro-advanced-uni-ba-2-l13",
-    "eu-year-ro-advanced-uni-ba-2-l14",
-    "eu-year-ro-advanced-uni-ba-2-l15"
+    "eu-year-ro-advanced-uni-ba-2-l15",
+    "eu-year-ro-advanced-uni-ba-2-l16",
+    "eu-year-ro-advanced-uni-ba-2-l17"
    ]
   },
   {
    "title": "Geometrie diferențială",
    "keys": [
-    "eu-year-ro-advanced-uni-ba-2-l16",
-    "eu-year-ro-advanced-uni-ba-2-l17",
     "eu-year-ro-advanced-uni-ba-2-l18",
-    "eu-year-ro-advanced-uni-ba-2-l19"
+    "eu-year-ro-advanced-uni-ba-2-l19",
+    "eu-year-ro-advanced-uni-ba-2-l20",
+    "eu-year-ro-advanced-uni-ba-2-l21"
    ]
   },
   {
    "title": "Probabilități",
    "keys": [
-    "eu-year-ro-advanced-uni-ba-2-l20",
-    "eu-year-ro-advanced-uni-ba-2-l21",
     "eu-year-ro-advanced-uni-ba-2-l22",
     "eu-year-ro-advanced-uni-ba-2-l23",
-    "eu-year-ro-advanced-uni-ba-2-l24"
+    "eu-year-ro-advanced-uni-ba-2-l24",
+    "eu-year-ro-advanced-uni-ba-2-l25",
+    "eu-year-ro-advanced-uni-ba-2-l26"
    ]
   },
   {
    "title": "Analiză numerică",
    "keys": [
-    "eu-year-ro-advanced-uni-ba-2-l25",
-    "eu-year-ro-advanced-uni-ba-2-l26",
     "eu-year-ro-advanced-uni-ba-2-l27",
-    "eu-year-ro-advanced-uni-ba-2-l28"
+    "eu-year-ro-advanced-uni-ba-2-l28",
+    "eu-year-ro-advanced-uni-ba-2-l29",
+    "eu-year-ro-advanced-uni-ba-2-l30"
    ]
   }
  ],
@@ -222,7 +224,42 @@
   },
   "eu-year-ro-advanced-uni-ba-2-l05": {
    "ro": {
-    "title": "Integrale de suprafață; formulele Green, Stokes, Gauss–Ostrogradski",
+    "title": "Integrale de suprafață de speța I și a II-a; fluxul unui câmp",
+    "theory": "Pentru o suprafață parametrizată r(u, v), integrala de speța I este ∬_S f dσ = ∬_D f(r(u, v))‖r_u × r_v‖dudv (de exemplu masa unei plăci curbe). Integrala de speța a II-a (fluxul câmpului F prin suprafața orientată cu normala n) este ∬_S F·n dσ = ∬_D F(r(u, v))·(r_u × r_v)dudv; schimbarea orientării schimbă semnul. Fluxul măsoară „cât fluid” trece prin suprafață în unitatea de timp.",
+    "sample": "Aria unei suprafețe este integrala de speța I a funcției constante 1.",
+    "worked": "Fluxul câmpului F = (0, 0, z) prin emisfera superioară x² + y² + z² = 1, z ≥ 0, orientată în afară: pe sferă n = (x, y, z), F·n = z². În coordonate sferice dσ = sin φ dφdθ, z = cos φ: ∫₀^(2π)∫₀^(π/2) cos²φ sin φ dφdθ = 2π·1/3 = 2π/3.",
+    "exercises": [
+     "Calculează aria porțiunii din planul x + y + z = 1 aflate în primul octant.",
+     "Calculează ∬_S z dσ pe emisfera superioară de rază 1.",
+     "Calculează fluxul câmpului (x, y, z) prin sfera de rază R, direct, fără Gauss–Ostrogradski.",
+     "Calculează fluxul câmpului (0, 0, 1) prin discul x² + y² ≤ 1, z = 0, orientat în sus.",
+     "Explică de ce fluxul depinde de orientarea suprafeței."
+    ],
+    "test": [
+     "Elementul dσ pentru r(u, v)?",
+     "Ce măsoară fluxul?",
+     "Ce se întâmplă la schimbarea orientării?",
+     "∬_S 1 dσ = ?",
+     "Normala exterioară a sferei unitate în (x, y, z)?"
+    ],
+    "steps": [
+     "Parametrizează suprafața și calculează r_u × r_v.",
+     "Pentru speța I folosește norma produsului vectorial; pentru flux, produsul scalar F·(r_u × r_v) cu orientarea corectă.",
+     "Integrează pe domeniul parametrilor și verifică semnul în funcție de orientare.",
+     "Greșeala frecventă: să folosești o normală orientată invers față de cea cerută, obținând fluxul cu semn schimbat."
+    ],
+    "answers": [
+     "‖r_u × r_v‖dudv",
+     "Cantitatea de câmp care traversează suprafața",
+     "Fluxul își schimbă semnul",
+     "Aria suprafeței",
+     "(x, y, z)"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l06": {
+   "ro": {
+    "title": "Formulele Green, Stokes și Gauss–Ostrogradski",
     "theory": "Formula lui Green leagă integrala curbilinie pe frontiera unui domeniu plan de o integrală dublă: ∮ P dx + Q dy = ∬ (Qₓ − P_y)dxdy. Formula lui Stokes generalizează la suprafețe: circulația unui câmp pe frontieră = fluxul rotorului prin suprafață. Formula Gauss–Ostrogradski: fluxul unui câmp prin suprafața închisă = ∭ div F dV. Ele transformă calcule pe frontieră în calcule în interior și invers.",
     "sample": "Cu Green, aria unui domeniu este (1/2)∮ x dy − y dx.",
     "worked": "Aria elipsei x = a cos t, y = b sin t: (1/2)∫₀^(2π)(ab cos²t + ab sin²t)dt = πab. Fluxul câmpului F = (x, y, z) prin sfera de rază R: div F = 3, deci fluxul = 3·(4πR³/3) = 4πR³.",
@@ -255,7 +292,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l06": {
+  "eu-year-ro-advanced-uni-ba-2-l07": {
    "ro": {
     "title": "Ecuații diferențiale de ordinul I: cu variabile separabile",
     "theory": "O ecuație diferențială leagă o funcție necunoscută y(x) de derivatele ei. Ecuația y′ = f(x)g(y) are variabilele separabile: scriem dy/g(y) = f(x)dx și integrăm ambii membri (atenție la soluțiile staționare g(y) = 0). Soluția generală conține o constantă; problema Cauchy (condiția inițială y(x₀) = y₀) fixează constanta.",
@@ -290,7 +327,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l07": {
+  "eu-year-ro-advanced-uni-ba-2-l08": {
    "ro": {
     "title": "Ecuații liniare de ordinul I; ecuația Bernoulli",
     "theory": "Ecuația liniară y′ + p(x)y = q(x) se rezolvă: soluția omogenei y₀ = Ce^(−∫p) și apoi variația constantei (C devine C(x)) sau cu factorul integrant μ = e^(∫p): (μy)′ = μq. Ecuația Bernoulli y′ + p y = q yᵅ (α ≠ 0, 1) devine liniară prin substituția z = y^(1 − α).",
@@ -325,7 +362,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l08": {
+  "eu-year-ro-advanced-uni-ba-2-l09": {
    "ro": {
     "title": "Ecuații exacte; factor integrant",
     "theory": "Ecuația P(x, y)dx + Q(x, y)dy = 0 este exactă dacă P_y = Qₓ; atunci există F cu Fₓ = P, F_y = Q, iar soluțiile sunt curbele F(x, y) = C. Dacă ecuația nu este exactă, uneori găsim un factor integrant μ(x) sau μ(y) care o face exactă: de exemplu, dacă (P_y − Qₓ)/Q depinde doar de x, atunci μ(x) = e^(∫(P_y − Qₓ)/Q dx).",
@@ -360,7 +397,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l09": {
+  "eu-year-ro-advanced-uni-ba-2-l10": {
    "ro": {
     "title": "Teorema de existență și unicitate (Cauchy–Lipschitz); metoda aproximațiilor succesive",
     "theory": "Pentru problema Cauchy y′ = f(x, y), y(x₀) = y₀: dacă f este continuă și lipschitziană în y într-o vecinătate (de exemplu ∂f/∂y continuă), atunci există o soluție unică pe un interval în jurul lui x₀. Demonstrația folosește aproximațiile succesive Picard: y₀(x) = y₀, yₙ₊₁(x) = y₀ + ∫ₓ₀ˣ f(t, yₙ(t))dt, care converg uniform la soluție. Fără condiția Lipschitz unicitatea poate lipsi.",
@@ -395,7 +432,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l10": {
+  "eu-year-ro-advanced-uni-ba-2-l11": {
    "ro": {
     "title": "Ecuații liniare de ordin n cu coeficienți constanți: cazul omogen",
     "theory": "Pentru y⁽ⁿ⁾ + a₁y⁽ⁿ⁻¹⁾ + … + aₙy = 0 căutăm soluții e^(rx) și obținem ecuația caracteristică rⁿ + a₁rⁿ⁻¹ + … + aₙ = 0. Rădăcină reală simplă r: e^(rx); multiplă de ordin k: e^(rx), xe^(rx), …, x^(k−1)e^(rx); rădăcini complexe α ± iβ: e^(αx)cos βx, e^(αx)sin βx. Soluția generală este combinația liniară a celor n soluții fundamentale.",
@@ -430,7 +467,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l11": {
+  "eu-year-ro-advanced-uni-ba-2-l12": {
    "ro": {
     "title": "Ecuații liniare neomogene; metoda coeficienților nedeterminați și variația constantelor",
     "theory": "Soluția generală a ecuației neomogene = soluția generală a omogenei + o soluție particulară. Pentru membrul drept de forma Pₘ(x)e^(ax) (sau cu sin, cos) căutăm soluția particulară de aceeași formă, cu coeficienți necunoscuți, înmulțită cu xᵏ dacă a este rădăcină de multiplicitate k a ecuației caracteristice (rezonanță). Metoda generală este variația constantelor (Lagrange).",
@@ -465,7 +502,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l12": {
+  "eu-year-ro-advanced-uni-ba-2-l13": {
    "ro": {
     "title": "Sisteme de ecuații diferențiale liniare cu coeficienți constanți",
     "theory": "Sistemul X′ = AX (A matrice constantă n × n) are soluția X(t) = e^(tA)X(0), unde e^(tA) = Σ tᵏAᵏ/k!. Dacă A este diagonalizabilă cu valorile proprii λᵢ și vectorii proprii vᵢ, soluția generală este Σ Cᵢe^(λᵢt)vᵢ. Valorile proprii decid comportamentul: toate cu parte reală negativă ⇒ soluțiile tind la 0 (echilibru stabil).",
@@ -500,7 +537,42 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l13": {
+  "eu-year-ro-advanced-uni-ba-2-l14": {
+   "ro": {
+    "title": "Stabilitatea soluțiilor; planul fazelor pentru sisteme autonome",
+    "theory": "Un sistem autonom X′ = F(X) are puncte de echilibru unde F(X) = 0. Echilibrul este stabil dacă soluțiile care pornesc aproape rămân aproape, și asimptotic stabil dacă, în plus, tind la el. Liniarizăm în jurul echilibrului cu matricea iacobiană J: dacă toate valorile proprii au partea reală negativă, echilibrul este asimptotic stabil; dacă una are partea reală pozitivă, este instabil. În plan, după valorile proprii avem noduri, șei, focare (spirale) și centre.",
+    "sample": "Pentru x′ = −x, y′ = −2y, originea este un nod asimptotic stabil: toate traiectoriile tind spre ea.",
+    "worked": "Pendulul amortizat x′ = y, y′ = −sin x − 0,5y are echilibrele (kπ, 0). În (0, 0): J = (0 1 / −1 −0,5), λ² + 0,5λ + 1 = 0, λ = −0,25 ± i·0,968: focar stabil (pendulul oscilează și se oprește jos). În (π, 0): J = (0 1 / 1 −0,5), det J = −1 < 0: șa, instabil (pendulul răsturnat cade).",
+    "exercises": [
+     "Clasifică originea pentru x′ = 2x + y, y′ = x + 2y.",
+     "Clasifică originea pentru x′ = −y, y′ = x (centru).",
+     "Află echilibrele modelului x′ = x(1 − x) și studiază-le stabilitatea.",
+     "Liniarizează x′ = y, y′ = −x + x³ în (0, 0) și în (1, 0).",
+     "Desenează planul fazelor pentru x′ = x, y′ = −y."
+    ],
+    "test": [
+     "Ce este un punct de echilibru?",
+     "Când e echilibrul asimptotic stabil (liniarizare)?",
+     "det J < 0 în plan indică…?",
+     "Valori proprii complexe cu partea reală negativă dau…?",
+     "Valori proprii pur imaginare la sistemul liniar dau…?"
+    ],
+    "steps": [
+     "Află punctele de echilibru rezolvând F(X) = 0.",
+     "Calculează iacobiana în fiecare echilibru și valorile ei proprii.",
+     "Clasifică (nod, șa, focar, centru) și precizează stabilitatea; schițează traiectoriile.",
+     "Greșeala frecventă: să tragi concluzii despre un centru al sistemului neliniar doar din liniarizare; valorile proprii pur imaginare nu decid stabilitatea neliniară."
+    ],
+    "answers": [
+     "Un punct în care F(X) = 0",
+     "Când toate valorile proprii au partea reală negativă",
+     "O șa",
+     "Un focar stabil",
+     "Un centru"
+    ]
+   }
+  },
+  "eu-year-ro-advanced-uni-ba-2-l15": {
    "ro": {
     "title": "Inele de polinoame: divizibilitate, inele euclidiene și factoriale",
     "theory": "În K[X] (K corp) avem împărțire cu rest, deci este inel euclidian: orice ideal este principal, există cmmdc (algoritmul lui Euclid) și descompunere unică în factori ireductibili (inel factorial). ℤ este, de asemenea, euclidian. ℤ[X] este factorial, dar nu principal (idealul (2, X) nu este principal). Lema lui Gauss: un polinom primitiv din ℤ[X] ireductibil în ℚ[X] este ireductibil în ℤ[X]; criteriul lui Eisenstein dă polinoame ireductibile.",
@@ -535,7 +607,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l14": {
+  "eu-year-ro-advanced-uni-ba-2-l16": {
    "ro": {
     "title": "Extinderi de corpuri; elemente algebrice; gradul unei extinderi",
     "theory": "Dacă K ⊆ L sunt corpuri, L este un spațiu vectorial peste K; dimensiunea este gradul [L : K]. Un element α ∈ L este algebric peste K dacă este rădăcina unui polinom nenul din K[X]; polinomul minimal este cel monic, ireductibil, de grad minim. Atunci [K(α) : K] = gradul polinomului minimal. Formula turnului: [M : K] = [M : L]·[L : K].",
@@ -570,7 +642,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l15": {
+  "eu-year-ro-advanced-uni-ba-2-l17": {
    "ro": {
     "title": "Corpuri finite; teoremele lui Sylow (introducere)",
     "theory": "Orice corp finit are pⁿ elemente (p prim, caracteristica lui); pentru orice pⁿ există un corp unic (până la izomorfism) cu pⁿ elemente, construit ca ℤₚ[X]/(f), cu f ireductibil de grad n. Grupul multiplicativ al unui corp finit este ciclic. Teoremele lui Sylow: dacă |G| = pᵏm cu p ∤ m, există subgrupuri de ordin pᵏ (p-subgrupuri Sylow), toate conjugate, iar numărul lor nₚ divide m și nₚ ≡ 1 (mod p).",
@@ -605,7 +677,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l16": {
+  "eu-year-ro-advanced-uni-ba-2-l18": {
    "ro": {
     "title": "Curbe parametrizate; lungimea arcului; parametrizarea naturală",
     "theory": "O curbă parametrizată este o funcție r: I → ℝ³ derivabilă, regulată dacă r′(t) ≠ 0. Vectorul r′(t) este tangent la curbă. Lungimea arcului între t = a și t = b este ∫ₐᵇ ‖r′(t)‖dt. Parametrizarea prin lungimea arcului s (naturală) are ‖r′(s)‖ = 1 și simplifică formulele geometrice.",
@@ -640,7 +712,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l17": {
+  "eu-year-ro-advanced-uni-ba-2-l19": {
    "ro": {
     "title": "Curbura și torsiunea; reperul Frenet",
     "theory": "Pentru o curbă parametrizată natural, curbura κ = ‖r″(s)‖ măsoară cât de repede își schimbă direcția. Reperul Frenet: T (tangent), N (normala principală), B = T × N (binormala). Formulele Frenet: T′ = κN, N′ = −κT + τB, B′ = −τN, unde τ (torsiunea) măsoară ieșirea din plan. Pentru parametri arbitrari: κ = ‖r′ × r″‖/‖r′‖³, τ = (r′, r″, r‴)/‖r′ × r″‖².",
@@ -675,7 +747,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l18": {
+  "eu-year-ro-advanced-uni-ba-2-l20": {
    "ro": {
     "title": "Suprafețe; planul tangent; prima formă fundamentală",
     "theory": "O suprafață parametrizată r(u, v) este regulată dacă r_u × r_v ≠ 0; acest vector este normal la suprafață, iar planul tangent este generat de r_u și r_v. Prima formă fundamentală I = E du² + 2F dudv + G dv², cu E = r_u·r_u, F = r_u·r_v, G = r_v·r_v, permite calculul lungimilor curbelor de pe suprafață, al unghiurilor și al ariilor: dA = √(EG − F²) dudv.",
@@ -710,7 +782,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l19": {
+  "eu-year-ro-advanced-uni-ba-2-l21": {
    "ro": {
     "title": "A doua formă fundamentală; curbura Gauss și curbura medie",
     "theory": "A doua formă fundamentală II = L du² + 2M dudv + N dv² (L = r_uu·n, M = r_uv·n, N = r_vv·n, n normala unitară) descrie încovoierea suprafeței. Curburile principale k₁, k₂ sunt valorile extreme ale curburii normale. Curbura Gauss K = k₁k₂ = (LN − M²)/(EG − F²), curbura medie H = (k₁ + k₂)/2. K > 0: punct eliptic (ca pe sferă); K < 0: punct hiperbolic (șa); K = 0: parabolic (cilindru). Theorema egregium: K depinde doar de prima formă fundamentală.",
@@ -745,7 +817,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l20": {
+  "eu-year-ro-advanced-uni-ba-2-l22": {
    "ro": {
     "title": "Spațiu de probabilitate; probabilitate condiționată; formula lui Bayes",
     "theory": "Un spațiu de probabilitate (Ω, 𝓕, P) are mulțimea rezultatelor Ω, familia evenimentelor 𝓕 și probabilitatea P (aditivă numărabil, P(Ω) = 1). Probabilitatea condiționată P(A|B) = P(A ∩ B)/P(B). Formula probabilității totale: P(A) = Σ P(A|Bᵢ)P(Bᵢ) pentru o partiție (Bᵢ). Formula lui Bayes: P(Bⱼ|A) = P(A|Bⱼ)P(Bⱼ)/P(A). A și B sunt independente dacă P(A ∩ B) = P(A)P(B).",
@@ -780,7 +852,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l21": {
+  "eu-year-ro-advanced-uni-ba-2-l23": {
    "ro": {
     "title": "Variabile aleatoare discrete: binomială, geometrică, Poisson",
     "theory": "O variabilă aleatoare discretă X ia valori xₖ cu probabilitățile pₖ (Σpₖ = 1). Binomială B(n, p): numărul de succese din n încercări independente, P(X = k) = C(n, k)pᵏ(1 − p)ⁿ⁻ᵏ, medie np, dispersie np(1 − p). Geometrică: numărul încercării primului succes, P(X = k) = (1 − p)ᵏ⁻¹p, medie 1/p. Poisson(λ): P(X = k) = e^(−λ)λᵏ/k!, medie și dispersie λ; aproximează binomiala pentru n mare și p mic, cu λ = np.",
@@ -815,7 +887,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l22": {
+  "eu-year-ro-advanced-uni-ba-2-l24": {
    "ro": {
     "title": "Variabile aleatoare continue: uniformă, exponențială, normală",
     "theory": "O variabilă continuă are o densitate f ≥ 0 cu ∫f = 1; P(a ≤ X ≤ b) = ∫ₐᵇ f(x)dx, iar funcția de repartiție F(x) = P(X ≤ x). Uniformă pe [a, b]: f = 1/(b − a). Exponențială(λ): f = λe^(−λx), x ≥ 0, medie 1/λ, fără memorie. Normală N(μ, σ²): clopotul lui Gauss; standardizarea Z = (X − μ)/σ ∼ N(0, 1); aproximativ 68% din valori în μ ± σ, 95% în μ ± 2σ.",
@@ -850,7 +922,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l23": {
+  "eu-year-ro-advanced-uni-ba-2-l25": {
    "ro": {
     "title": "Medie, dispersie, covarianță, corelație",
     "theory": "Media E(X) = Σxₖpₖ (discret) sau ∫x f(x)dx (continuu) este liniară: E(aX + bY) = aE(X) + bE(Y). Dispersia Var(X) = E((X − EX)²) = E(X²) − (EX)². Covarianța Cov(X, Y) = E(XY) − EX·EY; coeficientul de corelație ρ = Cov/(σₓσᵧ) ∈ [−1, 1] măsoară legătura liniară. Pentru X, Y independente, Var(X + Y) = Var X + Var Y și Cov = 0 (reciproca nu este adevărată).",
@@ -885,7 +957,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l24": {
+  "eu-year-ro-advanced-uni-ba-2-l26": {
    "ro": {
     "title": "Legea numerelor mari și teorema limită centrală",
     "theory": "Pentru variabile independente identic repartizate X₁, X₂, …, cu media μ și dispersia σ², media aritmetică X̄ₙ tinde la μ (legea numerelor mari); inegalitatea lui Cebîșev: P(|X̄ₙ − μ| ≥ ε) ≤ σ²/(nε²). Teorema limită centrală: (X̄ₙ − μ)/(σ/√n) are, pentru n mare, aproximativ repartiția N(0, 1). De aceea normala apare peste tot și stă la baza estimărilor statistice.",
@@ -920,7 +992,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l25": {
+  "eu-year-ro-advanced-uni-ba-2-l27": {
    "ro": {
     "title": "Erori; rezolvarea numerică a ecuațiilor: bisecție, Newton",
     "theory": "Calculele numerice au erori de rotunjire și de trunchiere; eroarea absolută este |x − x̃|, iar cea relativă |x − x̃|/|x|. Metoda bisecției înjumătățește un interval [a, b] cu f(a)f(b) < 0; după n pași eroarea este ≤ (b − a)/2ⁿ. Metoda lui Newton xₙ₊₁ = xₙ − f(xₙ)/f′(xₙ) converge pătratic lângă o rădăcină simplă (numărul cifrelor exacte se dublează), dar cere o aproximare inițială bună.",
@@ -955,7 +1027,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l26": {
+  "eu-year-ro-advanced-uni-ba-2-l28": {
    "ro": {
     "title": "Interpolare polinomială: Lagrange și Newton",
     "theory": "Prin n + 1 puncte (xᵢ, yᵢ) cu abscise distincte trece un singur polinom de grad ≤ n. Forma Lagrange: P(x) = Σ yᵢ ℓᵢ(x), cu ℓᵢ(x) = Π_{j≠i}(x − xⱼ)/(xᵢ − xⱼ). Forma Newton folosește diferențe divizate și permite adăugarea ușoară a unui punct. Eroarea: f(x) − P(x) = f⁽ⁿ⁺¹⁾(ξ)/(n + 1)!·Π(x − xᵢ). Pentru multe noduri echidistante poate apărea fenomenul Runge (oscilații).",
@@ -990,7 +1062,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l27": {
+  "eu-year-ro-advanced-uni-ba-2-l29": {
    "ro": {
     "title": "Integrare numerică: formulele trapezelor și Simpson",
     "theory": "Când primitiva nu este cunoscută, aproximăm integrala. Formula trapezelor compusă cu n subintervale de lungime h: ∫ₐᵇ f ≈ h[f₀/2 + f₁ + … + fₙ₋₁ + fₙ/2], eroare de ordin h². Formula lui Simpson (n par): (h/3)[f₀ + 4f₁ + 2f₂ + 4f₃ + … + 4fₙ₋₁ + fₙ], eroare de ordin h⁴ — exactă pentru polinoame de grad ≤ 3.",
@@ -1025,7 +1097,7 @@
     ]
    }
   },
-  "eu-year-ro-advanced-uni-ba-2-l28": {
+  "eu-year-ro-advanced-uni-ba-2-l30": {
    "ro": {
     "title": "Metode numerice pentru sisteme liniare și pentru ecuații diferențiale",
     "theory": "Sistemele liniare mari se rezolvă prin eliminare Gauss cu pivotare (descompunere LU: A = LU) sau prin metode iterative (Jacobi, Gauss–Seidel), care converg de exemplu pentru matrice diagonal dominante. Pentru problema Cauchy y′ = f(x, y), metoda lui Euler yₙ₊₁ = yₙ + h f(xₙ, yₙ) are eroarea de ordin h; metodele Runge–Kutta (de ordin 4) sunt mult mai precise.",
