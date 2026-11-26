@@ -8111,6 +8111,8 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(avatarOverlay.classList.contains('visible')&&!pocketExitOpen){pocketInterruptAvatar();return}
+ const creatorLayer=[...document.querySelectorAll('.creator-business-overlay,.extra-creator-style-overlay,.extra-creator-overlay')].at(-1);if(creatorLayer){creatorLayer.remove();return}
  const funPopup=[...document.querySelectorAll('.extra-fun-modal')].at(-1);if(funPopup?.pocketDismiss){funPopup.pocketDismiss();return}
  const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
  if(topLayer?.matches?.('.comm-media-viewer,.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
@@ -24451,7 +24453,7 @@ window.addEventListener('message',event=>{
  }
 });
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
-function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
+function showAvatar({message='Salut! Sunt Eva, asistenta ta virtuală.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
 function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true;pocketRevealMainApp()}
 let pocketGreetingActive=false;
 function welcomeUser(){
@@ -25188,6 +25190,7 @@ setTimeout(()=>{if(pocketFirstEntrance&&!pocketGreetingActive){pocketRevealMainA
 .avatar-overlay .avatar-stage{pointer-events:auto!important;cursor:pointer}
 .avatar-overlay.exit-mode .avatar-stage{pointer-events:none!important}
 .avatar-overlay .avatar-close{z-index:10!important}
+#avatarOverlay:not(.exit-mode) #avatarClose{pointer-events:auto!important;display:grid!important;place-items:center!important;z-index:20!important;position:fixed!important;top:calc(12px + env(safe-area-inset-top))!important;right:15px!important;width:46px!important;height:46px!important}
 .avatar-overlay .avatar-stage #avatar3dFrame{left:10%!important;top:13%!important;right:auto!important;bottom:auto!important;width:80%!important;height:73%!important;pointer-events:none!important;background:transparent!important}
 
 

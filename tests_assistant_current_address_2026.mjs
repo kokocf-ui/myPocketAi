@@ -98,4 +98,4 @@ vm.runInContext(script.slice(start,end),ctx);
 for(const q of questions)assert.equal(ctx.requestUsesLocation(q),true,'Frontend must request fresh GPS: '+q);
 for(const q of ['Ce înseamnă adresa IP?', 'Cum funcționează GPS?', 'La ce temperatură fierbe apa?'])
  assert.equal(ctx.requestUsesLocation(q),false,'Non-location question: '+q);
-console.log('PASS self-address variants, GPS requirement, nearby candidate addresses, unconfirmed postcode and honest precision');
+console.log('PASS self-address variants, GPS requirement, nearby candidate addresses, hidden unconfirmed postcodes and honest precision');

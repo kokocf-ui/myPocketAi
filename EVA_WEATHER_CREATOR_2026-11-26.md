@@ -14,3 +14,21 @@ Cerere: utilizatorul autorizează explicit publicarea îmbunătățirilor server
 ## Creator / publicare / APK
 
 În lucru. Nu declara publicat sau livrat până la confirmarea workflow-urilor și versionCode>501883. Publicarea va fi manuală, din ramura curentă, fără merge și fără schimbarea schemei Oracle. Traducerea APK rămâne în afara scopului.
+
+## Creator: implementare
+
+- Sursă unică `creator_business_profiles.mjs`: 10 domenii separate, câte4grupuri de detalii. **Pensiune≠Hotel** (gazde/mese/spații comune vs recepție/servicii hoteliere/clasificare oficială); **Restaurant≠Cafenea≠Bar** (bucătărie/meniu/mese vs cafea/patiserie/pauze vs băuturi/acces/evenimente). Servicii/salon/magazin/portofoliu/altul au propriile câmpuri.
+- Editor separat, derulabil intern, cu Salvează/Anulează mereu accesibile, focus+Escape/AndroidBack. Drafturile sunt separate pe domeniu în sesiunea formularului; nu se transferă camere la cafenea. Nu se promit salvare durabilă sau restaurare după închiderea aplicației.
+- Datele structurale reale apar ca secțiuni distincte; câmpurile goale/necunoscute se omit. Fără stele, tarife, recenzii sau servicii inventate. Datele se escapează HTML. Linkuri mailto/tel numai din contactul furnizat. Controalele fără backend rămân solicitări, nu rezervări confirmate.
+- 12familii de compoziție păstrate, dar titluri proporționate pe telefon, mai puțin jargon decorativ, secțiuni practice și contact accesibil. Ilustrații proprii distincte pensiune/hotel/cafea/bar/restaurant, etichetate concept; fotografiile proprietarului au prioritate. Nicio ilustrație nu este prezentată drept fotografia afacerii.
+- Alegerea domeniului se reflectă în galeriile foto, preview-ul modelelor, HTML final și cerereaAI. ServiciulAIexistent primește kind distinct și detalii relevante în limitele sale; HTMLpăstrează textulintegralal câmpurilor. Nicio schimbare de cote/plăți/serviciu creator. Schimbarea datelor invalidează copyulvechi și rezultatulAIîntârziat nu se aplică altui domeniu. ProiectuleditabilpăstreazăbusinessDetails și câmpurile în fallbackservicii. StudioindependentNUeste redeployat înaceastăetapă; nus-aaprobat/publicatautomatniciunsiteclient.
+
+## Verificări
+
+- `tests_eva_identity_weather`, `tests_eva_weather_backend`, `tests_creator_business_profiles`: PASS, AI/providerisimulați. 10scheme/40câmpuri, siguranțăHTML, contact, galerii.
+- Browserbundleproducție360/393/430: toate10formularele/categorii/drafturi, secțiuni reale, fereastră400pxpentru tastatură, atingereavatar/×→stopnativsimulat/voiceModefalse/ascundere, fereastralocațiepăstrată PASS. Nu dovedește sunetul fizic.
+- CreatorPremium12compoziții/liveUI/management/traducere/previewservice/creationUI/v2 PASS. `tests_studio_portal_and_handoff`arefailvechi înassertimagine `FULL SCENE,FULL BODY`; motorulimagineșiaserțiunearespectivănuschimbateînaceastăetapă. Nu pretinde totsuiteStudioverde.
+- Preflightbackend: **57/57comenzi PASS**. Testliteraturetutoraveaasertvechi2800deși bugetul3200existadejape0f0d020; harnessulizolatnuinjectaeducationExerciseInstruction. Actualizatnumaitestul, nucurriculum/buget/lecții; rerunPASS.
+- Map/current-address/live-location/precisionactualizatecerințeipentrucodurineconfirmatePASS. Gatecomunextinspentruexpresiiledeauto-adresăexistenteînainteaexplicațiilorgenerale; clientnouNUtaieGPScererilorlegitime.
+- `npm run check`, bootsyntax, Wranglerv4.168backenddryrunPASS. Snapshotintermediar6980672B<8MB; cel final reverificat înainte de APK.
+- Publicarebackendmanualăautorizarăprininput`backend_only=true`, fărămainmerge/fărăfrontenddeploy. VersiuneaAPIv183; workflowincludepostdeployliveprobes cu scenariulsinteticCosti/meteoGrays/locație/conversație. Nu declarapublicareaînainteasuccesuluipașilor.

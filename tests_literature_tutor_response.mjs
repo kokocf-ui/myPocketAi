@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import vm from 'node:vm';
 import {readFileSync} from 'node:fs';
 import backend from './backend.js';
+import {educationExerciseInstruction} from './education_exercise_tutor.mjs';
 import {LITERATURE_TASK_UI_SCRIPT} from './literature_task_ui.mjs';
 import {litEssaySpec,litEssayWords,litEssayQuality} from './literature_essay_contract.mjs';
 
@@ -91,7 +92,7 @@ assert.equal(extendedSegment.data.essay_segment,11);
 assert.equal(extendedSegment.data.essay_pages,12);
 
 
-assert.equal(grammar.input.max_tokens,2800,'Ordinary lessons retain their normal budget');
+assert.equal(grammar.input.max_tokens,3200,'Ordinary lessons retain the existing 3200-token budget');
 const bad=await tutoring('Morfologie și sintaxă','lesson',
  'Nu am coordonate GPS utilizabile. Permite accesul la locație.');
 assert.equal(bad.res.status,503,'A GPS result must be rejected, never marked as a complete lesson');
@@ -114,6 +115,7 @@ const requests=[];
 let nextResponse={status:'success',education_subject:'language_literature',reply:'1. Exemplu de subiect. 2. Alt exemplu.'};
 const literature={stage:'workspace',branch:'grammar',topic:'grammar',country:'RO',grade:'8',level:'lower',track:'TC',region:'',language:'ro',busy:false};
 const cfg={
+ educationExerciseInstruction,
  document:{body:new El('body'),createElement:tag=>new El(tag)},
  window:{innerHeight:680,innerWidth:420},
  AbortController,

@@ -5,6 +5,12 @@ on:
     branches:
       - main
   workflow_dispatch:
+    inputs:
+      backend_only:
+        description: 'Explicitly authorized backend-only deployment from the selected branch (no frontend deploy or merge)'
+        type: boolean
+        required: true
+        default: false
 
 # Multiple pushes cannot interleave two frontend/backend deployments.
 concurrency:
@@ -211,7 +217,7 @@ jobs:
             -o /tmp/poi-media-result.json
           python3 -c 'import json; d=json.load(open("/tmp/poi-media-result.json")); assert isinstance(d.get("details"),dict) and isinstance(d.get("logos"),list); print("PASS live Android place details")'
   deploy-backend:
-    if: ${{ github.ref == 'refs/heads/main' }}
+    if: ${{ github.ref == 'refs/heads/main' || (github.event_name == 'workflow_dispatch' && inputs.backend_only == true) }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -225,11 +231,17 @@ jobs:
       - name: Install backend dependencies and pinned Wrangler
         run: |
           npm install --ignore-scripts --no-audit --no-fund
-          npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@3.90.0
+          npm install --no-save --ignore-scripts --no-audit --no-fund wrangler@4.168.0
 
       - name: Verify backend news-search routing before deploy
         run: |
           node --check backend.js
+          node tests_assistant_understanding.mjs
+          node tests_assistant_understanding_backend.mjs
+          node tests_eva_identity_weather.mjs
+          node tests_eva_weather_backend.mjs
+          node tests_assistant_current_address_2026.mjs
+          node tests_assistant_location_map.mjs
           node --check eva_ai_orchestrator.mjs
           node --check eva_creative_quality.mjs
           node tests_eva_creative_quality.mjs
@@ -319,3 +331,14 @@ jobs:
       - name: Verify deprecated Cloudflare communication route is closed
         run: |
           node --input-type=module -e "const r=await fetch('https://lifewise-ai-api.kokocf.workers.dev/api/communication',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'health'})});const d=await r.json();if(r.status!==410||d.error!=='communication_moved_to_oracle'){console.error('Unexpected legacy chat route',r.status,d);process.exit(1)}console.log('Cloudflare chat writes disabled; Oracle is the selected endpoint');"
+      - name: Verify user-authorized Eva, weather and location corrections LIVE
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        run: node scripts/smoke_eva_weather_release.mjs
+      - name: Save authorized live verification report
+        if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.backend_only == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: eva-weather-live-smoke
+          path: eva-weather-live-smoke.json
+          if-no-files-found: warn
+          retention-days: 7

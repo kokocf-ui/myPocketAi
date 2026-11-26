@@ -34,7 +34,7 @@ function extraCreatorAiSitePrompt(input){
 async function extraCreatorCallAiWebsite(input,signal){
  const response=await fetch('https://lifewise-ai-creator-preview.kokocf.workers.dev/site',
   {method:'POST',headers:{'Content-Type':'application/json','X-Pocket-Preview':'1'},
-  body:JSON.stringify({name:input.name,kind:input.kind,description:input.description,style:input.style,english:input.english,lang:input.lang}),signal});
+  body:JSON.stringify({name:input.name,kind:input.kind,description:(input.description.slice(0,650)+'\n'+extraCreatorBusinessFacts(input.kind,input.businessDetails||{}).map(x=>x.ro+': '+x.value.slice(0,180)).join('\n')).slice(0,1700),style:input.style,english:input.english,lang:input.lang}),signal});
  const data=await response.json().catch(()=>null);
  if(!response.ok||data?.status!=='success'||typeof data.reply!=='string')throw Error(data?.error||'ai_unavailable');
  const copy=extraCreatorParseAI(data.reply,input.lang);
@@ -90,13 +90,16 @@ function extraCreatorWorkingWebsite(work){
   const ctrl=new AbortController();work.controller=ctrl;const timeout=setTimeout(()=>ctrl.abort(),45000);
   create.disabled=true;create.textContent=extraToolsLocale('⏳ Eva redactează…','⏳ Eva is writing…');
   status.textContent=extraToolsLocale('Eva pregătește site-ul. Rezultatul va apărea în previzualizare.','Eva is preparing the site. It will appear in the preview.');
-  const style=f.getStyle();
+  const style=f.getStyle(),businessDetails=f.getBusinessDetails?.()||{};
+  const fingerprint=()=>JSON.stringify([f.name.value,f.type.value,f.desc.value,f.lang.value,f.contact.value,f.getStyle().id,f.getBusinessDetails?.()||{},f.getPreferences?.()||{}]);
+  const initialFingerprint=fingerprint();
   try{
-   const copy=await extraCreatorCallAiWebsite({name,description,kind,lang,style:style.ro+' '+f.extra.value},ctrl.signal);
+   const copy=await extraCreatorCallAiWebsite({name,description,kind,businessDetails,lang,style:style.ro+' '+f.extra.value},ctrl.signal);
    if(work!==extraToolsSession||!area.isConnected)return;
+   if(fingerprint()!==initialFingerprint){status.textContent=extraToolsLocale('Datele s-au schimbat între timp. Răspunsul vechi nu a fost aplicat; generează pentru datele actuale.','Details changed while generating. The old reply was not applied; generate for the current details.');return}
    work.siteAiCopy=copy;
    work.siteHtml=extraCreatorLocalHtml(name,f.type.options[f.type.selectedIndex]?.textContent||kind,description,style.ro+' '+f.extra.value,f.contact.value,lang,
-    {kind,styleId:style.id,descriptionEn:copy.en?.intro||'',photo:f.getPhoto(),gallery:f.getGallery?.()||[],aiCopy:copy,prefs:f.getPreferences?.()||{}});
+    {kind,businessDetails:f.getBusinessDetails?.()||{},styleId:style.id,descriptionEn:copy.en?.intro||'',photo:f.getPhoto(),gallery:f.getGallery?.()||[],aiCopy:copy,prefs:f.getPreferences?.()||{}});
    const frame=extraToolsEl('iframe','extra-creator-preview');frame.setAttribute('sandbox','');
    frame.srcdoc=work.siteHtml;frame.title=extraToolsLocale('Site generat de Eva','Website by Eva');
    f.preview.replaceChildren(frame);

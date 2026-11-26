@@ -23,7 +23,9 @@
     "test:chat-media": "node tests_communication_media.mjs",
     "test:communication-delivery:browser": "node tests_communication_delivery_browser.mjs",
     "test:editorial-assistant": "node tests_fun_editorial_content.mjs && node tests_assistant_understanding.mjs && node tests_assistant_understanding_backend.mjs",
-    "test:editorial-assistant:browser": "node tests_editorial_assistant_browser.mjs"
+    "test:editorial-assistant:browser": "node tests_editorial_assistant_browser.mjs",
+    "test:eva-weather-creator": "node tests_eva_identity_weather.mjs && node tests_eva_weather_backend.mjs && node tests_assistant_current_address_2026.mjs && node tests_creator_business_profiles.mjs",
+    "test:eva-weather-creator:browser": "node tests_eva_creator_mobile_browser.mjs"
   },
   "dependencies": {
     "teleproto": "1.232.1"
