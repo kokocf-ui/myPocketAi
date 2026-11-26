@@ -7,6 +7,28 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**CORECȚII LIVRATE: BACKENDv186 + APK501886 (2026-11-26):**
+User a aprobat publicarea pentru a retesta. Codecommit ee3f68fb6921f36a21892eb819001a376dd9e1c1.
+Deployworkflow45882292516/backendjob140124312964 SUCCESS; frontendjobSKIPPED.
+GEThttps://lifewise-ai-api.kokocf.workers.dev/ confirmă onlinev186 prinfetch_page.
+Offlinepredeploy+Eva/weather/locationlive+legacy410+FI/EEsmokePASS. AnnotationsAPI:
+Helsinkilocal3, HelsinkiTampere2, Tallinnlocal3, TallinnTartu3; FI→EEreject0, toatev186.
+Artifacts15147856888digitransit/15147467283evaweather; nu le confunda cu v185evidence.
+HERE_TRANSIT_ENABLED=false explicitremote via configdeploy; infrastructuraDOHERE
+(binding+migrare) acumpublicată INACTIVĂ. Secretuserpăstrat, fărăvaloarecitită/logată.
+ZEROcereriHERE deagent, max2total încăneconsumat; niciolivesearchzborGraysOradea.
+APK501886workflow45882296441/job140124325664 SUCCESS, aceeașisemnăturăvsreferință,
+version/snapshotchecksPASS, debugskipped, prereleaseNOTlatest:
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45882296441/myPocketAI-signed-education-test.apk
+Asset797350941/77652220bytes/SHA256dinGitHubmetadata:
+9c0ff03fbdc096f00c96eac6f1cd83a778490383cf74c4e236cf3b1b03957061.
+Nu pretinde inspecțiebinarălocală; cert/version verificateCI. Update fărădezinstalare.
+Raport `TRANSIT_V186_APK501886_DELIVERY_2026-11-26.json`. Corecțiile8a63fd7+sursăAPK
+sunt acumlivrate; PROBAFIZICĂdupăfix și ruta exactăGraysOradea încăNECONFIRMATE.
+PR#558rămâneDRAFT/nonmerged; main/Oracle/frontendprodneschimbate. APK501885 e vechi,
+nu mai trimite linkulvechi pentru retest. Nu spune că zborurile/număropriricomplete
+sunt garantate; cere repetareacazurilor și screenshotcuetape/stareprovider.
+
 **PUBLICARE CORECȚII + APK NOU APROBATE (2026-11-26, nou):**
 User: „Hai să facem corecțiile, să verific dacă este ok acum”. Aprobată livrarea
 controlată backend+APKsemnat pentru corecțiile raportate, NUmerge/main/frontendprod/

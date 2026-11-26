@@ -1,0 +1,145 @@
+{
+  "checked_at": "2026-11-26T19:18:18.305121+00:00",
+  "source_commit": "ee3f68fb6921f36a21892eb819001a376dd9e1c1",
+  "branch": "arena/8ae2700b-mypocketai",
+  "owner_authorization": "Publish the reported transit corrections and produce a signed update for physical retesting; no main merge or HERE activation.",
+  "backend": {
+    "version": "v186",
+    "root_endpoint_verified": "https://lifewise-ai-api.kokocf.workers.dev/",
+    "root_status": "online",
+    "verification_method": "fetch_page JSON response + GitHub Actions steps/annotations",
+    "run_id": 45882292516,
+    "job_id": 140124312964,
+    "conclusion": "success",
+    "frontend_production_job": "skipped",
+    "eva_weather_location_live_step": "success",
+    "legacy_communication_410_step": "success",
+    "digitransit_results": [
+      {
+        "id": "finland-estonia-rejected",
+        "country": "FI",
+        "status": "pass",
+        "version": "v186",
+        "reason": "international_destination",
+        "itineraries": 0
+      },
+      {
+        "id": "tallinn-tartu-intercity",
+        "country": "EE",
+        "status": "pass",
+        "version": "v186",
+        "reason": "national_itineraries_found",
+        "provider_status": {
+          "national": "ok",
+          "main": "ok",
+          "bus": "not_requested"
+        },
+        "itineraries": 3,
+        "modes": [
+          "walking",
+          "bus",
+          "train"
+        ]
+      },
+      {
+        "id": "tallinn-local",
+        "country": "EE",
+        "status": "pass",
+        "version": "v186",
+        "reason": "national_itineraries_found",
+        "provider_status": {
+          "national": "ok",
+          "main": "ok",
+          "bus": "ok"
+        },
+        "itineraries": 3,
+        "modes": [
+          "walking",
+          "bus",
+          "tram"
+        ]
+      },
+      {
+        "id": "helsinki-tampere-intercity",
+        "country": "FI",
+        "status": "pass",
+        "version": "v186",
+        "reason": "national_itineraries_found",
+        "provider_status": {
+          "national": "ok",
+          "main": "ok",
+          "bus": "not_requested"
+        },
+        "itineraries": 2,
+        "modes": [
+          "walking",
+          "train"
+        ]
+      },
+      {
+        "id": "helsinki-local",
+        "country": "FI",
+        "status": "pass",
+        "version": "v186",
+        "reason": "national_itineraries_found",
+        "provider_status": {
+          "national": "ok",
+          "main": "ok",
+          "bus": "ok"
+        },
+        "itineraries": 3,
+        "modes": [
+          "walking",
+          "tram",
+          "bus"
+        ]
+      }
+    ],
+    "verification_artifacts": [
+      {
+        "id": 15147856888,
+        "name": "digitransit-worker-live-smoke"
+      },
+      {
+        "id": 15147467283,
+        "name": "eva-weather-live-smoke"
+      }
+    ]
+  },
+  "apk": {
+    "version_code": 501886,
+    "run_id": 45882296441,
+    "job_id": 140124325664,
+    "conclusion": "success",
+    "package": "ai.mypocket.mobile",
+    "signing_certificate_comparison_to_published_apk": "passed in CI",
+    "monotonic_version_and_snapshot_check": "passed in CI",
+    "asset_id": 797350941,
+    "size_bytes": 77652220,
+    "sha256_from_github_asset_metadata": "9c0ff03fbdc096f00c96eac6f1cd83a778490383cf74c4e236cf3b1b03957061",
+    "prerelease": true,
+    "production_latest_changed": false,
+    "download_url": "https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45882296441/myPocketAI-signed-education-test.apk",
+    "local_independent_binary_inspection": false
+  },
+  "limits": {
+    "here_enabled": false,
+    "here_provider_requests_by_agent": 0,
+    "here_authorized_total_attempts_max": 2,
+    "live_grays_oradea_search_by_agent": false,
+    "physical_retest": "pending_owner",
+    "oracle_changed": false,
+    "main_merged": false,
+    "pr": 558,
+    "pr_is_draft": true
+  },
+  "local_verification": [
+    "test:transit-audit",
+    "test:national-transport",
+    "test:mixed-orientation",
+    "check",
+    "test:transit-reported-failures:browser (360/393/430)",
+    "tests_android_ui_preview.mjs",
+    "scripts/build_android_ui_preview.mjs"
+  ]
+}

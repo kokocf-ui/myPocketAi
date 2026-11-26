@@ -1,5 +1,29 @@
 # myPocketAI — test Android în România
 
+## Actualizare pentru retest — APK 501886 + backend v186
+
+[Descarcă noul APK semnat 501886](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45882296441/myPocketAI-signed-education-test.apk)
+
+Instalează peste versiunea existentă, fără dezinstalare, apoi închide și redeschide
+aplicația. Înainte să-l trimiți în România, repetă pe telefon:
+
+1. **Grays → Victoria:** selectează o opțiune. Dacă accesul pietonal eșuează,
+   trebuie să rămână vizibile detaliile, liniile și stațiile traseului.
+2. În detalii, deschide **„Hartă: toate etapele și deplasările pe jos”**. Verifică
+   accesul inițial, transferurile și ultimul segment. Segmentele neverificate
+   trebuie să fie marcate, nu prezentate ca navigare verificată.
+3. **Transport mixt către Oradea**, cu data aleasă: verifică dacă sunt afișate
+   aeroporturi apropiate, eventuale variante primite și o explicație corectă la
+   timeout/plafon. Nu presupunem că există un zbor sau un transfer dacă sursa
+   nu l-a furnizat. Numărul opririlor rămâne necunoscut pentru liste incomplete.
+
+Buildul și publicarea au trecut verificările, dar aceste trei cazuri nu sunt
+încă validate fizic după corecții. HERE Germania rămâne OFF, consum agent 0.
+
+---
+
+## Istoric — APK 501885 (nu folosi acest link pentru retestul corecțiilor)
+
 > **ATENȚIE — feedback fizic ulterior:** APK501885 are probleme raportate la
 > accesul pietonal/hartă și transport mixt. Nu îl recomandăm încă pentru
 > distribuirea testului în România. Corecțiile din PR draft #558 nu sunt în

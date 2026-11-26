@@ -1,5 +1,12 @@
 # Corecții după testul fizic al APK-ului 501885
 
+> **Actualizare de livrare:** la aprobarea ulterioară a utilizatorului, corecțiile
+> au fost publicate în backend **v186** și APK-ul semnat **501886**. Ambele
+> workflowuri au reușit. Raport: `TRANSIT_V186_APK501886_DELIVERY_2026-11-26.json`.
+> Starea „doar pe ramură” de mai jos este istoricul dinaintea publicării.
+> Retestarea fizică și căutarea live Grays–Oradea nu sunt încă confirmate.
+
+
 ## Raportul utilizatorului
 
 Capturile de pe telefon arată o căutare Grays–Victoria cu opțiuni disponibile,
