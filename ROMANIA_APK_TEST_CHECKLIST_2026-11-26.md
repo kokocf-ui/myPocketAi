@@ -6,6 +6,20 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
+## Clarificare ulterioară și corecție încă nepublicată
+
+Problema raportată la transport public este fluxul de afișare: după alegerea
+variantei apare o pagină lungă fără hartă, iar harta/navigarea cere scroll și
+încă o apăsare. Nu avem prin această clarificare dovada unui defect de rutare.
+Cerința este **variantă → direct hartă + detalii în același ecran, fără scroll
+vertical; informațiile suplimentare se parcurg prin pagini/etape**.
+
+Corecția există acum pe branch și a trecut verificări automate cu hărți și
+furnizori simulați, inclusiv la 360×640, cu Back, Start/Stop explicit și păstrarea
+categoriilor/tarifelor/localităților din România. **Nu este în APK501887 de mai
+jos; nu a fost publicat alt APK în această etapă.** Va necesita validare fizică
+în noul build înainte să o declarăm rezolvată. Mixtul rămâne separat, nerezolvat.
+
 ## Retest ACTUAL — APK501887 + backend v187
 
 [**Descarcă APK-ul semnat 501887**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45894780817/myPocketAI-signed-education-test.apk)

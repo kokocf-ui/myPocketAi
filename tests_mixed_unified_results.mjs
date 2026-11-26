@@ -36,9 +36,9 @@ const resolver=(choice,flight,host)=>{
  host.textContent='Itinerariu pregătit în căutarea inițială';
 };
 const run=new Function('document','state','$','renderTransitChoices','showTransitRetrySelector',
- 'dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions','transportTicketUrl',
+ 'clearTransitOptionsViewport','dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions','transportTicketUrl',
  snippet+'\nreturn {renderMixedUnifiedResults};');
-const api=run(document,state,$,()=>{shown++;body.replaceChildren();},()=>{},
+const api=run(document,state,$,()=>{shown++;body.replaceChildren();},()=>{},()=>{},
  (ro,en)=>ro,item=>item.fareFrom?'De la '+item.fareFrom.amount+' '+item.fareFrom.currency:
  item.fareObserved?'Tarif orientativ: '+item.fareObserved.amount+' '+item.fareObserved.currency:'',
  name=>{const el=new Element('a');el.textContent=name;return el},resolver,transportTicketUrl);

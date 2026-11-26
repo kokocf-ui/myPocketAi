@@ -51,18 +51,18 @@ try{
   await page.evaluate(j=>window.__reportedTransit.init(j),journey);
   await page.evaluate(()=>{window.__walkSelection=window.__reportedTransit.select()});
   const body=page.locator('#moduleLayerBody');
-  assert.match(await body.innerText(),/TEST 1/);
-  assert.match(await body.locator('.transit-access-status').innerText(),/Se calculează/,'Details render before pedestrian provider responds');
+  const map=page.locator('.transit-full-journey-map');await map.waitFor();
+  await map.locator('.transit-screen-page').waitFor();
+  assert.ok(await map.locator('.route-map-canvas').isVisible(),'Map opens directly while initial access is pending');
+  assert.match(await map.locator('.transit-template-store .transit-access-status').textContent(),/Se calculează/);
+  await page.waitForFunction(()=>document.querySelector('.transit-template-store .transit-access-status')?.textContent.includes('Se calculează'));
   await page.waitForTimeout(40);assert.ok(releaseWalk);holdWalk=false;releaseWalk();
   await page.evaluate(()=>window.__walkSelection);
-  assert.match(await body.innerText(),/TEST 1/);assert.match(await body.innerText(),/3 opriri până la coborâre/);
-  assert.match(await body.locator('.transit-access-status').innerText(),/pietonal/);
-  assert.equal(await body.locator('.transit-journey-choice').count(),0,'No bounce back to option list');
-  await body.locator('.transit-all-stages-map').click();
-  await page.waitForFunction(()=>document.querySelector('.route-map-status')?.textContent.includes('punctate'));
-  assert.equal(await page.locator('.transit-all-legs > div').count(),5);
-  assert.equal(await page.locator('.transit-walk-stage-status').count(),3);
-  assert.ok((await page.locator('.transit-walk-stage-status').allTextContents()).every(s=>s.includes('neverificat')));
+  await page.waitForFunction(()=>document.querySelector('.route-map-status')?.textContent.includes('pietonal'));
+  assert.match(await map.locator('.transit-template-store .transit-access-status').textContent(),/pietonal/);
+  assert.equal(await map.locator('.transit-all-legs > div').count(),5);
+  assert.equal(await map.locator('.transit-walk-stage-status').count(),3);
+  assert.ok((await map.locator('.transit-walk-stage-status').allTextContents()).every(s=>s.includes('neverificat')));
   const draws=await page.evaluate(()=>window.__reportedTransit.draws());
   assert.equal(draws.filter(d=>d.style?.color==='#0f91e2'&&d.style.dashArray).length,3,'All three walking segments are mapped as unverified');
   assert.ok(draws.some(d=>d.bounds?.length>=10),'Overview includes every walking and vehicle endpoint');
@@ -95,18 +95,26 @@ try{
   releaseWalk=null;holdWalk=true;
   await page.evaluate(()=>{window.__walkSelection=window.__reportedTransit.select()});
   await page.waitForTimeout(40);assert.ok(releaseWalk);
-  await body.locator('.quick-navigation-toolbar button').first().click();
+  await page.locator('.transit-full-journey-map .route-map-header button').first().click();
   releaseWalk();await page.evaluate(()=>window.__walkSelection);
-  assert.equal(await body.locator('.transit-journey-choice').count(),1,'Late pedestrian reply cannot replace the options after Back');
-  // The success path also stays in readable details, rather than spending
-  // more time opening the full map without an explicit navigation action.
+  await body.locator('.transit-screen-page .transit-journey-choice').waitFor();
+  assert.equal(await body.locator('.transit-screen-page .transit-journey-choice').count(),1,'Late pedestrian reply cannot replace the options after Back');
+  // Verified access enriches the same map instead of replacing it with a
+  // second detail screen or requiring an additional map click.
   await page.evaluate(j=>window.__reportedTransit.init(j),journey);
   walkSuccess=true;holdWalk=false;
   await page.evaluate(()=>window.__reportedTransit.select());
-  assert.match(await body.innerText(),/TEST 1/);
-  assert.equal(await body.locator('.transit-access-status').innerText(),'');
-  assert.equal(await page.locator('.route-map-window').count(),0,'No automatic map/enrichment waterfall');
+  assert.equal(await page.locator('.transit-full-journey-map').count(),1,'Success preserves the direct map');
+  assert.match(await page.locator('.transit-template-store .transit-access-status').textContent(),/verificat/);
+  // A returned walk which cannot reach boarding with its safety margin must
+  // never enable navigation, even though details/map stay available.
+  const urgent={...journey,firstVehicleDepartureTime:new Date(Date.now()+120000).toISOString()};
+  await page.evaluate(j=>window.__reportedTransit.init(j),urgent);
+  await page.evaluate(()=>window.__reportedTransit.select());
+  assert.match(await page.locator('.transit-template-store .transit-access-status').textContent(),/Nu mai este timp/);
+  assert.equal(await page.locator('.transit-fixed-controls .route-map-open').first().isDisabled(),true);
+  assert.equal(await page.locator('.transit-full-journey-map').count(),1,'Infeasible boarding must not erase the itinerary');
   assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS physical-report regressions 360/393/430: immediate details during pending walk; success/failure/cancel; all 3 walks; sticky mixed Back and Android Back; boarding/provider diagnostics');
+ console.log('PASS physical-report regressions 360/393/430: direct map+details during pending walk; success/failure/cancel; all 3 walks; sticky mixed Back and Android Back; boarding/provider diagnostics');
 }finally{await browser.close();await new Promise(ok=>server.close(ok));}

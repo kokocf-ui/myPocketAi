@@ -18,8 +18,8 @@ assert.match(cards,/transit-choice-compact/,'Only short options before selection
 assert.match(cards,/state\.lastTransitResponse\?\.transit_destination_point/,'Use exact confirmed target');
 assert.doesNotMatch(cards,/routeLine|bufferNotice|arrival-eta/,'No long transfer paragraphs in choice cards');
 const selection=between('async function selectTransitJourney(options,index){','function appendSelectedTransit(host,route){');
-assert.match(selection,/if\(navigate\)await openTransitJourneyMap\(selected\);else updateDetails\(\)/,'Only explicit navigation opens map; ordinary selection renders immediately');
-assert.match(selection,/renderTransitChoices\(options,index\);[\s\S]*const stop=/,'Already received details render before any access lookup');
+assert.match(selection,/if\(directMap\)\{[\s\S]*void openTransitJourneyMap\(selected\)/,'Public selection immediately opens the map/details shell');
+assert.match(selection,/openTransitJourneyMap\(selected\);[\s\S]*const verifyAccess=async/,'The map shell precedes walking/GPS verification');
 assert.match(selection,/selected\.error=message;selected\.timeUnverified=true;journey\.accessWalkVerified=false;updateDetails\(\)/,'Walking failure preserves selected itinerary and its details');
 const map=between('async function openTransitJourneyMap(selected,resume=null){','async function selectTransitJourney(options,index){');
 for(const str of ['transitCoordinate','transitStreetPath','loadRouteMapLibrary','transit-full-journey-map',

@@ -1,3 +1,4 @@
+import {TRANSIT_VIEWPORT_SCRIPT,TRANSIT_VIEWPORT_STYLE} from './transit_viewport_ui.mjs';
 import {MIXED_PROGRESS_CLIENT_SCRIPT} from './mixed_progress_stream.mjs';
 import {transportTicketUrl,transportOperatorTicketSite,transportTicketLink} from './transport_ticket_links.mjs';
 import {evaFarewellIntent,evaFarewellReply,evaFarewellFallback} from './eva_farewell.mjs';
@@ -19933,7 +19934,7 @@ function localizedQuickChoiceTitle(choice){const translated=window.__pocketEurop
 'nl':{'Fast-food și mâncare la pachet':'Fastfood en afhaalmaaltijden','Băcănii și magazine mici':'Buurtwinkels en kleine supermarkten','Baruri, ceainării și cafenele':'Bars, theehuizen en cafés','Muzee':'Musea','Parcuri':'Parken','Grădini zoologice':'Dierentuinen','Traseu pietonal':'Wandelroute','Transport public':'Openbaar vervoer','Benzinării':'Tankstations','Spălătorii auto':'Autowasstraten','Parcări':'Parkeren','Restaurante și localuri cu mâncare':'Restaurants en pubs','Cofetării':'Cafés en bakkerijen','Hoteluri':'Hotels','Alte puncte de interes':'Andere bezienswaardigheden'}};return maps[state.language]?.[choice.title]||choice.title}
 function localizedQuickPrompt(choice){if(state.language==='ro')return choice.prompt;const prompts={en:{walking:'I want a walking-only route. Ask for the start and destination if missing. Use GPS as the start only if I have granted permission. Do not include buses, trains, underground, cars, taxis or bicycles. Only show routes and steps supplied by a real routing service; do not invent distances, durations or alternatives.',transit:'Help me find public transport options starting from my location. Ask for the destination if it is missing.'},fr:{walking:'Je veux un itinéraire uniquement à pied. Demandez le départ et la destination s’ils manquent. N’incluez aucun autre moyen de transport.',transit:'Aidez-moi à trouver des transports publics depuis ma position. Demandez la destination si elle manque.'},de:{walking:'Ich möchte eine reine Fußwegroute. Frage nach Start und Ziel, falls sie fehlen. Keine anderen Verkehrsmittel einbeziehen.',transit:'Finde öffentliche Verkehrsmittel ab meinem Standort. Frage nach dem Ziel, falls es fehlt.'},it:{walking:'Voglio un percorso esclusivamente a piedi. Chiedi partenza e destinazione se mancanti. Non includere altri mezzi.',transit:'Aiutami a trovare i mezzi pubblici dalla mia posizione. Chiedi la destinazione se manca.'},es:{walking:'Quiero una ruta solo a pie. Pregunta el origen y destino si faltan. No incluyas otros medios de transporte.',transit:'Ayúdame a encontrar transporte público desde mi ubicación. Pregunta el destino si falta.'},pt:{walking:'Quero um percurso exclusivamente a pé. Pergunta a origem e o destino se faltarem. Não incluas outros transportes.',transit:'Ajuda-me a encontrar transportes públicos a partir da minha localização. Pergunta o destino se faltar.'},nl:{walking:'Ik wil alleen een wandelroute. Vraag om vertrekpunt en bestemming als die ontbreken. Neem geen ander vervoer op.',transit:'Help me openbaar vervoer te vinden vanaf mijn locatie. Vraag naar de bestemming als die ontbreekt.'}};return prompts[state.language]?.[choice.kind]||choice.prompt}
 
-function setModuleLayerMode(title){$('moduleLayerTitle').textContent=title;$('moduleLayerBody').classList.remove('transit-results-content');$('moduleLayerBody').innerHTML=''}
+function setModuleLayerMode(title){clearTransitOptionsViewport();$('moduleLayerTitle').textContent=title;$('moduleLayerBody').classList.remove('transit-results-content');$('moduleLayerBody').innerHTML=''}
 // Official sources for UK-wide journeys when no licensed national itinerary is confirmed.
 const UK_PLANNING_TEXT={
  ro:['Verifică orarele la operatori','Surse oficiale pentru trenuri și transport regional. Nu au fost verificate plecări în aplicație.'],
@@ -19967,7 +19968,7 @@ function appendOfficialUKJourneySources(data,host){
  if(!count)return false;
  host.append(area);return true;
 }
-function moduleStatus(text){document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');const body=$('moduleLayerBody');body.innerHTML='';const status=document.createElement('div');status.className='module-search-status';status.setAttribute('role','status');status.textContent=text;body.append(status)}
+function moduleStatus(text){clearTransitOptionsViewport();document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');const body=$('moduleLayerBody');body.innerHTML='';const status=document.createElement('div');status.className='module-search-status';status.setAttribute('role','status');status.textContent=text;body.append(status)}
 function formatDistance(meters){const n=Number(meters);if(!Number.isFinite(n)||n<0)return ({ro:'Distanță indisponibilă',en:'Distance unavailable',fr:'Distance indisponible',de:'Entfernung nicht verfügbar',it:'Distanza non disponibile',es:'Distancia no disponible',pt:'Distância indisponível',nl:'Afstand niet beschikbaar',ru:'Расстояние неизвестно',pl:'Odległość niedostępna'})[state.language]||'Distance unavailable';if(n<1000)return Math.round(n)+' m';return (n/1000).toLocaleString(({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'en-GB',{maximumFractionDigits:1})+' km'}
 function placeResultIcon(place){const special={shopping_fashion:'🛍️',beauty_services:'💇',home_goods:'🏡',appliances:'🔌',furniture:'🛋️',diy_garden:'🛠️',car_dealers:'🚘',hospital_only:'🏥',medical_dental:'🩺',atm:'🏧',bank:'🏦',currency_exchange:'💱'};if(special[String(place.type||'')])return special[String(place.type||'')];const value=(String(place.type||'')+' '+String(place.name||'')).toLowerCase();if(/petrol|fuel|gas station|benzin|esso|shell|texaco|costco fuel/.test(value))return '⛽';if(/restaurant|cafe|coffee|food|restaurant|restaurant|takeaway|pub|bar/.test(value))return '🍽️';if(/hotel|motel|guest.?house|accommodation/.test(value))return '🏨';if(/supermarket|grocery|shop|store|market/.test(value))return '🛒';if(/bus stop|bus station|train station|railway|metro|underground/.test(value))return '🚉';if(/hospital|clinic|doctor|pharmacy/.test(value))return '🏥';if(/parking|car park/.test(value))return '🅿️';if(/toilet|restroom/.test(value))return '🚻';if(/car wash|wash/.test(value))return '🚿';return '📍'}
 function localizedPlaceCategory(value){const raw=String(value||'').trim();if(raw==='medical_dental')return ({ro:'cabinet medical sau stomatologic',en:'medical or dental practice',fr:'cabinet médical ou dentaire',de:'Arzt- oder Zahnarztpraxis',it:'studio medico o dentistico',es:'consulta médica o dental',pt:'consultório médico ou dentário',nl:'medische of tandartspraktijk',ru:'медицинский или стоматологический кабинет',pl:'gabinet lekarski lub dentystyczny'})[state.language]||'medical or dental practice';const financialTypes={ro:{hospital_only:'spital',currency_exchange:'casă de schimb valutar'},en:{hospital_only:'hospital',currency_exchange:'currency exchange'},fr:{hospital_only:'hôpital',currency_exchange:'bureau de change'},de:{hospital_only:'Krankenhaus',currency_exchange:'Wechselstube'},it:{hospital_only:'ospedale',currency_exchange:'cambio valuta'},es:{hospital_only:'hospital',currency_exchange:'casa de cambio'},pt:{hospital_only:'hospital',currency_exchange:'casa de câmbio'},nl:{hospital_only:'ziekenhuis',currency_exchange:'wisselkantoor'},ru:{hospital_only:'больница',currency_exchange:'обмен валюты'},pl:{hospital_only:'szpital',currency_exchange:'kantor'}};if(financialTypes[state.language]?.[raw])return financialTypes[state.language][raw];const fixed={"ro":{"shopping_fashion":"shopping și modă","beauty_services":"salon de înfrumusețare","home_goods":"articole pentru casă","appliances":"electrocasnice","furniture":"mobilier","diy_garden":"bricolaj și grădinărit","car_dealers":"parc auto / dealer"},"en":{"shopping_fashion":"shopping and fashion","beauty_services":"beauty salon","home_goods":"homewares","appliances":"appliances","furniture":"furniture","diy_garden":"DIY and gardening","car_dealers":"car dealership"},"fr":{"shopping_fashion":"shopping et mode","beauty_services":"salon de beauté","home_goods":"articles pour la maison","appliances":"électroménager","furniture":"meubles","diy_garden":"bricolage et jardinage","car_dealers":"concessionnaire auto"},"de":{"shopping_fashion":"Shopping und Mode","beauty_services":"Schönheitssalon","home_goods":"Haushaltswaren","appliances":"Haushaltsgeräte","furniture":"Möbel","diy_garden":"Heimwerken und Garten","car_dealers":"Autohaus"},"it":{"shopping_fashion":"shopping e moda","beauty_services":"salone di bellezza","home_goods":"articoli per la casa","appliances":"elettrodomestici","furniture":"mobili","diy_garden":"fai da te e giardinaggio","car_dealers":"concessionaria auto"},"es":{"shopping_fashion":"compras y moda","beauty_services":"salón de belleza","home_goods":"artículos para el hogar","appliances":"electrodomésticos","furniture":"muebles","diy_garden":"bricolaje y jardinería","car_dealers":"concesionario de coches"},"pt":{"shopping_fashion":"compras e moda","beauty_services":"salão de beleza","home_goods":"artigos para casa","appliances":"eletrodomésticos","furniture":"móveis","diy_garden":"bricolagem e jardinagem","car_dealers":"concessionário automóvel"},"nl":{"shopping_fashion":"winkelen en mode","beauty_services":"schoonheidssalon","home_goods":"huishoudartikelen","appliances":"apparaten","furniture":"meubels","diy_garden":"klussen en tuinieren","car_dealers":"autodealer"},"ru":{"shopping_fashion":"шопинг и мода","beauty_services":"салон красоты","home_goods":"товары для дома","appliances":"бытовая техника","furniture":"мебель","diy_garden":"ремонт и сад","car_dealers":"автосалон"},"pl":{"shopping_fashion":"zakupy i moda","beauty_services":"salon urody","home_goods":"artykuły do domu","appliances":"AGD","furniture":"meble","diy_garden":"majsterkowanie i ogród","car_dealers":"salon samochodowy"}};if(fixed[state.language]?.[raw])return fixed[state.language][raw];if(fixed.en?.[raw])return fixed.en[raw];if(!raw)return quickUiText().found;const key=raw.toLowerCase().replace(/[_-]+/g,' ').replace(/\\s+/g,' ').trim();const dictionaries={
@@ -20000,7 +20001,7 @@ function quickPlaceDisplayName(place,allPlaces){
  const postcode=String(place.postcode||'').trim();
  return raw+(placeLabel?' ('+placeLabel+')':postcode?' ('+postcode+')':'');
 }
-function renderModulePlaces(places){document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+(quickPlaceDisplayName(place,places)||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>{state.moduleSearchScrollTop=list.scrollTop;state.moduleSearchBodyScrollTop=body.scrollTop;renderModulePlaceDetails(place)});list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found;requestAnimationFrame(()=>{if(list.isConnected&&state.moduleSearchReturnMode==='list'){list.scrollTop=Number(state.moduleSearchScrollTop||0);body.scrollTop=Number(state.moduleSearchBodyScrollTop||0)}})}
+function renderModulePlaces(places){clearTransitOptionsViewport();document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+(quickPlaceDisplayName(place,places)||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>{state.moduleSearchScrollTop=list.scrollTop;state.moduleSearchBodyScrollTop=body.scrollTop;renderModulePlaceDetails(place)});list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found;requestAnimationFrame(()=>{if(list.isConnected&&state.moduleSearchReturnMode==='list'){list.scrollTop=Number(state.moduleSearchScrollTop||0);body.scrollTop=Number(state.moduleSearchBodyScrollTop||0)}})}
 
 const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website": "Website", "photos": "Fotografii", "close": "Închide fotografia", "price": "Preț", "rooms": "Camere"}, "en": {"address": "Address", "phone": "Phone", "website": "Website", "photos": "Photos", "close": "Close photo", "price": "Price", "rooms": "Rooms"}, "fr": {"address": "Adresse", "phone": "Téléphone", "website": "Site web", "photos": "Photos", "close": "Fermer la photo", "price": "Prix", "rooms": "Chambres"}, "de": {"address": "Adresse", "phone": "Telefon", "website": "Webseite", "photos": "Fotos", "close": "Foto schließen", "price": "Preis", "rooms": "Zimmer"}, "it": {"address": "Indirizzo", "phone": "Telefono", "website": "Sito web", "photos": "Foto", "close": "Chiudi foto", "price": "Prezzo", "rooms": "Camere"}, "es": {"address": "Dirección", "phone": "Teléfono", "website": "Sitio web", "photos": "Fotos", "close": "Cerrar foto", "price": "Precio", "rooms": "Habitaciones"}, "pt": {"address": "Morada", "phone": "Telefone", "website": "Website", "photos": "Fotografias", "close": "Fechar fotografia", "price": "Preço", "rooms": "Quartos"}, "nl": {"address": "Adres", "phone": "Telefoon", "website": "Website", "photos": "Foto’s", "close": "Foto sluiten", "price": "Prijs", "rooms": "Kamers"}, "ru": {"address": "Адрес", "phone": "Телефон", "website": "Сайт", "photos": "Фотографии", "close": "Закрыть фото", "price": "Цена", "rooms": "Номера"}, "pl": {"address": "Adres", "phone": "Telefon", "website": "Strona internetowa", "photos": "Zdjęcia", "close": "Zamknij zdjęcie", "price": "Cena", "rooms": "Pokoje"}};
 function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
@@ -20109,6 +20110,7 @@ ${ONE_FIELD_JOURNEY_SCRIPT}
 ${NATIONAL_PUBLIC_TRANSPORT_SCRIPT}
 ${MIXED_TRANSPORT_COMPARISON_SCRIPT}
 ${MIXED_PROGRESS_CLIENT_SCRIPT}
+${TRANSIT_VIEWPORT_SCRIPT}
 function showJourneyMode(choice){
  if(choice?.mixedJourney){showOneFieldJourney(choice);return;}
  state.moduleSearchCategory=choice;
@@ -21545,8 +21547,8 @@ function transitBoardingAdvice(journey){
 function isRomanianRailJourney(journey){
  const source=String(journey?.source||'');
  const legs=Array.isArray(journey?.legs)?journey.legs:[];
- const national=journey?.romanian_national_journey===true||/\bBilo\b/i.test(source)||
-  (/\bMOTIS\b/i.test(source)&&journey?.time_zone==='Europe/Bucharest'&&
+ const national=journey?.romanian_national_journey===true||/\\bBilo\\b/i.test(source)||
+  (/\\bMOTIS\\b/i.test(source)&&journey?.time_zone==='Europe/Bucharest'&&
    legs.some(l=>/^(train|rail|coach)$/i.test(String(l?.mode||''))));
  // Source identification matters: TfL must never become a Romanian rail card
  // just because a stale response carries Europe/Bucharest.
@@ -22075,11 +22077,13 @@ const TRANSIT_REFRESH_TEXT={
 };
 function transitRefreshText(){return TRANSIT_REFRESH_TEXT[state.language]||TRANSIT_REFRESH_TEXT.en}
 function transitRefreshNotice(text){
- const body=$('moduleLayerBody');
- if(!body)return;
- let status=body.querySelector('.transit-refresh-status');
- if(!status){status=document.createElement('p');status.className='transit-access-status transit-refresh-status';status.setAttribute('role','status');body.prepend(status)}
+ const body=$('moduleLayerBody');if(!body)return;
+ const host=body.classList.contains('transit-options-viewport')?body.querySelector(':scope > .transit-template-store'):body;
+ if(!host)return;
+ let status=host.querySelector('.transit-refresh-status');
+ if(!status){status=document.createElement('p');status.className='transit-access-status transit-refresh-status';status.setAttribute('role','status');host.prepend(status)}
  status.textContent=text;
+ state.transitOptionsPager?.first();state.transitOptionsPager?.refresh();
 }
 // Refresh exactly the already selected origin -> destination, not a new chat query.
 // The initial lookup retains the official destination coordinates even after
@@ -22147,6 +22151,7 @@ function appendMixedTransitComparison(host,options){
 // flight/coach evidence is shown as a compact operator segment, NEVER as a
 // complete door-to-door itinerary or as the old separate flight screen.
 function renderMixedUnifiedResults(data,choice){
+ clearTransitOptionsViewport();
  state.mixedProgressDetail=false;
  state.lastTransitResponse=data;
  const options=Array.isArray(data?.transit)?data.transit:[];
@@ -22439,6 +22444,7 @@ function appendMixedAirCandidateCards(host,flights,choice){
 }
 function renderTransitChoices(options,selectedIndex=null){
  if(state.lastTransitChoice?.mixedJourney)state.mixedProgressDetail=selectedIndex!==null;
+ clearTransitOptionsViewport();
  dismissSelectionKeyboard();
  document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.classList.add('transit-results-content');body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?(state.lastTransitChoice?.mixedJourney===true?dialogText('Variante de transport mixt','Mixed transport options'):t[0]):isRomanianRailJourney(options[selectedIndex])?dialogText('Detalii cursă ','Journey details ')+(selectedIndex+1):t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
@@ -22485,7 +22491,7 @@ function renderTransitChoices(options,selectedIndex=null){
   original.textContent=dialogText("Revenire","Return");
   original.onclick=()=>returnToNavigationSource();actions.append(original)}
  body.append(actions);
- if(selectedIndex===null){
+ if(selectedIndex===null&&state.lastTransitChoice?.mixedJourney===true){
   const comparison=document.createElement('div');comparison.className='transit-walking-comparison';
   comparison.style.cssText='font-size:14px;line-height:1.4;color:#d9f4f7';
   body.append(comparison);
@@ -22527,6 +22533,7 @@ function renderTransitChoices(options,selectedIndex=null){
  }
  else {if(state.lastTransitChoice?.mixedJourney===true)appendMixedTransitComparison(body,available);appendTransitCards(body,available)}
  if(state.lastTransitResponse?.transit_destination_point){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
+ mountPublicTransitOptionsViewport(body);
 }
 
 function transitCoordinate(point){
@@ -22560,9 +22567,13 @@ function beginTransitVisualTracking(current){
  document.body.classList.add('pocket-navigation-fullscreen');
  // Route planning uses a small overview map; actual navigation needs a
  // centred, zoomed view, with the next walking instruction still visible.
- current.mapHost.style.setProperty('height','clamp(250px,57dvh,620px)','important');
- current.mapHost.style.setProperty('max-height','none','important');
- current.details.style.setProperty('max-height','35dvh','important');
+ if(!current.viewportPager){
+  current.mapHost.style.setProperty('height','clamp(250px,57dvh,620px)','important');
+  current.mapHost.style.setProperty('max-height','none','important');
+  current.details.style.setProperty('max-height','35dvh','important');
+ }
+ current.viewportPager?.refresh();
+ current.layer.querySelector('.transit-fixed-controls button:last-child')?.removeAttribute('hidden');
  current.layer.style.bottom='0px';
  current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
  current.map.invalidateSize();
@@ -22672,18 +22683,18 @@ window.pocketRestoreNavigationSession=restoreTransitSessionFromNative;
 async function openTransitJourneyMap(selected,resume=null){
  const journey=selected?.journey;if(!journey)return;
  dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);inputEl.blur();
- const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map';
+ const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map transit-viewport-screen';
  layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
  layer.setAttribute('aria-label',dialogText('Traseu complet','Complete journey'));
  layer.style.cssText='display:flex;flex-direction:column;overflow:hidden';
  const head=document.createElement('div');head.className='route-map-header';
  const back=document.createElement('button');back.type='button';back.className='route-header-action';
  back.textContent=dialogText('Anterior','Previous');
- back.onclick=()=>{closeRouteMap(false);renderTransitChoices(selected.options)};
+ back.onclick=()=>{cancelTransitAccess();closeRouteMap(false);if(state.lastTransitChoice?.mixedJourney)renderMixedUnifiedResults(state.lastTransitResponse||{},state.lastTransitChoice);else renderTransitChoices(selected.options)};
  const title=document.createElement('h2');title.textContent=dialogText('Traseu pe hartă','Route map');
  const close=document.createElement('button');close.type='button';close.className='route-header-action';
  close.textContent=dialogText('Închide harta','Close map');
- close.onclick=()=>{closeRouteMap(false);renderTransitChoices(selected.options)};
+ close.onclick=back.onclick;
  head.append(back,title,close);
  const note=document.createElement('p');note.className='route-map-status';note.setAttribute('role','status');
  note.textContent=dialogText('Încarc toate etapele traseului…','Loading all journey legs…');
@@ -22694,7 +22705,7 @@ async function openTransitJourneyMap(selected,resume=null){
  const destination=String(state.lastTransitResponse?.transit_destination_point?.label||
     state.lastTransitChoice?.transitDestination?.label||journey.legs?.at(-1)?.to||'');
  const intro=document.createElement('strong');intro.textContent=String(journey.legs?.[0]?.from||'—')+' → '+destination;
- const timing=document.createElement('p');timing.textContent=(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime,journey.time_zone)+
+ const timing=document.createElement('p');timing.textContent=transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime,journey.time_zone)+
   ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+(journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
  const notice=document.createElement('p');notice.style.cssText='font-size:13px;opacity:.85';
  notice.textContent=dialogText('Liniile punctate indică tronsoane fără geometrie de drum verificată; nu sunt indicații de navigație.',
@@ -22709,11 +22720,20 @@ async function openTransitJourneyMap(selected,resume=null){
 
  follow.onclick=()=>{
   if(current.navigating){current.recenter.onclick();return}
+  if(selected.loading||selected.error||selected.timeUnverified||transitScheduleUncertain(journey)){
+   note.textContent=selected.error||dialogText('Accesul la îmbarcare nu este încă verificat.','Access to boarding is not verified yet.');return;
+  }
+  const departure=Date.parse(journey.firstVehicleDepartureTime||journey.boarding_stop?.departure_time||'');
+  const margin=Number.isFinite(Number(journey.safetyMarginMinutes))?Math.max(0,Math.min(15,Number(journey.safetyMarginMinutes))):5;
+  if(Number.isFinite(departure)&&departure<Date.now()+(Number(selected.accessRoute?.durationSeconds)||0)*1000+margin*60000){
+   selected.error=transitAccessText()[14];selected.timeUnverified=true;current.refreshSelection();note.textContent=selected.error;return;
+  }
+  if(!current.map){note.textContent=dialogText('Harta încă se încarcă.','The map is still loading.');return}
   if(typeof window.PocketAndroidRouteGuidance?.postMessage!=='function'){
    note.textContent=dialogText('Navigația în fundal necesită un APK cu serviciul Android activ.',
     'Background navigation requires the Android navigation service.');return;
   }
-  const walkingLegs=[...walkRoutes].sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
+  const walkingLegs=[...walkRoutes].filter(([i,route])=>i!==-1||walkRoutes.get(0)!==route).sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
    index:i,from:i===-1?dialogText('Poziția mea','My location'):String(journey.legs?.[i]?.from||''),
    to:i===-1?String(journey.boarding_stop?.label||'Stația de îmbarcare'):String(journey.legs?.[i]?.to||''),
    departureTime:i===-1?String(journey.firstVehicleDepartureTime||''):String(journey.legs?.[i]?.departureTime||''),
@@ -22748,18 +22768,19 @@ async function openTransitJourneyMap(selected,resume=null){
  stop.onclick=()=>{
   window.PocketAndroidRouteGuidance?.postMessage?.(JSON.stringify({action:'stop'}));
   stopRouteTracking(current);
-  current.mapHost.style.setProperty('height','clamp(165px,28dvh,300px)','important');
-  current.mapHost.style.setProperty('max-height','30dvh','important');
+  current.mapHost.style.removeProperty('height');
+  current.mapHost.style.removeProperty('max-height');
   current.details.style.removeProperty('max-height');
-  current.layer.style.bottom='';
-  current.followButton.textContent=dialogText('Urmărește traseul cu Eva','Follow journey with Eva');
+  current.resize?.();
+  current.followButton.textContent=dialogText('Navigare','Navigate');stop.hidden=true;current.viewportPager?.refresh();
   current.map?.setHeading?.(0);
   if(current.overviewPoints?.length>1)current.map?.fitBounds(current.overviewPoints,{padding:[24,24]});
   current.map?.invalidateSize();
   note.hidden=false;note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.');
  };
- details.append(intro,timing);
- if(selected.error){const warning=document.createElement('p');warning.className='transit-access-status';warning.textContent=selected.error;details.append(warning)}
+ details.append(timing,intro);
+ const accessStatus=document.createElement('p');accessStatus.className='transit-access-status';
+ accessStatus.setAttribute('role','status');details.append(accessStatus);
  const leaveBy=transitBoardingAdvice(journey);
  if(leaveBy){const advice=document.createElement('p');advice.className='transit-boarding-buffer-notice';
   advice.textContent=leaveBy;details.append(advice)}
@@ -22768,27 +22789,72 @@ async function openTransitJourneyMap(selected,resume=null){
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('div');row.style.cssText='padding:12px 5px;border-bottom:1px solid #426274';
   const label=document.createElement('strong');
-  label.textContent=(transitWalkLeg(leg.mode)?'📌 ':'')+(i+1)+'. '+transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
-  const place=document.createElement('div');place.textContent=(leg.from||'—')+' → '+(leg.to||'—');
-  const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,journey.time_zone)+
-   ' → '+transitClock(leg.arrivalTime,journey.time_zone);
+  label.textContent=(transitWalkLeg(leg.mode)?'📌 ':'')+(i+1)+'. '+(isRomanianRailJourney(journey)?romanianActualVehicle(leg):transitModeName(leg.mode))+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
+  const place=document.createElement('div');place.textContent=isRomanianRailJourney(journey)?formatRomanianStop(leg.from,leg.fromLocality)+' → '+formatRomanianStop(leg.to,leg.toLocality):(leg.from||'—')+' → '+(leg.to||'—');
+  const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone)+
+   ' → '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);
   row.append(label,place,clock);appendTransitStopCount(row,leg);appendTransportTicketAction(row,leg);
+  if(leg.operator){const operator=document.createElement('div');operator.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));row.append(operator)}
+  if(isRomanianRailJourney(journey)&&/^(train|rail)$/i.test(String(leg.mode||''))&&!transitLineLabel(leg)){
+   const missing=document.createElement('p');missing.textContent=dialogText('Număr tren: neprecizat de furnizor.','Train number: not supplied by provider.');row.append(missing);
+  }
   if(transitWalkLeg(leg.mode)){const status=document.createElement('p');status.className='transit-walk-stage-status';status.textContent=dialogText('Traseu pietonal neverificat.','Walking path unverified.');row.append(status)}
   stages.append(row);
  }
  details.append(stages);appendFinalTransitWalkAction(details,journey);
+ const finalWalkAction=details.querySelector('button.transit-choice-action');
+ if(isRomanianRailJourney(journey)){
+  const rail=document.createElement('div');appendRomanianRailDetails(rail,journey);
+  // Keep national fare/operator notices while the paged stage rows above
+  // provide the same vehicle, locality, ticket and stop information.
+  details.append(...[...rail.children].filter(el=>el.matches('p')));
+  if(journey.fareLocal&&Number.isFinite(Number(journey.fareLocal.amount))){const fare=document.createElement('p');fare.textContent=dialogText('Tarif afișat: ','Displayed fare: ')+Number(journey.fareLocal.amount).toLocaleString(state.language||'ro',{maximumFractionDigits:2})+' '+journey.fareLocal.currency;details.append(fare)}
+  const advisory=String(state.lastTransitResponse?.rail_replacement_notice||'').trim();if(advisory){const notice=document.createElement('p');notice.textContent=advisory;details.append(notice)}
+ }
+ const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-refresh-action';refresh.textContent=transitAccessText()[15];
+ refresh.onclick=()=>{back.onclick();void refreshTransitDepartures(refresh)};details.append(refresh);
  if(journey.attribution?.text){const source=document.createElement('p');source.className='transit-source-attribution';source.style.cssText='font-size:12px;overflow-wrap:anywhere';source.textContent=journey.attribution.text;details.append(source)}
  if(transitScheduleUncertain(journey)){const warning=document.createElement('p');warning.textContent=dialogText('Traseu orientativ; orarul nu poate fi garantat. Verifică la operator.','Indicative route; the timetable cannot be guaranteed. Confirm with the operator.');details.append(warning)}
- layer.append(head,note,mapHost,details);document.body.append(layer);
+ const templates=document.createElement('div');templates.className='transit-template-store';templates.hidden=true;
+ follow.remove();recenter.remove();stop.remove();templates.append(...details.childNodes);
+ const panel=document.createElement('div'),pagerBar=document.createElement('div'),tools=document.createElement('div');
+ tools.className='transit-fixed-controls';
+ const overview=document.createElement('button');overview.type='button';overview.textContent=dialogText('Traseu','Journey');
+ follow.textContent=dialogText('Navigare','Navigate');follow.setAttribute('aria-label',dialogText('Pornește navigarea cu Eva','Start navigation with Eva'));
+ stop.textContent=dialogText('Oprește','Stop');stop.hidden=true;
+ tools.append(overview,follow,recenter,stop);details.append(panel);
+ layer.append(head,note,mapHost,details,pagerBar,tools,templates);document.body.append(layer);
  const current={layer,route:selected.accessRoute||null,journey,mapHost,details,
   followButton:follow,recenter,liveStatus:note,walkRoutes,
   map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:back.onclick};
  activeRouteMap=current;
- const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;
-  layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
-  current.map?.invalidateSize()};
- current.resize=resize;window.addEventListener('resize',resize);
- current.cleanup=()=>window.removeEventListener('resize',resize);resize();
+ current.viewportPager=mountTransitScreenPager(panel,()=>[
+  {id:-1,label:dialogText('Traseu','Journey'),nodes:[...templates.children].filter(el=>el!==stages).concat(note)},
+  ...[...stages.children].map((row,i)=>({id:i,label:dialogText('Etapa ','Stage ')+(i+1)+'/'+stages.children.length,nodes:[...row.children]}))
+ ],pagerBar,stage=>{current.visibleStage=stage;current.focusStage?.(stage)});
+ overview.onclick=()=>current.viewportPager.first();
+ if(finalWalkAction)finalWalkAction.onclick=()=>current.viewportPager.goGroup((journey.legs||[]).length-1);
+ const changes=new MutationObserver(()=>current.viewportPager.refresh());changes.observe(templates,{childList:true,subtree:true,characterData:true});changes.observe(note,{childList:true,characterData:true,subtree:true});
+ current.refreshSelection=()=>{
+  accessStatus.textContent=selected.loading?transitAccessText()[10]:selected.error||
+   (selected.timeUnverified?transitAccessText()[21]:selected.accessRoute?dialogText('Acces pietonal verificat.','Walking access verified.'):'');
+  const advice=transitBoardingAdvice(journey);if(advice)templates.querySelector('.transit-boarding-buffer-notice')?.replaceChildren(document.createTextNode(advice));
+  follow.disabled=Boolean(selected.loading||selected.error||selected.timeUnverified||transitScheduleUncertain(journey));
+  if(selected.error)note.textContent=selected.error;
+  current.route=selected.accessRoute||null;
+  if(selected.accessRoute&&validMapRoute(selected.accessRoute)){walkRoutes.set(-1,selected.accessRoute);current.drawAccess?.(selected.accessRoute)}
+  current.viewportPager.refresh();
+ };
+ current.refreshSelection();
+ const releaseViewport=()=>{changes.disconnect();current.viewportPager.close()};
+ const resize=()=>{
+  const viewport=window.visualViewport;
+  layer.style.top=(viewport?.offsetTop||0)+'px';layer.style.height=(viewport?.height||window.innerHeight)+'px';layer.style.bottom='auto';
+  current.viewportPager.refresh();current.map?.invalidateSize();
+ };
+ current.resize=resize;window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);
+ const removeResize=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize)};
+ current.cleanup=()=>{removeResize();releaseViewport()};resize();
  try{
   const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
   const rotateReady=await loadRouteRotationLibrary();
@@ -22814,11 +22880,14 @@ async function openTransitJourneyMap(selected,resume=null){
   const line=(p,color,dashed=false)=>{if(p.length<2)return;
    p.forEach(x=>all.push(x));return L.polyline(p,{color,weight:dashed?3:5,
     opacity:dashed?.6:.95,dashArray:dashed?'6,9':undefined}).addTo(map)};
+  let accessDrawn=false;
+  current.drawAccess=route=>{if(accessDrawn||activeRouteMap!==current)return;accessDrawn=true;
+   const points=route.coordinates.map(c=>[c[1],c[0]]);line(points,'#0f91e2');marker(points[0],'📌 '+dialogText('Plecarea','Start'));
+  };
   const access=selected.accessRoute&&validMapRoute(selected.accessRoute)?
     selected.accessRoute:savedWalks.get(-1);
   if(access&&validMapRoute(access)){
-   const p=access.coordinates.map(c=>[c[1],c[0]]);line(p,'#0f91e2');
-   walkRoutes.set(-1,access);marker(p[0],'📌 '+dialogText('Plecarea','Start'));
+   current.drawAccess(access);walkRoutes.set(-1,access);
   }
   const walkJobs=[];
   for(const [i,leg] of (journey.legs||[]).entries()){
@@ -22843,17 +22912,23 @@ async function openTransitJourneyMap(selected,resume=null){
   const last=transitCoordinate(state.lastTransitResponse?.transit_destination_point);
   if(last)marker(last,'📌 '+destination);
   current.overviewPoints=[...all];
-  if(all.length>1)map.fitBounds(all,{padding:[24,24]});
+  current.focusStage=i=>{
+   if(current.navigating)return;
+   const leg=journey.legs?.[i],a=transitCoordinate(leg?.departurePoint),b=transitCoordinate(leg?.arrivalPoint||leg?.arrivalLatLon);
+   const points=i<0?current.overviewPoints:a&&b?[a,b]:[];
+   if(points.length>1)map.fitBounds(points,{padding:[24,24]});
+  };
+  if(all.length>1)current.focusStage(current.visibleStage??-1);
   else if(all.length===1)map.setView(all[0],14);
   else{map.setView([51.5,-.12],5);note.textContent=dialogText('Furnizorul nu a trimis coordonatele stațiilor.',
    'The operator did not supply stop coordinates.')}
   requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();
-   if(all.length>1)map.fitBounds(all,{padding:[24,24]})}});
+   if(all.length>1)current.focusStage(current.visibleStage??-1)}});
   if(resume?.resumed)beginTransitVisualTracking(current);
   if(all.length&&!current.navigating)note.textContent=dialogText('Etapele sunt pe hartă. Verific transferurile pietonale…',
    'Journey stops are mapped. Checking walking transfers…');
   const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
-  current.cleanup=()=>{window.removeEventListener('resize',resize);clearTimeout(timeout);controller.abort()};
+  current.cleanup=()=>{removeResize();clearTimeout(timeout);controller.abort();releaseViewport()};
   // One at a time to keep the navigation API bounded; the map opens immediately.
   for(const job of walkJobs.slice(0,12)){
    if(activeRouteMap!==current||controller.signal.aborted){unverified.push(job.i+1);continue;}
@@ -22861,8 +22936,16 @@ async function openTransitJourneyMap(selected,resume=null){
     if(transitDistance({latitude:job.from[0],longitude:job.from[1]},
       {latitude:job.to[0],longitude:job.to[1]})<8){job.initial.remove();continue}
 
-    const verified=job.savedLeg&&transitVerifiedPath(job.savedLeg,job.from,job.to)?
-     job.savedLeg:access&&transitVerifiedPath(access,job.from,job.to)?access:await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
+    let verified=job.savedLeg&&transitVerifiedPath(job.savedLeg,job.from,job.to)?job.savedLeg:
+     access&&transitVerifiedPath(access,job.from,job.to)?access:null;
+    // Reuse the boarding feasibility request for the initial walk, rather
+    // than issuing the same provider lookup twice as the map opens.
+    const initialAccess=job.i===0&&selected.accessCheck&&validTransitBoardingStop(journey.boarding_stop)&&
+     transitDistance({latitude:job.to[0],longitude:job.to[1]},journey.boarding_stop)<120;
+    if(!verified&&initialAccess){await selected.accessCheck;
+     verified=selected.accessRoute&&transitVerifiedPath(selected.accessRoute,job.from,job.to)?selected.accessRoute:null;
+    }else if(!verified)verified=await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
+    if(activeRouteMap!==current||controller.signal.aborted)break;
     if(!verified){unverified.push(job.i+1);continue}
     const p=verified.coordinates.map(c=>[c[1],c[0]]);
     job.initial.remove();line(p,'#0f91e2');walkRoutes.set(job.i,verified);
@@ -22874,10 +22957,10 @@ async function openTransitJourneyMap(selected,resume=null){
    }catch{unverified.push(job.i+1)}
   }
   if(walkJobs.length>12)unverified.push(...walkJobs.slice(12).map(j=>j.i+1));
-  if(activeRouteMap===current&&!current.navigating)note.textContent=unverified.length?
+  if(activeRouteMap===current&&!current.navigating)note.textContent=selected.error|| (unverified.length?
    dialogText('Traseu orientativ: segmentele fără geometrie verificată sunt punctate.',
     'Overview map: segments without verified geometry are dashed.'):
-   dialogText('Traseu complet, cu transferurile pietonale verificate.','Journey mapped with verified walking transfers.');
+   dialogText('Traseu complet, cu transferurile pietonale verificate.','Journey mapped with verified walking transfers.'));
   clearTimeout(timeout);
  }catch(error){if(activeRouteMap===current)note.textContent=dialogText('Harta nu s-a încărcat.',
   'Map could not be loaded.')}
@@ -22888,29 +22971,39 @@ async function selectTransitJourney(options,index){
 }
 async function selectTransitJourneyWithNavigation(options,index,navigate=false){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;
- // Selection renders source details synchronously; walking is optional enrichment.
- renderTransitChoices(options,index);
+ const directMap=state.lastTransitChoice?.mixedJourney!==true&&!navigate;
+ // Render the visible map/details shell before GPS or pedestrian providers.
+ let accessDone;
+ if(directMap){
+  selected.accessCheck=new Promise(resolve=>{accessDone=resolve});
+  state.transitOptionsPager?.close();state.transitOptionsPager=null;
+  void openTransitJourneyMap(selected);
+ }else renderTransitChoices(options,index);
  const stop=journey.boarding_stop,valid=()=>state.selectedTransitJourney===selected&&state.transitAccessGeneration===generation&&state.conversationGeneration===chatGeneration;
+ const updateDetails=()=>{
+  if(directMap){if(activeRouteMap?.journey===journey)activeRouteMap.refreshSelection?.();return}
+  const body=$('moduleLayerBody'),top=body?.scrollTop||0;renderTransitChoices(options,index);if(body)body.scrollTop=top;
+ };
+ const verifyAccess=async()=>{
  if(state.lastTransitChoice?.mixedJourney===true&&!navigate){
-  selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+  selected.loading=false;selected.error='';updateDetails();return;
  }
  if(transitScheduleUncertain(journey)){
-  selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+  selected.loading=false;selected.error='';updateDetails();return;
  }
- if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}
- const updateDetails=()=>{const body=$('moduleLayerBody'),top=body?.scrollTop||0;renderTransitChoices(options,index);if(body)body.scrollTop=top;};
+ if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';selected.timeUnverified=true;updateDetails();return;}
  const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;selected.timeUnverified=true;journey.accessWalkVerified=false;updateDetails()};
  if(!validTransitBoardingStop(stop)){
   // A verified provider itinerary without coordinate-backed boarding data
   // is still useful as timetable details; do not pretend to navigate to a stop.
   if(state.lastTransitChoice?.mixedJourney===true){
-   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+   selected.loading=false;selected.error='';updateDetails();return;
   }
   fail(t[11]);return
  }
  const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
  let timer,locationReady=false;try{
-  const coordinates=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
+  const coordinates=state.lastTransitChoice?.journeyOrigin||await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('GPS timeout')),8000)})]);clearTimeout(timer);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
   locationReady=true;const controller=new AbortController();state.transitAccessAbort=controller;timer=setTimeout(()=>controller.abort(),8000);
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({message:routeActionsText().prompt+stop.label,language:state.language,module:state.currentModule||'assistant',history:[],location:coordinates,coordinates,location_requested:true,route_profile:'walk',route_destination:{latitude:stop.latitude,longitude:stop.longitude,label:stop.label},route_context:null})});
   const data=await response.json();if(!valid())return;if(!response.ok||data.status!=='success'||data.route_available!==true||!transitWalkingMatches(data.route,stop)){fail(t[13]);return}
@@ -22927,6 +23020,8 @@ async function selectTransitJourneyWithNavigation(options,index,navigate=false){
   selected.loading=false;selected.accessRoute=data.route;selected.accessOptions=(Array.isArray(data.routes)?data.routes:[data.route]).filter(r=>transitWalkingMatches(r,stop)&&(!Number.isFinite(departure)||!Number.isFinite(r.durationSeconds)||departure>=Date.now()+r.durationSeconds*1000+Math.max(0,margin)*60000));selected.walkingReply=String(data.reply||'');selected.timeUnverified=!Number.isFinite(departure)||!Number.isFinite(seconds);state.lastRoute=data.route;state.lastRouteOptions=selected.accessOptions;state.lastRouteReply=selected.walkingReply;state.routeSearchContext=data.route_context||null;
   if(navigate)await openTransitJourneyMap(selected);else updateDetails();
  }catch(error){if(valid())fail(locationReady?t[13]:t[12])}finally{clearTimeout(timer);if(valid())state.transitAccessAbort=null}
+ };
+ try{await verifyAccess()}finally{accessDone?.()}
 }
 function appendSelectedTransit(host,route){const selected=state.selectedTransitJourney;if(!selected?.accessRoute||!transitWalkingMatches(route,selected.journey.boarding_stop))return;const t=transitAccessText(),details=document.createElement('details'),summary=document.createElement('summary');details.className='selected-transit';summary.textContent=t[1]+(selected.journey.legs?.at(-1)?.to?' → '+selected.journey.legs.at(-1).to:'')+' · '+transitBoardingSummary(selected.journey);details.append(summary);if(selected.timeUnverified){const note=document.createElement('p');note.textContent=t[21];details.append(note)}appendTransitLegs(details,selected.journey);appendFinalTransitWalkAction(details,selected.journey);host.append(details)}
 function appendTransitChoiceAction(data,bubble){if(!Array.isArray(data.transit)||!data.transit.length)return;state.lastTransitResponse=data;state.lastTransitChoice={kind:'transit',title:'Transport public',prompt:String(data.message_received||''),transitDirect:true};const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=transitAccessText()[3];button.onclick=()=>{closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(data.transit)};bubble.append(button)}
@@ -26990,6 +27085,7 @@ main.page:has(#view-module.my-documents-active.active){
 
 ${FOREIGN_LANGUAGE_RESOURCES_STYLE}
 ${EDUCATION_MOBILE_CONTAINMENT_STYLE}
+${TRANSIT_VIEWPORT_STYLE}
 
 </style>
 </body>

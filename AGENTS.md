@@ -7,10 +7,26 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**CORECȚIE PUBLIC VIEWPORT — DOAR BRANCH, 26 nov 2026:**
+`transit_viewport_ui.mjs` + `index.js`: opțiune public→hartă+detalii imediat,
+pagini măsurate după spațiul real (nu scroll/trunchiere), Back/pagini/navigare
+fixe. Verificările accesului pietonal/fezabilității continuă înfundal; inițialwalk
+refolosit, GPS+fetchbounded, anulare+late-replyguards. Selecția NUporneșteGPS/native.
+Start/Stop și rotație înacelașiviewport; finalwalkshortcutrămâneînaceeașihartă.
+CategoriiRO+tarife+localități+operatori păstrate; regexidentificareBilo/MOTIS
+reparatînHTMLgenerat (wordboundaryescapes). Mixtîșipăstreazăfluxulseparat,onest.
+Browserfixtures360×640/794,393×817,430×932 + hartălandscape640×360 PASS;
+aceleașitestecontraWranglerbundle PASS; transit-audit/mixed-orientation/check/
+boot/Androidpreview/ROrail PASS. DOARtesteautomatizatecumap/provider mock,
+NUvalidarefizică/live. FĂRĂdeploy/APKnou; v187/501887neschimbat. Detaliiînraportul
+`TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`. Mixtrealîncănerezolvat.
+
 **RETEST FIZIC501887 NEGATIV (2026-11-26,21:07–21:08):**
 User7screenshots: public Grays→LiverpoolStreet list21:18→22:35, detaildestination
 4–6DevonshireRow, bus73boarding21:20/localwalk2min103m, c2c→FenchurchStreet și
-walk17min; userzicepublicNUfuncționează, simptomexactcerutînchatNUconfirmatîncă.
+walk17min; clarificareuser: problemaPUBLICesteUX, NUdefectrutareconfirmat.
+Selectarevariantădeschideapaginălungăinfo; hartadoardupăscroll+alttap. Cerință:
+opțiuni→DIRECTdetalii+hartă, totulînviewporttelefon, FĂRĂscrollsus/jos.
 NUdeclaraopublicsuccessdinlistă. Mixt03dec202603:07GPS→PiataUnirii1Oradea:
 progressfărăopțiuni, finalflightproviderunusable+groundincomplete+airportlist,
 zerovariante. APK501887NUrezolvătransportulreal. Nucere încăunretestidentic.
