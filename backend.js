@@ -1,3 +1,5 @@
+import {searchMixedIndicativeOptions} from './mixed_indicative_search.mjs';
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 import {evaFarewellReply,evaFarewellFallback} from './eva_farewell.mjs';
 import {tflLegStopCount} from './transit_stop_counts.mjs';
 import {assistantPreferredName,assistantIdentityInstruction} from './assistant_personal_identity.mjs';
@@ -52,12 +54,9 @@ import {evaluateMixedJourneyGeography} from "./mixed_route_quality.mjs";
 import {searchMixedRouteProviders} from "./mixed_route_provider_search.mjs";
 import {discoverAirportCandidates} from "./mixed_airport_discovery.mjs";
 import {discoverGroundTransferCandidates} from "./mixed_ground_transfer_discovery.mjs";
-import {discoverMixedGroundOperators} from "./mixed_ground_operator_discovery.mjs";
 import {makeTransCAPIMixedSource,makeMOTISMixedSource} from "./mixed_existing_provider_adapters.mjs";
 import {checkSerpApiSecretStatus} from "./serpapi_account_status.mjs";
-import {discoverMixedFlightCandidates} from "./mixed_serpapi_discovery.mjs";
 import {connectCandidateFlightToGround} from "./mixed_flight_ground_connections.mjs";
-import {prepareMixedFlightOptions} from "./mixed_prefetched_details.mjs";
 import {searchRomanianAirportOnward} from "./mixed_romanian_airport_onward.mjs";
 import {requestTfLJourneys} from "./tfl_shared_journeys.mjs";
 import {annotateTransportJourneys,transportNoticeLine} from "./transport_availability_disclosure.mjs";
@@ -918,6 +917,7 @@ async function planMOTISMixedJourney(env,from,to,language,requestedDepartureAt=n
     distanceMeters:isWalk(mode)?geometryWalkMeters(geometry):null,
     departureTime:l.startTime,arrivalTime:l.endTime,departureZone:String(l.from?.tz||''),arrivalZone:String(l.to?.tz||''),lineNames:isWalk(mode)?[]:[String(l.displayName||l.routeShortName||l.routeLongName||'').slice(0,65)].filter(Boolean),
     towards:String(l.headsign||'').slice(0,110),operator:String(l.agencyName||'').slice(0,110),
+    bookingUrl:transportTicketUrl(l.bookingUrl),operatorUrl:transportTicketUrl(l.agencyUrl),
     realtime:l.realTime===true,schedule_only:l.realTime!==true,
     arrivalLatLon:{lat:toPoint.latitude,lon:toPoint.longitude},coordinates:geometry,geometryAvailable:geometry.length>1};
    legs.push(mapped);previous=end;
@@ -4026,6 +4026,18 @@ export default {
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
       const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
+      let indicativePromise=null;
+      const mixedExtraFields=(overrides={})=>{
+        if(!explicitMixedJourney||transportPreference!=='all')return Promise.resolve({});
+        if(!indicativePromise)indicativePromise=searchMixedIndicativeOptions(env,{
+          origin:data.journey_origin||(hasValidLocation?{latitude,longitude,label:'GPS'}:null),
+          destination:data.transit_destination,departureAt:data.transit_departure_at||null,
+          language:lang,cache:typeof caches!=='undefined'?caches.default:null,
+          cacheBaseUrl:new URL(request.url).origin,...overrides
+        },{planEgress:planMOTISMixedJourney,planRegional:searchRomanianAirportOnward});
+        return indicativePromise;
+      };
+
       // Verified, local Romanian urban transport is queried before intercity
       // rail/coach. Requires both origin and destination coordinates in one
       // supported municipal region. No UK TfL/TransCAPI fallback for Romania.
@@ -4051,7 +4063,7 @@ export default {
               route_only:true,transport_lines_available:true,route_options_without_schedule:lines,
               schedule_status:'unavailable',service_today_verified:false,
               transit_available:false,route_available:false,mixed_journey:true,
-              romanian_urban_journey:true,transit_provider:'GTFS operator route topology',
+              ...await mixedExtraFields(),romanian_urban_journey:true,transit_provider:'GTFS operator route topology',
               reason:'verified_line_no_timetable',
               provider_status:{ro_urban:result.status,region:result.region}});
           }
@@ -4068,7 +4080,7 @@ export default {
           });
           if(!journeys.length){
             return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
-              message_received:message,mixed_journey:true,romanian_urban_journey:true,
+              message_received:message,...await mixedExtraFields(),mixed_journey:true,romanian_urban_journey:true,
               transit_available:false,route_available:false,
               reply:lang==='en'?'The verified walking route cannot reach these departures in time. Choose a later departure.':'Cu mersul pe jos verificat, nu poți ajunge la timp la aceste plecări. Alege o plecare mai târzie.',
               transit_provider:'Romania GTFS static',reason:'ro_urban_access_too_late',
@@ -4087,7 +4099,7 @@ export default {
           const reply=(lang==='en'?'Urban public transport in Romania':'Transport urban în România')+'\n'+
             lines.join('\n')+'\n\n'+schedule+' '+walk+' '+price;
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
-            message_received:message,reply,mixed_journey:true,romanian_urban_journey:true,
+            message_received:message,reply,...await mixedExtraFields(),mixed_journey:true,romanian_urban_journey:true,
             transit_available:true,route_available:false,route_geometry_available:false,
             transit_geometry_available:false,transit:journeys,fastest_transit:journeys[0],
             transit_destination_point:{latitude:Number(urbanTo.latitude),longitude:Number(urbanTo.longitude),label:String(urbanTo.label||urbanTo.city||'Destinație')},
@@ -4101,7 +4113,7 @@ export default {
           ?'Urban schedules for this Romanian area are not confirmed yet. No fabricated departures are shown.'
           :'Orarul urban pentru această zonă din România nu este încă verificat. Nu afișez plecări inventate.';
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
-          message_received:message,reply,mixed_journey:true,romanian_urban_journey:true,
+          message_received:message,reply,...await mixedExtraFields(),mixed_journey:true,romanian_urban_journey:true,
           transit_available:false,route_available:false,transit_provider:'Romania GTFS static',
           reason,provider_status:{ro_urban:result.status,region:result.region}});
       }
@@ -4145,7 +4157,7 @@ export default {
           const reply=romanianJourneySummary(journeys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             transit_available:true,route_available:false,route_geometry_available:false,transit_geometry_available:false,
-            mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys.map(j=>({...j,romanian_national_journey:true})),lang),
+            ...await mixedExtraFields(),mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys.map(j=>({...j,romanian_national_journey:true})),lang),
             // Structured pages for the UI: one Bilo search, then grouped results.
             transit_pages:vehicle==='all'?{
               rail:annotateTransportJourneys(grouped.rail.map(j=>({...j,romanian_national_journey:true})),lang),
@@ -4179,7 +4191,7 @@ export default {
         if(result.status==='ok'&&vehicleJourneys.length&&!cityJourneys.length){
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
             message_received:message,transit_available:false,route_available:false,
-            mixed_journey:true,romanian_national_journey:true,transit_provider:'Bilo',
+            ...await mixedExtraFields(),mixed_journey:true,romanian_national_journey:true,transit_provider:'Bilo',
             reason:'ro_departure_or_arrival_station_unverified',
             reply:lang==='en'
               ?'The operator returned services, but the first/last station could not be confirmed as belonging to the requested towns. No different departure station was silently substituted.'
@@ -4190,7 +4202,7 @@ export default {
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
             message_received:message,reply:romanianModeNoResultsMessage(vehicle,lang),
             transit_available:false,route_available:false,mixed_journey:true,
-            romanian_national_journey:true,transit_provider:'Bilo',
+            ...await mixedExtraFields(),romanian_national_journey:true,transit_provider:'Bilo',
             reason:'ro_requested_vehicle_unavailable',requested_vehicle:vehicle,
             provider_status:{bilo:result.status}});
         }
@@ -4249,7 +4261,7 @@ export default {
              ?'Bilo a returnat o eroare de aplicație, chiar dacă solicitarea HTTP a reușit. Trebuie verificată integrarea.'
              :'Nu am putut confirma un itinerar cu trenul sau autocarul pentru ruta și data alese.');
         return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-          transit_available:false,route_available:false,mixed_journey:true,romanian_national_journey:true,
+          transit_available:false,route_available:false,...await mixedExtraFields(),mixed_journey:true,romanian_national_journey:true,
           transit_provider:'Bilo',reason:providerReason,provider_status:{bilo:result.status,http_status:result.http_status||null,
             records_returned:result.records_returned??null,parse_hint:result.parse_hint||null}});
       }
@@ -4352,81 +4364,24 @@ export default {
           const explicitOrigin=explicitMixedJourney&&chosenOrigin&&chosenOrigin.latitude!=null&&chosenOrigin.longitude!=null&&
             Number.isFinite(originLat)&&Number.isFinite(originLon)&&Math.abs(originLat)<=90&&Math.abs(originLon)<=180;
           const mixedOrigin=explicitOrigin?{latitude:originLat,longitude:originLon,
-            label:String(chosenOrigin.label||'Departure').slice(0,160),
+            label:String(chosenOrigin.label||'Departure').slice(0,160),city:String(chosenOrigin.city||''),
             country_code:String(chosenOrigin.country_code||'').toUpperCase()}: {latitude,longitude,label:'GPS',
             country_code:String(data.origin_country_code||'').toUpperCase()};
           const mixedOriginValid=explicitOrigin||hasValidLocation;
 
-          // Search flights independently of terrestrial providers. A verified
-          // train/coach itinerary must not hide independently discovered flights.
-          // Flight candidates stay separate until UTC and transfers are verified.
-          const flightSearchPromise=internationalTarget&&explicitMixedJourney&&
-            transportPreference==='all'&&validTarget&&mixedOriginValid
-            ?discoverMixedFlightCandidates(env,{
-              origin:mixedOrigin,
-              destination:{latitude:targetLat,longitude:targetLon},
-              departureAt:effectiveDepartureAt||null,maxDays:3,
-              cache:typeof caches!=='undefined'?caches.default:null,
-              cacheBaseUrl:new URL(request.url).origin
-            }).catch(()=>({status:'provider_unavailable',candidates:[],datesChecked:[]}))
-            :Promise.resolve({status:'disabled',candidates:[],datesChecked:[]});
-          // Every flight card receives its itinerary *before* the result list is
-          // returned. The detail screen only reads it; no follow-up fetch.
-          const mixedFlightFields=async()=>{
-            const result=await flightSearchPromise;
-            const status=String(result?.status||'provider_unavailable');
-            const diagnostic={
-              flight_search_status:status,
-              flight_dates_checked:Array.isArray(result?.datesChecked)?result.datesChecked:[],
-              flight_source_cache_used:result?.fromCachedProviderResults===true,
-              flight_provider_queries:Number(result?.providerSearchCount)||0,
-              flight_candidates_received:Array.isArray(result?.candidates)?result.candidates.length:0
-            };
-            if(!result?.candidates?.length)return diagnostic;
-            // Critical invariant: the original air results remain visible
-            // even when transit/airport enrichment fails or times out.
-            const raw=result.candidates.slice(0,6);
-            let candidates=raw,detailsReady=false;
-            try{
-              const prepared=await Promise.race([
-                prepareMixedFlightOptions(env,{
-                  candidates:raw,origin:mixedOrigin,
-                  destination:{latitude:targetLat,longitude:targetLon,label:targetName,
-                    country_code:String(data.transit_destination?.country_code||'').toUpperCase()},
-                  requestedAt:effectiveDepartureAt||new Date().toISOString(),
-                  language:lang,limit:6
-                },{
-                  planEgress:planMOTISMixedJourney,
-                  planRegional:searchRomanianAirportOnward
-                }),
-                new Promise(resolve=>setTimeout(()=>resolve(null),8500))
-              ]);
-              if(Array.isArray(prepared)&&prepared.length){
-                candidates=prepared;detailsReady=true;
-              }
-            }catch{}
-            return {...diagnostic,flight_candidates:candidates,
-              flight_details_prepared:detailsReady};
-          };
-          // Operator pages are a SECOND, independent transport source. They
-          // can justify an indicative coach/rail option even without a dated
-          // journey planner; they never masquerade as a complete itinerary.
-          const groundOperatorSearchPromise=internationalTarget&&explicitMixedJourney&&
-            validTarget&&mixedOriginValid
-            ?discoverMixedGroundOperators(env,{
-              origin:mixedOrigin,
-              destination:{latitude:targetLat,longitude:targetLon,label:targetName,
-                country_code:String(data.transit_destination?.country_code||'').toUpperCase()}
-            }).catch(()=>({status:'provider_unavailable',operators:[]}))
-            :Promise.resolve({status:'disabled',operators:[]});
-          const mixedGroundFields=async()=>{
-            const result=await groundOperatorSearchPromise;
-            return {operator_options:Array.isArray(result.operators)?result.operators:[],
-              ground_connections:Array.isArray(result.connections)?result.connections:[],
-              ground_corridor_status:result.corridorDiscoveryStatus||null,
-              operator_discovery_status:result.status,
-              operator_search_summary:result.summary||null};
-          };
+          // Independent indicative searches are retained on EVERY return path,
+          // including a successful scheduled itinerary and domestic journeys.
+          const extraPromise=mixedExtraFields({origin:mixedOrigin,
+            destination:{latitude:targetLat,longitude:targetLon,label:targetName,
+              city:String(data.transit_destination?.city||''),
+              country_code:String(data.transit_destination?.country_code||'').toUpperCase()},
+            departureAt:effectiveDepartureAt,international:internationalTarget});
+          const mixedFlightFields=()=>extraPromise;
+          const mixedGroundFields=()=>extraPromise;
+          const flightSearchPromise=extraPromise.then(fields=>({
+            candidates:fields.flight_candidates||[],status:fields.flight_search_status||'disabled',
+            datesChecked:fields.flight_dates_checked||[]
+          }));
           // Compare two independently licensed planners before accepting the
           // first response. Cross-supplier transfers require proved stop IDs.
           if(explicitMixedJourney&&data.mixed_composition===true&&
@@ -4496,7 +4451,7 @@ export default {
                     message_received:message,reply,international_journey:internationalTarget,
                     mixed_journey:true,transit_available:true,route_available:false,
                     transit,fastest_transit:transit[0],transit_provider:'Verified mixed providers',
-                    ...await mixedFlightFields(),...await mixedGroundFields(),
+                    ...await mixedFlightFields(),
                     transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                     transit_departure_at:departureAt,requested_transit_count:requestedOptionsCount,
                     provider_status:{composition:'verified',providers:combined.providers,
@@ -4682,7 +4637,7 @@ export default {
                 language:lang,message_received:message,reply:flightReply,
                 international_journey:true,mixed_journey:true,
                 route_available:false,transit_available:false,
-                ...await mixedFlightFields(),...await mixedGroundFields(),
+                ...await mixedFlightFields(),
                 international_destination:targetName,
                 transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
                 transit_departure_at:departureAt,
@@ -4941,7 +4896,7 @@ export default {
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             route_available:false,transit_available:false,uk_national_journey:true,mixed_journey:explicitMixedJourney,
             transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},
-            planning_links:explicitMixedJourney||data.national_public_transport===true?[]:links,transit_provider:'national_unverified',
+            ...await mixedExtraFields(),planning_links:explicitMixedJourney||data.national_public_transport===true?[]:links,transit_provider:'national_unverified',
             provider_status:{tfl:'outside_london_corridor',motis:transportErrors.motis||null,transcapi:transportErrors.transcapi||'not_attempted'},
             transit_departure_at:departureAt,reason:'national_public_transport_not_verified',ai_connected:Boolean(env.AI)});
         }
@@ -5274,7 +5229,7 @@ export default {
         const transitDiagnostics = {elapsedMs:Date.now()-transitStartedAt, destination:targetName, tflChecks, tflJourneys:transitOptions.length, journeysWithGeometry:transitOptions.filter(j=>j.geometryAvailable).length, geometrySegments:transitOptions.reduce((n,j)=>n+(Array.isArray(j.routeSegments)?j.routeSegments.length:0),0), bodsVehicles:nearbyBuses.length, rttServices:rttServices.length, providers:{tfl:transportErrors.tfl||tflChecks.requestStatus,bods:transportErrors.bods||bodsStatus,rtt:transportErrors.rtt||rttStatus,rtt_services:transportErrors.rtt_services||null,geoapify:transportErrors.geoapify|| (env.GEOAPIFY_API_KEY?"configured":"not_configured")}};
         if (transportErrors.tfl || transportErrors.bods || transportErrors.rtt || transportErrors.rtt_services || transportErrors.geoapify) console.warn("Pocket AI v96 transit provider diagnostics", JSON.stringify(transitDiagnostics));
         else console.info("Pocket AI v96 transit provider summary", JSON.stringify(transitDiagnostics));
-        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Date.parse(j.arrivalDateTime||'')||Infinity)<(Date.parse(best.arrivalDateTime||'')||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
+        return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply,route_available:Boolean(transitRoute),route:transitRoute,route_geometry_available:Boolean(transitRoute && Array.isArray(transitRoute.coordinates) && transitRoute.coordinates.length>=2),transit_available:transitOptions.length>0,transit_destination_point:{latitude:targetLat,longitude:targetLon,label:targetName},fastest_transit:annotateTransportJourneys([transitOptions.reduce((best,j)=>!best||(Date.parse(j.arrivalDateTime||'')||Infinity)<(Date.parse(best.arrivalDateTime||'')||Infinity)?j:best,null)].filter(Boolean),lang)[0]||null,...await mixedExtraFields(),requested_transit_count:requestedOptionsCount,transit:annotateTransportJourneys(transitOptions,lang),transit_geometry_available:transitOptions.some(j=>j.geometryAvailable),nearby_buses:nearbyBuses,rail_services_at_grays:rttServices,transit_provider:transitOptions.length?"TfL":"unavailable",transit_departure_at:departureAt,provider_status:{tfl:transportErrors.tfl?"unavailable":tflChecks.requestStatus,bods:bodsStatus,rtt:rttStatus,rtt_entitlements:typeof rttEntitlements === "undefined" ? [] : rttEntitlements,geoapify:transportErrors.geoapify?"unavailable":(env.GEOAPIFY_API_KEY?"configured":"not_configured")},diagnostics:transitDiagnostics,source:"TfL Journey Planner; BODS SIRI-VM live vehicle feed; Realtime Trains location services at Grays",ai_connected:Boolean(env.AI)});
       } catch (e) {
         console.warn("Pocket AI v96 transit-first branch failed", String(e && e.message || e).slice(0,180));
         return json({app:"Pocket AI",version:API_VERSION,status:"success",language:lang,message_received:message,reply:lang === "en" ? "The public-transport request could not be completed right now. No unverified route was supplied; try again or specify a station/postcode." : "Cererea de transport public nu a putut fi completată acum. Nu am afișat un traseu neverificat; încearcă din nou sau precizează o stație/un cod poștal.",route_available:false,transit_available:false,ai_connected:Boolean(env.AI)});

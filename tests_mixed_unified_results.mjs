@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
@@ -35,12 +36,12 @@ const resolver=(choice,flight,host)=>{
  host.textContent='Itinerariu pregătit în căutarea inițială';
 };
 const run=new Function('document','state','$','renderTransitChoices','showTransitRetrySelector',
- 'dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions',
+ 'dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions','transportTicketUrl',
  snippet+'\nreturn {renderMixedUnifiedResults};');
 const api=run(document,state,$,()=>{shown++;body.replaceChildren();},()=>{},
  (ro,en)=>ro,item=>item.fareFrom?'De la '+item.fareFrom.amount+' '+item.fareFrom.currency:
  item.fareObserved?'Tarif orientativ: '+item.fareObserved.amount+' '+item.fareObserved.currency:'',
- name=>{const el=new Element('a');el.textContent=name;return el},resolver);
+ name=>{const el=new Element('a');el.textContent=name;return el},resolver,transportTicketUrl);
 const data={
  transit:[],
  operator_options:[{operator:'FlixBus',mode:'coach',from:'London',to:'Oradea',
@@ -66,7 +67,7 @@ cards[0].onclick();
 assert.equal(body.children[0].tag,'button','Back stays inside results');
 const link=body.children.find(e=>e.tag==='a');
 assert.equal(link?.href,'https://www.flixbus.co.uk/bus-routes/london-oradea');
-assert.equal(link?.textContent,'FlixBus');
+assert.equal(link?.textContent,'Bilete și rezervare · FlixBus');
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-access-leg'));
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-egress-leg'));
 body.children[0].onclick();

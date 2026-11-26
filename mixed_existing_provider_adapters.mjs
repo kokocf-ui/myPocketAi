@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 // Conservative adapters for already-connected, licensed Romanian and GB public
 // transport providers. Data is NOT automatically shareable between suppliers.
 // No real timetable is added by this file: each service calls its existing
@@ -66,7 +67,7 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provid
   if(!from.label||!to.label)return [];
   normalized.push({
    mode,from,to,departureTime:start,arrivalTime:end,
-   operator:short(raw.operator),lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
+   operator:short(raw.operator),bookingUrl:transportTicketUrl(raw.bookingUrl)||transportTicketUrl(raw.operatorUrl),lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
    provider:source,verified:true,
    verificationSource:source+': dated authorized operator journey timetable',
    // A per-leg / booking-total fare is not confirmed by the route geometry.
@@ -119,7 +120,7 @@ export function convertBiloToMixedLegs(journey,{
   if(i&&legs[i-1].to.id!==from.id)return {status:'transfer_leg_missing',legs:[]};
   legs.push({
    mode,from,to,departureTime:start,arrivalTime:end,
-   operator:short(raw.operator),
+   operator:short(raw.operator),bookingUrl:transportTicketUrl(raw.bookingUrl)||transportTicketUrl(raw.operatorUrl),
    lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
    provider:'Bilo',verified:true,verificationSource:'Bilo: published operator schedule',
    // Published timetable != real-time seat/availability/final fare quote.

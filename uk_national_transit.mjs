@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 // Keyed, optional public-transport routing for TransCAPI's separate planning areas.
 // Important: GB, island of Ireland, and NL+BE are NOT one connected graph.
 // TransCAPI documents https://www.transcapi.com/docs/journey and /docs/reference.
@@ -68,7 +69,7 @@ function mapItinerary(it,now,timeZone,zone){
    scheduledArrivalTime:!walk?safeText(raw.end_time?.scheduled,42):null,
    durationMinutes:(end-start)/60000,
    distanceMeters:raw.distance_m!==null&&raw.distance_m!==undefined&&Number.isFinite(Number(raw.distance_m))?Number(raw.distance_m):null,
-   lineNames:line?[line]:[],
+   lineNames:line?[line]:[],bookingUrl:transportTicketUrl(raw.booking_url||raw.bookingUrl),operatorUrl:transportTicketUrl(raw.route?.operator_url),
    towards:safeText(raw.headsign),operator:safeText(raw.route?.operator),
    platform:safeText(raw.platform,20),tripId:safeText(raw.trip_id,90),
    cancelled:/^(cancelled|partly_cancelled)$/i.test(String(raw.status||'')),

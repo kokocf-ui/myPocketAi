@@ -1,3 +1,4 @@
+import {transportTicketUrl,transportOperatorTicketSite,transportTicketLink} from './transport_ticket_links.mjs';
 import {evaFarewellIntent,evaFarewellReply,evaFarewellFallback} from './eva_farewell.mjs';
 import {transitStopCount} from './transit_stop_counts.mjs';
 import {assistantUnderstandRequest} from './assistant_understanding.mjs';
@@ -20615,6 +20616,24 @@ function transitSearchSelectors(){
  row.append(mode,departure,options);
  return {row,preference:()=>mode.value,departureOffset:()=>offset,departureAt:()=>absolute};
 }
+${transportTicketUrl.toString()}
+${transportOperatorTicketSite.toString()}
+${transportTicketLink.toString()}
+function appendTransportTicketAction(host,leg){
+ const target=transportTicketLink(leg);if(!target)return;
+ const link=document.createElement('a');link.className='transit-ticket-link';
+ link.href=target.url;link.target='_blank';link.rel='noopener noreferrer';
+ link.textContent=(target.kind==='external_search'?dialogText('Caută bilete','Search tickets'):dialogText('Bilete și rezervare','Tickets and booking'))+
+  (target.operator?' · '+target.operator:'');
+ link.style.cssText='display:block;align-self:flex-start;padding:9px 0;color:#a9e7ef;text-decoration:underline;font-size:14px';
+ host.append(link);
+ const note=document.createElement('small');note.className='transit-ticket-disclosure';
+ note.textContent=target.kind==='external_search'?dialogText('Căutare externă; selectează ruta și data. Nu este o ofertă de bilet.',
+  'External search; select route and date. Not a ticket offer.'):
+  dialogText('Verifică data, prețul și locurile pe site; nu este o rezervare confirmată.',
+   'Check date, price and seats on the site; not a confirmed reservation.');
+ host.append(note);
+}
 function resolveMixedFlightGroundOptions(choice,flight,host){
  const origin=choice?.journeyOrigin||state.lastTransitChoice?.journeyOrigin||{};
  const destination=choice?.transitDestination||state.lastTransitChoice?.transitDestination||{};
@@ -20723,6 +20742,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
      !walking&&leg.towards?dialogText('Direcția: ','Towards: ')+leg.towards:'',
      !walking&&leg.platform?dialogText('Peron: ','Platform: ')+leg.platform:''].filter(Boolean).join(' · ');
     const item=section(icon,heading,details,walking?'walk':'vehicle');
+    appendTransportTicketAction(item,leg);
     if(leg.operator&&!walking){const operator=document.createElement('div');
      operator.append(mixedOperatorName(leg.operator));item.append(operator)}
     if(walking&&!distance(leg.distanceMeters)){
@@ -20743,7 +20763,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
    }
   };
   addJourney(data.accessJourney,
-   String(origin.label||dialogText('Acasă','Home')),
+   String(origin.label||dialogText('Locația mea (GPS)','My location (GPS)')),
    String(data.airportFrom?.name||data.flight?.from||''),
    dialogText('Transportul de la adresa de plecare până la aeroport nu este încă verificat.',
     'Transport from your starting address to the airport is not yet verified.'),{
@@ -20754,6 +20774,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
     const flightTime=String(leg.startLocal||'')+' → '+String(leg.endLocal||'');
     const item=section('✈️',String(leg.from||'')+' → '+String(leg.to||''),
      flightTime+(leg.flightNumber?' · '+leg.flightNumber:''),'flight');
+    appendTransportTicketAction(item,{...leg,mode:'flight'});
     if(leg.airline){const op=document.createElement('div');op.append(mixedOperatorName(leg.airline));item.append(op)}
     if(i<legs.length-1){
      const next=legs[i+1];
@@ -20768,6 +20789,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
    const times=String(f.departureLocal||'')+' → '+String(f.arrivalLocal||'')+
     (f.flightNumber?' · '+String(f.flightNumber):'');
    const item=section('✈️',heading,times,'flight');
+   appendTransportTicketAction(item,{...legs[0],mode:'flight',bookingUrl:legs[0]?.bookingUrl||flight.bookingUrl});
    if(f.airline){const op=document.createElement('div');op.append(mixedOperatorName(f.airline));item.append(op)}
   }else gap(String(data.airportFrom?.name||''),String(data.airportTo?.name||''),
    dialogText('Zborul nu a fost confirmat.','Flight details were not verified.'));
@@ -20808,26 +20830,8 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
   host.append(note);
 }
 
-function mixedOperatorWebsite(name){
- const key=String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
- const official={
-  'british airways':'https://www.britishairways.com/',
-  'wizz air':'https://wizzair.com/',
-  'wizz air uk':'https://wizzair.com/',
-  'wizzair':'https://wizzair.com/',
-  'lufthansa':'https://www.lufthansa.com/',
-  'swiss':'https://www.swiss.com/',
-  'swiss international air lines':'https://www.swiss.com/',
-  'ita':'https://www.ita-airways.com/',
-  'ita airways':'https://www.ita-airways.com/',
-  'air dolomiti':'https://www.airdolomiti.it/',
-  'cfr calatori':'https://www.cfrcalatori.ro/',
-  'flixbus':'https://www.flixbus.com/',
-  'national rail':'https://www.nationalrail.co.uk/',
-  'c2c':'https://www.c2c-online.co.uk/'
- };
- return official[key]||null;
-}
+function mixedOperatorWebsite(name){return transportOperatorTicketSite(name)}
+
 function mixedOperatorName(name,providerUrl=null){
  // Prefer the operator page supplied by a timetable/route source. Never
  // construct a booking URL from the operator's name or claim in-app booking.
@@ -21474,7 +21478,7 @@ function appendTransitLegs(host,journey){
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('tr'),step=document.createElement('th'),action=document.createElement('td'),time=document.createElement('td');step.setAttribute('scope','row');step.textContent=String(i+1);
   const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
-  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);appendTransitStopCount(action,leg);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));action.append(provider)}
+  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);appendTransitStopCount(action,leg);appendTransportTicketAction(action,leg);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));action.append(provider)}
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
 }
@@ -21621,7 +21625,7 @@ function appendRomanianRailDetails(host,journey){
   const time=document.createElement('div');time.style.cssText='font-weight:650;font-size:14px';
   time.textContent=transitClock(leg.departureTime,leg.departureZone||zone)+' → '+
    transitClock(leg.arrivalTime,leg.arrivalZone||zone);
-  item.append(label,route,time);appendTransitStopCount(item,leg);
+  item.append(label,route,time);appendTransitStopCount(item,leg);appendTransportTicketAction(item,leg);
   if(/^(train|rail)$/i.test(String(leg.mode||''))&&!transitLineLabel(leg)){
    const unidentified=document.createElement('div');
    unidentified.style.cssText='font-size:12px;opacity:.8';
@@ -22111,6 +22115,13 @@ function renderMixedUnifiedResults(data,choice){
  const options=Array.isArray(data?.transit)?data.transit:[];
  renderTransitChoices(options);
  const host=$('moduleLayerBody');if(!host)return;
+ const endpoints=document.createElement('strong');endpoints.className='mixed-origin-destination';
+ endpoints.textContent=String(choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||dialogText('Locația mea (GPS)','My location (GPS)'))+
+  ' → '+String(choice?.transitDestination?.label||data?.transit_destination_point?.label||'');host.append(endpoints);
+ const overview=document.createElement('p');overview.className='mixed-planning-overview';
+ overview.textContent=dialogText('Planificare orientativă de la plecare la destinație. Nu este necesară confirmarea locurilor pentru afișare. Orarele, prețurile și locurile se verifică la rezervarea fiecărui segment.',
+  'Indicative planning from origin to destination. Seat confirmation is not required to display options. Check schedules, fares and seats when booking each leg.');
+ overview.style.cssText='font-size:13px;line-height:1.45;color:#d5e6ec';host.append(overview);
  const providers=Array.isArray(data?.operator_options)?data.operator_options:[];
  const connections=Array.isArray(data?.ground_connections)?data.ground_connections:[];
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
@@ -22223,9 +22234,9 @@ function appendMixedGroundOperatorCards(host,options,choice){
      dialogText(' · transportul local și mersul pe jos nu sunt confirmate.',
       ' · local transport and walking are not verified.');
     body.append(egress);
-    const link=document.createElement('a');link.textContent=String(option.operator);
+    const link=document.createElement('a');link.textContent=dialogText('Bilete și rezervare · ','Tickets and booking · ')+String(option.operator);
     link.className='transit-choice-action';
-    link.href=String(option.url);link.target='_blank';link.rel='noopener noreferrer';
+    const routeUrl=transportTicketUrl(option.url);if(!routeUrl)return;link.href=routeUrl;link.target='_blank';link.rel='noopener noreferrer';
     link.style.cssText='display:block;padding:12px 14px;color:#fff;background:#752b48;border:1px solid #a96180;border-radius:11px;text-decoration:underline';
     body.append(link);
    }
@@ -22275,8 +22286,8 @@ function appendMixedGroundConnectionCards(host,connections,choice){
      heading.textContent=(stageNumber++)+'. '+(step.mode==='train'?'🚆':step.mode==='ferry'?'⛴️':'🚌')+
       ' '+step.from+' → '+step.to;
      section.append(heading);
-     const link=document.createElement('a');link.textContent=String(step.operator);
-     link.href=String(step.url);link.target='_blank';link.rel='noopener noreferrer';
+     const link=document.createElement('a');link.textContent=dialogText('Bilete și rezervare · ','Tickets and booking · ')+String(step.operator);
+     const routeUrl=transportTicketUrl(step.url);if(!routeUrl)continue;link.href=routeUrl;link.target='_blank';link.rel='noopener noreferrer';
      link.style.cssText='align-self:flex-start;color:#b2e3ee;text-decoration:underline;padding:5px 0';
      section.append(link);
      if(step.fareFrom&&Number.isFinite(Number(step.fareFrom.amount))){
@@ -22358,7 +22369,7 @@ function renderTransitChoices(options,selectedIndex=null){
  const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=dialogText("Anterior","Previous");back.onclick=()=>{
   cancelTransitAccess(true);
-  if(selectedIndex!==null){renderTransitChoices(options);return}
+  if(selectedIndex!==null){if(state.lastTransitChoice?.mixedJourney)renderMixedUnifiedResults(state.lastTransitResponse||{},state.lastTransitChoice);else renderTransitChoices(options);return}
   if(state.lastTransitChoice?.nationalPublicTransport){showNationalTransitSearch(state.lastTransitChoice);return}
   // Mixed journeys return to the one-field destination and mode selector.
   if(state.lastTransitChoice?.mixedJourney&&state.lastTransitChoice?.transitDestination){
@@ -22411,6 +22422,11 @@ function renderTransitChoices(options,selectedIndex=null){
   if(selected?.accessRoute&&!selected.error){const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=t[9];walk.onclick=()=>openRouteMap(selected.accessRoute,walk,selected.accessOptions);body.append(walk)}
   if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
   // Keep final-mile directions above the long leg table.
+  if(state.lastTransitChoice?.mixedJourney===true&&validTransitBoardingStop(journey.boarding_stop)&&journey.route_only!==true){
+   const navigate=document.createElement('button');navigate.type='button';navigate.className='transit-choice-action';
+   navigate.textContent=dialogText('Hartă și navigare până la îmbarcare','Map and navigation to boarding');
+   navigate.onclick=()=>void selectTransitJourneyWithNavigation(options,selectedIndex,true);body.append(navigate);
+  }
   appendFinalTransitWalkAction(body,journey);appendTransitLegs(body,journey);return;
  }
  const available=feasibleTransitChoices(options);
@@ -22663,7 +22679,7 @@ async function openTransitJourneyMap(selected,resume=null){
   const place=document.createElement('div');place.textContent=(leg.from||'—')+' → '+(leg.to||'—');
   const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,journey.time_zone)+
    ' → '+transitClock(leg.arrivalTime,journey.time_zone);
-  row.append(label,place,clock);appendTransitStopCount(row,leg);stages.append(row);
+  row.append(label,place,clock);appendTransitStopCount(row,leg);appendTransportTicketAction(row,leg);stages.append(row);
  }
  details.append(stages);
  layer.append(head,note,mapHost,details);document.body.append(layer);
@@ -22769,8 +22785,14 @@ async function openTransitJourneyMap(selected,resume=null){
 }
 
 async function selectTransitJourney(options,index){
+ return selectTransitJourneyWithNavigation(options,index,false);
+}
+async function selectTransitJourneyWithNavigation(options,index,navigate=false){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;
  const stop=journey.boarding_stop,valid=()=>state.selectedTransitJourney===selected&&state.transitAccessGeneration===generation&&state.conversationGeneration===chatGeneration;
+ if(state.lastTransitChoice?.mixedJourney===true&&!navigate){
+  selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+ }
  if(state.lastTransitChoice?.mixedJourney===true&&
   (journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||'').toLowerCase()))){
   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;

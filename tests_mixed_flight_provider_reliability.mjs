@@ -39,14 +39,12 @@ const liveAgain=await cachedMixedFlightSearch({},{
 },{...deps,search:async()=>found});
 assert.equal(liveAgain.candidates.length,1,'Next search can recover after provider outage');
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
-const fields=backend.slice(backend.indexOf('const mixedFlightFields=async()=>{'),
- backend.indexOf('// Operator pages are a SECOND',backend.indexOf('const mixedFlightFields=async()=>{')));
-assert.ok(fields.includes('if(!result?.candidates?.length)return diagnostic'),
- 'Retain diagnostic status for no flight results');
-assert.ok(fields.includes('let candidates=raw,detailsReady=false'));
-assert.ok(fields.includes('new Promise(resolve=>setTimeout(()=>resolve(null),8500))'),
- 'Do not make air search results dependent on unlimited ground itinerary latency');
-assert.ok(fields.includes('flight_candidates:candidates'));
+const fields=readFileSync(new URL('./mixed_indicative_search.mjs',import.meta.url),'utf8');
+assert.ok(fields.includes("flight_search_status:air?.status||'provider_unavailable'"));
+assert.ok(fields.includes('let flights=Array.isArray'));
+assert.ok(fields.includes('setTimeout(()=>resolve(null),8500)'),
+ 'Ground enrichment cannot wait indefinitely');
+assert.ok(fields.includes('flight_candidates:flights'));
 assert.ok(backend.includes('cacheBaseUrl:new URL(request.url).origin'));
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 const start=frontend.indexOf('function renderMixedUnifiedResults(');

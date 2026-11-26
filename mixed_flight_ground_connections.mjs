@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 // On-demand air+ground connector for a flight the passenger selected.
 // It re-discovers airports from real geography, resolves IANA time zones,
 // then asks already-authorized ground timetable planners on BOTH sides.
@@ -60,7 +61,7 @@ export const compactJourney=j=>{
    arrivalPoint:pointCoords(l.arrivalPoint),
    departureZone:String(l.departureZone||timeZone||'').slice(0,80)||null,
    arrivalZone:String(l.arrivalZone||timeZone||'').slice(0,80)||null,
-   operator:l.operator||'',lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
+   operator:l.operator||'',bookingUrl:transportTicketUrl(l.bookingUrl),operatorUrl:transportTicketUrl(l.operatorUrl),lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
    towards:String(l.towards||'').slice(0,110),
    platform:String(l.platform||'').slice(0,30),
    fareLocal:l.fareLocal||null}))};

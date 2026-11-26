@@ -368,12 +368,28 @@ async function discoverOfficialCorridorConnections(env,{
  };
 }
 
+export async function resolveMixedOriginLocality(env,origin,{fetcher=fetch}={}){
+ const known=locality(origin);
+ if(known&&!/^(?:gps|location|my location|locatia mea|locatia telefonului|departure|plecare)$/i.test(fold(known)))return origin;
+ if(!env?.GEOAPIFY_API_KEY||origin?.latitude==null||origin?.longitude==null||
+   !Number.isFinite(+origin.latitude)||!Number.isFinite(+origin.longitude))return null;
+ const u=new URL('https://api.geoapify.com/v1/geocode/reverse');
+ u.searchParams.set('lat',String(origin.latitude));u.searchParams.set('lon',String(origin.longitude));
+ u.searchParams.set('format','json');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+ try{
+  const r=await fetcher(u,{signal:AbortSignal.timeout(6000)});if(!r.ok)return null;
+  const data=await r.json(),p=data.results?.[0]||data.features?.[0]?.properties;
+  const city=cleanLocality(p?.city||p?.town||p?.village||'');
+  return city?{...origin,city,country_code:country(p)||country(origin)}:null;
+ }catch{return null}
+}
 export async function discoverMixedGroundOperators(env,{origin,destination,fetcher=fetch}={}){
- const fromCity=locality(origin),toCity=locality(destination);
- if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
  const key=trim(env?.EXA_API_KEY,300);
  const braveKey=trim(env?.BRAVE_API_KEY,300);
  if(!key&&!braveKey)return {status:'search_providers_not_configured',operators:[]};
+ origin=await resolveMixedOriginLocality(env,origin,{fetcher});
+ const fromCity=locality(origin),toCity=locality(destination);
+ if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
  // Search only approximate places, not street addresses or precise GPS.
  const sourceCountry=await resolveOriginCountry(env,origin,{fetcher});
  const destinationCountry=country(destination);
