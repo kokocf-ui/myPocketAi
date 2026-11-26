@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "4ff880badd68f72726039286a1e05b6d764e235df5081cea23e058846a84f42d",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Biologie pentru clasa a X-a, ciclul inferior al liceului, filiera teoretică, profilul real (OMEC nr. 4598/31.08.2004), în vigoare în 2026–2027 — țesuturi vegetale și animale; structura și funcțiile fundamentale ale organismelor: nutriție (fotosinteză, nutriție heterotrofă, digestie), respirație, circulație, excreție, funcții de relație (sensibilitate, sistem nervos, analizatori, locomoție), reproducere la plante și animale; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Biologie · Clasa a X-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Țesuturi vegetale și animale",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04"
+   ]
+  },
+  {
+   "title": "Nutriția",
+   "keys": [
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06",
+    "eu-year-ro-medium-10-l07",
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09"
+   ]
+  },
+  {
+   "title": "Respirația",
+   "keys": [
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11",
+    "eu-year-ro-medium-10-l12"
+   ]
+  },
+  {
+   "title": "Circulația",
+   "keys": [
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14",
+    "eu-year-ro-medium-10-l15",
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18"
+   ]
+  },
+  {
+   "title": "Excreția",
+   "keys": [
+    "eu-year-ro-medium-10-l19",
+    "eu-year-ro-medium-10-l20"
+   ]
+  },
+  {
+   "title": "Funcții de relație",
+   "keys": [
+    "eu-year-ro-medium-10-l21",
+    "eu-year-ro-medium-10-l22",
+    "eu-year-ro-medium-10-l23",
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26"
+   ]
+  },
+  {
+   "title": "Reproducerea",
+   "keys": [
+    "eu-year-ro-medium-10-l27",
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29",
+    "eu-year-ro-medium-10-l30",
+    "eu-year-ro-medium-10-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Țesuturi vegetale: meristeme, țesuturi de apărare și fundamentale",
+    "theory": "Țesuturile vegetale sunt grupuri de celule cu aceeași origine, structură și funcție. Meristemele (țesuturile de creștere) au celule mici, cu pereți subțiri, care se divid continuu: cele apicale, din vârful rădăcinii și tulpinii, asigură creșterea în lungime; cambiul și felogenul asigură creșterea în grosime. Țesuturile de apărare acoperă organele: epiderma (un strat de celule, cu cuticulă și stomate prin care se fac schimburile de gaze) și suberul (pluta, din celule moarte, impermeabile). Țesuturile fundamentale (parenchimurile) realizează fotosinteza (parenchimul asimilator din frunze), depozitează substanțe (în tuberculi, semințe) sau aer (la plantele acvatice).",
+    "sample": "Pluta dopurilor de sticlă provine din suberul stejarului de plută.",
+    "worked": "Vârful rădăcinii crește în lungime prin meristemul apical, protejat de scufie. Un trunchi de copac se îngroașă anual prin activitatea cambiului — inelele anuale arată vârsta: 45 de inele ≈ 45 de ani. Cartoful depozitează amidon în parenchimul tuberculului.",
+    "exercises": [
+     "Ce caracteristici au celulele meristematice?",
+     "Compară meristemele apicale cu cambiul.",
+     "Ce rol au stomatele?",
+     "Ce este suberul și de ce este impermeabil?",
+     "Dă exemple de parenchimuri și rolul lor."
+    ],
+    "test": [
+     "Ce asigură meristemele apicale?",
+     "Ce țesut asigură creșterea în grosime?",
+     "Ce acoperă frunza?",
+     "Ce țesut realizează fotosinteza?",
+     "Ce arată inelele anuale?"
+    ],
+    "steps": [
+     "Observă forma celulelor, grosimea pereților și poziția țesutului în organ.",
+     "Încadrează țesutul (meristem, apărare, fundamental).",
+     "Leagă structura de funcție.",
+     "Greșeala frecventă: să crezi că epiderma are celule vii fără excepție și suberul la fel; suberul este format din celule moarte."
+    ],
+    "answers": [
+     "Creșterea în lungime",
+     "Cambiul",
+     "Epiderma",
+     "Parenchimul asimilator",
+     "Vârsta arborelui"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Țesuturi vegetale: conducătoare, mecanice, secretoare",
+    "theory": "Țesuturile conducătoare transportă sevele: lemnul (xilemul), format din vase (trahee și traheide) cu pereți îngroșați, transportă seva brută (apă și săruri minerale) de la rădăcină spre frunze; liberul (floemul), format din tuburi ciuruite, transportă seva elaborată (substanțe organice produse prin fotosinteză) spre toate organele. Lemnul și liberul formează împreună fascicule conducătoare. Țesuturile mecanice dau rezistență: colenchimul (celule vii, în organe tinere) și sclerenchimul (celule moarte, cu pereți foarte groși — fibrele de in, cânepă, coaja nucii). Țesuturile secretoare produc substanțe: uleiuri eterice (mentă, lavandă), latex, nectar, rășini.",
+    "sample": "Fibrele de in, folosite la țesături, sunt din sclerenchim.",
+    "worked": "Experiment: o tulpină de țelină pusă în apă colorată cu cerneală se colorează după câteva ore în dreptul vaselor lemnoase — se vede drumul sevei brute. Dacă se îndepărtează un inel de scoarță (cu liberul) de pe un trunchi, seva elaborată nu mai ajunge la rădăcini, iar arborele se usucă în timp.",
+    "exercises": [
+     "Compară lemnul cu liberul (celule, sevă, sens).",
+     "Explică experimentul cu țelina în apă colorată.",
+     "De ce inelarea scoarței poate usca un arbore?",
+     "Compară colenchimul cu sclerenchimul.",
+     "Dă exemple de produse ale țesuturilor secretoare."
+    ],
+    "test": [
+     "Ce transportă lemnul?",
+     "Ce transportă liberul?",
+     "Ce sunt fasciculele conducătoare?",
+     "Ce țesut formează fibrele de in?",
+     "Ce produc țesuturile secretoare?"
+    ],
+    "steps": [
+     "Identifică țesutul după structura celulelor.",
+     "Precizează substanța transportată sau rolul mecanic ori secretor.",
+     "Explică un experiment sau o aplicație practică.",
+     "Greșeala frecventă: să inversezi sevele: lemnul transportă seva brută, iar liberul seva elaborată."
+    ],
+    "answers": [
+     "Seva brută (apă și săruri minerale)",
+     "Seva elaborată (substanțe organice)",
+     "Grupuri de vase de lemn și liber",
+     "Sclerenchimul",
+     "Uleiuri eterice, nectar, rășini, latex"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Țesuturi animale: epitelial și conjunctiv",
+    "theory": "Țesuturile epiteliale au celule strâns alipite, fără vase de sânge, și acoperă suprafețele corpului și organelor (epitelii de acoperire — epiderma pielii, mucoasele) sau formează glande (epitelii glandulare — glandele salivare, sudoripare). Țesuturile conjunctive au celule depărtate, cu multă substanță intercelulară: conjunctivul moale (leagă organele), adipos (depozitează grăsime), tendoanele (fibroase), cartilajul (flexibil — urechea, nasul), osul (rigid, cu săruri de calciu) și sângele (conjunctiv lichid, cu plasmă). Rolurile: legătură, susținere, protecție, depozitare, transport.",
+    "sample": "Sângele este considerat țesut conjunctiv, deși este lichid.",
+    "worked": "Comparăm: epiderma pielii (celule lipite, straturi, fără vase — de aceea o zgârietură superficială nu sângerează) și osul (celule în cavități, substanță intercelulară dură cu fosfat de calciu și fibre de colagen, irigat de vase). Fibrele dau elasticitate, mineralele duritate.",
+    "exercises": [
+     "Compară țesutul epitelial cu cel conjunctiv.",
+     "Dă exemple de epitelii de acoperire și glandulare.",
+     "Enumeră tipurile de țesut conjunctiv și rolul lor.",
+     "De ce o zgârietură superficială a pielii nu sângerează?",
+     "Ce substanțe dau osului duritate și elasticitate?"
+    ],
+    "test": [
+     "Au epiteliile vase de sânge?",
+     "Ce este o glandă?",
+     "Ce țesut depozitează grăsime?",
+     "Ce țesut formează urechea externă?",
+     "Ce tip de țesut este sângele?"
+    ],
+    "steps": [
+     "Observă distanța dintre celule și cantitatea de substanță intercelulară.",
+     "Încadrează țesutul (epitelial sau conjunctiv, tipul).",
+     "Leagă structura de rolul în organism.",
+     "Greșeala frecventă: să consideri că toate țesuturile conjunctive sunt moi; osul și cartilajul sunt conjunctive de susținere."
+    ],
+    "answers": [
+     "Nu",
+     "Un epiteliu specializat în secreție",
+     "Țesutul adipos",
+     "Cartilajul",
+     "Țesut conjunctiv lichid"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Țesuturi animale: muscular și nervos",
+    "theory": "Țesutul muscular este format din celule (fibre) contractile. Musculatura striată scheletică formează mușchii legați de oase; se contractă voluntar, rapid. Musculatura netedă se găsește în pereții organelor interne (stomac, intestin, vase de sânge) și se contractă involuntar, lent. Musculatura striată cardiacă formează inima: are striații, dar se contractă involuntar și ritmic, fără oboseală. Țesutul nervos este format din neuroni și celule gliale. Neuronul are corp celular, dendrite (primesc impulsuri) și axon (transmite impulsul); neuronii comunică prin sinapse. Celulele gliale hrănesc, protejează și susțin neuronii.",
+    "sample": "Inima bate toată viața fără să obosească datorită țesutului muscular cardiac.",
+    "worked": "Când atingi un obiect fierbinte: receptorii din piele generează impulsuri care urcă prin neuroni senzitivi, sunt preluate în măduva spinării, iar neuronii motori transmit comanda mușchilor striați ai brațului, care se contractă și retrag mâna — în mai puțin de o secundă.",
+    "exercises": [
+     "Compară cele trei tipuri de țesut muscular.",
+     "Desenează un neuron și denumește părțile.",
+     "Ce rol au celulele gliale?",
+     "Unde se găsește musculatura netedă?",
+     "Ce este o sinapsă?"
+    ],
+    "test": [
+     "Ce tip de musculatură este voluntară?",
+     "Ce musculatură formează inima?",
+     "Ce prelungire transmite impulsul de la corpul neuronului?",
+     "Ce prelungiri primesc impulsuri?",
+     "Ce sunt celulele gliale?"
+    ],
+    "steps": [
+     "Identifică țesutul după aspectul celulelor (striații, nuclei, prelungiri).",
+     "Precizează tipul de control (voluntar sau involuntar) și localizarea.",
+     "Leagă structura de funcție.",
+     "Greșeala frecventă: să crezi că mușchiul inimii este controlat voluntar pentru că este striat; contracția lui este involuntară."
+    ],
+    "answers": [
+     "Musculatura striată scheletică",
+     "Musculatura striată cardiacă",
+     "Axonul",
+     "Dendritele",
+     "Celule care hrănesc, protejează și susțin neuronii"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Nutriția autotrofă: fotosinteza",
+    "theory": "Plantele, algele și cianobacteriile sunt autotrofe: își produc singure substanțele organice. Fotosinteza are loc în cloroplaste, cu ajutorul clorofilei, care captează energia luminii: 6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂. Are două faze: faza de lumină (în tilacoide — apa este descompusă, se eliberează O₂ și se formează ATP) și faza de întuneric (în stromă — CO₂ este fixat și transformat în glucide, folosind ATP). Glucoza este folosită pentru energie sau transformată în amidon, celuloză, proteine, lipide. Fotosinteza produce oxigenul atmosferei și hrana aproape tuturor lanțurilor trofice.",
+    "sample": "Bulele de oxigen eliberate de ciuma apei în lumină dovedesc fotosinteza.",
+    "worked": "Experiment: o frunză de mușcată ținută 2 zile la întuneric, apoi acoperită parțial cu hârtie neagră și expusă la lumină. După decolorare în alcool și tratare cu iod, doar partea luminată devine albastru-violet (amidon). Concluzie: lumina este necesară fotosintezei.",
+    "exercises": [
+     "Scrie ecuația fotosintezei.",
+     "Unde are loc fotosinteza și ce pigment intervine?",
+     "Compară faza de lumină cu faza de întuneric.",
+     "Explică experimentul cu frunza acoperită parțial.",
+     "De ce fotosinteza este importantă pentru întreaga biosferă?"
+    ],
+    "test": [
+     "Ce sunt organismele autotrofe?",
+     "Organitul fotosintezei?",
+     "Ce gaz se eliberează în fotosinteză?",
+     "Ce gaz se consumă în fotosinteză?",
+     "Ce substanță de rezervă se formează în frunze?"
+    ],
+    "steps": [
+     "Identifică reactanții, produșii și condițiile (lumină, clorofilă).",
+     "Explică cele două faze și locul lor.",
+     "Interpretează un experiment sau o consecință ecologică.",
+     "Greșeala frecventă: să crezi că oxigenul din fotosinteză provine din CO₂; el provine din descompunerea apei."
+    ],
+    "answers": [
+     "Organisme care își produc singure substanțele organice",
+     "Cloroplastul",
+     "Oxigenul",
+     "Dioxidul de carbon",
+     "Amidonul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Factorii care influențează fotosinteza; chemosinteza",
+    "theory": "Intensitatea fotosintezei depinde de: intensitatea luminii (crește până la o valoare de saturație), concentrația CO₂ (în sere se adaugă CO₂ pentru recolte mai mari), temperatură (optim ≈ 25–30 °C; la temperaturi prea mari enzimele se denaturează), apă (lipsa ei închide stomatele) și culoarea luminii (lumina roșie și albastră sunt cele mai eficiente; cea verde este reflectată — de aceea frunzele sunt verzi). Factorul aflat în cantitatea cea mai mică limitează procesul (factor limitativ). Chemosinteza este o altă formă de autotrofie: unele bacterii (nitrificatoare, sulfobacterii) folosesc energia unor reacții chimice, nu lumina.",
+    "sample": "În sere se adaugă dioxid de carbon pentru a mări producția de roșii.",
+    "worked": "Ciuma apei la diferite distanțe de o lampă: la 10 cm — 40 bule/min, la 20 cm — 18 bule/min, la 40 cm — 5 bule/min. Concluzie: cu cât lumina este mai slabă, cu atât fotosinteza este mai lentă. Experimentul păstrează constante temperatura și CO₂ (variabile controlate).",
+    "exercises": [
+     "Enumeră factorii care influențează fotosinteza.",
+     "Interpretează datele experimentului cu ciuma apei.",
+     "De ce frunzele par verzi?",
+     "Ce este un factor limitativ?",
+     "Ce este chemosinteza? Dă un exemplu."
+    ],
+    "test": [
+     "Temperatura optimă aproximativă a fotosintezei?",
+     "Ce culori de lumină sunt cele mai eficiente?",
+     "Ce se adaugă în sere?",
+     "Ce se întâmplă cu stomatele în lipsa apei?",
+     "Ce energie folosesc bacteriile chemosintetizante?"
+    ],
+    "steps": [
+     "Identifică factorul modificat și pe cele constante.",
+     "Descrie relația dintre factor și intensitatea fotosintezei (inclusiv saturația).",
+     "Formulează concluzia și o aplicație practică.",
+     "Greșeala frecventă: să crezi că mărirea luminii crește la nesfârșit fotosinteza; peste o valoare, alt factor devine limitativ."
+    ],
+    "answers": [
+     "≈ 25–30 °C",
+     "Roșie și albastră",
+     "Dioxid de carbon",
+     "Se închid",
+     "Energia unor reacții chimice"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Nutriția heterotrofă: saprofită, parazită, simbiontă",
+    "theory": "Organismele heterotrofe folosesc substanțe organice gata formate. Saprofitele (multe bacterii și fungi) descompun materia organică moartă, eliberând săruri minerale în sol — sunt „reciclatorii” naturii. Parazitele trăiesc pe sau în alt organism (gazda), hrănindu-se pe seama lui: bacterii și fungi patogeni, plante parazite (torțelul, fără clorofilă; vâscul, semiparazit, cu clorofilă), animale parazite (tenia, păduchii). Simbiontele trăiesc în asociere avantajoasă pentru ambii parteneri: lichenii (algă + ciupercă), micorizele (ciupercă + rădăcină), bacteriile fixatoare de azot din nodozitățile leguminoaselor. Plantele carnivore (roua cerului) sunt autotrofe, dar își completează azotul din insecte.",
+    "sample": "Vâscul de pe ramurile copacilor ia apă și săruri de la arbore, dar face singur fotosinteză.",
+    "worked": "Leguminoasele (fasole, mazăre, trifoi) adăpostesc în nodozități bacterii care fixează azotul din aer; planta le oferă glucide, iar bacteriile oferă compuși cu azot. După recoltare, solul rămâne mai bogat în azot — de aceea agricultorii alternează culturile (rotația culturilor).",
+    "exercises": [
+     "Compară nutriția saprofită, parazită și simbiontă.",
+     "De ce saprofitele sunt esențiale în ecosisteme?",
+     "Compară torțelul cu vâscul.",
+     "Explică simbioza dintre leguminoase și bacteriile fixatoare de azot.",
+     "De ce plantele carnivore prind insecte?"
+    ],
+    "test": [
+     "Ce sunt organismele heterotrofe?",
+     "Ce fac saprofitele?",
+     "Ce este gazda?",
+     "Un exemplu de simbioză?",
+     "O plantă parazită fără clorofilă?"
+    ],
+    "steps": [
+     "Identifică sursa de hrană a organismului (materie moartă, gazdă vie, partener).",
+     "Încadrează tipul de nutriție heterotrofă.",
+     "Precizează consecințele pentru parteneri și pentru ecosistem.",
+     "Greșeala frecventă: să consideri plantele carnivore heterotrofe; ele fac fotosinteză și folosesc insectele doar ca sursă de azot."
+    ],
+    "answers": [
+     "Organisme care folosesc substanțe organice gata formate",
+     "Descompun materia organică moartă",
+     "Organismul pe seama căruia trăiește parazitul",
+     "Lichenul (algă și ciupercă)",
+     "Torțelul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Sistemul digestiv la mamifere: structură",
+    "theory": "Sistemul digestiv este format din tubul digestiv și glandele anexe. Tubul digestiv: cavitatea bucală (dinți, limbă, glande salivare), faringe, esofag, stomac, intestin subțire (duoden, jejun, ileon), intestin gros (cec cu apendice, colon, rect) și anus. Glandele anexe: glandele salivare, ficatul (produce bila, care emulsionează grăsimile, și depozitează glicogen) și pancreasul (produce sucul pancreatic). Peretele tubului are musculatură netedă care împinge hrana prin mișcări peristaltice. La ierbivorele rumegătoare (vaca), stomacul are patru compartimente, iar bacteriile simbionte digeră celuloza.",
+    "sample": "Ficatul este cea mai mare glandă a corpului și produce bila.",
+    "worked": "Drumul unui sandviș: cavitatea bucală (mestecare, salivă) → faringe → esofag (peristaltism) → stomac (2–4 ore) → intestin subțire (≈ 6–7 m, digestie finală și absorbție) → intestin gros (absorbția apei, ≈ 1,5 m) → eliminarea resturilor. Întregul drum durează ≈ 24–72 de ore.",
+    "exercises": [
+     "Enumeră în ordine segmentele tubului digestiv.",
+     "Ce glande anexe are sistemul digestiv și ce produc?",
+     "Ce sunt mișcările peristaltice?",
+     "De ce rumegătoarele pot digera celuloza?",
+     "Ce rol are bila?"
+    ],
+    "test": [
+     "Cea mai mare glandă a corpului?",
+     "Lungimea aproximativă a intestinului subțire?",
+     "Unde se absoarbe cea mai mare parte a apei rămase?",
+     "Ce produce pancreasul pentru digestie?",
+     "Câte compartimente are stomacul vacii?"
+    ],
+    "steps": [
+     "Urmărește drumul hranei prin tubul digestiv.",
+     "Precizează glandele care își varsă produsele în fiecare segment.",
+     "Leagă structura de funcție (mărunțire, digestie, absorbție, eliminare).",
+     "Greșeala frecventă: să crezi că bila conține enzime; ea doar emulsionează grăsimile, ușurând acțiunea lipazei."
+    ],
+    "answers": [
+     "Ficatul",
+     "≈ 6–7 m",
+     "În intestinul gros",
+     "Sucul pancreatic",
+     "Patru"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Digestia și absorbția",
+    "theory": "Digestia mecanică mărunțește hrana (mestecat, mișcările stomacului), iar digestia chimică o descompune cu ajutorul enzimelor. În gură, amilaza salivară începe digestia amidonului. În stomac, sucul gastric (acid clorhidric și pepsină) descompune proteinele; acidul distruge și microbii. În intestinul subțire, enzimele pancreatice și intestinale termină digestia: amidonul → glucoză, proteinele → aminoacizi, grăsimile → acizi grași și glicerol (bila le emulsionează). Absorbția are loc prin vilozitățile intestinale, care măresc enorm suprafața (≈ 200 m²): glucoza și aminoacizii trec în sânge, grăsimile în limfă. Fibrele nedigerabile ajută tranzitul.",
+    "sample": "Pâinea mestecată mult capătă gust dulce, pentru că amilaza transformă amidonul în zaharuri.",
+    "worked": "Experiment: două eprubete cu soluție de amidon, una cu salivă, alta cu apă, ținute la 37 °C 15 minute. Cu iod: eprubeta cu apă devine albastră (amidon nedigerat), cea cu salivă nu se colorează (amidonul a fost descompus). Cu salivă fiartă, rezultatul ar fi ca la apă — enzima a fost denaturată.",
+    "exercises": [
+     "Compară digestia mecanică cu cea chimică.",
+     "Ce enzime acționează în gură, stomac și intestin?",
+     "În ce se transformă amidonul, proteinele și grăsimile?",
+     "Explică rolul vilozităților intestinale.",
+     "Interpretează experimentul cu saliva și amidonul."
+    ],
+    "test": [
+     "Ce enzimă începe digestia amidonului?",
+     "Ce enzimă gastrică digeră proteinele?",
+     "Produsul final al digestiei proteinelor?",
+     "Unde are loc cea mai mare parte a absorbției?",
+     "Unde trec grăsimile absorbite?"
+    ],
+    "steps": [
+     "Identifică segmentul și secreția.",
+     "Precizează enzima, substratul și produsul.",
+     "Explică absorbția și legătura cu sănătatea digestivă.",
+     "Greșeala frecventă: să crezi că digestia proteinelor începe în gură; ea începe în stomac."
+    ],
+    "answers": [
+     "Amilaza salivară",
+     "Pepsina",
+     "Aminoacizii",
+     "În intestinul subțire",
+     "În limfă"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Respirația celulară: aerobă și anaerobă",
+    "theory": "Respirația celulară eliberează energia din substanțele organice și o stochează în ATP. Respirația aerobă are loc în mitocondrii, cu oxigen: C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O + energie (≈ 38 ATP pe moleculă de glucoză). Respirația anaerobă (fermentația) are loc în citoplasmă, fără oxigen, și eliberează puțină energie (2 ATP): fermentația alcoolică (drojdii: glucoză → alcool etilic + CO₂), fermentația lactică (bacterii lactice și mușchii noștri la efort intens: glucoză → acid lactic). Fotosinteza și respirația aerobă sunt procese opuse și complementare.",
+    "sample": "La un sprint, mușchii produc acid lactic, pentru că oxigenul nu ajunge suficient de repede.",
+    "worked": "Comparăm randamentul: respirația aerobă ≈ 38 ATP/glucoză, fermentația 2 ATP/glucoză, adică de ≈ 19 ori mai puțin. De aceea drojdiile, fără oxigen, consumă mult zahăr pentru puțină energie. Experiment: semințele în germinare eliberează CO₂, care tulbură apa de var.",
+    "exercises": [
+     "Scrie ecuația respirației aerobe.",
+     "Compară respirația aerobă cu fermentația (loc, oxigen, energie, produși).",
+     "Dă exemple de fermentații folosite în alimentație.",
+     "De ce apare oboseala musculară la efort intens?",
+     "Compară fotosinteza cu respirația."
+    ],
+    "test": [
+     "Unde are loc respirația aerobă?",
+     "Câți ATP produce fermentația dintr-o glucoză?",
+     "Produsul fermentației lactice?",
+     "Ce gaz rezultă din respirație?",
+     "Ce organism produce fermentația alcoolică?"
+    ],
+    "steps": [
+     "Verifică prezența oxigenului.",
+     "Încadrează tipul de respirație și scrie produșii.",
+     "Compară randamentul energetic și dă o aplicație practică.",
+     "Greșeala frecventă: să crezi că plantele doar fac fotosinteză și nu respiră; plantele respiră permanent, zi și noapte."
+    ],
+    "answers": [
+     "În mitocondrii",
+     "Doi",
+     "Acidul lactic",
+     "Dioxidul de carbon",
+     "Drojdia"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Respirația la plante și la animale: suprafețe respiratorii",
+    "theory": "La plante, schimbul de gaze se face prin stomate (frunze) și lenticele (tulpini lemnoase); gazele difuzează prin spațiile dintre celule. Ziua, fotosinteza este mai intensă decât respirația, deci planta eliberează netă O₂; noaptea doar respiră. La animale, suprafețele respiratorii sunt subțiri, umede și bogat vascularizate: pielea (râma, amfibienii), branhiile (pești, crustacei — extrag oxigenul dizolvat în apă), traheile (insecte — tuburi care duc aerul direct la celule), plămânii (vertebratele terestre). Păsările au saci aerieni, care asigură un flux continuu de aer prin plămâni.",
+    "sample": "Insectele respiră prin trahee, care se deschid prin orificii pe laturile corpului.",
+    "worked": "Peștii scoși din apă se sufocă: lamelele branhiale se lipesc între ele, iar suprafața de schimb scade foarte mult. Într-un acvariu supraîncălzit, oxigenul dizolvat scade și peștii vin la suprafață să „înghită” aer.",
+    "exercises": [
+     "Prin ce structuri respiră plantele?",
+     "De ce ziua plantele eliberează oxigen, deși respiră?",
+     "Compară branhiile, traheile și plămânii.",
+     "De ce peștii se sufocă în afara apei?",
+     "Ce caracteristici comune au suprafețele respiratorii?"
+    ],
+    "test": [
+     "Ce sunt lenticelele?",
+     "Cu ce respiră insectele?",
+     "Cu ce respiră peștii?",
+     "Ce au păsările în plus față de mamifere pentru respirație?",
+     "Ce animal respiră prin piele?"
+    ],
+    "steps": [
+     "Identifică mediul de viață (apă sau aer).",
+     "Asociază suprafața respiratorie potrivită și caracteristicile ei.",
+     "Explică eficiența și eventualele limite.",
+     "Greșeala frecventă: să crezi că plantele respiră doar noaptea; respiră continuu, dar ziua fotosinteza o maschează."
+    ],
+    "answers": [
+     "Orificii pe tulpinile lemnoase prin care se fac schimburi de gaze",
+     "Prin trahee",
+     "Prin branhii",
+     "Saci aerieni",
+     "Râma (sau amfibienii)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Sistemul respirator la mamifere; ventilația și schimbul de gaze",
+    "theory": "Sistemul respirator cuprinde căile respiratorii (cavitatea nazală — încălzește, umezește și filtrează aerul; faringe; laringe — cu corzile vocale; trahee; bronhii; bronhiole) și plămânii, formați din milioane de alveole pulmonare, înconjurate de capilare. Ventilația: la inspirație diafragma se contractă și coboară, coastele se ridică, volumul toracelui crește și aerul intră; la expirație mușchii se relaxează și aerul iese. În alveole, O₂ difuzează în sânge, iar CO₂ din sânge în alveole. Fumatul distruge cilii căilor respiratorii și alveolele, provocând bronșită cronică, emfizem, cancer pulmonar.",
+    "sample": "Suprafața totală a alveolelor pulmonare este de aproximativ 70 m², cât un teren de tenis pe jumătate.",
+    "worked": "Aerul inspirat conține ≈ 21% O₂ și 0,04% CO₂; aerul expirat ≈ 16% O₂ și 4% CO₂. La 15 respirații/minut cu 0,5 L fiecare, ventilația este 7,5 L/min; la efort poate crește peste 100 L/min.",
+    "exercises": [
+     "Enumeră în ordine organele prin care trece aerul.",
+     "Descrie mecanismul inspirației și expirației.",
+     "Explică schimbul de gaze în alveole.",
+     "Calculează ventilația pentru 18 respirații/min a câte 0,5 L.",
+     "Ce efecte are fumatul asupra sistemului respirator?"
+    ],
+    "test": [
+     "Ce rol are cavitatea nazală?",
+     "Unde se află corzile vocale?",
+     "Ce sunt alveolele?",
+     "Ce mușchi principal participă la inspirație?",
+     "Procentul de O₂ în aerul expirat?"
+    ],
+    "steps": [
+     "Urmărește drumul aerului și rolul fiecărui organ.",
+     "Explică ventilația prin modificarea volumului toracelui.",
+     "Descrie difuzia gazelor și efectele factorilor de risc.",
+     "Greșeala frecventă: să crezi că plămânii se umflă singuri; aerul intră pentru că diafragma și mușchii intercostali măresc volumul toracelui."
+    ],
+    "answers": [
+     "Încălzește, umezește și filtrează aerul",
+     "În laringe",
+     "Săculeți pulmonari unde are loc schimbul de gaze",
+     "Diafragma",
+     "≈ 16%"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Absorbția apei și a sărurilor minerale la plante",
+    "theory": "Rădăcina absoarbe apa și sărurile minerale din sol prin perișorii absorbanți, care măresc mult suprafața de contact. Apa intră prin osmoză, deoarece concentrația sucului celular este mai mare decât a soluției solului; sărurile minerale intră prin difuzie și transport activ (cu consum de energie). Apa traversează scoarța rădăcinii până la vasele lemnoase. Absorbția depinde de: temperatura solului, aerisirea lui (rădăcinile au nevoie de oxigen pentru respirație), concentrația soluției solului (un sol prea sărat oprește absorbția — „seceta fiziologică”).",
+    "sample": "Plantele udate cu apă foarte rece sau puse într-un sol bătătorit absorb mai greu apa.",
+    "worked": "Un răsad scos brusc din pământ se ofilește, pentru că se rup perișorii absorbanți; de aceea se transplantează cu pământ pe rădăcină. Fertilizarea excesivă face soluția solului mai concentrată decât sucul celular, iar planta pierde apă și se ofilește, deși solul este umed.",
+    "exercises": [
+     "Ce rol au perișorii absorbanți?",
+     "Explică intrarea apei în rădăcină prin osmoză.",
+     "Ce factori influențează absorbția?",
+     "De ce excesul de îngrășăminte poate ofili plantele?",
+     "De ce răsadurile se transplantează cu pământ pe rădăcini?"
+    ],
+    "test": [
+     "Prin ce structuri absoarbe rădăcina?",
+     "Prin ce proces intră apa?",
+     "De ce rădăcinile au nevoie de sol aerisit?",
+     "Ce este seceta fiziologică?",
+     "Cum intră sărurile minerale?"
+    ],
+    "steps": [
+     "Compară concentrația sucului celular cu cea a soluției solului.",
+     "Stabilește sensul deplasării apei și condițiile necesare.",
+     "Explică efectele factorilor de mediu și aplicațiile în agricultură.",
+     "Greșeala frecventă: să crezi că mai mult îngrășământ înseamnă întotdeauna creștere mai bună; excesul împiedică absorbția apei."
+    ],
+    "answers": [
+     "Perișorii absorbanți",
+     "Osmoză",
+     "Pentru respirația celulelor rădăcinii",
+     "Imposibilitatea absorbției apei într-un sol prea concentrat",
+     "Prin difuzie și transport activ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Transportul sevelor și transpirația la plante",
+    "theory": "Seva brută urcă prin vasele lemnoase de la rădăcină la frunze datorită presiunii radiculare (împingerea de jos), forței de sucțiune a frunzelor produse de transpirație (tragerea de sus) și coeziunii moleculelor de apă (coloana de apă nu se rupe). Transpirația este eliminarea apei sub formă de vapori, mai ales prin stomate; ea răcește planta și „trage” seva brută. Seva elaborată este transportată prin vasele liberiene de la frunze spre organele care cresc sau depozitează (rădăcini, fructe, tuberculi). Gutația este eliminarea apei sub formă de picături, când aerul este saturat cu vapori.",
+    "sample": "Dimineața, pe marginea frunzelor de căpșun apar picături de apă eliminate prin gutație.",
+    "worked": "Un mesteacăn mare poate transpira ≈ 200–400 L apă într-o zi de vară. Experiment: o ramură cu frunze acoperită cu o pungă de plastic — după câteva ore, punga se aburește; o ramură fără frunze aburește foarte puțin. Concluzie: frunzele sunt principalul organ al transpirației.",
+    "exercises": [
+     "Ce forțe asigură urcarea sevei brute?",
+     "Ce este transpirația și ce rol are?",
+     "Compară transpirația cu gutația.",
+     "Interpretează experimentul cu punga de plastic.",
+     "Spre ce organe este transportată seva elaborată?"
+    ],
+    "test": [
+     "Prin ce vase urcă seva brută?",
+     "Prin ce structuri se face transpirația?",
+     "Ce este gutația?",
+     "Ce este presiunea radiculară?",
+     "Prin ce vase circulă seva elaborată?"
+    ],
+    "steps": [
+     "Identifică seva și vasele conducătoare.",
+     "Explică forțele de transport și sensul deplasării.",
+     "Leagă transpirația de condițiile de mediu (temperatură, umiditate, vânt).",
+     "Greșeala frecventă: să crezi că seva elaborată circulă doar în jos; ea merge spre orice organ care consumă sau depozitează, inclusiv spre fructe și muguri."
+    ],
+    "answers": [
+     "Vasele lemnoase",
+     "Stomatele",
+     "Eliminarea apei sub formă de picături",
+     "Forța cu care rădăcina împinge seva în sus",
+     "Vasele liberiene"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Sângele: componente și funcții",
+    "theory": "Sângele (≈ 5 L la adult) este format din plasmă (≈ 55%: apă, proteine, glucoză, săruri, hormoni, CO₂) și elemente figurate (≈ 45%). Hematiile (globulele roșii, ≈ 4,5–5 milioane/mm³) sunt fără nucleu și conțin hemoglobină, care transportă O₂. Leucocitele (globulele albe, 6000–8000/mm³) apără organismul: unele fagocitează microbii, altele (limfocitele) produc anticorpi. Trombocitele (plachetele, 150 000–400 000/mm³) participă la coagulare, formând cheagul care oprește sângerarea. Funcții: transport (gaze, nutrienți, deșeuri, hormoni), apărare, reglarea temperaturii.",
+    "sample": "Analiza de sânge arată numărul de hematii, leucocite și trombocite.",
+    "worked": "Un rezultat: leucocite 15 000/mm³ — mult peste normal, sugerează o infecție (organismul produce mai multe celule de apărare). Hemoglobină scăzută și hematii puține indică anemie — oboseală, paloare; se poate datora lipsei fierului.",
+    "exercises": [
+     "Enumeră componentele sângelui și proporțiile lor.",
+     "Compară hematiile, leucocitele și trombocitele.",
+     "Ce indică o valoare mare a leucocitelor?",
+     "Ce este anemia și ce o poate produce?",
+     "Ce funcții are sângele?"
+    ],
+    "test": [
+     "Volumul de sânge la adult?",
+     "Ce transportă hemoglobina?",
+     "Ce celule sanguine apără organismul?",
+     "Ce rol au trombocitele?",
+     "Au hematiile nucleu?"
+    ],
+    "steps": [
+     "Identifică componenta sângelui după structură sau rol.",
+     "Compară valorile cu cele normale.",
+     "Formulează o interpretare și o măsură de sănătate.",
+     "Greșeala frecventă: să crezi că plasma este doar apă; ea conține proteine, nutrienți, săruri și hormoni."
+    ],
+    "answers": [
+     "≈ 5 L",
+     "Oxigenul",
+     "Leucocitele",
+     "Participă la coagulare",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Grupele sanguine, transfuziile și imunitatea",
+    "theory": "Sistemul ABO împarte sângele în patru grupe după antigenele de pe hematii: A (antigen A, anticorpi anti-B în plasmă), B (antigen B, anticorpi anti-A), AB (ambele antigene, fără anticorpi — primitor universal) și 0 (fără antigene, ambii anticorpi — donator universal). Factorul Rh: Rh+ (are antigenul D) sau Rh−. La transfuzie trebuie evitată întâlnirea antigenului cu anticorpul corespunzător, care aglutinează hematiile. Imunitatea poate fi naturală (după boală) sau artificială (vaccinuri — activă; seruri cu anticorpi — pasivă). Donarea de sânge salvează vieți.",
+    "sample": "O persoană cu grupa 0 Rh− poate dona, în urgență, oricui.",
+    "worked": "Un pacient cu grupa A are anticorpi anti-B: poate primi sânge A sau 0, dar nu B sau AB. Un pacient AB poate primi de la toate grupele (fără anticorpi). În practică, spitalele folosesc de preferință sânge izogrup (aceeași grupă și același Rh).",
+    "exercises": [
+     "Completează un tabel cu antigenele și anticorpii celor patru grupe.",
+     "De la cine poate primi sânge o persoană cu grupa B?",
+     "De ce grupa 0 este donator universal?",
+     "Ce este factorul Rh?",
+     "Compară imunitatea activă cu cea pasivă."
+    ],
+    "test": [
+     "Grupa primitor universal?",
+     "Grupa donator universal?",
+     "Ce anticorpi are grupa A?",
+     "Ce se întâmplă la o transfuzie incompatibilă?",
+     "Ce tip de imunitate dă un vaccin?"
+    ],
+    "steps": [
+     "Identifică antigenele donatorului și anticorpii primitorului.",
+     "Verifică dacă se întâlnesc antigenul și anticorpul corespunzător (aglutinare).",
+     "Concluzionează asupra compatibilității și precizează regula practică.",
+     "Greșeala frecventă: să verifici anticorpii donatorului în loc de antigenele lui față de anticorpii primitorului."
+    ],
+    "answers": [
+     "AB",
+     "0",
+     "Anti-B",
+     "Aglutinarea hematiilor",
+     "Imunitate activă artificială"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Sisteme circulatorii la animale: deschis și închis; inima la vertebrate",
+    "theory": "La animalele foarte mici sau simple (spongieri, celenterate), substanțele circulă prin difuzie. Artropodele și majoritatea moluștelor au sistem circulator deschis: lichidul (hemolimfa) iese din vase și scaldă direct organele. Viermii inelați, cefalopodele și vertebratele au sistem circulator închis: sângele circulă numai prin vase, mai rapid și mai eficient. La vertebrate, inima evoluează: pești — 2 camere (un atriu, un ventricul), o singură circulație; amfibieni — 3 camere (2 atrii, un ventricul, sângele se amestecă parțial); reptile — 3 camere cu sept incomplet în ventricul (crocodilii au 4); păsări și mamifere — 4 camere, separare completă a sângelui oxigenat de cel neoxigenat, ceea ce permite temperatura constantă.",
+    "sample": "Peștii au inima cu două camere, iar păsările și mamiferele cu patru.",
+    "worked": "Comparăm: la pește, sângele trece o singură dată prin inimă la un circuit complet (inimă → branhii → corp → inimă); la mamifer trece de două ori (circulația mică și cea mare). Separarea completă la păsări și mamifere asigură organelor sânge bogat în oxigen, necesar unui metabolism intens și temperaturii constante.",
+    "exercises": [
+     "Compară sistemul circulator deschis cu cel închis.",
+     "Completează un tabel cu numărul de camere ale inimii la pești, amfibieni, reptile, păsări și mamifere.",
+     "De ce la amfibieni sângele se amestecă parțial?",
+     "Explică legătura dintre inima cu patru camere și temperatura constantă.",
+     "Câte circulații au peștii și câte mamiferele?"
+    ],
+    "test": [
+     "Ce lichid circulă la insecte?",
+     "Câte camere are inima peștilor?",
+     "Câte camere are inima amfibienilor?",
+     "Ce reptile au inima cu patru camere?",
+     "Ce animale nevertebrate au sistem circulator închis?"
+    ],
+    "steps": [
+     "Identifică tipul sistemului circulator (deschis sau închis).",
+     "Numără camerele inimii și verifică separarea sângelui.",
+     "Leagă structura de nivelul metabolismului și de mediul de viață.",
+     "Greșeala frecventă: să crezi că toate animalele au sânge roșu în vase închise; insectele au hemolimfă într-un sistem deschis."
+    ],
+    "answers": [
+     "Hemolimfa",
+     "Două",
+     "Trei",
+     "Crocodilii",
+     "Viermii inelați și cefalopodele"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Inima, vasele de sânge și circulația sângelui",
+    "theory": "Inima mamiferelor are patru camere: două atrii (primesc sângele) și două ventricule (îl pompează); partea dreaptă conține sânge neoxigenat, cea stângă sânge oxigenat; valvele împiedică întoarcerea sângelui. Ciclul cardiac cuprinde contracția (sistola) și relaxarea (diastola); frecvența normală la adult ≈ 70 bătăi/min. Arterele duc sângele de la inimă (pereți groși, elastici), venele îl aduc la inimă (au valve), iar capilarele, foarte subțiri, permit schimburile cu țesuturile. Circulația mică (pulmonară): ventricul drept → artera pulmonară → plămâni → venele pulmonare → atriul stâng. Circulația mare (sistemică): ventricul stâng → aortă → organe → venele cave → atriul drept.",
+    "sample": "Pulsul pe care îl simți la încheietură este unda produsă de sângele împins de inimă în artere.",
+    "worked": "La 70 bătăi/min și ≈ 70 mL sânge pompat la fiecare bătaie, inima pompează ≈ 4,9 L/min — practic tot sângele corpului într-un minut. Într-o zi: ≈ 7 000 L. Exercițiul fizic regulat întărește mușchiul inimii, iar fumatul, sedentarismul și excesul de sare și grăsimi favorizează hipertensiunea și infarctul.",
+    "exercises": [
+     "Descrie camerele inimii și tipul de sânge din fiecare.",
+     "Compară arterele, venele și capilarele.",
+     "Urmărește drumul sângelui în circulația mică.",
+     "Urmărește drumul sângelui în circulația mare.",
+     "Calculează debitul cardiac pentru 80 bătăi/min și 70 mL/bătaie."
+    ],
+    "test": [
+     "Câte camere are inima mamiferelor?",
+     "Ce vase duc sângele de la inimă?",
+     "Ce vas pleacă din ventriculul stâng?",
+     "Ce este sistola?",
+     "Frecvența cardiacă normală a adultului?"
+    ],
+    "steps": [
+     "Identifică camera sau vasul și tipul de sânge.",
+     "Urmărește sensul circulației (mică sau mare).",
+     "Leagă funcționarea de factorii de sănătate cardiovasculară.",
+     "Greșeala frecventă: să crezi că toate arterele au sânge oxigenat; artera pulmonară duce sânge neoxigenat spre plămâni."
+    ],
+    "answers": [
+     "Patru",
+     "Arterele",
+     "Aorta",
+     "Contracția inimii",
+     "≈ 70 bătăi/min"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Excreția la plante și la animale",
+    "theory": "Excreția este eliminarea produșilor de metabolism inutili sau toxici. Plantele elimină apa prin transpirație și gutație, oxigenul și CO₂ prin stomate, iar unele substanțe le depozitează în vacuole sau în frunzele care cad toamna. La animale, excreția se face prin structuri variate: vacuole contractile (protozoarele de apă dulce elimină excesul de apă), nefridii (râma), tuburi Malpighi (insectele), rinichi (vertebratele). Principalul deșeu azotat diferă: amoniac (pești — foarte toxic, necesită multă apă), uree (mamifere, amfibieni adulți), acid uric (păsări, reptile, insecte — economisește apa, se elimină aproape solid). Pielea (prin transpirație) și plămânii (CO₂) participă și ele la excreție.",
+    "sample": "Păsările elimină acid uric aproape solid, astfel economisesc apa și greutatea pentru zbor.",
+    "worked": "Comparăm: peștii de apă dulce elimină amoniac direct în apă și urină diluată din abundență; mamiferele transformă amoniacul în uree în ficat și o elimină prin urină; păsările elimină acid uric, potrivit pentru ouăle cu coajă în care embrionul nu poate elimina lichide.",
+    "exercises": [
+     "Prin ce elimină plantele produșii de excreție?",
+     "Asociază: vacuolă contractilă, nefridii, tuburi Malpighi, rinichi cu animalele corespunzătoare.",
+     "Compară amoniacul, ureea și acidul uric ca deșeuri azotate.",
+     "De ce păsările elimină acid uric?",
+     "Ce alte organe participă la excreție la om?"
+    ],
+    "test": [
+     "Ce este excreția?",
+     "Ce organ de excreție are râma?",
+     "Ce deșeu azotat elimină mamiferele?",
+     "Unde se formează ureea?",
+     "Ce rol are vacuola contractilă?"
+    ],
+    "steps": [
+     "Identifică organismul și mediul lui de viață.",
+     "Asociază structura excretoare și deșeul azotat.",
+     "Leagă tipul de deșeu de disponibilitatea apei.",
+     "Greșeala frecventă: să confunzi excreția cu eliminarea resturilor nedigerate (defecația); materiile fecale nu provin din metabolismul celular."
+    ],
+    "answers": [
+     "Eliminarea produșilor de metabolism inutili sau toxici",
+     "Nefridii",
+     "Ureea",
+     "În ficat",
+     "Elimină excesul de apă din protozoarele de apă dulce"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Sistemul excretor la mamifere: rinichiul și formarea urinei",
+    "theory": "Sistemul excretor cuprinde doi rinichi, ureterele, vezica urinară și uretra. Unitatea funcțională a rinichiului este nefronul (≈ 1 milion în fiecare rinichi), format din glomerulul renal (ghem de capilare) și tubul urinifer. Formarea urinei: filtrarea — din sânge trec în capsulă apa și substanțele mici, formând urina primară (≈ 180 L/zi); reabsorbția — glucoza, aminoacizii, cea mai mare parte a apei și a sărurilor revin în sânge; secreția — unele substanțe (unele medicamente, ioni) trec activ în tub. Rezultă urina finală (≈ 1,5 L/zi). Rinichii reglează volumul de apă, concentrația sărurilor și pH-ul sângelui. Hidratarea suficientă previne pietrele la rinichi.",
+    "sample": "Din aproximativ 180 L de urină primară pe zi, rinichii păstrează peste 99% din apă.",
+    "worked": "Urina primară 180 L, urina finală 1,5 L ⇒ se reabsoarbe 178,5 L, adică ≈ 99,2%. Prezența glucozei în urina finală indică faptul că nivelul glucozei în sânge depășește capacitatea de reabsorbție — semn posibil de diabet.",
+    "exercises": [
+     "Enumeră organele sistemului excretor.",
+     "Descrie structura nefronului.",
+     "Explică cele trei etape ale formării urinei.",
+     "Calculează procentul de apă reabsorbită (180 L → 1,5 L).",
+     "De ce glucoza în urină poate indica diabet?"
+    ],
+    "test": [
+     "Unitatea funcțională a rinichiului?",
+     "Cantitatea de urină primară pe zi?",
+     "Cantitatea de urină finală pe zi?",
+     "Ce substanță utilă se reabsoarbe complet în mod normal?",
+     "Ce reglează rinichii?"
+    ],
+    "steps": [
+     "Urmărește drumul sângelui și al urinei prin nefron.",
+     "Explică ce se întâmplă în filtrare, reabsorbție și secreție.",
+     "Interpretează compoziția urinei și propune măsuri de igienă.",
+     "Greșeala frecventă: să crezi că rinichii doar elimină; rolul lor major este și să păstreze apa și substanțele utile."
+    ],
+    "answers": [
+     "Nefronul",
+     "≈ 180 L",
+     "≈ 1,5 L",
+     "Glucoza",
+     "Apa, sărurile și pH-ul sângelui"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Sensibilitatea și mișcarea la plante: tropisme și nastii",
+    "theory": "Plantele reacționează la stimuli prin creștere sau mișcări. Tropismele sunt mișcări orientate după direcția stimulului: fototropismul (tulpina crește spre lumină), geotropismul (rădăcina crește în jos, tulpina în sus), hidrotropismul (rădăcinile cresc spre apă), tigmotropismul (cârceii se încolăcesc pe suport). Fototropismul se explică prin auxine — hormoni de creștere care se acumulează pe partea umbrită, iar celulele de acolo se alungesc mai mult. Nastiile sunt mișcări neorientate după direcția stimulului: închiderea florilor de lalea seara (fotonastie), plierea frunzelor la mimoză la atingere (seismonastie), închiderea capcanei la plantele carnivore.",
+    "sample": "Plantele de pe pervaz se apleacă spre fereastră datorită fototropismului.",
+    "worked": "Experiment: răsaduri de fasole luminate dintr-o singură parte se curbează spre lumină în 2–3 zile; răsadurile luminate uniform cresc drept. Dacă se taie vârful tulpinii (unde se produc auxinele), curbarea nu mai are loc.",
+    "exercises": [
+     "Compară tropismele cu nastiile.",
+     "Explică fototropismul prin acțiunea auxinelor.",
+     "Dă exemple de geotropism pozitiv și negativ.",
+     "Ce tip de mișcare face mimoza atinsă?",
+     "Interpretează experimentul cu vârful tulpinii tăiat."
+    ],
+    "test": [
+     "Ce sunt tropismele?",
+     "Ce hormon explică fototropismul?",
+     "Spre ce crește rădăcina prin geotropism?",
+     "Ce este o nastie?",
+     "Ce mișcare fac cârceii?"
+    ],
+    "steps": [
+     "Identifică stimulul și direcția reacției.",
+     "Încadrează mișcarea (tropism sau nastie, tipul).",
+     "Explică mecanismul (auxine, turgescență) și utilitatea pentru plantă.",
+     "Greșeala frecventă: să consideri închiderea florilor seara un tropism; mișcarea nu depinde de direcția luminii, deci este o nastie."
+    ],
+    "answers": [
+     "Mișcări orientate după direcția stimulului",
+     "Auxina",
+     "În jos, spre centrul Pământului",
+     "O mișcare neorientată după direcția stimulului",
+     "Tigmotropism (se încolăcesc pe suport)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Sistemul nervos: neuronul, sinapsa, actul reflex",
+    "theory": "Sistemul nervos primește informații, le prelucrează și comandă răspunsurile. Neuronul transmite impulsul nervos — un semnal electric care circulă pe axon. La sinapsă, impulsul trece la neuronul următor prin eliberarea unor substanțe chimice (neurotransmițători). Actul reflex este răspunsul automat al organismului la un stimul, realizat prin arcul reflex: receptor → cale aferentă (neuron senzitiv) → centru nervos (în măduvă sau encefal) → cale eferentă (neuron motor) → efector (mușchi sau glandă). Reflexele necondiționate sunt înnăscute (retragerea mâinii, clipitul), iar cele condiționate se formează prin învățare (salivația la vederea mâncării preferate).",
+    "sample": "Reflexul rotulian: o lovitură ușoară sub genunchi face piciorul să se ridice singur.",
+    "worked": "Arcul reflex al retragerii mâinii de pe un obiect fierbinte: receptorii pentru durere și căldură din piele → neuronul senzitiv → măduva spinării → neuronul motor → mușchiul flexor al brațului. Abia după retragere simțim durerea, pentru că informația ajunge mai târziu la creier.",
+    "exercises": [
+     "Ce este impulsul nervos?",
+     "Ce sunt neurotransmițătorii?",
+     "Enumeră componentele arcului reflex.",
+     "Compară reflexele necondiționate cu cele condiționate.",
+     "Explică reflexul de retragere a mâinii."
+    ],
+    "test": [
+     "Ce este sinapsa?",
+     "Ce este un efector?",
+     "Un reflex necondiționat?",
+     "Unde se află centrul reflexului rotulian?",
+     "Ce fel de semnal este impulsul nervos?"
+    ],
+    "steps": [
+     "Identifică stimulul și receptorul.",
+     "Urmărește arcul reflex până la efector.",
+     "Încadrează reflexul (necondiționat sau condiționat) și explică utilitatea.",
+     "Greșeala frecventă: să crezi că toate reflexele sunt comandate de creier; multe au centrul în măduva spinării."
+    ],
+    "answers": [
+     "Locul de legătură dintre doi neuroni",
+     "Mușchiul sau glanda care execută răspunsul",
+     "Clipitul (sau retragerea mâinii)",
+     "În măduva spinării",
+     "Un semnal electric"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Sistemul nervos central și periferic",
+    "theory": "Sistemul nervos central (SNC) cuprinde măduva spinării (în canalul vertebral; conduce impulsurile spre și dinspre creier și este centru pentru reflexe) și encefalul (în cutia craniană): trunchiul cerebral (centre vitale ale respirației și inimii), cerebelul (coordonarea mișcărilor și echilibrul), diencefalul (talamus și hipotalamus — reglarea temperaturii, foamei, setei) și emisferele cerebrale (cu scoarța cerebrală — gândirea, memoria, limbajul, mișcările voluntare, senzațiile conștiente). Sistemul nervos periferic este format din nervi și ganglioni. Sistemul nervos vegetativ (simpatic și parasimpatic) controlează organele interne. Alcoolul și drogurile afectează funcționarea sistemului nervos.",
+    "sample": "După consumul de alcool apar tulburări de echilibru, pentru că este afectat cerebelul.",
+    "worked": "Simpaticul pregătește corpul pentru efort sau pericol (crește ritmul inimii, dilată pupilele, încetinește digestia), iar parasimpaticul readuce corpul în repaus (scade ritmul inimii, stimulează digestia). Înaintea unui test, emoția activează simpaticul — de aici palpitațiile.",
+    "exercises": [
+     "Ce componente are sistemul nervos central?",
+     "Ce rol are cerebelul?",
+     "Ce funcții are scoarța cerebrală?",
+     "Compară simpaticul cu parasimpaticul.",
+     "Ce efecte au alcoolul și drogurile asupra sistemului nervos?"
+    ],
+    "test": [
+     "Unde se află măduva spinării?",
+     "Ce parte a encefalului conține centrele respirației?",
+     "Ce reglează hipotalamusul?",
+     "Din ce este format sistemul nervos periferic?",
+     "Ce sistem controlează organele interne?"
+    ],
+    "steps": [
+     "Identifică segmentul sistemului nervos.",
+     "Asociază funcțiile lui.",
+     "Explică efectele leziunilor sau ale substanțelor nocive.",
+     "Greșeala frecventă: să crezi că doar creierul face parte din sistemul nervos central; și măduva spinării aparține SNC."
+    ],
+    "answers": [
+     "În canalul vertebral",
+     "Trunchiul cerebral",
+     "Temperatura, foamea și setea",
+     "Nervi și ganglioni",
+     "Sistemul nervos vegetativ"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Analizatorul vizual",
+    "theory": "Un analizator are trei segmente: periferic (receptorii), de conducere (nervul) și central (zona din scoarța cerebrală). Ochiul are trei tunici: sclerotica (albul ochiului, cu corneea transparentă în față), coroida (vasculară, cu irisul colorat și pupila) și retina (cu celule fotoreceptoare: bastonașe — pentru vederea în lumină slabă, alb-negru; conuri — pentru culori și detalii, concentrate în pata galbenă). Cristalinul, o lentilă convergentă, își modifică forma pentru a focaliza imaginea pe retină (acomodare). Nervul optic duce impulsurile la scoarța occipitală. Defecte: miopia (imaginea se formează înaintea retinei — lentile divergente), hipermetropia (după retină — lentile convergente).",
+    "sample": "În lumină slabă nu distingem culorile, pentru că funcționează mai ales bastonașele.",
+    "worked": "Pupila se micșorează în lumină puternică și se dilată în întuneric (reflex pupilar), reglând cantitatea de lumină. Lucrul îndelungat la ecran obosește mușchii acomodării: regula 20-20-20 — la 20 de minute, privește 20 de secunde la ≈ 6 m (20 de picioare).",
+    "exercises": [
+     "Enumeră segmentele unui analizator.",
+     "Descrie tunicile globului ocular.",
+     "Compară conurile cu bastonașele.",
+     "Ce este acomodarea?",
+     "Compară miopia cu hipermetropia și corectarea lor."
+    ],
+    "test": [
+     "Ce fotoreceptori percep culorile?",
+     "Ce lentilă a ochiului focalizează imaginea?",
+     "Unde se formează imaginea la ochiul miop?",
+     "Ce nerv duce informația vizuală?",
+     "În ce lob cerebral este centrul vederii?"
+    ],
+    "steps": [
+     "Identifică segmentul analizatorului și structura ochiului.",
+     "Explică formarea imaginii și rolul fiecărei structuri.",
+     "Analizează defectele de vedere și corectarea lor.",
+     "Greșeala frecventă: să crezi că miopia se corectează cu lentile convergente; se folosesc lentile divergente."
+    ],
+    "answers": [
+     "Conurile",
+     "Cristalinul",
+     "Înaintea retinei",
+     "Nervul optic",
+     "Lobul occipital"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Analizatorii auditiv, vestibular, gustativ, olfactiv și cutanat",
+    "theory": "Urechea are trei părți: externă (pavilionul și conductul auditiv, care colectează sunetele), medie (timpanul și oscioarele — ciocanul, nicovala, scărița — care amplifică vibrațiile) și internă (melcul, cu receptorii auditivi, și aparatul vestibular, cu receptorii echilibrului). Zgomotul puternic și căștile la volum mare pot distruge definitiv celulele auditive. Receptorii gustativi se află în mugurii gustativi ai limbii (dulce, sărat, acru, amar, umami). Receptorii olfactivi se află în mucoasa din partea superioară a cavității nazale. Pielea are receptori pentru atingere, presiune, cald, rece și durere.",
+    "sample": "Când ești răcit, mâncarea pare fără gust, pentru că mirosul contribuie mult la aromă.",
+    "worked": "Un sunet de 85 dB (trafic intens) poate afecta auzul după 8 ore de expunere; la 100 dB (căști la maximum, concerte) riscul apare în ≈ 15 minute. Regula 60/60: volum sub 60% cel mult 60 de minute pe zi.",
+    "exercises": [
+     "Descrie cele trei părți ale urechii.",
+     "Ce rol au oscioarele urechii medii?",
+     "Unde se află receptorii echilibrului?",
+     "De ce mirosul influențează gustul?",
+     "Ce receptori are pielea?"
+    ],
+    "test": [
+     "Unde se află receptorii auditivi?",
+     "Ce structură vibrează prima la sunet?",
+     "Ce gusturi de bază percepem?",
+     "Unde se află receptorii olfactivi?",
+     "Ce volum aproximativ poate afecta auzul după 8 ore?"
+    ],
+    "steps": [
+     "Identifică analizatorul și receptorii lui.",
+     "Urmărește drumul stimulului până la scoarța cerebrală.",
+     "Propune măsuri de protecție (zgomot, igienă).",
+     "Greșeala frecventă: să crezi că pierderea auzului din zgomot este temporară; celulele auditive distruse nu se refac."
+    ],
+    "answers": [
+     "În melc (urechea internă)",
+     "Timpanul",
+     "Dulce, sărat, acru, amar, umami",
+     "În partea superioară a cavității nazale",
+     "≈ 85 dB"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Locomoția la animale: sistemul osos și muscular",
+    "theory": "Animalele se deplasează în moduri variate: prin pseudopode, cili și flageli (unicelulare), prin contracția musculaturii corpului (viermi), cu picioare articulate (artropode, cu schelet extern), înot, zbor, mers. La vertebrate, locomoția este asigurată de sistemul osos (pârghiile) și de cel muscular (forța). Scheletul uman are ≈ 206 oase: craniul, coloana vertebrală (33–34 de vertebre, cu curburi care amortizează șocurile), cutia toracică, membrele. Oasele se leagă prin articulații (mobile — genunchi, semimobile — vertebre, fixe — craniu). Mușchii scheletici lucrează în perechi antagoniste (bicepsul flexează antebrațul, tricepsul îl extinde). Postura corectă și mișcarea previn deformările coloanei.",
+    "sample": "Când bicepsul se contractă și îndoaie brațul, tricepsul se relaxează.",
+    "worked": "Antebrațul funcționează ca o pârghie: articulația cotului este punctul de sprijin, bicepsul (prins aproape de cot) aplică forța, iar obiectul din palmă este rezistența. De aceea bicepsul trebuie să dezvolte o forță de câteva ori mai mare decât greutatea obiectului.",
+    "exercises": [
+     "Dă exemple de moduri de locomoție la animale.",
+     "Câte oase are scheletul uman și care sunt principalele lui părți?",
+     "Clasifică articulațiile și dă exemple.",
+     "Explică acțiunea mușchilor antagoniști.",
+     "Ce măsuri previn deformările coloanei vertebrale?"
+    ],
+    "test": [
+     "Numărul aproximativ de oase la adult?",
+     "Ce rol au curburile coloanei?",
+     "Un exemplu de articulație mobilă?",
+     "Ce mușchi extinde antebrațul?",
+     "Ce animale au schelet extern?"
+    ],
+    "steps": [
+     "Identifică organele de locomoție și tipul scheletului.",
+     "Explică rolul oaselor (pârghii) și al mușchilor (forță, perechi antagoniste).",
+     "Leagă de sănătatea aparatului locomotor.",
+     "Greșeala frecventă: să crezi că un mușchi poate și împinge, și trage; mușchii doar trag (se contractă), de aceea lucrează în perechi."
+    ],
+    "answers": [
+     "≈ 206",
+     "Amortizează șocurile",
+     "Genunchiul (sau cotul, umărul)",
+     "Tricepsul",
+     "Artropodele"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Reproducerea asexuată la plante: înmulțirea vegetativă",
+    "theory": "La reproducerea asexuată participă un singur părinte, iar urmașii sunt identici genetic cu el (clone). Plantele se înmulțesc vegetativ natural prin: stoloni (căpșunul), rizomi (pirul, irisul), tuberculi (cartoful), bulbi (ceapa, laleaua), drajoni (zmeurul). Omul folosește înmulțirea vegetativă artificială: butășirea (mușcata, vița-de-vie, salcia), marcotajul (îngroparea unei ramuri care formează rădăcini), altoirea (un mugure sau o ramură — altoiul — dintr-un soi valoros fixată pe un portaltoi rezistent; pomii fructiferi) și culturile de țesuturi „in vitro”. Avantaje: rapidă, păstrează caracterele valoroase; dezavantaj: lipsa variabilității, sensibilitate la aceleași boli.",
+    "sample": "Toți cartofii din aceeași varietate plantați din tuberculi sunt clone.",
+    "worked": "Un pomicultor are un măr cu fructe foarte gustoase, dar sensibil la ger. Altoiește ramuri ale lui pe un portaltoi rezistent: noii pomi vor da aceleași fructe gustoase (caracterele altoiului), cu rădăcini rezistente (ale portaltoiului).",
+    "exercises": [
+     "Ce caracterizează reproducerea asexuată?",
+     "Asociază: stolon, tubercul, bulb, rizom cu exemple de plante.",
+     "Descrie altoirea și scopul ei.",
+     "Ce avantaje și dezavantaje are înmulțirea vegetativă?",
+     "Cum se înmulțește prin butași o mușcată?"
+    ],
+    "test": [
+     "Câți părinți participă la reproducerea asexuată?",
+     "Cum se înmulțește căpșunul natural?",
+     "Ce este altoiul?",
+     "Ce sunt clonele?",
+     "Un exemplu de plantă înmulțită prin bulbi?"
+    ],
+    "steps": [
+     "Identifică organul vegetativ care formează noua plantă.",
+     "Încadrează metoda (naturală sau artificială).",
+     "Discută avantajele și limitele pentru agricultură.",
+     "Greșeala frecventă: să crezi că plantele obținute prin butășire au caractere noi; ele sunt identice genetic cu planta mamă."
+    ],
+    "answers": [
+     "Unul",
+     "Prin stoloni",
+     "Ramura sau mugurele din soiul valoros, fixat pe portaltoi",
+     "Organisme identice genetic",
+     "Ceapa (sau laleaua)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Reproducerea sexuată la angiosperme: floarea, polenizarea, fecundația",
+    "theory": "Floarea este organul reproducerii sexuate: are sepale (caliciul), petale (corola), stamine (organe bărbătești, cu anterele în care se formează polenul) și pistil (organ femeiesc: stigmat, stil și ovar cu ovule). Polenizarea este transportul polenului pe stigmat: prin vânt (anemofilă — porumb, grâu; flori mici, polen mult) sau prin insecte (entomofilă — flori colorate, parfumate, cu nectar). Grăuncioarele de polen germinează, formând tubul polinic, prin care gameții bărbătești ajung la ovul. La angiosperme are loc dubla fecundație: un gamet fecundează oosfera (rezultă zigotul → embrionul), iar celălalt fecundează nucleul secundar (rezultă țesutul hrănitor). Ovulul devine sămânță, iar ovarul — fruct.",
+    "sample": "Albinele care vizitează florile de măr fac polenizarea entomofilă.",
+    "worked": "Fără albine, livezile de măr și cireș dau mult mai puține fructe — de aceea pomicultorii aduc stupi în livezi primăvara. Porumbul, cu polenizare prin vânt, produce cantități uriașe de polen, care poate provoca alergii.",
+    "exercises": [
+     "Desenează o floare și denumește părțile.",
+     "Compară polenizarea prin vânt cu cea prin insecte.",
+     "Explică dubla fecundație.",
+     "Din ce se formează sămânța și fructul?",
+     "De ce albinele sunt importante pentru agricultură?"
+    ],
+    "test": [
+     "Organul bărbătesc al florii?",
+     "Organul femeiesc al florii?",
+     "Ce este polenizarea?",
+     "Din ce se formează fructul?",
+     "Ce se formează din zigot?"
+    ],
+    "steps": [
+     "Identifică părțile florii și rolul lor.",
+     "Urmărește polenizarea, germinarea polenului și fecundația.",
+     "Precizează transformările de după fecundație (sămânță, fruct).",
+     "Greșeala frecventă: să confunzi polenizarea cu fecundația; polenizarea este doar transportul polenului pe stigmat."
+    ],
+    "answers": [
+     "Stamina",
+     "Pistilul",
+     "Transportul polenului pe stigmat",
+     "Din ovar",
+     "Embrionul"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "Sămânța și germinarea; dezvoltarea plantei",
+    "theory": "Sămânța conține embrionul (cu rădăcinița, tulpinița, muguraș și cotiledoane), substanțe de rezervă (în cotiledoane sau în endosperm) și un tegument protector. Germinarea este trecerea embrionului din starea de repaus la viață activă. Condițiile interne: sămânța să fie matură, vie, cu embrion întreg. Condițiile externe: apă (sămânța se umflă, se activează enzimele), temperatură potrivită (grâul de la ≈ 2–4 °C, porumbul de la ≈ 8–10 °C) și oxigen (pentru respirație). Lumina nu este necesară pentru majoritatea semințelor. Mai întâi iese rădăcinița, apoi tulpinița; plantula trăiește din rezerve până devine autotrofă prin fotosinteză. Facultatea germinativă (procentul de semințe care germinează) arată calitatea semințelor.",
+    "sample": "Fasolea pusă pe vată umedă germinează în câteva zile la temperatura camerei.",
+    "worked": "Experiment cu patru loturi de câte 20 de boabe de fasole: uscat (0 germinate), umed la cald (19), umed la frigider (2), acoperit complet cu apă — fără aer (1). Concluzie: sunt necesare apa, căldura și oxigenul. Facultatea germinativă în lotul optim = 19/20 = 95%.",
+    "exercises": [
+     "Descrie părțile seminței.",
+     "Ce condiții externe sunt necesare germinării?",
+     "Interpretează experimentul cu cele patru loturi de fasole.",
+     "Calculează facultatea germinativă: 42 de semințe germinate din 50.",
+     "De ce semințele îngropate prea adânc sau în sol îmbibat cu apă nu germinează?"
+    ],
+    "test": [
+     "Ce conține embrionul?",
+     "Ce organ iese primul la germinare?",
+     "Este lumina necesară majorității semințelor?",
+     "Ce este facultatea germinativă?",
+     "Unde se află substanțele de rezervă ale seminței?"
+    ],
+    "steps": [
+     "Identifică părțile seminței și rolul lor.",
+     "Analizează condițiile (apă, temperatură, oxigen) și variabila testată.",
+     "Formulează concluzia și calculează facultatea germinativă.",
+     "Greșeala frecventă: să crezi că semințele au nevoie de lumină pentru germinare; majoritatea au nevoie de apă, căldură și oxigen."
+    ],
+    "answers": [
+     "Rădăcinița, tulpinița, mugurașul și cotiledoanele",
+     "Rădăcinița",
+     "Nu",
+     "Procentul de semințe care germinează",
+     "În cotiledoane sau în endosperm"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l30": {
+   "ro": {
+    "title": "Reproducerea la animale: asexuată și sexuată; dezvoltarea",
+    "theory": "Reproducerea asexuată apare la animalele simple: diviziune (amiba, parameciul), înmugurire (hidra), fragmentare cu regenerare (planaria, steaua de mare). Reproducerea sexuată implică gameți: spermatozoidul (mic, mobil) și ovulul (mare, cu substanțe nutritive), formați prin meioză, cu jumătate din numărul de cromozomi. Fecundația poate fi externă, în apă (majoritatea peștilor, amfibienii), sau internă (reptile, păsări, mamifere, insecte). Dezvoltarea poate fi directă (puiul seamănă cu adultul) sau indirectă, cu metamorfoză (broasca: ou → mormoloc → adult; fluturele: ou → larvă → pupă → adult). Animalele pot fi ovipare (depun ouă) sau vivipare (nasc pui vii).",
+    "sample": "Fluturele trece prin metamorfoză completă: ou, omidă, pupă și adult.",
+    "worked": "Peștii cu fecundație externă depun mii de icre (crapul — sute de mii), pentru că multe sunt mâncate sau nefecundate; mamiferele, cu fecundație internă și îngrijirea puilor, au puțini urmași. Strategiile diferite cresc șansa de supraviețuire a speciei.",
+    "exercises": [
+     "Dă exemple de reproducere asexuată la animale.",
+     "Compară spermatozoidul cu ovulul.",
+     "Compară fecundația externă cu cea internă.",
+     "Descrie metamorfoza completă a fluturelui.",
+     "De ce peștii depun un număr foarte mare de icre?"
+    ],
+    "test": [
+     "Cum se înmulțește hidra asexuat?",
+     "Prin ce diviziune se formează gameții?",
+     "Unde are loc fecundația externă?",
+     "Ce este metamorfoza?",
+     "Ce înseamnă vivipar?"
+    ],
+    "steps": [
+     "Identifică tipul de reproducere (asexuată sau sexuată).",
+     "Precizează fecundația și tipul de dezvoltare.",
+     "Leagă strategia reproductivă de mediul de viață.",
+     "Greșeala frecventă: să crezi că toate animalele cu fecundație internă nasc pui vii; păsările și reptilele au fecundație internă, dar depun ouă."
+    ],
+    "answers": [
+     "Prin înmugurire",
+     "Meioză",
+     "În apă, în afara corpului",
+     "Transformarea profundă a formei în timpul dezvoltării",
+     "Care naște pui vii"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l31": {
+   "ro": {
+    "title": "Sistemul reproducător la mamifere; sănătatea reproducerii",
+    "theory": "Sistemul reproducător masculin cuprinde testiculele (produc spermatozoizi și testosteron), căile spermatice și glandele anexe, care produc lichidul seminal. Sistemul reproducător feminin cuprinde ovarele (produc ovule și hormonii estrogen și progesteron), trompele uterine (unde are loc de obicei fecundația), uterul (unde se dezvoltă embrionul) și vaginul. Ciclul menstrual durează ≈ 28 de zile, cu ovulația la mijlocul ciclului. După fecundație, embrionul se fixează în uter; placenta asigură schimburile cu sângele mamei. Sarcina durează ≈ 9 luni (≈ 280 de zile). Sănătatea reproducerii include igiena, prevenirea infecțiilor cu transmitere sexuală, controalele medicale și evitarea alcoolului, fumatului și drogurilor în sarcină.",
+    "sample": "Placenta asigură hrana și oxigenul embrionului din sângele mamei.",
+    "worked": "Substanțele consumate de mamă (alcool, nicotină, unele medicamente) trec prin placentă și pot afecta dezvoltarea fătului; de aceea în sarcină se evită alcoolul și fumatul, iar medicamentele se iau doar la recomandarea medicului.",
+    "exercises": [
+     "Enumeră organele sistemului reproducător masculin și rolul lor.",
+     "Enumeră organele sistemului reproducător feminin și rolul lor.",
+     "Unde are loc fecundația și unde se dezvoltă embrionul?",
+     "Ce rol are placenta?",
+     "Ce măsuri contribuie la sănătatea reproducerii?"
+    ],
+    "test": [
+     "Ce produc testiculele?",
+     "Ce produc ovarele?",
+     "Durata aproximativă a ciclului menstrual?",
+     "Durata sarcinii?",
+     "Unde are loc de obicei fecundația?"
+    ],
+    "steps": [
+     "Identifică organul și funcția lui.",
+     "Urmărește etapele de la gameți la fecundație și dezvoltare.",
+     "Leagă cunoștințele de comportamente responsabile pentru sănătate.",
+     "Greșeala frecventă: să crezi că placenta este o barieră perfectă; multe substanțe nocive o traversează."
+    ],
+    "answers": [
+     "Spermatozoizi și testosteron",
+     "Ovule și hormonii estrogen și progesteron",
+     "≈ 28 de zile",
+     "≈ 9 luni (280 de zile)",
+     "În trompele uterine"
+    ]
+   }
+  }
+ }
+}
