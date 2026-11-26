@@ -7,6 +7,14 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**PR DRAFT DESCHIS PENTRU REVIEW (2026-11-26):**
+PR#558 https://github.com/kokocf-ui/myPocketAi/pull/558, headcurrentbranch,
+base main, DRAFT, fărămerge. Include întregdiffcumulativ303+fișiere, nu doar
+ultimele remedieri; body explică scope, testeoffline, APK501885nerecomandat,
+backendv185neschimbat, nicio cerereHERE/zborlive. Commitfix8a63fd7 împinscurrentbranch.
+Nu transforma draftînready/merge și nu porni deploy/APKnou fără etapa de verificare
+și aprobarea relevantă. PR nu înseamnă rezolvareliveGraysOradea.
+
 **RAPORT FIZIC APK501885 / CORECȚII LOCALE (2026-11-26, ulterior):**
 User a oprit deschiderea PR pentru a raporta capturi: Grays→Victoria lista există,
 selectarea cade în eroarepietonală+revine listă, mersulpejosincomplet/neclar pehartă,
@@ -29,8 +37,8 @@ Raport `TRANSIT_PHYSICAL_REPORT_FIXES_2026-11-26.md`; test7noi și mobile360/393
 browsernaționale5+mixed+regresienouă, frontend/backenddryruns+browsernames.
 NUconfirmareliveGraysOradea și NU promite existăzboranumit. Niciun APIHERE sauzborlive,
 ZEROHERE/max2total încăneconsumate. Backendv185neschimbat, APKcurent501885fărăacestefixuri.
-Nu altAPK/deploy/Oracle/mainmerge înaceastăetapă. Cererea anterioară PR rămâne
-neexecutată până verificare; PRpoatefi DRAFTpentru review, nu acorddemerge.
+Nu altAPK/deploy/Oracle/mainmerge înaceastăetapă. Cererea anterioară PR este
+îndeplinită prin DRAFT#558 pentru review, nu acorddemerge.
 
 **APK ROMÂNIA LIVRAT 501885 (2026-11-26, etapă încheiată):**
 Commit cod e7ee4d0e723eef7a96e7283957f011579994bde6, împins DOAR currentbranch.

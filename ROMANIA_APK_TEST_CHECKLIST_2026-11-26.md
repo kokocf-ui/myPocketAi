@@ -1,5 +1,12 @@
 # myPocketAI — test Android în România
 
+> **ATENȚIE — feedback fizic ulterior:** APK501885 are probleme raportate la
+> accesul pietonal/hartă și transport mixt. Nu îl recomandăm încă pentru
+> distribuirea testului în România. Corecțiile din PR draft #558 nu sunt în
+> acest APK și nu sunt publicate pe backend. Vezi
+> `TRANSIT_PHYSICAL_REPORT_FIXES_2026-11-26.md`. Nu dezinstala aplicația.
+
+
 **APK 501885 — 26 noiembrie 2026**
 
 [Descarcă APK-ul semnat](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45879014303/myPocketAI-signed-education-test.apk)
