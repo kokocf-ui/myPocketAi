@@ -1,3 +1,4 @@
+import {evaFarewellIntent} from './eva_farewell.mjs';
 import {assistantIdentityInstruction} from './assistant_personal_identity.mjs';
 import {assistantUnderstandingInstruction} from './assistant_understanding.mjs';
 // Eva's conversation gate. Separate speech acts from location, research,
@@ -35,6 +36,7 @@ export function classifyEvaTurn(value,options={}){
  if(!raw.trim()||raw.length>700)return null;
  const t=normalizeEvaUtterance(raw);
  if(!t)return null;
+ if(evaFarewellIntent(raw))return {kind:'chat',speech_act:'farewell'};
  if(t==='eva'||t==='evo')return {kind:'chat',speech_act:'greeting'};
  if(isEvaExitRequest(raw))return {kind:'exit',speech_act:'device_control'};
  const core=withoutGreetingAndAddress(t);
@@ -73,7 +75,7 @@ export function classifyEvaTurn(value,options={}){
 }
 
 export function evaConversationHistory(history,currentMessage,speechAct){
- if(speechAct==='greeting')return [];
+ if(speechAct==='greeting'||speechAct==='farewell')return [];
  const current=String(currentMessage||'').trim();
  return (Array.isArray(history)?history:[])
   .filter(v=>v&&['user','assistant'].includes(v.role)&&typeof v.content==='string')
@@ -88,6 +90,8 @@ export function evaDialogueSystem(language='ro',act='banter'){
   :'You are Eva, the fictional feminine virtual assistant in the myPocket AI app. This is a personal conversation, NOT a request for maps, location, news, recipes or web research. Reply spontaneously, intelligently, warmly and with light humor when welcome. Do not pretend to be human or invent personal history. Understand implications and the latest message; earlier turns are conversational context, not tasks. No claimed web searches or invented prior reading. Interpret slang and regional speech naturally when clear; when an important detail is ambiguous, ask one concise clarification. Do not claim access to complete older chat history unless it was actually retrieved; use only the messages provided as context. Treat user corrections as higher priority than your assumptions. Avoid formulaic replies, repetitive phrases and unsolicited lectures. Reply in 1–3 sentences and at most 65 words. Use the selected app language: '+language+'.';
  const tone=act==='boundary'
   ?(isRo?' Dacă interlocutorul e bădăran, poți răspunde cu o ironie isteață și scurtă, dar păstrează respectul și o limită clară; nu insulta, nu umili și nu escalada.':' If the user is rude, a short witty comeback is fine; stay respectful, set a boundary, and avoid cruelty or escalation.')
+  :act==='farewell'
+  ?(isRo?' Utilizatorul încheie conversația. Răspunde numai cu o despărțire firească și scurtă, fără întrebări sau reluarea sarcinilor anterioare. Nu închide aplicația.':' The user is ending the conversation. Give only a short natural farewell, without questions or resuming previous tasks. Do not close the app.')
   :act==='courtesy'
   ?(isRo?' Mulțumirea sau despărțirea cere o singură replică scurtă, variată; fără teme din discuțiile trecute.':' Thanks and farewells deserve one short, varied reply without bringing back old subjects.')
   :act==='feedback'

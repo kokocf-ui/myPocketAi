@@ -1,3 +1,4 @@
+import {evaFarewellReply,evaFarewellFallback} from './eva_farewell.mjs';
 import {tflLegStopCount} from './transit_stop_counts.mjs';
 import {assistantPreferredName,assistantIdentityInstruction} from './assistant_personal_identity.mjs';
 import {weatherPracticalAdvice,weatherLocalityLabel} from './weather_practical_advice.mjs';
@@ -3103,16 +3104,20 @@ export default {
             draft=!hasAssistantRepetitionLoop(replacement)&&!assistantRepeatsRecentReply(replacement,prior,originalMessage)?replacement:'';
           }catch{draft='';}
         }
-        const reply=hasAssistantRepetitionLoop(draft)?'':cleanEvaReply(draft);
+        const reply=evaTurn.speech_act==='farewell'?evaFarewellReply(draft,lang):hasAssistantRepetitionLoop(draft)?'':cleanEvaReply(draft);
         if(reply){
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,
             message_received:originalMessage,reply,conversation_intent:'eva_'+evaTurn.speech_act,
-            conversational_reply:true,ai_generated:true,ai_connected:true,
+            conversational_reply:true,ai_generated:evaTurn.speech_act!=='farewell'||reply===draft.trim(),ai_connected:true,
             web_search_status:'not_needed',location_received:false});
         }
       }catch(error){
         console.warn('eva_dialogue_model_unavailable',String(error?.message||error).slice(0,90));
       }
+      if(evaTurn.speech_act==='farewell')return json({app:'Pocket AI',version:API_VERSION,status:'success',
+        language:lang,message_received:originalMessage,reply:evaFarewellFallback(lang),
+        conversation_intent:'eva_farewell',conversational_reply:true,ai_generated:false,
+        web_search_status:'not_needed',location_received:false});
       return json({app:'Pocket AI',version:API_VERSION,status:'unavailable',
         language:lang,message_received:originalMessage,conversation_intent:'eva_'+evaTurn.speech_act,
         conversational_reply:true,ai_generated:false,web_search_status:'not_needed',
