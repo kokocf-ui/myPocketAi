@@ -1,0 +1,1177 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "medium",
+ "grade": "10",
+ "version": "8199ba63528d6db196c1c627672f5d5d4831ce2e0ff0ab761e2b0c152ec292ed",
+ "source": "https://www.edu.ro/programe_scolare_liceu",
+ "sourceTitle": "Programa școlară de Fizică pentru clasa a X-a, ciclul inferior al liceului, filiera teoretică, profilul real (OMEC nr. 4598/31.08.2004, cu curriculum diferențiat obligatoriu la profil real) — elemente de termodinamică, producerea și utilizarea curentului continuu, producerea și utilizarea curentului alternativ; programă în vigoare până la intrarea în aplicare a noii programe; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Fizică · Clasa a X-a (profil real, matematică-informatică)",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Noțiuni termodinamice de bază",
+   "keys": [
+    "eu-year-ro-medium-10-l01",
+    "eu-year-ro-medium-10-l02",
+    "eu-year-ro-medium-10-l03",
+    "eu-year-ro-medium-10-l04"
+   ]
+  },
+  {
+   "title": "Principiul I al termodinamicii",
+   "keys": [
+    "eu-year-ro-medium-10-l05",
+    "eu-year-ro-medium-10-l06",
+    "eu-year-ro-medium-10-l07"
+   ]
+  },
+  {
+   "title": "Aplicarea principiului I la transformările gazului ideal",
+   "keys": [
+    "eu-year-ro-medium-10-l08",
+    "eu-year-ro-medium-10-l09"
+   ]
+  },
+  {
+   "title": "Calorimetrie și transformări de stare de agregare",
+   "keys": [
+    "eu-year-ro-medium-10-l10",
+    "eu-year-ro-medium-10-l11"
+   ]
+  },
+  {
+   "title": "Motoare termice; principiul al II-lea al termodinamicii",
+   "keys": [
+    "eu-year-ro-medium-10-l12",
+    "eu-year-ro-medium-10-l13",
+    "eu-year-ro-medium-10-l14",
+    "eu-year-ro-medium-10-l15"
+   ]
+  },
+  {
+   "title": "Producerea și utilizarea curentului continuu",
+   "keys": [
+    "eu-year-ro-medium-10-l16",
+    "eu-year-ro-medium-10-l17",
+    "eu-year-ro-medium-10-l18",
+    "eu-year-ro-medium-10-l19",
+    "eu-year-ro-medium-10-l20",
+    "eu-year-ro-medium-10-l21",
+    "eu-year-ro-medium-10-l22",
+    "eu-year-ro-medium-10-l23",
+    "eu-year-ro-medium-10-l24",
+    "eu-year-ro-medium-10-l25",
+    "eu-year-ro-medium-10-l26"
+   ]
+  },
+  {
+   "title": "Producerea și utilizarea curentului alternativ",
+   "keys": [
+    "eu-year-ro-medium-10-l27",
+    "eu-year-ro-medium-10-l28",
+    "eu-year-ro-medium-10-l29",
+    "eu-year-ro-medium-10-l30",
+    "eu-year-ro-medium-10-l31"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-medium-10-l01": {
+   "ro": {
+    "title": "Structura substanței: mol, masă molară, numărul lui Avogadro",
+    "theory": "Substanțele sunt formate din molecule (atomi) aflate în mișcare continuă, dezordonată (agitație termică), între care există forțe de interacțiune. Cantitatea de substanță se măsoară în moli: un mol conține N_A ≈ 6,02·10²³ particule (numărul lui Avogadro). Masa molară µ este masa unui mol (pentru apă 18 g/mol = 0,018 kg/mol). Numărul de moli ν = m/µ = N/N_A. În condiții normale (0 °C, 1 atm), un mol de gaz ocupă V_µ0 ≈ 22,4 L.",
+    "sample": "În 36 g de apă sunt 2 moli, adică aproximativ 1,2·10²⁴ molecule.",
+    "worked": "Câte molecule are 1 L de apă? m = 1 kg = 1 000 g, ν = 1 000/18 ≈ 55,6 mol, N = 55,6·6,02·10²³ ≈ 3,3·10²⁵ molecule. Masa unei molecule de apă: m₀ = µ/N_A = 0,018/6,02·10²³ ≈ 3·10⁻²⁶ kg.",
+    "exercises": [
+     "Câți moli sunt în 88 g de CO₂ (µ = 44 g/mol)?",
+     "Calculează masa unei molecule de oxigen O₂ (µ = 32 g/mol).",
+     "Ce volum ocupă 3 moli de gaz în condiții normale?",
+     "Câte molecule sunt în 4 g de hidrogen H₂?",
+     "Ce dovezi experimentale există pentru mișcarea moleculelor (difuzie, mișcare browniană)?"
+    ],
+    "test": [
+     "Valoarea numărului lui Avogadro?",
+     "Formula numărului de moli?",
+     "Masa molară a apei?",
+     "Volumul molar în condiții normale?",
+     "Ce este agitația termică?"
+    ],
+    "steps": [
+     "Exprimă masa în aceleași unități ca masa molară (g cu g/mol sau kg cu kg/mol).",
+     "Calculează ν = m/µ, apoi N = ν·N_A sau m₀ = µ/N_A.",
+     "Verifică ordinul de mărime (moleculele sunt foarte multe și foarte ușoare).",
+     "Greșeala frecventă: să combini grame cu kg/mol, obținând un număr de moli de 1 000 de ori greșit."
+    ],
+    "answers": [
+     "≈ 6,02·10²³ mol⁻¹",
+     "ν = m/µ",
+     "18 g/mol",
+     "≈ 22,4 L/mol",
+     "Mișcarea continuă, dezordonată a moleculelor"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l02": {
+   "ro": {
+    "title": "Sistem termodinamic, parametri de stare, echilibru termic, temperatura",
+    "theory": "Un sistem termodinamic este un corp sau un ansamblu de corpuri studiat (de exemplu gazul dintr-un cilindru); restul este mediul exterior. Starea lui se descrie prin parametri de stare: presiune p, volum V, temperatură T, cantitate de substanță ν. Un sistem izolat ajunge singur în echilibru termodinamic. Două sisteme în contact termic ajung la aceeași temperatură (echilibru termic). Temperatura absolută T (kelvin) se leagă de cea Celsius prin T = t + 273,15; zero absolut este 0 K. O transformare este trecerea dintre două stări; parametrii de proces (lucru mecanic, căldură) depind de drum.",
+    "sample": "Temperatura de 27 °C corespunde la 300 K.",
+    "worked": "Un termometru pus în apă caldă indică după câteva secunde o valoare stabilă: termometrul și apa au ajuns în echilibru termic. O variație de 10 °C este tot o variație de 10 K: ΔT = Δt. Temperatura de −273 °C ≈ 0 K nu poate fi atinsă practic.",
+    "exercises": [
+     "Transformă în kelvin: −23 °C, 100 °C, 37 °C.",
+     "Clasifică: presiune, căldură, volum, lucru mecanic (parametri de stare sau de proces).",
+     "Ce înseamnă sistem izolat? Dă un exemplu aproximativ.",
+     "De ce trebuie să aștepți înainte să citești termometrul?",
+     "Ce valoare are temperatura de 0 K în grade Celsius?"
+    ],
+    "test": [
+     "Relația dintre T și t?",
+     "Ce este echilibrul termic?",
+     "Unitatea temperaturii absolute?",
+     "Este căldura parametru de stare?",
+     "Ce este o transformare de stare?"
+    ],
+    "steps": [
+     "Delimitează sistemul și mediul exterior.",
+     "Identifică parametrii de stare și starea inițială și finală.",
+     "Folosește temperatura absolută (K) în toate relațiile termodinamice.",
+     "Greșeala frecventă: să folosești grade Celsius în ecuațiile gazelor (de exemplu p/T); acolo intră doar temperatura absolută."
+    ],
+    "answers": [
+     "T = t + 273,15",
+     "Starea în care corpurile au aceeași temperatură",
+     "Kelvinul",
+     "Nu, este parametru de proces",
+     "Trecerea sistemului dintr-o stare în alta"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l03": {
+   "ro": {
+    "title": "Gazul ideal: legile transformărilor simple și ecuația de stare",
+    "theory": "Gazul ideal este un model: molecule punctiforme care interacționează doar prin ciocniri elastice. Ecuația termică de stare: p·V = ν·R·T, cu R ≈ 8,31 J/(mol·K). Pentru o cantitate fixă: transformarea izotermă (T = const): p·V = const (Boyle–Mariotte); izobară (p = const): V/T = const (Gay-Lussac); izocoră (V = const): p/T = const (Charles). În general, p·V/T = const.",
+    "sample": "Dacă un gaz este comprimat izoterm la jumătate din volum, presiunea se dublează.",
+    "worked": "Un pneu are 2·10⁵ Pa la 7 °C (280 K). După mers, temperatura ajunge la 35 °C (308 K); volumul este aproape constant: p₂ = p₁·T₂/T₁ = 2·10⁵·308/280 = 2,2·10⁵ Pa. Câți moli sunt în 8,31 L de gaz la 10⁵ Pa și 300 K? ν = pV/(RT) = 10⁵·8,31·10⁻³/(8,31·300) ≈ 0,33 mol.",
+    "exercises": [
+     "Un gaz la 10⁵ Pa și 6 L este comprimat izoterm la 2 L. Ce presiune are?",
+     "Un gaz se încălzește izobar de la 300 K la 450 K. De câte ori crește volumul?",
+     "Calculează volumul a 2 moli de gaz la 2·10⁵ Pa și 400 K.",
+     "Reprezintă izoterma în coordonate p–V și izocora în coordonate p–T.",
+     "De ce nu e bine să încălzești un spray închis?"
+    ],
+    "test": [
+     "Ecuația de stare a gazului ideal?",
+     "Legea transformării izoterme?",
+     "Legea transformării izobare?",
+     "Legea transformării izocore?",
+     "Valoarea constantei R?"
+    ],
+    "steps": [
+     "Identifică parametrul constant și scrie legea transformării.",
+     "Transformă temperatura în K și păstrează aceleași unități pentru p și V în ambele stări.",
+     "Rezolvă și verifică sensul fizic (de exemplu încălzire izocoră ⇒ presiunea crește).",
+     "Greșeala frecventă: să aplici p·V = const când temperatura variază; legea Boyle–Mariotte este doar pentru T constant."
+    ],
+    "answers": [
+     "p·V = ν·R·T",
+     "p·V = const",
+     "V/T = const",
+     "p/T = const",
+     "≈ 8,31 J/(mol·K)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l04": {
+   "ro": {
+    "title": "Teoria cinetico-moleculară: presiunea și temperatura gazului",
+    "theory": "Presiunea gazului este efectul ciocnirilor moleculelor cu pereții. Formula fundamentală a teoriei cinetico-moleculare: p = (1/3)·n·m₀·v²_pătratică medie = (2/3)·n·ε, unde n = N/V este concentrația moleculelor. Energia cinetică medie de translație a unei molecule este ε = (3/2)·k·T, cu k = R/N_A ≈ 1,38·10⁻²³ J/K (constanta lui Boltzmann). Temperatura absolută este o măsură a agitației termice. Viteza termică: v_T = √(3RT/µ).",
+    "sample": "La temperatură dublă, energia cinetică medie a moleculelor se dublează.",
+    "worked": "Viteza termică a moleculelor de azot (µ = 0,028 kg/mol) la 300 K: v_T = √(3·8,31·300/0,028) = √(267 000) ≈ 517 m/s. Energia medie a unei molecule: ε = 1,5·1,38·10⁻²³·300 ≈ 6,2·10⁻²¹ J.",
+    "exercises": [
+     "Calculează energia cinetică medie a unei molecule la 400 K.",
+     "Calculează viteza termică a moleculelor de hidrogen (µ = 0,002 kg/mol) la 300 K.",
+     "Cum se schimbă viteza termică dacă temperatura absolută crește de 4 ori?",
+     "Explică microscopic de ce crește presiunea la încălzire izocoră.",
+     "Arată că p = n·k·T pornind de la formula fundamentală."
+    ],
+    "test": [
+     "Formula fundamentală a teoriei cinetice?",
+     "Energia cinetică medie a unei molecule?",
+     "Valoarea constantei lui Boltzmann?",
+     "Formula vitezei termice?",
+     "Ce produce presiunea gazului?"
+    ],
+    "steps": [
+     "Pornește de la modelul molecular (ciocniri cu pereții).",
+     "Folosește ε = (3/2)kT sau v_T = √(3RT/µ), cu µ în kg/mol.",
+     "Interpretează rezultatul: temperatura măsoară agitația termică.",
+     "Greșeala frecventă: să pui masa molară în g/mol în formula vitezei termice; rezultatul iese de √1000 ≈ 32 de ori prea mic."
+    ],
+    "answers": [
+     "p = (1/3)·n·m₀·v²",
+     "ε = (3/2)·k·T",
+     "≈ 1,38·10⁻²³ J/K",
+     "v_T = √(3RT/µ)",
+     "Ciocnirile moleculelor cu pereții"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l05": {
+   "ro": {
+    "title": "Lucrul mecanic, energia internă și căldura",
+    "theory": "Un gaz care își mărește volumul efectuează lucru mecanic asupra mediului: la presiune constantă L = p·ΔV; în general, L este aria de sub curba din diagrama p–V (pozitiv la destindere, negativ la comprimare). Energia internă U este suma energiilor moleculelor; pentru gazul ideal depinde doar de temperatură: U = ν·C_V·T (monoatomic: C_V = 3R/2). Căldura Q este energia transferată din cauza diferenței de temperatură (pozitivă când sistemul primește). L și Q depind de drum, U nu.",
+    "sample": "Un gaz care se destinde de la 2 L la 5 L la 10⁵ Pa efectuează un lucru mecanic de 300 J.",
+    "worked": "Gazul trece din starea (p₁ = 2·10⁵ Pa, V₁ = 1 L) în (p₂ = 2·10⁵ Pa, V₂ = 3 L), apoi izocor la 10⁵ Pa. Lucrul pe izobară: 2·10⁵·2·10⁻³ = 400 J; pe izocoră: 0 (volumul nu se schimbă). Total: 400 J.",
+    "exercises": [
+     "Calculează lucrul mecanic al unui gaz comprimat izobar la 3·10⁵ Pa de la 4 L la 1 L.",
+     "Ce lucru mecanic efectuează un gaz într-o transformare izocoră?",
+     "Calculează energia internă a 2 moli de gaz monoatomic la 300 K.",
+     "De ce lucrul mecanic depinde de drum? Ilustrează cu două drumuri în diagrama p–V.",
+     "Ce semn are căldura când gazul cedează energie?"
+    ],
+    "test": [
+     "Lucrul mecanic la presiune constantă?",
+     "Lucrul mecanic în diagrama p–V?",
+     "De ce depinde energia internă a gazului ideal?",
+     "Lucrul mecanic într-o izocoră?",
+     "Ce este căldura?"
+    ],
+    "steps": [
+     "Desenează transformarea în diagrama p–V.",
+     "Calculează lucrul ca arie (semn + la destindere, − la comprimare).",
+     "Calculează ΔU din temperaturi și interpretează semnele.",
+     "Greșeala frecventă: să consideri lucrul mecanic la comprimare pozitiv; gazul primește lucru, deci L efectuat de gaz este negativ."
+    ],
+    "answers": [
+     "L = p·ΔV",
+     "Aria de sub curbă",
+     "Doar de temperatură",
+     "Zero",
+     "Energie transferată din cauza diferenței de temperatură"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l06": {
+   "ro": {
+    "title": "Enunțul principiului I al termodinamicii",
+    "theory": "Principiul I este legea conservării energiei pentru procesele termice: ΔU = Q − L, unde Q este căldura primită de sistem și L lucrul mecanic efectuat de sistem. Pentru un sistem izolat ΔU = 0; într-un ciclu (stare finală = stare inițială) ΔU = 0, deci Q = L. Principiul I arată imposibilitatea unui perpetuum mobile de speța I (o mașină care produce lucru mecanic fără consum de energie).",
+    "sample": "Un gaz primește 500 J căldură și efectuează 200 J lucru: energia internă crește cu 300 J.",
+    "worked": "Un gaz este comprimat cu un lucru mecanic de 150 J (L = −150 J) și cedează 100 J căldură (Q = −100 J): ΔU = −100 − (−150) = 50 J — gazul se încălzește. Într-un ciclu în care gazul primește în total 800 J și cedează 600 J, lucrul mecanic total este 200 J.",
+    "exercises": [
+     "Un gaz primește 1 200 J și energia internă crește cu 700 J. Cât lucru efectuează?",
+     "Un gaz se destinde efectuând 300 J fără schimb de căldură. Cum se schimbă energia internă?",
+     "Explică de ce o pompă de bicicletă se încălzește.",
+     "De ce este imposibil un perpetuum mobile de speța I?",
+     "Într-un ciclu, gazul efectuează 400 J. Ce căldură netă a primit?"
+    ],
+    "test": [
+     "Formula principiului I?",
+     "ΔU într-un ciclu?",
+     "Semnul lui Q primit?",
+     "Semnul lui L efectuat de sistem?",
+     "Ce interzice principiul I?"
+    ],
+    "steps": [
+     "Stabilește convenția de semne: Q primit +, L efectuat de sistem +.",
+     "Scrie ΔU = Q − L cu semnele corespunzătoare.",
+     "Rezolvă și interpretează (încălzire dacă ΔU > 0).",
+     "Greșeala frecventă: să greșești semnele: lucrul efectuat asupra gazului este negativ în formula ΔU = Q − L."
+    ],
+    "answers": [
+     "ΔU = Q − L",
+     "Zero",
+     "Pozitiv",
+     "Pozitiv",
+     "Perpetuum mobile de speța I"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l07": {
+   "ro": {
+    "title": "Coeficienți calorici; relația lui Robert Mayer",
+    "theory": "Capacitatea calorică C = Q/ΔT (J/K) caracterizează corpul; căldura specifică c = Q/(m·ΔT) (J/(kg·K)) caracterizează substanța; căldura molară C_µ = Q/(ν·ΔT). Pentru gaze, căldura molară depinde de transformare: C_V la volum constant și C_p la presiune constantă, cu relația lui Robert Mayer C_p = C_V + R. Gaz monoatomic: C_V = 3R/2, C_p = 5R/2; diatomic: C_V = 5R/2, C_p = 7R/2. Exponentul adiabatic γ = C_p/C_V.",
+    "sample": "Pentru a încălzi 1 kg de apă cu 1 K sunt necesari aproximativ 4 180 J (c_apă ≈ 4 180 J/(kg·K)).",
+    "worked": "Încălzim 2 moli de gaz monoatomic cu 50 K: izocor Q_V = 2·(3/2)·8,31·50 ≈ 1 246 J; izobar Q_p = 2·(5/2)·8,31·50 ≈ 2 078 J. Diferența, 831 J = ν·R·ΔT, este lucrul mecanic efectuat la destinderea izobară.",
+    "exercises": [
+     "Ce căldură încălzește 3 kg de apă de la 20 °C la 100 °C?",
+     "Calculează γ pentru un gaz diatomic.",
+     "De ce C_p > C_V pentru gaze?",
+     "Calculează căldura specifică a unui metal: 0,5 kg primesc 4 500 J și se încălzesc cu 20 K.",
+     "Ce capacitate calorică are un vas cu 2 kg de apă?"
+    ],
+    "test": [
+     "Formula căldurii specifice?",
+     "Relația lui Robert Mayer?",
+     "C_V pentru gaz monoatomic?",
+     "Exponentul adiabatic?",
+     "Unitatea capacității calorice?"
+    ],
+    "steps": [
+     "Identifică tipul de coeficient (corp, substanță, mol, transformare).",
+     "Aplică Q = m·c·ΔT, Q = C·ΔT sau Q = ν·C_µ·ΔT.",
+     "Verifică unitățile și dacă transformarea e izocoră sau izobară.",
+     "Greșeala frecventă: să folosești C_V pentru o încălzire la presiune constantă; atunci trebuie C_p."
+    ],
+    "answers": [
+     "c = Q/(m·ΔT)",
+     "C_p = C_V + R",
+     "3R/2",
+     "γ = C_p/C_V",
+     "J/K"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l08": {
+   "ro": {
+    "title": "Transformările izocoră și izobară",
+    "theory": "Izocoră (V = const): L = 0, deci Q = ΔU = ν·C_V·ΔT; toată căldura primită mărește energia internă. Izobară (p = const): L = p·ΔV = ν·R·ΔT, ΔU = ν·C_V·ΔT, Q = ν·C_p·ΔT. La încălzirea izobară doar o parte din căldură mărește energia internă; restul devine lucru mecanic.",
+    "sample": "La încălzirea izocoră a unui gaz, lucrul mecanic este zero.",
+    "worked": "Un mol de gaz monoatomic se încălzește izobar de la 300 K la 400 K: L = 8,31·100 = 831 J, ΔU = 1,5·831 ≈ 1 246 J, Q = 2,5·831 ≈ 2 078 J. Verificare: Q = ΔU + L.",
+    "exercises": [
+     "2 moli de gaz diatomic se încălzesc izocor cu 30 K. Află Q, L, ΔU.",
+     "Un gaz la 10⁵ Pa se destinde izobar de la 1 L la 4 L. Ce lucru efectuează?",
+     "Ce fracție din căldura primită izobar devine lucru mecanic la un gaz monoatomic?",
+     "Reprezintă o izobară în diagramele p–V și V–T.",
+     "Un gaz se răcește izocor. Ce semne au Q și ΔU?"
+    ],
+    "test": [
+     "Lucrul mecanic în izocoră?",
+     "Căldura în izocoră?",
+     "Lucrul mecanic în izobară, cu ν și ΔT?",
+     "Căldura în izobară?",
+     "Relația dintre Q, ΔU și L?"
+    ],
+    "steps": [
+     "Identifică transformarea și parametrul constant.",
+     "Scrie L, ΔU și Q cu formulele specifice transformării.",
+     "Verifică principiul I: Q = ΔU + L.",
+     "Greșeala frecventă: să scrii Q = ν·C_V·ΔT la transformarea izobară; acolo căldura este ν·C_p·ΔT."
+    ],
+    "answers": [
+     "Zero",
+     "Q = ν·C_V·ΔT",
+     "L = ν·R·ΔT",
+     "Q = ν·C_p·ΔT",
+     "Q = ΔU + L"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l09": {
+   "ro": {
+    "title": "Transformările izotermă și adiabatică",
+    "theory": "Izotermă (T = const): ΔU = 0, deci Q = L = ν·R·T·ln(V₂/V₁); gazul transformă toată căldura primită în lucru mecanic. Adiabatică (Q = 0): L = −ΔU; la destindere gazul se răcește, la comprimare se încălzește. Ecuația lui Poisson: p·V^γ = const (sau T·V^(γ−1) = const). Adiabata este mai abruptă decât izoterma în diagrama p–V.",
+    "sample": "La destinderea adiabatică, gazul se răcește pentru că efectuează lucru pe seama energiei interne.",
+    "worked": "Un mol de gaz la 300 K se destinde izoterm până la dublarea volumului: L = 8,31·300·ln 2 ≈ 8,31·300·0,693 ≈ 1 728 J = Q. Aerul comprimat rapid în motorul Diesel (aproape adiabatic) se încălzește până la aprinderea motorinei.",
+    "exercises": [
+     "Calculează lucrul la comprimarea izotermă a unui mol de gaz la 300 K până la jumătate din volum.",
+     "De ce se răcește aerul care iese dintr-un recipient sub presiune?",
+     "Un gaz monoatomic se destinde adiabatic, efectuând 600 J. Cum se schimbă energia internă?",
+     "Compară panta izotermei și a adiabatei într-un punct comun.",
+     "Scrie ecuația lui Poisson pentru gazul diatomic (γ = 1,4)."
+    ],
+    "test": [
+     "ΔU într-o izotermă?",
+     "Lucrul mecanic izoterm?",
+     "Căldura într-o adiabatică?",
+     "Ecuația lui Poisson?",
+     "Ce se întâmplă cu temperatura la destinderea adiabatică?"
+    ],
+    "steps": [
+     "Identifică transformarea: T constant (izotermă) sau fără schimb de căldură (adiabatică).",
+     "Aplică formulele: izotermă Q = L, adiabatică L = −ΔU și p·V^γ = const.",
+     "Interpretează semnele și schimbarea temperaturii.",
+     "Greșeala frecventă: să confunzi „adiabatic” cu „izoterm”; în adiabatică temperatura se schimbă, doar căldura schimbată este zero."
+    ],
+    "answers": [
+     "Zero",
+     "ν·R·T·ln(V₂/V₁)",
+     "Zero",
+     "p·V^γ = const",
+     "Scade"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l10": {
+   "ro": {
+    "title": "Calorimetria: ecuația calorimetrică",
+    "theory": "Într-un sistem izolat (calorimetru), corpurile care se răcesc cedează căldură, iar cele care se încălzesc primesc: Q_cedat = Q_primit (ecuația calorimetrică). Fiecare termen are forma m·c·ΔT, cu ΔT pozitiv (temperatura mai mare minus cea mai mică). Temperatura finală comună θ se află între temperaturile inițiale. Calorimetrul însuși poate primi căldură (capacitatea lui calorică C).",
+    "sample": "Amestecând 1 kg de apă la 80 °C cu 1 kg de apă la 20 °C obținem apă la 50 °C.",
+    "worked": "Amestecăm 2 kg apă la 60 °C cu 3 kg apă la 10 °C: 2·c·(60 − θ) = 3·c·(θ − 10) ⇒ 120 − 2θ = 3θ − 30 ⇒ θ = 30 °C. Un metal de 0,2 kg la 100 °C pus în 0,5 kg apă la 20 °C ajunge la 23 °C: c_metal·0,2·77 = 0,5·4 180·3 ⇒ c_metal ≈ 407 J/(kg·K) (aproape de cupru).",
+    "exercises": [
+     "Amestecă 1 kg apă la 90 °C cu 4 kg apă la 15 °C. Află temperatura finală.",
+     "O bilă de fier de 0,1 kg (c = 460 J/(kg·K)) la 200 °C este pusă în 1 kg apă la 20 °C. Află θ.",
+     "De ce un calorimetru are pereți dubli?",
+     "Cum determini experimental căldura specifică a unui metal?",
+     "Ce influență are capacitatea calorică a calorimetrului asupra rezultatului?"
+    ],
+    "test": [
+     "Ecuația calorimetrică?",
+     "Unde se află temperatura finală?",
+     "Căldura pentru încălzirea masei m cu ΔT?",
+     "Ce este un calorimetru?",
+     "Căldura specifică a apei?"
+    ],
+    "steps": [
+     "Identifică corpurile care cedează și cele care primesc căldură.",
+     "Scrie Q_cedat = Q_primit cu termeni m·c·ΔT pozitivi.",
+     "Rezolvă pentru θ și verifică faptul că este între temperaturile inițiale.",
+     "Greșeala frecventă: să scrii diferențele de temperatură cu semne greșite, obținând o temperatură finală în afara intervalului."
+    ],
+    "answers": [
+     "Q_cedat = Q_primit",
+     "Între temperaturile inițiale",
+     "Q = m·c·ΔT",
+     "Un vas izolat termic pentru măsurarea căldurii",
+     "≈ 4 180 J/(kg·K)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l11": {
+   "ro": {
+    "title": "Transformări de stare de agregare; căldura latentă",
+    "theory": "Topirea (solid → lichid), solidificarea, vaporizarea, condensarea, sublimarea și desublimarea au loc cu schimb de căldură. La o substanță pură, topirea și fierberea au loc la temperatură constantă: căldura primită schimbă starea, nu temperatura. Q = m·λ, unde λ este căldura latentă specifică (gheață λ_t ≈ 334 kJ/kg; vaporizarea apei λ_v ≈ 2,26 MJ/kg). Temperatura de fierbere depinde de presiune (oala sub presiune fierbe la peste 100 °C).",
+    "sample": "Pentru a topi 1 kg de gheață la 0 °C sunt necesari circa 334 kJ.",
+    "worked": "Ce căldură transformă 0,5 kg de gheață la −10 °C în apă la 20 °C? Încălzire gheață: 0,5·2 100·10 = 10 500 J; topire: 0,5·334 000 = 167 000 J; încălzire apă: 0,5·4 180·20 = 41 800 J. Total ≈ 219 300 J. Topirea consumă cea mai mare parte.",
+    "exercises": [
+     "Ce căldură vaporizează 2 kg de apă la 100 °C?",
+     "Câtă gheață la 0 °C se topește cu 100 kJ?",
+     "De ce transpirația ne răcorește?",
+     "De ce arsura cu abur este mai gravă decât cea cu apă la 100 °C?",
+     "Desenează graficul t(Q) pentru încălzirea gheții de la −20 °C la abur la 100 °C."
+    ],
+    "test": [
+     "Formula căldurii latente?",
+     "Ce se întâmplă cu temperatura în timpul topirii?",
+     "Căldura latentă de topire a gheții?",
+     "Ce este sublimarea?",
+     "De ce depinde temperatura de fierbere?"
+    ],
+    "steps": [
+     "Împarte procesul în etape: încălziri și schimbări de stare.",
+     "Calculează fiecare etapă (m·c·ΔT sau m·λ).",
+     "Adună căldurile și verifică ce etapă domină.",
+     "Greșeala frecventă: să uiți căldura latentă și să calculezi doar încălzirea, ca și cum topirea ar fi instantanee."
+    ],
+    "answers": [
+     "Q = m·λ",
+     "Rămâne constantă",
+     "≈ 334 kJ/kg",
+     "Trecerea directă din solid în gaz",
+     "De presiune"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l12": {
+   "ro": {
+    "title": "Motoare termice; randamentul unui ciclu",
+    "theory": "Un motor termic transformă periodic căldură în lucru mecanic folosind un fluid de lucru care parcurge un ciclu: primește căldura Q₁ de la sursa caldă, efectuează lucrul L și cedează căldura |Q₂| sursei reci. Randamentul η = L/Q₁ = 1 − |Q₂|/Q₁ < 1. Lucrul pe ciclu este aria închisă de ciclu în diagrama p–V (parcurs în sens orar pentru motor).",
+    "sample": "Un motor care primește 1 000 J și cedează 700 J pe ciclu are randamentul de 30%.",
+    "worked": "Un ciclu dreptunghiular în diagrama p–V între 10⁵ și 3·10⁵ Pa și între 1 L și 3 L: L = (3·10⁵ − 10⁵)·(2·10⁻³) = 400 J. Dacă pe ciclu gazul primește 2 000 J, η = 400/2 000 = 20%, iar căldura cedată este 1 600 J.",
+    "exercises": [
+     "Un motor are η = 25% și primește 4 000 J pe ciclu. Ce lucru efectuează și ce căldură cedează?",
+     "Calculează lucrul unui ciclu dreptunghiular cu laturile 2·10⁵ Pa și 5 L.",
+     "De ce trebuie o sursă rece pentru funcționarea motorului termic?",
+     "Ce reprezintă sensul parcurgerii ciclului în diagrama p–V?",
+     "Un motor de 50 kW are η = 35%. Ce putere termică consumă?"
+    ],
+    "test": [
+     "Formula randamentului motorului termic?",
+     "Lucrul pe ciclu în diagrama p–V?",
+     "ΔU pe un ciclu complet?",
+     "Poate η să fie 1?",
+     "Ce cedează motorul sursei reci?"
+    ],
+    "steps": [
+     "Identifică etapele în care gazul primește căldură (Q₁) și în care cedează (Q₂).",
+     "Calculează lucrul pe ciclu (aria) și căldura primită.",
+     "Calculează η = L/Q₁ și verifică η < 1.",
+     "Greșeala frecventă: să pui la numitor căldura netă sau toată căldura schimbată; la randament intră doar căldura primită Q₁."
+    ],
+    "answers": [
+     "η = L/Q₁",
+     "Aria închisă de ciclu",
+     "Zero",
+     "Nu",
+     "Căldura |Q₂|"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l13": {
+   "ro": {
+    "title": "Motorul Otto și motorul Diesel",
+    "theory": "Motorul cu aprindere prin scânteie (Otto) funcționează în patru timpi: admisie, compresie, aprindere și destindere (timpul motor), evacuare. Ciclul teoretic: două adiabate și două izocore; randamentul η = 1 − 1/ε^(γ−1), unde ε = V_max/V_min este raportul de compresie. Motorul Diesel comprimă doar aer, până când acesta se încălzește suficient să aprindă motorina injectată; ciclul are două adiabate, o izobară și o izocoră și permite rapoarte de compresie mai mari.",
+    "sample": "Timpul motor este singurul timp în care gazele efectuează lucru mecanic util.",
+    "worked": "Pentru ε = 9 și γ = 1,4: η = 1 − 1/9^0,4. 9^0,4 = e^(0,4·ln 9) ≈ e^0,879 ≈ 2,41, deci η ≈ 1 − 0,415 ≈ 58% (teoretic; motoarele reale ajung la 25–35% din cauza frecărilor și pierderilor de căldură).",
+    "exercises": [
+     "Descrie cei patru timpi ai motorului Otto.",
+     "De ce motorul Diesel nu are bujii?",
+     "Cum se schimbă randamentul teoretic dacă raportul de compresie crește?",
+     "De ce randamentul real este mult mai mic decât cel teoretic?",
+     "Ce efecte asupra mediului au motoarele termice și ce alternative există?"
+    ],
+    "test": [
+     "Câți timpi are motorul Otto?",
+     "Care este timpul motor?",
+     "Ce transformări formează ciclul Otto?",
+     "Ce este raportul de compresie?",
+     "Cum se aprinde combustibilul la Diesel?"
+    ],
+    "steps": [
+     "Identifică timpii și transformările din ciclul teoretic.",
+     "Calculează randamentul teoretic cu raportul de compresie.",
+     "Compară cu randamentul real și explică pierderile.",
+     "Greșeala frecventă: să crezi că motorul efectuează lucru util în toți cei patru timpi; doar destinderea după aprindere este timp motor."
+    ],
+    "answers": [
+     "Patru",
+     "Destinderea după aprindere",
+     "Două adiabate și două izocore",
+     "V_max/V_min",
+     "Prin încălzirea aerului comprimat"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l14": {
+   "ro": {
+    "title": "Ciclul Carnot și principiul al II-lea al termodinamicii",
+    "theory": "Principiul al II-lea: este imposibil să construiești o mașină termică periodică care să transforme integral căldura primită de la o singură sursă în lucru mecanic (formularea Kelvin); căldura nu trece spontan de la un corp rece la unul cald (formularea Clausius). Ciclul Carnot (două izoterme și două adiabate) are randamentul maxim posibil între temperaturile T₁ și T₂: η_C = 1 − T₂/T₁. Frigiderul și pompa de căldură transferă căldură de la rece la cald consumând lucru mecanic.",
+    "sample": "Între 500 K și 300 K, nicio mașină termică nu poate avea randament mai mare de 40%.",
+    "worked": "O centrală cu abur la 800 K și apă de răcire la 300 K: η_C = 1 − 300/800 = 62,5% (maxim teoretic). Un perpetuum mobile de speța a II-a (care ar extrage căldură din ocean și ar produce numai lucru) respectă principiul I, dar încalcă principiul al II-lea.",
+    "exercises": [
+     "Calculează randamentul Carnot între 127 °C și 27 °C.",
+     "Ce temperatură trebuie să aibă sursa caldă pentru η_C = 50% cu T₂ = 300 K?",
+     "Explică funcționarea frigiderului folosind principiul al II-lea.",
+     "De ce nu poate fi atins randamentul de 100%?",
+     "Un motor real între 600 K și 300 K are η = 30%. Compară cu randamentul Carnot."
+    ],
+    "test": [
+     "Formulare Kelvin a principiului al II-lea?",
+     "Randamentul ciclului Carnot?",
+     "Din ce transformări este format ciclul Carnot?",
+     "Trece căldura spontan de la rece la cald?",
+     "Ce consumă frigiderul?"
+    ],
+    "steps": [
+     "Identifică temperaturile surselor în kelvin.",
+     "Calculează η_C = 1 − T₂/T₁ ca limită superioară.",
+     "Compară randamentul real cu cel maxim și trage concluzia.",
+     "Greșeala frecventă: să calculezi randamentul Carnot cu temperaturi în grade Celsius; rezultatul este greșit."
+    ],
+    "answers": [
+     "Nu poți transforma integral căldura unei singure surse în lucru",
+     "η_C = 1 − T₂/T₁",
+     "Două izoterme și două adiabate",
+     "Nu",
+     "Lucru mecanic (energie electrică)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l15": {
+   "ro": {
+    "title": "Mașina frigorifică și pompa de căldură",
+    "theory": "O mașină frigorifică parcurge ciclul motorului în sens invers: consumă lucrul mecanic L (de la compresor) și preia căldura Q₂ de la corpul rece (interiorul frigiderului), cedând căldura Q₁ = Q₂ + L mediului cald. Eficiența frigiderului este ε_f = Q₂/L; a pompei de căldură, care încălzește o locuință, ε_p = Q₁/L (supraunitare). Pentru ciclul Carnot inversat: ε_f = T₂/(T₁ − T₂) și ε_p = T₁/(T₁ − T₂). Agentul frigorific se evaporă la temperatură joasă (absorbind căldură) și se condensează în radiatorul din spate (cedând căldură).",
+    "sample": "O pompă de căldură cu eficiența 4 dă 4 kWh de căldură pentru 1 kWh de energie electrică.",
+    "worked": "Un frigider extrage 600 J din interior pentru 200 J lucru al compresorului: ε_f = 3, iar în cameră ajung 800 J. O pompă ideală între 0 °C (273 K) afară și 20 °C (293 K) în casă: ε_p = 293/20 ≈ 14,6 (valorile reale sunt 3–5).",
+    "exercises": [
+     "Un frigider cu ε_f = 4 extrage 2 000 J. Ce lucru consumă și ce căldură cedează camerei?",
+     "Calculează eficiența Carnot a unei pompe de căldură între −5 °C și 25 °C.",
+     "De ce un frigider cu ușa deschisă încălzește, de fapt, camera?",
+     "Explică rolul evaporatorului și al condensatorului în frigider.",
+     "De ce pompele de căldură economisesc energie față de radiatoarele electrice?"
+    ],
+    "test": [
+     "Eficiența frigiderului?",
+     "Eficiența pompei de căldură?",
+     "Relația Q₁ = Q₂ + L înseamnă?",
+     "Ce face compresorul?",
+     "Poate eficiența pompei să fie peste 1?"
+    ],
+    "steps": [
+     "Identifică sursa rece, sursa caldă și lucrul consumat.",
+     "Scrie bilanțul Q₁ = Q₂ + L și eficiența potrivită (frigider sau pompă).",
+     "Compară cu limita Carnot și interpretează economia de energie.",
+     "Greșeala frecventă: să crezi că o eficiență mai mare decât 1 încalcă conservarea energiei; pompa mută căldura, nu o creează."
+    ],
+    "answers": [
+     "ε_f = Q₂/L",
+     "ε_p = Q₁/L",
+     "Căldura cedată camerei include lucrul consumat",
+     "Consumă lucru mecanic și comprimă agentul",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l16": {
+   "ro": {
+    "title": "Curentul electric: intensitate, tensiune, tensiune electromotoare",
+    "theory": "Curentul electric este mișcarea ordonată a purtătorilor de sarcină (electroni în metale, ioni în soluții). Intensitatea I = Δq/Δt (amper, A); sensul convențional este de la + la −, opus mișcării electronilor. Tensiunea U între două puncte este lucrul pe unitatea de sarcină (volt, V). Generatorul (pila, acumulatorul) are tensiunea electromotoare E (lucrul total pe unitatea de sarcină în circuit) și rezistența internă r. Ampermetrul se leagă în serie, voltmetrul în paralel.",
+    "sample": "O sarcină de 6 C care trece în 3 s printr-un conductor înseamnă un curent de 2 A.",
+    "worked": "Prin filamentul unui bec trece 0,5 A. Într-un minut trec q = 0,5·60 = 30 C, adică N = 30/1,6·10⁻¹⁹ ≈ 1,9·10²⁰ electroni. Un acumulator de 2 Ah poate furniza 2 A timp de o oră, adică 7 200 C.",
+    "exercises": [
+     "Ce sarcină trece în 10 min printr-un circuit cu 0,2 A?",
+     "Câți electroni trec pe secundă printr-un conductor cu 1 A?",
+     "Cum se leagă ampermetrul și voltmetrul într-un circuit?",
+     "Ce sarcină poate furniza un acumulator de 50 Ah?",
+     "Ce este sensul convențional al curentului?"
+    ],
+    "test": [
+     "Formula intensității curentului?",
+     "Unitatea tensiunii?",
+     "Cum se montează ampermetrul?",
+     "Ce este tensiunea electromotoare?",
+     "Sarcina electronului?"
+    ],
+    "steps": [
+     "Identifică sarcina, timpul sau tensiunea date.",
+     "Aplică I = Δq/Δt și N = q/e.",
+     "Verifică unitățile (C, s, A) și montajul instrumentelor.",
+     "Greșeala frecventă: să legi ampermetrul în paralel cu consumatorul; are rezistență mică și produce aproape un scurtcircuit."
+    ],
+    "answers": [
+     "I = Δq/Δt",
+     "Voltul",
+     "În serie",
+     "Lucrul generatorului pe unitatea de sarcină",
+     "≈ 1,6·10⁻¹⁹ C"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l17": {
+   "ro": {
+    "title": "Rezistența electrică; rezistivitatea; dependența de temperatură",
+    "theory": "Rezistența electrică a unui conductor R = ρ·l/S depinde de lungime, de aria secțiunii și de material (rezistivitatea ρ, în Ω·m). Pentru metale, rezistivitatea crește cu temperatura: ρ = ρ₀(1 + α·t). Rezistorul este elementul de circuit construit pentru a avea o anumită rezistență; reostatul are rezistență variabilă.",
+    "sample": "Un fir de două ori mai lung are rezistență de două ori mai mare.",
+    "worked": "Un fir de cupru (ρ = 1,7·10⁻⁸ Ω·m) de 100 m și secțiune 1 mm² = 10⁻⁶ m²: R = 1,7·10⁻⁸·100/10⁻⁶ = 1,7 Ω. Un filament de wolfram are la rece 30 Ω și la incandescență de peste 10 ori mai mult — de aceea becurile se ard de obicei la aprindere.",
+    "exercises": [
+     "Calculează rezistența unui fir de aluminiu (ρ = 2,8·10⁻⁸ Ω·m) de 50 m și 2 mm².",
+     "Cum se schimbă rezistența dacă diametrul firului se dublează?",
+     "Un fir are 10 Ω la 0 °C și α = 4·10⁻³ K⁻¹. Ce rezistență are la 100 °C?",
+     "De ce cablurile pentru curenți mari sunt groase?",
+     "Ce este un reostat și la ce folosește?"
+    ],
+    "test": [
+     "Formula rezistenței unui conductor?",
+     "Unitatea rezistivității?",
+     "Cum depinde ρ de temperatură la metale?",
+     "Ce este un reostat?",
+     "Ce se întâmplă cu R dacă S crește?"
+    ],
+    "steps": [
+     "Transformă lungimea în m și secțiunea în m².",
+     "Aplică R = ρ·l/S (eventual ρ = ρ₀(1 + αt)).",
+     "Interpretează: lungime ↑ ⇒ R ↑, secțiune ↑ ⇒ R ↓.",
+     "Greșeala frecventă: să lași secțiunea în mm² în formula cu ρ în Ω·m; rezultatul iese de un milion de ori greșit."
+    ],
+    "answers": [
+     "R = ρ·l/S",
+     "Ω·m",
+     "Crește",
+     "Un rezistor cu rezistență variabilă",
+     "Scade"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l18": {
+   "ro": {
+    "title": "Legea lui Ohm pentru o porțiune de circuit și pentru circuitul întreg",
+    "theory": "Legea lui Ohm pentru o porțiune de circuit: I = U/R. Pentru circuitul întreg (generator cu E și r, circuit exterior R): I = E/(R + r); tensiunea la borne U = E − I·r. La circuit deschis U = E; la scurtcircuit (R ≈ 0) I_sc = E/r, foarte mare și periculos. Graficul U(I) al unui rezistor este o dreaptă prin origine (conductor ohmic).",
+    "sample": "Un rezistor de 10 Ω la tensiunea de 5 V este parcurs de 0,5 A.",
+    "worked": "O baterie cu E = 12 V și r = 1 Ω alimentează R = 5 Ω: I = 12/6 = 2 A, U = 12 − 2·1 = 10 V. La scurtcircuit I_sc = 12 A. Măsurând U₁ = 10 V la I₁ = 2 A și U₂ = 8 V la I₂ = 4 A, aflăm r = 1 Ω și E = 12 V.",
+    "exercises": [
+     "Ce curent trece printr-un rezistor de 220 Ω la 230 V?",
+     "Un generator cu E = 9 V, r = 0,5 Ω alimentează 4 Ω. Află I și tensiunea la borne.",
+     "Calculează curentul de scurtcircuit pentru E = 1,5 V și r = 0,1 Ω.",
+     "Determină E și r din două măsurări: (1 A; 11 V) și (3 A; 9 V).",
+     "De ce scade lumina farurilor când pornește demarorul mașinii?"
+    ],
+    "test": [
+     "Legea lui Ohm pentru o porțiune?",
+     "Legea lui Ohm pentru circuitul întreg?",
+     "Tensiunea la borne?",
+     "Curentul de scurtcircuit?",
+     "Graficul U(I) pentru un rezistor?"
+    ],
+    "steps": [
+     "Desenează circuitul cu generatorul (E, r) și rezistența exterioară.",
+     "Aplică I = E/(R + r) și U = E − I·r (sau U = I·R).",
+     "Verifică cazurile limită (circuit deschis, scurtcircuit).",
+     "Greșeala frecventă: să uiți rezistența internă și să consideri tensiunea la borne mereu egală cu E."
+    ],
+    "answers": [
+     "I = U/R",
+     "I = E/(R + r)",
+     "U = E − I·r",
+     "I_sc = E/r",
+     "O dreaptă prin origine"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l19": {
+   "ro": {
+    "title": "Legile lui Kirchhoff",
+    "theory": "Legea I (a nodurilor): suma intensităților curenților care intră într-un nod este egală cu suma celor care ies (conservarea sarcinii). Legea a II-a (a ochiurilor): pe orice ochi de rețea, suma algebrică a tensiunilor electromotoare este egală cu suma algebrică a căderilor de tensiune: ΣE = ΣI·R. Alegem sensuri pentru curenți și un sens de parcurgere al ochiului; un curent negativ înseamnă doar că sensul real este opus celui ales.",
+    "sample": "Dacă într-un nod intră 5 A și ies 2 A pe o ramură, pe cealaltă ies 3 A.",
+    "worked": "Două generatoare E₁ = 12 V și E₂ = 6 V (fără rezistență internă) în paralel, cu R₁ = 2 Ω, R₂ = 2 Ω pe ramurile lor și R₃ = 4 Ω pe ramura comună. Nod: I₁ + I₂ = I₃. Ochi 1: 12 = 2I₁ + 4I₃; ochi 2: 6 = 2I₂ + 4I₃. Scăzând: I₁ − I₂ = 3; din I₃ = I₁ + I₂: 12 = 6I₁ + 4I₂. Rezultă I₁ = 2,4 A, I₂ = −0,6 A, I₃ = 1,8 A (I₂ circulă de fapt invers).",
+    "exercises": [
+     "Într-un nod intră 3 A și 4 A și iese 2 A pe o ramură. Cât iese pe a doua ramură?",
+     "Scrie ecuațiile Kirchhoff pentru un circuit cu un generator și două rezistoare în paralel.",
+     "Ce înseamnă un curent negativ obținut din calcul?",
+     "Câte ecuații de noduri independente are o rețea cu n noduri?",
+     "Rezolvă exemplul cu E₂ = 12 V și compară curenții."
+    ],
+    "test": [
+     "Enunțul legii I a lui Kirchhoff?",
+     "Enunțul legii a II-a a lui Kirchhoff?",
+     "Ce lege de conservare exprimă legea nodurilor?",
+     "Ce înseamnă un curent negativ?",
+     "Ce este un ochi de rețea?"
+    ],
+    "steps": [
+     "Alege sensuri pentru curenți și sensuri de parcurgere a ochiurilor.",
+     "Scrie n − 1 ecuații de noduri și ecuații pentru ochiuri independente.",
+     "Rezolvă sistemul și interpretează semnele curenților.",
+     "Greșeala frecventă: să pui greșit semnul unei t.e.m. sau al unei căderi de tensiune când sensul ochiului e opus sensului ales."
+    ],
+    "answers": [
+     "Suma curenților care intră = suma celor care ies",
+     "ΣE = ΣI·R pe un ochi",
+     "Conservarea sarcinii",
+     "Sensul real este opus celui ales",
+     "Un traseu închis în rețea"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l20": {
+   "ro": {
+    "title": "Gruparea rezistoarelor",
+    "theory": "În serie, rezistoarele sunt parcurse de același curent și tensiunile se adună: R_s = R₁ + R₂ + …. În paralel, au aceeași tensiune și curenții se adună: 1/R_p = 1/R₁ + 1/R₂ + …; pentru două: R_p = R₁·R₂/(R₁ + R₂). Rezistența echivalentă paralel este mai mică decât cea mai mică rezistență. Rețelele mixte se reduc pas cu pas.",
+    "sample": "Două rezistoare de 6 Ω au în serie 12 Ω, iar în paralel 3 Ω.",
+    "worked": "R₁ = 4 Ω în serie cu gruparea paralel R₂ = 6 Ω, R₃ = 3 Ω, la U = 12 V. R_p = 18/9 = 2 Ω, R_e = 6 Ω, I = 2 A. Tensiunea pe paralel: 2·2 = 4 V, deci I₂ = 4/6 ≈ 0,67 A și I₃ = 4/3 ≈ 1,33 A (suma 2 A).",
+    "exercises": [
+     "Calculează rezistența echivalentă a trei rezistoare de 30 Ω în paralel.",
+     "R₁ = 10 Ω în paralel cu R₂ = 40 Ω, apoi în serie cu 2 Ω. Află R_e.",
+     "De ce aparatele din casă sunt legate în paralel?",
+     "Cum împarte curentul un nod între 2 Ω și 8 Ω în paralel (I total 5 A)?",
+     "Cu ce rezistență trebuie legat în serie un bec de 6 V/0,5 A ca să funcționeze la 12 V?"
+    ],
+    "test": [
+     "R echivalentă în serie?",
+     "R echivalentă în paralel (două rezistoare)?",
+     "Ce mărime este comună în serie?",
+     "Ce mărime este comună în paralel?",
+     "R_p comparată cu cea mai mică rezistență?"
+    ],
+    "steps": [
+     "Identifică grupările serie și paralel cele mai simple.",
+     "Reduce rețeaua pas cu pas la o rezistență echivalentă.",
+     "Calculează curentul total, apoi revino la curenții și tensiunile parțiale.",
+     "Greșeala frecventă: să aduni direct rezistențele legate în paralel."
+    ],
+    "answers": [
+     "R₁ + R₂ + …",
+     "R₁·R₂/(R₁ + R₂)",
+     "Curentul",
+     "Tensiunea",
+     "Mai mică"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l21": {
+   "ro": {
+    "title": "Gruparea generatoarelor; măsurarea mărimilor electrice",
+    "theory": "n generatoare identice (E, r) în serie: E_s = n·E, r_s = n·r — crește tensiunea. În paralel: E_p = E, r_p = r/n — crește curentul disponibil și durata de funcționare. Ampermetrul ideal are rezistență nulă; pentru a-i extinde domeniul se leagă în paralel un șunt R_ș = R_A/(n − 1). Voltmetrul ideal are rezistență infinită; extinderea domeniului se face cu o rezistență adițională în serie R_ad = (n − 1)·R_V.",
+    "sample": "Patru baterii de 1,5 V în serie dau 6 V.",
+    "worked": "Șase pile de 1,5 V cu r = 0,5 Ω în serie pe R = 6 Ω: E_s = 9 V, r_s = 3 Ω, I = 9/9 = 1 A. În paralel: E = 1,5 V, r_p ≈ 0,083 Ω, I ≈ 1,5/6,083 ≈ 0,25 A. Un ampermetru cu R_A = 9 Ω și domeniu 10 mA devine de 100 mA cu un șunt R_ș = 9/9 = 1 Ω.",
+    "exercises": [
+     "Trei generatoare (2 V; 0,3 Ω) în serie alimentează 4,1 Ω. Află curentul.",
+     "Aceleași generatoare în paralel pe aceeași rezistență: ce curent?",
+     "Calculează șuntul pentru a mări de 5 ori domeniul unui ampermetru cu R_A = 20 Ω.",
+     "Ce rezistență adițională extinde de 10 ori domeniul unui voltmetru cu R_V = 1 kΩ?",
+     "De ce un voltmetru real trebuie să aibă rezistență mare?"
+    ],
+    "test": [
+     "E și r pentru n generatoare în serie?",
+     "E și r pentru n generatoare în paralel?",
+     "Cum se leagă șuntul?",
+     "Formula rezistenței adiționale?",
+     "Rezistența ampermetrului ideal?"
+    ],
+    "steps": [
+     "Calculează E și r echivalente ale grupării.",
+     "Aplică legea lui Ohm pentru circuitul întreg.",
+     "Pentru instrumente, calculează șuntul (paralel) sau rezistența adițională (serie).",
+     "Greșeala frecventă: să aduni rezistențele interne și la gruparea paralel; acolo r_p = r/n."
+    ],
+    "answers": [
+     "n·E și n·r",
+     "E și r/n",
+     "În paralel cu ampermetrul",
+     "R_ad = (n − 1)·R_V",
+     "Zero"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l22": {
+   "ro": {
+    "title": "Energia și puterea electrică; transferul optim de putere",
+    "theory": "Energia electrică consumată de un rezistor: W = U·I·t = I²·R·t = U²·t/R (joule sau kWh, 1 kWh = 3,6·10⁶ J). Puterea P = U·I = I²R = U²/R (W). Generatorul furnizează puterea totală E·I; o parte (I²r) se pierde în interior. Puterea transferată circuitului exterior este maximă când R = r: P_max = E²/(4r), cu randamentul de doar 50%. Randamentul circuitului η = R/(R + r).",
+    "sample": "Un fierbător de 2 kW folosit 30 min consumă 1 kWh.",
+    "worked": "Un bec de 60 W la 230 V: I = 60/230 ≈ 0,26 A, R = 230²/60 ≈ 882 Ω. O baterie E = 12 V, r = 2 Ω: puterea exterioară maximă la R = 2 Ω, P_max = 144/8 = 18 W. Pentru R = 10 Ω: I = 1 A, P = 10 W, η = 10/12 ≈ 83%.",
+    "exercises": [
+     "Cât costă funcționarea unui aparat de 1,5 kW timp de 4 h, la 1 leu/kWh?",
+     "Ce rezistență are un fier de călcat de 1 100 W la 220 V?",
+     "Calculează puterea maximă transferată de un generator cu E = 6 V și r = 1,5 Ω.",
+     "Ce randament are circuitul pentru R = 3r?",
+     "De ce se transportă energia electrică la tensiune înaltă?"
+    ],
+    "test": [
+     "Formula puterii electrice?",
+     "Câți joule are 1 kWh?",
+     "Condiția transferului maxim de putere?",
+     "Puterea maximă transferată?",
+     "Randamentul circuitului simplu?"
+    ],
+    "steps": [
+     "Identifică U, I, R și durata.",
+     "Alege formula potrivită (P = UI = I²R = U²/R; W = P·t).",
+     "Transformă în kWh dacă se cere costul și verifică ordinele de mărime.",
+     "Greșeala frecventă: să confunzi puterea (kW) cu energia (kWh) pe factură."
+    ],
+    "answers": [
+     "P = U·I",
+     "3,6·10⁶ J",
+     "R = r",
+     "E²/(4r)",
+     "η = R/(R + r)"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l23": {
+   "ro": {
+    "title": "Efectele curentului electric: termic, chimic, magnetic",
+    "theory": "Efectul termic (Joule): un conductor parcurs de curent se încălzește, Q = I²·R·t — folosit la radiatoare, fierbătoare, siguranțe fuzibile. Efectul chimic: în electroliți curentul produce reacții la electrozi (electroliza); masa depusă m = k·I·t (legea lui Faraday), folosită la galvanizare și obținerea aluminiului. Efectul magnetic: un conductor parcurs de curent creează câmp magnetic în jurul său (experimentul lui Oersted).",
+    "sample": "Siguranța fuzibilă se topește când curentul depășește valoarea admisă și întrerupe circuitul.",
+    "worked": "Un rezistor de 50 Ω parcurs de 2 A timp de 5 minute degajă Q = 4·50·300 = 60 000 J. La argintare cu I = 2 A timp de 1 h și k_Ag ≈ 1,12·10⁻⁶ kg/C se depune m = 1,12·10⁻⁶·2·3 600 ≈ 8 g de argint.",
+    "exercises": [
+     "Ce căldură degajă un fierbător de 40 Ω la 5 A în 3 minute?",
+     "Explică funcționarea siguranței fuzibile.",
+     "Ce masă de cupru se depune în 30 min la 3 A (k = 3,3·10⁻⁷ kg/C)?",
+     "Descrie experimentul lui Oersted.",
+     "Dă câte o aplicație practică pentru fiecare efect al curentului."
+    ],
+    "test": [
+     "Formula căldurii Joule?",
+     "Ce este electroliza?",
+     "Legea lui Faraday pentru electroliză?",
+     "Ce a arătat Oersted?",
+     "O aplicație a efectului termic?"
+    ],
+    "steps": [
+     "Identifică efectul relevant (termic, chimic, magnetic).",
+     "Aplică formula corespunzătoare (Q = I²Rt, m = kIt).",
+     "Leagă rezultatul de o aplicație practică și de normele de siguranță.",
+     "Greșeala frecventă: să folosești Q = I·R·t în loc de Q = I²·R·t pentru efectul Joule."
+    ],
+    "answers": [
+     "Q = I²·R·t",
+     "Descompunerea unui electrolit prin curent electric",
+     "m = k·I·t",
+     "Curentul creează câmp magnetic",
+     "Fierbătorul electric"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l24": {
+   "ro": {
+    "title": "Câmpul magnetic al curentului; forța electromagnetică",
+    "theory": "Câmpul magnetic se descrie prin inducția magnetică B (tesla, T). Conductor rectiliniu lung: B = µ·I/(2π·r); centrul unei spire: B = µ·I/(2R); interiorul unui solenoid: B = µ·N·I/l, cu µ₀ = 4π·10⁻⁷ T·m/A în vid. Sensul liniilor de câmp se află cu regula burghiului (mâinii drepte). Un conductor parcurs de curent într-un câmp magnetic suferă forța electromagnetică (Laplace) F = B·I·l·sin α; aceasta pune în mișcare motoarele electrice. Doi conductori paraleli cu curenți în același sens se atrag.",
+    "sample": "Un conductor de 0,5 m cu 4 A, perpendicular pe un câmp de 0,1 T, suferă o forță de 0,2 N.",
+    "worked": "Un solenoid cu 1 000 de spire, lung de 0,2 m (în aer), parcurs de 2 A: B = 4π·10⁻⁷·1 000·2/0,2 ≈ 12,6·10⁻³ T. La 5 cm de un conductor cu 10 A: B = 4π·10⁻⁷·10/(2π·0,05) = 4·10⁻⁵ T, comparabil cu câmpul magnetic terestru.",
+    "exercises": [
+     "Calculează inducția la 10 cm de un conductor lung parcurs de 20 A.",
+     "Ce inducție este în centrul unei spire cu R = 5 cm și I = 5 A?",
+     "Ce forță acționează asupra unui conductor de 20 cm cu 3 A în B = 0,5 T, la 30°?",
+     "Cum afli sensul forței electromagnetice?",
+     "De ce doi conductori cu curenți opuși se resping?"
+    ],
+    "test": [
+     "Inducția câmpului unui conductor rectiliniu?",
+     "Inducția în interiorul solenoidului?",
+     "Formula forței electromagnetice?",
+     "Unitatea inducției magnetice?",
+     "Valoarea lui µ₀?"
+    ],
+    "steps": [
+     "Identifică forma conductorului (rectiliniu, spiră, solenoid).",
+     "Aplică formula pentru B și stabilește sensul cu regula burghiului.",
+     "Pentru forță, folosește F = B·I·l·sin α și regula mâinii stângi.",
+     "Greșeala frecventă: să uiți factorul sin α; un conductor paralel cu liniile de câmp nu suferă forță."
+    ],
+    "answers": [
+     "B = µI/(2πr)",
+     "B = µNI/l",
+     "F = B·I·l·sin α",
+     "Tesla",
+     "4π·10⁻⁷ T·m/A"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l25": {
+   "ro": {
+    "title": "Forța Lorentz; mișcarea particulelor încărcate în câmp magnetic",
+    "theory": "O particulă cu sarcina q care se mișcă cu viteza v într-un câmp magnetic B suferă forța Lorentz F = q·v·B·sin α, perpendiculară atât pe v, cât și pe B. Forța nu efectuează lucru mecanic, deci nu schimbă modulul vitezei, ci doar direcția. Dacă v ⊥ B, particula descrie un cerc cu raza r = m·v/(|q|·B) și perioada T = 2π·m/(|q|·B), independentă de viteză. Aplicații: spectrometrul de masă, ciclotronul, aurorele polare, tubul catodic.",
+    "sample": "Un electron care intră paralel cu liniile câmpului magnetic nu este deviat.",
+    "worked": "Un proton (m = 1,67·10⁻²⁷ kg, q = 1,6·10⁻¹⁹ C) cu v = 10⁶ m/s, perpendicular pe B = 0,1 T: r = 1,67·10⁻²⁷·10⁶/(1,6·10⁻¹⁹·0,1) ≈ 0,104 m ≈ 10 cm. Forța: F = 1,6·10⁻¹⁹·10⁶·0,1 = 1,6·10⁻¹⁴ N.",
+    "exercises": [
+     "Calculează forța Lorentz asupra unui electron cu 2·10⁶ m/s perpendicular pe B = 0,05 T.",
+     "Ce rază are traiectoria unui electron (m = 9,1·10⁻³¹ kg) cu 10⁷ m/s în B = 0,01 T?",
+     "De ce forța Lorentz nu schimbă energia cinetică a particulei?",
+     "Ce traiectorie are o particulă care intră oblic în câmp magnetic?",
+     "Explică apariția aurorelor polare."
+    ],
+    "test": [
+     "Formula forței Lorentz?",
+     "Direcția forței Lorentz?",
+     "Raza traiectoriei circulare?",
+     "Depinde perioada de viteză?",
+     "Efectuează forța Lorentz lucru mecanic?"
+    ],
+    "steps": [
+     "Identifică sarcina (semn), viteza, câmpul și unghiul dintre ele.",
+     "Calculează F = |q|vB sin α și sensul ei (regula mâinii, ținând cont de semnul sarcinii).",
+     "Pentru v ⊥ B, egalează forța cu m·v²/r și află raza și perioada.",
+     "Greșeala frecventă: să uiți că pentru electron (sarcină negativă) sensul forței este opus celui dat de regula pentru sarcini pozitive."
+    ],
+    "answers": [
+     "F = q·v·B·sin α",
+     "Perpendiculară pe v și pe B",
+     "r = m·v/(|q|·B)",
+     "Nu",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l26": {
+   "ro": {
+    "title": "Fluxul magnetic; inducția electromagnetică; autoinducția",
+    "theory": "Fluxul magnetic printr-o suprafață este Φ = B·S·cos α (weber, Wb). Când fluxul variază, în circuit apare o tensiune electromotoare indusă e = −ΔΦ/Δt (legea lui Faraday); semnul minus exprimă regula lui Lenz: curentul indus se opune cauzei care l-a produs. Un conductor de lungime l mișcat cu viteza v perpendicular pe B are e = B·l·v. Autoinducția: variația curentului printr-o bobină induce în ea însăși e = −L·ΔI/Δt, unde L este inductanța (henry); energia câmpului magnetic al bobinei W = L·I²/2.",
+    "sample": "Dacă fluxul printr-o spiră scade cu 0,02 Wb în 0,1 s, t.e.m. indusă este 0,2 V.",
+    "worked": "O bobină cu 200 de spire și aria 10 cm² se află în B care crește uniform de la 0 la 0,5 T în 0,1 s: ΔΦ pe spiră = 0,5·10⁻³ Wb, e = 200·0,5·10⁻³/0,1 = 1 V. O bară de 0,5 m cu 4 m/s în B = 0,2 T: e = 0,4 V. Bobina cu L = 0,2 H și 3 A înmagazinează 0,9 J.",
+    "exercises": [
+     "Calculează fluxul printr-o spiră de 0,02 m² în B = 0,4 T, normala la 60° față de câmp.",
+     "Ce t.e.m. se induce într-o bobină cu 500 de spire când fluxul pe spiră variază cu 2 mWb în 0,05 s?",
+     "Un magnet se apropie de o spiră. Ce sens are curentul indus (regula lui Lenz)?",
+     "Calculează energia unei bobine cu L = 50 mH și I = 2 A.",
+     "De ce apare o scânteie la deschiderea unui circuit cu o bobină mare?"
+    ],
+    "test": [
+     "Formula fluxului magnetic?",
+     "Legea lui Faraday?",
+     "Ce afirmă regula lui Lenz?",
+     "T.e.m. indusă într-o bară în mișcare?",
+     "Energia câmpului magnetic al bobinei?"
+    ],
+    "steps": [
+     "Calculează fluxul inițial și final (Φ = N·B·S·cos α).",
+     "Aplică e = −ΔΦ/Δt (sau e = Blv, e = −L·ΔI/Δt).",
+     "Stabilește sensul curentului indus cu regula lui Lenz.",
+     "Greșeala frecventă: să crezi că un câmp magnetic constant induce curent; doar variația fluxului produce t.e.m."
+    ],
+    "answers": [
+     "Φ = B·S·cos α",
+     "e = −ΔΦ/Δt",
+     "Curentul indus se opune cauzei",
+     "e = B·l·v",
+     "W = L·I²/2"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l27": {
+   "ro": {
+    "title": "Producerea curentului alternativ; valori instantanee și efective",
+    "theory": "O spiră (bobină) care se rotește uniform într-un câmp magnetic are fluxul variabil sinusoidal, deci se induce o tensiune alternativă u = U_max·sin(ωt). Curentul alternativ își schimbă periodic sensul; în rețeaua din România frecvența este 50 Hz. Valorile efective (indicate de aparate și pe plăcuțele aparatelor) sunt U = U_max/√2 și I = I_max/√2; curentul alternativ cu valoarea efectivă I degajă în rezistor aceeași căldură ca un curent continuu I.",
+    "sample": "Tensiunea rețelei de 230 V efectivi are valoarea maximă de aproximativ 325 V.",
+    "worked": "Pentru u = 311·sin(100πt) V: U_max = 311 V, U ≈ 220 V, ω = 100π rad/s, ν = 50 Hz, T = 0,02 s. Un rezistor de 110 Ω la această tensiune: I = 2 A efectivi, I_max ≈ 2,83 A.",
+    "exercises": [
+     "Scrie expresia tensiunii instantanee pentru U = 230 V și 50 Hz.",
+     "Ce valoare efectivă are un curent cu I_max = 10 A?",
+     "De câte ori pe secundă își schimbă sensul curentul de 50 Hz?",
+     "Descrie principiul generatorului de curent alternativ.",
+     "De ce se folosesc valorile efective în practică?"
+    ],
+    "test": [
+     "Relația valoare efectivă–valoare maximă?",
+     "Frecvența rețelei din România?",
+     "Perioada curentului de 50 Hz?",
+     "Ce indică voltmetrul de c.a.?",
+     "Cum se produce tensiunea alternativă?"
+    ],
+    "steps": [
+     "Identifică U_max, ω și faza din expresia instantanee.",
+     "Calculează ν = ω/(2π), T = 1/ν și valorile efective.",
+     "Folosește valorile efective în calculele de putere și căldură.",
+     "Greșeala frecventă: să folosești valoarea maximă în locul celei efective la calculul puterii sau al curentului indicat de ampermetru."
+    ],
+    "answers": [
+     "U = U_max/√2",
+     "50 Hz",
+     "0,02 s",
+     "Valoarea efectivă",
+     "Prin rotirea unei bobine într-un câmp magnetic"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l28": {
+   "ro": {
+    "title": "Rezistorul, bobina și condensatorul în curent alternativ",
+    "theory": "În curent alternativ: rezistorul are curentul în fază cu tensiunea, I = U/R. Bobina ideală se opune variației curentului: reactanța inductivă X_L = ω·L; curentul este defazat în urma tensiunii cu π/2. Condensatorul se încarcă și se descarcă periodic: reactanța capacitivă X_C = 1/(ω·C); curentul este defazat înaintea tensiunii cu π/2. Bobina lasă ușor să treacă frecvențele joase, condensatorul pe cele înalte; în curent continuu condensatorul întrerupe circuitul.",
+    "sample": "O bobină cu L = 0,1 H la 50 Hz are reactanța de aproximativ 31,4 Ω.",
+    "worked": "Un condensator de 100 µF la 50 Hz: X_C = 1/(2π·50·10⁻⁴) ≈ 31,8 Ω; la 230 V, I ≈ 7,2 A. La 500 Hz, X_C scade de 10 ori (3,18 Ω), iar X_L al unei bobine ar crește de 10 ori.",
+    "exercises": [
+     "Calculează reactanța unei bobine de 0,5 H la 50 Hz și curentul la 230 V.",
+     "Ce reactanță are un condensator de 10 µF la 1 kHz?",
+     "Cum se schimbă X_L și X_C dacă frecvența se dublează?",
+     "De ce un condensator „blochează” curentul continuu?",
+     "Desenează diagramele fazoriale pentru R, L și C."
+    ],
+    "test": [
+     "Reactanța inductivă?",
+     "Reactanța capacitivă?",
+     "Defazajul curentului la bobină?",
+     "Defazajul curentului la condensator?",
+     "Curentul prin rezistor față de tensiune?"
+    ],
+    "steps": [
+     "Calculează pulsația ω = 2πν din frecvența dată.",
+     "Calculează reactanța (X_L = ωL, X_C = 1/(ωC)) și curentul I = U/X.",
+     "Precizează defazajul curent–tensiune pentru fiecare element.",
+     "Greșeala frecventă: să uiți să transformi microfarazii în farazi (1 µF = 10⁻⁶ F) la calculul lui X_C."
+    ],
+    "answers": [
+     "X_L = ω·L",
+     "X_C = 1/(ω·C)",
+     "Rămâne în urmă cu π/2",
+     "Este înaintea tensiunii cu π/2",
+     "În fază"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l29": {
+   "ro": {
+    "title": "Energia și puterea în curent alternativ",
+    "theory": "Puterea instantanee variază în timp; contează puterea medie. Puterea activă (transformată în căldură sau lucru) este P = U·I·cos φ (W), unde φ este defazajul dintre curent și tensiune, iar cos φ este factorul de putere. Puterea reactivă Q = U·I·sin φ (var) oscilează între sursă și bobine/condensatoare, iar puterea aparentă S = U·I (VA). Bobina și condensatorul ideale nu consumă putere activă. Un factor de putere mic înseamnă curenți mari în rețea și pierderi.",
+    "sample": "Un motor la 230 V cu 5 A și cos φ = 0,8 consumă o putere activă de 920 W.",
+    "worked": "Un motor are P = 2 kW la 230 V și cos φ = 0,8: I = 2 000/(230·0,8) ≈ 10,9 A. Dacă factorul de putere crește la 0,95 (cu un condensator de compensare), I ≈ 9,2 A — pierderile în cabluri (I²R) scad cu aproximativ 29%.",
+    "exercises": [
+     "Calculează puterea activă pentru U = 220 V, I = 4 A, cos φ = 0,6.",
+     "Ce putere aparentă și reactivă au datele de mai sus?",
+     "De ce bobina ideală nu consumă energie în medie?",
+     "Ce curent absoarbe un aparat de 1 kW cu cos φ = 0,5 la 230 V?",
+     "De ce companiile cer un factor de putere ridicat?"
+    ],
+    "test": [
+     "Formula puterii active?",
+     "Ce este factorul de putere?",
+     "Unitatea puterii reactive?",
+     "Formula puterii aparente?",
+     "Puterea activă a unui condensator ideal?"
+    ],
+    "steps": [
+     "Identifică U, I (valori efective) și defazajul φ.",
+     "Calculează P = UI cos φ, Q = UI sin φ, S = UI.",
+     "Interpretează factorul de putere și consecințele asupra curentului.",
+     "Greșeala frecventă: să calculezi puterea activă ca U·I fără factorul de putere când circuitul are bobine sau condensatoare."
+    ],
+    "answers": [
+     "P = U·I·cos φ",
+     "cos φ",
+     "var",
+     "S = U·I",
+     "Zero"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l30": {
+   "ro": {
+    "title": "Transformatorul; transportul energiei electrice",
+    "theory": "Transformatorul are două bobine pe un miez de fier comun. Curentul alternativ din primar produce un flux variabil care induce tensiune în secundar. Pentru transformatorul ideal: U₂/U₁ = N₂/N₁ = k și U₁·I₁ = U₂·I₂ (puterea se conservă), deci I₂/I₁ = N₁/N₂. Ridicătorul de tensiune (N₂ > N₁) este folosit la centrale, coborâtorul în cartiere și încărcătoare. Transportul la înaltă tensiune reduce curentul și pierderile I²R din linii. Transformatorul nu funcționează în curent continuu.",
+    "sample": "Un transformator cu 1 000 de spire în primar și 50 în secundar coboară 230 V la 11,5 V.",
+    "worked": "O centrală transmite 10 MW. La 10 kV, I = 1 000 A, iar pe o linie de 5 Ω se pierd I²R = 5 MW (jumătate!). La 400 kV, I = 25 A, pierderi 3 125 W — neglijabile. De aceea tensiunea se ridică pentru transport și se coboară la consumator.",
+    "exercises": [
+     "Ce tensiune dă în secundar un transformator cu N₁ = 500, N₂ = 2 500 la 230 V?",
+     "Un transformator coboară 230 V la 23 V; secundarul dă 5 A. Ce curent este în primar (ideal)?",
+     "De ce transformatorul nu funcționează în curent continuu?",
+     "Calculează pierderile pe o linie de 10 Ω pentru 1 MW transmis la 10 kV și la 100 kV.",
+     "De ce miezul transformatorului este format din tole izolate?"
+    ],
+    "test": [
+     "Raportul tensiunilor la transformator?",
+     "Relația curenților la transformatorul ideal?",
+     "Ce este un transformator ridicător?",
+     "De ce se transportă energia la înaltă tensiune?",
+     "Funcționează transformatorul în c.c.?"
+    ],
+    "steps": [
+     "Scrie raportul de transformare k = N₂/N₁.",
+     "Calculează U₂ = k·U₁ și curenții din conservarea puterii.",
+     "Pentru transport, calculează pierderile I²R la diferite tensiuni și compară.",
+     "Greșeala frecventă: să crezi că transformatorul ridicător mărește și puterea; el mărește tensiunea, dar micșorează curentul."
+    ],
+    "answers": [
+     "U₂/U₁ = N₂/N₁",
+     "U₁·I₁ = U₂·I₂",
+     "N₂ > N₁, ridică tensiunea",
+     "Pentru a reduce pierderile din linii",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-medium-10-l31": {
+   "ro": {
+    "title": "Motoare electrice și aparate electrocasnice; siguranța electrică",
+    "theory": "Motorul electric transformă energia electrică în lucru mecanic pe baza forței electromagnetice asupra bobinelor parcurse de curent din câmp magnetic. Motoarele de curent continuu au colector; cele de curent alternativ (asincrone) folosesc câmpul magnetic învârtitor; la puteri mari motoarele sunt trifazate. Un motor poate funcționa și ca generator (frânarea regenerativă). Pe plăcuța aparatelor apar tensiunea, frecvența și puterea. Siguranța: împământarea, siguranțele automate, întrerupătorul diferențial, evitarea suprasarcinii prelungitoarelor și a apei lângă aparate.",
+    "sample": "Un aparat cu plăcuța 230 V, 50 Hz, 2 000 W absoarbe aproximativ 8,7 A.",
+    "worked": "Pe un circuit protejat de o siguranță de 16 A (la 230 V, deci maximum 3 680 W) nu pot funcționa simultan un cuptor de 2 500 W și un fierbător de 2 000 W: 4 500 W ar cere aproximativ 19,6 A și siguranța s-ar declanșa. Un motor de 1,5 kW cu randament 80% consumă 1,875 kW.",
+    "exercises": [
+     "Ce curent absoarbe un aspirator de 1 600 W la 230 V?",
+     "Pot funcționa împreună pe o siguranță de 10 A un fier de 1 200 W și un uscător de 1 500 W?",
+     "Explică rolul împământării la o mașină de spălat.",
+     "Cum transformă motorul electric energia electrică în lucru mecanic?",
+     "Ce înseamnă frânarea regenerativă la tramvaie și mașini electrice?"
+    ],
+    "test": [
+     "Pe ce fenomen se bazează motorul electric?",
+     "Ce informații apar pe plăcuța unui aparat?",
+     "Rolul siguranței automate?",
+     "Ce face întrerupătorul diferențial?",
+     "Poate un motor funcționa ca generator?"
+    ],
+    "steps": [
+     "Citește plăcuța: tensiune, frecvență, putere.",
+     "Calculează curentul I = P/U și compară cu siguranța circuitului.",
+     "Aplică regulile de siguranță (împământare, fără suprasarcină, fără apă).",
+     "Greșeala frecventă: să legi multe aparate puternice într-o singură prelungitoare, depășind curentul admis și riscând un incendiu."
+    ],
+    "answers": [
+     "Forța electromagnetică asupra curenților din câmp magnetic",
+     "Tensiunea, frecvența și puterea",
+     "Întrerupe circuitul la supracurent",
+     "Întrerupe la scurgeri de curent spre pământ",
+     "Da"
+    ]
+   }
+  }
+ }
+}
