@@ -7,6 +7,21 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**APK501888 ELIBERAT PENTRU ASPECTUL TRANSPORTULUI PUBLIC — 26 nov 2026:**
+User: mixtul îl lăsăm pe mâine; cere APK să vadă transportul public.
+Aprobă exclusiv APKsemnatbranch cuUI nou, NUbackenddeploy/main/prodfrontend.
+Run45900192177/job140183808611SUCCESS, debugSKIPPED; build/certificat/package/
+versionCode/snapshot/publicareprereleasePASSînCI. Sursă9966a438913d0926a3a938c081f2fe4dcf6d9554.
+APK501888 (updatepeste501887FĂRĂdezinstalare):
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45900192177/myPocketAI-signed-education-test.apk
+Release459932169/asset797823872, 77,659,548B, GitHubdigestSHA256
+6f8cd574fc4a1dfa2590f5215d2cf91b00fd59676210132196f341faf6fc942c (metadata;
+nuinspecțielocalăAPK). NotesreleaseactualizatepentrutestPUBLIC, nureparațiemixt.
+DoarUIbranchinclusînAPK; backendv187neschimbat. Nicioactivarepaid/HERE/Oracle/
+prodfrontend. Testfizic501888încăNEEFECTUAT. Mixtnerezolvat, amânatpentr mâine.
+Etapele de mai jos care spun „fără APK nou” descriu starea anterioară acestei
+cereri explicite; versiunea nouă de test este cea de aici.
+
 **CORECȚIE PUBLIC VIEWPORT — DOAR BRANCH, 26 nov 2026:**
 `transit_viewport_ui.mjs` + `index.js`: opțiune public→hartă+detalii imediat,
 pagini măsurate după spațiul real (nu scroll/trunchiere), Back/pagini/navigare

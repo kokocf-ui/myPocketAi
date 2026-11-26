@@ -6,6 +6,26 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
+## Cel mai nou APK — 501888: verificare aspect transport public
+
+[**Descarcă APK-ul semnat 501888**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45900192177/myPocketAI-signed-education-test.apk)
+
+Publicat la cererea utilizatorului din sursa `9966a43`, run45900192177,
+job140183808611 SUCCESS. Certificatul permanent, identitatea aplicației,
+versionCode501888 și snapshotul de branch au fost verificate în CI.
+**Instalează peste versiunea existentă, fără dezinstalare sau ștergerea datelor**, apoi închide și redeschide aplicația.
+
+Verifică acum numai transportul public:
+1. Caută o călătorie și apasă o variantă.
+2. Harta și detaliile trebuie să apară direct în același ecran, fără încă o apăsare pe „Hartă”.
+3. Folosește săgețile de pagină pentru restul informațiilor/etapelor: nu trebuie să derulezi vertical pentru detalii sau comenzi.
+4. Verifică Back → variante. Navigarea rămâne o acțiune explicită, nu pornește prin simpla selectare.
+
+**Validarea fizică a acestui APK este încă în așteptare. Mixtul este amânat
+pentru mâine, nu este declarat reparat și nu trebuie retestat acum.**
+Backendul v187 și frontendul de producție sunt neschimbate; a fost publicat
+numai APK-ul semnat de test cu snapshotul interfeței acestui branch.
+
 ## Clarificare ulterioară și corecție încă nepublicată
 
 Problema raportată la transport public este fluxul de afișare: după alegerea
@@ -16,11 +36,11 @@ vertical; informațiile suplimentare se parcurg prin pagini/etape**.
 
 Corecția există acum pe branch și a trecut verificări automate cu hărți și
 furnizori simulați, inclusiv la 360×640, cu Back, Start/Stop explicit și păstrarea
-categoriilor/tarifelor/localităților din România. **Nu este în APK501887 de mai
-jos; nu a fost publicat alt APK în această etapă.** Va necesita validare fizică
-în noul build înainte să o declarăm rezolvată. Mixtul rămâne separat, nerezolvat.
+categoriilor/tarifelor/localităților din România. **Nu este în APK501887 istoric de mai
+jos; este inclusă acum în APK501888 de mai sus.** Necesită încă validare fizică
+în acest build înainte să o declarăm rezolvată. Mixtul rămâne separat, nerezolvat.
 
-## Retest ACTUAL — APK501887 + backend v187
+## Retest istoric — APK501887 + backend v187 (negativ)
 
 [**Descarcă APK-ul semnat 501887**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45894780817/myPocketAI-signed-education-test.apk)
 

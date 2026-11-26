@@ -58,3 +58,16 @@ Executed locally, with synthetic providers/maps (NOT live journeys or an Android
 - Wrangler frontend `--dry-run`: PASS. No deployment. Browser fixtures intercept all remote requests; no transport/search credits, HERE attempts or paid activation.
 
 Physical validation of this UI and the separate unresolved mixed-provider failure remain outstanding. APK501887/v187 is unchanged and remains a negative physical retest. PR558 stays draft; no production frontend/backend/Oracle publication in this phase.
+
+## Later explicit request: publish public-layout test APK501888
+
+The user deferred mixed transport until tomorrow and explicitly requested an APK to inspect public transport. Only the signed branch-test APK was dispatched; no backend/frontend production deployment or new mixed work.
+
+- Source `9966a438913d0926a3a938c081f2fe4dcf6d9554`.
+- Existing `build-android-apk.yml`, `publish_signed_apk=true`, run **45900192177**, signed job **140183808611 SUCCESS**; debug job skipped.
+- CI validation/snapshot bundling, permanent-certificate match, app identity/version/snapshot verification and publication all SUCCESS.
+- **APK501888**: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45900192177/myPocketAI-signed-education-test.apk
+- Prerelease459932169 / asset797823872, 77,659,548 bytes; GitHub SHA256 metadata `6f8cd574fc4a1dfa2590f5215d2cf91b00fd59676210132196f341faf6fc942c`. No independent local APK/signature inspection claimed.
+- Release notes updated to public-layout testing, explicitly NOT a mixed fix. Install over the existing APK without uninstall/data deletion; physically check direct map+details, page controls/no vertical scroll and Back. Physical result pending.
+
+This supersedes the earlier “no new APK” status for the public viewport change only. Backend remains v187; production frontend, Oracle and HERE/paid-service state unchanged. Mixed remains unresolved/deferred, PR558 draft; no new provider-credit transport searches were made.
