@@ -1,5 +1,7 @@
 # Audit introducere Matematică — 26 noiembrie 2026
 
+> Evidență istorică înainte de implementare. După autorizarea utilizatorului, simbolurile, previzualizarea acoladei, gruparea blocurilor și fluxul de scriere/transcriere au fost implementate în cod. Starea și limitele actuale: `EDUCATION_INPUT_TOOLS_2026-11-26.md`. Nu interpreta lipsurile constatate aici drept starea ultimei versiuni de cod și nici implementarea drept confirmare pe APK/stylus fizic.
+
 Cererea utilizatorului: verificare, fără publicare/APK, a simbolurilor speciale și a introducerii cu stylus/degetul, inclusiv funcții scrise sub acoladă. **Această etapă este audit, nu implementarea funcționalităților lipsă.**
 
 Verificat codul curent `2b6eef9`, bundle-ul frontend Wrangler existent și DOM-ul real în Chromium mobil 390×844. Interacțiunile de paletă au fost efectuate în browser; nu s-a folosit un telefon fizic sau un stylus fizic. Reproducere: `POCKET_BUNDLE=./.bundle-check/index.check.mjs node scripts/audit_math_input_browser.mjs` (Chromium instalat necesar; în mediul sesiunii sunt necesare bibliotecile din `/tmp/pocket-browser-libs/lib`). Scriptul raportează observații, nu certifică suportul pentru scriere/OCR.

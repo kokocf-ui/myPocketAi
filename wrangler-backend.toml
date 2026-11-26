@@ -6,6 +6,8 @@ compatibility_date = "2026-10-28"
 # Supplement sparse food results worldwide without a paid Places API.
 # Uses bounded, area-cached public OSM queries. Disable for large-scale traffic.
 [vars]
+# Explicit-consent handwriting transcription; bounded image, one model, no storage.
+POCKET_EDUCATION_INK_ENABLED = "true"
 OSM_WORLD_FOOD_ENABLED = "true"
 # GPS is the sole implicit anchor; national providers are scoped through the common registry.
 SMART_COUNTRY_REGISTRY_ENABLED = "true"

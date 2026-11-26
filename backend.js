@@ -1,3 +1,4 @@
+import {handleEducationInk} from './education_ink_api.mjs';
 import {educationTutorResponse} from './education_exercise_tutor.mjs';
 import {litEssaySpec,litEssayQuality,litEssayWords} from "./literature_essay_contract.mjs";
 import {parseCulinaryRequest,culinarySearchQuery,recipeDishKeywords,recipeSpeciesCompatible,humanizeRecipeDuration,humanizeRecipeServings} from "./culinary_intent.mjs";
@@ -1436,7 +1437,9 @@ export default {
       });
     }
 
-    // Owner-approved image upload only; never triggered by ordinary device OCR.
+    // Explicit-consent handwriting under the normal education API policy.
+    if(url.pathname==='/api/education-ink')return handleEducationInk(request,env,json);
+    // Owner-approved photo pilot only; never triggered by ordinary device OCR.
     if(url.pathname==="/api/math-vision")return handleMathVisionPilot(request,env,json);
 
 

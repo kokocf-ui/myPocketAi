@@ -1,3 +1,4 @@
+import {EDUCATION_INPUT_TOOLS_SCRIPT} from './education_input_tools.mjs';
 import {EDUCATION_EXERCISE_TUTOR_SCRIPT} from './education_exercise_tutor.mjs';
 import {SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT} from './science_review_supplements.mjs';
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
@@ -16049,6 +16050,7 @@ function litWorkspace(panel){
 
 ${LITERATURE_TASK_UI_SCRIPT}
 ${EDUCATION_EXERCISE_TUTOR_SCRIPT}
+${EDUCATION_INPUT_TOOLS_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
 ${MATH_NATIONAL_PACKS_SCRIPT}
 ${SCIENCE_NATIONAL_PACKS_SCRIPT}
@@ -16616,11 +16618,15 @@ function educationMathOcrIncomplete(value){
 let mathResultSession=null;
 function mathSplitExercises(source){
  const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(v=>v.trim()).filter(Boolean);
- const tasks=[];let current=[];
+ const tasks=[];let current=[],braceDepth=0;
+ const braces=line=>{for(const c of line){if(c==='{')braceDepth++;else if(c==='}')braceDepth=Math.max(0,braceDepth-1)}};
  const flush=()=>{if(current.length){tasks.push(current.join('\\n').trim());current=[]}};
  const isFormula=value=>/[\\d√]/u.test(value)&&/[=+\\-−×÷*/^√]/u.test(value)&&
   !/[.!?]$/.test(value)&&!/[\\wăâîșț]{4,}\\s+[\\wăâîșț]{4,}/iu.test(value);
  for(const line of lines){
+  // A system/piecewise definition is ONE task, including numbered branches.
+  if(braceDepth>0){current.push(line);braces(line);continue;}
+  braces(line);
   // A section heading is metadata; it must never be treated as an exercise.
   if(/^(?:(?:exerci[țt]iul?|exercises?|ex\\.?|probleme|problems?)\\s*\\d{0,3}\\s*[:.)—–-]?\\s*(?:efectua[țt]i|calcula[țt]i|reduce[țt]i|rezolva[țt]i)?\\s*:?|exerci[țt]ii|exercises?)$/iu.test(line)){
    flush();continue;
@@ -16640,6 +16646,7 @@ function mathSplitExercises(source){
  return tasks.filter(Boolean).slice(0,50);
 }
 function mathGraphModel(task){
+ if(/[{}]/.test(String(task||'')))return null; // Never graph only one branch.
  const match=String(task||'').match(/(?:f\\s*\\(\\s*x\\s*\\)|y)\\s*=\\s*([^\\n\\r;]+)/i);
  if(!match)return null;
  const expression=match[1].trim().replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/,/g,'.').replace(/\\s+/g,'').replace(/·/g,'*');
@@ -17548,7 +17555,7 @@ function mathMatrix3Det(rows){
  return a*(e*i-f*h)-b*(d*i-f*g)+c*(d*h-e*g);
 }
 function mathSystem3x3(source){
- const rows=String(source||'').trim().replace(/\\r/g,'').split(/\\n|;/).map(s=>s.trim()).filter(Boolean);
+ const rows=String(source||'').trim().replace(/^[\\s{]+|[\\s}]+$/g,'').replace(/\\r/g,'').split(/\\n|;/).map(s=>s.trim()).filter(Boolean);
  if(rows.length!==3)return null;
  const equations=[];
  const parseSide=side=>{
@@ -18729,7 +18736,9 @@ function mathAlgebraEngines(){
  ];
 }
 function mathAlgebraLocal(mode,source){
+ const braced=/[{}]/.test(String(source||''));
  for(const engine of mathAlgebraEngines()){
+  if(braced&&!['linear-system-2x2','linear-system-3x3'].includes(engine.id))continue;
   const handler=engine[mode];
   if(typeof handler!=='function')continue;
   const value=handler(source);
@@ -26818,6 +26827,14 @@ export default {
    '/api/location-pois':'POST',
    '/api/telegram-user-translation':'POST'
   };
+  if(url.pathname==='/api/education-ink'){
+   if(request.method!=='POST')return Response.json({error:'method_not_allowed'},{status:405});
+   if(Number(request.headers.get('Content-Length')||0)>1500000)return Response.json({error:'image_too_large'},{status:413});
+   const target=new URL('https://lifewise-ai-api.kokocf.workers.dev/api/education-ink');
+   const forwarded=new Request(target,request);
+   try{return env?.POCKET_API?await env.POCKET_API.fetch(forwarded):await fetch(forwarded)}
+   catch{return Response.json({status:'unavailable',error:'education_ink_unavailable'},{status:503})}
+  }
   const auxiliaryMethod=auxiliaryMethods[url.pathname];
   if(auxiliaryMethod){
    if(request.method!==auxiliaryMethod)return new Response('Method not allowed',{status:405,headers:{Allow:auxiliaryMethod}});

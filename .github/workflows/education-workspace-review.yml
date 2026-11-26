@@ -6,6 +6,10 @@ on:
       - 'backend.js'
       - 'computing_ui.mjs'
       - 'education_exercise_tutor.mjs'
+      - 'education_input_tools.mjs'
+      - 'education_ink_api.mjs'
+      - 'tests_education_input*.mjs'
+      - 'wrangler-backend.toml'
       - 'education_lesson_depth.mjs'
       - 'tests_education_exercise_tutor.mjs'
       - '*national*.mjs'
@@ -36,6 +40,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - name: Data, routing and existing course regressions
         run: |
+          node tests_education_input_tools.mjs
           node tests_education_exercise_tutor.mjs
           node tests_education_review_2026.mjs
           node tests_education_national_reader.mjs
@@ -51,7 +56,9 @@ jobs:
         env:
           WRANGLER_SEND_METRICS: 'false'
         run: |
+          npx wrangler deploy --config wrangler-backend.toml --dry-run --outdir .bundle-check/backend
           npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check
           node scripts/check_bundled_browser_names.mjs .bundle-check/index.js
           export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
           POCKET_BUNDLE=./.bundle-check/index.check.mjs node tests_education_workspace_browser.mjs
+          POCKET_BUNDLE=./.bundle-check/index.check.mjs node tests_education_input_browser.mjs
