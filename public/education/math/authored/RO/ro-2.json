@@ -1,0 +1,1260 @@
+{
+ "schema": "mypocket-literature-authored/v2",
+ "country": "RO",
+ "stage": "beginner",
+ "grade": "2",
+ "version": "d9293d22ec85fc1e9ded67f6bb972ead2548d736dd6593b40150db608829097f",
+ "source": "https://www.edu.ro/sites/default/files/_fi%C8%99iere/Invatamant-Preuniversitar/2016/primar/OMEN_3418_2013_anexa2_MEM_CP_I_II.pdf",
+ "sourceTitle": "Programa școlară Matematică și explorarea mediului, clasa pregătitoare, clasa I și clasa a II-a, aprobată prin OMEN nr. 3418/19.03.2013 (Anexa 2) — clasa a II-a: numere naturale 0–1000, adunarea și scăderea 0–1000 fără și cu trecere peste ordin, înmulțirea și împărțirea în concentrul 0–100, fracțiile ½ și ¼, probleme cu una, două sau trei operații, figuri și corpuri geometrice, simetrie, unități de măsură (m, cm, mm; l, ml; kg, g; timp; leu, euro), organizarea datelor, explorarea mediului (medii de viață, corpul omenesc, apa, magneți și forțe, Sistemul Solar); unitățile urmează manualele aprobate MEM clasa a II-a; lecții originale, fără text copiat din manuale",
+ "status": "partial-original-material-independent-review-pending",
+ "sourceLanguage": "ro",
+ "labels": [
+  "Activitate originală · România · Matematică și explorarea mediului · Clasa a II-a",
+  "Teorie pe înțeles",
+  "Exemplu",
+  "Rezolvare explicată",
+  "Exerciții",
+  "Verifică-te",
+  "Exerciții originale; nu înlocuiesc manualul sau evaluarea de la clasă.",
+  "Dacă nu ai înțeles: pas cu pas",
+  "Răspunsuri (verifică după ce termini)"
+ ],
+ "units": [
+  {
+   "title": "Numerele naturale de la 0 la 1000",
+   "keys": [
+    "eu-year-ro-beginner-2-l01",
+    "eu-year-ro-beginner-2-l02",
+    "eu-year-ro-beginner-2-l03",
+    "eu-year-ro-beginner-2-l04"
+   ]
+  },
+  {
+   "title": "Adunarea și scăderea până la 1000 fără trecere peste ordin",
+   "keys": [
+    "eu-year-ro-beginner-2-l05",
+    "eu-year-ro-beginner-2-l06"
+   ]
+  },
+  {
+   "title": "Adunarea și scăderea până la 1000 cu trecere peste ordin",
+   "keys": [
+    "eu-year-ro-beginner-2-l07",
+    "eu-year-ro-beginner-2-l08",
+    "eu-year-ro-beginner-2-l09"
+   ]
+  },
+  {
+   "title": "Înmulțirea numerelor naturale în concentrul 0–100",
+   "keys": [
+    "eu-year-ro-beginner-2-l10",
+    "eu-year-ro-beginner-2-l11",
+    "eu-year-ro-beginner-2-l12",
+    "eu-year-ro-beginner-2-l13",
+    "eu-year-ro-beginner-2-l14"
+   ]
+  },
+  {
+   "title": "Împărțirea numerelor naturale în concentrul 0–100",
+   "keys": [
+    "eu-year-ro-beginner-2-l15",
+    "eu-year-ro-beginner-2-l16",
+    "eu-year-ro-beginner-2-l17"
+   ]
+  },
+  {
+   "title": "Ordinea operațiilor și probleme",
+   "keys": [
+    "eu-year-ro-beginner-2-l18",
+    "eu-year-ro-beginner-2-l19"
+   ]
+  },
+  {
+   "title": "Figuri și corpuri geometrice",
+   "keys": [
+    "eu-year-ro-beginner-2-l20",
+    "eu-year-ro-beginner-2-l21",
+    "eu-year-ro-beginner-2-l22"
+   ]
+  },
+  {
+   "title": "Măsurări: lungime, capacitate, masă, timp, bani",
+   "keys": [
+    "eu-year-ro-beginner-2-l23",
+    "eu-year-ro-beginner-2-l24",
+    "eu-year-ro-beginner-2-l25",
+    "eu-year-ro-beginner-2-l26",
+    "eu-year-ro-beginner-2-l27",
+    "eu-year-ro-beginner-2-l28"
+   ]
+  },
+  {
+   "title": "Explorarea mediului",
+   "keys": [
+    "eu-year-ro-beginner-2-l29",
+    "eu-year-ro-beginner-2-l30",
+    "eu-year-ro-beginner-2-l31",
+    "eu-year-ro-beginner-2-l32",
+    "eu-year-ro-beginner-2-l33"
+   ]
+  }
+ ],
+ "chapters": {
+  "eu-year-ro-beginner-2-l01": {
+   "ro": {
+    "title": "Sute, zeci și unități: formarea numerelor până la 1000",
+    "theory": "Zece unități formează o zece, zece zeci formează o sută, iar zece sute formează o mie (1000). Un număr de trei cifre are cifra sutelor, cifra zecilor și cifra unităților. 365 înseamnă 3 sute, 6 zeci și 5 unități: 365 = 300 + 60 + 5.",
+    "sample": "O cutie are 100 de agrafe. Două cutii pline, 4 pachete de câte 10 agrafe și încă 7 agrafe înseamnă 247 de agrafe.",
+    "worked": "Numărul 508 are 5 sute, 0 zeci și 8 unități. Cifra 0 ține locul zecilor care lipsesc; fără ea am scrie 58, un alt număr.",
+    "exercises": [
+     "Scrie numărul format din 4 sute, 2 zeci și 9 unități.",
+     "Descompune 736 în sute, zeci și unități.",
+     "Scrie numărul care are 6 sute și 3 unități.",
+     "Câte zeci are numărul 450 în total?",
+     "Scrie cel mai mare număr de trei cifre."
+    ],
+    "test": [
+     "Câte sute are numărul 812?",
+     "Ce număr are 9 sute, 0 zeci, 0 unități?",
+     "Ce valoare are cifra 7 în 274?",
+     "Câte sute formează o mie?",
+     "Descompune 603."
+    ],
+    "steps": [
+     "Citește numărul de la stânga la dreapta: sute, zeci, unități.",
+     "Scrie sub fiecare cifră ce arată (S, Z, U).",
+     "Unde lipsește un ordin, scrie 0.",
+     "Greșeala frecventă: să scrii „șase sute trei” ca 63. Locul zecilor goale se ocupă cu 0: 603."
+    ],
+    "answers": [
+     "8",
+     "900",
+     "7 zeci (70)",
+     "10",
+     "600 + 3 (6 sute, 0 zeci, 3 unități)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l02": {
+   "ro": {
+    "title": "Citirea și scrierea numerelor până la 1000",
+    "theory": "Citim întâi sutele, apoi zecile și unitățile: 482 se citește „patru sute optzeci și doi”. La scrierea cu litere, numerele de la 11 la 19 au formă specială („unsprezece”, „doisprezece”...). Pentru 2 sute spunem „două sute”.",
+    "sample": "Pe un bilet de tren scrie: distanța 274 km — se citește „două sute șaptezeci și patru de kilometri”.",
+    "worked": "Pentru „nouă sute cincisprezece”: 9 sute → 9, cincisprezece înseamnă 1 zece și 5 unități → 15. Scriem 915.",
+    "exercises": [
+     "Scrie cu cifre: trei sute șaizeci.",
+     "Scrie cu cifre: șapte sute patru.",
+     "Scrie cu litere: 518.",
+     "Scrie cu litere: 290.",
+     "Citește cu voce tare: 999, 101, 610."
+    ],
+    "test": [
+     "Scrie cu cifre: două sute doisprezece.",
+     "Scrie cu cifre: opt sute opt.",
+     "Câte cifre are numărul o mie?",
+     "Scrie cu cifre: cinci sute nouăzeci.",
+     "Scrie cu cifre: patru sute patruzeci și patru."
+    ],
+    "steps": [
+     "Spune întâi câte sute sunt.",
+     "Apoi spune zecile și unitățile ca pe un număr de două cifre.",
+     "La scriere, verifică să ai exact trei cifre pentru numerele între 100 și 999.",
+     "Greșeala frecventă: să scrii „opt sute opt” ca 8008. Sutele și unitățile ocupă locurile lor: 808."
+    ],
+    "answers": [
+     "212",
+     "808",
+     "4 cifre (1000)",
+     "590",
+     "444"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l03": {
+   "ro": {
+    "title": "Compararea și ordonarea numerelor până la 1000",
+    "theory": "Comparăm întâi sutele; dacă sunt egale, comparăm zecile; dacă și zecile sunt egale, comparăm unitățile. Folosim semnele <, >, =. Un număr cu mai multe cifre este mai mare decât unul cu mai puține cifre.",
+    "sample": "Un munte are 812 m, altul 821 m. Sutele sunt egale, zecile 1 < 2, deci 812 < 821.",
+    "worked": "Ordonăm crescător 450, 405, 504, 540: comparăm sutele (4, 4, 5, 5), apoi zecile la cele cu aceleași sute: 405 < 450 < 504 < 540.",
+    "exercises": [
+     "Pune semnul potrivit: 386 ... 368.",
+     "Pune semnul potrivit: 700 ... 699.",
+     "Ordonează crescător: 231, 213, 312, 321.",
+     "Ordonează descrescător: 909, 990, 99, 900.",
+     "Scrie numerele cuprinse între 495 și 502."
+    ],
+    "test": [
+     "Care este mai mare: 607 sau 670?",
+     "Care este cel mai mic număr de trei cifre?",
+     "Ce semn pui între 550 și 505?",
+     "Care număr este mai mic: 98 sau 102?",
+     "Ordonează crescător: 120, 102, 210."
+    ],
+    "steps": [
+     "Compară cifrele sutelor.",
+     "Dacă sunt egale, treci la zeci, apoi la unități.",
+     "Scrie semnul cu deschiderea spre numărul mai mare.",
+     "Greșeala frecventă: să compari doar ultima cifră (să crezi că 189 > 201). Mai întâi se compară sutele."
+    ],
+    "answers": [
+     "670",
+     "100",
+     ">",
+     "98",
+     "102, 120, 210"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l04": {
+   "ro": {
+    "title": "Numere pare și impare, vecini și rotunjirea la zeci",
+    "theory": "Un număr este par dacă ultima lui cifră este 0, 2, 4, 6 sau 8, și impar dacă se termină cu 1, 3, 5, 7 sau 9. Vecinii (predecesorul și succesorul) unui număr sunt numărul de dinainte și cel de după. A rotunji la zeci înseamnă a alege cea mai apropiată zece întreagă; dacă unitățile sunt 5 sau mai mult, rotunjim în sus.",
+    "sample": "Un produs costă 47 de lei; rotunjit la zeci, costă cam 50 de lei.",
+    "worked": "Numărul 380: predecesor 379, succesor 381; este par. Rotunjim 734: unitățile 4 < 5, deci 730. Rotunjim 735: unitățile 5, deci 740.",
+    "exercises": [
+     "Scrie vecinii numărului 500.",
+     "Scrie numerele pare dintre 241 și 251.",
+     "Rotunjește la zeci: 68, 243, 905.",
+     "Este 777 par sau impar?",
+     "Scrie un număr impar de trei cifre cu cifra sutelor 4."
+    ],
+    "test": [
+     "Care este succesorul lui 699?",
+     "Care este predecesorul lui 300?",
+     "Rotunjește 56 la zeci.",
+     "Rotunjește 412 la zeci.",
+     "Este 570 par sau impar?"
+    ],
+    "steps": [
+     "Pentru par/impar, privește doar ultima cifră.",
+     "Pentru vecini, adaugă sau scade 1.",
+     "Pentru rotunjire, privește unitățile: 0–4 în jos, 5–9 în sus.",
+     "Greșeala frecventă: să rotunjești 735 la 730. Când unitățile sunt 5, rotunjim în sus: 740."
+    ],
+    "answers": [
+     "700",
+     "299",
+     "60",
+     "410",
+     "Par"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l05": {
+   "ro": {
+    "title": "Adunarea până la 1000 fără trecere peste ordin",
+    "theory": "Scriem numerele unul sub altul: unitățile sub unități, zecile sub zeci, sutele sub sute. Adunăm începând cu unitățile. Când fiecare sumă parțială este cel mult 9, nu avem trecere: 324 + 152 = 476.",
+    "sample": "O școală are 213 elevi dimineața și 145 după-amiaza: în total 358 de elevi.",
+    "worked": "436 + 52: unitățile 6 + 2 = 8, zecile 3 + 5 = 8, sutele 4 + 0 = 4; rezultatul 488. Calcul mintal: 300 + 400 = 700, 250 + 30 = 280.",
+    "exercises": [
+     "Calculează: 231 + 456; 504 + 293; 120 + 70.",
+     "Calculează în coloană: 612 + 185.",
+     "Calculează mintal: 500 + 300; 640 + 50.",
+     "Completează: 300 + ... = 750.",
+     "Scrie o problemă pentru 245 + 132."
+    ],
+    "test": [
+     "Cât fac 400 + 500?",
+     "Cât fac 213 + 341?",
+     "Cât fac 705 + 92?",
+     "Cât fac 130 + 60?",
+     "Cât fac 222 + 333?"
+    ],
+    "steps": [
+     "Așază numerele în coloană, cifră sub cifră de același ordin.",
+     "Adună unitățile, apoi zecile, apoi sutele.",
+     "Citește rezultatul și verifică dacă are sens (estimează).",
+     "Greșeala frecventă: să așezi 52 sub sutele lui 436. Numerele se aliniază la dreapta, după unități."
+    ],
+    "answers": [
+     "900",
+     "554",
+     "797",
+     "190",
+     "555"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l06": {
+   "ro": {
+    "title": "Scăderea până la 1000 fără trecere peste ordin",
+    "theory": "Scădem unitățile din unități, zecile din zeci și sutele din sute, începând cu unitățile. Fără trecere înseamnă că fiecare cifră de sus este cel puțin cât cea de jos. Proba se face prin adunare.",
+    "sample": "Un tren avea 586 de locuri; 342 sunt ocupate. Libere sunt 586 − 342 = 244 de locuri.",
+    "worked": "879 − 425: 9 − 5 = 4, 7 − 2 = 5, 8 − 4 = 4; rezultatul 454. Proba: 454 + 425 = 879.",
+    "exercises": [
+     "Calculează: 768 − 345; 999 − 111; 650 − 30.",
+     "Calculează în coloană și fă proba: 587 − 263.",
+     "Calculează mintal: 800 − 500; 470 − 60.",
+     "Completează: 900 − ... = 600.",
+     "Scrie o problemă pentru 395 − 154."
+    ],
+    "test": [
+     "Cât fac 700 − 200?",
+     "Cât fac 486 − 253?",
+     "Cât fac 999 − 909?",
+     "Cât fac 560 − 40?",
+     "Ce operație folosești pentru proba scăderii?"
+    ],
+    "steps": [
+     "Așază descăzutul sus și scăzătorul jos, aliniate la dreapta.",
+     "Scade pe rând unitățile, zecile, sutele.",
+     "Fă proba prin adunare.",
+     "Greșeala frecventă: să aduni în loc să scazi la una dintre coloane. Verifică semnul operației înainte de fiecare coloană."
+    ],
+    "answers": [
+     "500",
+     "233",
+     "90",
+     "520",
+     "Adunarea"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l07": {
+   "ro": {
+    "title": "Adunarea cu trecere peste ordin până la 1000",
+    "theory": "Când suma unităților este 10 sau mai mult, scriem unitățile și trecem o zece la coloana zecilor. La fel, dacă suma zecilor trece de 9, trecem o sută la coloana sutelor. 357 + 268: 7 + 8 = 15 (scriem 5, ținem 1); 5 + 6 + 1 = 12 (scriem 2, ținem 1); 3 + 2 + 1 = 6. Rezultatul 625.",
+    "sample": "O bibliotecă primește 186 de cărți în martie și 247 în aprilie: în total 433 de cărți.",
+    "worked": "475 + 49: 5 + 9 = 14 → 4, ținem 1; 7 + 4 + 1 = 12 → 2, ținem 1; 4 + 1 = 5. Rezultatul 524.",
+    "exercises": [
+     "Calculează: 268 + 157; 409 + 395; 678 + 99.",
+     "Calculează: 555 + 445; 386 + 427.",
+     "Calculează în coloană: 199 + 199.",
+     "Completează: 465 + ... = 500.",
+     "Scrie o problemă pentru 238 + 175."
+    ],
+    "test": [
+     "Cât fac 148 + 276?",
+     "Cât fac 365 + 35?",
+     "Cât fac 499 + 1?",
+     "Cât fac 287 + 516?",
+     "Cât fac 750 + 250?"
+    ],
+    "steps": [
+     "Adună unitățile; dacă ai 10 sau mai mult, scrie unitățile și ține 1.",
+     "Adună zecile plus ce ai ținut; procedează la fel.",
+     "Adună sutele plus ce ai ținut.",
+     "Greșeala frecventă: să uiți unitatea ținută minte sau să o adaugi la coloana greșită. Scrie un mic „1” deasupra coloanei următoare."
+    ],
+    "answers": [
+     "424",
+     "400",
+     "500",
+     "803",
+     "1000"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l08": {
+   "ro": {
+    "title": "Scăderea cu trecere peste ordin până la 1000",
+    "theory": "Când cifra de sus este mai mică decât cea de jos, împrumutăm 1 de la ordinul din stânga: o zece devine 10 unități, o sută devine 10 zeci. 632 − 275: 2 < 5, împrumutăm: 12 − 5 = 7; la zeci au rămas 2, 2 < 7, împrumutăm o sută: 12 − 7 = 5; la sute 5 − 2 = 3. Rezultatul 357.",
+    "sample": "Ai 500 de lei și cumperi o bicicletă de 348 de lei; îți rămân 152 de lei.",
+    "worked": "700 − 263: nu avem zeci sau unități, așa că o sută devine 10 zeci, iar o zece devine 10 unități: 10 − 3 = 7, 9 − 6 = 3, 6 − 2 = 4. Rezultatul 437. Proba: 437 + 263 = 700.",
+    "exercises": [
+     "Calculează: 541 − 167; 820 − 356; 403 − 128.",
+     "Calculează și fă proba: 900 − 457.",
+     "Calculează: 1000 − 1; 600 − 99.",
+     "Completează: 512 − ... = 300.",
+     "Scrie o problemă pentru 735 − 298."
+    ],
+    "test": [
+     "Cât fac 432 − 158?",
+     "Cât fac 500 − 125?",
+     "Cât fac 810 − 9?",
+     "Cât fac 361 − 172?",
+     "Cât fac 1000 − 400?"
+    ],
+    "steps": [
+     "Începe cu unitățile; dacă nu ajung, împrumută o zece.",
+     "Ține minte că zecea împrumutată lipsește acum din coloana zecilor.",
+     "Dacă la zeci ai 0, împrumută întâi o sută (devine 10 zeci).",
+     "Greșeala frecventă: să scazi cifra mică din cea mare (532 − 175 = 443). Când cifra de sus e mai mică, împrumuți."
+    ],
+    "answers": [
+     "274",
+     "375",
+     "801",
+     "189",
+     "600"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l09": {
+   "ro": {
+    "title": "Proba operațiilor și aflarea numărului necunoscut",
+    "theory": "Adunarea și scăderea sunt operații inverse. Proba adunării se face prin scădere, proba scăderii prin adunare. Un termen necunoscut se află prin scădere (□ + 250 = 600 → □ = 350); descăzutul necunoscut se află prin adunare (□ − 120 = 380 → □ = 500); scăzătorul necunoscut se află prin scădere (700 − □ = 450 → □ = 250).",
+    "sample": "Andrei avea niște lei; după ce a cheltuit 150 de lei, i-au rămas 275. A avut 275 + 150 = 425 de lei.",
+    "worked": "În 563 − □ = 318: scăzătorul este 563 − 318 = 245. Verificăm: 563 − 245 = 318.",
+    "exercises": [
+     "Află □: □ + 375 = 900.",
+     "Află □: □ − 248 = 352.",
+     "Află □: 815 − □ = 600.",
+     "Fă proba: 467 + 285 = 752.",
+     "M-am gândit la un număr, am adunat 125 și am obținut 400. Care este numărul?"
+    ],
+    "test": [
+     "Află □: □ + 90 = 300.",
+     "Află □: □ − 50 = 450.",
+     "Află □: 640 − □ = 240.",
+     "Ce operație folosești ca să afli descăzutul?",
+     "Fă proba: 900 − 375 = 525."
+    ],
+    "steps": [
+     "Identifică ce lipsește: termen, descăzut sau scăzător.",
+     "Termenul și scăzătorul se află prin scădere; descăzutul prin adunare.",
+     "Înlocuiește □ cu numărul găsit și verifică.",
+     "Greșeala frecventă: să afli descăzutul prin scădere. La □ − 50 = 450, □ = 450 + 50 = 500."
+    ],
+    "answers": [
+     "210",
+     "500",
+     "400",
+     "Adunarea",
+     "Corect: 525 + 375 = 900."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l10": {
+   "ro": {
+    "title": "Înmulțirea ca adunare repetată de termeni egali",
+    "theory": "Când adunăm de mai multe ori același număr, putem scrie mai scurt cu înmulțirea: 4 + 4 + 4 = 3 × 4 = 12. Numerele înmulțite se numesc factori, iar rezultatul se numește produs. 3 × 4 se citește „trei ori patru”.",
+    "sample": "Pe 5 farfurii sunt câte 2 prăjituri: 2 + 2 + 2 + 2 + 2 = 5 × 2 = 10 prăjituri.",
+    "worked": "Scriem 6 + 6 + 6 + 6 ca înmulțire: numărul 6 apare de 4 ori, deci 4 × 6 = 24. Verificăm adunând: 6 + 6 = 12, 12 + 6 = 18, 18 + 6 = 24.",
+    "exercises": [
+     "Scrie ca înmulțire: 3 + 3 + 3 + 3 + 3.",
+     "Scrie ca adunare: 4 × 5.",
+     "Desenează 3 grupe cu câte 4 bile și scrie înmulțirea.",
+     "Calculează prin adunare repetată: 6 × 3.",
+     "Inventează o problemă pentru 2 × 7."
+    ],
+    "test": [
+     "Cum se numește rezultatul înmulțirii?",
+     "Scrie ca înmulțire: 5 + 5 + 5.",
+     "Cât fac 4 × 2?",
+     "Cum se numesc numerele care se înmulțesc?",
+     "Cât fac 3 × 10?"
+    ],
+    "steps": [
+     "Uită-te ce număr se repetă și de câte ori.",
+     "Scrie: (de câte ori) × (numărul repetat).",
+     "Calculează adunând sau din tabla înmulțirii.",
+     "Greșeala frecventă: să scrii 3 + 3 + 3 + 3 ca 3 × 3. Numărul 3 apare de 4 ori: 4 × 3."
+    ],
+    "answers": [
+     "Produs",
+     "3 × 5",
+     "8",
+     "Factori",
+     "30"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l11": {
+   "ro": {
+    "title": "Tabla înmulțirii cu 2, 3, 4 și 5",
+    "theory": "Tabla înmulțirii se poate construi numărând din 2 în 2, din 3 în 3, din 4 în 4, din 5 în 5. Înmulțirea cu 2 înseamnă dublul unui număr. Produsele cu 5 se termină mereu cu 0 sau 5. Produsele cu 4 sunt dublul produselor cu 2.",
+    "sample": "O mână are 5 degete; 7 mâini au 7 × 5 = 35 de degete.",
+    "worked": "6 × 4: știm 6 × 2 = 12, iar înmulțirea cu 4 este dublul: 12 + 12 = 24. 8 × 5: numărăm din 5 în 5 de 8 ori: 5, 10, 15, 20, 25, 30, 35, 40.",
+    "exercises": [
+     "Scrie tabla înmulțirii cu 3 de la 3 × 1 la 3 × 10.",
+     "Calculează: 7 × 2; 9 × 3; 6 × 5.",
+     "Calculează: 8 × 4; 5 × 4; 10 × 3.",
+     "Câte roți au 9 biciclete?",
+     "Câte picioare au 6 pisici?"
+    ],
+    "test": [
+     "Cât fac 8 × 2?",
+     "Cât fac 7 × 3?",
+     "Cât fac 9 × 4?",
+     "Cât fac 6 × 5?",
+     "Cât fac 4 × 4?"
+    ],
+    "steps": [
+     "Numără ritmic din 2 în 2, din 3 în 3 etc.",
+     "Folosește dublul: × 4 este dublul lui × 2.",
+     "Verifică: produsele cu 5 se termină în 0 sau 5.",
+     "Greșeala frecventă: să confunzi 3 × 4 = 12 cu 3 + 4 = 7. Înmulțirea înseamnă grupe egale, nu adunarea celor două numere."
+    ],
+    "answers": [
+     "16",
+     "21",
+     "36",
+     "30",
+     "16"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l12": {
+   "ro": {
+    "title": "Tabla înmulțirii cu 6, 7, 8 și 9",
+    "theory": "Pentru 6, 7, 8 și 9 folosim ce știm deja: schimbăm ordinea factorilor (7 × 3 = 3 × 7) și descompunem: 7 × 6 = 7 × 5 + 7 = 35 + 7 = 42. La tabla lui 9, suma cifrelor produsului (până la 9 × 10) este 9: 18, 27, 36, 45...",
+    "sample": "O săptămână are 7 zile; 8 săptămâni au 8 × 7 = 56 de zile.",
+    "worked": "8 × 9 = 8 × 10 − 8 = 80 − 8 = 72. 6 × 8 = 5 × 8 + 8 = 40 + 8 = 48.",
+    "exercises": [
+     "Scrie tabla înmulțirii cu 7.",
+     "Calculează: 6 × 7; 8 × 8; 9 × 6.",
+     "Calculează folosind × 10: 9 × 7.",
+     "Câte zile au 4 săptămâni?",
+     "Câte picioare au 5 păianjeni (câte 8 picioare)?"
+    ],
+    "test": [
+     "Cât fac 7 × 7?",
+     "Cât fac 6 × 9?",
+     "Cât fac 8 × 6?",
+     "Cât fac 9 × 9?",
+     "Cât fac 7 × 8?"
+    ],
+    "steps": [
+     "Caută un produs apropiat pe care îl știi (× 5 sau × 10).",
+     "Adaugă sau scade un grup.",
+     "Verifică prin schimbarea ordinii factorilor.",
+     "Greșeala frecventă: 7 × 8 = 54 sau 58. Reține: 56 = 7 × 8 (5, 6, 7, 8 în ordine)."
+    ],
+    "answers": [
+     "49",
+     "54",
+     "48",
+     "81",
+     "56"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l13": {
+   "ro": {
+    "title": "Înmulțirea cu 0, 1 și 10; proprietățile înmulțirii",
+    "theory": "Orice număr înmulțit cu 1 rămâne neschimbat. Orice număr înmulțit cu 0 dă 0. Înmulțirea cu 10 adaugă un 0 la sfârșitul numărului. Putem schimba ordinea factorilor (3 × 8 = 8 × 3) și îi putem grupa cum ne convine: 2 × 4 × 5 = 2 × 5 × 4 = 10 × 4 = 40.",
+    "sample": "Dacă în 6 cutii nu este nicio bomboană, avem 6 × 0 = 0 bomboane.",
+    "worked": "Calculăm 5 × 7 × 2: grupăm 5 × 2 = 10, apoi 10 × 7 = 70. Calculăm 9 × 1 × 0 = 0, pentru că un factor este 0.",
+    "exercises": [
+     "Calculează: 8 × 1; 0 × 9; 7 × 10.",
+     "Calculează ușor: 2 × 9 × 5.",
+     "Verifică: 4 × 6 = 6 × 4.",
+     "Calculează: 10 × 10; 1 × 1; 0 × 0.",
+     "Explică de ce 345 × 0 = 0."
+    ],
+    "test": [
+     "Cât fac 9 × 0?",
+     "Cât fac 1 × 64?",
+     "Cât fac 6 × 10?",
+     "Cât fac 5 × 3 × 2?",
+     "Este adevărat că 7 × 2 = 2 × 7?"
+    ],
+    "steps": [
+     "Caută factorii speciali: 0, 1, 10.",
+     "Grupează factorii care dau 10 (2 × 5).",
+     "Folosește schimbarea ordinii pentru calcul ușor.",
+     "Greșeala frecventă: să crezi că 6 × 0 = 6. Șase grupe de nimic înseamnă nimic: 0."
+    ],
+    "answers": [
+     "0",
+     "64",
+     "60",
+     "30",
+     "Da"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l14": {
+   "ro": {
+    "title": "Probleme cu înmulțirea: de mai multe ori, dublu, triplu",
+    "theory": "„De 3 ori mai mult” înseamnă înmulțire cu 3. Dublul unui număr înseamnă de 2 ori numărul, triplul înseamnă de 3 ori. Nu confundăm „cu 3 mai mult” (adunare) cu „de 3 ori mai mult” (înmulțire).",
+    "sample": "Ana are 8 timbre, iar Ioana de 3 ori mai multe: 3 × 8 = 24 de timbre.",
+    "worked": "Mihai are 6 bile, Dan cu 6 mai multe, iar Sara de 2 ori mai multe decât Mihai. Dan: 6 + 6 = 12; Sara: 2 × 6 = 12. Aici rezultatele coincid, dar operațiile sunt diferite: pentru 5 bile, Dan ar avea 11, iar Sara 10.",
+    "exercises": [
+     "Un caiet costă 4 lei. Cât costă 9 caiete?",
+     "Scrie dublul numerelor 7, 15, 40.",
+     "Scrie triplul numerelor 3, 9, 20.",
+     "Radu are 5 lei, iar sora lui de 4 ori mai mult. Câți lei au împreună?",
+     "Compune o problemă cu „de 6 ori mai mult”."
+    ],
+    "test": [
+     "Care este dublul lui 9?",
+     "Care este triplul lui 8?",
+     "„De 5 ori mai mult decât 6” înseamnă...?",
+     "„Cu 5 mai mult decât 6” înseamnă...?",
+     "Un bilet costă 7 lei. Cât costă 4 bilete?"
+    ],
+    "steps": [
+     "Subliniază expresia: „de ... ori” sau „cu ... mai mult”.",
+     "„De ori” → înmulțire; „cu” → adunare.",
+     "Calculează și scrie răspunsul complet.",
+     "Greșeala frecventă: să aduni la „de 3 ori mai mult”. Ex.: de 3 ori mai mult decât 8 este 24, nu 11."
+    ],
+    "answers": [
+     "18",
+     "24",
+     "5 × 6 = 30",
+     "6 + 5 = 11",
+     "28 de lei"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l15": {
+   "ro": {
+    "title": "Împărțirea în părți egale și împărțirea prin cuprindere",
+    "theory": "A împărți înseamnă a forma grupe egale. 12 : 3 = 4 poate însemna „12 mere împărțite la 3 copii, fiecare primește 4” sau „câte grupe de 3 încap în 12? 4”. Primul număr este deîmpărțitul, al doilea împărțitorul, rezultatul este câtul.",
+    "sample": "20 de creioane se pun câte 5 într-o cutie: 20 : 5 = 4 cutii.",
+    "worked": "Împărțim 18 bomboane în mod egal la 6 copii: dăm câte una pe rând până se termină; fiecare primește 3. Deci 18 : 6 = 3.",
+    "exercises": [
+     "Împarte 15 jetoane în 3 grupe egale. Câte sunt în fiecare?",
+     "Câte grupe de 4 poți face din 24 de bile?",
+     "Calculează: 10 : 2; 21 : 3; 40 : 5.",
+     "Desenează 16 puncte împărțite în 4 grupe egale.",
+     "Scrie o problemă pentru 30 : 6."
+    ],
+    "test": [
+     "Cum se numește rezultatul împărțirii?",
+     "Cât fac 14 : 2?",
+     "Cât fac 27 : 3?",
+     "Câte grupe de 5 sunt în 35?",
+     "Cum se numește numărul la care împărțim?"
+    ],
+    "steps": [
+     "Gândește-te: câte grupe egale facem, sau câte obiecte intră într-o grupă?",
+     "Folosește obiecte sau desene ca să verifici.",
+     "Scrie împărțirea: deîmpărțit : împărțitor = cât.",
+     "Greșeala frecventă: să împarți inegal (de exemplu 5, 4 și 3 pentru 12 : 3). Toate grupele trebuie să fie egale."
+    ],
+    "answers": [
+     "Cât",
+     "7",
+     "9",
+     "7",
+     "Împărțitor"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l16": {
+   "ro": {
+    "title": "Împărțirea folosind tabla înmulțirii; proba împărțirii",
+    "theory": "Împărțirea este operația inversă înmulțirii: dacă 6 × 7 = 42, atunci 42 : 7 = 6 și 42 : 6 = 7. Ca să aflăm 56 : 8 ne întrebăm: „ce număr înmulțit cu 8 dă 56?” — 7. Proba împărțirii se face prin înmulțire: cât × împărțitor = deîmpărțit. Împărțirea la 1 lasă numărul neschimbat; 0 împărțit la orice număr nenul dă 0; nu împărțim la 0.",
+    "sample": "O clasă de 28 de elevi formează echipe de câte 4: 28 : 4 = 7 echipe, pentru că 7 × 4 = 28.",
+    "worked": "63 : 9: căutăm în tabla lui 9 produsul 63: 7 × 9 = 63, deci câtul este 7. Proba: 7 × 9 = 63.",
+    "exercises": [
+     "Calculează: 48 : 6; 72 : 8; 81 : 9.",
+     "Calculează și fă proba: 54 : 6.",
+     "Calculează: 9 : 1; 0 : 7; 35 : 7.",
+     "Scrie două împărțiri care se obțin din 5 × 8 = 40.",
+     "Explică de ce nu putem împărți 6 la 0."
+    ],
+    "test": [
+     "Cât fac 36 : 4?",
+     "Cât fac 42 : 7?",
+     "Cât fac 64 : 8?",
+     "Cât fac 0 : 5?",
+     "Ce operație folosești pentru proba împărțirii?"
+    ],
+    "steps": [
+     "Transformă împărțirea într-o întrebare de înmulțire.",
+     "Caută produsul în tabla înmulțirii.",
+     "Fă proba: înmulțește câtul cu împărțitorul.",
+     "Greșeala frecventă: să crezi că 0 : 5 = 5 sau că 5 : 0 = 0. 0 : 5 = 0, iar împărțirea la 0 nu se face."
+    ],
+    "answers": [
+     "9",
+     "6",
+     "8",
+     "0",
+     "Înmulțirea"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l17": {
+   "ro": {
+    "title": "Jumătatea și sfertul; fracțiile ½ și ¼",
+    "theory": "Când împărțim un întreg în 2 părți egale, fiecare parte este o jumătate (o doime), scrisă ½. Când îl împărțim în 4 părți egale, fiecare parte este un sfert (o pătrime), scris ¼. Două sferturi formează o jumătate: ½ = 2/4. Jumătatea unui număr se află împărțind la 2, sfertul împărțind la 4.",
+    "sample": "O pizza tăiată în 4 felii egale: o felie este un sfert; două felii sunt jumătate de pizza.",
+    "worked": "Jumătate din 40 de lei este 40 : 2 = 20 de lei. Un sfert din 40 de lei este 40 : 4 = 10 lei. Două sferturi: 10 + 10 = 20 de lei, adică tot jumătate.",
+    "exercises": [
+     "Desenează un dreptunghi și colorează jumătate din el.",
+     "Desenează un cerc împărțit în sferturi și colorează ¼.",
+     "Află jumătate din 18 și un sfert din 20.",
+     "O sticlă de 2 litri este plină pe jumătate. Câți litri are?",
+     "Arată prin desen că ½ = 2/4."
+    ],
+    "test": [
+     "Câte sferturi are un întreg?",
+     "Cât este jumătate din 50?",
+     "Cât este un sfert din 16?",
+     "Câte sferturi formează o jumătate?",
+     "Cum se mai numește jumătatea?"
+    ],
+    "steps": [
+     "Verifică dacă părțile sunt egale.",
+     "Numără în câte părți egale s-a împărțit întregul.",
+     "Pentru numere: jumătate = : 2, sfert = : 4.",
+     "Greșeala frecventă: să numești „jumătate” o parte mai mare sau mai mică. Jumătățile trebuie să fie egale."
+    ],
+    "answers": [
+     "4",
+     "25",
+     "4",
+     "2",
+     "Doime"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l18": {
+   "ro": {
+    "title": "Exerciții cu mai multe operații: ordinea efectuării",
+    "theory": "Într-un exercițiu fără paranteze, efectuăm întâi înmulțirile și împărțirile (în ordinea în care apar), apoi adunările și scăderile. Dacă sunt doar adunări și scăderi, le facem de la stânga la dreapta. Parantezele se calculează primele.",
+    "sample": "Cumperi 3 caiete a câte 5 lei și un pix de 4 lei: 3 × 5 + 4 = 15 + 4 = 19 lei.",
+    "worked": "20 − 2 × 6 = 20 − 12 = 8 (înmulțirea se face întâi). Cu paranteze ordinea se schimbă: (10 − 4) × 3 = 6 × 3 = 18, pe când 10 − 4 × 3 = 10 − 12 nu se poate calcula în clasa a II-a, deci parantezele contează.",
+    "exercises": [
+     "Calculează: 5 + 3 × 4.",
+     "Calculează: 36 : 6 + 7.",
+     "Calculează: 50 − 8 × 5.",
+     "Calculează: (9 + 1) × 7.",
+     "Calculează: 40 − 15 + 5."
+    ],
+    "test": [
+     "Ce faci întâi în 4 + 2 × 3?",
+     "Cât fac 4 + 2 × 3?",
+     "Cât fac 18 : 3 − 2?",
+     "Cât fac (7 − 2) × 4?",
+     "Cât fac 30 − 10 − 5?"
+    ],
+    "steps": [
+     "Caută parantezele și calculează-le primele.",
+     "Fă apoi înmulțirile și împărțirile.",
+     "La final adunările și scăderile, de la stânga la dreapta.",
+     "Greșeala frecventă: să calculezi de la stânga la dreapta tot exercițiul: 5 + 3 × 4 = 32. Corect: 5 + 12 = 17."
+    ],
+    "answers": [
+     "Înmulțirea 2 × 3",
+     "10",
+     "4",
+     "20",
+     "15"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l19": {
+   "ro": {
+    "title": "Probleme care se rezolvă prin două sau trei operații",
+    "theory": "La o problemă mai lungă facem un plan: scriem întrebări pentru fiecare pas și operația potrivită. Putem combina adunarea, scăderea, înmulțirea și împărțirea. La final verificăm dacă răspunsul are sens.",
+    "sample": "O clasă are 4 rânduri a câte 6 bănci. 5 bănci sunt libere. Câte sunt ocupate? 4 × 6 = 24; 24 − 5 = 19 bănci.",
+    "worked": "Problema: „Mama cumpără 3 kg de mere a câte 4 lei kilogramul și plătește cu 20 de lei. Ce rest primește?” Pasul 1: cât costă merele? 3 × 4 = 12 lei. Pasul 2: restul: 20 − 12 = 8 lei.",
+    "exercises": [
+     "Un ghiozdan costă 85 de lei, iar un penar cu 60 de lei mai puțin. Cât costă împreună?",
+     "24 de elevi merg în excursie în mașini de câte 4 locuri. Câte mașini trebuie? Dacă fiecare mașină costă 10 lei, cât costă transportul?",
+     "Ana are 30 de lei, cumpără 2 cărți a câte 9 lei. Câți lei îi rămân?",
+     "Într-o livadă sunt 5 rânduri a câte 8 meri și 17 pruni. Câți pomi sunt?",
+     "Compune o problemă cu înmulțire și scădere."
+    ],
+    "test": [
+     "Câte operații are problema cu băncile?",
+     "5 pachete a câte 6 biscuiți și încă 4 biscuiți. Câți biscuiți?",
+     "Ai 50 de lei, cumperi 4 sucuri a câte 5 lei. Ce rest primești?",
+     "20 de mere în coșuri de câte 5, apoi se mai adaugă 2 coșuri. Câte coșuri?",
+     "Ce faci la final după ce rezolvi o problemă?"
+    ],
+    "steps": [
+     "Citește problema și scrie ce știi și ce se cere.",
+     "Fă un plan: întrebare + operație pentru fiecare pas.",
+     "Rezolvă pe rând, folosind rezultatul pasului anterior.",
+     "Verifică răspunsul și scrie-l complet.",
+     "Greșeala frecventă: să sari peste un pas (să răspunzi doar cu prețul merelor, nu cu restul). Răspunde exact la întrebare."
+    ],
+    "answers": [
+     "Două",
+     "34 de biscuiți",
+     "30 de lei",
+     "6 coșuri",
+     "Verific și scriu răspunsul."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l20": {
+   "ro": {
+    "title": "Figuri plane: poligoane, laturi și vârfuri",
+    "theory": "Un poligon este o figură plană închisă formată doar din segmente (laturi). Locurile unde se întâlnesc laturile sunt vârfuri. Triunghiul are 3 laturi și 3 vârfuri, patrulaterul (pătrat, dreptunghi) are 4, pentagonul 5, hexagonul 6. Cercul nu este poligon, pentru că este o linie curbă.",
+    "sample": "Fagurele albinelor este format din hexagoane, figuri cu 6 laturi.",
+    "worked": "Ca să recunoaștem o figură, numărăm laturile: 5 laturi → pentagon. Pentru un dreptunghi cu laturile 6 cm și 3 cm, perimetrul (lungimea conturului) este 6 + 3 + 6 + 3 = 18 cm.",
+    "exercises": [
+     "Desenează un triunghi, un pătrat și un pentagon.",
+     "Numără laturile și vârfurile unui hexagon.",
+     "Este cercul un poligon? De ce?",
+     "Calculează lungimea conturului unui pătrat cu latura 5 cm.",
+     "Găsește în jurul tău trei obiecte cu formă de dreptunghi."
+    ],
+    "test": [
+     "Câte laturi are pentagonul?",
+     "Câte vârfuri are triunghiul?",
+     "Ce poligon are 6 laturi?",
+     "Ce lungime are conturul unui triunghi cu laturile 3 cm, 4 cm și 5 cm?",
+     "Este cercul poligon?"
+    ],
+    "steps": [
+     "Verifică dacă figura este închisă și are doar laturi drepte.",
+     "Numără laturile; numărul vârfurilor este același.",
+     "Dă-i numele după numărul de laturi.",
+     "Greșeala frecventă: să numeri de două ori un vârf. Bifează fiecare vârf numărat."
+    ],
+    "answers": [
+     "5",
+     "3",
+     "Hexagonul",
+     "12 cm",
+     "Nu"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l21": {
+   "ro": {
+    "title": "Corpuri geometrice: fețe, muchii, vârfuri",
+    "theory": "Cubul are 6 fețe pătrate egale, 12 muchii și 8 vârfuri. Cuboidul (paralelipipedul dreptunghic) are tot 6 fețe, 12 muchii și 8 vârfuri, dar fețele sunt dreptunghiuri. Cilindrul are 2 baze cerc, conul o bază cerc și un vârf, sfera nu are nici fețe plane, nici muchii.",
+    "sample": "O cutie de cereale este un cuboid; un zar este un cub; un pahar seamănă cu un cilindru.",
+    "worked": "Ținem un cub în mână: numărăm fețele (sus, jos, față, spate, stânga, dreapta) = 6. Muchiile sunt „liniile” unde se întâlnesc două fețe: 4 sus, 4 jos, 4 verticale = 12.",
+    "exercises": [
+     "Numără fețele, muchiile și vârfurile unei cutii de chibrituri.",
+     "Ce corpuri se rostogolesc?",
+     "Ce formă are baza unui con?",
+     "Construiește un cub din plastilină și bețișoare.",
+     "Găsește acasă un obiect pentru fiecare corp: cub, cuboid, cilindru, con, sferă."
+    ],
+    "test": [
+     "Câte muchii are cubul?",
+     "Câte vârfuri are cuboidul?",
+     "Ce formă au bazele cilindrului?",
+     "Are sfera muchii?",
+     "Ce formă au fețele cubului?"
+    ],
+    "steps": [
+     "Privește corpul din toate părțile.",
+     "Numără fețele, apoi muchiile, apoi vârfurile, bifând.",
+     "Compară cu ce știi: cubul are 6–12–8.",
+     "Greșeala frecventă: să confunzi muchiile cu vârfurile. Muchia este o linie, vârful este un punct (colț)."
+    ],
+    "answers": [
+     "12",
+     "8",
+     "Cerc",
+     "Nu",
+     "Pătrat"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l22": {
+   "ro": {
+    "title": "Axa de simetrie și interiorul unei figuri",
+    "theory": "O figură are axă de simetrie dacă, îndoind-o pe o linie, cele două jumătăți se suprapun exact. Pătratul are 4 axe de simetrie, dreptunghiul 2, cercul o infinitate. Punctele din interiorul unei figuri sunt înăuntru, cele din exterior sunt în afară, iar cele de pe contur sunt pe frontieră.",
+    "sample": "Literele A, M și T au o axă verticală de simetrie; litera F nu are nicio axă.",
+    "worked": "Desenăm un dreptunghi și îl îndoim pe linia dintre mijloacele laturilor lungi: părțile se suprapun. Îl îndoim pe diagonală: nu se suprapun, deci diagonala nu este axă de simetrie la dreptunghi.",
+    "exercises": [
+     "Câte axe de simetrie are un pătrat? Verifică prin îndoire.",
+     "Scrie trei litere mari care au axă de simetrie.",
+     "Completează simetric un desen pe caiet cu pătrățele.",
+     "Desenează un triunghi și pune un punct în interior și unul în exterior.",
+     "Are litera R axă de simetrie?"
+    ],
+    "test": [
+     "Câte axe de simetrie are dreptunghiul?",
+     "Este diagonala dreptunghiului axă de simetrie?",
+     "Are litera H axă de simetrie?",
+     "Unde se află un punct desenat în afara unui cerc?",
+     "Câte axe de simetrie are pătratul?"
+    ],
+    "steps": [
+     "Imaginează-ți că îndoi figura pe linie.",
+     "Verifică dacă fiecare punct are pereche la aceeași distanță de cealaltă parte.",
+     "Dacă se suprapun exact, linia este axă de simetrie.",
+     "Greșeala frecventă: să crezi că diagonala unui dreptunghi este axă de simetrie. Doar la pătrat diagonalele sunt axe."
+    ],
+    "answers": [
+     "2",
+     "Nu",
+     "Da (două)",
+     "În exterior",
+     "4"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l23": {
+   "ro": {
+    "title": "Măsurarea lungimii: metrul, centimetrul, milimetrul",
+    "theory": "Unitatea principală pentru lungime este metrul (m). Pentru lungimi mici folosim centimetrul (cm) și milimetrul (mm). 1 m = 100 cm, 1 cm = 10 mm, 1 m = 1000 mm. Măsurăm cu rigla, cu metrul de croitorie sau cu ruleta, pornind de la 0.",
+    "sample": "Un creion are 15 cm, o furnică are 5 mm, iar înălțimea ușii este de 2 m.",
+    "worked": "Transformăm 3 m în centimetri: 3 × 100 = 300 cm. Transformăm 40 mm în centimetri: 40 : 10 = 4 cm. Măsurăm o radieră: capătul ei este la gradația 4, deci are 4 cm.",
+    "exercises": [
+     "Măsoară cu rigla lungimea caietului tău.",
+     "Transformă: 2 m = ... cm; 5 cm = ... mm.",
+     "Ce unitate folosești pentru lungimea unei furnici? Dar a unei străzi?",
+     "Ordonează: 1 m, 90 cm, 1 000 mm.",
+     "Desenează un segment de 7 cm."
+    ],
+    "test": [
+     "Câți centimetri are un metru?",
+     "Câți milimetri are un centimetru?",
+     "Câți centimetri au 4 m?",
+     "Câți centimetri sunt 60 mm?",
+     "De la ce gradație începi măsurarea pe riglă?"
+    ],
+    "steps": [
+     "Alege unitatea potrivită lungimii.",
+     "Pune începutul obiectului exact la 0 pe riglă.",
+     "Citește gradația unde se termină obiectul și scrie unitatea.",
+     "Greșeala frecventă: să începi măsurarea de la 1 sau de la marginea riglei. Începe de la 0."
+    ],
+    "answers": [
+     "100",
+     "10",
+     "400 cm",
+     "6 cm",
+     "De la 0"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l24": {
+   "ro": {
+    "title": "Capacitatea: litrul și mililitrul",
+    "theory": "Capacitatea unui vas arată câte lichid încape în el. Unitatea principală este litrul (l). Pentru cantități mici folosim mililitrul (ml): 1 l = 1000 ml. O jumătate de litru înseamnă 500 ml.",
+    "sample": "O cutie de lapte are 1 l, o sticlă de apă mică are 500 ml, iar o linguriță de sirop are 5 ml.",
+    "worked": "Avem 3 sticle de 2 l: 3 × 2 = 6 l de apă. Dacă turnăm 250 ml în 4 pahare, folosim 4 × 250 = 1000 ml, adică 1 l.",
+    "exercises": [
+     "Câte pahare de 250 ml umplu o sticlă de 1 l?",
+     "Transformă: 2 l = ... ml.",
+     "Ce capacitate au aproximativ o cană, o găleată, o cadă? Alege: 10 l, 250 ml, 150 l.",
+     "Cumperi 4 sticle de 2 l de suc. Câți litri ai?",
+     "Scrie trei produse care se vând la litru."
+    ],
+    "test": [
+     "Câți mililitri are un litru?",
+     "Câți mililitri are jumătate de litru?",
+     "Câți litri au 5 bidoane de 3 l?",
+     "Ce unitate folosești pentru o linguriță de sirop?",
+     "Câte sticle de 500 ml fac 1 l?"
+    ],
+    "steps": [
+     "Hotărăște dacă vasul este mare (l) sau mic (ml).",
+     "Transformă: litri × 1000 = mililitri.",
+     "Fă calculul cu aceeași unitate peste tot.",
+     "Greșeala frecventă: să aduni litri cu mililitri direct (1 l + 500 ml = 501). Corect: 1000 ml + 500 ml = 1500 ml."
+    ],
+    "answers": [
+     "1000",
+     "500",
+     "15 l",
+     "Mililitrul",
+     "2"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l25": {
+   "ro": {
+    "title": "Masa corpurilor: kilogramul și gramul",
+    "theory": "Masa ne spune cât de greu este un corp. Unitatea principală este kilogramul (kg). Pentru obiecte ușoare folosim gramul (g): 1 kg = 1000 g. Masa se măsoară cu cântarul sau cu balanța cu talere și mase marcate.",
+    "sample": "Un pachet de unt are 200 g, o pungă de făină 1 kg, iar un copil de clasa a II-a cam 25 kg.",
+    "worked": "Pe un taler este un pepene, pe celălalt mase marcate de 2 kg și 1 kg, iar balanța este în echilibru: pepenele are 3 kg. Două pachete de câte 500 g au împreună 1000 g = 1 kg.",
+    "exercises": [
+     "Ce unitate folosești pentru o bomboană? Dar pentru un sac de cartofi?",
+     "Transformă: 3 kg = ... g.",
+     "Câte pachete de 250 g fac 1 kg?",
+     "Mama cumpără 2 kg de mere și 3 kg de pere. Câte kilograme are de cărat?",
+     "Ordonează după masă: un creion, un ghiozdan, o mașină."
+    ],
+    "test": [
+     "Câte grame are un kilogram?",
+     "Câte grame are jumătate de kilogram?",
+     "Câte kilograme au 4 saci de 10 kg?",
+     "Ce instrument folosim pentru masă?",
+     "Ce este mai greu: 1 kg de fulgi sau 1 kg de fier?"
+    ],
+    "steps": [
+     "Estimează: obiectul este ușor (g) sau greu (kg)?",
+     "Pune obiectul pe cântar și citește valoarea.",
+     "Transformă kilogramele în grame înmulțind cu 1000.",
+     "Greșeala frecventă: să crezi că 1 kg de fulgi e mai ușor decât 1 kg de fier. Ambele au aceeași masă: 1 kg."
+    ],
+    "answers": [
+     "1000",
+     "500",
+     "40 kg",
+     "Cântarul sau balanța",
+     "La fel de grele (1 kg)"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l26": {
+   "ro": {
+    "title": "Timpul: ora, minutul, calendarul",
+    "theory": "Ora are 60 de minute; ziua are 24 de ore; săptămâna are 7 zile; anul are 12 luni, adică 365 sau 366 de zile. Pe ceas, limba mică arată ora, limba mare minutele; fiecare cifră de pe cadran înseamnă 5 minute pentru limba mare. Un sfert de oră are 15 minute, jumătate de oră are 30 de minute.",
+    "sample": "Filmul începe la 17:00 și durează o oră și jumătate: se termină la 18:30.",
+    "worked": "Limba mică între 9 și 10, limba mare la 3: ora 9 și 15 minute (9 și un sfert). Dacă azi e 28 aprilie, peste 5 zile va fi 3 mai (aprilie are 30 de zile).",
+    "exercises": [
+     "Desenează un ceas care arată ora 4 și jumătate.",
+     "Câte minute are o oră și un sfert?",
+     "Scrie lunile anului în ordine.",
+     "Ora de sport începe la 10:00 și durează 50 de minute. Când se termină?",
+     "Ce zi a săptămânii va fi peste 7 zile, dacă azi este luni?"
+    ],
+    "test": [
+     "Câte minute are o oră?",
+     "Câte ore are o zi?",
+     "Câte minute are un sfert de oră?",
+     "Ce lună urmează după iunie?",
+     "Câte zile are săptămâna?"
+    ],
+    "steps": [
+     "Citește ora după limba mică.",
+     "Citește minutele după limba mare: înmulțește cifra cu 5.",
+     "Pentru durate, adună orele și minutele separat.",
+     "Greșeala frecventă: să citești limba mare ca oră (la 3 să spui „ora 3”). Limba mare la 3 înseamnă 15 minute."
+    ],
+    "answers": [
+     "60",
+     "24",
+     "15",
+     "Iulie",
+     "7"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l27": {
+   "ro": {
+    "title": "Banii: leul și euro; schimburi și rest",
+    "theory": "În România folosim leul: 1 leu = 100 de bani. Bancnotele uzuale sunt de 1, 5, 10, 50, 100, 200 și 500 de lei. În multe țări europene se folosește euro: 1 euro = 100 de cenți. Facem schimburi echivalente: o bancnotă de 50 de lei = 5 bancnote de 10 lei.",
+    "sample": "O carte costă 37 de lei. Plătim cu o bancnotă de 50 de lei și primim rest 13 lei.",
+    "worked": "Ai 2 bancnote de 100 de lei și una de 50: 200 + 50 = 250 de lei. Cumperi o jucărie de 185 de lei: rest 250 − 185 = 65 de lei, de exemplu 50 + 10 + 5.",
+    "exercises": [
+     "Formează 100 de lei în trei feluri diferite.",
+     "Cumperi o minge de 64 de lei și dai 100 de lei. Ce rest primești?",
+     "Câte bancnote de 10 lei fac 200 de lei?",
+     "Câți bani are 1 leu? Câți cenți are 1 euro?",
+     "Planifică un buget de 50 de lei pentru o ieșire în parc."
+    ],
+    "test": [
+     "Câți bani are un leu?",
+     "Câți cenți are un euro?",
+     "Câte bancnote de 50 de lei fac 500 de lei?",
+     "Plătești 20 de lei pentru ceva de 14 lei. Ce rest primești?",
+     "Câți lei sunt 3 bancnote de 100 și 2 de 10?"
+    ],
+    "steps": [
+     "Scrie prețul și suma plătită.",
+     "Calculează restul prin scădere.",
+     "Alege bancnotele potrivite pentru rest, de la cea mai mare.",
+     "Greșeala frecventă: să numeri bancnotele în loc de valoare. Trei bancnote de 10 lei înseamnă 30 de lei."
+    ],
+    "answers": [
+     "100",
+     "100",
+     "10",
+     "6 lei",
+     "320 de lei"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l28": {
+   "ro": {
+    "title": "Organizarea datelor în tabele și grafice",
+    "theory": "Datele culese (de exemplu, sporturile preferate) se pot organiza într-un tabel sau într-un grafic cu bare, unde fiecare bară arată câte voturi a primit o categorie. Citind graficul, comparăm categoriile și aflăm totalul.",
+    "sample": "Într-o clasă: fotbal 9 voturi, baschet 5, înot 7, dans 4. Cel mai iubit sport este fotbalul.",
+    "worked": "Din datele de mai sus: total 9 + 5 + 7 + 4 = 25 de elevi. Înotul are cu 7 − 4 = 3 voturi mai mult decât dansul.",
+    "exercises": [
+     "Fă un tabel cu fructele preferate a 10 colegi.",
+     "Desenează un grafic cu bare pentru datele din exemplu.",
+     "Câți elevi au ales baschet sau dans?",
+     "Cu câte voturi are fotbalul mai mult decât baschetul?",
+     "Formulează o întrebare la care se răspunde din grafic."
+    ],
+    "test": [
+     "Ce arată înălțimea unei bare?",
+     "Câți elevi au votat în exemplu?",
+     "Care sport are cele mai puține voturi?",
+     "Cu câte voturi are înotul mai mult decât dansul?",
+     "Câți elevi au ales fotbal sau înot?"
+    ],
+    "steps": [
+     "Citește titlul și categoriile.",
+     "Citește valoarea fiecărei bare pe axa cu numere.",
+     "Folosește adunarea pentru total și scăderea pentru comparații.",
+     "Greșeala frecventă: să citești greșit valoarea unei bare care se termină între două linii. Urmărește cu rigla până la axă."
+    ],
+    "answers": [
+     "Câte voturi (câte elemente) are categoria.",
+     "25",
+     "Dansul",
+     "3",
+     "16"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l29": {
+   "ro": {
+    "title": "Plante și animale în mediile lor de viață",
+    "theory": "Un mediu de viață este locul unde trăiesc împreună plante și animale: pădurea, pajiștea, lacul, râul, marea, muntele. Fiecare viețuitoare are însușiri care o ajută să trăiască acolo: peștii au branhii și înotătoare pentru apă, rața are labe cu membrane, ursul are blană groasă.",
+    "sample": "În pădure trăiesc stejarul, ciuperca, veverița și căprioara; în lac trăiesc nufărul, broasca și știuca.",
+    "worked": "Grupăm viețuitoarele: crap, nufăr, broască → lac; mesteacăn, vulpe, cerb → pădure; macul, cosașul, prepelița → pajiște. Peștele nu poate trăi pe uscat, pentru că respiră cu branhii aerul dizolvat în apă.",
+    "exercises": [
+     "Scrie trei plante și trei animale din pădure.",
+     "Scrie trei viețuitoare care trăiesc în apă.",
+     "Ce însușire ajută rața să înoate?",
+     "Desenează un lac cu viețuitoarele lui.",
+     "De ce trebuie să păstrăm curate pădurile și apele?"
+    ],
+    "test": [
+     "Ce este un mediu de viață?",
+     "Unde trăiește nufărul?",
+     "Cu ce respiră peștii?",
+     "Numește un animal din pădure.",
+     "Ce ajută ursul să reziste la frig?"
+    ],
+    "steps": [
+     "Numește mediul de viață (pădure, apă, pajiște).",
+     "Gândește-te ce plante și animale trăiesc acolo.",
+     "Explică o însușire care le ajută să trăiască acolo.",
+     "Greșeala frecventă: să crezi că balena este pește pentru că trăiește în apă. Balena respiră cu plămâni și este mamifer."
+    ],
+    "answers": [
+     "Locul unde trăiesc împreună plante și animale.",
+     "În apă (lac, baltă).",
+     "Cu branhiile",
+     "Veverița (sau căprioara, ursul).",
+     "Blana groasă"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l30": {
+   "ro": {
+    "title": "Corpul omenesc: schelet, mușchi și alimentație sănătoasă",
+    "theory": "Scheletul, format din oase, susține corpul și protejează organele (craniul protejează creierul). Mușchii ne ajută să ne mișcăm. Pentru a crește sănătoși avem nevoie de alimente variate: fructe, legume, cereale, lapte, ouă, carne sau pește, apă, și de cât mai puține dulciuri.",
+    "sample": "Când alergi, mușchii picioarelor trag de oase și te pun în mișcare.",
+    "worked": "Alcătuim un meniu sănătos pentru o zi: micul dejun — lapte și pâine integrală; prânz — supă de legume și pește; gustare — un măr; cină — omletă și salată. Am ales din toate grupele și am băut apă.",
+    "exercises": [
+     "Numește trei oase pe care le poți simți cu mâna.",
+     "Ce rol are craniul?",
+     "Alcătuiește un meniu sănătos pentru o zi.",
+     "Scrie trei alimente pe care e bine să le mănânci mai rar.",
+     "De ce este important să faci mișcare?"
+    ],
+    "test": [
+     "Ce susține corpul nostru?",
+     "Ce ne ajută să ne mișcăm?",
+     "Ce organ protejează craniul?",
+     "Este bine să bem apă sau suc dulce când ne e sete?",
+     "Numește un aliment bogat în calciu."
+    ],
+    "steps": [
+     "Amintește-ți: oasele susțin și protejează, mușchii mișcă.",
+     "Pentru alimentație, alege din fiecare grupă.",
+     "Bea apă și fă mișcare zilnic.",
+     "Greșeala frecventă: să crezi că „sănătos” înseamnă să mănânci doar un singur aliment bun. Corpul are nevoie de hrană variată."
+    ],
+    "answers": [
+     "Scheletul",
+     "Mușchii",
+     "Creierul",
+     "Apă",
+     "Laptele (sau brânza, iaurtul)."
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l31": {
+   "ro": {
+    "title": "Apa în natură: stări și circuitul apei",
+    "theory": "Apa se găsește în trei stări: solidă (gheața, zăpada), lichidă (apa din râuri) și gazoasă (vaporii). Prin încălzire gheața se topește, iar apa se evaporă; prin răcire vaporii se transformă în picături (condensare), iar apa îngheață. Soarele încălzește apa, vaporii urcă, formează nori, iar din nori cade ploaia: acesta este circuitul apei în natură.",
+    "sample": "Un cub de gheață lăsat pe masă se topește; o băltoacă dispare după o zi însorită, pentru că apa s-a evaporat.",
+    "worked": "Punem un capac rece deasupra unei oale cu apă fierbinte (cu ajutorul unui adult): pe capac apar picături. Vaporii s-au răcit și au devenit din nou apă lichidă — la fel se formează norii.",
+    "exercises": [
+     "Numește cele trei stări ale apei cu câte un exemplu.",
+     "Ce se întâmplă cu gheața la căldură?",
+     "Desenează circuitul apei: Soare, mare, nor, ploaie.",
+     "De ce se usucă rufele la soare?",
+     "Scrie două moduri în care putem economisi apa."
+    ],
+    "test": [
+     "În ce stare este gheața?",
+     "Cum se numește trecerea apei în vapori?",
+     "Din ce se formează norii?",
+     "Ce se întâmplă cu apa la frig puternic?",
+     "Ce încălzește apa mărilor?"
+    ],
+    "steps": [
+     "Spune în ce stare este apa: solidă, lichidă, gazoasă.",
+     "Gândește-te dacă a fost încălzită sau răcită.",
+     "Leagă schimbarea de circuitul apei: evaporare, nori, ploaie.",
+     "Greșeala frecventă: să crezi că apa unei bălți „dispare”. Ea se evaporă și ajunge în aer, apoi în nori."
+    ],
+    "answers": [
+     "Solidă",
+     "Evaporare",
+     "Din vapori de apă răciți (picături mici).",
+     "Îngheață",
+     "Soarele"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l32": {
+   "ro": {
+    "title": "Magneții și forțele: împingere și tragere",
+    "theory": "O forță este o împingere sau o tragere care poate pune un obiect în mișcare, îl poate opri sau îi poate schimba direcția ori forma. Magnetul atrage obiectele din fier (agrafe, cuie), dar nu și lemnul, plasticul sau hârtia. Un magnet are doi poli: polii diferiți se atrag, polii la fel se resping.",
+    "sample": "Ușa frigiderului rămâne închisă datorită unei garnituri magnetice.",
+    "worked": "Testăm obiecte cu un magnet: agrafa și cuiul sunt atrase; radiera, creionul de lemn și moneda de plastic de jucărie nu sunt atrase. Concluzie: magnetul atrage doar anumite metale, mai ales fierul.",
+    "exercises": [
+     "Testează cu un magnet cinci obiecte din casă și notează rezultatul.",
+     "Dă un exemplu de împingere și unul de tragere.",
+     "Ce se întâmplă dacă apropii doi poli la fel ai unor magneți?",
+     "De ce nu atrage magnetul o foaie de hârtie?",
+     "Desenează o minge lovită și arată direcția forței."
+    ],
+    "test": [
+     "Atrage magnetul o agrafă de fier?",
+     "Atrage magnetul o bucată de lemn?",
+     "Ce poate face o forță cu un obiect?",
+     "Polii diferiți ai magneților se atrag sau se resping?",
+     "Când tragi un sertar, ce fel de forță folosești?"
+    ],
+    "steps": [
+     "Gândește-te dacă obiectul este din fier.",
+     "Apropie magnetul și observă dacă obiectul este atras.",
+     "Pentru forțe, spune dacă împingi sau tragi și ce se schimbă.",
+     "Greșeala frecventă: să crezi că magnetul atrage orice metal. Aluminiul sau cuprul nu sunt atrase."
+    ],
+    "answers": [
+     "Da",
+     "Nu",
+     "O pune în mișcare, o oprește, îi schimbă direcția sau forma.",
+     "Se atrag",
+     "Tragere"
+    ]
+   }
+  },
+  "eu-year-ro-beginner-2-l33": {
+   "ro": {
+    "title": "Sistemul Solar și fazele Lunii",
+    "theory": "Soarele este o stea în jurul căreia se rotesc opt planete: Mercur, Venus, Pământ, Marte, Jupiter, Saturn, Uranus și Neptun. Pământul se învârte în jurul Soarelui într-un an, iar în jurul lui însuși într-o zi. Luna se rotește în jurul Pământului și pare să își schimbe forma: Lună nouă, primul pătrar, Lună plină, ultimul pătrar.",
+    "sample": "Jupiter este cea mai mare planetă, iar Pământul este a treia planetă de la Soare.",
+    "worked": "Observăm Luna o lună întreagă: după Luna nouă se vede o seceră care crește până la Luna plină (cam în 2 săptămâni), apoi descrește. Luna nu își schimbă forma, ci vedem doar partea ei luminată de Soare.",
+    "exercises": [
+     "Scrie planetele în ordine, de la Soare.",
+     "Cât durează o rotație a Pământului în jurul Soarelui?",
+     "Desenează fazele Lunii.",
+     "Care este cea mai mare planetă?",
+     "De ce vedem Luna luminată?"
+    ],
+    "test": [
+     "Câte planete are Sistemul Solar?",
+     "A câta planetă de la Soare este Pământul?",
+     "Ce corp ceresc se învârte în jurul Pământului?",
+     "Cum se numește faza în care Luna se vede rotundă?",
+     "Este Soarele o planetă?"
+    ],
+    "steps": [
+     "Pornește de la Soare, în centru.",
+     "Numără planetele pe rând (poți folosi o propoziție ajutătoare).",
+     "Pentru Lună, amintește-ți că o vedem luminată de Soare.",
+     "Greșeala frecventă: să crezi că Luna își schimbă forma. Se schimbă doar partea luminată pe care o vedem de pe Pământ."
+    ],
+    "answers": [
+     "8",
+     "A treia",
+     "Luna",
+     "Luna plină",
+     "Nu, este o stea."
+    ]
+   }
+  }
+ }
+}
