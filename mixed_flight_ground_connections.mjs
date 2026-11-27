@@ -1,4 +1,6 @@
-// On-demand air+ground connector for a flight the passenger selected.
+import {beforeTransitAbort} from './transit_deadline.mjs';
+import {transportTicketUrl} from './transport_ticket_links.mjs';
+// Initial-search air+ground connector for a provider-observed flight option.
 // It re-discovers airports from real geography, resolves IANA time zones,
 // then asks already-authorized ground timetable planners on BOTH sides.
 // No fixed airport/city routes, invented ground legs, or booking claims.
@@ -35,7 +37,7 @@ export const journeyAnchoredToPoints=(journey,from,to,{fromRadius=350,toRadius=3
  const legs=Array.isArray(journey?.legs)?journey.legs:[];
  if(!legs.length)return false;
  const start=metresBetween(legs[0].departurePoint,from);
- const finish=metresBetween(legs.at(-1).arrivalPoint,to);
+ const finish=metresBetween(legs.at(-1).arrivalPoint??legs.at(-1).arrivalLatLon,to);
  // Airport POIs can represent an entire mapped facility, not a terminal.
 // Allow the station to fall within its grounds but never assert a specific
 // terminal/platform as verified from this test alone.
@@ -54,13 +56,13 @@ export const compactJourney=j=>{
   fareComplete:j?.fareComplete===true,
   legs:legs.slice(0,30).map(l=>({mode:l.mode,from:l.from,to:l.to,
    departureTime:l.departureTime,arrivalTime:l.arrivalTime,
-   durationMinutes:metric(l.durationMinutes,10080),
+   durationMinutes:metric(l.durationMinutes,10080),timingEstimated:l.timingEstimated===true,
    distanceMeters:metric(l.distanceMeters,2000000),
    departurePoint:pointCoords(l.departurePoint),
-   arrivalPoint:pointCoords(l.arrivalPoint),
+   arrivalPoint:pointCoords(l.arrivalPoint??l.arrivalLatLon),
    departureZone:String(l.departureZone||timeZone||'').slice(0,80)||null,
    arrivalZone:String(l.arrivalZone||timeZone||'').slice(0,80)||null,
-   operator:l.operator||'',lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
+   operator:l.operator||'',bookingUrl:transportTicketUrl(l.bookingUrl),operatorUrl:transportTicketUrl(l.operatorUrl),lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],
    towards:String(l.towards||'').slice(0,110),
    platform:String(l.platform||'').slice(0,30),
    fareLocal:l.fareLocal||null}))};
@@ -83,7 +85,7 @@ export function localAirportInstant(local,zoneName,offsetSeconds){
  return actual===local?new Date(utc).toISOString():null;
 }
 export async function resolveAirportZone(env,airport,at,{
- fetcher=fetch
+ fetcher=fetch,signal=null
 }={}){
  const key=String(env?.GEOAPIFY_API_KEY||'');
  if(!key||!validPoint(airport)||!validIso(at))return null;
@@ -93,7 +95,7 @@ export async function resolveAirportZone(env,airport,at,{
  url.searchParams.set('at',at);
  try{
   const r=await fetcher(url,{headers:{'x-api-key':key,'Accept':'application/json'},
-   signal:AbortSignal.timeout(6500)});
+   signal:signal?AbortSignal.any([signal,AbortSignal.timeout(6500)]):AbortSignal.timeout(6500)});
   if(!r.ok)return null;
   const zones=(await r.json())?.timezones;
   if(!Array.isArray(zones)||zones.length!==1)return null;
@@ -109,35 +111,43 @@ export async function connectCandidateFlightToGround(env,{
  planAccess=planTransCAPIJourney,
  planEgress=null,
  planRegional=null,
- now=Date.now()
+ now=Date.now(),budgetMs=20000,signal:parentSignal=null
 }={}){
  if(!validPoint(origin)||!validPoint(destination)||
-    !Array.isArray(flight?.legs)||flight.legs.length!==1||
-    !iata(flight.legs[0].from)||!iata(flight.legs[0].to)||
-    !localTime(flight.legs[0].startLocal)||!localTime(flight.legs[0].endLocal))
+    !Array.isArray(flight?.legs)||!flight.legs.length||flight.legs.length>6||
+    flight.legs.some(l=>!iata(l?.from)||!iata(l?.to)||
+      !localTime(l?.startLocal)||!localTime(l?.endLocal)))
   return {status:'invalid_or_unconnected_flight',completeDoorToDoor:false};
- const leg=flight.legs[0],start=requestedAt&&validIso(requestedAt)?Date.parse(requestedAt):now;
+ const leg=flight.legs[0],lastLeg=flight.legs.at(-1),start=requestedAt&&validIso(requestedAt)?Date.parse(requestedAt):now;
  if(start<now-2*60000||start>now+60*86400000)
   return {status:'invalid_departure_date',completeDoorToDoor:false};
+ const controller=new AbortController(),signal=controller.signal;
+ const cancel=()=>controller.abort();parentSignal?.addEventListener('abort',cancel,{once:true});
+ if(parentSignal?.aborted)cancel();
+ const timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(20000,Number(budgetMs)||20000)));
+ const bounded=(work,fallback)=>beforeTransitAbort(work,signal,fallback,
+  fallback?.status?{...fallback,status:'provider_unavailable'}:fallback);
+ try{
  const [a,b]=await Promise.all([
-  discover(env,origin,{radiusKm:240,limit:40}),
-  discover(env,destination,{radiusKm:240,limit:40})
+  bounded(()=>discover(env,origin,{radiusKm:240,limit:40,signal}),{airports:[]}),
+  bounded(()=>discover(env,destination,{radiusKm:240,limit:40,signal}),{airports:[]})
  ]);
  const from=(a.airports||[]).find(x=>x.iata===leg.from&&validPoint(x));
- const to=(b.airports||[]).find(x=>x.iata===leg.to&&validPoint(x));
- if(!from||!to)return {status:'airport_not_verified',completeDoorToDoor:false};
+ const to=(b.airports||[]).find(x=>x.iata===lastLeg.to&&validPoint(x));
+ if(!from||!to)return {status:signal.aborted?'search_timeout':'airport_not_verified',completeDoorToDoor:false};
  const noon=s=>s.slice(0,10)+'T12:00:00Z';
  const [fromZone,toZone]=await Promise.all([
-  resolveZone(env,from,noon(leg.startLocal)),resolveZone(env,to,noon(leg.endLocal))
+  bounded(()=>resolveZone(env,from,noon(leg.startLocal),{signal}),null),
+  bounded(()=>resolveZone(env,to,noon(lastLeg.endLocal),{signal}),null)
  ]);
  if(!fromZone||!toZone)return {
-  status:'airport_time_zone_unavailable',completeDoorToDoor:false,
+  status:signal.aborted?'search_timeout':'airport_time_zone_unavailable',completeDoorToDoor:false,
   airportFrom:{iata:from.iata,name:from.name},airportTo:{iata:to.iata,name:to.name}
  };
  const flightDeparture=localAirportInstant(leg.startLocal,fromZone.name,fromZone.offsetSeconds);
- const flightArrival=localAirportInstant(leg.endLocal,toZone.name,toZone.offsetSeconds);
+ const flightArrival=localAirportInstant(lastLeg.endLocal,toZone.name,toZone.offsetSeconds);
  if(!flightDeparture||!flightArrival||Date.parse(flightArrival)<=Date.parse(flightDeparture)||
-    Date.parse(flightArrival)-Date.parse(flightDeparture)>24*3600000||
+    Date.parse(flightArrival)-Date.parse(flightDeparture)>72*3600000||
     Date.parse(flightDeparture)<start-120000){
   return {status:'flight_time_incompatible',completeDoorToDoor:false};
  }
@@ -154,9 +164,9 @@ export async function connectCandidateFlightToGround(env,{
    origin,boardingPoint:from,
    earliestDeparture:new Date(start).toISOString(),
    latestArrival:new Date(boardingCutoff).toISOString()
-  },{planner:planAccess,now}),
+  },{planner:planAccess,now,signal}),
   typeof planEgress==='function'?
-    planEgress(env,to,destination,language,new Date(egressAfter).toISOString()):
+    bounded(()=>planEgress(env,to,destination,language,new Date(egressAfter).toISOString(),{signal}),{status:'search_timeout',journeys:[]}):
     Promise.resolve({status:'not_configured',journeys:[]})
  ]);
  const entry=entryResult.status==='fulfilled'?entryResult.value:
@@ -178,26 +188,32 @@ export async function connectCandidateFlightToGround(env,{
  if(!outbound&&typeof planRegional==='function'&&to.country_code==='RO'&&
     String(destination.country_code||'').toUpperCase()==='RO'){
   try{
-   onward=await planRegional(env,{airport:to,destination,
-    after:new Date(egressAfter).toISOString()})||onward;
+   onward=await bounded(()=>planRegional(env,{airport:to,destination,
+    after:new Date(egressAfter).toISOString(),signal}),{status:'search_timeout',journey:null})||onward;
   }catch{onward={status:'regional_provider_unavailable',journey:null}}
  }
  const accessAnchored=Boolean(inbound&&journeyAnchoredToPoints(inbound,origin,from,{toRadius:1200}));
  const egressAnchored=Boolean(outbound&&journeyAnchoredToPoints(outbound,to,destination,{fromRadius:1200}));
- const full=Boolean(inbound&&outbound&&accessAnchored&&egressAnchored);
+ // First/last-mile routing is useful even for an unverified air transfer.
+ // Never promote a multi-flight chain to complete without terminal/connection
+ // evidence for ALL its intermediate transfers (same IATA is not that proof).
+ const airTransfersVerified=flight.legs.length===1;
+ const full=Boolean(inbound&&outbound&&accessAnchored&&egressAnchored&&airTransfersVerified);
  const fare=flight.fareObserved&&Number.isFinite(Number(flight.fareObserved.amount))&&
   Number(flight.fareObserved.amount)>0?{
    amount:Number(flight.fareObserved.amount),currency:String(flight.fareObserved.currency||'')
   }:null;
  return {status:full?'provisional_air_ground_itinerary':'ground_transfer_incomplete',
-  completeDoorToDoor:full,bookingVerified:false,groundConnectionsVerified:full,
+  completeDoorToDoor:full,bookingVerified:false,
+  groundConnectionsVerified:Boolean(inbound&&outbound&&accessAnchored&&egressAnchored),
+  airTransfersVerified,airTransferStatus:airTransfersVerified?'not_required':'intermediate_air_transfer_unverified',
   fareComplete:false,flightFareOnly:fare,
   originLabel:String(origin.label||'').slice(0,140),
   destinationLabel:String(destination.label||'').slice(0,140),
-  flight:{from:leg.from,to:leg.to,airline:String(leg.airline||'').slice(0,120),
+  flight:{from:leg.from,to:lastLeg.to,airline:String(leg.airline||'').slice(0,120),
    flightNumber:String(leg.flightNumber||'').slice(0,30),
    departureTime:flightDeparture,arrivalTime:flightArrival,
-   departureLocal:leg.startLocal,arrivalLocal:leg.endLocal,
+   departureLocal:leg.startLocal,arrivalLocal:lastLeg.endLocal,
    status:'third_party_observed_not_booked'},
   // The coordinates, not the airport's city name, anchor access routing.
   // They identify the mapped airport feature; the specific airline terminal
@@ -218,6 +234,11 @@ export async function connectCandidateFlightToGround(env,{
   regionalOnwardStatus:onward?.status||'not_checked',
   regionalOnwardFromCity:onward?.fromCity||null,
   regionalOnwardToCity:onward?.toCity||null,
+  boardingDeadline:new Date(boardingCutoff).toISOString(),boardingBufferMinutes:90,
+  groundSearchIncomplete:signal.aborted,
   accessStatus:entry.status||'local_transport_unavailable',
+  accessSearch:{attemptedAt:entry.attemptedAt||[],providerStatuses:entry.providerStatuses||[]},
+  egressSearch:{status:egress.status||'unavailable',provider:egress.provider||null},
   egressStatus:outbound?'scheduled_connection_found':egress.status||'unavailable'};
+ }finally{clearTimeout(timer);parentSignal?.removeEventListener('abort',cancel);controller.abort();}
 }

@@ -1,0 +1,186 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "ru",
+  "version": "70832b90fb479b4e633fbcdf4850f60eadf56ff79d613ec262350fd5062a47f0",
+  "language": "ru",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "ru-RU",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "дом",
+      "phonetic": "dom",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-1",
+      "term": "книга",
+      "phonetic": "kníga",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-2",
+      "term": "день",
+      "phonetic": "denʹ",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-3",
+      "term": "ночь",
+      "phonetic": "nochʹ",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-4",
+      "term": "друг",
+      "phonetic": "drug",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-5",
+      "term": "семья",
+      "phonetic": "semʹyá",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-6",
+      "term": "город",
+      "phonetic": "górod",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-7",
+      "term": "время",
+      "phonetic": "vrémya",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "transliteration"
+    },
+    {
+      "id": "entry-10",
+      "term": "Можно воды, пожалуйста?",
+      "phonetic": "mózhno vodý, pozhaluysta?",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "transliteration"
+    },
+    {
+      "id": "entry-11",
+      "term": "Мне нужна помощь.",
+      "phonetic": "mne nuzhná pómoshch.",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "transliteration"
+    },
+    {
+      "id": "entry-12",
+      "term": "Повторите медленнее, пожалуйста.",
+      "phonetic": "povtoríte médlenneye, pozhaluysta.",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "transliteration"
+    },
+    {
+      "id": "travel",
+      "term": "Один билет, пожалуйста.",
+      "phonetic": "odín bilét, pozhaluysta",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "transliteration"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "быть",
+      "explanation": "Într-o propoziție nominală obișnuită la prezent, echivalentul lui „a fi” se omite: Я студент. Nu insera automat есть după fiecare pronume. Tabelul de mai jos arată trecutul; forma depinde de gen și număr, nu de persoană.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "он",
+          "form": "был"
+        },
+        {
+          "person": "она",
+          "form": "была"
+        },
+        {
+          "person": "оно",
+          "form": "было"
+        },
+        {
+          "person": "они",
+          "form": "были"
+        }
+      ],
+      "task": {
+        "prompt": "Она ___ дома вчера.",
+        "answers": [
+          "была"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

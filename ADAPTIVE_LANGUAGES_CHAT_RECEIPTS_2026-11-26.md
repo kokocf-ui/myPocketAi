@@ -1,0 +1,44 @@
+# All-language adaptive practice and private-chat feedback
+
+## Request
+
+The user correctly noted that the previous static content expansion covered English only. They prefer an assistant-driven engine: choose a situation (airport, kitchen, restaurant, shopping, greetings, etc.) and learning goal; generate appropriate sentences rather than maintaining small fixed phrase templates. Their physical chat screenshot also showed voice players without sent/received/read/playback metadata and uncertainty about transmission time.
+
+## Language engine
+
+- New `foreign_language_practice.mjs` / `foreign_language_practice_ui.mjs`: one protocol and one bounded modal for all **14 languages / 19 regional, script and historical variants**. Available prominently at the chapter menu and through every resource tab's **Adaptive practice · AI** button.
+- Choose level, situation/custom topic, and conversation / grammar and verb forms / contextual vocabulary / listening. Modern contexts include airport, kitchen, restaurant, shopping, greetings, travel/accommodation, school/work. Latin and Ancient/Koine Greek get historical reading/study contexts instead of fabricated ancient airports.
+- Uses the existing authenticated-as-configured education AI client endpoint, `module: education_study`, `education_subject: foreign_language`, `education_activity: practice`. No new endpoint, backend deployment, alternate provider or automatic extra inference. The requested JSON represents the lesson examples/explanations/exercises/answers, not a separate translated worksheet. No private chat content is passed to AI.
+- Six structured examples per explicit request, one page at a time, target text, optional labelled transcription (empty if uncertain), contextual meaning, explanation/common mistake, gap exercise and AI model answer. Target-language TTS normal/slow uses the existing regional/native path. Answers are compared with the AI reference, not treated as teacher-verified or phonetic assessment.
+- Previous/next, explicit **6 more examples · AI**, change topic/goal, cancel and Android Back. Recent target sentences are included as avoidance context; duplicate sets, wrong identity/level, incomplete/invalid JSON, empty answers and missing gaps are rejected rather than presented as valid lessons. Requests have a 60-second bound and stale/closed dialog guards.
+- Only the latest valid set for each language/variant is cached locally when storage permits; offline reopening is explicitly labelled saved AI material. No fresh-generation claim offline; failures retain the previous valid set and offer an explicit retry. Generated sets are not added to canonical editorial packs or HTML.
+- Existing static dictionaries, guide samples and grammar packs are retained as introductory offline references. **They were not all expanded to English's static counts**. The shared engine supplies the requested contextual generation across all variants; this does not certify a complete curriculum or linguistic accuracy at every level. Live inference/pronunciation remains unverified here.
+
+## Private chat findings and corrections
+
+1. `buildInlineVoice` built the player but no footer. Existing refresh code attempted to update a nonexistent footer for voice rows, although text/attachments already had one. Each voice now gets a separate compact metadata line with time, incoming direction or outgoing server/delivered/read/playback state, without adding another action menu or covering player controls. The same player survives polling.
+2. Oracle's existing `played_at` means that playback **started**, not that the entire recording was heard. UI now says **Playback confirmed**, with an explicit explanation; incoming playback says **Playback started here**. Read visibility is never equated with listening. Own-message playback never emits a recipient receipt. Failed playback receipts remain queued for foreground retry, respecting 80-ID batches and permanent access errors.
+3. Existing reception refresh was eight-second polling, not real time. Contacts/lists remain at eight seconds; an open, visible foreground chat checks messages/receipts every **three seconds**, with the existing 16-second background envelope check retained. This is **not WebSocket/instant delivery** and does not guarantee background Android behavior. The visible synchronization line shows the last successful check, stale/error state, and measured most-recent server-send time for the selected peer.
+4. Text, voice and attachments immediately show an in-conversation pending row: encrypting / sending / elapsed seconds / server acknowledgement / unconfirmed error. Time is measured on the client until the server acknowledges; it is not delivery/read time or an estimated future completion time. POST waits are bounded at 60 seconds; the diagnostic health probe at four seconds. Timeouts/lost responses are unknown outcomes, never falsely labelled unsent or delivered.
+5. Explicit retries, including the main Send button for an unchanged failed text and voice/file retry, reuse the same client message ID and encrypted payload. Existing Oracle sender/client-ID deduplication prevents duplicate insertion after a lost acknowledgement. A newly typed composer draft is not erased when an earlier send finishes. Draft/job retention is in the current page's memory; no new durable outbox promise.
+6. Chat overflow now offers a status legend explaining all states, polling and old-client/background limitations. Existing encryption, signed actions, reciprocal-contact authorization and private attachments remain. **No Oracle schema/server change or deployment was needed or performed.** No read/listen states are fabricated when an old recipient cannot confirm them.
+
+## Validation and limits
+
+- Unit/protocol: all 19 variants, identity/level/six-item shape, invalid/truncated/duplicate sets, historical constraints, source/hash/offline resources; syntax and production browser-name guards.
+- New production-bundle mobile language browser test: 38 mocked generations across all 19 variants, all four goals, rotating situations, gap checks, target TTS, next/continuation/avoidance, custom topic validation, malformed output, cached offline reopening, cancellation, Back and 360×430 keyboard-sized viewport. AI/TTS mocked; **not evidence of natural/accurate live model output**.
+- New production-bundle chat browser test at 393×817 and 360×640 / keyboard 430: actual WebCrypto and HTML audio playback with simulated signed Oracle responses; visible voice metadata/geometry, all status transitions, own-play exclusion, failed played-receipt retry, status legend, 3-second polling, held send progress, preserved new composer text, simulated lost-ack deduplicated text/audio retry, encrypted file sending. This is **not a two-device/live Oracle latency benchmark**.
+- Existing containment/resources/workspace/input mobile regressions passed; canonical language/study/science/practical/input unit and snapshot contracts passed. 102 historical UI commands + eight focused communication commands: **108/110 pass**, with only the two already-documented historical failures (EN exams localization label, expected 24 vs actual 25 catalogue entries). Results: ignored `.bundle-check/adaptive-chat-ui-results.json`.
+- Build artifacts and captures are ignored. Raw Android snapshot: 6,911,637 bytes, below the 8,000,000-byte HTML limit. Final production HTML: **6,986,371 bytes**; Worker bundle: **7,322,860 bytes**. Build identity recorded at delivery below.
+
+## Delivery
+
+Implementation commit **962cb3272680113e0d4938692210dec90e5ac61b** pushed to `arena/8ae2700b-mypocketai`. Authorized manual run **45830522404** completed successfully: release signing, permanent certificate / package identity / increasing version / bundled snapshots verified; publishing succeeded; debug job skipped.
+
+- **VersionCode 501881**, above previously delivered 501880; same permanent signing key, update without uninstalling.
+- Prerelease `education-test-45830522404`, not latest; no PR, merge or production frontend/backend deployment.
+- Direct APK: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45830522404/myPocketAI-signed-education-test.apk
+- GitHub asset **796055249**, uploaded, **77,627,300 bytes**.
+- GitHub metadata digest: `sha256:48a0873c6af8123b86839be5f32fe6951fb82eb464e23fa4f0777cf0de37889f` (not a locally recalculated APK hash).
+
+APK translation remains deferred/unverified. Build and CI certificate success are not physical Android acceptance, live AI quality, recipient installation or a guarantee of instantaneous messaging. Future stable updates must exceed the test version installed on the phone.

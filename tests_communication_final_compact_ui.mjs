@@ -93,7 +93,8 @@ const handler=messageActions(selected,{id:'me'},entries=>entries,(ro,en)=>ro,
  async()=>{ops.push('local')},async p=>{ops.push(p.action)},
  async()=>{ops.push('refresh')},()=>{},()=>{});
 const other=handler({id:'a',kind:'text',sender:'peer'},selected,'hi');
-const mine=handler({id:'b',kind:'text',sender:'me'},selected,'hello');
+const mine=handler({id:'b',kind:'text',sender:'me',delivered_at:'2026-11-26T12:00:00Z'},selected,'hello');
+const waiting=handler({id:'c',kind:'text',sender:'me'},selected,'pending');assert.equal(waiting.length,4);assert.match(waiting[0].label,/așteaptă livrarea/);
 assert.equal(other.length,1,'Receiver sees only local delete');
 assert.equal(mine.length,3,'Sender sees Edit/Local/Delete-for-both');
 assert.ok(mine.some(x=>/De la amândoi/.test(x.label)));

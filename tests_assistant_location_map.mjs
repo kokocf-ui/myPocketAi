@@ -47,11 +47,11 @@ try{
  const address=await addressResponse.json();
  assert.equal(addressResponse.status,200);
  assert.equal(address.current_location,true);
- assert.equal(address.postcode,'RM20 4YE');
- assert.match(address.reply,/RM20 4YE/);
+ assert.equal(address.postcode,null);
+ assert.doesNotMatch(address.reply,/RM20 4YE/);
  assert.match(address.reply,/Locație aproximativă: 10 Mill Lane, Grays, United Kingdom/);
- assert.match(address.reply,/Coduri poștale din apropiere \(neconfirmate\): RM20 4YE/);
- assert.match(address.reply,/estimări/);
+ assert.deepEqual(address.nearby_postcodes,[]);
+ assert.match(address.reply,/estimat/);
  assert.ok(!address.reply.includes('South Stifford'));
  assert.equal(reverseCalls,1);
  const coarseResponse=await worker.fetch(new Request('https://example.test/api/chat',{

@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 import {transportNoticeLine} from "./transport_availability_disclosure.mjs";
 /**
  * Romania inter-city rail/coach provider (Bilo HTTP integration).
@@ -402,7 +403,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
      seg.service?.operator||record.operator||'';
    const fromStopRef=biloSourceStopReference(seg.from||seg.origin||seg.departureStation||seg.departure_station);
    const toStopRef=biloSourceStopReference(seg.to||seg.destination||seg.arrivalStation||seg.arrival_station);
-   legs.push({mode:fields.mode,from:fields.from,to:fields.to,
+   legs.push({mode:fields.mode,from:fields.from,to:fields.to,bookingUrl:transportTicketUrl(seg.bookingUrl||seg.booking_url),operatorUrl:transportTicketUrl(seg.operatorUrl),
      ...(fromStopRef?{fromSourceStopRef:fromStopRef}:{}),
      ...(toStopRef?{toSourceStopRef:toStopRef}:{}),
      ...(fields.railReplacement?{railReplacement:true}:{}),

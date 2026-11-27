@@ -1,3 +1,4 @@
+import {educationExerciseInstruction} from './education_exercise_tutor.mjs';
 // Shared depth contract for teacher-generated material. Does not alter general chat.
 const subjectGuides=Object.freeze({
  foreign_language:'Teach actual material in the TARGET language, not a speech about why learning matters. Provide at least 8 accurate target-language words or useful sentences, with Romanian or selected-UI-language translations, context and reliable pronunciation notation only where confident. Give phonetic contrasts or syllabification when relevant, a short original dialogue, five graded practice prompts and an answer key with explanations. For listening exercises provide readable audio SCRIPT that the device can speak; never claim audio was played or score spoken phonemes from STT. Keep UK/US, historic/modern scripts and variants distinct. Avoid repeating the lesson title as content.',
@@ -20,9 +21,8 @@ export function educationDepthInstruction(subject,activity='lesson'){
  const mode=lessonActivities.has(activity)?activity:'lesson';
  const core='This is a real teaching task, not a generic chatbot answer. Respect the requested country, class, topic and difficulty; do not invent verified curricula, sources or facts. Write in the requested EXPLANATION language and preserve the subject original language for examples. Use clear headings, normal paragraphs and readable numbered steps rather than raw Markdown ** or ##. Start with the subject-specific content immediately; remove motivational filler, repetitive introductions and vague definitions. Be accurate rather than verbose; if information cannot be verified, explicitly say so. ';
  if(['test','assessment','exercises'].includes(mode))return core+'Give varied, specific, well-defined tasks in the selected subject with appropriate difficulty. Do NOT reveal answers or an answer key until the learner asks for correction.';
- if(mode==='correction')return core+'Correct the actual supplied answers against the original question, point out exact errors and show the valid method; do not invent absent student work.';
+ if(['solve','method','correction','review'].includes(mode))return core+educationExerciseInstruction(mode);
  if(mode==='conversation')return core+'Be interactive and ask ONE short question per turn, then correct a learner reply and continue. Do not generate a long textbook chapter during chat.';
- if(mode==='solve'||mode==='method')return core+'Solve only the actual exercise; show intermediate steps, mathematical or logical validity checks and a concise final conclusion. Do not add unrelated exercises or introduce imagined numbers.';
  if(mode==='essay'||mode==='summary'||mode==='write')return core+'Fulfil the requested document length and structure without padding or invented passages or citations. '+(kind==='language_literature'?'Ground literary claims in supplied text; never fabricate quotations.':'Use correct subject terminology and meaningful evidence.');
  return core+'Create a COMPLETE study lesson with subject-specific concepts, examples and applied practice, not merely an introduction or a few objectives. '+subjectGuides[kind];
 }

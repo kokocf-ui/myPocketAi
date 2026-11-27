@@ -1,0 +1,693 @@
+{
+  "schema": "mypocket-science-review/v1",
+  "country": "RO",
+  "language": "ro",
+  "status": "partial-original-material-independent-review-pending",
+  "notice": "Aplicații originale suplimentare, orientative. Nu reprezintă ani universitari compleți, discipline obligatorii sau programe acreditate. Astronomia școlară este interdisciplinară; verifică programa clasei și profilului.",
+  "references": [
+    {
+      "title": "Cursurile existente de fizică, chimie, biologie și astronomie din aplicație",
+      "path": "SCIENCES_ACCEPTANCE.md"
+    },
+    {
+      "title": "Standarde ARACIS — cadrul de referință, nu validare a acestor lecții",
+      "url": "https://www.aracis.ro/standarde-specifice-evaluare-pe-domenii-de-licenta/"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "physics-1-1",
+      "subject": "physics",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Propagarea incertitudinii la o viteză medie",
+      "theory": "O măsurare include valoare, unitate și incertitudine. Pentru v=s/t și incertitudini standard independente mici, aproximația liniară dă u(v)/v=√[(u(s)/s)²+(u(t)/t)²]. Independența trebuie justificată; erorile sistematice comune nu dispar prin repetare.",
+      "sample": "Un mobil parcurge s=(10,0±0,1) m în t=(2,00±0,02) s. Incertitudinile sunt standard și independente. Calculează v și u(v).",
+      "worked": "1. Modelul este v=s/t, deci v=10,0/2,00=5,00 m/s.\n2. Incertitudinile relative sunt 0,1/10,0=0,01 și 0,02/2,00=0,01.\n3. Combinăm pătratic: √(0,01²+0,01²)=0,01414.\n4. u(v)=5,00×0,01414≈0,07 m/s. Rezultatul este (5,00±0,07) m/s.",
+      "test": [
+        "Un mobil parcurge s=(10,0±0,1) m în t=(2,00±0,02) s. Incertitudinile sunt standard și independente. Calculează v și u(v)."
+      ],
+      "answers": [
+        "v=5,00 m/s; u(v)≈0,07 m/s."
+      ],
+      "exercises": [],
+      "steps": [
+        "Modelul este v=s/t, deci v=10,0/2,00=5,00 m/s.",
+        "Incertitudinile relative sunt 0,1/10,0=0,01 și 0,02/2,00=0,01.",
+        "Combinăm pătratic: √(0,01²+0,01²)=0,01414.",
+        "u(v)=5,00×0,01414≈0,07 m/s. Rezultatul este (5,00±0,07) m/s.",
+        "Greșeala frecventă: Nu aduna direct incertitudini cu unități diferite și nu presupune independența automat."
+      ]
+    },
+    {
+      "id": "physics-1-2",
+      "subject": "physics",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Ecuația diferențială a oscilatorului armonic",
+      "theory": "Din F=−kx și legea a doua rezultă m x″+kx=0. Soluția liberă este x=A cos(ωt+φ), unde ω=√(k/m). Aceasta presupune resort liniar, masă concentrată și amortizare neglijabilă. Energia mecanică se conservă numai în acest model.",
+      "sample": "Pentru m=0,50 kg, k=8 N/m, x(0)=0,10 m și v(0)=0, determină x(t) și perioada.",
+      "worked": "1. Împărțim ecuația prin masă: x″+16x=0.\n2. ω=4 rad/s. Scriem x=C cos(4t)+D sin(4t).\n3. x(0)=C=0,10 m; v(0)=4D=0 implică D=0.\n4. x(t)=0,10 cos(4t) m, T=2π/4≈1,57 s.\n5. La t=0 recuperăm poziția și viteza inițiale.",
+      "test": [
+        "Pentru m=0,50 kg, k=8 N/m, x(0)=0,10 m și v(0)=0, determină x(t) și perioada."
+      ],
+      "answers": [
+        "x(t)=0,10 cos(4t) m; T≈1,57 s."
+      ],
+      "exercises": [],
+      "steps": [
+        "Împărțim ecuația prin masă: x″+16x=0.",
+        "ω=4 rad/s. Scriem x=C cos(4t)+D sin(4t).",
+        "x(0)=C=0,10 m; v(0)=4D=0 implică D=0.",
+        "x(t)=0,10 cos(4t) m, T=2π/4≈1,57 s.",
+        "La t=0 recuperăm poziția și viteza inițiale.",
+        "Greșeala frecventă: Nu confunda pulsația ω în rad/s cu frecvența f în Hz."
+      ]
+    },
+    {
+      "id": "physics-2-3",
+      "subject": "physics",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Normalizarea unei densități de probabilitate",
+      "theory": "Într-o dimensiune, |ψ(x)|² dx reprezintă probabilitatea de localizare în intervalul dx. O stare normalizată satisface integrala pe întreg domeniul egală cu 1. Funcția de undă are unitate L^−1/2; densitatea nu este probabilitatea într-un punct.",
+      "sample": "Pe 0≤x≤L, ψ(x)=A sin(πx/L), iar în exterior este zero. A este real pozitiv. Determină A și probabilitatea în prima jumătate a cutiei.",
+      "worked": "1. Impunem A²∫₀ᴸsin²(πx/L)dx=1.\n2. Integrala este L/2, deci A=√(2/L).\n3. Simetria densității față de L/2 împarte integrala în părți egale.\n4. P(0≤x≤L/2)=1/2. Verificare: suma probabilităților celor două jumătăți este 1.",
+      "test": [
+        "Pe 0≤x≤L, ψ(x)=A sin(πx/L), iar în exterior este zero. A este real pozitiv. Determină A și probabilitatea în prima jumătate a cutiei."
+      ],
+      "answers": [
+        "A=√(2/L); probabilitatea este 1/2."
+      ],
+      "exercises": [],
+      "steps": [
+        "Impunem A²∫₀ᴸsin²(πx/L)dx=1.",
+        "Integrala este L/2, deci A=√(2/L).",
+        "Simetria densității față de L/2 împarte integrala în părți egale.",
+        "P(0≤x≤L/2)=1/2. Verificare: suma probabilităților celor două jumătăți este 1.",
+        "Greșeala frecventă: Nu normaliza ψ prin integrala sa simplă; se integrează |ψ|²."
+      ]
+    },
+    {
+      "id": "physics-2-4",
+      "subject": "physics",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Entropia într-o expansiune izotermă reversibilă",
+      "theory": "Pentru un gaz ideal în expansiune izotermă reversibilă, ΔU=0, Qrev=nRT ln(Vf/Vi), iar ΔS=Qrev/T. Entropia este funcție de stare, dar Q depinde de cale. Aceeași formulă pentru variația de entropie nu face orice cale reversibilă.",
+      "sample": "Un mol de gaz ideal se dilată reversibil și izoterm de la V la 2V. Cu R=8,314 J/(mol·K), află variația entropiei gazului.",
+      "worked": "1. Raportul volumelor este 2.\n2. Folosim ΔS=nR ln 2, deoarece temperatura este constantă.\n3. ΔS=1×8,314×0,6931≈5,76 J/K.\n4. Semnul pozitiv corespunde expansiunii. În calea reversibilă, mediul pierde aceeași entropie, deci variația totală este zero.",
+      "test": [
+        "Un mol de gaz ideal se dilată reversibil și izoterm de la V la 2V. Cu R=8,314 J/(mol·K), află variația entropiei gazului."
+      ],
+      "answers": [
+        "ΔSgaz≈+5,76 J/K."
+      ],
+      "exercises": [],
+      "steps": [
+        "Raportul volumelor este 2.",
+        "Folosim ΔS=nR ln 2, deoarece temperatura este constantă.",
+        "ΔS=1×8,314×0,6931≈5,76 J/K.",
+        "Semnul pozitiv corespunde expansiunii. În calea reversibilă, mediul pierde aceeași entropie, deci variația totală este zero.",
+        "Greșeala frecventă: Nu folosi Q/T pentru o cale ireversibilă fără a construi o cale reversibilă echivalentă."
+      ]
+    },
+    {
+      "id": "physics-3-5",
+      "subject": "physics",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Difracția Bragg și ordinea reflexiei",
+      "theory": "Interferența constructivă pentru plane cristaline respectă 2d sinθ=nλ. În difractograme este frecvent reprezentat unghiul 2θ, nu θ. Modelul trebuie legat de geometria aparatului și de familia de plane, nu doar de un vârf izolat.",
+      "sample": "Un maxim de ordinul întâi apare la 2θ=60°, pentru λ=0,154 nm. Află distanța interplanară d.",
+      "worked": "1. Unghiul din lege este θ=30°.\n2. Pentru n=1, d=λ/(2 sinθ).\n3. sin30°=0,5, deci d=0,154/(2×0,5)=0,154 nm.\n4. Unitatea rămâne nm; unghiul de 60° nu se introduce direct în sinus.",
+      "test": [
+        "Un maxim de ordinul întâi apare la 2θ=60°, pentru λ=0,154 nm. Află distanța interplanară d."
+      ],
+      "answers": [
+        "d=0,154 nm."
+      ],
+      "exercises": [],
+      "steps": [
+        "Unghiul din lege este θ=30°.",
+        "Pentru n=1, d=λ/(2 sinθ).",
+        "sin30°=0,5, deci d=0,154/(2×0,5)=0,154 nm.",
+        "Unitatea rămâne nm; unghiul de 60° nu se introduce direct în sinus.",
+        "Greșeala frecventă: Nu substitui 2θ în locul lui θ."
+      ]
+    },
+    {
+      "id": "physics-3-6",
+      "subject": "physics",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Timp de înjumătățire și activitate",
+      "theory": "Pentru un radionuclid izolat, N(t)=N₀ exp(−λt), iar activitatea A=λN. După fiecare timp de înjumătățire rămâne jumătate din populația statistică. Legea prezice numărul mediu, nu momentul dezintegrării unui nucleu individual.",
+      "sample": "O probă fără aport nou are activitatea inițială 800 Bq și timpul de înjumătățire 6 h. Ce activitate medie are după 18 h?",
+      "worked": "1. Durata reprezintă 18/6=3 timpi de înjumătățire.\n2. A/A₀=(1/2)³=1/8.\n3. A=800/8=100 Bq.\n4. Verificare succesivă: 800→400→200→100 Bq.",
+      "test": [
+        "O probă fără aport nou are activitatea inițială 800 Bq și timpul de înjumătățire 6 h. Ce activitate medie are după 18 h?"
+      ],
+      "answers": [
+        "Activitatea medie este 100 Bq."
+      ],
+      "exercises": [],
+      "steps": [
+        "Durata reprezintă 18/6=3 timpi de înjumătățire.",
+        "A/A₀=(1/2)³=1/8.",
+        "A=800/8=100 Bq.",
+        "Verificare succesivă: 800→400→200→100 Bq.",
+        "Greșeala frecventă: Nu scădea aceeași cantitate absolută la fiecare interval."
+      ]
+    },
+    {
+      "id": "chemistry-1-7",
+      "subject": "chemistry",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Prepararea unei soluții prin diluare",
+      "theory": "Diluarea conservă cantitatea de solut dacă nu au loc reacții sau pierderi: c₁V₁=c₂V₂. Volumul final este al soluției, nu volumul de apă adăugat. În laborator se respectă fișa de securitate; exemplul este un calcul, nu instrucțiune pentru manipularea substanțelor periculoase.",
+      "sample": "Ce volum dintr-o soluție 0,50 mol/L este necesar pentru 250 mL de soluție 0,10 mol/L?",
+      "worked": "1. Cantitatea finală este n=0,10×0,250=0,025 mol.\n2. V₁=n/c₁=0,025/0,50=0,050 L.\n3. Sunt necesari 50 mL de soluție inițială, adusă la volumul final de 250 mL.\n4. Verificăm: 0,50×0,050=0,10×0,250.",
+      "test": [
+        "Ce volum dintr-o soluție 0,50 mol/L este necesar pentru 250 mL de soluție 0,10 mol/L?"
+      ],
+      "answers": [
+        "50 mL de soluție inițială; volum final 250 mL."
+      ],
+      "exercises": [],
+      "steps": [
+        "Cantitatea finală este n=0,10×0,250=0,025 mol.",
+        "V₁=n/c₁=0,025/0,50=0,050 L.",
+        "Sunt necesari 50 mL de soluție inițială, adusă la volumul final de 250 mL.",
+        "Verificăm: 0,50×0,050=0,10×0,250.",
+        "Greșeala frecventă: Nu adăuga 250 mL de apă peste cei 50 mL."
+      ]
+    },
+    {
+      "id": "chemistry-1-8",
+      "subject": "chemistry",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Reactant limitant și randament",
+      "theory": "Coeficienții unei ecuații echilibrate sunt rapoarte molare, nu rapoarte de mase. Reactantul limitant determină cantitatea maximă de produs. Randamentul compară produsul real cu cel teoretic pentru aceeași substanță.",
+      "sample": "În modelul 2H₂+O₂→2H₂O sunt inițial 3 mol H₂ și 2 mol O₂. Câți moli H₂O se formează teoretic și cât O₂ rămâne?",
+      "worked": "1. Pentru 3 mol H₂ sunt necesari 1,5 mol O₂, disponibili din cei 2 mol.\n2. H₂ este limitant.\n3. Raportul H₂:H₂O este 1:1, deci se formează 3 mol H₂O.\n4. O₂ rămas=2−1,5=0,5 mol. Verificăm bilanțul atomilor în ecuație.",
+      "test": [
+        "În modelul 2H₂+O₂→2H₂O sunt inițial 3 mol H₂ și 2 mol O₂. Câți moli H₂O se formează teoretic și cât O₂ rămâne?"
+      ],
+      "answers": [
+        "3 mol H₂O; rămân 0,5 mol O₂."
+      ],
+      "exercises": [],
+      "steps": [
+        "Pentru 3 mol H₂ sunt necesari 1,5 mol O₂, disponibili din cei 2 mol.",
+        "H₂ este limitant.",
+        "Raportul H₂:H₂O este 1:1, deci se formează 3 mol H₂O.",
+        "O₂ rămas=2−1,5=0,5 mol. Verificăm bilanțul atomilor în ecuație.",
+        "Greșeala frecventă: Nu alege limitantul doar comparând numărul inițial de moli."
+      ]
+    },
+    {
+      "id": "chemistry-2-9",
+      "subject": "chemistry",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Soluție tampon și Henderson–Hasselbalch",
+      "theory": "Pentru un tampon acid slab/bază conjugată, pH≈pKa+log([A⁻]/[HA]), dacă aproximările de concentrație și activitate sunt acceptabile. Formula nu se aplică automat la diluții extreme sau înaintea neutralizării unui acid tare adăugat.",
+      "sample": "Un tampon idealizat are pKa=4,76, [A⁻]=0,20 mol/L și [HA]=0,10 mol/L. Află pH, folosind log 2≈0,301.",
+      "worked": "1. Raportul bază/acid este 0,20/0,10=2.\n2. pH≈4,76+log2.\n3. pH≈5,06.\n4. Baza conjugată predomină, deci pH este mai mare decât pKa, verificare coerentă cu semnul rezultatului.",
+      "test": [
+        "Un tampon idealizat are pKa=4,76, [A⁻]=0,20 mol/L și [HA]=0,10 mol/L. Află pH, folosind log 2≈0,301."
+      ],
+      "answers": [
+        "pH≈5,06 în aproximația dată."
+      ],
+      "exercises": [],
+      "steps": [
+        "Raportul bază/acid este 0,20/0,10=2.",
+        "pH≈4,76+log2.",
+        "pH≈5,06.",
+        "Baza conjugată predomină, deci pH este mai mare decât pKa, verificare coerentă cu semnul rezultatului.",
+        "Greșeala frecventă: Nu inversa raportul bază conjugată/acid."
+      ]
+    },
+    {
+      "id": "chemistry-2-10",
+      "subject": "chemistry",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Cinetică de ordinul întâi",
+      "theory": "Pentru o transformare de ordinul întâi, ln(c/c₀)=−kt. Constanta k are unitatea timp^−1. Ordinul reacției se stabilește experimental și nu se deduce în general din coeficienții ecuației globale.",
+      "sample": "O specie urmează cinetica de ordinul întâi cu k=0,20 min⁻¹. În cât timp concentrația scade la un sfert? Folosește ln4=1,386.",
+      "worked": "1. c/c₀=1/4.\n2. ln(1/4)=−kt, deci t=ln4/k.\n3. t=1,386/0,20=6,93 min.\n4. Timpul de înjumătățire este 3,47 min; două înjumătățiri dau un sfert.",
+      "test": [
+        "O specie urmează cinetica de ordinul întâi cu k=0,20 min⁻¹. În cât timp concentrația scade la un sfert? Folosește ln4=1,386."
+      ],
+      "answers": [
+        "t≈6,93 min."
+      ],
+      "exercises": [],
+      "steps": [
+        "c/c₀=1/4.",
+        "ln(1/4)=−kt, deci t=ln4/k.",
+        "t=1,386/0,20=6,93 min.",
+        "Timpul de înjumătățire este 3,47 min; două înjumătățiri dau un sfert.",
+        "Greșeala frecventă: Nu introduce logaritmul zecimal fără factorul de conversie."
+      ]
+    },
+    {
+      "id": "chemistry-3-11",
+      "subject": "chemistry",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Calibrare spectrofotometrică și martor",
+      "theory": "Legea Beer–Lambert A=εlc descrie absorbția în condiții potrivite: soluții suficient de diluate, radiație adecvată și fără procese perturbatoare. Absorbanța este adimensională. Semnalul martorului se scade când nu a fost deja corectat de aparat.",
+      "sample": "Absorbanța probei este 0,52, a martorului 0,02. Pentru ε=100 L/(mol·cm), l=1 cm, calculează concentrația.",
+      "worked": "1. Acorectată=0,52−0,02=0,50.\n2. c=A/(εl)=0,50/(100×1)=0,0050 mol/L.\n3. Verificăm că L/(mol·cm)×cm×mol/L este adimensional.\n4. Rezultatul este valabil în domeniul liniar al calibrării.",
+      "test": [
+        "Absorbanța probei este 0,52, a martorului 0,02. Pentru ε=100 L/(mol·cm), l=1 cm, calculează concentrația."
+      ],
+      "answers": [
+        "c=0,0050 mol/L."
+      ],
+      "exercises": [],
+      "steps": [
+        "Acorectată=0,52−0,02=0,50.",
+        "c=A/(εl)=0,50/(100×1)=0,0050 mol/L.",
+        "Verificăm că L/(mol·cm)×cm×mol/L este adimensional.",
+        "Rezultatul este valabil în domeniul liniar al calibrării.",
+        "Greșeala frecventă: Nu scădea martorul de două ori dacă aparatul l-a corectat deja."
+      ]
+    },
+    {
+      "id": "chemistry-3-12",
+      "subject": "chemistry",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Potențial electrochimic și ecuația Nernst",
+      "theory": "La 25 °C, pentru o reacție cu n electroni, E=E°−(0,05916 V/n) logQ, folosind activități adimensionale. Solidele pure nu intră în Q. Schimbarea sensului reacției schimbă E° și inversează Q.",
+      "sample": "Pentru reacția scrisă într-un anumit sens, E°=1,10 V, n=2 și Q=100. Calculează E la 25 °C.",
+      "worked": "1. log100=2.\n2. Corecția este (0,05916/2)×2=0,05916 V.\n3. E=1,10−0,05916=1,04084 V≈1,04 V.\n4. Q>1 micșorează potențialul față de valoarea standard în sensul reacției date.",
+      "test": [
+        "Pentru reacția scrisă într-un anumit sens, E°=1,10 V, n=2 și Q=100. Calculează E la 25 °C."
+      ],
+      "answers": [
+        "E≈1,04 V."
+      ],
+      "exercises": [],
+      "steps": [
+        "log100=2.",
+        "Corecția este (0,05916/2)×2=0,05916 V.",
+        "E=1,10−0,05916=1,04084 V≈1,04 V.",
+        "Q>1 micșorează potențialul față de valoarea standard în sensul reacției date.",
+        "Greșeala frecventă: Nu omite numărul de electroni n sau temperatura de aplicare a constantei."
+      ]
+    },
+    {
+      "id": "biology-1-13",
+      "subject": "biology",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Mărime reală și bară de scară",
+      "theory": "O imagine microscopică permite estimarea dimensiunii prin comparație cu bara de scară. Dacă imaginea este redimensionată uniform, raportul lungimilor se păstrează. Mărirea declarată separat nu rămâne neapărat corectă după redimensionare.",
+      "sample": "Bara de 20 µm măsoară 40 mm pe ecran; o celulă din aceeași imagine măsoară 30 mm. Estimează lungimea celulei.",
+      "worked": "1. Comparăm lungimile de pe aceeași imagine: 30/40=0,75.\n2. Lungimea reală=0,75×20=15 µm.\n3. Verificăm: celula pare mai scurtă decât bara, deci trebuie să aibă sub 20 µm.\n4. Rezultatul este o estimare dependentă de delimitarea conturului.",
+      "test": [
+        "Bara de 20 µm măsoară 40 mm pe ecran; o celulă din aceeași imagine măsoară 30 mm. Estimează lungimea celulei."
+      ],
+      "answers": [
+        "Lungime estimată: 15 µm."
+      ],
+      "exercises": [],
+      "steps": [
+        "Comparăm lungimile de pe aceeași imagine: 30/40=0,75.",
+        "Lungimea reală=0,75×20=15 µm.",
+        "Verificăm: celula pare mai scurtă decât bara, deci trebuie să aibă sub 20 µm.",
+        "Rezultatul este o estimare dependentă de delimitarea conturului.",
+        "Greșeala frecventă: Nu combina lungimi din imagini redimensionate diferit."
+      ]
+    },
+    {
+      "id": "biology-1-14",
+      "subject": "biology",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Pseudoreplicare și unitate experimentală",
+      "theory": "Replicatele biologice sunt unități experimentale independente. Mai multe măsurări ale aceleiași unități sunt replicări tehnice. Ele pot îmbunătăți precizia măsurării, dar nu cresc automat numărul de organisme independente.",
+      "sample": "Se măsoară de cinci ori fiecare dintre cele trei plante independente tratate identic. Câte replicate biologice și câte citiri există?",
+      "worked": "1. Unitatea independentă este planta.\n2. Există trei plante, deci trei replicate biologice.\n3. Fiecare are cinci citiri: 3×5=15 citiri totale.\n4. Pentru comparații între grupuri nu tratăm cele 15 valori ca 15 plante; păstrăm structura ierarhică a datelor.",
+      "test": [
+        "Se măsoară de cinci ori fiecare dintre cele trei plante independente tratate identic. Câte replicate biologice și câte citiri există?"
+      ],
+      "answers": [
+        "3 replicate biologice și 15 citiri tehnice totale."
+      ],
+      "exercises": [],
+      "steps": [
+        "Unitatea independentă este planta.",
+        "Există trei plante, deci trei replicate biologice.",
+        "Fiecare are cinci citiri: 3×5=15 citiri totale.",
+        "Pentru comparații între grupuri nu tratăm cele 15 valori ca 15 plante; păstrăm structura ierarhică a datelor.",
+        "Greșeala frecventă: Nu confunda numărul de citiri cu numărul de unități independente."
+      ]
+    },
+    {
+      "id": "biology-2-15",
+      "subject": "biology",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Hardy–Weinberg și frecvențe alelice",
+      "theory": "Într-un model cu două alele, p+q=1 și frecvențele genotipurilor sunt p², 2pq, q² la echilibru Hardy–Weinberg. Modelul presupune condiții idealizate, inclusiv împerechere aleatorie și absența selecției, migrației și derivei semnificative.",
+      "sample": "Într-o populație idealizată la echilibru, genotipul recesiv aa reprezintă 9%. Află frecvența alelei a și a heterozigoților.",
+      "worked": "1. q²=0,09, deci q=0,30.\n2. p=1−0,30=0,70.\n3. 2pq=2×0,70×0,30=0,42.\n4. Verificare: 0,49+0,42+0,09=1. Heterozigoții reprezintă 42%.",
+      "test": [
+        "Într-o populație idealizată la echilibru, genotipul recesiv aa reprezintă 9%. Află frecvența alelei a și a heterozigoților."
+      ],
+      "answers": [
+        "q=0,30; heterozigoți 42%."
+      ],
+      "exercises": [],
+      "steps": [
+        "q²=0,09, deci q=0,30.",
+        "p=1−0,30=0,70.",
+        "2pq=2×0,70×0,30=0,42.",
+        "Verificare: 0,49+0,42+0,09=1. Heterozigoții reprezintă 42%.",
+        "Greșeala frecventă: Nu identifica frecvența genotipului aa cu frecvența alelei a."
+      ]
+    },
+    {
+      "id": "biology-2-16",
+      "subject": "biology",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Cinetică enzimatică Michaelis–Menten",
+      "theory": "În modelul simplu Michaelis–Menten, v=Vmax[S]/(Km+[S]). Km are unitate de concentrație și este concentrația la care v=Vmax/2. Interpretarea drept afinitate necesită precauție; nu toate enzimele urmează acest model.",
+      "sample": "Pentru Vmax=120 µmol/min, Km=2 mmol/L și [S]=6 mmol/L, calculează viteza inițială.",
+      "worked": "1. Concentrațiile sunt în aceleași unități.\n2. [S]/(Km+[S])=6/(2+6)=0,75.\n3. v=120×0,75=90 µmol/min.\n4. Rezultatul este sub Vmax; la o concentrație finită enzima nu atinge exact asimptota.",
+      "test": [
+        "Pentru Vmax=120 µmol/min, Km=2 mmol/L și [S]=6 mmol/L, calculează viteza inițială."
+      ],
+      "answers": [
+        "v=90 µmol/min."
+      ],
+      "exercises": [],
+      "steps": [
+        "Concentrațiile sunt în aceleași unități.",
+        "[S]/(Km+[S])=6/(2+6)=0,75.",
+        "v=120×0,75=90 µmol/min.",
+        "Rezultatul este sub Vmax; la o concentrație finită enzima nu atinge exact asimptota.",
+        "Greșeala frecventă: Nu aduna Km în mmol/L cu o concentrație în mol/L fără conversie."
+      ]
+    },
+    {
+      "id": "biology-3-17",
+      "subject": "biology",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Sensibilitate, specificitate și valoare predictivă",
+      "theory": "Sensibilitatea privește persoanele care au condiția, specificitatea pe cele fără condiție. Valoarea predictivă pozitivă depinde și de prevalență. Acesta este un model statistic didactic, nu o recomandare de diagnostic.",
+      "sample": "Într-un lot de 1000 de persoane, 100 au o condiție. Un test are sensibilitate 90% și specificitate 90%. Câte rezultate pozitive sunt adevărate și care este valoarea predictivă pozitivă?",
+      "worked": "1. Dintre cele 100 de persoane cu condiția, 90 au test pozitiv.\n2. Dintre cele 900 fără condiție, 10%=90 au fals pozitiv.\n3. Total pozitive=180.\n4. Valoare predictivă pozitivă=90/180=50%. Sensibilitatea de 90% nu înseamnă probabilitate de 90% a condiției după un test pozitiv.",
+      "test": [
+        "Într-un lot de 1000 de persoane, 100 au o condiție. Un test are sensibilitate 90% și specificitate 90%. Câte rezultate pozitive sunt adevărate și care este valoarea predictivă pozitivă?"
+      ],
+      "answers": [
+        "90 adevărate pozitive; valoare predictivă pozitivă 50%."
+      ],
+      "exercises": [],
+      "steps": [
+        "Dintre cele 100 de persoane cu condiția, 90 au test pozitiv.",
+        "Dintre cele 900 fără condiție, 10%=90 au fals pozitiv.",
+        "Total pozitive=180.",
+        "Valoare predictivă pozitivă=90/180=50%. Sensibilitatea de 90% nu înseamnă probabilitate de 90% a condiției după un test pozitiv.",
+        "Greșeala frecventă: Nu confunda probabilitatea testului pozitiv la bolnav cu probabilitatea bolii după test pozitiv."
+      ]
+    },
+    {
+      "id": "biology-3-18",
+      "subject": "biology",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Interpretarea valorii p și a efectului",
+      "theory": "Valoarea p este probabilitatea, sub ipoteza nulă și modelul statistic, a unui rezultat cel puțin la fel de extrem ca cel observat. Nu este probabilitatea ca ipoteza nulă să fie adevărată. Mărimea efectului, incertitudinea, designul și testările multiple rămân esențiale.",
+      "sample": "Un studiu raportează p=0,03 și o diferență medie de 0,2 unități. Putem concluziona că există 97% șanse ca ipoteza alternativă să fie adevărată sau că efectul este important practic?",
+      "worked": "1. p=0,03 este condiționată de ipoteza nulă, nu o probabilitate atribuită ipotezelor.\n2. La un prag prestabilit de 0,05 rezultatul este semnificativ statistic în modelul testului.\n3. Nu rezultă 97% probabilitate pentru alternativa propusă.\n4. Importanța practică necesită scara mărimii, intervalul de încredere și contextul biologic.",
+      "test": [
+        "Un studiu raportează p=0,03 și o diferență medie de 0,2 unități. Putem concluziona că există 97% șanse ca ipoteza alternativă să fie adevărată sau că efectul este important practic?"
+      ],
+      "answers": [
+        "Nu. Semnificația statistică nu stabilește singură probabilitatea ipotezei sau importanța biologică."
+      ],
+      "exercises": [],
+      "steps": [
+        "p=0,03 este condiționată de ipoteza nulă, nu o probabilitate atribuită ipotezelor.",
+        "La un prag prestabilit de 0,05 rezultatul este semnificativ statistic în modelul testului.",
+        "Nu rezultă 97% probabilitate pentru alternativa propusă.",
+        "Importanța practică necesită scara mărimii, intervalul de încredere și contextul biologic.",
+        "Greșeala frecventă: Nu transforma 1−p în probabilitatea adevărului ipotezei alternative."
+      ]
+    },
+    {
+      "id": "astronomy-1-19",
+      "subject": "astronomy",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Paralaxă și incertitudine relativă",
+      "theory": "Pentru paralaxa anuală p în secunde de arc, distanța geometrică d în parseci este 1/p. La erori relative mici, u(d)/d≈u(p)/p. Inversarea unei paralaxe cu eroare mare sau negativă cere modelare statistică, nu aplicare mecanică.",
+      "sample": "O stea are p=(0,050±0,002) secunde de arc. Estimează d și incertitudinea standard prin liniarizare.",
+      "worked": "1. d=1/0,050=20 pc.\n2. Eroarea relativă este 0,002/0,050=0,04.\n3. u(d)≈20×0,04=0,8 pc.\n4. Raportăm d≈(20,0±0,8) pc. Eroarea relativă mică justifică aproximarea la primul ordin.",
+      "test": [
+        "O stea are p=(0,050±0,002) secunde de arc. Estimează d și incertitudinea standard prin liniarizare."
+      ],
+      "answers": [
+        "d≈20,0 pc; u(d)≈0,8 pc."
+      ],
+      "exercises": [],
+      "steps": [
+        "d=1/0,050=20 pc.",
+        "Eroarea relativă este 0,002/0,050=0,04.",
+        "u(d)≈20×0,04=0,8 pc.",
+        "Raportăm d≈(20,0±0,8) pc. Eroarea relativă mică justifică aproximarea la primul ordin.",
+        "Greșeala frecventă: Nu introduce milisecunde de arc fără a le transforma în secunde de arc."
+      ]
+    },
+    {
+      "id": "astronomy-1-20",
+      "subject": "astronomy",
+      "stage": "advanced",
+      "grade": "univ-1",
+      "title": "Rezoluția unghiulară a unui telescop",
+      "theory": "Pentru o apertură circulară ideală, criteriul Rayleigh este θ≈1,22λ/D în radiani. Este o limită de difracție; atmosfera, aberațiile și detectorul pot înrăutăți imaginea. Mărirea imaginii nu mărește automat rezoluția fizică.",
+      "sample": "Pentru λ=500 nm și D=0,10 m, estimează limita Rayleigh în radiani și secunde de arc; 1 rad≈206265″.",
+      "worked": "1. Convertim λ=5×10⁻⁷ m.\n2. θ=1,22×5×10⁻⁷/0,10=6,1×10⁻⁶ rad.\n3. θ≈6,1×10⁻⁶×206265≈1,26″.\n4. Diametrul dublu ar înjumătăți limita unghiulară în modelul ideal.",
+      "test": [
+        "Pentru λ=500 nm și D=0,10 m, estimează limita Rayleigh în radiani și secunde de arc; 1 rad≈206265″."
+      ],
+      "answers": [
+        "θ≈6,1×10⁻⁶ rad≈1,26″."
+      ],
+      "exercises": [],
+      "steps": [
+        "Convertim λ=5×10⁻⁷ m.",
+        "θ=1,22×5×10⁻⁷/0,10=6,1×10⁻⁶ rad.",
+        "θ≈6,1×10⁻⁶×206265≈1,26″.",
+        "Diametrul dublu ar înjumătăți limita unghiulară în modelul ideal.",
+        "Greșeala frecventă: Nu utiliza lungimea de undă în nm și diametrul în m fără conversie."
+      ]
+    },
+    {
+      "id": "astronomy-2-21",
+      "subject": "astronomy",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Modul de distanță și extincție",
+      "theory": "Pentru magnitudini în aceeași bandă, m−M=5 log₁₀(d/10 pc)+A, unde A este extincția în acea bandă. Neglijarea extincției face o sursă să pară mai îndepărtată. Magnitudinea absolută reprezintă strălucirea aparentă convențională la 10 pc.",
+      "sample": "O sursă are m=10, M=4 și extincție A=1 magnitudine. Determină distanța.",
+      "worked": "1. Corectăm modulul: m−M−A=10−4−1=5.\n2. 5 log(d/10)=5, deci log(d/10)=1.\n3. d/10=10, astfel d=100 pc.\n4. Fără corecție am obține circa 158 pc, o supraestimare.",
+      "test": [
+        "O sursă are m=10, M=4 și extincție A=1 magnitudine. Determină distanța."
+      ],
+      "answers": [
+        "d=100 pc."
+      ],
+      "exercises": [],
+      "steps": [
+        "Corectăm modulul: m−M−A=10−4−1=5.",
+        "5 log(d/10)=5, deci log(d/10)=1.",
+        "d/10=10, astfel d=100 pc.",
+        "Fără corecție am obține circa 158 pc, o supraestimare.",
+        "Greșeala frecventă: Nu adăuga extincția la modulul corectat; trebuie scăzută din m−M."
+      ]
+    },
+    {
+      "id": "astronomy-2-22",
+      "subject": "astronomy",
+      "stage": "advanced",
+      "grade": "univ-2",
+      "title": "Masa dintr-o orbită kepleriană",
+      "theory": "Pentru un sistem binar, a³/P² exprimat în UA și ani dă masa totală în mase solare, când a este semiaxa orbitei relative. Relația presupune dinamica newtoniană izolată; o orbită doar proiectată pe cer trebuie deproiectată înainte.",
+      "sample": "Un sistem binar are semiaxa relativă reală a=4 UA și perioada P=4 ani. Care este masa totală?",
+      "worked": "1. Folosim Mtot/M☉=(a/UA)³/(P/an)².\n2. a³=64 și P²=16.\n3. Mtot=64/16=4 M☉.\n4. Din aceste date nu putem determina separat masele celor două componente.",
+      "test": [
+        "Un sistem binar are semiaxa relativă reală a=4 UA și perioada P=4 ani. Care este masa totală?"
+      ],
+      "answers": [
+        "Masa totală este 4 M☉; masele individuale nu sunt determinate."
+      ],
+      "exercises": [],
+      "steps": [
+        "Folosim Mtot/M☉=(a/UA)³/(P/an)².",
+        "a³=64 și P²=16.",
+        "Mtot=64/16=4 M☉.",
+        "Din aceste date nu putem determina separat masele celor două componente.",
+        "Greșeala frecventă: Nu folosi semiaxa unei singure componente în locul semiaxei relative."
+      ]
+    },
+    {
+      "id": "astronomy-3-23",
+      "subject": "astronomy",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Tranzit exoplanetar și degenerescențe",
+      "theory": "Pentru o stea uniformă și o planetă mică, un tranzit central are adâncimea aproximativă δ=(Rp/R★)². Întunecarea spre margine, contaminarea luminii și geometria modifică modelul. O scădere de flux singură nu confirmă automat o planetă.",
+      "sample": "Într-un model ideal, fluxul scade cu 1% la tranzit. Estimează raza planetei în unități de rază stelară și spune ce informație suplimentară trebuie pentru o rază absolută.",
+      "worked": "1. Procentul 1% devine δ=0,01.\n2. Rp/R★=√0,01=0,10.\n3. Raza planetei este 10% din raza stelei.\n4. Pentru raza absolută trebuie cunoscută R★; verificările contra falselor pozitive sunt separate.",
+      "test": [
+        "Într-un model ideal, fluxul scade cu 1% la tranzit. Estimează raza planetei în unități de rază stelară și spune ce informație suplimentară trebuie pentru o rază absolută."
+      ],
+      "answers": [
+        "Rp=0,10 R★; pentru valoarea absolută este necesară raza stelei."
+      ],
+      "exercises": [],
+      "steps": [
+        "Procentul 1% devine δ=0,01.",
+        "Rp/R★=√0,01=0,10.",
+        "Raza planetei este 10% din raza stelei.",
+        "Pentru raza absolută trebuie cunoscută R★; verificările contra falselor pozitive sunt separate.",
+        "Greșeala frecventă: Nu identifica direct adâncimea procentuală cu raportul razelor."
+      ]
+    },
+    {
+      "id": "astronomy-3-24",
+      "subject": "astronomy",
+      "stage": "advanced",
+      "grade": "univ-3",
+      "title": "Legea Hubble la deplasare mică spre roșu",
+      "theory": "La z mic putem aproxima v≈cz și d≈cz/H₀. Vitezele peculiare produc abateri, mai ales local. La z mare este necesar un model cosmologic; cz nu este atunci o interpretare generală exactă a vitezei de recesiune.",
+      "sample": "Pentru z=0,010, c=300000 km/s și H₀=75 km/(s·Mpc), estimează distanța în aproximația liniară.",
+      "worked": "1. v≈cz=300000×0,010=3000 km/s.\n2. d≈3000/75=40 Mpc.\n3. Unitățile km/s se simplifică.\n4. Estimarea ignoră viteza particulară și nu stabilește o distanță exactă independentă de model.",
+      "test": [
+        "Pentru z=0,010, c=300000 km/s și H₀=75 km/(s·Mpc), estimează distanța în aproximația liniară."
+      ],
+      "answers": [
+        "d≈40 Mpc în aproximația liniară."
+      ],
+      "exercises": [],
+      "steps": [
+        "v≈cz=300000×0,010=3000 km/s.",
+        "d≈3000/75=40 Mpc.",
+        "Unitățile km/s se simplifică.",
+        "Estimarea ignoră viteza particulară și nu stabilește o distanță exactă independentă de model.",
+        "Greșeala frecventă: Nu extrapola formula liniară la deplasări mari spre roșu."
+      ]
+    },
+    {
+      "id": "astronomy-9-25",
+      "subject": "astronomy",
+      "stage": "upper",
+      "grade": "9",
+      "title": "Fazele Lunii nu sunt eclipsa de Lună",
+      "theory": "Fazele rezultă din geometria Soare–Pământ–Lună: observăm porțiuni diferite ale emisferei lunare iluminate de Soare. Eclipsa apare când Luna intră în umbra Pământului, la Lună plină și aproape de nodul orbitei. Planul orbitei lunare este înclinat față de ecliptică.",
+      "sample": "De ce există Lună plină aproape lunar, dar nu și eclipsă de Lună la fiecare Lună plină?",
+      "worked": "1. La Lună plină, Pământul este între Soare și Lună în sensul alinierii aproximative.\n2. Orbita Lunii este înclinată, astfel Luna trece de obicei deasupra sau dedesubtul umbrei terestre.\n3. Eclipsa cere apropierea de linia nodurilor.\n4. Fazele obișnuite nu sunt produse de umbra Pământului.",
+      "test": [
+        "De ce există Lună plină aproape lunar, dar nu și eclipsă de Lună la fiecare Lună plină?"
+      ],
+      "answers": [
+        "Eclipsa cere aliniere și apropiere de noduri; înclinarea orbitei împiedică eclipsa lunară la fiecare Lună plină."
+      ],
+      "exercises": [],
+      "steps": [
+        "La Lună plină, Pământul este între Soare și Lună în sensul alinierii aproximative.",
+        "Orbita Lunii este înclinată, astfel Luna trece de obicei deasupra sau dedesubtul umbrei terestre.",
+        "Eclipsa cere apropierea de linia nodurilor.",
+        "Fazele obișnuite nu sunt produse de umbra Pământului.",
+        "Greșeala frecventă: Nu explica toate fazele prin umbra Pământului."
+      ]
+    },
+    {
+      "id": "astronomy-10-26",
+      "subject": "astronomy",
+      "stage": "upper",
+      "grade": "10",
+      "title": "A treia lege a lui Kepler în Sistemul Solar",
+      "theory": "Pentru un corp cu masă neglijabilă față de Soare, P²≈a³ cu P în ani și a în UA. Relația folosește semiaxa mare a elipsei, nu distanța instantanee. Forma simplificată depinde de masa corpului central.",
+      "sample": "Un asteroid are a=4 UA. Estimează perioada orbitală în jurul Soarelui.",
+      "worked": "1. Scriem P²=a³=4³=64.\n2. Perioada pozitivă este P=√64=8 ani.\n3. Verificăm că o orbită mai mare are perioadă mai lungă.\n4. Nu folosim aceeași valoare numerică pentru o orbită în jurul unei stele de altă masă fără corecție.",
+      "test": [
+        "Un asteroid are a=4 UA. Estimează perioada orbitală în jurul Soarelui."
+      ],
+      "answers": [
+        "P≈8 ani."
+      ],
+      "exercises": [],
+      "steps": [
+        "Scriem P²=a³=4³=64.",
+        "Perioada pozitivă este P=√64=8 ani.",
+        "Verificăm că o orbită mai mare are perioadă mai lungă.",
+        "Nu folosim aceeași valoare numerică pentru o orbită în jurul unei stele de altă masă fără corecție.",
+        "Greșeala frecventă: Nu calcula P=a³; mai trebuie extrasă rădăcina pătrată."
+      ]
+    },
+    {
+      "id": "astronomy-11-27",
+      "subject": "astronomy",
+      "stage": "upper",
+      "grade": "11",
+      "title": "Spectru și legea deplasării Wien",
+      "theory": "Pentru radiația unui corp negru, λmax T≈2,898×10⁻³ m·K pentru spectrul pe unitate de lungime de undă. Stelele sunt doar aproximări de corp negru; liniile de absorbție și extincția influențează spectrul observat.",
+      "sample": "Un model de corp negru are maximul la 500 nm. Estimează temperatura.",
+      "worked": "1. λmax=500×10⁻⁹ m=5×10⁻⁷ m.\n2. T=2,898×10⁻³/(5×10⁻⁷)=5796 K.\n3. Rotunjim T≈5800 K.\n4. Este temperatura modelului spectrului, nu o măsurare directă a interiorului stelei.",
+      "test": [
+        "Un model de corp negru are maximul la 500 nm. Estimează temperatura."
+      ],
+      "answers": [
+        "T≈5800 K."
+      ],
+      "exercises": [],
+      "steps": [
+        "λmax=500×10⁻⁹ m=5×10⁻⁷ m.",
+        "T=2,898×10⁻³/(5×10⁻⁷)=5796 K.",
+        "Rotunjim T≈5800 K.",
+        "Este temperatura modelului spectrului, nu o măsurare directă a interiorului stelei.",
+        "Greșeala frecventă: Nu introduce nanometrii ca metri; eroarea ar fi de un miliard de ori."
+      ]
+    },
+    {
+      "id": "astronomy-12-28",
+      "subject": "astronomy",
+      "stage": "upper",
+      "grade": "12",
+      "title": "Magnitudini și raportul fluxurilor",
+      "theory": "Diferența magnitudinilor satisface m₂−m₁=−2,5 log₁₀(F₂/F₁). O magnitudine mai mică înseamnă flux mai mare în aceeași bandă. Nu compara direct valori din filtre diferite fără informații despre spectru.",
+      "sample": "Două stele au magnitudini în aceeași bandă m₁=2 și m₂=7. De câte ori este prima mai strălucitoare aparent?",
+      "worked": "1. Diferența este m₂−m₁=5.\n2. log(F₂/F₁)=−5/2,5=−2.\n3. F₂/F₁=0,01, deci F₁/F₂=100.\n4. Prima are magnitudinea mai mică, ceea ce confirmă sensul raportului.",
+      "test": [
+        "Două stele au magnitudini în aceeași bandă m₁=2 și m₂=7. De câte ori este prima mai strălucitoare aparent?"
+      ],
+      "answers": [
+        "Prima are flux aparent de 100 ori mai mare."
+      ],
+      "exercises": [],
+      "steps": [
+        "Diferența este m₂−m₁=5.",
+        "log(F₂/F₁)=−5/2,5=−2.",
+        "F₂/F₁=0,01, deci F₁/F₂=100.",
+        "Prima are magnitudinea mai mică, ceea ce confirmă sensul raportului.",
+        "Greșeala frecventă: Nu interpreta o magnitudine numeric mai mare ca strălucire mai mare."
+      ]
+    }
+  ],
+  "version": "805c58c93bfbc31cd897dd47c51b0fde6e5ddf0f1234117baad197fca1ddff90"
+}

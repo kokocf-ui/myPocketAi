@@ -8,8 +8,9 @@ import {chromium} from 'playwright';
 fs.mkdirSync('chemistry-browser-audit',{recursive:true});
 const server=http.createServer(async(req,res)=>{
  try{
-  const asset=req.url.match(/^\/education\/science\/shared\/(physics|chemistry|biology|astronomy)\.json$/);
-  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared/'+asset[1]+'.json',import.meta.url)));return}
+  if(/^\/education\/study-v1\/(math|physics|chemistry|biology)\.json$/.test(req.url)){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public'+req.url,import.meta.url)));return}
+  const asset=req.url.match(/^\/education\/science\/shared-v2\/(physics|chemistry|biology|astronomy)\.json$/);
+  if(asset){res.writeHead(200,{'Content-Type':'application/json'});res.end(fs.readFileSync(new URL('./public/education/science/shared-v2/'+asset[1]+'.json',import.meta.url)));return}
 
   const answer=await frontend.fetch(new Request('http://localhost:3881'+req.url,{headers:req.headers}),
    {COMMUNICATION_ORACLE_ORIGIN:''});

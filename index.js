@@ -1,3 +1,18 @@
+import {ROUTE_NAVIGATION_SCRIPT,ROUTE_NAVIGATION_STYLE} from './route_navigation_ui.mjs';
+import {TRANSIT_VIEWPORT_SCRIPT,TRANSIT_VIEWPORT_STYLE} from './transit_viewport_ui.mjs';
+import {MIXED_PROGRESS_CLIENT_SCRIPT} from './mixed_progress_stream.mjs';
+import {transportTicketUrl,transportOperatorTicketSite,transportTicketLink} from './transport_ticket_links.mjs';
+import {evaFarewellIntent,evaFarewellReply,evaFarewellFallback} from './eva_farewell.mjs';
+import {transitStopCount} from './transit_stop_counts.mjs';
+import {assistantUnderstandRequest} from './assistant_understanding.mjs';
+import {EDUCATION_MOBILE_CONTAINMENT_STYLE} from './education_mobile_containment.mjs';
+import {practicalValidatePack,practicalLoadPack,practicalCheckpointCorrect,practicalCanSelfReview} from './practical_course_pack_loader.mjs';
+import {PRACTICAL_WORKSHOP_SCRIPT,PRACTICAL_WORKSHOP_STYLE} from './practical_workshop_ui.mjs';
+import {foreignResourceKey,foreignValidateResource,foreignLoadResource} from './foreign_language_resource_loader.mjs';
+import {FOREIGN_LANGUAGE_RESOURCES_SCRIPT,FOREIGN_LANGUAGE_RESOURCES_STYLE} from './foreign_language_resources_ui.mjs';
+import {EDUCATION_INPUT_TOOLS_SCRIPT} from './education_input_tools.mjs';
+import {EDUCATION_EXERCISE_TUTOR_SCRIPT} from './education_exercise_tutor.mjs';
+import {SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT} from './science_review_supplements.mjs';
 // Hotels preset-only; burgundy results dialog; explicit city/street query release checkpoint.
 import {EXAM_ORDERED_PATHWAYS,EXAM_GENERAL_PATHWAYS} from './exam_ordered_pathways.mjs';
 import {ASSISTANT_PLACE_RESULTS_SCRIPT} from './assistant_place_results_ui.mjs';
@@ -20,14 +35,11 @@ import {EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT} from './education_national_subj
 import {literatureLoadCountryProfile} from './literature_profile_loader.mjs';
 import {literatureLoadAuthoredYear,literatureLoadAuthoredCatalog,literatureLoadNationalYear} from './literature_authored_pack_loader.mjs';
 import {mathLoadCountrySupplement} from './math_country_supplement_loader.mjs';
+import {educationValidateStudyPack,educationLoadStudyPack} from './education_study_pack_loader.mjs';
 import {UNIVERSITY_DOMAINS} from './university_domains.mjs';
 import {UNIVERSITY_PROGRAM_OPTIONS,UNIVERSITY_ADMISSION_ENTRIES} from './university_admissions_verified.mjs';
-import {PRACTICAL_COURSES,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
+import {PRACTICAL_COURSE_CATALOG,PRACTICAL_COUNTRIES,PRACTICAL_LEVELS} from './practical_curriculum.mjs';
 import {PRACTICAL_REFERENCES} from './practical_sources.mjs';
-import {PRACTICAL_GUIDES} from './practical_guides.mjs';
-import {PRACTICAL_SYLLABI} from './practical_syllabi.mjs';
-import {PRACTICAL_DEPTH} from './practical_depth.mjs';
-import {PRACTICAL_DEPTH_EXTRA} from './practical_depth_extra.mjs';
 import {PRACTICAL_UI_SCRIPT} from './practical_ui.mjs';
 import {EDUCATION_SELECTS_UI_SCRIPT} from './education_selects_ui.mjs';
 import {EDUCATION_SCOPE_UI_SCRIPT} from './education_scope_ui.mjs';
@@ -61,7 +73,7 @@ import {CHEMISTRY_GRADE_FRAMEWORKS,CHEMISTRY_UPPER_STUDY_SEQUENCE,CHEMISTRY_ENGL
 import {CHEMISTRY_EUROPE_REFERENCES,CHEMISTRY_NOT_OFFERED_LOWER_YEARS,CHEMISTRY_ADVISORY_LOWER_STEPS,CHEMISTRY_YEAR_TOPIC_SUGGESTIONS,CHEMISTRY_COUNTRY_GENERIC_SOURCE,chemistryCountryGradePlan} from './chemistry_country_alignment.mjs';
 import {CHEMISTRY_UNIVERSITY_PROFILES,CHEMISTRY_EHEA_REFERENCE,chemistryUniversityRoutes,chemistryUniversityYears,chemistryUniversityRoute} from './chemistry_university_europe.mjs';
 import {CHEMISTRY_UNIVERSITY_CORE} from './chemistry_university_core.mjs';
-import {CHEMISTRY_UNIVERSITY_COURSE_COUNT,CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,chemistryUniversityCourseChoices,chemistryUniversityStudyDocument} from './chemistry_university_study.mjs';
+import {CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS,chemistryUniversityCourseChoices,chemistryUniversityStudyDocument} from './chemistry_university_study.mjs';
 import {scienceExtendedTheory,SCIENCE_GUIDES,SCIENCE_FEATURED,SCIENCE_METHOD} from './science_extended_theory.mjs';
 import {SCIENCE_GUIDES_EN} from './science_english_reference_guides.mjs';
 import {SCIENCE_UNIVERSITY_TRACK_GUIDES} from './science_university_track_guides.mjs';
@@ -90,7 +102,7 @@ import {PHYSICS_UPPER_CASES} from './physics_upper_cases.mjs';
 import {PHYSICS_UPPER_CASES_EN} from './physics_upper_cases_en.mjs';
 import {SCIENCE_ADVISORY_PROGRESSION,SCIENCE_PROGRESSION_SOURCES,SCIENCE_PRIMARY_LESSON_BANK,SCIENCE_PRIMARY_ENGLISH,SCIENCE_PRIMARY_DEPTH,scienceGradeTopicPlan,scienceGradeLessonFrame} from './science_grade_progression.mjs';
 import {scienceLowerTopicContent} from './science_lower_secondary_lessons.mjs';
-import {scienceLoadSharedPack} from './science_shared_pack_loader.mjs';
+import {scienceValidateSharedPack,scienceLoadSharedPack} from './science_shared_pack_loader.mjs';
 import {CHEMISTRY_SPECIALIZATIONS,CHEMISTRY_SPECIALTY_TOPICS,CHEMISTRY_SPECIALTY_LESSONS,CHEMISTRY_MOLECULES,chemistryVerifiedExercise} from './chemistry_advanced.mjs';
 import {BIOLOGY_TOPICS,BIOLOGY_SPECIALIZATIONS,BIOLOGY_SPECIALTY_TOPICS,biologyVerifiedExercise} from './biology_curriculum.mjs';
 import {BIOLOGY_UPPER_YEAR_TOPICS,BIOLOGY_UPPER_YEAR_BANK,biologyUpperYearLessons} from './biology_upper_course.mjs';
@@ -1329,7 +1341,14 @@ main.page:has(#view-tools.active){overflow:hidden!important;padding-bottom:calc(
 .answer-reader-controls label{display:flex;align-items:center;gap:6px;margin-left:auto;font-size:14px}
 .answer-reader-body{flex:1 1 0;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px;font-size:17px;line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere;scroll-behavior:auto;touch-action:pan-y;-webkit-overflow-scrolling:touch}
 .answer-reader :focus-visible{outline:2px solid #6de7e6;outline-offset:2px}
-@media(max-width:400px){.transit-steps{font-size:14px!important}.transit-steps th,.transit-steps td{padding:8px 4px!important}}.travel-mode-table{width:100%;border-collapse:collapse;margin-top:12px}.travel-mode-table caption{text-align:left;font-weight:700}.travel-mode-table td{padding:3px 0}.travel-mode-table button{margin:3px 0}.transit-steps{width:100%;table-layout:fixed;border-collapse:collapse;margin:12px 0 20px;font-size:16px;line-height:1.4}.transit-steps caption{text-align:left;font-weight:700;margin-bottom:8px}.transit-steps th,.transit-steps td{padding:10px 7px;border-bottom:1px solid #35566a;text-align:left;vertical-align:top;overflow-wrap:anywhere}.transit-steps th:first-child{width:13%}.transit-steps th:last-child{width:26%}.transit-steps td:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}.transit-steps td div{margin-top:4px}.transit-choice-action>strong{display:block;margin-bottom:6px}.transit-card-metrics{margin-top:6px;font-size:.9em;color:#b9d8e5}.transit-return-panel{flex-shrink:0;padding:0 14px}.transit-return-panel:empty{display:none}.transit-back-options{width:100%;margin:8px 0!important}.transit-choice-action{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #3e8194;border-radius:14px;background:#112c40;color:#edf6fb;font:inherit;text-align:left;line-height:1.4;white-space:pre-wrap}.transit-choice-action:disabled{opacity:.65}.transit-leg{padding:8px 0;border-bottom:1px solid #35566a;line-height:1.5;overflow-wrap:anywhere}.selected-transit{margin-bottom:10px;padding:8px;border:1px solid #3e8194;border-radius:12px}.selected-transit summary{cursor:pointer;font-weight:700;line-height:1.4}.transit-access-status{line-height:1.4}.route-options{padding:6px 14px;flex-shrink:0;font-size:14px}.route-options label{display:block}.route-options select,.route-options input{display:block;width:100%;max-width:100%;min-height:40px;margin:5px 0;padding:6px;background:#12354b;color:#edf6fb;border:1px solid #5597ac;border-radius:9px;font:inherit}.route-options summary{cursor:pointer;padding:5px 0}.route-options details[open]{max-height:150px;overflow:auto}.route-options .route-map-open{width:100%;margin:5px 0}.route-map-window.navigating .route-options,.route-map-window.navigating>a{display:none}.route-map-window [hidden]{display:none!important}.route-live-status{font-weight:600}.route-recenter{font-size:13px!important}.route-map-window{position:fixed;z-index:100;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#0b2233;color:#edf6fb;border:2px solid #3b7185;border-radius:22px;box-shadow:0 12px 45px #000b}
+@media(max-width:400px){.transit-steps{font-size:14px!important}.transit-steps th,.transit-steps td{padding:8px 4px!important}}.travel-mode-table{width:100%;border-collapse:collapse;margin-top:12px}.travel-mode-table caption{text-align:left;font-weight:700}.travel-mode-table td{padding:3px 0}.travel-mode-table button{margin:3px 0}.transit-steps{width:100%;table-layout:fixed;border-collapse:collapse;margin:12px 0 20px;font-size:16px;line-height:1.4}.transit-steps caption{text-align:left;font-weight:700;margin-bottom:8px}.transit-steps th,.transit-steps td{padding:10px 7px;border-bottom:1px solid #35566a;text-align:left;vertical-align:top;overflow-wrap:anywhere}.transit-steps th:first-child{width:13%}.transit-steps th:last-child{width:26%}.transit-steps td:last-child{font-variant-numeric:tabular-nums;white-space:nowrap}.transit-steps td div{margin-top:4px}
+/* Transit is a document, not a shrinking place-results flex list. Keep the
+   return action visible even when opening a card from the bottom of a list. */
+#moduleQuickLayer.open #moduleLayerBody.transit-results-content{overflow-y:auto!important;scroll-padding-top:70px}
+#moduleLayerBody.transit-results-content>*{flex-shrink:0!important}
+body:has(#moduleQuickLayer.open #moduleLayerBody.transit-results-content) .extra-fun-daily-banner{display:none!important}
+#moduleLayerBody .transit-detail-toolbar{position:sticky;top:0;z-index:4;background:#0b2233;padding:5px 0}
+.transit-choice-action>strong{display:block;margin-bottom:6px}.transit-card-metrics{margin-top:6px;font-size:.9em;color:#b9d8e5}.transit-return-panel{flex-shrink:0;padding:0 14px}.transit-return-panel:empty{display:none}.transit-back-options{width:100%;margin:8px 0!important}.transit-choice-action{display:block;width:100%;padding:12px;margin:8px 0;border:1px solid #3e8194;border-radius:14px;background:#112c40;color:#edf6fb;font:inherit;text-align:left;line-height:1.4;white-space:pre-wrap}.transit-choice-action:disabled{opacity:.65}.transit-leg{padding:8px 0;border-bottom:1px solid #35566a;line-height:1.5;overflow-wrap:anywhere}.selected-transit{margin-bottom:10px;padding:8px;border:1px solid #3e8194;border-radius:12px}.selected-transit summary{cursor:pointer;font-weight:700;line-height:1.4}.transit-access-status{line-height:1.4}.route-options{padding:6px 14px;flex-shrink:0;font-size:14px}.route-options label{display:block}.route-options select,.route-options input{display:block;width:100%;max-width:100%;min-height:40px;margin:5px 0;padding:6px;background:#12354b;color:#edf6fb;border:1px solid #5597ac;border-radius:9px;font:inherit}.route-options summary{cursor:pointer;padding:5px 0}.route-options details[open]{max-height:150px;overflow:auto}.route-options .route-map-open{width:100%;margin:5px 0}.route-map-window.navigating .route-options,.route-map-window.navigating>a{display:none}.route-map-window [hidden]{display:none!important}.route-live-status{font-weight:600}.route-recenter{font-size:13px!important}.route-map-window{position:fixed;z-index:100;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;min-height:0;overflow:hidden;background:#0b2233;color:#edf6fb;border:2px solid #3b7185;border-radius:22px;box-shadow:0 12px 45px #000b}
 .route-map-header{display:grid;grid-template-columns:minmax(76px,auto) minmax(0,1fr) minmax(76px,auto);gap:6px;align-items:center;padding:8px;border-bottom:1px solid #33556b}.route-map-header h2{min-width:0;margin:0;font-size:17px;text-align:center;overflow-wrap:anywhere}.route-map-header button.route-header-action{width:auto;min-height:42px;padding:6px 7px;border:1px solid #5597ac;border-radius:10px;background:#12354b;color:#e4ffff;font-size:12px;font-weight:700}.route-map-status{margin:8px 14px;font-size:14px}.route-map-window>a{color:var(--cyan);margin:0 14px 10px;font-size:14px}.route-map-canvas{flex:1 1 0;min-height:140px;background:#e4e7ea}.route-directions{flex:0 1 auto;max-height:32%;overflow:auto;padding:10px 14px;border-top:1px solid #33556b;overscroll-behavior:contain}.route-directions ol{padding-left:22px;margin:8px 0}.route-directions li{padding:5px 0}.route-map-window>.route-map-open{flex-shrink:0;margin:0 14px 8px;font-size:14px;text-align:center}.route-map-open{display:block;min-height:40px;margin-top:10px;padding:8px 12px;border:1px solid #59c3d2;border-radius:12px;background:#0b354d;color:#d7ffff;font:inherit;font-size:14px}
 .travel-mode-table,.travel-confirm-panel{width:100%;max-width:100%;background:linear-gradient(150deg,#102f44,#081b2a)!important;color:#e8f8ff!important;border:1px solid #3b91a4;border-radius:16px;overflow:hidden;box-shadow:0 8px 20px #0006}.travel-mode-table caption{background:#12394f!important;color:#e8f8ff!important;padding:12px;font-weight:700}.travel-mode-table td,.travel-mode-table tr{background:transparent!important;color:#e8f8ff!important;border-color:#315c70!important}.travel-mode-table button{background:#123a50!important;color:#e8f8ff!important;border:1px solid #438ba0!important}.route-map-window.navigating{border-radius:0!important;border:0!important}.route-map-window.navigating .route-directions{max-height:23%}.route-map-window.navigating .route-map-canvas{min-height:60%}body.pocket-navigation-fullscreen .bottom-nav{display:none!important}.bottom-nav{z-index:120}.route-map-window.navigating .route-map-status{margin:4px 12px;font-size:13px}.route-map-window.navigating>.route-map-open{min-height:38px;margin:0 12px 4px;padding:5px}.route-map-window.navigating .route-directions{max-height:17%;font-size:13px}.route-map-window.navigating .route-map-canvas{flex:1 1 auto}
 
@@ -1467,6 +1486,7 @@ body.long-choice-active{overflow:hidden}
 }
 @media(max-height:600px){.pocket-select-modal,.pocket-select-modal .pocket-unified-window{max-height:85dvh}}
 
+${PRACTICAL_WORKSHOP_STYLE}
 ${ACCOUNT_STYLE}
 </style>
 <style id="reminders-workspace-style">
@@ -4125,7 +4145,7 @@ function switchConversationModule(key){
  $('moduleTitle').textContent=UI_TEXT[state.language]?.moduleTitle?.[key]||m.title;
  $('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';
  $('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');
- state.moduleSearchGeneration++;state.moduleSearchBusy=false;
+ state.mixedSearchAbort?.abort();state.mixedSearchAbort=null;state.moduleSearchGeneration++;state.moduleSearchBusy=false;
  showView('module');
  renderModuleLandingChoices();
 }
@@ -8104,6 +8124,11 @@ function pocketBackInsideModule(){
  return false;
 }
 window.pocketAndroidBack=function(){
+ if(avatarOverlay.classList.contains('visible')&&!pocketExitOpen){pocketInterruptAvatar();return}
+ const creatorLayer=[...document.querySelectorAll('.creator-business-overlay,.extra-creator-style-overlay,.extra-creator-overlay')].at(-1);if(creatorLayer){creatorLayer.remove();return}
+ const funPopup=[...document.querySelectorAll('.extra-fun-modal')].at(-1);if(funPopup?.pocketDismiss){funPopup.pocketDismiss();return}
+ const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
+ if(topLayer?.matches?.('.comm-media-viewer,.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog')){topLayer.close();return}
  // The paged Mathematics/Theory reader is layered above the theory catalogue.
  // Close its TOP layer before touching the underlying dialogue or app navigation.
  // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.
@@ -8429,26 +8454,28 @@ function scienceYearGroups(){
 }
 
 function sciencePhysicsLawText(law,subject='physics'){
+ const label=law.sourceLanguage?(ro,en)=>law.sourceLanguage==='ro'?ro:en:learningLabel;
  return [
-  '# '+learningLabel(law.ro,law.en),
-  subject==='chemistry'?learningLabel('Referință generală de chimie; nu este programă națională certificată.','General Chemistry reference; not a certified national curriculum.'):
-  subject==='astronomy'?learningLabel('Referință generală de astronomie și astrofizică; nu este programă națională certificată.','General Astronomy and Astrophysics reference; not a certified national curriculum.'):
-   learningLabel('Referință generală de fizică; nu este programă națională certificată.','General Physics reference; not a certified national curriculum.'),
-  '# '+learningLabel('Enunț și explicație','Statement and explanation'),
-  learningLabel(law.explainRo,law.explainEn),
-  '# '+learningLabel('Legea sau relația matematică','Mathematical relation'),
+  '# '+label(law.ro,law.en),
+  subject==='chemistry'?label('Referință generală de chimie; nu este programă națională certificată.','General Chemistry reference; not a certified national curriculum.'):
+  subject==='astronomy'?label('Referință generală de astronomie și astrofizică; nu este programă națională certificată.','General Astronomy and Astrophysics reference; not a certified national curriculum.'):
+   label('Referință generală de fizică; nu este programă națională certificată.','General Physics reference; not a certified national curriculum.'),
+  '# '+label('Enunț și explicație','Statement and explanation'),
+  label(law.explainRo,law.explainEn),
+  '# '+label('Legea sau relația matematică','Mathematical relation'),
   law.formula,
-  '# '+learningLabel('Exemplu explicat','Explained example'),
-  learningLabel(law.exampleRo,law.exampleEn),
-  '# '+learningLabel('Condiții și limite de aplicare','Conditions and limitations'),
-  learningLabel(law.scopeRo,law.scopeEn),
-  '# '+learningLabel('Verifică înțelegerea','Check your understanding'),
-  learningLabel('Explică de ce formula este aplicabilă în exemplu și ce condiție i-ar limita folosirea.','Explain why the relation applies in the example and which assumption could invalidate it.')
+  '# '+label('Exemplu explicat','Explained example'),
+  label(law.exampleRo,law.exampleEn),
+  '# '+label('Condiții și limite de aplicare','Conditions and limitations'),
+  label(law.scopeRo,law.scopeEn),
+  '# '+label('Verifică înțelegerea','Check your understanding'),
+  label('Explică de ce formula este aplicabilă în exemplu și ce condiție i-ar limita folosirea.','Explain why the relation applies in the example and which assumption could invalidate it.')
  ].join(String.fromCharCode(10)+String.fromCharCode(10));
 }
 
-function scienceLocalizeContainer(container){
- if(!container||typeof state==='undefined'||!state||state.language==='ro'||state.language==='en')return;
+function scienceLocalizeContainer(container,sourceLanguage=''){
+ if(!container||typeof state==='undefined'||!state||
+  (sourceLanguage?state.language===sourceLanguage:(state.language==='ro'||state.language==='en')))return;
  if(typeof qaFixedLocale==='string'&&qaFixedLocale)return;
  if(typeof eduTranslateMaterial!=='function')return;
  const lang=state.language,targets=[],rawList=[];
@@ -8483,11 +8510,11 @@ function scienceLocalizeContainer(container){
   notice.setAttribute('data-edu-no-translate','true');
   const text=document.createElement('span');text.textContent=learningLabel('Traducerea nu este disponibilă. Este afișat textul original.','Translation is unavailable. The original text is shown.');
   const retry=document.createElement('button');retry.type='button';retry.className='secondary-btn';retry.textContent=learningLabel('Încearcă din nou','Try again');
-  retry.onclick=()=>{notice.remove();scienceLocalizeContainer(container)};
+  retry.onclick=()=>{notice.remove();scienceLocalizeContainer(container,sourceLanguage)};
   notice.append(text,retry);container.prepend(notice);
  };
- eduTranslateMaterial({lines:rawList},'science:container','mixed',{targetLanguage:lang}).then(translated=>{
-  if(state.language!==lang)return;
+ eduTranslateMaterial({lines:rawList},'science:container',sourceLanguage||'mixed',{targetLanguage:lang}).then(translated=>{
+  if(state.language!==lang||!container.isConnected)return;
   if(!Array.isArray(translated?.lines)){showTranslationError();return;}
   container.querySelector('.science-translation-notice')?.remove();
   const map=new Map();
@@ -8547,9 +8574,21 @@ function scienceStartSubject(subject){
  const load=async()=>{
   notice.textContent=learningLabel('Se încarcă materialele pentru materia aleasă…','Loading the selected subject materials…');
   try{
-   const pack=await scienceLoadSharedPack(subject);
+   const [pack,study]=await Promise.all([scienceLoadSharedPack(subject),
+    subject==='astronomy'?Promise.resolve(null):educationLoadStudyPack(subject)]);
    if(!active())return;
+   if(study){
+    SCIENCE_RO_LESSON_EXTRAS[subject]=study.banks.roLower.content;
+    if(subject==='physics'){
+     for(const key of Object.keys(PHYSICS_LOWER_ENGLISH_LESSONS))delete PHYSICS_LOWER_ENGLISH_LESSONS[key];
+     Object.assign(PHYSICS_LOWER_ENGLISH_LESSONS,study.banks.englishLower.content);
+    }
+    if(subject==='biology')BIOLOGY_UPPER_YEAR_BANK.splice(0,BIOLOGY_UPPER_YEAR_BANK.length,...study.banks.upper.content);
+   }
    SCIENCE_LOWER_TOPIC_LESSONS[subject]=pack.topics;
+   const references=subject==='physics'?PHYSICS_LAWS_DATA:subject==='chemistry'?CHEMISTRY_LAWS_DATA:subject==='biology'?BIOLOGY_REFERENCE:ASTRONOMY_LAWS_DATA;
+   references.splice(0,references.length,...pack.references);
+   if(subject==='chemistry')CHEMISTRY_UNIVERSITY_CORE.splice(0,CHEMISTRY_UNIVERSITY_CORE.length,...pack.universityCore);
    scienceJourneyShowChoices('years');
   }catch{
    if(!active())return;
@@ -8713,7 +8752,7 @@ function scienceJourneyShowChoices(stage){
     const name=document.createElement('strong');name.textContent=learningLabel(law.ro,law.en);
     const relation=document.createElement('small');relation.textContent=law.formula;
     button.append(name,relation);
-    button.onclick=()=>educationOpenPagedLesson(learningLabel(law.ro,law.en),biologyReference?biologyReferenceText(law,state.language):sciencePhysicsLawText(law,chemistryLaws?'chemistry':astronomyLaws?'astronomy':'physics'));
+    button.onclick=()=>educationOpenPagedLesson(law.ro,biologyReference?biologyReferenceText(law,law.sourceLanguage):sciencePhysicsLawText(law,chemistryLaws?'chemistry':astronomyLaws?'astronomy':'physics'),{sourceLanguage:law.sourceLanguage});
     rows.append(button);entries.push({law,button,section});
    }
    section.append(heading,rows);list.append(section);
@@ -8722,7 +8761,7 @@ function scienceJourneyShowChoices(stage){
    const q=educationTheoryClean(filter.value);
    for(const item of entries){
     const law=item.law;
-    const value=educationTheoryClean(law.ro+' '+law.en+' '+law.formula);
+    const value=educationTheoryClean((item.button.textContent||'')+' '+law.ro+' '+(law.en||'')+' '+law.formula);
     item.button.hidden=Boolean(q&&!value.includes(q));
    }
    for(const group of lawGroups){
@@ -8731,7 +8770,7 @@ function scienceJourneyShowChoices(stage){
    }
   };
   panel.append(title,note,filter,list);host.append(panel);
-  scienceLocalizeContainer(panel);
+  scienceLocalizeContainer(panel,'ro');
   requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
   return;
  }
@@ -8914,6 +8953,7 @@ function scienceJourneyShowChoices(stage){
  if(packBanner)panel.append(title,note,packBanner,list);
  else panel.append(title,note,list);
  host.append(panel);
+ if(stage==='topics'&&typeof scienceReviewSupplements==='function')scienceReviewSupplements(panel);
  scienceLocalizeContainer(panel);
  requestAnimationFrame(()=>{document.querySelector('main.page')?.scrollTo(0,0);scienceFitViewport()});
 }
@@ -8951,11 +8991,16 @@ const MATH_TILE_ICONS={
  analysis:'∫',differential:'∂',discrete:'🧩'
 };
 const MATH_STAGE_ICONS={primary:'🎒',lower:'📚',intermediate:'🎓',advanced:'🏛️'};
+const educationValidateStudyPack=${educationValidateStudyPack.toString()};
+const educationLoadStudyPack=${educationLoadStudyPack.toString()};
+const foreignResourceKey=${foreignResourceKey.toString()};
+const foreignValidateResource=${foreignValidateResource.toString()};
+const foreignLoadResource=${foreignLoadResource.toString()};
 const MATH_DEPTH_STAGES=${JSON.stringify(MATH_DEPTH_STAGES)};
 const MATH_DEPTH_EN_LOWER=${JSON.stringify(MATH_DEPTH_EN_LOWER)};
 const MATH_DEPTH_EN_UNIVERSITY=${JSON.stringify(MATH_DEPTH_EN_UNIVERSITY)};
-const RO5_MATH_LESSONS=${JSON.stringify(RO5_MATH_LESSONS)};
-const RO678_MATH_LESSONS=${JSON.stringify(RO678_MATH_LESSONS)};
+const RO5_MATH_LESSONS=[];
+const RO678_MATH_LESSONS=Object.create(null);
 const ENGLAND_Y6_MATH_LESSONS=${JSON.stringify(ENGLAND_Y6_MATH_LESSONS)};
 const MATH_GCSE_HIGHER_ONLY=${JSON.stringify(MATH_GCSE_HIGHER_ONLY)};
 ${mathGcseSelectTier.toString()}
@@ -9636,18 +9681,19 @@ const SCIENCE_PRIMARY_ENGLISH=${JSON.stringify(SCIENCE_PRIMARY_ENGLISH)};
 const SCIENCE_PRIMARY_DEPTH=${JSON.stringify(SCIENCE_PRIMARY_DEPTH)};
 // Supplementary notes are loaded for the selected subject, not embedded here.
 const SCIENCE_LOWER_TOPIC_LESSONS=Object.create(null);
+const scienceValidateSharedPack=${scienceValidateSharedPack.toString()};
 const scienceLoadSharedPack=${scienceLoadSharedPack.toString()};
 const scienceLowerTopicContent=${scienceLowerTopicContent.toString()};
 const SCIENCE_EXACT_REFERENCE=${JSON.stringify(SCIENCE_EXACT_REFERENCE)};
 const SCIENCE_RO_LOWER_TOPICS=${JSON.stringify(SCIENCE_RO_LOWER_TOPICS)};
 const SCIENCE_RO_PHYSICS_LABELS=${JSON.stringify(SCIENCE_RO_PHYSICS_LABELS)};
 const SCIENCE_RO_BIOLOGY_LABELS=${JSON.stringify(SCIENCE_RO_BIOLOGY_LABELS)};
-const SCIENCE_RO_LESSON_EXTRAS=${JSON.stringify(SCIENCE_RO_LESSON_EXTRAS)};
+const SCIENCE_RO_LESSON_EXTRAS=Object.create(null);
 const SCIENCE_RO_2017_SOURCE=${JSON.stringify(SCIENCE_RO_2017_SOURCE)};
 const scienceRoGradeTopics=${scienceRoGradeTopics.toString()};
 const PHYSICS_ADVISORY_OER_SOURCES=${JSON.stringify(PHYSICS_ADVISORY_OER_SOURCES)};
 const PHYSICS_EUROPE_EXTRA_LESSONS=${JSON.stringify(PHYSICS_EUROPE_EXTRA_LESSONS)};
-const PHYSICS_LOWER_ENGLISH_LESSONS=${JSON.stringify(PHYSICS_LOWER_ENGLISH_LESSONS)};
+const PHYSICS_LOWER_ENGLISH_LESSONS=Object.create(null);
 const physicsAdvisoryTopicLessons=${physicsAdvisoryTopicLessons.toString()};
 const PHYSICS_PRIMARY_STRANDS=${JSON.stringify(PHYSICS_PRIMARY_STRANDS)};
 const PHYSICS_PRIMARY_SCAFFOLDS=${JSON.stringify(PHYSICS_PRIMARY_SCAFFOLDS)};
@@ -9695,11 +9741,11 @@ const biologyYearTopicIds=${biologyYearTopicIds.toString()};
 const SCIENCE_GRADE_TOPIC_PLAN=${scienceGradeTopicPlan.toString()};
 const SCIENCE_GRADE_LESSON_FRAME=${scienceGradeLessonFrame.toString()};
 const PHYSICS_TOPIC_DATA=${JSON.stringify(PHYSICS_TOPICS)};
-const PHYSICS_LAWS_DATA=${JSON.stringify(PHYSICS_LAWS)};
+const PHYSICS_LAWS_DATA=[];
 const PHYSICS_LAW_GROUPS=${JSON.stringify(PHYSICS_LAWS_GROUPS)};
-const CHEMISTRY_LAWS_DATA=${JSON.stringify(CHEMISTRY_LAWS)};
+const CHEMISTRY_LAWS_DATA=[];
 const CHEMISTRY_LAW_GROUPS=${JSON.stringify(CHEMISTRY_LAWS_GROUPS)};
-const ASTRONOMY_LAWS_DATA=${JSON.stringify(ASTRONOMY_LAWS)};
+const ASTRONOMY_LAWS_DATA=[];
 const ASTRONOMY_LAW_GROUPS=${JSON.stringify(ASTRONOMY_LAWS_GROUPS)};
 const PHYSICS_UNIVERSITY_PROFILES=${JSON.stringify(PHYSICS_UNIVERSITY_PROFILES)};
 const PHYSICS_UNIVERSITY_EHEA_SOURCE=${JSON.stringify(PHYSICS_UNIVERSITY_EHEA_SOURCE)};
@@ -9771,9 +9817,8 @@ const CHEMISTRY_EHEA_REFERENCE=${JSON.stringify(CHEMISTRY_EHEA_REFERENCE)};
 const chemistryUniversityRoutes=${chemistryUniversityRoutes.toString()};
 const chemistryUniversityRoute=${chemistryUniversityRoute.toString()};
 const chemistryUniversityYears=${chemistryUniversityYears.toString()};
-const CHEMISTRY_UNIVERSITY_CORE=${JSON.stringify(CHEMISTRY_UNIVERSITY_CORE)};
+const CHEMISTRY_UNIVERSITY_CORE=[];
 const CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS=${JSON.stringify(CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS)};
-const CHEMISTRY_UNIVERSITY_COURSE_COUNT=${JSON.stringify(CHEMISTRY_UNIVERSITY_COURSE_COUNT)};
 const CHEMISTRY_SPECIALTY_TOPICS=CHEMISTRY_TOPIC_DATA.filter(x=>x.specialty);
 const CHEMISTRY_SPECIALTY_LESSONS=${JSON.stringify(CHEMISTRY_SPECIALTY_LESSONS)};
 const chemistryUniversityCourseChoices=${chemistryUniversityCourseChoices.toString()};
@@ -9792,10 +9837,10 @@ const BIOLOGY_LOWER_YEAR_TOPICS=${JSON.stringify(BIOLOGY_LOWER_YEAR_TOPICS)};
 const BIOLOGY_LOWER_YEAR_ROWS=${JSON.stringify(BIOLOGY_LOWER_YEAR_ROWS)};
 const biologyLowerYearLessons=${biologyLowerYearLessons.toString()};
 const BIOLOGY_UPPER_YEAR_TOPICS=${JSON.stringify(BIOLOGY_UPPER_YEAR_TOPICS)};
-const BIOLOGY_UPPER_YEAR_BANK=${JSON.stringify(BIOLOGY_UPPER_YEAR_BANK)};
+const BIOLOGY_UPPER_YEAR_BANK=[];
 const biologyUpperYearLessons=${biologyUpperYearLessons.toString()};
 const BIOLOGY_REFERENCE_GROUPS=${JSON.stringify(BIOLOGY_REFERENCE_GROUPS)};
-const BIOLOGY_REFERENCE=${JSON.stringify(BIOLOGY_REFERENCE)};
+const BIOLOGY_REFERENCE=[];
 const biologyReferenceText=${biologyReferenceText.toString()};
 const BIOLOGY_TOPIC_VISUALS=${JSON.stringify(BIOLOGY_TOPIC_VISUALS)};
 const biologyTopicVisualBuild=${biologyTopicVisualBuild.toString()};
@@ -11593,11 +11638,7 @@ async function scienceWorkspaceRun(mode){
  const selectedSubject=learningLabel(subject?.ro||'',subject?.en||'');
  const selectedChapter=learningLabel(topic?.ro||'',topic?.en||'');
  const selectedLevel=learningLabel(level?.ro||'',level?.en||'');
- const instruction=mode==='solve'?
-  learningLabel('Explică și rezolvă pas cu pas, cu verificarea formulelor, unităților și ipotezelor. Nu inventa date. În chimie, conservă atomii și sarcinile și nu inventa condiții de laborator.',
-   'Explain and solve step by step, checking formulas, units and assumptions. Do not fabricate data. In chemistry, conserve atoms and charge, and do not invent lab conditions.'):
-  learningLabel('Prezintă metoda generală, definițiile și regulile necesare, fără să inventezi măsurători.',
-   'Teach the general method, definitions and necessary rules; do not invent measured values.');
+ const instruction=educationExerciseInstruction(mode==='solve'?'solve':'method');
  const activeTracks=scienceJourney.subject==='biology'?BIOLOGY_SPECIALTY_DATA:scienceJourney.subject==='physics'?PHYSICS_SPECIALTY_DATA:scienceJourney.subject==='astronomy'?ASTRONOMY_SPECIALTY_DATA:CHEMISTRY_SPECIALTY_DATA;
  const specialty=activeTracks.find(x=>x.id===scienceJourney.specialty);
  const specialtyContext=specialty?learningLabel('; Specializare: ','; Specialization: ')+learningLabel(specialty.ro,specialty.en):'';
@@ -11655,7 +11696,7 @@ async function scienceWorkspaceRun(mode){
  const currentStage=scienceJourney.stage,subjectId=scienceJourney.subject,topicId=scienceJourney.topic,specialtyId=scienceJourney.specialty;
  const controller=new AbortController();scienceRequestController=controller;
  scienceStatus(learningLabel('Se pregătește explicația…','Preparing explanation…'));
- scienceShowResult(mode==='solve'?learningLabel('Chimie · Rezolvare','Chemistry · Solution'):learningLabel('Chimie · Metodă','Chemistry · Method'),learningLabel('Se pregătește răspunsul. Exercițiul rămâne salvat.','Preparing answer. Your exercise is preserved.'));
+ scienceShowResult((mode==='solve'?learningLabel('Rezolvare · ','Solution · '):learningLabel('Metodă · ','Method · '))+selectedSubject,learningLabel('Se pregătește răspunsul. Exercițiul rămâne salvat.','Preparing answer. Your exercise is preserved.'));
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{
    method:'POST',headers:{'Content-Type':'application/json'},
@@ -11668,7 +11709,7 @@ async function scienceWorkspaceRun(mode){
   if(controller.signal.aborted||scienceJourney.stage!==currentStage||
      scienceJourney.subject!==subjectId||scienceJourney.topic!==topicId||scienceJourney.specialty!==specialtyId)return;
   if(eduScopeReplyRouted(data.reply,source,()=>scienceWorkspaceRun(mode))){scienceStatus('');return}
-  scienceLastReply=data.reply.trim().slice(0,12000);
+  scienceLastReply=data.reply.trim().slice(0,24000);
   scienceStatus(learningLabel('Explicație disponibilă.','Explanation available.'));
   scienceShowResult(
    mode==='solve'?learningLabel('Rezolvare · ','Solution · ')+selectedSubject:
@@ -11778,7 +11819,7 @@ function scienceLessonReviewSpec(){
  if(!['physics','chemistry','biology','astronomy'].includes(subject)||!topic)return null;
  if(stage==='lower'){
   const note=scienceLowerTopicContent(subject,topic,lang);
-  return note?{subject,topic,stage,lang,prompt:note.exercise,guide:note.answer}:null;
+  return note?{subject,topic,stage,lang,sourceLanguage:note.sourceLanguage,prompt:note.exercise,guide:note.answer}:null;
  }
  if(stage==='primary')return {subject,topic,stage,lang,
   prompt:ro?'Scrie două observații din activitatea lecției și arată ce dovezi ai.':
@@ -11820,7 +11861,7 @@ function scienceAttachLessonReview(dialog){
   question.textContent=sl('Exercițiu: ','Exercise: ')+exPrompt;
   if(typeof state!=='undefined'&&state.language&&state.language!=='ro'&&typeof eduTranslateMaterial==='function'){
    const reqLang=state.language,reqIdx=currentIndex;
-   eduTranslateMaterial({prompt:exPrompt},'sci-ex:'+spec.subject+':'+spec.topic+':'+reqIdx,'mixed').then(res=>{
+   eduTranslateMaterial({prompt:exPrompt},'sci-ex:'+spec.subject+':'+spec.topic+':'+reqIdx,spec.sourceLanguage||'mixed').then(res=>{
     if(res?.prompt&&dialog.isConnected&&state.language===reqLang&&currentIndex===reqIdx){
      question.textContent=sl('Exercițiu: ','Exercise: ')+res.prompt;
     }
@@ -11873,7 +11914,7 @@ function scienceAttachLessonReview(dialog){
   const message=(ro?
    'Evaluează un răspuns școlar. Începe cu verdictul Corect / Parțial corect / Incorect / Nedeterminabil, apoi explică exact ce este bine, ce este greșit și cum se corectează. Nu inventa date și nu acorda un calificativ nesusținut.':
    'Assess a student answer. Start with Correct / Partly correct / Incorrect / Indeterminate and explain the specific merits, errors and improvements. Do not invent facts or award an unsupported grade.')+
-   ' '+(ro?'Țara: ':'Country: ')+educationCountrySelection.label+
+   ' '+educationExerciseInstruction('correction')+' '+(ro?'Țara: ':'Country: ')+educationCountrySelection.label+
    ', '+(ro?'clasa: ':'grade: ')+scienceJourney.grade+', '+
    (ro?'materia: ':'subject: ')+spec.subject+', '+(ro?'capitol: ':'topic: ')+spec.topic+'. '+
    (ro?'Exercițiu: ':'Question: ')+selectedExercise.prompt+'. '+
@@ -11888,7 +11929,7 @@ function scienceAttachLessonReview(dialog){
    const data=await response.json();
    if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())
     throw Error('unavailable');
-   if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,4800);
+   if(dialog.isConnected)status.textContent=(ro?'Evaluare AI orientativă: ':'Advisory AI assessment: ')+data.reply.trim().slice(0,18000);
   }catch(error){
    if(!inflight.signal.aborted&&dialog.isConnected)status.textContent=ro?
     'Verificarea nu este disponibilă. Nu pot stabili dacă răspunsul este corect. Reper: '+selectedExercise.guide:
@@ -12342,7 +12383,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   const button=document.createElement('button');button.type='button';
   button.className='secondary-btn science-inline-theory-item';
   button.textContent=learningLabel('Deschide teoria, formulele, aplicațiile și exercițiile','Open theory, formulas, applications and exercises');
-  button.onclick=()=>educationOpenPagedLesson(name,body);
+  button.onclick=()=>educationOpenPagedLesson(name,body,{sourceLanguage:chapter?.sourceLanguage});
   section.append(button);return section;
  }
  if(subjectId==='chemistry'&&typeof chemistrySchoolCourseDocuments==='function'&&['lower','upper'].includes(scienceJourney.schoolStage)){
@@ -12429,7 +12470,7 @@ function educationScienceTheoryReader(subjectId,topicId,level){
   head.textContent=learningLabel('📚 Curs universitar integral','📚 Full university course');
   const button=document.createElement('button');button.type='button';button.className='secondary-btn science-inline-theory-item';
   button.textContent=learningLabel('Teorie, formule, exemple, exercițiu și investigație','Theory, formulas, examples, exercise and investigation');
-  button.onclick=()=>educationOpenPagedLesson(name,body);
+  button.onclick=()=>educationOpenPagedLesson(name,body,{sourceLanguage:chapter?.sourceLanguage});
   section.append(button);return section;
  }
  // University courses have a chapter-specific, extended study document
@@ -12771,7 +12812,7 @@ function scienceOpenChemistrySection(stage){
     });
     if(material)tile('🔬','Investigația universitară','University investigation',
      'Model, observații, siguranță și verificare','Model, evidence, safety and validation',
-     ()=>educationOpenPagedLesson(chapter,material));
+     ()=>educationOpenPagedLesson(chapter,material,{sourceLanguage:topic?.sourceLanguage}));
    }else{
     const docs=chemistrySchoolCourseDocuments({
      topic:topicKey,country:educationCountrySelection.code,grade:scienceJourney.grade,
@@ -14034,12 +14075,16 @@ const EXAM_SUBJECTS_DATA=${JSON.stringify(EXAM_SUBJECTS)};
 const EXAM_SESSION_YEARS_DATA=${JSON.stringify(EXAM_SESSION_YEARS)};
 const EXAM_PRACTICE_DATA=${JSON.stringify(EXAM_LOCAL_BANK)};
 const EXAM_THEORY_DATA=Object.fromEntries(['math','physics','chemistry','biology','astronomy'].map(id=>[id,(typeof EDUCATION_THEORY_DATA!=='undefined'?EDUCATION_THEORY_DATA:[]).filter(e=>e.subject===id).slice(0,40)]));
-const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSES)};
+const practicalValidatePack=${practicalValidatePack.toString()};
+const practicalLoadPack=${practicalLoadPack.toString()};
+const practicalCheckpointCorrect=${practicalCheckpointCorrect.toString()};
+const practicalCanSelfReview=${practicalCanSelfReview.toString()};
+const PRACTICAL_COURSES_DATA=${JSON.stringify(PRACTICAL_COURSE_CATALOG)};
 const PRACTICAL_COUNTRIES_DATA=${JSON.stringify(PRACTICAL_COUNTRIES)};
 const PRACTICAL_REFERENCES_DATA=${JSON.stringify(PRACTICAL_REFERENCES)};
-const PRACTICAL_GUIDES_DATA=${JSON.stringify(PRACTICAL_GUIDES)};
-const PRACTICAL_SYLLABI_DATA=${JSON.stringify(PRACTICAL_SYLLABI)};
-const PRACTICAL_DEPTH_DATA=${JSON.stringify({...PRACTICAL_DEPTH,...PRACTICAL_DEPTH_EXTRA})};
+const PRACTICAL_GUIDES_DATA={};
+const PRACTICAL_SYLLABI_DATA=[];
+const PRACTICAL_DEPTH_DATA={};
 const PRACTICAL_LEVELS_DATA=${JSON.stringify(PRACTICAL_LEVELS)};
 const COMPUTING_LEVELS_DATA=${JSON.stringify(COMPUTING_LEVELS)};
 const COMPUTING_PATHS_DATA=${JSON.stringify(COMPUTING_PATHS)};
@@ -14249,8 +14294,8 @@ function languageWords(){
  return FOREIGN_PHRASE_DATA[languageJourney.language]||[];
 }
 function foreignStudyButton(label,fn,cls='secondary-btn'){const b=document.createElement('button');b.type='button';b.className=cls;b.textContent=label;b.onclick=fn;return b}
-function languageStatus(msg){const el=$('languageStatus');if(el)el.textContent=msg}
-function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});languageJourney.voice=false}
+function languageStatus(msg){const el=document.querySelector('.foreign-practice-dialog [role=status]')||document.querySelector('.foreign-resource-dialog [role=status]')||$('languageStatus');if(el)el.textContent=msg}
+function languageVoiceStop(){if(languageJourney.voice&&pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stopListen'});if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});if(typeof window!=='undefined')window.speechSynthesis?.cancel();languageJourney.voice=false}
 function languageBack(){
  languageVoiceStop();
  const previous={placement:'levels',variants:'languages',levels:['la','el','zh','en'].includes(languageJourney.language)?'variants':'languages',topics:'levels',lesson:'topics'};
@@ -14270,14 +14315,15 @@ function languageSpeak(text){
  ):learningLabel('Se redă pronunția…','Playing pronunciation…');
  languageStatus(note);
  if(pocketNativeVoiceAvailable()){
-  if(!pocketNativeVoiceSend({action:'speak',language:locale,text:String(text),rate:languageJourney.slow?0.7:0.88}))
+  if(!pocketNativeVoiceSend({action:'speak',language:locale,text:String(text),rate:languageJourney.slow?0.4:0.8}))
    languageStatus(learningLabel('Voce indisponibilă. Verifică motorul TTS Android.','Voice unavailable. Check Android TTS settings.'));
   return;
  }
  if(!window.speechSynthesis||!window.SpeechSynthesisUtterance){
   languageStatus(learningLabel('Voce indisponibilă.','Voice unavailable.'));return;
  }
- const v=new SpeechSynthesisUtterance(String(text));v.lang=locale;v.rate=languageJourney.slow?0.7:0.88;
+ const v=new SpeechSynthesisUtterance(String(text));v.lang=locale;v.rate=languageJourney.slow?0.4:0.8;
+ const voices=window.speechSynthesis.getVoices?.()||[];const voice=voices.find(x=>x.lang.toLowerCase()===locale.toLowerCase())||voices.find(x=>x.lang.split('-')[0]===locale.split('-')[0]);if(voice)v.voice=voice;
  v.onerror=()=>languageStatus(learningLabel('Motorul vocal nu poate reda acest text.','The voice engine cannot play this text.'));
  window.speechSynthesis.cancel();window.speechSynthesis.speak(v);
 }
@@ -14464,22 +14510,24 @@ function languageTutorPrompt(mode,request,history){
  '\\nIstoric de învățare:\\n'+previous+'\\nSolicitarea utilizatorului: '+turn;
 }
 function languageConversationStart(mode){
+ document.querySelectorAll('dialog.language-tutor-dialog[open]').forEach(d=>d.close());
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog science-result-dialog language-tutor-dialog';
  const heading=document.createElement('div');heading.className='education-theory-head';
  const h=document.createElement('h2');h.textContent=learningLabel('Profesor AI · ','AI tutor · ')+mode;
  heading.append(h,foreignStudyButton(learningLabel('← Revenire','← Back'),()=>dialog.close()));dialog.append(heading);
- const transcript=document.createElement('div');transcript.className='science-result-text';transcript.style.maxHeight='50dvh';transcript.style.overflowY='auto';dialog.append(transcript);
- const entry=document.createElement('textarea');entry.rows=3;entry.id='languageTutorInput';entry.placeholder=learningLabel('Scrie răspunsul sau întrebarea…','Type your answer or question…');dialog.append(entry);
- const notice=document.createElement('p');notice.setAttribute('role','status');dialog.append(notice);
- const history=[];
+ const body=document.createElement('div');body.className='language-tutor-body';dialog.append(body);
+ const transcript=document.createElement('div');transcript.className='science-result-text';body.append(transcript);
+ const entry=document.createElement('textarea');entry.rows=3;entry.id='languageTutorInput';entry.placeholder=learningLabel('Scrie răspunsul sau întrebarea…','Type your answer or question…');entry.setAttribute('aria-label',entry.placeholder);body.append(entry);
+ const notice=document.createElement('p');notice.setAttribute('role','status');body.append(notice);
+ const history=[];let busy=false,controller=null;
  const send=async()=>{
-  const spoken=entry.value.trim();if(languageJourney.busy)return;
+  const spoken=entry.value.trim();if(busy)return;
   if(spoken&&eduScopeBeforeAI(spoken,()=>send(),()=>dialog.close()))return;
-  languageJourney.busy=true;entry.value='';notice.textContent=learningLabel('Profesorul răspunde…','Tutor is replying…');
+  busy=true;submit.disabled=true;entry.value='';notice.textContent=learningLabel('Profesorul răspunde…','Tutor is replying…');
   const prompt=languageTutorPrompt(mode,spoken||'Începe lecția cu prima întrebare.',history);
   if(spoken){const user=document.createElement('p');user.textContent=learningLabel('Eu: ','Me: ')+spoken;transcript.append(user)}
   try{
-   const controller=new AbortController();dialog.addEventListener('close',()=>controller.abort(),{once:true});
+   controller=new AbortController();
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:eduScopePrompt(prompt),language:state.language,module:'assistant',history:[]}),signal:controller.signal});
    const data=await response.json();if(!response.ok||data.status!=='success'||!data.reply)throw Error('no response');
    if(!dialog.isConnected)return;
@@ -14490,12 +14538,15 @@ function languageConversationStart(mode){
    notice.textContent=learningLabel('Răspuns generat de AI; verifică explicațiile importante.','AI-generated response; verify important details.');
    transcript.scrollTop=transcript.scrollHeight;
   }catch{if(dialog.isConnected)notice.textContent=learningLabel('Răspuns indisponibil. Nu am înregistrat această încercare drept evaluare.','Answer unavailable. No assessment was recorded.')}
-  finally{languageJourney.busy=false}
+  finally{busy=false;if(dialog.isConnected)submit.disabled=false}
  };
- dialog.append(foreignStudyButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
-  foreignStudyButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn'),
+ const actions=document.createElement('div');actions.className='language-tutor-actions';
+ const submit=foreignStudyButton(learningLabel('Trimite / Continuă','Send / Continue'),send,'primary-btn');
+ actions.append(foreignStudyButton(learningLabel('🎙 Răspunde vocal','🎙 Speak answer'),languageDictate),
+  submit,
   foreignStudyButton(learningLabel('🔊 Citește ultimul răspuns','🔊 Read last reply'),()=>{const last=history.filter(x=>x.role==='tutor').at(-1);if(last)languageSpeak(last.text)}));
- dialog.addEventListener('close',()=>{languageVoiceStop();dialog.remove()});
+ body.append(actions);
+ dialog.addEventListener('close',()=>{controller?.abort();languageVoiceStop();dialog.remove()});
  document.body.append(dialog);try{dialog.showModal()}catch{dialog.setAttribute('open','')};
  send();
 }
@@ -14550,6 +14601,8 @@ function languageOpen(stage){
   });
   if(stage==='topics'){
    const shortcuts=document.createElement('div');shortcuts.className='foreign-topic-shortcuts';
+   shortcuts.append(foreignStudyButton(learningLabel('✨ Alege situația · creează exerciții cu AI','✨ Choose a situation · create AI practice'),()=>foreignPracticeOpen('conversation'),'primary-btn foreign-practice-open'));
+   shortcuts.append(foreignStudyButton(learningLabel('📚 Dicționar · conjugări · ghid · audio','📚 Dictionary · conjugations · guide · audio'),()=>languageResourcesOpen(),'primary-btn foreign-resources-open'));
    const saved=languageLastLesson();
    if(saved&&saved.language===languageJourney.language&&(saved.variant||null)===(languageJourney.variant||null)&&saved.level===languageJourney.level){
     const lastTopic=FOREIGN_TOPIC_DATA.find(x=>x.id===saved.topic);
@@ -14607,6 +14660,7 @@ function languageOpen(stage){
     foreignStudyButton(learningLabel('Următorul →','Next →'),()=>languageSetCard(languageJourney.cardIndex+1),'secondary-btn foreign-card-next'));
    panel.append(nav);
   }
+  panel.append(foreignStudyButton(learningLabel('📚 Dicționar · conjugări · ghid · audio','📚 Dictionary · conjugations · guide · audio'),()=>languageResourcesOpen(languageJourney.topic==='grammar'?'grammar':languageJourney.topic==='listening'?'audio':languageJourney.topic==='conversation'?'guide':'dictionary'),'secondary-btn foreign-resources-open'));
   const more=document.createElement('details');more.className='foreign-more-activities';
   const summary=document.createElement('summary');summary.textContent=learningLabel('Alte activități · ascultare, evaluare, recapitulare','More activities · listening, assessment, review');more.append(summary);
   const modes=document.createElement('div');modes.className='foreign-more-buttons';
@@ -16049,12 +16103,17 @@ function litWorkspace(panel){
 
 
 ${LITERATURE_TASK_UI_SCRIPT}
+${EDUCATION_EXERCISE_TUTOR_SCRIPT}
+${FOREIGN_LANGUAGE_RESOURCES_SCRIPT}
+${EDUCATION_INPUT_TOOLS_SCRIPT}
 ${EDUCATION_NATIONAL_SUBJECT_PACKS_SCRIPT}
 ${MATH_NATIONAL_PACKS_SCRIPT}
 ${SCIENCE_NATIONAL_PACKS_SCRIPT}
+${SCIENCE_REVIEW_SUPPLEMENTS_SCRIPT}
 ${COMPUTING_NATIONAL_PACKS_SCRIPT}
 ${COMPUTING_UI_SCRIPT}
 ${EXAM_UI_SCRIPT}
+${PRACTICAL_WORKSHOP_SCRIPT}
 ${PRACTICAL_UI_SCRIPT}
 ${EDUCATION_SELECTS_UI_SCRIPT}
 ${EDUCATION_COUNTRY_UI_SCRIPT}
@@ -16235,8 +16294,14 @@ function mathStartCountrySupplement(country){
  const load=async()=>{
   notice.textContent=learningLabel('Se încarcă materialele de matematică pentru țara aleasă…','Loading the selected country maths materials…');
   try{
-   const result=await mathLoadCountrySupplement(country);
+   const [result,study]=await Promise.all([mathLoadCountrySupplement(country),
+    country==='RO'?educationLoadStudyPack('math'):Promise.resolve(null)]);
    if(!active())return;
+   if(study){
+    RO5_MATH_LESSONS.splice(0,RO5_MATH_LESSONS.length,...study.banks.ro5.content);
+    for(const key of Object.keys(RO678_MATH_LESSONS))delete RO678_MATH_LESSONS[key];
+    Object.assign(RO678_MATH_LESSONS,study.banks.ro678.content);
+   }
    for(const [bank,data] of [[MATH_BULK_FIRST_LESSONS,result.banks.bulk],[MATH_SECOND_BATCH_FIRST_LESSONS,result.banks.second],[MATH_FINAL_FIRST_LESSONS,result.banks.final]]){
     for(const key of Object.keys(bank))if(key.startsWith(country+'|'))delete bank[key];
     Object.assign(bank,data);
@@ -16615,11 +16680,15 @@ function educationMathOcrIncomplete(value){
 let mathResultSession=null;
 function mathSplitExercises(source){
  const lines=String(source||'').replace(/\\r/g,'').split('\\n').map(v=>v.trim()).filter(Boolean);
- const tasks=[];let current=[];
+ const tasks=[];let current=[],braceDepth=0;
+ const braces=line=>{for(const c of line){if(c==='{')braceDepth++;else if(c==='}')braceDepth=Math.max(0,braceDepth-1)}};
  const flush=()=>{if(current.length){tasks.push(current.join('\\n').trim());current=[]}};
  const isFormula=value=>/[\\d√]/u.test(value)&&/[=+\\-−×÷*/^√]/u.test(value)&&
   !/[.!?]$/.test(value)&&!/[\\wăâîșț]{4,}\\s+[\\wăâîșț]{4,}/iu.test(value);
  for(const line of lines){
+  // A system/piecewise definition is ONE task, including numbered branches.
+  if(braceDepth>0){current.push(line);braces(line);continue;}
+  braces(line);
   // A section heading is metadata; it must never be treated as an exercise.
   if(/^(?:(?:exerci[țt]iul?|exercises?|ex\\.?|probleme|problems?)\\s*\\d{0,3}\\s*[:.)—–-]?\\s*(?:efectua[țt]i|calcula[țt]i|reduce[țt]i|rezolva[țt]i)?\\s*:?|exerci[țt]ii|exercises?)$/iu.test(line)){
    flush();continue;
@@ -16639,6 +16708,7 @@ function mathSplitExercises(source){
  return tasks.filter(Boolean).slice(0,50);
 }
 function mathGraphModel(task){
+ if(/[{}]/.test(String(task||'')))return null; // Never graph only one branch.
  const match=String(task||'').match(/(?:f\\s*\\(\\s*x\\s*\\)|y)\\s*=\\s*([^\\n\\r;]+)/i);
  if(!match)return null;
  const expression=match[1].trim().replace(/[−–]/g,'-').replace(/²/g,'^2').replace(/,/g,'.').replace(/\\s+/g,'').replace(/·/g,'*');
@@ -17050,23 +17120,17 @@ function mathPrimaryArithmeticLesson(source,grade){
  };
 }
 // General teaching is separate from working through the user's specific numbers.
-function mathMethodGuide(source){
- const example=mathDetailedArithmetic(source);
- if(!example)return null;
- const input=String(source||'').replace(/[−–]/g,'-').replace(/[×·]/g,'*').replaceAll('÷','/');
- const rules=[];
- const add=(title,text)=>rules.push({title,text});
- add(learningLabel('Recunoaștem exercițiul','Identify the problem'),
-  input.includes('=')?learningLabel('Este o egalitate: scopul este să verificăm dacă cele două membre au aceeași valoare. Semnul egal nu garantează că afirmația este adevărată.','It is an equality: check whether both sides are equal. The equals sign alone does not guarantee that it is true.'):learningLabel('Este o expresie numerică: vrem să îi calculăm valoarea, respectând ordinea operațiilor.','It is a numerical expression: calculate its value using the order of operations.'));
- add(learningLabel('Ordinea operațiilor','Order of operations'),learningLabel('Mai întâi parantezele, apoi înmulțirile și împărțirile de la stânga la dreapta, la final adunările și scăderile de la stânga la dreapta.','Parentheses first, then multiplication and division left to right, finally addition and subtraction left to right.'));
- if(input.includes('('))add(learningLabel('Parantezele','Parentheses'),learningLabel('Calculează întâi în interior, înlocuiește paranteza cu rezultatul ei și păstrează termenii din afară.','Calculate inside first, replace the parentheses with their value and preserve the outside terms.'));
- if(example.steps.some(step=>step.signRule))add(learningLabel('Regula semnelor','Sign rules'),learningLabel('La înmulțire sau împărțire, semnele diferite dau rezultat negativ; semnele identice dau pozitiv. De exemplu: 2 × (−3) = −6 și (−2) × (−3) = 6.','For multiplication or division, different signs give a negative result, the same signs a positive result. For example: 2 × (−3) = −6 and (−2) × (−3) = 6.'));
- if(input.includes('*')||input.includes('/'))add(learningLabel('Înmulțirea și împărțirea','Multiplication and division'),learningLabel('După paranteze, acestea au prioritate. Calculează-le de la stânga la dreapta, fără să elimini termenii rămași.','After parentheses, these have priority. Work left to right, keeping every remaining term.'));
- if(input.includes('+')||input.includes('-'))add(learningLabel('Adunarea și scăderea','Addition and subtraction'),learningLabel('Le efectuezi la final, de la stânga la dreapta, rescriind întreaga expresie.','Perform these last, left to right, rewriting the complete expression.'));
- if(input.includes('='))add(learningLabel('Verificarea','Verification'),learningLabel('Calculează separat fiecare membru. Dacă rezultatele sunt egale, egalitatea este adevărată; altfel este falsă.','Calculate each side separately. Matching values mean a true equality; otherwise it is false.'));
- return {heading:learningLabel('Cum abordăm exercițiile de acest tip','How to approach this type of problem'),
- intro:learningLabel('Învățăm regula generală, nu refacem aceeași rezolvare. Pentru calculul concret, alege „Rezolvă pas cu pas”.','Learn the general method instead of repeating the calculation. For the specific answer, use “Solve step by step”.'),
- rules,tip:learningLabel('Reține: la fiecare operație păstrează toate celelalte părți ale expresiei.','Remember: retain every other part of the expression when performing an operation.')};
+function mathAppliedMethod(lesson){
+ if(!lesson?.steps?.length)return null;
+ return {heading:learningLabel('Cum abordăm acest exercițiu','How to approach this exercise'),
+  intro:learningLabel('Alegem metoda și o aplicăm pe datele din enunț. Fiecare pas arată ce facem, de ce și ce obținem. ',
+   'Choose the method and apply it to the supplied data. Each step shows what we do, why, and what we obtain. ')+(lesson.intro||''),
+  rules:lesson.steps.map(step=>({title:step.label,text:[step.reason,step.operation,step.signRule,...(step.verificationSteps||[]),step.fullAfter].filter(Boolean).join(' ')})),
+  tip:lesson.conclusion||''};
+}
+function mathMethodGuide(source,grade){
+ // Reuse the verified working, not a disconnected list of topic rules.
+ return mathAppliedMethod((grade?mathPrimaryArithmeticLesson(source,grade):null)||mathDetailedArithmetic(source));
 }
 // Verified local solver for single-variable linear equations. The same parsed
 // coefficients drive the worked solution, the proof, and the general method.
@@ -17553,7 +17617,7 @@ function mathMatrix3Det(rows){
  return a*(e*i-f*h)-b*(d*i-f*g)+c*(d*h-e*g);
 }
 function mathSystem3x3(source){
- const rows=String(source||'').trim().replace(/\\r/g,'').split(/\\n|;/).map(s=>s.trim()).filter(Boolean);
+ const rows=String(source||'').trim().replace(/^[\\s{]+|[\\s}]+$/g,'').replace(/\\r/g,'').split(/\\n|;/).map(s=>s.trim()).filter(Boolean);
  if(rows.length!==3)return null;
  const equations=[];
  const parseSide=side=>{
@@ -18734,7 +18798,9 @@ function mathAlgebraEngines(){
  ];
 }
 function mathAlgebraLocal(mode,source){
+ const braced=/[{}]/.test(String(source||''));
  for(const engine of mathAlgebraEngines()){
+  if(braced&&!['linear-system-2x2','linear-system-3x3'].includes(engine.id))continue;
   const handler=engine[mode];
   if(typeof handler!=='function')continue;
   const value=handler(source);
@@ -19021,7 +19087,7 @@ function mathResultPage(index){
  if(session.topic==='arithmetic'&&session.mode!=='graph'&&!item.started){
   try{
    if(session.mode==='solve')item.detailed=mathPrimaryArithmeticLesson(item.text,session.grade)||mathDetailedArithmetic(item.text);
-   else if(session.mode==='explain')item.methodGuide=mathMethodGuide(item.text);
+   else if(session.mode==='explain')item.methodGuide=mathMethodGuide(item.text,session.grade);
    if(item.detailed||item.methodGuide){
     item.started=true;
     item.spokenReply=item.detailed?
@@ -19231,7 +19297,7 @@ async function mathFetchResult(item,session){
   return;
  }
  if(session.mode==='explain'){
-  const method=item.methodGuide||mathAlgebraLocal('explain',item.text)?.value;
+  const method=item.methodGuide||mathAppliedMethod(mathAlgebraLocal('solve',item.text)?.value);
   if(method){
    if(mathResultSession!==session)return;
    item.methodGuide=method;
@@ -19251,12 +19317,9 @@ async function mathFetchResult(item,session){
   }
  }
  const graph=Boolean(mathGraphModel(item.text));
- const prompt=session.mode==='explain'?learningLabel(
-  'Ești profesor de matematică. Predă numai METODA GENERALĂ pentru categoria acestui exercițiu, fără a-l rezolva numeric. Structură: tip de exercițiu, reguli, cum se începe, greșeli frecvente, cum verifici. Fără verdictul egalității, fără calcule ale exercițiului dat, fără repetiții și fără surse inventate.',
-  'Teach only the GENERAL METHOD for this type of math problem, without numerically solving the supplied exercise. Cover problem type, rules, where to start, common mistakes, verification. No true/false verdict, no worked solution, no repetition or invented sources.'
- ):learningLabel(
-  'Ești un profesor de matematică răbdător, care predă la clasă. Rezolvă DOAR exercițiul următor. Prezintă mai întâi ideea și regula folosită, explică de ce aplicăm fiecare regulă, apoi explică fiecare transformare intermediară în pași numerotați, fără a omite termeni sau operații. Afișează expresia completă după fiecare pas; respectă ordinea operațiilor și verifică explicit calculele la final. Dacă expresia conține un semn egal, evaluează ambele părți și spune explicit dacă egalitatea este adevărată sau falsă; nu ignora valoarea din dreapta. Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Dacă este o funcție, explică punctele și proprietățile ei, dar nu produce grafice ASCII sau tabele ASCII: aplicația desenează graficul separat când formula este compatibilă. Nu inventa valori și nu cere confirmări dacă enunțul este clar.',
-  'You are a patient classroom mathematics teacher. Solve ONLY this exercise. First explain the idea and rule being used, say why each rule applies, then explain every intermediate transformation in numbered steps, never dropping terms or operations. Show the complete expression after every step, respect operation precedence, and check the arithmetic explicitly. If the expression contains an equals sign, calculate both sides and explicitly say whether the equality is true or false; do not ignore the right side. Never cite videos, websites, or other references not supplied by the user. For a function, explain its properties and key points; never output ASCII graphs or ASCII tables, because the app plots supported functions separately. Do not invent values or request confirmations for a clear problem.'
+ const prompt=educationExerciseInstruction(session.mode==='explain'?'method':'solve')+learningLabel(
+  ' Nu cita lecții video, site-uri sau surse pe care utilizatorul nu le-a furnizat. Nu schimba exercițiul; pentru o egalitate verifică ambele membre, iar pentru o ecuație verifică soluția prin înlocuire. Nu desena grafice ASCII: aplicația reprezintă separat funcțiile compatibile.',
+  ' Do not invent videos, websites or other sources. Keep the original exercise. For an equality check both sides; for an equation check the solution by substitution. Do not draw ASCII graphs: supported functions are plotted separately.'
  );
  const requested=session.mode==='graph'?
   learningLabel('Accentuează reprezentarea grafică și intersecțiile cu axele.','Focus on the graph and axis intercepts.'):
@@ -19297,10 +19360,10 @@ async function mathFetchResult(item,session){
  const taskController=new AbortController();
  const cancelTask=()=>taskController.abort();
  session.controller.signal.addEventListener('abort',cancelTask,{once:true});
- const deadline=setTimeout(cancelTask,20000);
+ const deadline=setTimeout(cancelTask,45000);
  try{
   const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({message,language:state.language,module:'learning',history:[],location_requested:false}),
+   body:JSON.stringify({message,language:state.language,module:'learning',education_activity:session.mode==='explain'?'method':'solve',history:[],location_requested:false}),
    signal:taskController.signal});
   const payload=await response.json();
   if(!response.ok||payload.status!=='success'||typeof payload.reply!=='string'||!payload.reply.trim())
@@ -19310,7 +19373,7 @@ async function mathFetchResult(item,session){
  }catch(error){
   if(mathResultSession!==session||session.controller.signal.aborted)return;
   item.error=taskController.signal.aborted?
-   learningLabel('Rezolvarea a depășit 20 de secunde. Verifică conexiunea sau încearcă din nou.','The solution exceeded 20 seconds. Check the connection or try again.'):
+   learningLabel('Rezolvarea a depășit 45 de secunde. Verifică conexiunea sau încearcă din nou.','The solution exceeded 45 seconds. Check the connection or try again.'):
    learningLabel('Nu am putut obține rezolvarea: ','Could not obtain the solution: ')+String(error?.message||error);
  }finally{
   clearTimeout(deadline);
@@ -19788,8 +19851,8 @@ async function handleLearningPhoto(file){
   else status.textContent=learningLabel('Textul nu a putut fi recunoscut. Îl poți introduce manual.','Text could not be detected. You can type it manually.');
  } catch {status.textContent=learningLabel('Recunoașterea automată nu este disponibilă aici. Introdu textul manual.','Automatic text recognition is not available here. Enter the text manually.')}
 }
-function openModule(key){extraToolsStop();mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');$('view-module').classList.remove('learning-math','learning-science','science-choice-stage');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}mathClearWorkspaceHeader();if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('module-landing','learning-choose','learning-active','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','math-choice-stage','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','tasks-workspace','adaptive-workspace-view','my-documents-active');for(const p of ['height','min-height','max-height'])$('view-module').style.removeProperty(p);activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='maps'||key==='travel')renderModuleLandingChoices();if(key==='learning'){renderLearningSubjects();educationShowFirstUseNotice();}if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
-const MODULE_QUICK_CHOICES={maps:[{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'🚌',title:'Transport public național',prompt:'Transport public numai în țara verificată din GPS.',kind:'transit',nationalPublicTransport:true},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'},{icon:'🚘',title:'Parcuri auto și dealeri',prompt:'Găsește parcuri auto și dealeri auto în apropierea mea.',placeCategory:'car_dealers',kind:'places',description:'Parcuri auto, reprezentanțe și vânzări de autoturisme'},{icon:'🏥',title:'Spitale',prompt:'Găsește spitale în apropierea mea.',placeCategory:'hospital_only',kind:'places',description:'Spitale și unități spitalicești'},{icon:'🏧',title:'ATM-uri',prompt:'Găsește bancomate ATM în apropierea mea.',placeCategory:'atm',kind:'places',description:'Bancomate pentru retrageri de numerar'},{icon:'🏦',title:'Bănci',prompt:'Găsește bănci în apropierea mea.',placeCategory:'bank',kind:'places',description:'Sucursale bancare'},{icon:'💱',title:'Case de schimb valutar',prompt:'Găsește case de schimb valutar în apropierea mea.',placeCategory:'currency_exchange',kind:'places',description:'Birouri de schimb valutar'},{icon:'🩺',title:'Cabinete medicale și stomatologice',prompt:'Găsește cabinete medicale și stomatologice în apropierea mea.',placeCategory:'medical_dental',kind:'places',description:'Cabinete de medicină generală și stomatologie'}],travel:[{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',placeCategory:'hotel',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',placeCategory:'pharmacy',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',placeCategory:'corner_shop',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',placeCategory:'supermarket',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',placeCategory:'confectionery',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',placeCategory:'fast_food',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante în apropierea mea.',placeCategory:'restaurant',kind:'places',description:'Caută restaurante și localuri cu servire la masă'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',placeCategory:'lounge',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',placeCategory:'poi',kind:'places',description:'Caută alte puncte de interes din apropiere'},{icon:'🛍️',title:'Shopping și modă',prompt:'Găsește centre comerciale și magazine de îmbrăcăminte, încălțăminte și accesorii în apropierea mea.',placeCategory:'shopping_fashion',kind:'places',description:'Centre comerciale, haine, încălțăminte și accesorii'},{icon:'💇',title:'Saloane de înfrumusețare',prompt:'Găsește frizerii, saloane de coafură, cosmetică, manichiură și spa în apropierea mea.',placeCategory:'beauty_services',kind:'places',description:'Frizerii, coafură, cosmetică, manichiură și spa'},{icon:'🏡',title:'Articole pentru casă',prompt:'Găsește magazine cu articole și decorațiuni pentru casă în apropierea mea.',placeCategory:'home_goods',kind:'places',description:'Menaj, decorațiuni, textile și articole pentru bucătărie'},{icon:'🔌',title:'Electrocasnice',prompt:'Găsește magazine de electrocasnice în apropierea mea.',placeCategory:'appliances',kind:'places',description:'Electrocasnice și aparatură pentru locuință'},{icon:'🛋️',title:'Mobilier',prompt:'Găsește magazine de mobilă și saltele în apropierea mea.',placeCategory:'furniture',kind:'places',description:'Mobilă, saltele și amenajări interioare'},{icon:'🛠️',title:'Bricolaj și grădinărit',prompt:'Găsește magazine de bricolaj, materiale și grădinărit în apropierea mea.',placeCategory:'diy_garden',kind:'places',description:'Unelte, bricolaj, materiale și grădinărit'}]};
+function openModule(key){state.mixedSearchAbort?.abort();state.mixedSearchAbort=null;state.moduleSearchGeneration++;extraToolsStop();mathVoiceStop();mathCloseResults();document.querySelector('main.page')?.classList.remove('math-keyboard-visible','science-keyboard-visible');document.querySelector('main.page')?.style.removeProperty('--math-content-height');document.querySelector('main.page')?.style.removeProperty('--science-content-height');$('view-module').classList.remove('learning-math','learning-science','science-choice-stage');document.getElementById('mathEducationReturn')?.remove();if(state.busy){notify('Așteaptă să se termine răspunsul curent.');return}mathClearWorkspaceHeader();if((state.currentView==='module'||state.currentView==='assistant')&&state.messages.length)archiveCurrentConversation();if(state.currentView==='module'||state.currentView==='assistant')resetChat();state.currentModule=key;$('view-module').classList.remove('module-landing','learning-choose','learning-active','learning-languages','learning-hg','learning-literature','learning-computing','learning-exams','learning-practical','learning-country-gate','math-choice-stage','organize-choose','organize-active','organize-chat','extra-tools-choose','extra-tools-active','extra-tools-chat','extra-tools-workspace','tasks-workspace','adaptive-workspace-view','my-documents-active');for(const p of ['height','min-height','max-height'])$('view-module').style.removeProperty(p);activeLearningSubject=null;inputEl.placeholder='';if(key==='assistant'){showView('assistant');return}const m=MODULES[key];if(!m){notify('Acest modul nu este disponibil.');return}$('moduleTitle').textContent=(UI_TEXT[state.language]?.moduleTitle?.[key]||m.title);$('moduleLead').textContent=localizedModuleLead(key);$('moduleContent').innerHTML='';$('moduleQuickLayer').classList.remove('open');$('moduleQuickLayer').setAttribute('aria-hidden','true');state.moduleSearchBusy=false;state.moduleSearchResults=[];state.moduleSearchCategory=null;state.moduleSearchReply='';showView('module');if(key==='maps'||key==='travel')renderModuleLandingChoices();if(key==='learning'){renderLearningSubjects();educationShowFirstUseNotice();}if(key==='organize')renderOrganizeChoices();if(key==='tools')renderExtraToolsChoices();}
+const MODULE_QUICK_CHOICES={maps:[{icon:'🚌',title:'Transport public național',prompt:'Transport public numai în țara verificată din GPS.',kind:'transit',nationalPublicTransport:true},{icon:'🧭',title:'Deplasare spre…',description:'Caută o călătorie cu transport mixt sau cu mașina',prompt:'',kind:'transit',mixedJourney:true},{icon:'🚶',title:'Traseu pietonal',prompt:'Vreau un traseu pietonal.',kind:'walking'},{icon:'⛽',title:'Benzinării',prompt:'Găsește benzinării în apropierea mea.',kind:'places'},{icon:'🚿',title:'Spălătorii auto',prompt:'Găsește spălătorii auto în apropierea mea.',kind:'places'},{icon:'🅿️',title:'Parcări',prompt:'Găsește parcări în apropierea mea.',kind:'places'},{icon:'🏛️',title:'Muzee',prompt:'Găsește muzee în apropierea mea.',kind:'places'},{icon:'🌳',title:'Parcuri',prompt:'Găsește parcuri în apropierea mea.',kind:'places'},{icon:'🦁',title:'Grădini zoologice',prompt:'Găsește grădini zoologice sau zoo în apropierea mea.',kind:'places'},{icon:'🚘',title:'Parcuri auto și dealeri',prompt:'Găsește parcuri auto și dealeri auto în apropierea mea.',placeCategory:'car_dealers',kind:'places',description:'Parcuri auto, reprezentanțe și vânzări de autoturisme'},{icon:'🏥',title:'Spitale',prompt:'Găsește spitale în apropierea mea.',placeCategory:'hospital_only',kind:'places',description:'Spitale și unități spitalicești'},{icon:'🏧',title:'ATM-uri',prompt:'Găsește bancomate ATM în apropierea mea.',placeCategory:'atm',kind:'places',description:'Bancomate pentru retrageri de numerar'},{icon:'🏦',title:'Bănci',prompt:'Găsește bănci în apropierea mea.',placeCategory:'bank',kind:'places',description:'Sucursale bancare'},{icon:'💱',title:'Case de schimb valutar',prompt:'Găsește case de schimb valutar în apropierea mea.',placeCategory:'currency_exchange',kind:'places',description:'Birouri de schimb valutar'},{icon:'🩺',title:'Cabinete medicale și stomatologice',prompt:'Găsește cabinete medicale și stomatologice în apropierea mea.',placeCategory:'medical_dental',kind:'places',description:'Cabinete de medicină generală și stomatologie'}],travel:[{icon:'🏨',title:'Hoteluri',prompt:'Găsește hoteluri și hosteluri în apropierea mea.',placeCategory:'hotel',kind:'places',description:'Caută hoteluri și hosteluri'},{icon:'💊',title:'Farmacii',prompt:'Caută farmacii, drogherii și magazine naturiste în apropierea mea.',placeCategory:'pharmacy',kind:'places',description:'Caută farmacii, drogherii și magazine naturiste'},{icon:'🏪',title:'Băcănii și magazine mici',prompt:'Găsește băcănii și magazine mici de proximitate în apropierea mea.',placeCategory:'corner_shop',kind:'places',description:'Magazine alimentare mici și de cartier'},{icon:'🛒',title:'Marketuri și brutării',prompt:'Caută supermarketuri, marketuri, magazine alimentare și brutării în apropierea mea.',placeCategory:'supermarket',kind:'places',description:'Caută supermarketuri, magazine alimentare și brutării'},{icon:'☕',title:'Cofetării',prompt:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri în apropierea mea.',placeCategory:'confectionery',kind:'places',description:'Caută cofetării, patiserii, gelaterii și magazine de prăjituri'},{icon:'🍔',title:'Fast-food și mâncare la pachet',prompt:'Caută fast-food-uri, kebab și takeaway în apropierea mea.',placeCategory:'fast_food',kind:'places',description:'Fast-food, burger, kebab și takeaway'},{icon:'🍽️',title:'Restaurante și localuri cu mâncare',prompt:'Caută restaurante în apropierea mea.',placeCategory:'restaurant',kind:'places',description:'Caută restaurante și localuri cu servire la masă'},{icon:'🍵',title:'Baruri, ceainării și cafenele',prompt:'Caută baruri, puburi, ceainării și cafenele în apropierea mea.',placeCategory:'lounge',kind:'places',description:'Caută baruri, puburi, ceainării și cafenele'},{icon:'📍',title:'Alte puncte de interes',prompt:'Găsește alte puncte de interes în apropierea mea.',placeCategory:'poi',kind:'places',description:'Caută alte puncte de interes din apropiere'},{icon:'🛍️',title:'Shopping și modă',prompt:'Găsește centre comerciale și magazine de îmbrăcăminte, încălțăminte și accesorii în apropierea mea.',placeCategory:'shopping_fashion',kind:'places',description:'Centre comerciale, haine, încălțăminte și accesorii'},{icon:'💇',title:'Saloane de înfrumusețare',prompt:'Găsește frizerii, saloane de coafură, cosmetică, manichiură și spa în apropierea mea.',placeCategory:'beauty_services',kind:'places',description:'Frizerii, coafură, cosmetică, manichiură și spa'},{icon:'🏡',title:'Articole pentru casă',prompt:'Găsește magazine cu articole și decorațiuni pentru casă în apropierea mea.',placeCategory:'home_goods',kind:'places',description:'Menaj, decorațiuni, textile și articole pentru bucătărie'},{icon:'🔌',title:'Electrocasnice',prompt:'Găsește magazine de electrocasnice în apropierea mea.',placeCategory:'appliances',kind:'places',description:'Electrocasnice și aparatură pentru locuință'},{icon:'🛋️',title:'Mobilier',prompt:'Găsește magazine de mobilă și saltele în apropierea mea.',placeCategory:'furniture',kind:'places',description:'Mobilă, saltele și amenajări interioare'},{icon:'🛠️',title:'Bricolaj și grădinărit',prompt:'Găsește magazine de bricolaj, materiale și grădinărit în apropierea mea.',placeCategory:'diy_garden',kind:'places',description:'Unelte, bricolaj, materiale și grădinărit'}]};
 /* Maps and hotels regain their own landing options. Keep existing search logic. */
 function renderModuleLandingChoices(){
  finishRouteSearchLoading();clearDedicatedRouteResults();
@@ -19805,7 +19868,7 @@ function renderModuleLandingChoices(){
   const emoji=document.createElement('span');emoji.className='module-landing-icon';emoji.textContent=choice.icon;
   const title=document.createElement('strong');title.textContent=localizedQuickChoiceTitle(choice);
   const note=document.createElement('small');
-  note.textContent=locale?.quickChoiceDetails?.[choice.title]||
+  note.textContent=choice.mixedJourney?((ONE_FIELD_JOURNEY_TEXT[state.language]||ONE_FIELD_JOURNEY_TEXT.en).transit+' · '+(ONE_FIELD_JOURNEY_TEXT[state.language]||ONE_FIELD_JOURNEY_TEXT.en).drive):locale?.quickChoiceDetails?.[choice.title]||
    (state.language==='ro'?choice.description||'':state.language==='en'?(choice.kind==='transit'?quickUiText().descTransit:choice.kind==='walking'?quickUiText().descWalking:quickUiText().descPlaces):'');
   card.append(emoji,title);if(note.textContent)card.append(note);
   card.addEventListener('click',()=>{
@@ -19872,7 +19935,7 @@ function localizedQuickChoiceTitle(choice){const translated=window.__pocketEurop
 'nl':{'Fast-food și mâncare la pachet':'Fastfood en afhaalmaaltijden','Băcănii și magazine mici':'Buurtwinkels en kleine supermarkten','Baruri, ceainării și cafenele':'Bars, theehuizen en cafés','Muzee':'Musea','Parcuri':'Parken','Grădini zoologice':'Dierentuinen','Traseu pietonal':'Wandelroute','Transport public':'Openbaar vervoer','Benzinării':'Tankstations','Spălătorii auto':'Autowasstraten','Parcări':'Parkeren','Restaurante și localuri cu mâncare':'Restaurants en pubs','Cofetării':'Cafés en bakkerijen','Hoteluri':'Hotels','Alte puncte de interes':'Andere bezienswaardigheden'}};return maps[state.language]?.[choice.title]||choice.title}
 function localizedQuickPrompt(choice){if(state.language==='ro')return choice.prompt;const prompts={en:{walking:'I want a walking-only route. Ask for the start and destination if missing. Use GPS as the start only if I have granted permission. Do not include buses, trains, underground, cars, taxis or bicycles. Only show routes and steps supplied by a real routing service; do not invent distances, durations or alternatives.',transit:'Help me find public transport options starting from my location. Ask for the destination if it is missing.'},fr:{walking:'Je veux un itinéraire uniquement à pied. Demandez le départ et la destination s’ils manquent. N’incluez aucun autre moyen de transport.',transit:'Aidez-moi à trouver des transports publics depuis ma position. Demandez la destination si elle manque.'},de:{walking:'Ich möchte eine reine Fußwegroute. Frage nach Start und Ziel, falls sie fehlen. Keine anderen Verkehrsmittel einbeziehen.',transit:'Finde öffentliche Verkehrsmittel ab meinem Standort. Frage nach dem Ziel, falls es fehlt.'},it:{walking:'Voglio un percorso esclusivamente a piedi. Chiedi partenza e destinazione se mancanti. Non includere altri mezzi.',transit:'Aiutami a trovare i mezzi pubblici dalla mia posizione. Chiedi la destinazione se manca.'},es:{walking:'Quiero una ruta solo a pie. Pregunta el origen y destino si faltan. No incluyas otros medios de transporte.',transit:'Ayúdame a encontrar transporte público desde mi ubicación. Pregunta el destino si falta.'},pt:{walking:'Quero um percurso exclusivamente a pé. Pergunta a origem e o destino se faltarem. Não incluas outros transportes.',transit:'Ajuda-me a encontrar transportes públicos a partir da minha localização. Pergunta o destino se faltar.'},nl:{walking:'Ik wil alleen een wandelroute. Vraag om vertrekpunt en bestemming als die ontbreken. Neem geen ander vervoer op.',transit:'Help me openbaar vervoer te vinden vanaf mijn locatie. Vraag naar de bestemming als die ontbreekt.'}};return prompts[state.language]?.[choice.kind]||choice.prompt}
 
-function setModuleLayerMode(title){$('moduleLayerTitle').textContent=title;$('moduleLayerBody').innerHTML=''}
+function setModuleLayerMode(title){clearTransitOptionsViewport();$('moduleLayerTitle').textContent=title;$('moduleLayerBody').classList.remove('transit-results-content');$('moduleLayerBody').innerHTML=''}
 // Official sources for UK-wide journeys when no licensed national itinerary is confirmed.
 const UK_PLANNING_TEXT={
  ro:['Verifică orarele la operatori','Surse oficiale pentru trenuri și transport regional. Nu au fost verificate plecări în aplicație.'],
@@ -19906,7 +19969,7 @@ function appendOfficialUKJourneySources(data,host){
  if(!count)return false;
  host.append(area);return true;
 }
-function moduleStatus(text){document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');const body=$('moduleLayerBody');body.innerHTML='';const status=document.createElement('div');status.className='module-search-status';status.setAttribute('role','status');status.textContent=text;body.append(status)}
+function moduleStatus(text){clearTransitOptionsViewport();document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');const body=$('moduleLayerBody');body.innerHTML='';const status=document.createElement('div');status.className='module-search-status';status.setAttribute('role','status');status.textContent=text;body.append(status)}
 function formatDistance(meters){const n=Number(meters);if(!Number.isFinite(n)||n<0)return ({ro:'Distanță indisponibilă',en:'Distance unavailable',fr:'Distance indisponible',de:'Entfernung nicht verfügbar',it:'Distanza non disponibile',es:'Distancia no disponible',pt:'Distância indisponível',nl:'Afstand niet beschikbaar',ru:'Расстояние неизвестно',pl:'Odległość niedostępna'})[state.language]||'Distance unavailable';if(n<1000)return Math.round(n)+' m';return (n/1000).toLocaleString(({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'en-GB',{maximumFractionDigits:1})+' km'}
 function placeResultIcon(place){const special={shopping_fashion:'🛍️',beauty_services:'💇',home_goods:'🏡',appliances:'🔌',furniture:'🛋️',diy_garden:'🛠️',car_dealers:'🚘',hospital_only:'🏥',medical_dental:'🩺',atm:'🏧',bank:'🏦',currency_exchange:'💱'};if(special[String(place.type||'')])return special[String(place.type||'')];const value=(String(place.type||'')+' '+String(place.name||'')).toLowerCase();if(/petrol|fuel|gas station|benzin|esso|shell|texaco|costco fuel/.test(value))return '⛽';if(/restaurant|cafe|coffee|food|restaurant|restaurant|takeaway|pub|bar/.test(value))return '🍽️';if(/hotel|motel|guest.?house|accommodation/.test(value))return '🏨';if(/supermarket|grocery|shop|store|market/.test(value))return '🛒';if(/bus stop|bus station|train station|railway|metro|underground/.test(value))return '🚉';if(/hospital|clinic|doctor|pharmacy/.test(value))return '🏥';if(/parking|car park/.test(value))return '🅿️';if(/toilet|restroom/.test(value))return '🚻';if(/car wash|wash/.test(value))return '🚿';return '📍'}
 function localizedPlaceCategory(value){const raw=String(value||'').trim();if(raw==='medical_dental')return ({ro:'cabinet medical sau stomatologic',en:'medical or dental practice',fr:'cabinet médical ou dentaire',de:'Arzt- oder Zahnarztpraxis',it:'studio medico o dentistico',es:'consulta médica o dental',pt:'consultório médico ou dentário',nl:'medische of tandartspraktijk',ru:'медицинский или стоматологический кабинет',pl:'gabinet lekarski lub dentystyczny'})[state.language]||'medical or dental practice';const financialTypes={ro:{hospital_only:'spital',currency_exchange:'casă de schimb valutar'},en:{hospital_only:'hospital',currency_exchange:'currency exchange'},fr:{hospital_only:'hôpital',currency_exchange:'bureau de change'},de:{hospital_only:'Krankenhaus',currency_exchange:'Wechselstube'},it:{hospital_only:'ospedale',currency_exchange:'cambio valuta'},es:{hospital_only:'hospital',currency_exchange:'casa de cambio'},pt:{hospital_only:'hospital',currency_exchange:'casa de câmbio'},nl:{hospital_only:'ziekenhuis',currency_exchange:'wisselkantoor'},ru:{hospital_only:'больница',currency_exchange:'обмен валюты'},pl:{hospital_only:'szpital',currency_exchange:'kantor'}};if(financialTypes[state.language]?.[raw])return financialTypes[state.language][raw];const fixed={"ro":{"shopping_fashion":"shopping și modă","beauty_services":"salon de înfrumusețare","home_goods":"articole pentru casă","appliances":"electrocasnice","furniture":"mobilier","diy_garden":"bricolaj și grădinărit","car_dealers":"parc auto / dealer"},"en":{"shopping_fashion":"shopping and fashion","beauty_services":"beauty salon","home_goods":"homewares","appliances":"appliances","furniture":"furniture","diy_garden":"DIY and gardening","car_dealers":"car dealership"},"fr":{"shopping_fashion":"shopping et mode","beauty_services":"salon de beauté","home_goods":"articles pour la maison","appliances":"électroménager","furniture":"meubles","diy_garden":"bricolage et jardinage","car_dealers":"concessionnaire auto"},"de":{"shopping_fashion":"Shopping und Mode","beauty_services":"Schönheitssalon","home_goods":"Haushaltswaren","appliances":"Haushaltsgeräte","furniture":"Möbel","diy_garden":"Heimwerken und Garten","car_dealers":"Autohaus"},"it":{"shopping_fashion":"shopping e moda","beauty_services":"salone di bellezza","home_goods":"articoli per la casa","appliances":"elettrodomestici","furniture":"mobili","diy_garden":"fai da te e giardinaggio","car_dealers":"concessionaria auto"},"es":{"shopping_fashion":"compras y moda","beauty_services":"salón de belleza","home_goods":"artículos para el hogar","appliances":"electrodomésticos","furniture":"muebles","diy_garden":"bricolaje y jardinería","car_dealers":"concesionario de coches"},"pt":{"shopping_fashion":"compras e moda","beauty_services":"salão de beleza","home_goods":"artigos para casa","appliances":"eletrodomésticos","furniture":"móveis","diy_garden":"bricolagem e jardinagem","car_dealers":"concessionário automóvel"},"nl":{"shopping_fashion":"winkelen en mode","beauty_services":"schoonheidssalon","home_goods":"huishoudartikelen","appliances":"apparaten","furniture":"meubels","diy_garden":"klussen en tuinieren","car_dealers":"autodealer"},"ru":{"shopping_fashion":"шопинг и мода","beauty_services":"салон красоты","home_goods":"товары для дома","appliances":"бытовая техника","furniture":"мебель","diy_garden":"ремонт и сад","car_dealers":"автосалон"},"pl":{"shopping_fashion":"zakupy i moda","beauty_services":"salon urody","home_goods":"artykuły do domu","appliances":"AGD","furniture":"meble","diy_garden":"majsterkowanie i ogród","car_dealers":"salon samochodowy"}};if(fixed[state.language]?.[raw])return fixed[state.language][raw];if(fixed.en?.[raw])return fixed.en[raw];if(!raw)return quickUiText().found;const key=raw.toLowerCase().replace(/[_-]+/g,' ').replace(/\\s+/g,' ').trim();const dictionaries={
@@ -19939,7 +20002,7 @@ function quickPlaceDisplayName(place,allPlaces){
  const postcode=String(place.postcode||'').trim();
  return raw+(placeLabel?' ('+placeLabel+')':postcode?' ('+postcode+')':'');
 }
-function renderModulePlaces(places){document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+(quickPlaceDisplayName(place,places)||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>{state.moduleSearchScrollTop=list.scrollTop;state.moduleSearchBodyScrollTop=body.scrollTop;renderModulePlaceDetails(place)});list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found;requestAnimationFrame(()=>{if(list.isConnected&&state.moduleSearchReturnMode==='list'){list.scrollTop=Number(state.moduleSearchScrollTop||0);body.scrollTop=Number(state.moduleSearchBodyScrollTop||0)}})}
+function renderModulePlaces(places){clearTransitOptionsViewport();document.querySelector('.module-quick-sheet')?.classList.remove('details-mode','mode-choice-screen');state.moduleSearchReturnMode='list';const body=$('moduleLayerBody');body.style.cssText='';body.innerHTML='';if(!Array.isArray(places)||!places.length){const status=document.createElement('div');status.className='module-search-status';status.textContent=state.moduleSearchReply||quickUiText().notFound;body.append(status);return}document.querySelector('.module-quick-sheet')?.classList.add('results-mode');const panel=document.createElement('section');panel.className='module-places-results';panel.setAttribute('aria-label',quickUiText().found);const header=document.createElement('header');header.className='module-places-results-head';const heading=document.createElement('div');heading.className='module-places-results-heading';const title=document.createElement('h3');title.textContent=quickUiText().found;const subtitle=document.createElement('p');subtitle.textContent=places.length+' '+quickUiText().results;heading.append(title,subtitle);const back=document.createElement('button');back.type='button';back.className='module-results-back';back.setAttribute('aria-label',quickUiText().back);back.textContent='‹';back.addEventListener('click',handleModuleLayerBack);header.append(heading,back);const list=document.createElement('div');list.className='module-place-results-list';list.setAttribute('role','list');places.forEach((place,index)=>{const item=document.createElement('button');item.type='button';item.className='module-place-result';item.setAttribute('role','listitem');const icon=document.createElement('span');icon.className='module-place-result-icon';icon.setAttribute('aria-hidden','true');mountPlaceThumbnail(icon,place);const copy=document.createElement('span');copy.className='module-place-result-copy';const name=document.createElement('strong');name.className='module-place-result-name';name.textContent=(index+1)+'. '+(quickPlaceDisplayName(place,places)||(quickUiText().location+' '+(index+1)));const meta=document.createElement('span');meta.className='module-place-result-meta';meta.textContent=localizedPlaceCategory(place.type)+' · '+formatDistance(place.distance_meters)+' · '+quickUiText().details;copy.append(name,meta);const arrow=document.createElement('span');arrow.className='module-place-result-arrow';arrow.setAttribute('aria-hidden','true');arrow.textContent='›';item.append(icon,copy,arrow);item.addEventListener('click',()=>{state.moduleSearchScrollTop=list.scrollTop;state.moduleSearchBodyScrollTop=body.scrollTop;renderModulePlaceDetails(place)});list.append(item)});panel.append(header,list);body.append(panel);$('moduleLayerTitle').textContent=quickUiText().found;requestAnimationFrame(()=>{if(list.isConnected&&state.moduleSearchReturnMode==='list'){list.scrollTop=Number(state.moduleSearchScrollTop||0);body.scrollTop=Number(state.moduleSearchBodyScrollTop||0)}})}
 
 const DETAIL_LABELS={"ro": {"address": "Adresă", "phone": "Telefon", "website": "Website", "photos": "Fotografii", "close": "Închide fotografia", "price": "Preț", "rooms": "Camere"}, "en": {"address": "Address", "phone": "Phone", "website": "Website", "photos": "Photos", "close": "Close photo", "price": "Price", "rooms": "Rooms"}, "fr": {"address": "Adresse", "phone": "Téléphone", "website": "Site web", "photos": "Photos", "close": "Fermer la photo", "price": "Prix", "rooms": "Chambres"}, "de": {"address": "Adresse", "phone": "Telefon", "website": "Webseite", "photos": "Fotos", "close": "Foto schließen", "price": "Preis", "rooms": "Zimmer"}, "it": {"address": "Indirizzo", "phone": "Telefono", "website": "Sito web", "photos": "Foto", "close": "Chiudi foto", "price": "Prezzo", "rooms": "Camere"}, "es": {"address": "Dirección", "phone": "Teléfono", "website": "Sitio web", "photos": "Fotos", "close": "Cerrar foto", "price": "Precio", "rooms": "Habitaciones"}, "pt": {"address": "Morada", "phone": "Telefone", "website": "Website", "photos": "Fotografias", "close": "Fechar fotografia", "price": "Preço", "rooms": "Quartos"}, "nl": {"address": "Adres", "phone": "Telefoon", "website": "Website", "photos": "Foto’s", "close": "Foto sluiten", "price": "Prijs", "rooms": "Kamers"}, "ru": {"address": "Адрес", "phone": "Телефон", "website": "Сайт", "photos": "Фотографии", "close": "Закрыть фото", "price": "Цена", "rooms": "Номера"}, "pl": {"address": "Adres", "phone": "Telefon", "website": "Strona internetowa", "photos": "Zdjęcia", "close": "Zamknij zdjęcie", "price": "Cena", "rooms": "Pokoje"}};
 function detailLabels(){return DETAIL_LABELS[state.language]||DETAIL_LABELS.en}
@@ -20039,6 +20102,7 @@ const QUICK_SEARCH_ENGLISH={
 // esbuild __name(...) wrappers. The serialized function executes in the
 // Android WebView, where Wrangler's server-side helper is NOT otherwise present.
 const __name=(target,value)=>Object.defineProperty(target,'name',{value,configurable:true});
+${assistantUnderstandRequest.toString()}
 ${assistantSelfLocationQuery.toString()}
 ${assistantBareDestinationQuery.toString()}
 ${parseJourneyExpression.toString()}
@@ -20046,6 +20110,9 @@ ${assistantJourneyHandoff.toString()}
 ${ONE_FIELD_JOURNEY_SCRIPT}
 ${NATIONAL_PUBLIC_TRANSPORT_SCRIPT}
 ${MIXED_TRANSPORT_COMPARISON_SCRIPT}
+${MIXED_PROGRESS_CLIENT_SCRIPT}
+${TRANSIT_VIEWPORT_SCRIPT}
+${ROUTE_NAVIGATION_SCRIPT}
 function showJourneyMode(choice){
  if(choice?.mixedJourney){showOneFieldJourney(choice);return;}
  state.moduleSearchCategory=choice;
@@ -20562,6 +20629,24 @@ function transitSearchSelectors(){
  row.append(mode,departure,options);
  return {row,preference:()=>mode.value,departureOffset:()=>offset,departureAt:()=>absolute};
 }
+${transportTicketUrl.toString()}
+${transportOperatorTicketSite.toString()}
+${transportTicketLink.toString()}
+function appendTransportTicketAction(host,leg){
+ const target=transportTicketLink(leg);if(!target)return;
+ const link=document.createElement('a');link.className='transit-ticket-link';
+ link.href=target.url;link.target='_blank';link.rel='noopener noreferrer';
+ link.textContent=(target.kind==='external_search'?dialogText('Caută bilete','Search tickets'):dialogText('Bilete și rezervare','Tickets and booking'))+
+  (target.operator?' · '+target.operator:'');
+ link.style.cssText='display:block;align-self:flex-start;padding:9px 0;color:#a9e7ef;text-decoration:underline;font-size:14px';
+ host.append(link);
+ const note=document.createElement('small');note.className='transit-ticket-disclosure';
+ note.textContent=target.kind==='external_search'?dialogText('Căutare externă; selectează ruta și data. Nu este o ofertă de bilet.',
+  'External search; select route and date. Not a ticket offer.'):
+  dialogText('Verifică data, prețul și locurile pe site; nu este o rezervare confirmată.',
+   'Check date, price and seats on the site; not a confirmed reservation.');
+ host.append(note);
+}
 function resolveMixedFlightGroundOptions(choice,flight,host){
  const origin=choice?.journeyOrigin||state.lastTransitChoice?.journeyOrigin||{};
  const destination=choice?.transitDestination||state.lastTransitChoice?.transitDestination||{};
@@ -20670,6 +20755,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
      !walking&&leg.towards?dialogText('Direcția: ','Towards: ')+leg.towards:'',
      !walking&&leg.platform?dialogText('Peron: ','Platform: ')+leg.platform:''].filter(Boolean).join(' · ');
     const item=section(icon,heading,details,walking?'walk':'vehicle');
+    appendTransportTicketAction(item,leg);
     if(leg.operator&&!walking){const operator=document.createElement('div');
      operator.append(mixedOperatorName(leg.operator));item.append(operator)}
     if(walking&&!distance(leg.distanceMeters)){
@@ -20689,11 +20775,24 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
        'The final connection to the selected point is not verified.'));
    }
   };
+  const groundReason=(status,access)=>{
+   if(['boarding_deadline_infeasible','no_connection_before_boarding'].includes(status))
+    return dialogText('Nu am găsit o legătură de la ora cerută care să ajungă la aeroport cu 90 min înaintea zborului. Alege o plecare mai devreme sau alt zbor.',
+     'No connection was found from the requested time that reaches the airport 90 minutes before the flight. Choose an earlier start or another flight.');
+   if(status==='search_timeout')return dialogText('Verificarea acestei legături a atins limita de timp; nu înseamnă că nu există transport.',
+    'This connection check reached its time limit; this does not mean transport is unavailable.');
+   if(['not_configured','local_transport_not_configured','outside_coverage'].includes(status))
+    return dialogText('Nu avem acum date de transport local pentru acest segment de la furnizorii conectați.',
+     'Connected suppliers do not currently provide local transport data for this segment.');
+   return access?dialogText('Transportul de la adresa de plecare până la aeroport nu este încă verificat.',
+    'Transport from your starting address to the airport is not yet verified.'):
+    dialogText('Transportul local și ultima porțiune pietonală nu sunt încă verificate.',
+     'Local transport and the final walking leg are not yet verified.');
+  };
   addJourney(data.accessJourney,
-   String(origin.label||dialogText('Acasă','Home')),
+   String(origin.label||dialogText('Locația mea (GPS)','My location (GPS)')),
    String(data.airportFrom?.name||data.flight?.from||''),
-   dialogText('Transportul de la adresa de plecare până la aeroport nu este încă verificat.',
-    'Transport from your starting address to the airport is not yet verified.'),{
+   groundReason(data.accessStatus,true),{
      fromPoint:origin,toPoint:data.airportFrom,fromRadius:350,toRadius:1200
    });
   if(legs.length>1){
@@ -20701,6 +20800,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
     const flightTime=String(leg.startLocal||'')+' → '+String(leg.endLocal||'');
     const item=section('✈️',String(leg.from||'')+' → '+String(leg.to||''),
      flightTime+(leg.flightNumber?' · '+leg.flightNumber:''),'flight');
+    appendTransportTicketAction(item,{...leg,mode:'flight'});
     if(leg.airline){const op=document.createElement('div');op.append(mixedOperatorName(leg.airline));item.append(op)}
     if(i<legs.length-1){
      const next=legs[i+1];
@@ -20715,6 +20815,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
    const times=String(f.departureLocal||'')+' → '+String(f.arrivalLocal||'')+
     (f.flightNumber?' · '+String(f.flightNumber):'');
    const item=section('✈️',heading,times,'flight');
+   appendTransportTicketAction(item,{...legs[0],mode:'flight',bookingUrl:legs[0]?.bookingUrl||flight.bookingUrl});
    if(f.airline){const op=document.createElement('div');op.append(mixedOperatorName(f.airline));item.append(op)}
   }else gap(String(data.airportFrom?.name||''),String(data.airportTo?.name||''),
    dialogText('Zborul nu a fost confirmat.','Flight details were not verified.'));
@@ -20736,8 +20837,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
   }else{
    gap(String(data.airportTo?.name||data.flight?.to||''),
     String(destination.label||''),
-    dialogText('Transportul local și ultima porțiune pietonală nu sunt încă verificate.',
-     'Local transport and the final walking leg are not yet verified.'));
+    groundReason(data.egressStatus,false));
   }
   const locationNote=document.createElement('small');
   locationNote.style.cssText='font-size:12px;color:#d4c2cc;line-height:1.4';
@@ -20755,26 +20855,8 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
   host.append(note);
 }
 
-function mixedOperatorWebsite(name){
- const key=String(name||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim().toLowerCase();
- const official={
-  'british airways':'https://www.britishairways.com/',
-  'wizz air':'https://wizzair.com/',
-  'wizz air uk':'https://wizzair.com/',
-  'wizzair':'https://wizzair.com/',
-  'lufthansa':'https://www.lufthansa.com/',
-  'swiss':'https://www.swiss.com/',
-  'swiss international air lines':'https://www.swiss.com/',
-  'ita':'https://www.ita-airways.com/',
-  'ita airways':'https://www.ita-airways.com/',
-  'air dolomiti':'https://www.airdolomiti.it/',
-  'cfr calatori':'https://www.cfrcalatori.ro/',
-  'flixbus':'https://www.flixbus.com/',
-  'national rail':'https://www.nationalrail.co.uk/',
-  'c2c':'https://www.c2c-online.co.uk/'
- };
- return official[key]||null;
-}
+function mixedOperatorWebsite(name){return transportOperatorTicketSite(name)}
+
 function mixedOperatorName(name,providerUrl=null){
  // Prefer the operator page supplied by a timetable/route source. Never
  // construct a booking URL from the operator's name or claim in-app booking.
@@ -20972,7 +21054,7 @@ function transitBoardingLineLabel(stop,vehicle){
 }
 function validTransitBoardingStop(stop){return stop&&typeof stop.label==='string'&&stop.label.trim()&&Number.isFinite(stop.latitude)&&Number.isFinite(stop.longitude)&&Math.abs(stop.latitude)<=90&&Math.abs(stop.longitude)<=180}
 function transitDistance(a,b){const rad=Math.PI/180,dlat=(b.latitude-a.latitude)*rad,dlon=(b.longitude-a.longitude)*rad,h=Math.sin(dlat/2)**2+Math.cos(a.latitude*rad)*Math.cos(b.latitude*rad)*Math.sin(dlon/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)))}
-function transitWalkingMatches(route,stop){if(!validMapRoute(route)||!['walk','foot'].includes(route.profile)||!validTransitBoardingStop(stop))return false;const end=route.coordinates.at(-1),destination=route.destination;return destination&&Number.isFinite(destination.latitude)&&Number.isFinite(destination.longitude)&&transitDistance(destination,stop)<2&&transitDistance({latitude:end[1],longitude:end[0]},stop)<=120}
+function transitWalkingMatches(route,stop){if(!validMapRoute(route)||!['walk','foot'].includes(route.profile)||!validTransitBoardingStop(stop))return false;const end=route.coordinates.at(-1);return transitDistance({latitude:end[1],longitude:end[0]},stop)<=150}
 function cancelTransitAccess(clearSelection=false){state.transitAccessGeneration=(state.transitAccessGeneration||0)+1;state.transitAccessAbort?.abort();state.transitAccessAbort=null;if(clearSelection)state.selectedTransitJourney=null}
 function transitBoardingSummary(journey){const stop=journey.boarding_stop,t=transitAccessText();if(!validTransitBoardingStop(stop))return t[11];const vehicle=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),line=transitBoardingLineLabel(stop,vehicle);return [t[7]+': '+stop.label,stop.indicator?stop.indicator:'',line?t[6]+': '+line:'',stop.towards?'→ '+stop.towards:'',t[4]+': '+transitClock(stop.departure_time||journey.firstVehicleDepartureTime,journey.time_zone)].filter(Boolean).join(' · ')}
 const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public','Mașină'],en:['How would you like to travel?','Walk','Public transport','Drive'],fr:['Comment souhaitez-vous voyager ?','À pied','Transports publics','Voiture'],de:['Wie möchten Sie reisen?','Zu Fuß','Öffentliche Verkehrsmittel','Auto'],it:['Come vuoi viaggiare?','A piedi','Trasporto pubblico','Auto'],es:['¿Cómo quieres viajar?','A pie','Transporte público','Coche'],pt:['Como pretende viajar?','A pé','Transportes públicos','Carro'],nl:['Hoe wil je reizen?','Lopen','Openbaar vervoer','Auto'],ru:['Как вы хотите добраться?','Пешком','Общественный транспорт','Автомобиль'],pl:['Jak chcesz dotrzeć?','Pieszo','Transport publiczny','Samochód']};
@@ -21403,6 +21485,15 @@ function dismissSelectionKeyboard(){const focused=document.activeElement;if(focu
 function showTransitChoices(options){dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(options)}
 function transitOptionsForRoute(route){const selected=state.selectedTransitJourney;return selected?.finalWalkRoute===route?selected.options:selected?.accessRoute&&transitWalkingMatches(route,selected.journey.boarding_stop)?selected.options:null}
 function appendTransitReturnAction(host,route){const options=transitOptionsForRoute(route);if(!options?.length)return;const back=document.createElement('button');back.type='button';back.className='route-map-open transit-back-options';back.textContent='← '+transitLayoutText()[4];back.onclick=()=>showTransitChoices(options);host.append(back)}
+${transitStopCount.toString()}
+function appendTransitStopCount(host,leg){
+ if(transitWalkLeg(leg.mode))return;
+ const count=transitStopCount(leg),line=document.createElement('div');
+ line.className='transit-stop-count';
+ line.textContent=count===null?dialogText('Număr de opriri: neprecizat de furnizor.','Stop count: not supplied by provider.'):
+  count+dialogText(count===1?' oprire până la coborâre':' opriri până la coborâre',count===1?' stop to alight':' stops to alight')+' · '+(leg.to||'');
+ host.append(line);
+}
 function appendTransitLegs(host,journey){
  const t=transitLayoutText(),table=document.createElement('table');table.className='transit-steps';
  const caption=document.createElement('caption');caption.textContent=t[0];table.append(caption);
@@ -21412,13 +21503,22 @@ function appendTransitLegs(host,journey){
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('tr'),step=document.createElement('th'),action=document.createElement('td'),time=document.createElement('td');step.setAttribute('scope','row');step.textContent=String(i+1);
   const mode=document.createElement('strong');mode.textContent=transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
-  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));action.append(provider)}
+  const places=document.createElement('div');places.textContent=(leg.from||'—')+' → '+(leg.to||'—');action.append(mode,places);appendTransitStopCount(action,leg);appendTransportTicketAction(action,leg);if(leg.operator){const provider=document.createElement('div');provider.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));action.append(provider)}
   const departure=document.createElement('div'),arrival=document.createElement('div');departure.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone);arrival.textContent='→ '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);time.append(departure,arrival);row.append(step,action,time);body.append(row);
  }table.append(body);host.append(table);
+ if(typeof journey?.attribution?.text==='string'&&journey.attribution.text.trim()){
+  const attribution=document.createElement('p');attribution.className='transit-source-attribution';
+  attribution.style.cssText='font-size:12px;line-height:1.4;overflow-wrap:anywhere;color:#bdd6e3';
+  attribution.textContent=journey.attribution.text.trim();host.append(attribution);
+ }
 }
 // Provider boarding times are never shifted. This only calculates a leave-by
 // recommendation so an access walk has a practical buffer before boarding.
+function transitScheduleUncertain(journey){
+ return journey?.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey?.schedule_status||'').toLowerCase());
+}
 function transitBoardingBuffer(journey){
+ if(transitScheduleUncertain(journey))return null;
  const first=(journey?.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));
  const boarding=Date.parse(journey?.firstVehicleDepartureTime||journey?.boarding_stop?.departure_time||first?.departureTime||'');
  // TfL minutes are not a verified route from the current GPS position.
@@ -21449,8 +21549,8 @@ function transitBoardingAdvice(journey){
 function isRomanianRailJourney(journey){
  const source=String(journey?.source||'');
  const legs=Array.isArray(journey?.legs)?journey.legs:[];
- const national=journey?.romanian_national_journey===true||/\bBilo\b/i.test(source)||
-  (/\bMOTIS\b/i.test(source)&&journey?.time_zone==='Europe/Bucharest'&&
+ const national=journey?.romanian_national_journey===true||/\\bBilo\\b/i.test(source)||
+  (/\\bMOTIS\\b/i.test(source)&&journey?.time_zone==='Europe/Bucharest'&&
    legs.some(l=>/^(train|rail|coach)$/i.test(String(l?.mode||''))));
  // Source identification matters: TfL must never become a Romanian rail card
  // just because a stale response carries Europe/Bucharest.
@@ -21559,7 +21659,7 @@ function appendRomanianRailDetails(host,journey){
   const time=document.createElement('div');time.style.cssText='font-weight:650;font-size:14px';
   time.textContent=transitClock(leg.departureTime,leg.departureZone||zone)+' → '+
    transitClock(leg.arrivalTime,leg.arrivalZone||zone);
-  item.append(label,route,time);
+  item.append(label,route,time);appendTransitStopCount(item,leg);appendTransportTicketAction(item,leg);
   if(/^(train|rail)$/i.test(String(leg.mode||''))&&!transitLineLabel(leg)){
    const unidentified=document.createElement('div');
    unidentified.style.cssText='font-size:12px;opacity:.8';
@@ -21748,9 +21848,9 @@ function appendTransitCards(host,options){
   title.style.cssText='font-size:17px;line-height:1.35;overflow-wrap:anywhere';
   title.textContent=(i+1)+'. '+from+' → '+to;
   const schedule=document.createElement('div');schedule.style.cssText='font-size:16px;font-weight:750';
-  schedule.textContent=transitClock(journey.startDateTime||first?.departureTime,journey.time_zone)+
+  schedule.textContent=(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime||first?.departureTime,journey.time_zone)+
     ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+
-    ' · '+formatTravelDurationMinutes(journey.durationMinutes);
+    (journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
   const date=document.createElement('small');date.style.cssText='font-size:12px;opacity:.85';
   date.textContent=transitDateLabel(journey.startDateTime,journey.time_zone);
   const meters=Number(journey.distanceMeters);
@@ -21760,8 +21860,8 @@ function appendTransitCards(host,options){
   if(journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||''))){
    const note=document.createElement('small');
    note.className='transit-estimated-timetable';
-   note.textContent=dialogText('Orar orientativ sau indisponibil · confirmă direct la operator.',
-    'Indicative or unavailable timetable · confirm directly with the operator.');
+   note.textContent=dialogText('Orar orientativ sau indisponibil · nu poate fi garantat; confirmă direct la operator.',
+    'Indicative or unavailable timetable · not guaranteed; confirm directly with the operator.');
    note.style.cssText='font-size:12px;line-height:1.4;color:#e5ced8';
    button.append(note);
   }
@@ -21770,6 +21870,11 @@ function appendTransitCards(host,options){
    $('moduleQuickLayer').setAttribute('aria-hidden','false');
    $('moduleLayerTitle').textContent=t[0];void selectTransitJourney(options,i)};
   host.append(button);
+  if(journey.provider==='HERE Public Transit'&&journey.attribution?.text){
+   const attribution=document.createElement('p');attribution.className='transit-source-attribution';
+   attribution.style.cssText='font-size:12px;line-height:1.4;overflow-wrap:anywhere';
+   attribution.textContent=journey.attribution.text;host.append(attribution);
+  }
  }
 }
 function appendTransitOverview(host,text){
@@ -21792,8 +21897,8 @@ ru:['Пешком от последней остановки до цели','Р�
 pl:['Pieszo z ostatniego przystanku do celu','Obliczanie końcowego odcinka…','Końcowy odcinek niezweryfikowany.']
 };
 function finalTransitWalkPoints(journey){
- const lastVehicle=[...(journey?.legs||[])].reverse().find(l=>!/(?:walk|foot|pedestrian)/i.test(String(l.mode||''))&&l.arrivalLatLon);
- const arrival=lastVehicle?.arrivalLatLon,target=state.lastTransitResponse?.transit_destination_point;
+ const lastVehicle=[...(journey?.legs||[])].reverse().find(l=>!/(?:walk|foot|pedestrian)/i.test(String(l.mode||''))&&(l.arrivalPoint||l.arrivalLatLon));
+ const endpoint=lastVehicle?.arrivalPoint||lastVehicle?.arrivalLatLon,arrival=endpoint?{lat:endpoint.latitude??endpoint.lat,lon:endpoint.longitude??endpoint.lon}:null,target=state.lastTransitResponse?.transit_destination_point;
  const valid=(lat,lon)=>lat!==null&&lat!==undefined&&lon!==null&&lon!==undefined&&
   Number.isFinite(Number(lat))&&Number.isFinite(Number(lon))&&Math.abs(Number(lat))<=90&&Math.abs(Number(lon))<=180;
  if(!valid(arrival?.lat,arrival?.lon)||!valid(target?.latitude,target?.longitude)||!target?.label)return null;
@@ -21884,7 +21989,7 @@ async function showTransitWalkingComparison(notice,options){
   if(!notice.isConnected)return;
   const minutes=transitVerifiedWalkingMinutes(route,origin,destination);
   if(minutes===null)return;
-  const best=options.filter(j=>transitArrivalMs(j)!==null).sort(compareTransitDisplayTimes)[0];
+  const best=options.filter(j=>!transitScheduleUncertain(j)&&transitArrivalMs(j)!==null).sort(compareTransitDisplayTimes)[0];
   if(!best)return;
   // Calculate all displayed durations against ONE clock snapshot. The
   // 12-minute itinerary is not a 12-minute wait from the current time.
@@ -21947,6 +22052,7 @@ function feasibleTransitChoices(options){
  const requestedAt=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
  const requestedMs=requestedAt?Date.parse(requestedAt):null;
  return (Array.isArray(options)?options:[]).filter(journey=>{
+  if(transitScheduleUncertain(journey))return true;
   const buffer=transitBoardingBuffer(journey);
   if(buffer){
    if(buffer.recommended<now)return false;
@@ -21973,11 +22079,13 @@ const TRANSIT_REFRESH_TEXT={
 };
 function transitRefreshText(){return TRANSIT_REFRESH_TEXT[state.language]||TRANSIT_REFRESH_TEXT.en}
 function transitRefreshNotice(text){
- const body=$('moduleLayerBody');
- if(!body)return;
- let status=body.querySelector('.transit-refresh-status');
- if(!status){status=document.createElement('p');status.className='transit-access-status transit-refresh-status';status.setAttribute('role','status');body.prepend(status)}
+ const body=$('moduleLayerBody');if(!body)return;
+ const host=body.classList.contains('transit-options-viewport')?body.querySelector(':scope > .transit-template-store'):body;
+ if(!host)return;
+ let status=host.querySelector('.transit-refresh-status');
+ if(!status){status=document.createElement('p');status.className='transit-access-status transit-refresh-status';status.setAttribute('role','status');host.prepend(status)}
  status.textContent=text;
+ state.transitOptionsPager?.first();state.transitOptionsPager?.refresh();
 }
 // Refresh exactly the already selected origin -> destination, not a new chat query.
 // The initial lookup retains the official destination coordinates even after
@@ -22045,21 +22153,51 @@ function appendMixedTransitComparison(host,options){
 // flight/coach evidence is shown as a compact operator segment, NEVER as a
 // complete door-to-door itinerary or as the old separate flight screen.
 function renderMixedUnifiedResults(data,choice){
+ clearTransitOptionsViewport();
+ state.mixedProgressDetail=false;
+ const surfaceOptions=Array.isArray(data?.scheduled_surface_options)?data.scheduled_surface_options:[];
+ const supplied=Array.isArray(data?.transit)?data.transit:[];
+ const seenSurface=new Set(supplied.map(j=>j.openSurfaceCandidateId).filter(Boolean));
+ const options=[...supplied,...surfaceOptions.filter(o=>o.completeDoorToDoor===true&&o.journey&&!seenSurface.has(o.id)).map(o=>o.journey)];
+ data={...data,transit:options};
  state.lastTransitResponse=data;
- const options=Array.isArray(data?.transit)?data.transit:[];
  renderTransitChoices(options);
  const host=$('moduleLayerBody');if(!host)return;
+ const endpoints=document.createElement('strong');endpoints.className='mixed-origin-destination';
+ endpoints.textContent=String(choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||dialogText('Locația mea (GPS)','My location (GPS)'))+
+  ' → '+String(choice?.transitDestination?.label||data?.transit_destination_point?.label||'');host.append(endpoints);
+ if(data?.mixed_search_pending||data?.mixed_search_incomplete){
+  const progress=document.createElement('p');progress.className='mixed-search-progress';progress.setAttribute('role','status');
+  progress.textContent=data.mixed_search_pending?dialogText('Căutarea continuă în paralel. Poți deschide variantele deja primite.',
+   'Search continues in parallel. You can open the options already received.'):
+   dialogText('Căutare întreruptă: păstrez variantele primite, dar verificarea nu este completă.',
+    'Search interrupted: received options are kept, but the search is incomplete.');
+  host.append(progress);
+ }
+ const overview=document.createElement('p');overview.className='mixed-planning-overview';
+ overview.textContent=dialogText('Comparăm transport local, tren, autocar și avion de la plecare la destinație; aeroportul nu este obligatoriu. Nu este necesară confirmarea locurilor pentru afișare. Orarele, prețurile și locurile se verifică la rezervarea fiecărui segment.',
+  'Compare local transport, trains, coaches and flights from origin to destination; an airport is not required. Seat confirmation is not required to display options. Check schedules, fares and seats when booking each leg.');
+ overview.style.cssText='font-size:13px;line-height:1.45;color:#d5e6ec';host.append(overview);
  const providers=Array.isArray(data?.operator_options)?data.operator_options:[];
  const connections=Array.isArray(data?.ground_connections)?data.ground_connections:[];
  const flights=Array.isArray(data?.flight_candidates)?data.flight_candidates:[];
  // An operator-page result must not hide a failed/empty flight search.
  // Never translate source failure into the assertion that flights do not exist.
- if(data?.international_journey===true&&!flights.length){
+ if(data?.international_journey===true&&(!flights.length||data.flight_search_incomplete===true)){
   const status=String(data?.flight_search_status||'not_reported');
   const airNote=document.createElement('p');
   airNote.className='mixed-flight-search-disclosure';
   airNote.style.cssText='padding:9px 11px;border:1px solid #996273;border-radius:9px;font-size:12px;line-height:1.4;color:#e4d7dc;margin:8px 0';
   airNote.textContent=
+   data.flight_search_termination==='query_budget_exhausted'?
+    dialogText('✈️ Am atins limita de interogări pentru această căutare. Variantele primite sunt păstrate, dar nu toate aeroporturile/datele au fost verificate.',
+     '✈️ The query limit for this search was reached. Returned options are kept, but not all airports/dates were checked.'):
+   data.flight_search_incomplete===true&&flights.length&&data.flight_search_termination!=='search_timeout'?
+    dialogText('✈️ Rezultate parțiale: păstrez zborurile primite, deși verificarea celorlalte variante nu s-a încheiat.',
+     '✈️ Partial results: returned flights are kept although other options could not all be checked.'):
+   status==='search_timeout'||data.flight_search_termination==='search_timeout'?
+    dialogText('✈️ Căutarea aeroporturilor și zborurilor apropiate a atins limita de timp. Păstrez variantele deja primite; verificarea nu este completă.',
+     '✈️ Nearby airport and flight search reached its time limit. Results already received are kept; the search is incomplete.'):
    ['free_quota_not_confirmed','quota_check_failed','search_http_429'].includes(status)?
     dialogText('✈️ Sursa aeriană nu are acum o cotă gratuită de interogări confirmată. Zborurile existente pot lipsi din rezultate.',
      '✈️ Flight search quota is not currently available or confirmed. Existing flights may be absent from these results.'):
@@ -22076,10 +22214,42 @@ function renderMixedUnifiedResults(data,choice){
      '✈️ The supplier did not return flights for this search. This does not prove none operate.');
   host.append(airNote);
  }
+ if(!options.length&&!providers.length&&!connections.length&&!surfaceOptions.length){
+  const groundNote=document.createElement('p');groundNote.className='mixed-ground-search-disclosure';
+  const status=String(data?.operator_discovery_status||'not_reported');
+  groundNote.textContent=data?.ground_search_incomplete===true?
+   dialogText('🚆 🚌 Verificarea legăturilor terestre nu s-a încheiat. Asta nu înseamnă că lipsesc trenurile sau autocarele.',
+    '🚆 🚌 Surface connection search is incomplete. This does not mean no trains or coaches operate.'):
+   status==='search_providers_not_configured'?
+   dialogText('🚆 🚌 Sursa de căutare a rutelor feroviare și rutiere nu este conectată. Zborurile nu reprezintă toate variantele.',
+    '🚆 🚌 Surface route discovery is not connected. Flights are not all the alternatives.'):
+   dialogText('🚆 🚌 Nu am primit încă legături terestre utilizabile de la sursele conectate. Nu am confirmat absența trenurilor sau autocarelor.',
+    '🚆 🚌 Connected sources have not returned usable surface links. This is not confirmation that trains or coaches are absent.');
+  const errors=Array.isArray(data?.operator_source_errors)?data.operator_source_errors:[];
+  if(errors.some(code=>/^(?:exa|brave)_http_(?:401|402|403|429)$/.test(String(code)))||data?.ground_corridor_status==='quota_or_access_blocked'){
+   groundNote.textContent=dialogText('🚆 🚌 Sursa de căutare terestră a refuzat accesul sau a atins limita de cotă. Căutarea nu este completă; nu înseamnă că nu există trenuri/autocare. Nu activez servicii cu plată.',
+    '🚆 🚌 Surface search access was denied or its quota limit was reached. Search is incomplete; this does not mean no trains/coaches operate. No paid service is enabled.');
+  }
+  host.append(groundNote);
+ }
+ if(surfaceOptions.length)appendMixedScheduledSurfaceCards(host,surfaceOptions,choice);
  if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
  if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
  if(flights.length)appendMixedAirCandidateCards(host,flights,choice);
- if(!options.length&&!providers.length&&!connections.length&&!flights.length){
+ const nearby=data?.flight_airport_candidates;
+ if(nearby){
+  const group=document.createElement('section');group.className='mixed-airport-coverage';
+  const title=document.createElement('strong');title.textContent=dialogText('Aeroporturi apropiate identificate','Nearby airports identified');group.append(title);
+  for(const [side,label] of [['origin',dialogText('La plecare','Near origin')],['destination',dialogText('La destinație, inclusiv peste graniță','Near destination, including across borders')]]){
+   const airports=Array.isArray(nearby[side])?nearby[side].filter(a=>/^[A-Z]{3}$/.test(String(a?.iata||''))).slice(0,12):[];
+   if(!airports.length)continue;
+   const row=document.createElement('p');row.style.cssText='font-size:13px;overflow-wrap:anywhere';
+   row.textContent=label+': '+airports.map(a=>a.iata+(a.name?' — '+String(a.name).slice(0,100):'')).join('; ');group.append(row);
+  }
+  const disclaimer=document.createElement('p');disclaimer.textContent=dialogText('Acestea sunt puncte de legătură, nu zboruri sau transferuri confirmate. Variantele aeriene primite sunt păstrate chiar dacă un transfer terestru nu poate fi verificat.',
+   'These are connection points, not confirmed flights or transfers. Returned flight options are retained even if a ground transfer cannot be verified.');group.append(disclaimer);host.append(group);
+ }
+ if(!options.length&&!providers.length&&!connections.length&&!flights.length&&!surfaceOptions.length){
   const note=document.createElement('p');note.className='mixed-no-routes-note';
   note.textContent=dialogText('Nu am primit încă variante de transport de la furnizorii conectați. Rămâi în Transport mixt; schimbă data sau revino la destinație.',
    'Connected suppliers have not returned transport options. Stay in Mixed Transport; change the date or return to the destination.');
@@ -22109,12 +22279,15 @@ function mixedCandidateCard(host,{name,icons,summary,subtitle,onSelect}){
  card.onclick=onSelect;host.append(card);
 }
 function mixedCandidateDetailShell(title,back){
+ state.mixedProgressDetail=true;
  const body=$('moduleLayerBody');if(!body)return null;
+ body.classList.add('transit-results-content');
  body.replaceChildren();body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto;min-height:0;height:100%;padding:12px 12px 32px';
  const button=document.createElement('button');button.type='button';button.className='transit-choice-action';
  button.style.cssText='align-self:flex-start;min-height:42px;width:auto;background:#702740;color:white;border:1px solid #ad6682;border-radius:10px;padding:9px 14px';
  button.textContent=dialogText('← Înapoi la variante','← Back to options');button.onclick=back;
- const h=document.createElement('h3');h.textContent=title;body.append(button,h);return body;
+ const toolbar=document.createElement('div');toolbar.className='quick-navigation-toolbar transit-detail-toolbar';toolbar.append(button);
+ const h=document.createElement('h3');h.textContent=title;body.append(toolbar,h);body.scrollTop=0;return body;
 }
 function appendMixedGroundOperatorCards(host,options,choice){
  mixedResultsSectionTitle(host,dialogText('Autocare și trenuri · variante orientative',
@@ -22129,8 +22302,8 @@ function appendMixedGroundOperatorCards(host,options,choice){
     ' '+String(f.currency||''):dialogText('Preț de verificat la operator','Check fare with operator');
   mixedCandidateCard(host,{
    name:label,icons,summary:option.operator+' · '+fare,
-   subtitle:dialogText('Tronson găsit pe pagina operatorului; legăturile de la/la adresă și orarul nu sunt confirmate.',
-    'Operator route page found; local transfers and timetable unconfirmed.'),
+   subtitle:dialogText('Rută publicată de operator, posibil cu schimburi; orarul și legăturile locale nu sunt confirmate.',
+    'Operator route, possibly with changes; timetable and local transfers unconfirmed.'),
    onSelect:()=>{
     const body=mixedCandidateDetailShell(label,()=>renderMixedUnifiedResults(dataForMixed(),choice));
     if(!body)return;
@@ -22138,6 +22311,10 @@ function appendMixedGroundOperatorCards(host,options,choice){
     p.textContent=dialogText('Variantă orientativă. Verifică plecarea, durata, tariful și locurile la operator. Eva nu face rezervări.',
      'Indicative option. Verify departure, duration, fare and seats with the operator. Eva does not book.');
     body.append(p);
+    const changes=document.createElement('p');changes.className='mixed-operator-changes-disclosure';
+    changes.textContent=dialogText('Această rută poate include schimburi organizate de operator. Nu am confirmat dacă este directă, punctele de schimbare sau dacă un singur bilet acoperă călătoria.',
+     'This route may include operator-arranged changes. Direct service, interchange points and through-ticket coverage are not confirmed.');
+    body.append(changes);
     // A route-page result cannot prove first/last mile: show both gaps.
     const fromAddress=String(choice?.journeyOrigin?.label||state.lastTransitChoice?.journeyOrigin?.label||
      dialogText('Adresa de plecare','Starting address'));
@@ -22161,9 +22338,9 @@ function appendMixedGroundOperatorCards(host,options,choice){
      dialogText(' · transportul local și mersul pe jos nu sunt confirmate.',
       ' · local transport and walking are not verified.');
     body.append(egress);
-    const link=document.createElement('a');link.textContent=String(option.operator);
+    const link=document.createElement('a');link.textContent=dialogText('Bilete și rezervare · ','Tickets and booking · ')+String(option.operator);
     link.className='transit-choice-action';
-    link.href=String(option.url);link.target='_blank';link.rel='noopener noreferrer';
+    const routeUrl=transportTicketUrl(option.url);if(!routeUrl)return;link.href=routeUrl;link.target='_blank';link.rel='noopener noreferrer';
     link.style.cssText='display:block;padding:12px 14px;color:#fff;background:#752b48;border:1px solid #a96180;border-radius:11px;text-decoration:underline';
     body.append(link);
    }
@@ -22213,8 +22390,8 @@ function appendMixedGroundConnectionCards(host,connections,choice){
      heading.textContent=(stageNumber++)+'. '+(step.mode==='train'?'🚆':step.mode==='ferry'?'⛴️':'🚌')+
       ' '+step.from+' → '+step.to;
      section.append(heading);
-     const link=document.createElement('a');link.textContent=String(step.operator);
-     link.href=String(step.url);link.target='_blank';link.rel='noopener noreferrer';
+     const link=document.createElement('a');link.textContent=dialogText('Bilete și rezervare · ','Tickets and booking · ')+String(step.operator);
+     const routeUrl=transportTicketUrl(step.url);if(!routeUrl)continue;link.href=routeUrl;link.target='_blank';link.rel='noopener noreferrer';
      link.style.cssText='align-self:flex-start;color:#b2e3ee;text-decoration:underline;padding:5px 0';
      section.append(link);
      if(step.fareFrom&&Number.isFinite(Number(step.fareFrom.amount))){
@@ -22242,6 +22419,50 @@ function appendMixedGroundConnectionCards(host,connections,choice){
      dialogText(' · stația de sosire nu este identificată de furnizor; traseul până la adresă trebuie încă verificat.',
       ' · the operator has not identified the arrival stop; onward routing to your address is not verified.');
     body.append(final);
+   }
+  });
+ }
+}
+function appendMixedScheduledSurfaceCards(host,options,choice){
+ const source=options[0]?.source;
+ const attribution=document.createElement('p');attribution.className='mixed-surface-attribution';
+ attribution.textContent=String(source?.attribution||'FlixBus / FlixTrain — ODbL')+
+  dialogText(' · orar teoretic, nu rezervare; transferuri și bilete separate, neprotejate. Orele de mai jos sunt UTC.',
+   ' · theoretical schedule, not a booking; separate, unprotected transfers/tickets. Times below are UTC.');
+ host.append(attribution);
+ const partial=options.filter(o=>o.completeDoorToDoor!==true);
+ if(!partial.length)return;
+ mixedResultsSectionTitle(host,dialogText('Tren / autocar · orar datat, legături locale incomplete',
+  'Train / coach · dated schedule, incomplete local connections'));
+ for(const option of partial.slice(0,2)){
+  const legs=Array.isArray(option.legs)?option.legs:[];if(!legs.length)continue;
+  const route=String(legs[0].from)+' → '+String(legs.at(-1).to);
+  mixedCandidateCard(host,{name:route,icons:legs.map(l=>l.mode==='train'?'🚆':'🚌').join(' → '),
+   summary:String(legs[0].departureTime)+' → '+String(legs.at(-1).arrivalTime)+' · UTC',
+   subtitle:dialogText('Orar publicat. Nu este încă un traseu complet până la adresă.',
+    'Published schedule. Not yet a complete journey to the address.'),
+   onSelect:()=>{
+    const body=mixedCandidateDetailShell(route,()=>renderMixedUnifiedResults(dataForMixed(),choice));if(!body)return;
+    const warning=document.createElement('p');warning.textContent=attribution.textContent;body.append(warning);
+    const addLocal=(journey,side,status)=>{
+     const section=document.createElement('section');section.className='mixed-surface-local-'+side;
+     section.textContent=(side==='access'?dialogText('Acces la îmbarcare: ','Access to boarding: '):dialogText('Până la destinația exactă: ','To the exact destination: '))+
+      (journey?String(journey.startDateTime)+' → '+String(journey.arrivalDateTime):dialogText('⚠ Neconfirmat · ','⚠ Unverified · ')+String(status||'unverified'));
+     for(const l of journey?.legs||[]){const row=document.createElement('p');row.textContent=String(l.from)+' → '+String(l.to)+' · '+String(l.departureTime)+' → '+String(l.arrivalTime)+(l.timingEstimated?dialogText(' · durată pietonală estimată',' · estimated walking duration'):'');section.append(row)}
+     body.append(section);
+    };
+    addLocal(option.accessJourney,'access',option.accessStatus);
+    for(const leg of legs){
+     const section=document.createElement('section');section.className='mixed-surface-dated-leg';
+     const heading=document.createElement('strong');heading.textContent=String(leg.from)+' → '+String(leg.to);section.append(heading);
+     const times=document.createElement('p');times.textContent=String(leg.operator||'')+' · '+String(leg.line||'')+' · '+String(leg.departureTime)+' → '+String(leg.arrivalTime)+' · UTC';section.append(times);
+     const stops=document.createElement('details'),label=document.createElement('summary');label.textContent=dialogText('Stații publicate: ','Published stops: ')+String(leg.stopCount);stops.append(label);
+     for(const stop of leg.stops||[]){const row=document.createElement('p');row.textContent=String(stop.name)+' · '+String(stop.arrivalTime)+' / '+String(stop.departureTime);stops.append(row)}
+     section.append(stops);body.append(section);
+    }
+    addLocal(option.egressJourney,'egress',option.egressStatus);
+    const credit=document.createElement('a');credit.textContent=dialogText('Sursa oficială și licența datelor','Official source and data licence');
+    credit.href='https://transport.data.gouv.fr/datasets/flixbus-horaires-theoriques-du-reseau-europeen-1';credit.target='_blank';credit.rel='noopener noreferrer';body.append(credit);
    }
   });
  }
@@ -22278,8 +22499,10 @@ function appendMixedAirCandidateCards(host,flights,choice){
  }
 }
 function renderTransitChoices(options,selectedIndex=null){
+ if(state.lastTransitChoice?.mixedJourney)state.mixedProgressDetail=selectedIndex!==null;
+ clearTransitOptionsViewport();
  dismissSelectionKeyboard();
- document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
+ document.querySelector('.module-quick-sheet')?.classList.remove('details-mode');const body=$('moduleLayerBody'),t=transitAccessText();body.classList.add('transit-results-content');body.innerHTML='';document.querySelector('.module-quick-sheet')?.classList.add('results-mode');body.style.cssText='display:flex;flex-direction:column;gap:10px;overflow-y:auto!important;overflow-x:hidden;overscroll-behavior:contain;min-height:0;height:100%;max-height:100%;padding:12px 12px 40px';
  const heading=document.createElement('h3');heading.textContent=selectedIndex===null?(state.lastTransitChoice?.mixedJourney===true?dialogText('Variante de transport mixt','Mixed transport options'):t[0]):isRomanianRailJourney(options[selectedIndex])?dialogText('Detalii cursă ','Journey details ')+(selectedIndex+1):t[1]+' '+(selectedIndex+1)+(options[selectedIndex]?.legs?.at(-1)?.to?' → '+options[selectedIndex].legs.at(-1).to:'');body.append(heading);body.scrollTop=0;
   if(selectedIndex===null){
     const chosen=state.lastTransitChoice?.transitDepartureAt||state.lastTransitResponse?.transit_departure_at;
@@ -22293,11 +22516,12 @@ function renderTransitChoices(options,selectedIndex=null){
       body.append(request);
     }
   }
- const actions=document.createElement('div');actions.className='quick-navigation-toolbar';
+ const actions=document.createElement('div');actions.className='quick-navigation-toolbar'+(selectedIndex!==null?' transit-detail-toolbar':'');
  const back=document.createElement('button');back.type='button';back.className='transit-choice-action';back.textContent=dialogText("Anterior","Previous");back.onclick=()=>{
   cancelTransitAccess(true);
-  if(selectedIndex!==null){renderTransitChoices(options);return}
-  if(state.lastTransitChoice?.nationalPublicTransport){showNationalTransitSearch(state.lastTransitChoice);return}
+  if(selectedIndex!==null){if(state.lastTransitChoice?.mixedJourney)renderMixedUnifiedResults(state.lastTransitResponse||{},state.lastTransitChoice);else renderTransitChoices(options);return}
+  if(state.lastTransitChoice?.mixedJourney)cancelMixedProgressSearch();
+  if(state.lastTransitChoice?.nationalPublicTransport){restartNationalTransitSearch();return}
   // Mixed journeys return to the one-field destination and mode selector.
   if(state.lastTransitChoice?.mixedJourney&&state.lastTransitChoice?.transitDestination){
    const fromChoice=(MODULE_QUICK_CHOICES.maps||[]).find(item=>item.mixedJourney);
@@ -22323,7 +22547,7 @@ function renderTransitChoices(options,selectedIndex=null){
   original.textContent=dialogText("Revenire","Return");
   original.onclick=()=>returnToNavigationSource();actions.append(original)}
  body.append(actions);
- if(selectedIndex===null){
+ if(selectedIndex===null&&state.lastTransitChoice?.mixedJourney===true){
   const comparison=document.createElement('div');comparison.className='transit-walking-comparison';
   comparison.style.cssText='font-size:14px;line-height:1.4;color:#d9f4f7';
   body.append(comparison);
@@ -22337,19 +22561,26 @@ function renderTransitChoices(options,selectedIndex=null){
   body.append(summary);
   if(journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||''))){
    const note=document.createElement('p');note.className='transit-estimated-timetable';
-   note.textContent=dialogText('Variantă orientativă: verifică orarul, tariful și locurile la operator. Eva nu face rezervări.',
-    'Indicative option: confirm timetables, fares and seats with the operator. Eva does not take bookings.');
+   note.textContent=dialogText('Variantă orientativă: orarul nu poate fi garantat. Verifică orarul, tariful și locurile la operator. Eva nu face rezervări.',
+    'Indicative option: the timetable cannot be guaranteed. Confirm timetables, fares and seats with the operator. Eva does not take bookings.');
    body.append(note);
   }
   const bufferText=transitBoardingAdvice(journey);
   if(bufferText){const notice=document.createElement('p');notice.className='transit-boarding-buffer-notice';notice.textContent=bufferText;body.append(notice)}
+  appendFinalTransitWalkAction(body,journey);appendTransitLegs(body,journey);
   const selected=state.selectedTransitJourney,status=document.createElement('p');status.className='transit-access-status';status.setAttribute('role','status');status.textContent=selected?.loading?t[10]:selected?.error||'';body.append(status);
   // Walking directions are viewed in the map, not repeatedly offered as a
   // generic retry from the public-transport card after an expired departure.
   if(selected?.accessRoute&&!selected.error){const walk=document.createElement('button');walk.type='button';walk.className='transit-choice-action';walk.textContent=t[9];walk.onclick=()=>openRouteMap(selected.accessRoute,walk,selected.accessOptions);body.append(walk)}
   if(state.lastTransitChoice){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
   // Keep final-mile directions above the long leg table.
-  appendFinalTransitWalkAction(body,journey);appendTransitLegs(body,journey);return;
+  if((journey.legs||[]).length){
+   const navigate=document.createElement('button');navigate.type='button';navigate.className='transit-choice-action';
+   navigate.classList.add('transit-all-stages-map');
+   navigate.textContent=dialogText('Hartă: toate etapele și deplasările pe jos','Map: all stages and walking legs');
+   navigate.onclick=()=>void openTransitJourneyMap(selected||{journey,options,index:selectedIndex});body.append(navigate);
+  }
+  return;
  }
  const available=feasibleTransitChoices(options);
  if(!available.length){
@@ -22358,11 +22589,13 @@ function renderTransitChoices(options,selectedIndex=null){
  }
  else {if(state.lastTransitChoice?.mixedJourney===true)appendMixedTransitComparison(body,available);appendTransitCards(body,available)}
  if(state.lastTransitResponse?.transit_destination_point){const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-choice-action transit-refresh-action';refresh.textContent=t[15];refresh.onclick=()=>refreshTransitDepartures(refresh);body.append(refresh)}
+ mountPublicTransitOptionsViewport(body);
 }
 
 function transitCoordinate(point){
  if(!point)return null;
- const lat=Number(point.lat??point.latitude),lon=Number(point.lon??point.longitude);
+ const rawLat=point.lat??point.latitude,rawLon=point.lon??point.longitude;if(rawLat==null||rawLon==null)return null;
+ const lat=Number(rawLat),lon=Number(rawLon);
  return Number.isFinite(lat)&&Number.isFinite(lon)&&Math.abs(lat)<=90&&Math.abs(lon)<=180?[lat,lon]:null;
 }
 function transitWalkLeg(mode){return /^(walking|walk|foot|pedestrian)$/i.test(String(mode||''))}
@@ -22372,15 +22605,35 @@ function transitVerifiedPath(route,from,to){
  return transitDistance({latitude:a[1],longitude:a[0]},{latitude:from[0],longitude:from[1]})<=150&&
         transitDistance({latitude:b[1],longitude:b[0]},{latitude:to[0],longitude:to[1]})<=150;
 }
+// Same coordinate-backed road router used by the standalone walking tool.
+// Its provider can take 12s per calculation plus entrance/access alternatives;
+// the former 8s boarding timeout aborted valid requests before that work ended.
+async function transitWalkingRequest(start,end,signal){
+ const controller=new AbortController();
+ const abort=()=>controller.abort();
+ if(signal?.aborted)abort();else signal?.addEventListener('abort',abort,{once:true});
+ const timeout=setTimeout(abort,45000);
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,
+   body:JSON.stringify({message:routeActionsText().prompt+end.label,language:state.language,
+    module:state.currentModule||'maps',history:[],location:start,coordinates:start,
+    location_requested:true,route_profile:'walk',route_destination:end,
+    route_context:{profile:'walk',origin:start,destination:end,destination_query:end.label,origin_query:'',pending:null}})});
+  if(!response.ok)throw Error('walk_route_unavailable');
+  const result=await response.json();
+  if(result.status!=='success'||result.route_available!==true)return null;
+  const from=[start.latitude,start.longitude],to=[end.latitude,end.longitude];
+  // A mapped entrance may be the preferred standalone route. Keep the base
+  // alternative when that entrance is not the requested boarding/transfer point.
+  const candidates=[result.route,...(Array.isArray(result.routes)?result.routes:[])];
+  const routes=candidates.filter((route,i)=>candidates.indexOf(route)===i&&transitVerifiedPath(route,from,to));
+  return routes.length?{...result,route:routes[0],routes}:null;
+ }finally{clearTimeout(timeout);signal?.removeEventListener('abort',abort)}
+}
 async function transitStreetPath(from,to,label,signal){
- const start={latitude:from[0],longitude:from[1]},end={latitude:to[0],longitude:to[1],label};
- const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal,
-  body:JSON.stringify({message:routeActionsText().prompt+label,language:state.language,
-   module:state.currentModule||'maps',history:[],location:start,coordinates:start,
-   location_requested:true,route_profile:'walk',route_destination:end,route_context:null})});
- if(!response.ok)throw Error('walk_route_unavailable');
- const result=await response.json();
- return result.status==='success'&&result.route_available===true&&transitVerifiedPath(result.route,from,to)?result.route:null;
+ const start={latitude:from[0],longitude:from[1],label:dialogText('Plecarea','Start')};
+ const end={latitude:to[0],longitude:to[1],label};
+ return (await transitWalkingRequest(start,end,signal))?.route||null;
 }
 
 function beginTransitVisualTracking(current){
@@ -22388,14 +22641,11 @@ function beginTransitVisualTracking(current){
  current.navigating=true;current.follow=true;
  current.layer.classList.add('navigating');
  document.body.classList.add('pocket-navigation-fullscreen');
- // Route planning uses a small overview map; actual navigation needs a
- // centred, zoomed view, with the next walking instruction still visible.
- current.mapHost.style.setProperty('height','clamp(250px,57dvh,620px)','important');
- current.mapHost.style.setProperty('max-height','none','important');
- current.details.style.setProperty('max-height','35dvh','important');
+ current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.directionBadge)current.directionBadge.hidden=true;if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
+ current.layer.querySelector('.transit-fixed-controls button:last-child')?.removeAttribute('hidden');
  current.layer.style.bottom='0px';
  current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
- current.map.invalidateSize();
+ pocketSyncNavigationMap(current);
  current.map.on('dragstart',()=>{current.follow=false;current.recenter.hidden=false});
  current.recenter.onclick=()=>{current.follow=true;
   if(current.lastFix)current.map.setView(current.lastFix,17,{animate:false})};
@@ -22409,12 +22659,13 @@ function beginTransitVisualTracking(current){
   if(activeRouteMap!==current||!current.navigating)return;
   const c=position?.coords,age=Date.now()-Number(position?.timestamp);
   if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||
-     !Number.isFinite(c.accuracy)||age>30000||age< -5000)return;
+     !Number.isFinite(c.accuracy)||c.accuracy<0||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(age)||age>30000||age< -5000){pocketUpdateManeuver(current,null,null,Infinity);return;}
   current.lastFix=[c.latitude,c.longitude];
   if(!current.liveMarker)current.liveMarker=current.leaflet.circleMarker(current.lastFix,{
     radius:9,color:'#fff',weight:3,fillColor:'#04c9d4',fillOpacity:1}).addTo(current.map);
   else current.liveMarker.setLatLng(current.lastFix);
   if(c.accuracy>60){
+   pocketUpdateManeuver(current,null,null,c.accuracy);
    current.liveStatus.textContent=dialogText('Precizie GPS redusă','GPS accuracy low')+
     ' ±'+Math.round(c.accuracy)+' m';return;
   }
@@ -22442,6 +22693,7 @@ function beginTransitVisualTracking(current){
    const match=projectWalkingPosition(route,c.latitude,c.longitude);
    if(!closest||match.away<closest.away)closest={index,route,...match};
   }
+  pocketUpdateManeuver(current,closest?.route?{...closest.route,destination:{label:closest.index===-1?String(current.journey.boarding_stop?.label||''):String(current.journey.legs?.[closest.index]?.to||'')}}:null,closest,c.accuracy);
   if(closest&&closest.away<=Math.max(45,c.accuracy*2)){
    const label=closest.index===-1?String(current.journey.boarding_stop?.label||'stație'):
     String(current.journey.legs?.[closest.index]?.to||'următoarea legătură');
@@ -22450,7 +22702,7 @@ function beginTransitVisualTracking(current){
   }else current.liveStatus.textContent=dialogText('Urmărește punctul albastru; caut transferul pietonal verificat.',
    'Follow the blue marker; looking for a verified walking transfer.');
  };
- const onError=error=>{if(activeRouteMap!==current)return;current.liveStatus.textContent=
+ const onError=error=>{if(activeRouteMap!==current)return;pocketUpdateManeuver(current,null,null,Infinity);current.liveStatus.textContent=
   error?.code===1?dialogText('Permite GPS pentru urmărirea pe hartă.','Allow location for map tracking.'):
   dialogText('Semnal GPS indisponibil; navigația vocală Android continuă dacă este activă.',
    'GPS fix unavailable; Android voice navigation may continue.')};
@@ -22502,30 +22754,30 @@ window.pocketRestoreNavigationSession=restoreTransitSessionFromNative;
 async function openTransitJourneyMap(selected,resume=null){
  const journey=selected?.journey;if(!journey)return;
  dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);inputEl.blur();
- const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map';
+ const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map transit-viewport-screen route-unified-preview';
  layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
  layer.setAttribute('aria-label',dialogText('Traseu complet','Complete journey'));
  layer.style.cssText='display:flex;flex-direction:column;overflow:hidden';
  const head=document.createElement('div');head.className='route-map-header';
  const back=document.createElement('button');back.type='button';back.className='route-header-action';
  back.textContent=dialogText('Anterior','Previous');
- back.onclick=()=>{closeRouteMap(false);renderTransitChoices(selected.options)};
+ back.onclick=()=>{cancelTransitAccess();closeRouteMap(false);if(state.lastTransitChoice?.mixedJourney)renderMixedUnifiedResults(state.lastTransitResponse||{},state.lastTransitChoice);else renderTransitChoices(selected.options)};
  const title=document.createElement('h2');title.textContent=dialogText('Traseu pe hartă','Route map');
  const close=document.createElement('button');close.type='button';close.className='route-header-action';
  close.textContent=dialogText('Închide harta','Close map');
- close.onclick=()=>{closeRouteMap(false);renderTransitChoices(selected.options)};
+ close.onclick=back.onclick;
  head.append(back,title,close);
  const note=document.createElement('p');note.className='route-map-status';note.setAttribute('role','status');
  note.textContent=dialogText('Încarc toate etapele traseului…','Loading all journey legs…');
  const mapHost=document.createElement('div');mapHost.className='route-map-canvas';
- mapHost.style.cssText='height:clamp(165px,28dvh,300px)!important;min-height:165px;max-height:30dvh;flex:none!important';
+ mapHost.style.cssText='min-height:0'; // Shared CSS owns preview and navigation sizing.
  const details=document.createElement('section');details.className='route-directions transit-full-journey-details';
  details.style.cssText='flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 18px 28px;overscroll-behavior:contain';
  const destination=String(state.lastTransitResponse?.transit_destination_point?.label||
     state.lastTransitChoice?.transitDestination?.label||journey.legs?.at(-1)?.to||'');
  const intro=document.createElement('strong');intro.textContent=String(journey.legs?.[0]?.from||'—')+' → '+destination;
- const timing=document.createElement('p');timing.textContent=transitClock(journey.startDateTime,journey.time_zone)+
-  ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+' · '+formatTravelDurationMinutes(journey.durationMinutes);
+ const timing=document.createElement('p');timing.textContent=transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime,journey.time_zone)+
+  ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+(journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
  const notice=document.createElement('p');notice.style.cssText='font-size:13px;opacity:.85';
  notice.textContent=dialogText('Liniile punctate indică tronsoane fără geometrie de drum verificată; nu sunt indicații de navigație.',
   'Dashed lines are schematic connections without verified road geometry, not navigation directions.');
@@ -22539,11 +22791,20 @@ async function openTransitJourneyMap(selected,resume=null){
 
  follow.onclick=()=>{
   if(current.navigating){current.recenter.onclick();return}
+  if(selected.loading||selected.error||selected.timeUnverified||transitScheduleUncertain(journey)){
+   note.textContent=selected.error||dialogText('Accesul la îmbarcare nu este încă verificat.','Access to boarding is not verified yet.');return;
+  }
+  const departure=Date.parse(journey.firstVehicleDepartureTime||journey.boarding_stop?.departure_time||'');
+  const margin=Number.isFinite(Number(journey.safetyMarginMinutes))?Math.max(0,Math.min(15,Number(journey.safetyMarginMinutes))):5;
+  if(Number.isFinite(departure)&&departure<Date.now()+(Number(selected.accessRoute?.durationSeconds)||0)*1000+margin*60000){
+   selected.error=transitAccessText()[14];selected.timeUnverified=true;current.refreshSelection();note.textContent=selected.error;return;
+  }
+  if(!current.map){note.textContent=dialogText('Harta încă se încarcă.','The map is still loading.');return}
   if(typeof window.PocketAndroidRouteGuidance?.postMessage!=='function'){
    note.textContent=dialogText('Navigația în fundal necesită un APK cu serviciul Android activ.',
     'Background navigation requires the Android navigation service.');return;
   }
-  const walkingLegs=[...walkRoutes].sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
+  const walkingLegs=[...walkRoutes].filter(([i,route])=>i!==-1||walkRoutes.get(0)!==route).sort((a,b)=>a[0]-b[0]).map(([i,route])=>({
    index:i,from:i===-1?dialogText('Poziția mea','My location'):String(journey.legs?.[i]?.from||''),
    to:i===-1?String(journey.boarding_stop?.label||'Stația de îmbarcare'):String(journey.legs?.[i]?.to||''),
    departureTime:i===-1?String(journey.firstVehicleDepartureTime||''):String(journey.legs?.[i]?.departureTime||''),
@@ -22578,17 +22839,19 @@ async function openTransitJourneyMap(selected,resume=null){
  stop.onclick=()=>{
   window.PocketAndroidRouteGuidance?.postMessage?.(JSON.stringify({action:'stop'}));
   stopRouteTracking(current);
-  current.mapHost.style.setProperty('height','clamp(165px,28dvh,300px)','important');
-  current.mapHost.style.setProperty('max-height','30dvh','important');
+  current.mapHost.style.removeProperty('height');
+  current.mapHost.style.removeProperty('max-height');
   current.details.style.removeProperty('max-height');
-  current.layer.style.bottom='';
-  current.followButton.textContent=dialogText('Urmărește traseul cu Eva','Follow journey with Eva');
+  current.resize?.();
+  current.followButton.textContent=dialogText('Navigare','Navigate');stop.hidden=true;
   current.map?.setHeading?.(0);
   if(current.overviewPoints?.length>1)current.map?.fitBounds(current.overviewPoints,{padding:[24,24]});
   current.map?.invalidateSize();
   note.hidden=false;note.textContent=dialogText('Navigația a fost oprită.','Navigation stopped.');
  };
- details.append(intro,timing);
+ details.append(timing,intro);
+ const accessStatus=document.createElement('p');accessStatus.className='transit-access-status';
+ accessStatus.setAttribute('role','status');details.append(accessStatus);
  const leaveBy=transitBoardingAdvice(journey);
  if(leaveBy){const advice=document.createElement('p');advice.className='transit-boarding-buffer-notice';
   advice.textContent=leaveBy;details.append(advice)}
@@ -22597,23 +22860,64 @@ async function openTransitJourneyMap(selected,resume=null){
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('div');row.style.cssText='padding:12px 5px;border-bottom:1px solid #426274';
   const label=document.createElement('strong');
-  label.textContent=(transitWalkLeg(leg.mode)?'📌 ':'')+(i+1)+'. '+transitModeName(leg.mode)+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
-  const place=document.createElement('div');place.textContent=(leg.from||'—')+' → '+(leg.to||'—');
-  const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,journey.time_zone)+
-   ' → '+transitClock(leg.arrivalTime,journey.time_zone);
-  row.append(label,place,clock);stages.append(row);
+  label.textContent=(transitWalkLeg(leg.mode)?'📌 ':'')+(i+1)+'. '+(isRomanianRailJourney(journey)?romanianActualVehicle(leg):transitModeName(leg.mode))+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
+  const place=document.createElement('div');place.textContent=isRomanianRailJourney(journey)?formatRomanianStop(leg.from,leg.fromLocality)+' → '+formatRomanianStop(leg.to,leg.toLocality):(leg.from||'—')+' → '+(leg.to||'—');
+  const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone)+
+   ' → '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);
+  row.append(label,place,clock);appendTransitStopCount(row,leg);appendTransportTicketAction(row,leg);
+  if(leg.operator){const operator=document.createElement('div');operator.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));row.append(operator)}
+  if(isRomanianRailJourney(journey)&&/^(train|rail)$/i.test(String(leg.mode||''))&&!transitLineLabel(leg)){
+   const missing=document.createElement('p');missing.textContent=dialogText('Număr tren: neprecizat de furnizor.','Train number: not supplied by provider.');row.append(missing);
+  }
+  if(transitWalkLeg(leg.mode)){const status=document.createElement('p');status.className='transit-walk-stage-status';status.textContent=dialogText('Traseu pietonal neverificat.','Walking path unverified.');row.append(status)}
+  stages.append(row);
  }
- details.append(stages);
- layer.append(head,note,mapHost,details);document.body.append(layer);
+ details.append(stages);appendFinalTransitWalkAction(details,journey);
+ const finalWalkAction=details.querySelector('button.transit-choice-action');
+ if(isRomanianRailJourney(journey)){
+  const rail=document.createElement('div');appendRomanianRailDetails(rail,journey);
+  // Keep national fare/operator notices while the paged stage rows above
+  // provide the same vehicle, locality, ticket and stop information.
+  details.append(...[...rail.children].filter(el=>el.matches('p')));
+  if(journey.fareLocal&&Number.isFinite(Number(journey.fareLocal.amount))){const fare=document.createElement('p');fare.textContent=dialogText('Tarif afișat: ','Displayed fare: ')+Number(journey.fareLocal.amount).toLocaleString(state.language||'ro',{maximumFractionDigits:2})+' '+journey.fareLocal.currency;details.append(fare)}
+  const advisory=String(state.lastTransitResponse?.rail_replacement_notice||'').trim();if(advisory){const notice=document.createElement('p');notice.textContent=advisory;details.append(notice)}
+ }
+ const refresh=document.createElement('button');refresh.type='button';refresh.className='transit-refresh-action';refresh.textContent=transitAccessText()[15];
+ refresh.onclick=()=>{back.onclick();void refreshTransitDepartures(refresh)};details.append(refresh);
+ if(journey.attribution?.text){const source=document.createElement('p');source.className='transit-source-attribution';source.style.cssText='font-size:12px;overflow-wrap:anywhere';source.textContent=journey.attribution.text;details.append(source)}
+ if(transitScheduleUncertain(journey)){const warning=document.createElement('p');warning.textContent=dialogText('Traseu orientativ; orarul nu poate fi garantat. Verifică la operator.','Indicative route; the timetable cannot be guaranteed. Confirm with the operator.');details.append(warning)}
+ // One continuous itinerary under a compact overview map, no stage pages.
+ follow.remove();recenter.remove();stop.remove();
+ const tools=document.createElement('div');tools.className='transit-fixed-controls';
+ const overview=document.createElement('button');overview.type='button';overview.textContent=dialogText('Traseu','Journey');
+ follow.textContent=dialogText('Navigare','Navigate');follow.setAttribute('aria-label',dialogText('Pornește navigarea cu Eva','Start navigation with Eva'));
+ stop.textContent=dialogText('Oprește','Stop');stop.hidden=true;
+ tools.append(overview,follow,recenter,stop);
+ layer.append(head,note,mapHost,details,tools);document.body.append(layer);
  const current={layer,route:selected.accessRoute||null,journey,mapHost,details,
   followButton:follow,recenter,liveStatus:note,walkRoutes,
   map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:back.onclick};
- activeRouteMap=current;
- const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;
-  layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';
-  current.map?.invalidateSize()};
- current.resize=resize;window.addEventListener('resize',resize);
- current.cleanup=()=>window.removeEventListener('resize',resize);resize();
+ activeRouteMap=current;pocketAttachManeuver(current);
+ overview.onclick=()=>{details.scrollTop=0;current.focusStage?.(-1)};
+ if(finalWalkAction)finalWalkAction.onclick=()=>{stages.lastElementChild?.scrollIntoView({block:'nearest'});current.focusStage?.((journey.legs||[]).length-1)};
+ current.refreshSelection=()=>{
+  accessStatus.textContent=selected.loading?transitAccessText()[10]:selected.error||
+   (selected.timeUnverified?transitAccessText()[21]:selected.accessRoute?dialogText('Acces pietonal verificat.','Walking access verified.'):'');
+  const advice=transitBoardingAdvice(journey);if(advice)details.querySelector('.transit-boarding-buffer-notice')?.replaceChildren(document.createTextNode(advice));
+  follow.disabled=Boolean(selected.loading||selected.error||selected.timeUnverified||transitScheduleUncertain(journey));
+  if(selected.error)note.textContent=selected.error;
+  current.route=selected.accessRoute||null;
+  if(selected.accessRoute&&validMapRoute(selected.accessRoute)){walkRoutes.set(-1,selected.accessRoute);current.drawAccess?.(selected.accessRoute)}
+ };
+ current.refreshSelection();
+ const resize=()=>{
+  const viewport=window.visualViewport;
+  layer.style.top=(viewport?.offsetTop||0)+'px';layer.style.height=(viewport?.height||window.innerHeight)+'px';layer.style.bottom='auto';
+  current.map?.invalidateSize();
+ };
+ current.resize=resize;window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);
+ const removeResize=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize)};
+ current.cleanup=()=>{removeResize()};resize();
  try{
   const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
   const rotateReady=await loadRouteRotationLibrary();
@@ -22621,7 +22925,7 @@ async function openTransitJourneyMap(selected,resume=null){
   const map=L.map(mapHost,{rotate:rotateReady});current.map=map;current.leaflet=L;
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,
    attribution:'&copy; OpenStreetMap contributors'}).addTo(map);
-  const all=[],unverified=[];
+  const all=[],unverified=selected.error?[-1]:[];
   const savedWalks=new Map();
   for(const stage of (resume?.walkingLegs||[])){
    if(!Number.isInteger(stage.index)||!Array.isArray(stage.coordinates)||stage.coordinates.length<2||
@@ -22637,56 +22941,77 @@ async function openTransitJourneyMap(selected,resume=null){
   const marker=(p,label)=>{if(!p)return;all.push(p);
    L.marker(p,{title:label}).addTo(map).bindPopup(label)};
   const line=(p,color,dashed=false)=>{if(p.length<2)return;
-   p.forEach(x=>all.push(x));L.polyline(p,{color,weight:dashed?3:5,
+   p.forEach(x=>all.push(x));return L.polyline(p,{color,weight:dashed?3:5,
     opacity:dashed?.6:.95,dashArray:dashed?'6,9':undefined}).addTo(map)};
+  let accessDrawn=false;
+  current.drawAccess=route=>{if(accessDrawn||activeRouteMap!==current)return;accessDrawn=true;
+   const points=route.coordinates.map(c=>[c[1],c[0]]);line(points,'#0f91e2');marker(points[0],'📌 '+dialogText('Plecarea','Start'));
+  };
   const access=selected.accessRoute&&validMapRoute(selected.accessRoute)?
     selected.accessRoute:savedWalks.get(-1);
   if(access&&validMapRoute(access)){
-   const p=access.coordinates.map(c=>[c[1],c[0]]);line(p,'#0f91e2');
-   walkRoutes.set(-1,access);marker(p[0],'📌 '+dialogText('Plecarea','Start'));
+   current.drawAccess(access);walkRoutes.set(-1,access);
   }
   const walkJobs=[];
   for(const [i,leg] of (journey.legs||[]).entries()){
    const savedLeg=savedWalks.get(i);
-   let from=transitCoordinate(leg.departurePoint),to=transitCoordinate(leg.arrivalLatLon);
+   let from=transitCoordinate(leg.departurePoint),to=transitCoordinate(leg.arrivalPoint||leg.arrivalLatLon);
    if(!from&&savedLeg)from=[savedLeg.coordinates[0][1],savedLeg.coordinates[0][0]];
    if(!to&&savedLeg){const end=savedLeg.coordinates.at(-1);to=[end[1],end[0]]}
-   if(!from&&i>0)from=transitCoordinate(journey.legs[i-1]?.arrivalLatLon);
+   if(!from&&i>0)from=transitCoordinate(journey.legs[i-1]?.arrivalPoint||journey.legs[i-1]?.arrivalLatLon);
    if(!to&&i+1<journey.legs.length)to=transitCoordinate(journey.legs[i+1]?.departurePoint);
    if(!from||!to){unverified.push(i+1);if(from)marker(from,'📌 '+leg.from);if(to)marker(to,'📌 '+leg.to);continue}
+   if(!transitWalkLeg(leg.mode)){marker(from,leg.from||'');marker(to,leg.to||'')}
    const verified=Array.isArray(leg.coordinates)&&leg.coordinates.length>=2&&leg.geometryAvailable===true;
    if(verified){const p=leg.coordinates.filter(c=>Array.isArray(c)&&Number.isFinite(c[0])&&Number.isFinite(c[1]))
     .map(c=>[c[1],c[0]]);if(p.length>1)line(p,transitWalkLeg(leg.mode)?'#0f91e2':'#822d4a')}
    else if(!transitWalkLeg(leg.mode)){line([from,to],'#822d4a',true);unverified.push(i+1)}
    if(transitWalkLeg(leg.mode)){
     marker(from,'📌 '+(leg.from||'')+' → '+(leg.to||''));
-    const initial=L.polyline([from,to],{color:'#0f91e2',weight:3,opacity:.5,dashArray:'4,7'}).addTo(map);
+    const initial=line([from,to],'#0f91e2',true);
     walkJobs.push({i,leg,from,to,initial,savedLeg});
    }
   }
   const last=transitCoordinate(state.lastTransitResponse?.transit_destination_point);
   if(last)marker(last,'📌 '+destination);
   current.overviewPoints=[...all];
-  if(all.length>1)map.fitBounds(all,{padding:[24,24]});
+  current.focusStage=i=>{
+   if(current.navigating)return;
+   const leg=journey.legs?.[i],a=transitCoordinate(leg?.departurePoint),b=transitCoordinate(leg?.arrivalPoint||leg?.arrivalLatLon);
+   const points=i<0?current.overviewPoints:a&&b?[a,b]:[];
+   if(points.length>1)map.fitBounds(points,{padding:[24,24]});
+  };
+  if(all.length>1)current.focusStage(current.visibleStage??-1);
   else if(all.length===1)map.setView(all[0],14);
   else{map.setView([51.5,-.12],5);note.textContent=dialogText('Furnizorul nu a trimis coordonatele stațiilor.',
    'The operator did not supply stop coordinates.')}
   requestAnimationFrame(()=>{if(activeRouteMap===current){map.invalidateSize();
-   if(all.length>1)map.fitBounds(all,{padding:[24,24]})}});
+   if(all.length>1)current.focusStage(current.visibleStage??-1)}});
   if(resume?.resumed)beginTransitVisualTracking(current);
   if(all.length&&!current.navigating)note.textContent=dialogText('Etapele sunt pe hartă. Verific transferurile pietonale…',
    'Journey stops are mapped. Checking walking transfers…');
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
-  current.cleanup=()=>{window.removeEventListener('resize',resize);clearTimeout(timeout);controller.abort()};
-  // One at a time to keep the navigation API bounded; the map opens immediately.
-  for(const job of walkJobs.slice(0,12)){
-   if(activeRouteMap!==current||controller.signal.aborted)break;
+  const controller=new AbortController();
+  current.cleanup=()=>{removeResize();controller.abort()};
+  // At most two requests at once; an initial boarding check must not hold up
+  // all later transfers. Each request has its own deadline and is never retried.
+  let walkCursor=0;const boundedJobs=walkJobs.slice(0,12);
+  const verifyNext=async()=>{while(walkCursor<boundedJobs.length){
+   const job=boundedJobs[walkCursor++];
+   if(activeRouteMap!==current||controller.signal.aborted){unverified.push(job.i+1);continue;}
    try{
     if(transitDistance({latitude:job.from[0],longitude:job.from[1]},
       {latitude:job.to[0],longitude:job.to[1]})<8){job.initial.remove();continue}
 
-    const verified=job.savedLeg&&transitVerifiedPath(job.savedLeg,job.from,job.to)?
-     job.savedLeg:await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
+    let verified=job.savedLeg&&transitVerifiedPath(job.savedLeg,job.from,job.to)?job.savedLeg:
+     access&&transitVerifiedPath(access,job.from,job.to)?access:null;
+    // Reuse the boarding feasibility request for the initial walk, rather
+    // than issuing the same provider lookup twice as the map opens.
+    const initialAccess=job.i===0&&selected.accessCheck&&validTransitBoardingStop(journey.boarding_stop)&&
+     transitDistance({latitude:job.to[0],longitude:job.to[1]},journey.boarding_stop)<120;
+    if(!verified&&initialAccess){await selected.accessCheck;
+     verified=selected.accessRoute&&transitVerifiedPath(selected.accessRoute,job.from,job.to)?selected.accessRoute:null;
+    }else if(!verified)verified=await transitStreetPath(job.from,job.to,job.leg.to||'',controller.signal);
+    if(activeRouteMap!==current||controller.signal.aborted)break;
     if(!verified){unverified.push(job.i+1);continue}
     const p=verified.coordinates.map(c=>[c[1],c[0]]);
     job.initial.remove();line(p,'#0f91e2');walkRoutes.set(job.i,verified);
@@ -22694,72 +23019,98 @@ async function openTransitJourneyMap(selected,resume=null){
      const walk=document.createElement('small');walk.style.display='block';
      walk.textContent='📌 '+Math.round(verified.distanceMeters||0)+' m'+
        (Number.isFinite(verified.durationSeconds)?' · '+formatTravelDurationMinutes(verified.durationSeconds/60):'');
-     row?.append(walk)}
+     const status=row?.querySelector('.transit-walk-stage-status');if(status)status.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');row?.append(walk);
+     const instructions=document.createElement('ol');instructions.className='transit-walking-instructions';
+     for(const step of verified.steps||[]){if(!step.text)continue;const li=document.createElement('li');li.textContent=step.text;instructions.append(li)}
+     if(instructions.children.length)row?.append(instructions)}
    }catch{unverified.push(job.i+1)}
-  }
-  if(activeRouteMap===current&&!current.navigating)note.textContent=unverified.length?
+  }};
+  await Promise.all([verifyNext(),verifyNext()]);
+  if(walkJobs.length>12)unverified.push(...walkJobs.slice(12).map(j=>j.i+1));
+  if(activeRouteMap===current&&!current.navigating)note.textContent=selected.error|| (unverified.length?
    dialogText('Traseu orientativ: segmentele fără geometrie verificată sunt punctate.',
     'Overview map: segments without verified geometry are dashed.'):
-   dialogText('Traseu complet, cu transferurile pietonale verificate.','Journey mapped with verified walking transfers.');
-  clearTimeout(timeout);
+   dialogText('Traseu complet, cu transferurile pietonale verificate.','Journey mapped with verified walking transfers.'));
  }catch(error){if(activeRouteMap===current)note.textContent=dialogText('Harta nu s-a încărcat.',
   'Map could not be loaded.')}
 }
 
 async function selectTransitJourney(options,index){
+ return selectTransitJourneyWithNavigation(options,index,false);
+}
+async function selectTransitJourneyWithNavigation(options,index,navigate=false){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;
+ const directMap=state.lastTransitChoice?.mixedJourney!==true&&!navigate;
+ // Render the visible map/details shell before GPS or pedestrian providers.
+ let accessDone;
+ if(directMap){
+  selected.accessCheck=new Promise(resolve=>{accessDone=resolve});
+  state.transitOptionsPager?.close();state.transitOptionsPager=null;
+  void openTransitJourneyMap(selected);
+ }else renderTransitChoices(options,index);
  const stop=journey.boarding_stop,valid=()=>state.selectedTransitJourney===selected&&state.transitAccessGeneration===generation&&state.conversationGeneration===chatGeneration;
- if(state.lastTransitChoice?.mixedJourney===true&&
-  (journey.route_only===true||['indicative','estimated','unavailable','unconfirmed'].includes(String(journey.schedule_status||'').toLowerCase()))){
-  selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+ const updateDetails=()=>{
+  if(directMap){if(activeRouteMap?.journey===journey)activeRouteMap.refreshSelection?.();return}
+  const body=$('moduleLayerBody'),top=body?.scrollTop||0;renderTransitChoices(options,index);if(body)body.scrollTop=top;
+ };
+ const verifyAccess=async()=>{
+ if(state.lastTransitChoice?.mixedJourney===true&&!navigate){
+  selected.loading=false;selected.error='';updateDetails();return;
  }
- if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';renderTransitChoices(options,index);return;}
- const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;renderTransitChoices(options);transitRefreshNotice(message)};
+ if(transitScheduleUncertain(journey)){
+  selected.loading=false;selected.error='';updateDetails();return;
+ }
+ if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';selected.timeUnverified=true;updateDetails();return;}
+ const fail=(message,walkVerified=false)=>{if(!valid())return;selected.loading=false;selected.error=message;selected.timeUnverified=true;journey.accessWalkVerified=walkVerified;updateDetails()};
  if(!validTransitBoardingStop(stop)){
   // A verified provider itinerary without coordinate-backed boarding data
   // is still useful as timetable details; do not pretend to navigate to a stop.
   if(state.lastTransitChoice?.mixedJourney===true){
-   selected.loading=false;selected.error='';renderTransitChoices(options,index);return;
+   selected.loading=false;selected.error='';updateDetails();return;
   }
   fail(t[11]);return
  }
- const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
+ const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');
  let timer,locationReady=false;try{
-  const coordinates=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
-  locationReady=true;const controller=new AbortController();state.transitAccessAbort=controller;timer=setTimeout(()=>controller.abort(),25000);
-  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({message:routeActionsText().prompt+stop.label,language:state.language,module:state.currentModule||'assistant',history:[],location:coordinates,coordinates,location_requested:true,route_profile:'walk',route_destination:{latitude:stop.latitude,longitude:stop.longitude,label:stop.label},route_context:null})});
-  const data=await response.json();if(!valid())return;if(!response.ok||data.status!=='success'||data.route_available!==true||!transitWalkingMatches(data.route,stop)){fail(t[13]);return}
-  const seconds=Number(data.route.durationSeconds);
-  if(!Number.isFinite(seconds)||seconds<0){fail(dialogText('Durata mersului pe jos nu a fost verificată.','Walking duration could not be verified.'));return}
+  const coordinates=state.lastTransitChoice?.journeyOrigin||await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('GPS timeout')),8000)})]);clearTimeout(timer);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
+  locationReady=true;const controller=new AbortController();state.transitAccessAbort=controller;
+  const data=await transitWalkingRequest({...coordinates,label:dialogText('Poziția mea','My location')},{latitude:stop.latitude,longitude:stop.longitude,label:stop.label},controller.signal);
+  if(!valid())return;if(!data||!transitWalkingMatches(data.route,stop)){fail(dialogText('Acces la prima stație: ','Access to first stop: ')+t[13]);return}
+  selected.accessRoute=data.route;selected.walkingReply=String(data.reply||'');
+  const seconds=data.route.durationSeconds;
+  if(typeof seconds!=='number'||!Number.isFinite(seconds)||seconds<0){fail(dialogText('Durata mersului pe jos nu a fost verificată.','Walking duration could not be verified.'),true);return}
   const margin=Number.isFinite(Number(journey.safetyMarginMinutes))?Math.max(0,Math.min(15,Number(journey.safetyMarginMinutes))):5;
   journey.walkToFirstStopMinutes=Math.ceil(seconds/60);
   journey.accessWalkVerified=true;
   const meters=Number(data.route.distanceMeters);
   journey.accessWalkDistanceMeters=data.route.distanceMeters!=null&&Number.isFinite(meters)&&meters>=0?meters:null;
   if(Number.isFinite(departure)&&departure<Date.now()+seconds*1000+margin*60000){
-   fail(dialogText('Nu mai este timp pentru această plecare. ','Not enough time for this departure. ')+transitBoardingAdvice(journey));return
+   fail(dialogText('Nu mai este timp pentru această plecare. ','Not enough time for this departure. ')+transitBoardingAdvice(journey),true);return
   }
-  selected.loading=false;selected.accessRoute=data.route;selected.accessOptions=(Array.isArray(data.routes)?data.routes:[data.route]).filter(r=>transitWalkingMatches(r,stop)&&(!Number.isFinite(departure)||!Number.isFinite(r.durationSeconds)||departure>=Date.now()+r.durationSeconds*1000+Math.max(0,margin)*60000));selected.walkingReply=String(data.reply||'');selected.timeUnverified=!Number.isFinite(departure)||!Number.isFinite(seconds);state.lastRoute=data.route;state.lastRouteOptions=selected.accessOptions;state.lastRouteReply=selected.walkingReply;state.routeSearchContext=data.route_context||null;await openTransitJourneyMap(selected);
- }catch(error){if(valid())fail(locationReady?t[13]:t[12])}finally{clearTimeout(timer);if(valid())state.transitAccessAbort=null}
+  selected.loading=false;selected.accessRoute=data.route;selected.accessOptions=(Array.isArray(data.routes)?data.routes:[data.route]).filter(r=>transitWalkingMatches(r,stop)&&(!Number.isFinite(departure)||!Number.isFinite(r.durationSeconds)||departure>=Date.now()+r.durationSeconds*1000+Math.max(0,margin)*60000));selected.walkingReply=String(data.reply||'');selected.timeUnverified=!Number.isFinite(departure)||!Number.isFinite(seconds);state.lastRoute=data.route;state.lastRouteOptions=selected.accessOptions;state.lastRouteReply=selected.walkingReply;state.routeSearchContext=data.route_context||null;
+  if(navigate)await openTransitJourneyMap(selected);else updateDetails();
+ }catch(error){if(valid())fail(locationReady?dialogText('Acces la prima stație: ','Access to first stop: ')+t[13]:t[12])}finally{clearTimeout(timer);if(valid())state.transitAccessAbort=null}
+ };
+ try{await verifyAccess()}finally{accessDone?.()}
 }
 function appendSelectedTransit(host,route){const selected=state.selectedTransitJourney;if(!selected?.accessRoute||!transitWalkingMatches(route,selected.journey.boarding_stop))return;const t=transitAccessText(),details=document.createElement('details'),summary=document.createElement('summary');details.className='selected-transit';summary.textContent=t[1]+(selected.journey.legs?.at(-1)?.to?' → '+selected.journey.legs.at(-1).to:'')+' · '+transitBoardingSummary(selected.journey);details.append(summary);if(selected.timeUnverified){const note=document.createElement('p');note.textContent=t[21];details.append(note)}appendTransitLegs(details,selected.journey);appendFinalTransitWalkAction(details,selected.journey);host.append(details)}
 function appendTransitChoiceAction(data,bubble){if(!Array.isArray(data.transit)||!data.transit.length)return;state.lastTransitResponse=data;state.lastTransitChoice={kind:'transit',title:'Transport public',prompt:String(data.message_received||''),transitDirect:true};const button=document.createElement('button');button.type='button';button.className='transit-choice-action';button.textContent=transitAccessText()[3];button.onclick=()=>{closeAnswerReader(false);closeRouteMap(false);$('moduleQuickLayer').classList.add('open');$('moduleQuickLayer').setAttribute('aria-hidden','false');$('moduleLayerTitle').textContent=transitAccessText()[0];renderTransitChoices(data.transit)};bubble.append(button)}
 
 // All preset POI searches get one bounded retry for transient connection/Cloudflare errors.
 // Transit requests, cancelled searches and client/rate-limit errors are not retried.
-async function fetchQuickPlaceResponse(body,query,signal,retryTemporary=false){
+async function fetchQuickPlaceResponse(body,query,signal,retryTemporary=false,onProgress=null){
  const attempts=retryTemporary?2:1;
  for(let attempt=0;attempt<attempts;attempt++){
   try{
    const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({...body,...query}),signal});
+    body:JSON.stringify({...body,...query,...(body.mixed_journey?{mixed_progressive:true}:{})}),signal});
    if(retryTemporary&&attempt===0&&[502,503,504].includes(response.status)){
     await new Promise(resolve=>setTimeout(resolve,300));
     continue;
    }
    let result;
-   try{result=await response.json()}catch{
+   try{result=body.mixed_journey?await readMixedProgressResponse(response,onProgress,signal):await response.json()}catch{
     throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'));
    }
    if(!response.ok||(result.status&&result.status!=='success'))
@@ -22773,8 +23124,8 @@ async function fetchQuickPlaceResponse(body,query,signal,retryTemporary=false){
  }
  throw new Error(dialogText('Conexiunea cu serverul nu este disponibilă.','Cannot connect to the server.'));
 }
-async function runModuleSearch(choice){if(state.moduleSearchBusy)return;state.moduleSearchScrollTop=0;state.moduleSearchBodyScrollTop=0;if(choice.kind==='transit'){cancelTransitAccess(true);state.lastTransitChoice=choice}if(choice.kind==='transit'&&!choice.transitDirect&&!choice.prompt.includes('până la ')){showTransitDestination(choice);return}if(choice.kind==='walking'){rememberNavigationSource();enterModuleRouteConversation();state.pendingRouteStart=true;inputEl.value=routeActionsText().walking;await submitMessage();return;}state.moduleSearchCategory=choice;state.moduleSearchBusy=true;const searchGeneration=++state.moduleSearchGeneration;setModuleLayerMode(localizedQuickChoiceTitle(choice));moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(choice).toLowerCase()+' '+quickUiText().nearby);try{let coords=null;let locationError=null;try{coords=choice.journeyOrigin||await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>setTimeout(()=>reject(new Error('GPS timeout (8s)')),8000))])}catch(error){locationError=String(error&&error.message||(dialogText('Nu am putut obține locația telefonului.','Could not access the phone location.')))}if(choice.mixedJourney===true&&(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)))throw new Error('mixed_origin_unavailable');if(choice.kind==='transit'&&coords&&Number.isFinite(coords.latitude)&&Number.isFinite(coords.longitude)){state.lastTransitChoice={...state.lastTransitChoice,journeyOrigin:coords};if(choice.mixedJourney===true)state.moduleSearchCategory={...choice,journeyOrigin:coords};}const locationIntent=needsLocation(choice.prompt)||choice.kind==='places'||choice.kind==='transit';const body={message:choice.prompt,language:choice.kind==='places'?'ro':state.language,history:[],module:state.currentModule,location_requested:locationIntent,location:coords,coordinates:coords,location_error:locationError||undefined,quick_place_search:choice.kind==='places',place_category:choice.kind==='places'?(choice.placeCategory||undefined):undefined,journey_origin:choice.journeyOrigin||undefined,transit_destination:choice.transitDestination||undefined,mixed_journey:choice.mixedJourney||undefined,mixed_composition:choice.mixedComposition||undefined,transit_query:choice.transitQuery||undefined,national_public_transport:choice.nationalPublicTransport===true,transit_preference:choice.transitPreference||'all',transit_departure_offset:choice.transitDepartureOffset||0,transit_departure_at:choice.transitDepartureAt||null};const searchAbort=new AbortController();const searchTimeout=setTimeout(()=>searchAbort.abort(),choice.mixedJourney===true?65000:(choice.kind==='places'?35000:25000));let data;try{const queries=choice.title==='Marketuri și brutării'?[{message:'Găsește supermarketuri în apropierea mea.',place_category:'supermarket'},{message:'Găsește brutării și patiserii în apropierea mea.',place_category:'confectionery'}]:[{message:body.message,place_category:body.place_category}];const responses=await Promise.all(queries.map(query=>fetchQuickPlaceResponse(body,query,searchAbort.signal,choice.kind==='places')));data=responses[0];if(responses.length>1){const merged=responses.flatMap(item=>Array.isArray(item.places)?item.places:[]);const seen=new Set();data={...data,places:merged.filter(place=>{const key=String(place.id||place.osm_id||[place.name,place.address].join('|')).toLowerCase();if(seen.has(key))return false;seen.add(key);return true}),search_ok:responses.some(item=>item.search_ok)};}if(!Array.isArray(data.places)&&!(typeof data.reply==='string'&&data.reply.trim()))throw new Error('Serverul nu a returnat un răspuns utilizabil.')}finally{clearTimeout(searchTimeout)};if(searchGeneration!==state.moduleSearchGeneration)return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.weatherSearchContext=data.weather_context||null;state.moduleSearchReply=String(data.reply||'').trim();
-if(choice.mixedJourney===true&&data.international_journey===true&&data.transit_available!==true&&!(Array.isArray(data.flight_candidates)&&data.flight_candidates.length)){
+async function runModuleSearch(choice){if(state.moduleSearchBusy)return;state.moduleSearchScrollTop=0;state.moduleSearchBodyScrollTop=0;if(choice.kind==='transit'){cancelTransitAccess(true);state.lastTransitChoice=choice}if(choice.kind==='transit'&&!choice.transitDirect&&!choice.prompt.includes('până la ')){showTransitDestination(choice);return}if(choice.kind==='walking'){rememberNavigationSource();enterModuleRouteConversation();state.pendingRouteStart=true;inputEl.value=routeActionsText().walking;await submitMessage();return;}state.moduleSearchCategory=choice;state.moduleSearchBusy=true;const searchGeneration=++state.moduleSearchGeneration;state.mixedProgressDetail=false;let mixedProgressData={status:'success',reply:'',transit:[]};const onMixedProgress=partial=>{if(searchGeneration!==state.moduleSearchGeneration)return;mixedProgressData={...mixedProgressData,...partial,mixed_search_pending:true};state.lastTransitResponse=mixedProgressData;if(!state.mixedProgressDetail){const root=$('moduleLayerBody'),top=root?.scrollTop||0;renderMixedUnifiedResults(mixedProgressData,choice);if(root)root.scrollTop=top}};setModuleLayerMode(localizedQuickChoiceTitle(choice));moduleStatus(quickUiText().searching+' '+localizedQuickChoiceTitle(choice).toLowerCase()+' '+quickUiText().nearby);try{let coords=null;let locationError=null;try{coords=choice.journeyOrigin||await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>setTimeout(()=>reject(new Error('GPS timeout (8s)')),8000))])}catch(error){locationError=String(error&&error.message||(dialogText('Nu am putut obține locația telefonului.','Could not access the phone location.')))}if(choice.mixedJourney===true&&(!coords||!Number.isFinite(coords.latitude)||!Number.isFinite(coords.longitude)))throw new Error('mixed_origin_unavailable');if(choice.kind==='transit'&&coords&&Number.isFinite(coords.latitude)&&Number.isFinite(coords.longitude)){state.lastTransitChoice={...state.lastTransitChoice,journeyOrigin:coords};if(choice.mixedJourney===true)state.moduleSearchCategory={...choice,journeyOrigin:coords};}const locationIntent=needsLocation(choice.prompt)||choice.kind==='places'||choice.kind==='transit';const body={message:choice.prompt,language:choice.kind==='places'?'ro':state.language,history:[],module:state.currentModule,location_requested:locationIntent,location:coords,coordinates:coords,location_error:locationError||undefined,quick_place_search:choice.kind==='places',place_category:choice.kind==='places'?(choice.placeCategory||undefined):undefined,journey_origin:choice.journeyOrigin||undefined,transit_destination:choice.transitDestination||undefined,mixed_journey:choice.mixedJourney||undefined,mixed_composition:choice.mixedComposition||undefined,transit_query:choice.transitQuery||undefined,national_public_transport:choice.nationalPublicTransport===true,transit_preference:choice.transitPreference||'all',transit_departure_offset:choice.transitDepartureOffset||0,transit_departure_at:choice.transitDepartureAt||null};const searchAbort=new AbortController();state.mixedSearchAbort=choice.mixedJourney?searchAbort:null;const searchTimeout=setTimeout(()=>searchAbort.abort(),choice.mixedJourney===true?65000:(choice.kind==='places'?35000:25000));let data;try{const queries=choice.title==='Marketuri și brutării'?[{message:'Găsește supermarketuri în apropierea mea.',place_category:'supermarket'},{message:'Găsește brutării și patiserii în apropierea mea.',place_category:'confectionery'}]:[{message:body.message,place_category:body.place_category}];const responses=await Promise.all(queries.map(query=>fetchQuickPlaceResponse(body,query,searchAbort.signal,choice.kind==='places',choice.mixedJourney?onMixedProgress:null)));data=responses[0];if(responses.length>1){const merged=responses.flatMap(item=>Array.isArray(item.places)?item.places:[]);const seen=new Set();data={...data,places:merged.filter(place=>{const key=String(place.id||place.osm_id||[place.name,place.address].join('|')).toLowerCase();if(seen.has(key))return false;seen.add(key);return true}),search_ok:responses.some(item=>item.search_ok)};}if(!Array.isArray(data.places)&&!(typeof data.reply==='string'&&data.reply.trim()))throw new Error('Serverul nu a returnat un răspuns utilizabil.')}finally{clearTimeout(searchTimeout);if(state.mixedSearchAbort===searchAbort)state.mixedSearchAbort=null};if(searchGeneration!==state.moduleSearchGeneration)return;state.placeSearchContext=data.place_context||null;state.distanceSearchContext=data.distance_context||null;state.routeSearchContext=data.route_context||null;state.weatherSearchContext=data.weather_context||null;state.moduleSearchReply=String(data.reply||'').trim();
+if(choice.mixedJourney===true&&data.international_journey===true&&data.transit_available!==true&&!(Array.isArray(data.flight_candidates)&&data.flight_candidates.length)&&!(data.scheduled_surface_options||[]).some(o=>o.completeDoorToDoor===true)){
  const unavailable=String(data.provider_status?.motis||data.reason||'');
  state.moduleSearchReply=data.flight_search_status&&data.flight_search_status!=='disabled'?
   dialogText('Nu am putut confirma încă o călătorie completă. Căutarea zborurilor: ','No complete journey could be confirmed. Flight discovery: ')+String(data.flight_search_status):unavailable==='international_provider_not_connected'?
@@ -22792,7 +23143,7 @@ state.moduleSearchResults=Array.isArray(data.places)?data.places:[];if(Array.isA
   option.onclick=()=>runModuleSearch({...choice,transitDestination:{label:String(candidate.label||''),latitude:lat,longitude:lon}});
   target.append(option);
  });
-}else if(choice.kind==='transit'&&choice.mixedJourney===true){renderMixedUnifiedResults(data,choice)}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='transit'&&Array.isArray(data.flight_candidates)&&data.flight_candidates.length){renderMixedUnifiedResults(data,{...choice,mixedJourney:true})}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){
+}else if(choice.kind==='transit'&&choice.mixedJourney===true){state.lastTransitResponse=data;if(!state.mixedProgressDetail)renderMixedUnifiedResults(data,choice)}else if(choice.kind==='transit'&&Array.isArray(data.transit)&&data.transit.length){state.lastTransitResponse=data;renderTransitChoices(data.transit)}else if(choice.kind==='transit'&&Array.isArray(data.flight_candidates)&&data.flight_candidates.length){renderMixedUnifiedResults(data,{...choice,mixedJourney:true})}else if(choice.kind==='places'&&state.moduleSearchResults.length){renderModulePlaces(state.moduleSearchResults)}else{moduleStatus(state.moduleSearchReply);if(choice.kind==='transit')appendOfficialUKJourneySources(data,$('moduleLayerBody'));if(choice.kind==='transit'&&!data.transit_available)showTransitRetrySelector(choice,data);if(choice.kind==='places'&&data.search_ok&&state.moduleSearchResults.length===0){const note=document.createElement('p');note.className='muted';note.textContent=dialogText('Căutarea s-a încheiat, dar nu a returnat locații. Poți reveni și încerca din nou.','The search finished but returned no locations. Go back and try again.');$('moduleLayerBody').append(note)}}}catch(error){if(searchGeneration===state.moduleSearchGeneration){
  const detail=String(error?.message||error);
  const temporary=/failed to fetch|networkerror|network request failed|load failed|^HTTP (?:502|503|504)$/i.test(detail);
  const expired=error?.name==='AbortError';
@@ -22818,6 +23169,10 @@ function returnToModuleLanding(){
  state.moduleSearchReturnMode='root';state.lastQuickPlace=null;
  if(state.currentView==='module'&&['maps','travel'].includes(state.currentModule))renderModuleLandingChoices();
 }
+function cancelMixedProgressSearch(){
+ state.mixedSearchAbort?.abort();state.mixedSearchAbort=null;
+ if(state.moduleSearchBusy){state.moduleSearchGeneration++;state.moduleSearchBusy=false}
+}
 function returnFromMixedJourneyResults(){
  // The shared header/Android Back must unwind the mixed A→B wizard rather
  // than closing it to the Maps landing page. Retain BOTH selected endpoints.
@@ -22827,6 +23182,8 @@ function returnFromMixedJourneyResults(){
  const root=$('moduleLayerBody'),destination=choice.transitDestination;
  const origin=choice.journeyOrigin||state.lastTransitChoice?.journeyOrigin||null;
  if(!root)return false;
+ if(state.mixedProgressDetail){renderMixedUnifiedResults(state.lastTransitResponse||{},state.lastTransitChoice);return true}
+ cancelMixedProgressSearch();
  // A selected verified public-transport detail is a level below the results.
  if(root.querySelector('.transit-steps')&&state.selectedTransitJourney?.options?.length){
   renderTransitChoices(state.selectedTransitJourney.options);return true;
@@ -23041,7 +23398,8 @@ function updateDrivingNextTurn(current,projected,accuracy){
 function stopRouteTracking(current,message,stopNative=true){
  if(!current)return;
  const wasNavigating=Boolean(current.navigating);
- current.navigating=false;
+ current.navigating=false;clearTimeout(current.maneuverTimer);
+ for(const row of current.stepRows||[]){row.removeAttribute('aria-current');row.removeAttribute('data-route-step-complete');row.classList.remove('route-step-complete')}
  syncDrivingVoiceControl(current);
  if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}
  // Closing a map releases only the UI GPS watch; native navigation persists.
@@ -23057,7 +23415,7 @@ function stopRouteTracking(current,message,stopNative=true){
  }
  clearTimeout(current.gpsTimer);current.gpsTimer=null;
  current.liveMarker?.remove();current.liveMarker=null;
- current.layer.classList?.remove('navigating');
+ current.layer.classList?.remove('navigating');pocketSyncNavigationMap(current);
  if(current.navigation)current.navigation.textContent=routeLiveText()[0];
  if(current.recenter)current.recenter.hidden=true;
  if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
@@ -23072,24 +23430,27 @@ function startRouteTracking(current,resumeNative=false){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
  current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');
+ if(current.maneuverText)current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.directionBadge)current.directionBadge.hidden=true;if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
  current.voiceMuted=window.__pocketNavigationMuted===true;
  syncDrivingVoiceControl(current);
  // In native foreground service, the same GPS route remains active if Eva
  // is minimized, the screen locks or Android recreates this WebView.
- if(!resumeNative&&!pocketNativeRouteCommand('start',current.route)){
+ current.nativeUnavailable=!resumeNative&&!pocketNativeRouteCommand('start',current.route);
+ if(current.nativeUnavailable){
+  if(current.maneuverText)current.maneuverText.textContent=dialogText('Navigație doar pe ecran; serviciul Android nu a pornit.','On-screen navigation only; Android background service did not start.');
   current.liveStatus.hidden=false;
   current.liveStatus.textContent=dialogText('Navigația vizuală funcționează, dar serviciul Android în fundal nu a pornit.','Visual tracking works, but Android background navigation did not start.');
- }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
- const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
+ }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];pocketSyncNavigationMap(current);
+ const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
-  if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];return}
+  if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);return}
   stale();const previousFix=current.lastFix;current.lastFix=[c.latitude,c.longitude];
   if(current.liveMarker)current.liveMarker.setLatLng(current.lastFix);else current.liveMarker=current.leaflet.circleMarker(current.lastFix,{radius:8,color:'#ffffff',fillColor:'#05d6dc',fillOpacity:1,weight:3}).addTo(current.map);
   current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
   if(current.follow){if(current.firstFix){current.map.setView(current.lastFix,16,{animate:false});current.firstFix=false}else current.map.panTo(current.lastFix,{animate:false})}
   const accuracy=' ±'+Math.round(c.accuracy)+' m';
-  if(c.accuracy>60){current.liveStatus.textContent=t[7]+accuracy;if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}return}
+  if(c.accuracy>60){pocketUpdateManeuver(current,null,null,c.accuracy,current.stepRows);current.liveStatus.textContent=t[7]+accuracy;if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}return}
   let heading=Number.isFinite(c.heading)&&c.heading>=0&&c.speed>=0.5?c.heading:null;
   if(heading===null&&previousFix){
    const delta=Math.hypot((c.latitude-previousFix[0])*111320,(c.longitude-previousFix[1])*111320*Math.cos(c.latitude*Math.PI/180));
@@ -23100,9 +23461,10 @@ function startRouteTracking(current,resumeNative=false){
   if(typeof saveLocation==='function')saveLocation(c);
   const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
   updateDrivingNextTurn(current,projected,c.accuracy);
+  pocketUpdateManeuver(current,current.route,projected,c.accuracy,current.stepRows);
   current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+formatNavigationKilometers(projected.remaining,state.language)+accuracy;
  };
- const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
+ const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
  try{const id=navigator.geolocation.watchPosition(success,failure,{enableHighAccuracy:true,maximumAge:0,timeout:12000});if(current.navigating)current.watchId=id;else navigator.geolocation.clearWatch(id)}catch{stopRouteTracking(current,t[4])}
 }
 function routeNavigationLink(route){const button=document.createElement('button');button.type='button';button.className='route-map-open route-eva-tracking';button.textContent=routeLiveText()[0];button.onclick=async()=>{const chosen=state.lastRouteOptions?.includes(route)&&state.lastRouteOptions.includes(state.lastRoute)?state.lastRoute:route;if(activeRouteMap?.route===chosen){activeRouteMap.navigating?stopRouteTracking(activeRouteMap):startRouteTracking(activeRouteMap)}else await openRouteMap(chosen,button,state.lastRouteOptions,true)};return button}
@@ -23126,12 +23488,12 @@ function loadRouteMapLibrary(){
   script.onload=()=>{clearTimeout(timer);window.L?resolve(window.L):reject(new Error('Map unavailable'))};script.onerror=()=>{clearTimeout(timer);script.remove();reject(new Error('Map unavailable'))};document.head.append(script);
  }).catch(error=>{leafletLoading=null;throw error});return leafletLoading;
 }
-function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current,undefined,false);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
+function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current,undefined,false);current.cleanup();current.mapSizeObserver?.disconnect();cancelAnimationFrame(current.mapSizeFrame);current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
  const resumeNative=arguments.length>4&&arguments[4]===true;
  dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
- const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
+ const layer=document.createElement('section');layer.className='route-map-window route-unified-preview';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
  const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=dialogText("Anterior","Previous");previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=dialogText("Închide harta","Close map");returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
@@ -23164,7 +23526,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
   current.voiceMuted=next;window.__pocketNavigationMuted=next;
   syncDrivingVoiceControl(current);
  };
- syncDrivingVoiceControl(current);
+ syncDrivingVoiceControl(current);current.stepRows=list.children;pocketAttachManeuver(current);
  recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};current.resize=resize;
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
@@ -24402,7 +24764,7 @@ window.addEventListener('message',event=>{
  }
 });
 // 04 — Avatar lifecycle: same entrance/exit transition for every appearance
-function showAvatar({message='Salut! Sunt asistentul tău personal.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
+function showAvatar({message='Salut! Sunt Eva, asistenta ta virtuală.',status='Bine ai venit!',speaking=false}={}){avatar3dLoad();$('avatarImage').style.visibility=avatar3dReady?'hidden':'visible';clearTimeout(state.avatarTimer);avatarMessage.textContent=message;avatarStatus.textContent=status;avatarOverlay.classList.toggle('speaking',speaking);voiceWave.hidden=!speaking;if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(true);avatarOverlay.classList.add('visible');avatarOverlay.setAttribute('aria-hidden','false')}
 function hideAvatar(){avatar3dSend('stop');if(avatar3dReady)avatar3dFrame.contentWindow.PocketAvatarAPI.setVisible(false);clearTimeout(state.avatarTimer);avatarOverlay.classList.remove('visible','speaking');avatarOverlay.setAttribute('aria-hidden','true');voiceWave.hidden=true;pocketRevealMainApp()}
 let pocketGreetingActive=false;
 function welcomeUser(){
@@ -24426,7 +24788,18 @@ function welcomeUser(){
   speechSynthesis.speak(utterance);
  }else{pocketGreetingActive=false;state.avatarTimer=setTimeout(hideAvatar,2800)}
 }
-$('avatarClose').addEventListener('click',()=>{if(state.voiceMode){state.voiceMode=false;stopRecognition();stopSpeech();setPressed($('voiceBtn'),false)}if(pocketExitOpen)pocketExitClose();else hideAvatar()});
+function pocketInterruptAvatar(){
+ if(pocketExitOpen)return; // Exit confirmation retains its own explicit buttons.
+ state.voiceMode=false;state.dictationMode=false;pocketGreetingActive=false;
+ stopRecognition();setPressed($('voiceBtn'),false);setPressed($('dictationBtn'),false);
+ stopSpeech();hideAvatar();setStatus(dialogText('Redare oprită.','Playback stopped.'));
+}
+$('avatarClose').addEventListener('click',()=>{if(pocketExitOpen)pocketExitClose();else pocketInterruptAvatar()});
+avatarOverlay.querySelector('.avatar-stage').addEventListener('click',()=>pocketInterruptAvatar());
+avatarOverlay.querySelector('.avatar-stage').setAttribute('role','button');
+avatarOverlay.querySelector('.avatar-stage').setAttribute('tabindex','0');
+avatarOverlay.querySelector('.avatar-stage').setAttribute('aria-label','Oprește vocea și închide avatarul');
+avatarOverlay.querySelector('.avatar-stage').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();pocketInterruptAvatar()}});
 // 05 — Speech output, independent from network request handling
 let speechVoiceCache=[];
 let pocketNativeSpokenText='';
@@ -24507,7 +24880,7 @@ function speakText(text,{continuous=false}={}){stopRecognition();state.dictation
  if(!ok){state.speaking=false;hideAvatar();notify('Nu am putut porni vocea Android.');}
  return ok;
 }
-if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=pocketSpeechLocale(state.language);utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
+if(!('speechSynthesis'in window)||!('SpeechSynthesisUtterance'in window)){hideAvatar();notify('Redarea vocală nu este disponibilă în acest browser. Răspunsul rămâne disponibil în scris.');return false}stopSpeech();const utterance=new SpeechSynthesisUtterance(prepareSpeechText(text));utterance.lang=pocketSpeechLocale(state.language);utterance.rate=state.language==='en'?1:0.96;utterance.pitch=state.language==='en'?1:1.04;state.speaking=true;pocketNotifySpeechState();showAvatar({message:'Îți citesc răspunsul…',status:'Răspund vocal…',speaking:true});utterance.onstart=()=>{avatar3dLoad();avatar3dSend('start',{text:utterance.text})};utterance.onboundary=event=>avatar3dSend('boundary',{charIndex:event.charIndex});utterance.onend=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Te ascult…');setTimeout(()=>{if(state.voiceMode&&!state.speaking&&!state.recognition)startRecognition('voice')},120)}};utterance.onerror=()=>{avatar3dSend('stop');state.speaking=false;pocketNotifySpeechState();avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;hideAvatar();if(continuous&&state.voiceMode){setStatus('Redarea vocală nu a pornit. Poți continua prin microfon sau text.')}else{notify('Răspunsul text este disponibil; redarea vocală nu a reușit.')}};const speakWhenReady=()=>{if(!state.speaking)return;const voice=getSpeechVoice();if(voice)utterance.voice=voice;try{window.speechSynthesis.speak(utterance)}catch{state.speaking=false;hideAvatar();notify('Nu am putut porni redarea vocală. Răspunsul rămâne disponibil în scris.')}};if(refreshSpeechVoices().length)speakWhenReady();else waitForSpeechVoices().then(speakWhenReady);return true}
 function pocketNotifySpeechState(){window.dispatchEvent(new Event('pocket-speech-state'))}
 function stopSpeech(){const wasSpeaking=state.speaking;if(pocketNativeVoiceAvailable())pocketNativeVoiceSend({action:'stop'});avatar3dSend('stop');pocketNativeSpokenText='';if('speechSynthesis'in window)window.speechSynthesis.cancel();state.speaking=false;avatarOverlay.classList.remove('speaking');voiceWave.hidden=true;pocketNotifySpeechState();if(wasSpeaking&&avatarOverlay.classList.contains('visible')&&!pocketExitOpen)hideAvatar()}
 // 06 — Speech recognition: dictation and continuous voice are distinct modes
@@ -24617,7 +24990,11 @@ function isEvaExitCommandClient(value){
  const t=evaClientNormalize(value).replace(/^(?:(?:buna|salut|hey|hello)\\s+)?(?:eva|evo)\\s+/,'');
  return /^(?:(?:vreau|as vrea|doresc)\\s+sa\\s+(?:inchid|ies din|parasesc|opresc)|(?:te rog sa\\s+)?(?:inchide|opreste)|(?:i want to|please)\\s+(?:close|exit)|(?:close|exit))\\s+(?:acum\\s+)?(?:aplicatia|app|the app|application|mypocket ai|my pocket ai)(?:\\s+te rog)?$/.test(t);
 }
+${evaFarewellIntent.toString()}
+${evaFarewellFallback.toString()}
+${evaFarewellReply.toString()}
 function isEvaConversationClient(value){
+ if(evaFarewellIntent(value))return true;
  if(typeof assistantSelfLocationQuery==='function'&&assistantSelfLocationQuery(value))return false;
  const t=evaClientNormalize(value);
  if(!t)return false;
@@ -24650,6 +25027,7 @@ function isCasualConversationReply(value){
  return /^(?:(?:eu )?(?:sunt|ma simt) (?:(?:foarte|destul de|chiar) )?(?:bine|ok|okay|excelent|grozav|in regula)(?: (?:multumesc|mersi))?|(?:(?:foarte|destul de) )?bine(?: (?:multumesc|mersi))?|(?:multumesc|mersi) sunt bine|nu (?:prea )?(?:sunt|ma simt) bine|(?:sunt|ma simt) (?:rau|trist|trista|obosit|obosita|ingrijorat|ingrijorata)|(?:i am|i'm) (?:fine|good|okay|ok|great|not well|not okay|sad|tired|worried)(?: thanks)?|(?:fine|good|great) thanks)(?: (?:si tu|and you))?$/.test(text);
 }
 function requestUsesLocation(text){
+ if(state?.currentView==='assistant'&&typeof assistantUnderstandRequest==='function'&&!assistantUnderstandRequest(text).allowImplicitLocation)return false;
  if(typeof assistantSelfLocationQuery==='function'&&assistantSelfLocationQuery(text))return true;
  if(isEvaConversationClient(text))return false;
  if(typeof state!=='undefined'&&state?.currentView==='assistant'&&typeof assistantBareDestinationQuery==='function'&&assistantBareDestinationQuery(text))return true;
@@ -24675,9 +25053,10 @@ function requestUsesLocation(text){
    || (!/[?]/.test(text)&&/^[\\p{L}0-9&' .-]{3,55}$/u.test(value)&&value.split(/\\s+/).length<=3&&!/^(?:ce|care|cum|cat|cati|cate|cand|cine|de ce|what|who|when|where|why|how|hello|salut|multumesc|teorema|legea)\\b/i.test(value));
 }
 async function coordinatesForRequest(text){
- const locationIntent=!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
+ const semanticLocationAllowed=state?.currentView!=='assistant'||typeof assistantUnderstandRequest!=='function'||assistantUnderstandRequest(text).allowImplicitLocation;
+ const locationIntent=semanticLocationAllowed&&!isRecipeQuestion(text)&&!isCasualConversationReply(text)&&!isEvaConversationClient(text)&&(Boolean(state.pendingTravelMode)||requestUsesLocation(text)),cached=cachedCoordinates();
   const selfQuery=(typeof assistantSelfLocationQuery==='function'&&assistantSelfLocationQuery(text))||/(?:unde ma aflu|unde ma gasesc|unde sunt(?: acum)?|pe ce strada|adresa mea|where am i|what street am i on|my current location)/i.test(String(text||'').normalize('NFD').replace(/[\\u0300-\\u036f]/g,''));
- if(!locationIntent)return {coordinates:cached,locationIntent:false,error:null};
+ if(!locationIntent)return {coordinates:state?.currentView==='assistant'?null:cached,locationIntent:false,error:null};
  if(cached&&cached.age_ms<=(selfQuery?10000:30000))return {coordinates:cached,locationIntent:true,error:null};
  let timer;try{
   const coordinates=await Promise.race([getCurrentCoordinates(true),new Promise((_,reject)=>{timer=setTimeout(()=>reject(new Error('GPS pending')),8500)})]);
@@ -24754,12 +25133,12 @@ if(newIndependentPlaceSearch&&!state.pendingTravelMode){
 if(!state.pendingTravelMode&&state.routeSearchContext?.destination&&/^(?!pietonal$|transport public$|masina$|mașină$|walking$|driving$|public transport$|da$|yes$|nu$|no$)(?:[\\p{L}][\\p{L}0-9&' .-]{2,60}\\s*,\\s*[\\p{L} .'-]{2,60}|(?:vreau sa ajung la|vreau să ajung la|cum ajung la|take me to|directions to)\\s+.+)$/iu.test(message)){state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;state.lastTravelModeResponse=null;}if(isMapRouteFollowup(message)&&validMapRoute(state.lastRoute)){addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const reply=routeMapText().shown;addBubble(reply,'assistant');state.messages.push({role:'assistant',text:reply});openRouteMap(state.lastRoute);return}const routeLoadingRequested=state.currentView==='module'&&['maps','travel'].includes(state.currentModule)&&(Boolean(state.pendingTravelMode)||state.pendingRouteStart===true||state.pendingRouteCompare===true);
 const routeLoadingProfile=state.pendingTravelMode||(state.pendingRouteStart?'walk':state.routeSearchContext?.profile)||'walk';
 const routePickerFromPlace=Boolean(state.routeSearchContext?.destination)&&routeLoadingRequested&&routeLoadingProfile!=='transit';
-const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const priorChat=pocketRecallPreviousChat(message);const recentLimit=priorChat.length?Math.max(2,CLIENT_CONFIG.historyLimit-Math.min(6,priorChat.length)):CLIENT_CONFIG.historyLimit;const recentChat=state.messages.slice(-recentLimit).map(m=>({role:m.role,content:m.text}));const history=[...priorChat.slice(-Math.max(0,CLIENT_CONFIG.historyLimit-recentChat.length)),...recentChat];const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const routeDestination=state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message);const routeStart=state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=state.pendingTravelMode||undefined;const cornerShopWalk=travelMode==='walk'&&state.navigationReturnContext?.choice?.placeCategory==='corner_shop';state.pendingTravelMode=null;
+const selectedEntityKind=state.pendingSelectedEntityKind==='article'?'article':undefined;state.pendingSelectedEntityKind=null;const selectedGeographicEntity=state.pendingSelectedGeoOption||null;state.pendingSelectedGeoOption=null;state.busy=true;if(routeLoadingRequested)beginRouteSearchLoading(routeLoadingProfile);const clientRequestStartedAt=performance.now();const generation=state.conversationGeneration;sendBtn.disabled=true;inputEl.disabled=true;setStatus(dialogText('myPocket AI pregătește răspunsul…','Pocket AI is preparing a response…'));addBubble(message,'user');state.messages.push({role:'user',text:message});inputEl.value='';const loading=addBubble(dialogText('Se pregătește răspunsul…','Preparing response…'),'assistant');try{const farewellTurn=state.currentView==='assistant'&&evaFarewellIntent(message);const priorChat=farewellTurn?[]:pocketRecallPreviousChat(message);const recentLimit=priorChat.length?Math.max(2,CLIENT_CONFIG.historyLimit-Math.min(6,priorChat.length)):CLIENT_CONFIG.historyLimit;const recentChat=state.messages.slice(-recentLimit).map(m=>({role:m.role,content:m.text}));const history=farewellTurn?[]:[...priorChat.slice(-Math.max(0,CLIENT_CONFIG.historyLimit-recentChat.length)),...recentChat];const gpsStartedAt=performance.now();const locationRequest=await coordinatesForRequest(message);const gpsElapsedMs=Math.round(performance.now()-gpsStartedAt);const locationIntent=locationRequest.locationIntent;const coordinates=locationRequest.coordinates;const locationErrorText=locationRequest.error;const assistantGeoAllowed=state.currentView!=='assistant'||assistantUnderstandRequest(message).allowImplicitLocation;const routeDestination=assistantGeoAllowed?(state.pendingTravelMode&&state.routeSearchContext?.destination?state.routeSearchContext.destination:selectedPlaceForRoute(message)):null;const routeStart=assistantGeoAllowed&&state.pendingRouteStart===true;state.pendingRouteStart=false;const routeViaQuery=state.pendingRouteViaQuery||undefined;state.pendingRouteViaQuery=null;const routeCompare=state.pendingRouteCompare===true;state.pendingRouteCompare=false;const travelMode=assistantGeoAllowed?(state.pendingTravelMode||undefined):undefined;const cornerShopWalk=travelMode==='walk'&&state.navigationReturnContext?.choice?.placeCategory==='corner_shop';state.pendingTravelMode=null;
 const newsFollowupText=String(message).normalize('NFD').replace(/[\\u0300-\\u036f]/g,'').toLowerCase();
 const newsContextRequested=Boolean(state.newsConversationContext)&&/(?:surs\\w*|source\\w*|link\\w*|confirmat\\w*|neclar\\w*|verificat\\w*|confirmed|unclear|unverified|original)/i.test(newsFollowupText);
 const browserNow=new Date();
 const clientLocalDay=[browserNow.getFullYear(),String(browserNow.getMonth()+1).padStart(2,'0'),String(browserNow.getDate()).padStart(2,'0')].join('-');
-const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,user_profile:window.__pocketNativeProfile||undefined,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,news_context:newsContextRequested?state.newsConversationContext:null,client_local_day:clientLocalDay,module:state.currentView==='module'?state.currentModule:'assistant',route_context:state.routeSearchContext||null,travel_mode:travelMode,corner_shop_walk:cornerShopWalk,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:routeViaQuery,route_compare:routeCompare,weather_context:state.weatherSearchContext||null,place_context:state.placeSearchContext||null,distance_context:state.distanceSearchContext||null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(data.error_code==='AI_QUOTA_EXCEEDED'){const quotaError=new Error(data.error||'Daily AI quota exceeded.');quotaError.code='AI_QUOTA_EXCEEDED';throw quotaError;}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));const reply=String(data.reply).trim();
+const backendRequestStartedAt=performance.now();let backendResponseHeadersAt=0;const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,language:state.language,user_profile:window.__pocketNativeProfile||undefined,selected_entity_kind:selectedEntityKind,selected_geographic_entity:selectedGeographicEntity,history,news_context:newsContextRequested?state.newsConversationContext:null,client_local_day:clientLocalDay,module:state.currentView==='module'?state.currentModule:'assistant',route_context:assistantGeoAllowed?(state.routeSearchContext||null):null,travel_mode:travelMode,corner_shop_walk:cornerShopWalk,transit_count:state.requestedTransitCount||undefined,route_destination:routeDestination,transit_destination:travelMode==='transit'?routeDestination:undefined,transit_query:travelMode==='transit'?(state.routeSearchContext?.destination?.label||state.routeSearchContext?.destination_query||undefined):undefined,route_profile:routeStart?'walk':travelMode==='transit'?undefined:travelMode|| (routeDestination?(/driving|rutier|masina/i.test(message)?'drive':'walk'):undefined),route_start:routeStart,route_via_query:assistantGeoAllowed?routeViaQuery:undefined,route_compare:assistantGeoAllowed&&routeCompare,weather_context:assistantGeoAllowed?(state.weatherSearchContext||null):null,place_context:assistantGeoAllowed?(state.placeSearchContext||null):null,distance_context:assistantGeoAllowed?(state.distanceSearchContext||null):null,location_requested:locationIntent,location:coordinates,coordinates,location_error:locationIntent&&!coordinates?(locationErrorText||'Nu s-au obținut coordonate GPS valide.'):undefined})});backendResponseHeadersAt=performance.now();let data;try{data=await response.json()}catch{throw new Error(dialogText('Serverul a trimis un răspuns care nu poate fi citit.','The server returned an unreadable response.'))}state.lastRequestTimings={total_ms:Math.round(performance.now()-clientRequestStartedAt),gps_ms:gpsElapsedMs,backend_round_trip_ms:Math.round(performance.now()-backendRequestStartedAt),time_to_headers_ms:Math.round(backendResponseHeadersAt-backendRequestStartedAt),response_read_ms:Math.round(performance.now()-backendResponseHeadersAt),server_total_ms:data.server_total_ms??null,backend_version:String(data.version||''),backend_latency:data.latency_breakdown||null};console.info('Pocket AI request timing',state.lastRequestTimings);if(data.error_code==='AI_QUOTA_EXCEEDED'){const quotaError=new Error(data.error||'Daily AI quota exceeded.');quotaError.code='AI_QUOTA_EXCEEDED';throw quotaError;}if(!response.ok||data.status!=='success'||typeof data.reply!=='string'||!data.reply.trim())throw new Error(data.error||data.message||('Serverul nu a returnat un răspuns utilizabil (HTTP '+response.status+').'));if(data.place_lookup)console.info('Pocket AI destination lookup',JSON.stringify(data.place_lookup));if(farewellTurn)data.reply=evaFarewellReply(data.reply,state.language);const reply=String(data.reply).trim();
  state.lastLocationAnswer=data.current_location===true&&data.location_received===true&&coordinates&&Number.isFinite(Number(coordinates.latitude))&&Number.isFinite(Number(coordinates.longitude))?{reply,coordinates:{latitude:Number(coordinates.latitude),longitude:Number(coordinates.longitude),accuracy:coordinates.accuracy,updatedAt:coordinates.updatedAt},postcode:data.postcode||null,street:data.street||null}:null;
  state.lastStructuredResponse=data.structured_list?{reply,list:data.structured_list,sources:data.sources||[]}:null;
 if(data.structured_list?.type==='news'&&Array.isArray(data.structured_list.rows))
@@ -25123,7 +25502,10 @@ setTimeout(()=>{if(pocketFirstEntrance&&!pocketGreetingActive){pocketRevealMainA
 
 /* Avatar floats over the real application, with no blocking panel or gestures. */
 .avatar-overlay,.avatar-overlay.visible{background:transparent!important;pointer-events:none!important;transition:opacity .35s ease,visibility .35s ease!important}
-.avatar-overlay .avatar-stage{pointer-events:none!important}
+.avatar-overlay .avatar-stage{pointer-events:auto!important;cursor:pointer}
+.avatar-overlay.exit-mode .avatar-stage{pointer-events:none!important}
+.avatar-overlay .avatar-close{z-index:10!important}
+#avatarOverlay:not(.exit-mode) #avatarClose{pointer-events:auto!important;display:grid!important;place-items:center!important;z-index:20!important;position:fixed!important;top:calc(12px + env(safe-area-inset-top))!important;right:15px!important;width:46px!important;height:46px!important}
 .avatar-overlay .avatar-stage #avatar3dFrame{left:10%!important;top:13%!important;right:auto!important;bottom:auto!important;width:80%!important;height:73%!important;pointer-events:none!important;background:transparent!important}
 
 
@@ -26776,6 +27158,11 @@ main.page:has(#view-module.my-documents-active.active){
  font-size:clamp(22px,6vw,31px)!important;
 }
 
+${FOREIGN_LANGUAGE_RESOURCES_STYLE}
+${EDUCATION_MOBILE_CONTAINMENT_STYLE}
+${TRANSIT_VIEWPORT_STYLE}
+${ROUTE_NAVIGATION_STYLE}
+
 </style>
 </body>
 </html>`;
@@ -26826,6 +27213,14 @@ export default {
    '/api/location-pois':'POST',
    '/api/telegram-user-translation':'POST'
   };
+  if(url.pathname==='/api/education-ink'){
+   if(request.method!=='POST')return Response.json({error:'method_not_allowed'},{status:405});
+   if(Number(request.headers.get('Content-Length')||0)>1500000)return Response.json({error:'image_too_large'},{status:413});
+   const target=new URL('https://lifewise-ai-api.kokocf.workers.dev/api/education-ink');
+   const forwarded=new Request(target,request);
+   try{return env?.POCKET_API?await env.POCKET_API.fetch(forwarded):await fetch(forwarded)}
+   catch{return Response.json({status:'unavailable',error:'education_ink_unavailable'},{status:503})}
+  }
   const auxiliaryMethod=auxiliaryMethods[url.pathname];
   if(auxiliaryMethod){
    if(request.method!==auxiliaryMethod)return new Response('Method not allowed',{status:405,headers:{Allow:auxiliaryMethod}});

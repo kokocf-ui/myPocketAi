@@ -129,32 +129,25 @@ function funGeneratePuzzle(mode='rebus',seed=funPuzzleSeed(),difficulty='dificil
  const board={mode,seed,difficulty,width:C,height:R,grid,entries,density:answered/grid.length,style:'dense-barred'};
  return arrow&&funModulo(seed,2)===1?funTransposePuzzle(board):board;
 }
-function funDailyMaxim(dateKey){
- const first=['Un pas mic făcut azi','O întrebare pusă cu sinceritate','O idee notată la timp','O conversație cu atenție','Un lucru învățat azi','O greșeală privită cu calm','Un plan simplu și clar','Un gest de bunătate','O clipă de liniște','O alegere curajoasă','O privire nouă asupra lucrurilor','O promisiune respectată','Un început modest','O secundă de răbdare','Un răspuns căutat cu grijă','O încercare repetată','O carte deschisă la întâmplare','O lecție primită cu umor','O zi organizată cu răbdare','Un drum parcurs cu încredere','O observație atentă','O idee împărtășită','Un gând luminos','O întrebare dificilă'];
- const second=['poate schimba ritmul unei săptămâni','deschide o ușă pe care nu o vedeai','îți dă curaj pentru următorul pas','aduce ordine într-un plan complicat','lasă loc unei descoperiri','îți amintește ce contează','poate deveni începutul unei schimbări','face mai ușor un drum dificil','așază lucrurile într-o lumină nouă','îți oferă un motiv să continui','aduce un strop de curiozitate','poate însemna mai mult decât o promisiune','te învață ceva despre oameni','îți dă un moment de claritate','transformă efortul în experiență','lasă în urmă ceva folositor','îți pune imaginația la lucru','îți amintește să asculți','transformă așteptarea în pregătire'];
- const day=funDayNumber(dateKey),n=first.length*second.length,index=funModulo(day*37,n);
- return first[Math.floor(index/second.length)]+' '+second[index%second.length]+'.';
-}
+function funDailyMaximEntry(dateKey){return FUN_QUOTES[funModulo(funDayNumber(dateKey),FUN_QUOTES.length)]}
+function funDailyMaxim(dateKey){return funDailyMaximEntry(dateKey).text}
+function funQuoteEntry(text){return FUN_QUOTES.find(q=>q.text===text)||null}
 function funDailyJoke(dateKey){
- const jobs=['profesorul','medicul','șeful','bibliotecarul','mecanicul','vecinul','taximetristul','bucătarul'];
- const places=['la școală','la cabinet','la birou','la bibliotecă','în garaj','în lift','în taxi','la restaurant'];
- const prompts=['— De ce te uiți atât la ceas?','— Ai terminat tot ce aveai de făcut?','— Ce ai învățat azi?','— De ce ai luat un caiet gol?','— De ce ai venit atât de devreme?','— Ai un plan pentru mâine?','— Ce faci când nu știi răspunsul?','— De ce zâmbești singur?'];
- const punch=['— Ca să văd dacă și el se grăbește ca mine.','— Sigur. Mai rămâne doar să încep.','— Că unele întrebări au nevoie de cafea înainte de răspuns.','— Ca să nu se plângă ideile că nu au spațiu.','— Ca să prind loc la coada celor întârziați.','— Da: să-l fac după ce mă trezesc.','— Întreb pe cineva care are mai multă încredere în sine.','— Mi-am amintit cât de serios iau uneori lucrurile simple.'];
- const day=funDayNumber(dateKey);
- if(funModulo(day,3)===0)return FUN_JOKES[funModulo(Math.floor(day/3)*13,FUN_JOKES.length)];
- const ix=funModulo(day*17,64),p=Math.floor(ix/8),q=ix%8;
- return 'Întreabă '+jobs[p]+' '+places[p]+':\n'+prompts[q]+'\n'+punch[funModulo(q+p*3,punch.length)];
+ // Complete authored dialogues only: a question must never acquire an unrelated punchline.
+ return FUN_JOKES[funModulo(funDayNumber(dateKey),FUN_JOKES.length)].replace(/ — /g,'\n— ');
 }
 function funDailyForecast(idx,dateKey,humor=false){
+ // Labels and text stay in the SAME topic; never shuffle love captions over work advice.
  const areas=[
- ['❤️ Dragoste','💼 Planuri'],['💰 Bani','🌿 Echilibru'],['👥 Familie','❤️ Dragoste'],
- ['💼 Muncă','💰 Bani'],['🌿 Energie','👥 Relații'],['❤️ Dragoste','💰 Buget'],['💼 Proiecte','🌿 Odihnă']
+ ['❤️ Dragoste',['Spune clar ce îți dorești și lasă loc răspunsului.','Un gest mic și atent poate deschide un dialog.','Nu confunda o presupunere cu ceea ce simte celălalt.','Respectă ritmul celuilalt, fără să îți ascunzi limitele.'],['Romantismul începe frumos cu flori; uneori continuă și cu spălatul vaselor.','Telepatia nu merge nici azi. Încearcă o propoziție întreagă.','O inimioară în mesaj e drăguță, dar nu ține loc de conversație.','Întâlnirea perfectă nu cere un scenariu perfect, doar să ajungeți amândoi.']],
+ ['💼 Planuri',['Alege o sarcină importantă și du-o până la capăt.','Cere lămuriri înainte să începi un proiect neclar.','Împarte un obiectiv mare în două acțiuni realiste.','Verifică un detaliu înainte de a promite un termen.'],['Lista de sarcini nu se scurtează dacă o scrii cu litere mai mici.','Cafeaua s-a oferit să coordoneze proiectul; tot tu trebuie să îl faci.','Ședința despre eficiență merită, ideal, să aibă și o oră de încheiere.','Un proiect început are șanse mai bune decât unul amânat impecabil.']],
+ ['💰 Buget',['Verifică o cheltuială repetitivă înainte de a o reînnoi.','Compară prețul cu nevoia reală, nu doar cu reducerea afișată.','Lasă timp de gândire înainte de o cumpărătură impulsivă.','Notează cheltuielile mici: și ele fac parte din buget.'],['Cardul cere pauză. Coșul online susține că nu a primit cererea.','O reducere de 50% nu economisește bani dacă nu aveai nevoie de obiect.','Portofelul nu citește horoscopul, dar ar aprecia un buget.','Livrarea gratuită poate deveni scumpă dacă mai adaugi cinci produse.']],
+ ['👥 Familie',['Întreabă ce ajutor ar fi util, în loc să presupui.','O discuție calmă poate clarifica o neînțelegere veche.','Rezervă un moment fără telefon pentru cineva apropiat.','Spune mulțumesc pentru un lucru concret făcut de cineva.'],['Ședința de familie despre telecomandă poate fi înlocuită cu un film ales împreună.','Grupul familiei are suficiente poze; poate ar merge și un telefon adevărat.','Cine a mâncat prăjitura nu e un mister cosmic: caută farfuria.','O vizită scurtă și plăcută e mai bună decât una lungă în care toți se uită la ceas.']],
+ ['🌿 Odihnă',['Lasă o pauză între două activități care cer concentrare.','Nu transforma timpul liber într-o a doua listă de obligații.','Observă ce activitate te ajută să îți refaci atenția.','Alege un moment liniștit, fără ecran, dacă îți face bine.'],['Canapeaua te invită la pauză, nu la domiciliu permanent.','Telefonul are mod de economisire a energiei. Ai voie să faci și tu o pauză.','Un episod poate fi relaxant; sezonul întreg cere deja calendar.','Odihna nu trebuie trecută la realizări, deși merită păstrată în program.']],
+ ['🤝 Prieteni',['Trimite un mesaj personal cuiva cu care nu ai mai vorbit.','Ascultă până la capăt înainte să oferi o soluție.','Propune o întâlnire cu oră și loc, nu doar „cândva”.','Spune sincer dacă nu poți ajunge și oferă o alternativă.'],['„Ne vedem curând” funcționează mai bine dacă primește și o dată.','Prietenii buni nu îți citesc gândurile, dar pot citi un mesaj clar.','O cafea cu un prieten e mai simplă decât 40 de mesaje despre când să beți cafeaua.','La jocul de societate, regulile merită citite înainte ca cineva să înceapă să câștige.']],
+ ['📚 Învățare',['Alege o întrebare mică și caută o explicație verificabilă.','Explică în cuvintele tale ideea pe care tocmai ai învățat-o.','O greșeală poate arăta exact ce pas merită exersat.','Compară două metode și observă când este utilă fiecare.'],['Cartea de pe noptieră nu se citește singură, chiar dacă îi lași lumină.','Un caiet nou ajută, dar lecția trebuie totuși începută.','A sublinia toată pagina este, în fond, a colora hârtia.','Ai voie să nu știi răspunsul; motorul de căutare nu ține catalogul.']]
  ];
- const ideas=[
- ['Un dialog direct poate lămuri ceva ce ai amânat.','Mai bine o inițiativă mică decât trei promisiuni mari.','Un detaliu uitat merită verificat înainte de o decizie.','O persoană apropiată poate avea nevoie de timp și răbdare.','Pune o limită clară între muncă și odihnă.','Alege un lucru util și termină-l înainte de altul.','Nu trata presupunerile ca pe certitudini.','O întrebare bine pusă poate rezolva o neînțelegere.'],
- ['La amor, stelele spun să fii romantic; frigiderul cere să cumperi și pâine.','La serviciu, cafeaua a propus să devină coordonator de proiect.','Cardul bancar ar vrea o zi liberă de la cumpărături.','Un mesaj cu inimioare nu înlocuiește spălatul vaselor.','GPS-ul interior spune să te odihnești, dar canapeaua cere rezervare.','Azi ai inspirație; încearcă să nu o folosești doar pentru scuze.','Mercur nu a pierdut cheile: verifică buzunarul de ieri.','Partenerul citește gânduri numai în filme; vorbește în propoziții.']
- ];
- const index=funModulo(funDayNumber(dateKey)*31+idx*7+(humor?19:0),64),a=areas[index%7],list=ideas[humor?1:0];
- return [a[0]+' — '+list[index%8],a[1]+' — '+list[(Math.floor(index/8)*3+idx)%8]];
+ const index=funModulo(funDayNumber(dateKey)*31+idx*7+(humor?19:0),64),a=areas[index%7],b=areas[(index+3)%7],variant=humor?2:1;
+ return [a[0]+' — '+a[variant][Math.floor(index/7)%4],b[0]+' — '+b[variant][Math.floor(index/3)%4]];
 }
 `;

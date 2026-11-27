@@ -39,7 +39,7 @@ assert.equal(ASTRONOMY_LAWS_GROUPS.length, 6, 'Astronomy law groups count');
 assert.equal(ASTRONOMY_LAWS.length, 24, 'Astronomy laws & IAU constants count');
 for (const law of ASTRONOMY_LAWS) {
   assert.equal(law.subject, 'astronomy');
-  assert.ok(law.ro && law.en && law.formula && law.explainRo && law.explainEn && law.exampleRo && law.exampleEn && law.scopeRo && law.scopeEn,
+  assert.ok(law.sourceLanguage==='ro' && !('en' in law) && law.ro && law.formula && law.explainRo && law.exampleRo && law.scopeRo,
     `Incomplete astronomy law entry: ${law.id}`);
 }
 
@@ -308,15 +308,20 @@ sandbox.renderLearningSubjects = () => {};
 vm.createContext(sandbox);
 vm.runInContext(mainScript.slice(packStart, packEnd), sandbox);
 vm.runInContext(mainScript.slice(sciStart, sciEnd), sandbox);
+// Isolated synchronous menu harness: hydrate the now-lazy source data first.
+sandbox.__sourceAstronomy=ASTRONOMY_LAWS;
+vm.runInContext('ASTRONOMY_LAWS_DATA.push(...globalThis.__sourceAstronomy)',sandbox);
 
 // Override dialog opener & translation hook in VM to capture opened lessons and 44-lang batches
 vm.runInContext(`
   educationOpenPagedLesson = function(title, body) {
     globalThis.__opened.push({ title, body });
   };
-  eduTranslateMaterial = async function(items, lang) {
+  eduTranslateMaterial = async function(payload, identity, sourceLanguage, options) {
+    const lang=options?.targetLanguage||state.language;
+    const items=payload.lines||[];
     globalThis.__translated.push({ lang, count: items.length, sample: items.slice(0, 3) });
-    return items.map(x => '[' + lang.toUpperCase() + '] ' + x);
+    return {lines:items.map(x => '[' + lang.toUpperCase() + '] ' + x)};
   };
 `, Object.assign(sandbox, { __opened: openedLessons, __translated: translatedBatches }));
 

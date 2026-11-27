@@ -101,3 +101,29 @@ assert.equal(regionalRequested.after,'2026-11-20T09:40:00.000Z',
  'National onward search starts at a safe post-landing buffer');
 
 console.log('PASS source-backed air+ground: timezone/DST, transfer safety, missing legs and no invented total fares');
+
+// A change of plane does not invalidate the known departure/arrival addresses.
+// Route the OUTER ends but do not silently certify the intermediate air change.
+const multiFlight={legs:[
+ {...flight.legs[0],to:'FRA',endLocal:'2026-11-20 08:20'},
+ {from:'FRA',to:'DEB',startLocal:'2026-11-20 08:55',endLocal:'2026-11-20 09:45'}
+]};
+let accessTargets=[],egressStarts=[];
+const multi=await connectCandidateFlightToGround({}, {origin,destination,flight:multiFlight,
+ requestedAt:'2026-11-20T00:00:00.000Z'}, {...mocks,
+ planAccess:async(e,from,to)=>{accessTargets.push(to.iata);return access},
+ planEgress:async(e,from,to,lang,when)=>{egressStarts.push([from.iata,when]);return egress}
+});
+assert.ok(accessTargets.length>0);assert.ok(accessTargets.every(x=>x==='LTN'));
+assert.deepEqual(egressStarts,[['DEB','2026-11-20T09:30:00.000Z']]);
+assert.equal(multi.flight.to,'DEB','Final airport, not first connection airport');
+assert.equal(multi.airportTo.iata,'DEB');
+assert.equal(multi.accessJourney.legs[0].mode,'train');
+assert.equal(multi.egressJourney.legs[0].mode,'coach');
+assert.equal(multi.groundConnectionsVerified,true);
+assert.equal(multi.completeDoorToDoor,false,'Both outer links are not proof of the air transfer');
+assert.equal(multi.airTransfersVerified,false);
+assert.equal(multi.airTransferStatus,'intermediate_air_transfer_unverified');
+assert.ok(multi.accessSearch.attemptedAt.length>0);
+assert.equal(multi.egressSearch.status,'success');
+console.log('PASS connecting flights still search exact first/last airports; intermediate air transfer stays explicitly unverified');

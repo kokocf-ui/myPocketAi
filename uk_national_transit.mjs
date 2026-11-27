@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 // Keyed, optional public-transport routing for TransCAPI's separate planning areas.
 // Important: GB, island of Ireland, and NL+BE are NOT one connected graph.
 // TransCAPI documents https://www.transcapi.com/docs/journey and /docs/reference.
@@ -68,7 +69,7 @@ function mapItinerary(it,now,timeZone,zone){
    scheduledArrivalTime:!walk?safeText(raw.end_time?.scheduled,42):null,
    durationMinutes:(end-start)/60000,
    distanceMeters:raw.distance_m!==null&&raw.distance_m!==undefined&&Number.isFinite(Number(raw.distance_m))?Number(raw.distance_m):null,
-   lineNames:line?[line]:[],
+   lineNames:line?[line]:[],bookingUrl:transportTicketUrl(raw.booking_url||raw.bookingUrl),operatorUrl:transportTicketUrl(raw.route?.operator_url),
    towards:safeText(raw.headsign),operator:safeText(raw.route?.operator),
    platform:safeText(raw.platform,20),tripId:safeText(raw.trip_id,90),
    cancelled:/^(cancelled|partly_cancelled)$/i.test(String(raw.status||'')),
@@ -133,7 +134,7 @@ export async function planTransCAPIJourney(env,from,to,limit=4,options={}){
  url.searchParams.set('limit',String(Math.min(4,Math.max(1,Number(limit)||4))));
  let response,payload;
  try{
-  response=await fetch(url.toString(),{headers:{'X-Api-Key':key,'Accept':'application/json'},signal:AbortSignal.timeout(14000)});
+  response=await fetch(url.toString(),{headers:{'X-Api-Key':key,'Accept':'application/json'},signal:options?.signal?AbortSignal.any([options.signal,AbortSignal.timeout(14000)]):AbortSignal.timeout(14000)});
   if(!response.ok)return {status:response.status===429?'quota_exceeded':response.status===422?'outside_coverage':response.status===503?'provider_unavailable':response.status===400?'date_out_of_range':'http_'+response.status,journeys:[]};
   payload=await response.json();
  }catch{return {status:'unavailable',journeys:[]};}

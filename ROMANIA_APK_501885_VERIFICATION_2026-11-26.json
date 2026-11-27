@@ -1,0 +1,41 @@
+{
+  "checked_at": "2026-11-26",
+  "status": "signed_apk_build_success",
+  "version_code": 501885,
+  "source_commit": "e7ee4d0e723eef7a96e7283957f011579994bde6",
+  "branch": "arena/8ae2700b-mypocketai",
+  "workflow_run_id": 45879014303,
+  "workflow_job_id": 140113297567,
+  "workflow_url": "https://github.com/kokocf-ui/myPocketAi/actions/runs/45879014303",
+  "release_tag": "education-test-45879014303",
+  "prerelease": true,
+  "latest_production_release_changed": false,
+  "asset_id": 797267170,
+  "asset_name": "myPocketAI-signed-education-test.apk",
+  "asset_size_bytes": 77650828,
+  "asset_sha256_from_github_metadata": "1f3cccdb9333d65a8f6d943eb9890334ebd6dde684e0434cdf5de13aa9624485",
+  "download_url": "https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45879014303/myPocketAI-signed-education-test.apk",
+  "verification": {
+    "source": "GitHub Actions job/step conclusions and release/asset REST metadata",
+    "permanent_signing_and_previous_version_check": "success",
+    "certificate_identity_version_and_snapshot_checks": "success",
+    "direct_sandbox_download": "blocked_by_outbound_host_allowlist; binary not independently examined locally",
+    "local_suites": [
+      "test:national-transport",
+      "test:transit-audit",
+      "test:national-transport:browser",
+      "check",
+      "tests_android_ui_preview.mjs",
+      "scripts/build_android_ui_preview.mjs"
+    ],
+    "physical_romania_testing": "not_yet_performed"
+  },
+  "backend": {
+    "production_version": "v185",
+    "new_backend_deployed": false,
+    "here_enabled": false,
+    "here_provider_requests_this_stage": 0,
+    "authorized_here_attempts_total_max": 2
+  },
+  "scope": "Bundled current branch frontend and matching Education content; server functionality remains that of existing remote backend. No HERE credentials in APK."
+}

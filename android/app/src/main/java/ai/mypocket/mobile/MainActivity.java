@@ -523,7 +523,12 @@ public final class MainActivity extends ComponentActivity {
                 }
                 double requestedRate=data.optDouble("rate",0.96);
                 if(Double.isNaN(requestedRate)||Double.isInfinite(requestedRate))requestedRate=0.96;
-                tts.setSpeechRate((float)Math.max(0.65,Math.min(1.15,requestedRate)));
+                // Stop the previous utterance before applying the next rate. Language
+                // practice deliberately uses 0.40 slow vs 0.80 normal.
+                activeTtsUtteranceId=null;
+                tts.stop();
+                int rateStatus=tts.setSpeechRate((float)Math.max(0.30,Math.min(1.15,requestedRate)));
+                if(rateStatus==TextToSpeech.ERROR){notifyVoice("error","Requested speech rate is unavailable","tts");return;}
                 String utteranceId="pocket-native-voice-"+(++nextTtsUtterance);
                 activeTtsUtteranceId=utteranceId;
                 int status=tts.speak(text,TextToSpeech.QUEUE_FLUSH,null,utteranceId);
@@ -1282,6 +1287,7 @@ public final class MainActivity extends ComponentActivity {
                     });
                 });
         }
+        new PocketAttachmentExport(this,web,APP_HOST);
         // Profile bridge is available only to the app's trusted first-party page.
         // Email never enters window.__pocketNativeProfile or the AI request.
         if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){

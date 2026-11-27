@@ -2,13 +2,13 @@ export const SITE_GALLERY_PRESETS=Object.freeze({"hotel":[["facilities","Facilit
 export const CREATOR_GUESTHOUSE_SCRIPT="const extraCreatorGalleryPresets="+JSON.stringify(SITE_GALLERY_PRESETS)+";\n"+String.raw`
 function extraCreatorGalleryCategoryOptions(kind,description,venueSubtype='auto'){
  const cats=[];
- if(kind==='hotel')for(const room of extraCreatorSiteDetails(description,'hotel').counts){
+ if(kind==='hotel'||kind==='guesthouse')for(const room of extraCreatorSiteDetails(description,'hotel').counts){
   cats.push({id:'room:'+room.title.toLocaleLowerCase('ro'),ro:room.title,en:room.title,
    count:room.value,group:'room',automatic:true});
  }
  const isBar=kind==='restaurant'&&(venueSubtype==='bar'||venueSubtype==='auto'&&/\b(?:bar|pub|cocktail|lounge|berărie|berarie|tavern|club)\b/i.test(description));
  const isCafe=kind==='restaurant'&&!isBar&&(venueSubtype==='cafe'||venueSubtype==='auto'&&/\b(?:cafenea|coffee|café|cafe|ceainărie|ceainarie)\b/i.test(description));
- const catalogId=isBar?'bar':isCafe?'cafe':kind;
+ const catalogId=kind==='guesthouse'?'hotel':isBar?'bar':isCafe?'cafe':kind;
  const catalog=extraCreatorGalleryPresets[catalogId]||extraCreatorGalleryPresets.other;
  for(const [id,ro,en] of catalog)cats.push({id:'suggestion:'+catalogId+':'+id,ro,en,group:'category'});
  return cats;
@@ -168,7 +168,7 @@ function extraCreatorGuesthouseInjectGallery(html,images,kind='hotel'){
    }).join('');
    return '<div class="room-gallery-category"><h3>'+title+'</h3><div class="room-gallery-grid">'+thumbnails+'</div></div>';
   }).join('');
-  const heading=kind==='hotel'?(lang==='ro'?'Galeria camerelor':'Room photo gallery'):(lang==='ro'?'Galerie foto':'Photo gallery');
+  const heading=(kind==='hotel'||kind==='guesthouse')?(lang==='ro'?'Galeria camerelor':'Room photo gallery'):(lang==='ro'?'Galerie foto':'Photo gallery');
   return '<section id="room-gallery-'+lang+'" class="room-gallery-section"><h2>'+heading+'</h2>'+categories+'</section>'+match;
  });
 }

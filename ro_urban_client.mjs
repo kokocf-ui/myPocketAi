@@ -1,3 +1,4 @@
+import {inRomaniaApprox,pointDistanceMeters} from './regional_gtfs_registry.mjs';
 import {verifiedRouteOnlyOptions} from './transport_route_topology.mjs';
 // Cloudflare Worker -> private Romanian urban GTFS router adapter.
 // Never send precise coordinates unless routed within a verified Romanian region.
@@ -18,16 +19,27 @@ function distance(lat1,lon1,lat2,lon2){
  const h=Math.sin((p2-p1)/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(((lon2-lon1)*rad)/2)**2;
  return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
 }
-export function romanianUrbanRegion(from,to){
+export function romanianUrbanRegion(from,to,{verifiedCountry=null}={}){
  if(!valid(from)||!valid(to))return null;
+ if([from,to].some(p=>p.country_code&&String(p.country_code).toUpperCase()!=='RO')||verifiedCountry&&verifiedCountry!=='RO')return null;
+ // Verified national requests search *all* imported regional feeds, including
+ // counties overlapping a legacy city radius; no city/county picker is needed.
+ const domestic=verifiedCountry==='RO'||[from,to].every(p=>String(p.country_code||'').toUpperCase()==='RO');
+ if(domestic&&inRomaniaApprox(from)&&inRomaniaApprox(to)){
+  if(pointDistanceMeters(from,to)<=18000)return 'romania';
+  for(const city of CITIES){
+   if([from,to].every(p=>distance(+p.latitude,+p.longitude,city.lat,city.lon)<=city.radius))return 'romania';
+  }
+ }
+ // Preserve old city-based dispatch for non-national callers. An explicitly
+ // foreign country must never be overridden by proximity to a Romanian city.
  for(const city of CITIES){
-  const nearby=[from,to].every(p=>distance(+p.latitude,+p.longitude,city.lat,city.lon)<=city.radius);
-  if(nearby)return city.region;
+  if([from,to].every(p=>distance(+p.latitude,+p.longitude,city.lat,city.lon)<=city.radius))return city.region;
  }
  return null;
 }
-export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,limit=4}={},opts={}){
- const region=romanianUrbanRegion(from,to);
+export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,limit=4,verifiedCountry=null}={},opts={}){
+ const region=romanianUrbanRegion(from,to,{verifiedCountry});
  if(!region)return {status:'outside_supported_urban_regions',journeys:[]};
  // Preferred: Workers VPC Service -> existing Cloudflare Tunnel -> Oracle loopback:8766.
  // HTTPS URL remains an optional fallback for installations without a VPC binding.

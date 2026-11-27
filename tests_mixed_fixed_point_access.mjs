@@ -55,3 +55,11 @@ const impossible=await planFixedPointBoardingAccess({},{
 },{now,planner:()=>{throw Error('Must not search impossible timeline')}});
 assert.equal(impossible.status,'boarding_deadline_infeasible');
 console.log('PASS fixed-point access: verified boarding coordinate, usable search windows, gaps and walking data');
+// Provider failure or route-only evidence is not proof that the selected
+// departure is too late. Preserve the real source diagnostic.
+for(const status of ['quota_exceeded','route_only','local_query_budget_exhausted']){
+ const missing=await planFixedPointBoardingAccess({},
+  {origin,boardingPoint:airport,earliestDeparture:start,latestArrival:cutoff},
+  {now,planner:async()=>({status,journeys:[]})});
+ assert.equal(missing.status,status);
+}

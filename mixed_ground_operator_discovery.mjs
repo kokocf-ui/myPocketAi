@@ -69,7 +69,7 @@ const fromToTitle=(title,targetCity)=>{
  // When a title has a more verbose suffix, its destination should still
  // start with the exact city requested, not an unrelated intermediate stop.
  if(!fold(destination).startsWith(fold(targetCity))||!fold(targetCity))return null;
- const origin=trim(match[1].replace(/^(?:bus|coach|train|rail|cheap tickets)\s+(?:from\s+)?/i,''),75);
+ const origin=trim(match[1].replace(/^(?:(?:cheap|affordable)\s+)?(?:bus|coach|train|rail)(?:\s+tickets)?\s+(?:from\s+)?|^(?:cheap\s+)?tickets\s+(?:from\s+)?/i,''),75);
  if(!origin||fold(origin)===fold(destination)||
     /^(?:bus|coach|train|rail|ferry|ticket|tickets|travel|cheap tickets|bus tickets)$/i.test(origin))return null;
  return {origin,destination:targetCity};
@@ -102,6 +102,10 @@ export function normalizeMixedOperatorEvidence(results,{origin,destination}={}){
    from:route.origin,to:route.destination,url:url.href,
    source_title:title,source_type:'official_operator_route_page',
    schedule_status:'unavailable',journey_status:'indicative_ground_segment',
+   // City-pair pages can describe a THROUGH offer with changes. Neither the
+   // title nor an excerpt establishes a direct service or its transfer stops.
+   route_scope:'operator_city_pair',direct_service_verified:false,
+   changes_status:'unknown',through_ticket_verified:false,
    timetable_verified:false,transfer_verified:false,door_to_door_complete:false,
    access_transfer_needed:fold(route.origin)!==fold(fromCity),
    destination_transfer_needed:true,
@@ -126,13 +130,14 @@ async function nearbyMajorCity(env,origin,expected,{fetcher}){
   const r=await fetcher(url,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(6000)});
   if(!r.ok)return '';
   const body=await r.json();
+  const expectedCode=await expected;
   const cities=(Array.isArray(body.features)?body.features:[]).map(feature=>{
    const p=feature.properties||{},raw=p.datasource?.raw||{};
    const code=String(p.country_code||'').toUpperCase();
    const name=trim(p.name||p.city||'',75);
    const population=Number(p.population??raw.population);
    return {name,country:code,population:Number.isFinite(population)?population:0};
-  }).filter(c=>c.name&&(!expected||c.country===expected));
+  }).filter(c=>c.name&&(!expectedCode||c.country===expectedCode));
   cities.sort((a,b)=>b.population-a.population);
   return cities[0]?.name||'';
  }catch{return ''}
@@ -304,10 +309,10 @@ export function composeOfficialGroundConnections(legs,{fromCity,toCity,interchan
  return [...unique,...duplicates].slice(0,Math.max(1,Math.min(12,max)));
 }
 async function discoverOfficialCorridorConnections(env,{
- origin,destination,majorCity,fromCity,toCity,braveKey,fetcher
+ origin,destination,majorCity,fromCity,toCity,braveKey,exaKey,fetcher,signal=null,onProgress=null,corridorCitiesPromise=null
 }={}){
- if(!braveKey)return {connections:[],corridorCities:[],segmentPages:0,status:'provider_unavailable'};
- const cities=await discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:5});
+ if(!braveKey&&!exaKey)return {connections:[],corridorCities:[],segmentPages:0,status:'provider_unavailable'};
+ const cities=await (corridorCitiesPromise||discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:2}));
  if(!cities.length)return {connections:[],corridorCities:[],segmentPages:0,status:'corridor_city_unavailable'};
  const gateway=majorCity||fromCity,requests=[],searchedPairs=[];
  for(const city of cities){
@@ -316,17 +321,34 @@ async function discoverOfficialCorridorConnections(env,{
  }
  // Query endpoints separately, not "route London via hardcoded X". Every X
  // comes from the geographic corridor. Concurrency is bounded for the API.
- let cursor=0;
+ let cursor=0,searchCount=0,quotaBlocked=false;
  const pages=[];
  const worker=async()=>{
-  while(cursor<requests.length){
+  while(cursor<requests.length&&!signal?.aborted&&!quotaBlocked&&searchCount<6){
    const index=cursor++,pair=requests[index];
    const lookup=async query=>{
+    if(signal?.aborted||quotaBlocked||searchCount>=6)return [];
+    searchCount++;
+    if(!braveKey){
+     try{
+      const r=await fetcher('https://api.exa.ai/search',{
+       method:'POST',headers:{'Content-Type':'application/json','x-api-key':exaKey},
+       body:JSON.stringify({query,type:'auto',numResults:8,contents:{text:{maxCharacters:850}}}),
+       signal:AbortSignal.timeout(7000)
+      });
+      if([401,402,403,429].includes(r.status))quotaBlocked=true;
+      if(!r.ok)return [];
+      const data=await r.json();
+      return normalizeMixedOperatorEvidence(data.results,{origin:{city:pair.from},destination:{city:pair.to}})
+       .filter(x=>fold(x.from)===fold(pair.from));
+     }catch{return []}
+    }
     const u=new URL('https://api.search.brave.com/res/v1/web/search');
     u.searchParams.set('q',query);u.searchParams.set('count','20');
     try{
      const r=await fetcher(u,{headers:{Accept:'application/json',
       'X-Subscription-Token':braveKey},signal:AbortSignal.timeout(7000)});
+     if([401,402,403,429].includes(r.status))quotaBlocked=true;
      if(!r.ok)return [];
      const data=await r.json();
      const hits=(Array.isArray(data.web?.results)?data.web.results:[]).map(x=>({
@@ -351,6 +373,8 @@ async function discoverOfficialCorridorConnections(env,{
     eligible=[...eligible,...await lookup(query)];
    }
    pages.push(...eligible);
+   onProgress?.({connections:composeOfficialGroundConnections(pages,{fromCity:gateway,toCity,interchanges:cities,max:6}),
+    corridorDiscoveryStatus:'partial_operator_route_pages'});
    searchedPairs.push({from:pair.from,to:pair.to,
     modes:[...new Set(eligible.map(x=>x.mode))],
     operatorPages:eligible.length});
@@ -364,82 +388,77 @@ async function discoverOfficialCorridorConnections(env,{
   corridorCities:cities.map(x=>({name:x.name,country_code:x.country_code})),
   segmentPages:pages.length,
   searchedPairs:searchedPairs.sort((a,b)=>a.from.localeCompare(b.from)||a.to.localeCompare(b.to)),
-  status:'operator_route_page_discovery'
+  searchCount,searchIncomplete:signal?.aborted===true||quotaBlocked||searchCount>=6,
+  status:signal?.aborted?'search_timeout':quotaBlocked?'quota_or_access_blocked':'operator_route_page_discovery'
  };
 }
 
-export async function discoverMixedGroundOperators(env,{origin,destination,fetcher=fetch}={}){
- const fromCity=locality(origin),toCity=locality(destination);
- if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
+export async function resolveMixedOriginLocality(env,origin,{fetcher=fetch}={}){
+ const known=locality(origin);
+ if(known&&!/\bgps\b|^(?:location|my location|locatia mea|locatia telefonului|departure|plecare)$/i.test(fold(known)))return origin;
+ if(!env?.GEOAPIFY_API_KEY||origin?.latitude==null||origin?.longitude==null||
+   !Number.isFinite(+origin.latitude)||!Number.isFinite(+origin.longitude))return null;
+ const u=new URL('https://api.geoapify.com/v1/geocode/reverse');
+ u.searchParams.set('lat',String(origin.latitude));u.searchParams.set('lon',String(origin.longitude));
+ u.searchParams.set('format','json');u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+ try{
+  const r=await fetcher(u,{signal:AbortSignal.timeout(6000)});if(!r.ok)return null;
+  const data=await r.json(),p=data.results?.[0]||data.features?.[0]?.properties;
+  const city=cleanLocality(p?.city||p?.town||p?.village||'');
+  return city?{...origin,city,country_code:country(p)||country(origin)}:null;
+ }catch{return null}
+}
+export async function discoverMixedGroundOperators(env,{origin,destination,fetcher=fetch,signal=null,onProgress=null}={}){
+ const upstream=fetcher;
+ fetcher=(url,options={})=>{
+  if(signal?.aborted)return Promise.reject(new Error('ground_search_aborted'));
+  return upstream(url,{...options,...(signal?{signal:options.signal?AbortSignal.any([signal,options.signal]):signal}:{})});
+ };
  const key=trim(env?.EXA_API_KEY,300);
  const braveKey=trim(env?.BRAVE_API_KEY,300);
  if(!key&&!braveKey)return {status:'search_providers_not_configured',operators:[]};
+ // Independent geography must not consume serial 6s + 6s + 5.5s windows
+ // before the first surface-source query is even launched.
+ const originPromise=resolveMixedOriginLocality(env,origin,{fetcher});
+ const countryPromise=originPromise.then(p=>resolveOriginCountry(env,p,{fetcher}));
+ const majorCityPromise=nearbyMajorCity(env,origin,countryPromise,{fetcher});
+ const corridorCitiesPromise=discoverGroundCorridorCities(env,{origin,destination,fetcher,maxCities:2});
+ const resolvedOrigin=await originPromise;
+ const [sourceCountry,majorCity]=await Promise.all([countryPromise,majorCityPromise]);
+ origin=resolvedOrigin;
+ const fromCity=locality(origin),toCity=locality(destination);
+ if(!fromCity||!toCity)return {status:'location_unavailable',operators:[]};
  // Search only approximate places, not street addresses or precise GPS.
- const sourceCountry=await resolveOriginCountry(env,origin,{fetcher});
  const destinationCountry=country(destination);
  const readableCountry=sourceCountry?
   new Intl.DisplayNames(['en'],{type:'region'}).of(sourceCountry):fromCity;
- const majorCity=await nearbyMajorCity(env,origin,sourceCountry,{fetcher});
+
+ // Two mode-specific branches replace the old two generic queries. A coach
+ // result must not crowd rail out, and an operator city-pair offer can already
+ // contain changes; do not require our own intermediate-city reconstruction.
  const queries=[
-  [fromCity,toCity,'bus coach train transport operator official route'].join(' '),
-  [majorCity||readableCountry,toCity,destinationCountry,
-   'international coach bus operator official route'].filter(Boolean).join(' ')
+  [majorCity||fromCity,toCity,destinationCountry,
+   'coach bus operator official route tickets connections transfers'].filter(Boolean).join(' '),
+  [fromCity,majorCity||readableCountry,toCity,
+   'train rail official operator tickets connections transfers'].filter(Boolean).join(' ')
  ];
- let candidateResults=[],successful=0;
- const errors=[];
- if(key)await Promise.all(queries.map(async query=>{
-  try{
-   const r=await fetcher('https://api.exa.ai/search',{
-    method:'POST',headers:{'Content-Type':'application/json','x-api-key':key},
-    body:JSON.stringify({query,type:'auto',numResults:8,
-      contents:{text:{maxCharacters:850},highlights:{numSentences:2}}}),
-    signal:AbortSignal.timeout(8000)
-   });
-   if(!r.ok){errors.push('exa_http_'+r.status);return;}
-   const data=await r.json();
-   if(Array.isArray(data.results)){successful++;candidateResults.push(...data.results)}
-  }catch{errors.push('exa_network_error')}
- }));
- // Use the existing licensed Brave Search key only when the Exa source is
- // unavailable or returned no eligible operator page. No SerpApi flight
- // credits, scraping, or invented outbound URLs.
- let eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
- if(!eligible.length&&braveKey){
-  // One broad discovery, followed only if necessary by a provider-domain
-  // query. Both cities are derived from request geography; there is no
-  // London/Oradea-specific branch or invented route URL.
-  const searchTerms=[
-   queries[1]+' tickets timetable',
-   'site:flixbus.co.uk/bus-routes/ "'+(majorCity||fromCity)+'" "'+toCity+'" coach bus'
-  ];
-  for(const query of searchTerms){
-   const url=new URL('https://api.search.brave.com/res/v1/web/search');
-   url.searchParams.set('q',query);
-   url.searchParams.set('count','20');
-   try{
-    const r=await fetcher(url,{headers:{
-     Accept:'application/json','X-Subscription-Token':braveKey
-    },signal:AbortSignal.timeout(7000)});
-    if(!r.ok)errors.push('brave_http_'+r.status);
-    else {
-     const data=await r.json();
-     if(Array.isArray(data.web?.results)){
-      successful++;
-      candidateResults.push(...data.web.results.map(x=>({
-       url:x.url,title:x.title,description:x.description,highlights:x.extra_snippets
-      })));
-     }
-    }
-   }catch{errors.push('brave_network_error')}
-   eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
-   if(eligible.some(x=>fold(x.from)===fold(majorCity||fromCity)||fold(x.from)===fold(fromCity)))break;
-  }
- }
- if(!successful)return {status:errors.join('|')||'provider_unavailable',operators:[],
-  summary:{fromCity,toCity,majorCity,sourceHits:0,matchingRoutes:0,errors:errors.slice(0,4)}};
- // Validate all candidate origins concurrently, bounded by the shortlist,
- // instead of a potentially 30-second chain of individual geocoding requests.
- const verdicts=await Promise.all(eligible.map(async option=>{
+ let candidateResults=[],successful=0,searchCount=0;
+ const errors=[],accepted=[],acceptedKeys=new Set();
+ let partialConnections=[],corridorStatus='searching';
+ // Preserve the existing six-card limit without letting the faster mode fill
+ // every place before the other branch returns. Selection is not a claim of
+ // price/duration ordering: route pages do not supply comparable totals.
+ const selectedOperators=()=>{
+  const groups=['coach','train'].map(mode=>accepted.filter(o=>o.mode===mode));
+  const selected=[];
+  for(let i=0;selected.length<6&&groups.some(g=>i<g.length);i++)
+   for(const group of groups)if(group[i]&&selected.length<6)selected.push(group[i]);
+  return selected;
+ };
+ const publish=()=>onProgress?.({status:accepted.length||partialConnections.length?'official_operator_options':'partial_operator_route_pages',
+  operators:selectedOperators(),connections:partialConnections,corridorDiscoveryStatus:corridorStatus,
+  sourceErrors:errors.slice(0,4),searchIncomplete:true});
+ const verify=async option=>{
   if(!option.access_transfer_needed)return {...option,
    access_transfer_verified:true,country_match_verified:true};
   if(!sourceCountry)return null;
@@ -452,19 +471,68 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   const valid=await verifyOriginGeography(env,option.from,sourceCountry,{fetcher});
   return valid?{...option,access_transfer_verified:false,country_match_verified:true,
    origin_country_evidence:'geocode_city'}:null;
- }));
- const accepted=verdicts.filter(Boolean);
- // Independently look for rail+coach and coach-only operator route chains.
- // An unavailable provider or unconfirmed leg never becomes an invented route.
- const corridor=await discoverOfficialCorridorConnections(env,{
-  origin,destination,majorCity,fromCity,toCity,braveKey,fetcher
+ };
+ const accept=async rows=>{
+  candidateResults.push(...rows);
+  await Promise.all(normalizeMixedOperatorEvidence(rows,{origin,destination}).map(async option=>{
+   const verified=await verify(option);
+   const id=option.operator+'|'+fold(option.from)+'|'+fold(option.to);
+   if(verified&&!acceptedKeys.has(id)){
+    acceptedKeys.add(id);accepted.push(verified);publish();
+   }
+  }));
+ };
+ // Start corridor composition NOW, not after end-to-end page discovery. An
+ // empty, failed or slow city-pair branch cannot suppress train+coach chains.
+ // Corridor keeps its own existing max-six-query budget / max-four workers.
+ const corridorPromise=discoverOfficialCorridorConnections(env,{
+  origin,destination,majorCity,fromCity,toCity,braveKey,exaKey:key,fetcher,signal,corridorCitiesPromise,
+  onProgress:partial=>{partialConnections=partial.connections||partialConnections;publish();}
  });
- return {connections:corridor.connections,
+ const directPromise=(async()=>{
+  if(key)await Promise.all(queries.map(async query=>{
+   searchCount++;
+   try{
+    const r=await fetcher('https://api.exa.ai/search',{
+     method:'POST',headers:{'Content-Type':'application/json','x-api-key':key},
+     body:JSON.stringify({query,type:'auto',numResults:8,
+      contents:{text:{maxCharacters:850},highlights:{numSentences:2}}}),
+     signal:AbortSignal.timeout(8000)
+    });
+    if(!r.ok){errors.push('exa_http_'+r.status);return;}
+    const data=await r.json();
+    if(Array.isArray(data.results)){successful++;await accept(data.results)}
+   }catch{errors.push('exa_network_error')}
+  }));
+  // Existing search-provider fallback only, at most two queries. Do not
+  // enable a new service, scrape booking inventory, or use flight credits.
+  if(!accepted.length&&braveKey&&!signal?.aborted)await Promise.all(queries.map(async query=>{
+   const url=new URL('https://api.search.brave.com/res/v1/web/search');
+   url.searchParams.set('q',query);url.searchParams.set('count','20');
+   searchCount++;
+   try{
+    const r=await fetcher(url,{headers:{Accept:'application/json','X-Subscription-Token':braveKey},
+     signal:AbortSignal.timeout(7000)});
+    if(!r.ok){errors.push('brave_http_'+r.status);return;}
+    const data=await r.json();
+    if(Array.isArray(data.web?.results)){
+     successful++;
+     await accept(data.web.results.map(x=>({url:x.url,title:x.title,
+      description:x.description,highlights:x.extra_snippets})));
+    }
+   }catch{errors.push('brave_network_error')}
+  }));
+ })();
+ const [corridor]=await Promise.all([corridorPromise,directPromise]);
+ corridorStatus=corridor.status;
+ const eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
+ return {connections:corridor.connections,searchIncomplete:corridor.searchIncomplete===true||errors.length>0,
   corridorDiscoveryStatus:corridor.status,
   corridorCitiesChecked:corridor.corridorCities,
   corridorSegmentPages:corridor.segmentPages,
-  status:accepted.length?'official_operator_options':'no_verified_operator_pages',
-  operators:accepted,queriesUsed:queries.length,scheduledServicesVerified:false,
+  status:accepted.length||corridor.connections.length?'official_operator_options':
+   !successful?(errors.join('|')||'provider_unavailable'):'no_verified_operator_pages',
+  operators:selectedOperators(),queriesUsed:searchCount,scheduledServicesVerified:false,
   sourceErrors:errors.slice(0,4),
   summary:{fromCity,toCity,majorCity,sourceHits:candidateResults.length,
    matchingRoutes:eligible.length,matchingOrigins:eligible.map(x=>x.from).slice(0,6),

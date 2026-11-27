@@ -1,0 +1,233 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "de",
+  "version": "aa4f12986c5854f45514e6922755626001300d91731685252725d27e0ab3d250",
+  "language": "de",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "de-DE",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "das Haus",
+      "phonetic": "/das haʊs/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "das Buch",
+      "phonetic": "/das buːx/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "der Tag",
+      "phonetic": "/deːɐ̯ taːk/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "die Nacht",
+      "phonetic": "/diː naxt/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "der Freund",
+      "phonetic": "/deːɐ̯ fʁɔʏnt/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "die Familie",
+      "phonetic": "/diː faˈmiːli̯ə/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "die Stadt",
+      "phonetic": "/diː ʃtat/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "die Zeit",
+      "phonetic": "/diː tsaɪt/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Ich hätte gern Wasser, bitte.",
+      "phonetic": "/ɪç ˈhɛtə ɡɛʁn ˈvasɐ ˈbɪtə/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Ich brauche Hilfe.",
+      "phonetic": "/ɪç ˈbʁaʊxə ˈhɪlfə/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Können Sie das langsamer wiederholen?",
+      "phonetic": "/ˈkœnən ziː das ˈlaŋzaːmɐ viːdɐˈhoːlən/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Eine Fahrkarte, bitte.",
+      "phonetic": "/ˈaɪnə ˈfaːɐ̯kaʁtə ˈbɪtə/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "sein",
+      "explanation": "Prezent indicativ. Verbul sein este neregulat. Sie cu inițială mare este adresare politicoasă și folosește sind; sie poate însemna „ea” sau „ei/ele”, după context.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "ich",
+          "form": "bin"
+        },
+        {
+          "person": "du",
+          "form": "bist"
+        },
+        {
+          "person": "er / sie / es",
+          "form": "ist"
+        },
+        {
+          "person": "wir",
+          "form": "sind"
+        },
+        {
+          "person": "ihr",
+          "form": "seid"
+        },
+        {
+          "person": "sie / Sie",
+          "form": "sind"
+        }
+      ],
+      "task": {
+        "prompt": "Du ___ hier.",
+        "answers": [
+          "bist"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    },
+    {
+      "id": "grammar-1",
+      "title": "lernen",
+      "explanation": "Prezent: lern- primește terminațiile -e, -st, -t, -en, -t, -en. Acesta este un model regulat, nu regula tuturor verbelor germane.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "ich",
+          "form": "lerne"
+        },
+        {
+          "person": "du",
+          "form": "lernst"
+        },
+        {
+          "person": "er / sie / es",
+          "form": "lernt"
+        },
+        {
+          "person": "wir",
+          "form": "lernen"
+        },
+        {
+          "person": "ihr",
+          "form": "lernt"
+        },
+        {
+          "person": "sie / Sie",
+          "form": "lernen"
+        }
+      ],
+      "task": {
+        "prompt": "Wir ___ Deutsch.",
+        "answers": [
+          "lernen"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

@@ -3,12 +3,13 @@ import {readFileSync} from 'node:fs';
 const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');
 
-assert.match(backend,/const flightSearchPromise=internationalTarget&&explicitMixedJourney/,
- 'Flight discovery remains optional and independent from ground searches');
-assert.match(backend,/const groundOperatorSearchPromise=internationalTarget&&explicitMixedJourney/,
- 'Operator route evidence remains independent from flight searches');
+const exploration=readFileSync(new URL('./mixed_indicative_search.mjs',import.meta.url),'utf8');
+assert.match(backend,/const extraPromise=mixedExtraFields/);
+assert.match(exploration,/Promise.all/,'Independent sources searched concurrently');
+assert.match(exploration,/discoverMixedFlightCandidates/);
+assert.match(exploration,/discoverMixedGroundOperators/);
 assert.match(backend,/const flightDiscovery=await flightSearchPromise;/);
-assert.match(backend,/operator_options:Array\.isArray\(result\.operators\)/);
+assert.match(exploration,/operator_options:Array.isArray/);
 assert.match(frontend,/renderMixedUnifiedResults\(data,choice\)/);
 assert.doesNotMatch(frontend,/function renderMixedFlightCandidates\(/,
  'Obsolete separate flight-only result window must be removed, not just hidden');

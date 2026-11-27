@@ -11,7 +11,7 @@ assert.equal(PHYSICS_LAWS.length,32,'All physics reference items present');
 assert.equal(new Set(PHYSICS_LAWS.map(x=>x.id)).size,PHYSICS_LAWS.length,'No duplicate laws');
 for(const law of PHYSICS_LAWS){
  assert.ok(PHYSICS_LAWS_GROUPS.some(g=>g.id===law.group),law.id+' group');
- for(const key of ['ro','en','formula','explainRo','explainEn','exampleRo','exampleEn','scopeRo','scopeEn'])
+ for(const key of ['ro','formula','explainRo','exampleRo','scopeRo'])
   assert.ok(typeof law[key]==='string'&&law[key].length>=4,law.id+'/'+key);
 }
 assert.ok(PHYSICS_LAWS.some(x=>x.type==='theorem'),'Theorems are present');

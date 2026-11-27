@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 // Conservative adapters for already-connected, licensed Romanian and GB public
 // transport providers. Data is NOT automatically shareable between suppliers.
 // No real timetable is added by this file: each service calls its existing
@@ -38,21 +39,22 @@ const label=x=>String(x??'').trim();
  * bus stop in Bilo is NOT assumed to be the same physical stop.
  * Provider supplied consecutive waypoints must physically agree (<= 120m).
  */
-export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provider='TransCAPI'}={}){
+export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provider='TransCAPI',scopeId=null}={}){
  const raws=Array.isArray(journey?.legs)?journey.legs:[];
  if(!raws.length||raws.length>30||journey.departureFeasible===false)return [];
  const fromQuery=query?.from,toQuery=query?.to;
  if(!id(fromQuery?.id)||!id(toQuery?.id)||!point(fromQuery)||!point(toQuery))return [];
  const fromCoord=raws[0]?.departurePoint;
- const lastCoord=raws.at(-1)?.arrivalLatLon;
+ const lastCoord=raws.at(-1)?.arrivalPoint??raws.at(-1)?.arrivalLatLon;
  if(!close(fromCoord,fromQuery)||!close(lastCoord,toQuery))return [];
  const normalized=[];
- const source=provider==='MOTIS'?'MOTIS':'TransCAPI';
- const prefix=(source==='MOTIS'?'motis:':'tc:')+encodeURIComponent(fromQuery.id)+'>'+encodeURIComponent(toQuery.id)+':'+journeyIndex+':'+short(journey.startDateTime);
+ const source=short(provider)||'TransCAPI';
+ const prefix=scopeId?source+':'+scopeId+':'+journeyIndex:
+  (source==='MOTIS'?'motis:':'tc:')+encodeURIComponent(fromQuery.id)+'>'+encodeURIComponent(toQuery.id)+':'+journeyIndex+':'+short(journey.startDateTime);
  let previousEnd=null,previousToPoint=null;
  for(let i=0;i<raws.length;i++){
   const raw=raws[i],mode=legMode(raw?.mode);
-  const a=point(raw?.departurePoint),b=point(raw?.arrivalLatLon);
+  const a=point(raw?.departurePoint),b=point(raw?.arrivalPoint??raw?.arrivalLatLon);
   const start=utc(raw?.departureTime),end=utc(raw?.arrivalTime);
   if(!mode||!a||!b||!start||!end||Date.parse(end)<=Date.parse(start)||
      (previousEnd&&Date.parse(start)<Date.parse(previousEnd))||
@@ -66,9 +68,14 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provid
   if(!from.label||!to.label)return [];
   normalized.push({
    mode,from,to,departureTime:start,arrivalTime:end,
-   operator:short(raw.operator),lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
+   operator:short(raw.operator),bookingUrl:transportTicketUrl(raw.bookingUrl)||transportTicketUrl(raw.operatorUrl),lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
    provider:source,verified:true,
-   verificationSource:source+': dated authorized operator journey timetable',
+   verificationSource:source+(mode==='walking'?': provider pedestrian route duration estimate':': dated authorized operator journey timetable'),
+   timingEstimated:raw.timingEstimated===true,
+   // This adapter has checked every adjacent point, label and timestamp
+   // within ONE ordinary provider journey. Preserve that provenance so the
+   // graph does not invent a second interchange margin inside it.
+   localItineraryId:prefix,localLegIndex:i,
    // A per-leg / booking-total fare is not confirmed by the route geometry.
    fareVerified:false,cancelled:raw.cancelled===true
   });
@@ -119,7 +126,7 @@ export function convertBiloToMixedLegs(journey,{
   if(i&&legs[i-1].to.id!==from.id)return {status:'transfer_leg_missing',legs:[]};
   legs.push({
    mode,from,to,departureTime:start,arrivalTime:end,
-   operator:short(raw.operator),
+   operator:short(raw.operator),bookingUrl:transportTicketUrl(raw.bookingUrl)||transportTicketUrl(raw.operatorUrl),
    lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
    provider:'Bilo',verified:true,verificationSource:'Bilo: published operator schedule',
    // Published timetable != real-time seat/availability/final fare quote.
@@ -136,6 +143,7 @@ export function convertMOTISToMixedLegs(journey,query,options={}){
  return convertTransCAPIToMixedLegs(journey,query,{...options,provider:'MOTIS'});
 }
 export function makeMOTISMixedSource(env,{licensed=false,planner=null}={}){
+ const scope=queryScopes();
  let endpoint;
  try{endpoint=new URL(String(env?.MOTIS_API_BASE_URL||''))}catch{}
  const validEndpoint=endpoint?.protocol==='https:'&&
@@ -146,26 +154,27 @@ export function makeMOTISMixedSource(env,{licensed=false,planner=null}={}){
   async searchLegs(query){
    if(!enabled)return {status:'not_authorized',legs:[]};
    if(!point(query.from)||!point(query.to))return {status:'missing_coordinates',legs:[]};
-   const result=await planner(env,point(query.from),point(query.to),query.departureAt);
+   const result=await planner(env,point(query.from),point(query.to),query.departureAt,{signal:query.signal});
    if(result?.status!=='success')return {status:result?.status||'unavailable',legs:[]};
    const legs=(Array.isArray(result.journeys)?result.journeys:[])
-    .flatMap((j,i)=>convertMOTISToMixedLegs(j,query,{journeyIndex:i}));
+    .flatMap((j,i)=>convertMOTISToMixedLegs(j,query,{journeyIndex:i,scopeId:scope(query)}));
    return {status:legs.length?'success':'stops_not_verified',legs};
   }};
 }
 export function makeTransCAPIMixedSource(env,{
  licensed=false,planner=planTransCAPIJourney
 }={}){
+ const scope=queryScopes();
  return {id:'TransCAPI',licensed,enabled:Boolean(env?.TRANSCAPI_API_KEY),
   canServe:(from,to)=>point(from)&&point(to)&&Boolean(transCAPISharedZone(from,to)),
   async searchLegs(query){
    if(!licensed||!env?.TRANSCAPI_API_KEY)return {status:'not_authorized',legs:[]};
    const from=point(query.from),to=point(query.to);
    if(!from||!to||!transCAPISharedZone(from,to))return {status:'outside_coverage',legs:[]};
-   const result=await planner(env,from,to,4,{departureAt:query.departureAt});
+   const result=await planner(env,from,to,4,{departureAt:query.departureAt,signal:query.signal});
    if(!['success'].includes(result.status))return {status:result.status||'provider_unavailable',legs:[]};
    const legs=(result.journeys||[]).flatMap((j,i)=>
-    convertTransCAPIToMixedLegs(j,query,{journeyIndex:i}));
+    convertTransCAPIToMixedLegs(j,query,{journeyIndex:i,scopeId:scope(query)}));
    return {status:legs.length?'success':'stops_not_verified',legs};
   }};
 }
@@ -198,4 +207,35 @@ export function makeBiloMixedSource(env,{
    return {status:legs.length?'success':'station_identity_unavailable',
     legs,unresolvedJourneys:failures.length};
   }};
+}
+
+// The same local/urban pipeline used by ordinary A→B searches can provide
+// graph access/egress for a railway station, coach terminal or any other point.
+// Merely finding a nearby terminal does not create a timetable edge.
+export function makeLocalMixedSource({planner,canServe=()=>false}={}){
+ const scopes=new Map();
+ return {id:'LocalTransit',licensed:true,enabled:typeof planner==='function',
+  canServe:(a,b)=>Boolean(point(a)&&point(b)&&canServe(a,b)),
+  async searchLegs(query){
+   const result=await planner({},query.from,query.to,4,{departureAt:query.departureAt,signal:query.signal});
+   if(!Array.isArray(result?.journeys)||!result.journeys.length)
+    return {status:result?.status||'local_provider_unavailable',legs:[]};
+   const key=query.from.id+'>'+query.to.id+'|'+query.departureAt;
+   if(!scopes.has(key))scopes.set(key,'query-'+scopes.size);
+   const legs=result.journeys.flatMap((j,i)=>convertTransCAPIToMixedLegs(j,query,{
+    journeyIndex:i,provider:'LocalTransit',scopeId:scopes.get(key)
+   }).map(l=>({...l,verificationSource:String(j.provider||result.provider||'Local transit')+': dated source itinerary'})));
+   return {status:legs.length?'success':'stops_not_verified',legs};
+  }};
+}
+
+// Query-local unique namespaces avoid overflowing the stop-ID wire limit when
+// real geographic provider IDs are long. No hash collisions or name merging.
+function queryScopes(){
+ const ids=new Map();
+ return query=>{
+  const key=query.from.id+'>'+query.to.id+'|'+query.departureAt;
+  if(!ids.has(key))ids.set(key,'query-'+ids.size);
+  return ids.get(key);
+ };
 }

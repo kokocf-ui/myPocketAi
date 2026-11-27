@@ -21,6 +21,12 @@ const env=(bilo,urban)=>({
  ...(urban?{RO_URBAN_API_URL:'https://urban.example.test',RO_URBAN_API_TOKEN:'1234567890'.repeat(4)}:{}),
  AI:{run:async()=>({response:'unit test'})}
 });
+const coverageFlags=out=>{
+ assert.equal(out.provider_coverage.country,'RO');
+ assert.equal(out.provider_coverage.countrywide_coverage_verified,false);
+ assert.equal(out.provider_coverage.domestic_only,true);
+ return {intercity_configured:out.provider_coverage.intercity_configured,urban_configured:out.provider_coverage.urban_configured};
+};
 const request=async(body,bindings)=>{
  const response=await worker.fetch(new Request('https://fixture.test/api/chat',{
   method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(body)
@@ -33,22 +39,22 @@ try{
  let out=await askCountry(env(false,false));
  assert.equal(out.country_code,'RO');
  assert.equal(out.supported,false,'No Romanian connector is not a working country');
- assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:false});
+ assert.deepEqual(coverageFlags(out),{intercity_configured:false,urban_configured:false});
  out=await askCountry({...env(false,false),RO_URBAN_API_URL:'https://urban.example.test',RO_URBAN_API_TOKEN:'too-short'});
  assert.equal(out.supported,false,'A placeholder/short urban token cannot imply a working router');
  out=await askCountry(env(true,false));
  assert.equal(out.supported,true);
- assert.deepEqual(out.provider_coverage,{intercity_configured:true,urban_configured:false});
+ assert.deepEqual(coverageFlags(out),{intercity_configured:true,urban_configured:false});
  out=await askCountry(env(false,true));
  assert.equal(out.supported,true);
- assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:true});
+ assert.deepEqual(coverageFlags(out),{intercity_configured:false,urban_configured:true});
  out=await askCountry({...env(false,false),RO_URBAN_VPC:{fetch:async()=>{}},
   RO_URBAN_API_TOKEN:'too-short'});
  assert.equal(out.supported,false,'VPC binding alone is not a configured private planner');
  out=await askCountry({...env(false,false),RO_URBAN_VPC:{fetch:async()=>{}},
   RO_URBAN_API_TOKEN:'1234567890'.repeat(4)});
  assert.equal(out.supported,true);
- assert.deepEqual(out.provider_coverage,{intercity_configured:false,urban_configured:true});
+ assert.deepEqual(coverageFlags(out),{intercity_configured:false,urban_configured:true});
  assert.ok(!JSON.stringify(out).includes('1234567890'),'Never send private auth credentials to mobile');
  const askRoute=(destination,bindings)=>request({
   national_public_transport:true,message:'Transport public către '+destination.label,

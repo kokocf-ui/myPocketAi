@@ -20,6 +20,9 @@ for(const style of extraCreatorVisualStyles){
 }
 function extraCreatorPremiumSvg(kind){
  // Original decorative illustration, deliberately distinct from a claimed business photograph.
+ if(kind==='cafe')return '<svg viewBox="0 0 900 680" aria-hidden="true"><rect width="900" height="680" fill="#d8c9b5"/><path d="M0 500H900V680H0" fill="#6b5145"/><ellipse cx="440" cy="520" rx="290" ry="45" fill="#bca48a"/><path d="M220 255H610V410Q610 540 415 540T220 410Z" fill="#f6f0e3"/><path d="M610 280H655Q770 280 734 391Q710 450 610 450" fill="none" stroke="#f6f0e3" stroke-width="42"/><ellipse cx="415" cy="260" rx="195" ry="42" fill="#8b6247"/><path d="M340 190Q295 140 345 90M430 185Q380 125 435 70M520 195Q480 140 530 95" fill="none" stroke="#f8edda" stroke-width="15" stroke-linecap="round"/></svg>';
+ if(kind==='bar')return '<svg viewBox="0 0 900 680" aria-hidden="true"><rect width="900" height="680" fill="#203635"/><circle cx="690" cy="170" r="100" fill="#bba278" opacity=".45"/><path d="M130 560H820" stroke="#aa9678" stroke-width="10"/><path d="M240 170H660L450 390Z" fill="#e5bc8b" stroke="#f1debc" stroke-width="12"/><path d="M450 390V550M340 550H560" stroke="#f1debc" stroke-width="13"/><path d="M325 90L525 310" stroke="#739c7d" stroke-width="16"/><circle cx="365" cy="140" r="57" fill="#b3bd82"/><circle cx="365" cy="140" r="40" fill="#d6d5a3"/></svg>';
+ if(kind==='hotel')return '<svg viewBox="0 0 900 680" aria-hidden="true"><rect width="900" height="680" fill="#c7d4d5"/><circle cx="710" cy="140" r="70" fill="#efe2bb"/><path d="M160 135H735V630H160Z" fill="#d3b393"/><path d="M120 635H785" stroke="#5a7771" stroke-width="35"/><g fill="#4c7177"><path d="M215 195H310V285H215ZM395 195H490V285H395ZM575 195H670V285H575ZM215 335H310V425H215ZM395 335H490V425H395ZM575 335H670V425H575ZM215 475H310V565H215ZM575 475H670V565H575Z"/></g><path d="M390 630V495Q445 435 500 495V630" fill="#526c69"/><path d="M125 140H770" stroke="#546e6e" stroke-width="22"/></svg>';
  if(kind==='restaurant')return '<svg viewBox="0 0 900 680" aria-hidden="true"><defs><radialGradient id="plate"><stop stop-color="#f9e9bd"/><stop offset="1" stop-color="#d9c59d"/></radialGradient></defs>'+
   '<rect width="900" height="680" fill="#253d40"/><path d="M0 120L900 0v680H0Z" fill="#55766b" opacity=".6"/>'+
   '<circle cx="485" cy="335" r="246" fill="#e8decc"/><circle cx="485" cy="335" r="204" fill="url(#plate)"/><circle cx="485" cy="335" r="172" fill="#f5ede0"/>'+
@@ -27,7 +30,7 @@ function extraCreatorPremiumSvg(kind){
   '<path d="M390 270Q405 320 440 330M550 300Q520 360 580 370M410 405Q440 390 475 430" fill="none" stroke="#a35245" stroke-width="18" stroke-linecap="round"/>'+
   '<path d="M210 180Q260 90 320 170Q245 175 210 180ZM643 422Q694 375 737 441Q670 467 643 422Z" fill="#8ca574"/>'+
   '<g fill="none" stroke="#e4cdb9" stroke-width="13"><path d="M140 130v415M175 130v415M210 130v415M675 115v425"/></g></svg>';
- if(kind==='hotel')return '<svg viewBox="0 0 900 680" aria-hidden="true"><defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#d2bba4"/><stop offset="1" stop-color="#f6e5c7"/></linearGradient></defs>'+
+ if(kind==='guesthouse')return '<svg viewBox="0 0 900 680" aria-hidden="true"><defs><linearGradient id="sky" x2="0" y2="1"><stop stop-color="#d2bba4"/><stop offset="1" stop-color="#f6e5c7"/></linearGradient></defs>'+
   '<rect width="900" height="680" fill="url(#sky)"/><circle cx="700" cy="141" r="113" fill="#f7dfab"/>'+
   '<path d="M0 440Q210 185 420 378T900 300V680H0" fill="#9bac91"/><path d="M0 485Q240 335 442 425T900 345V680H0" fill="#658778"/>'+
   '<path d="M164 255L422 110L731 248V625H164Z" fill="#d8b795"/><path d="M154 258L422 108L745 258" fill="none" stroke="#5e5d53" stroke-width="24" stroke-linecap="square"/>'+
@@ -49,6 +52,7 @@ const extraCreatorPremiumPresets={
  cards:{code:'CA',tag:'MODULAR / CARDS'},conversion:{code:'CV',tag:'BOOKING / BUSINESS'},
  bold:{code:'BO',tag:'TYPE / IMPACT'},gallery:{code:'GA',tag:'PORTFOLIO / GALLERY'}
 };
+const extraCreatorProfessionalSiteCss="\n.premium-site{font-family:system-ui,-apple-system,sans-serif;line-height:1.65}\n.premium-site .design-nav{position:relative;max-width:1240px;margin:auto;padding:22px 6%;gap:20px}\n.premium-site .brand{font-size:24px;overflow-wrap:anywhere}\n.premium-site h1{font-size:clamp(42px,6.5vw,88px)!important;line-height:1.05!important;letter-spacing:-.04em;overflow-wrap:anywhere}\n.premium-site .hero h2{font-size:clamp(22px,2.6vw,34px)!important;line-height:1.25}\n.premium-site .hero p{max-width:52ch;font-size:17px}\n.premium-site .vertical-index,.premium-site .floating-title,.premium-site .tiny-mark,.premium-site .issue,.premium-site .split-stamp,.premium-site .story-number{display:none!important}\n.premium-site .business-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin:30px 0}\n.premium-site .business-fact{padding:24px;background:var(--paper);border:1px solid color-mix(in srgb,var(--ink) 18%,transparent);border-radius:6px;color:var(--ink);min-width:0}\n.premium-site .business-fact h3{font-size:21px;line-height:1.3;margin:0 0 12px}\n.premium-site .business-fact p{white-space:pre-line;overflow-wrap:anywhere;font-size:16px;margin:0}\n.premium-site .contact-links{display:flex;gap:12px;flex-wrap:wrap;margin:22px 0}\n.premium-site .cta{min-height:46px;box-sizing:border-box;display:inline-flex;align-items:center;font-size:15px!important;letter-spacing:0!important}\n.premium-site .art-label{max-width:90%;line-height:1.35;white-space:normal}\n@media(max-width:680px){.premium-site .business-facts{grid-template-columns:1fr;gap:16px}.premium-site .design-nav{align-items:flex-start;flex-wrap:wrap;padding:18px 22px}.premium-site .design-nav nav{flex-wrap:wrap}.premium-site .design-nav nav a{font-size:13px}.premium-site .hero{min-height:0!important}.premium-site .hero h1{font-size:clamp(40px,11vw,62px)!important}.premium-site .business-fact{padding:20px}.premium-site .contact-links .cta{flex:1 1 auto;justify-content:center}}\n";
 function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,language,options={}){
  const id=options.styleId||extraCreatorVisualStyles[0].id;
  const meta=extraCreatorPremiumMeta[id]||extraCreatorPremiumMeta.heritage,family=meta[4];
@@ -68,6 +72,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
    prefs.mood==='bold'?'.premium-site .cta{box-shadow:7px 7px 0 var(--mid)!important}.premium-site .service{border-left:5px solid var(--accent)}':'');
  const esc=x=>extraCreatorEscape(String(x??''));
  const kind=options.kind||'other';
+ const profile=extraCreatorBusinessProfile(kind),specificFacts=extraCreatorBusinessFacts(kind,options.businessDetails||{});
  const facts=extraCreatorSiteDetails(description,kind);
  const copy=options.aiCopy||null;
  const photo=typeof options.photo==='string'&&/^data:image\/(?:jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/i.test(options.photo)&&options.photo.length<5500000?options.photo:'';
@@ -90,15 +95,16 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
    noContent:'Completează detaliile verificate ale afacerii.',nav:['Despre','Ofertă','Contact'],
    metric:'Spații & dotări',services:'Servicii',features:'Facilități',more:'Descoperă mai multe',footer:'Concept nepublicat'
   };
+  t.offer=profile.offer[en?1:0];t.cta=profile.cta[en?1:0];t.nav[1]=profile.offer[en?1:0];
   const section=en?copy?.en:copy?.ro;
-  const headline=section?.headline||(en?'A distinctive place, your story':kind==='hotel'?'Un loc cu personalitate':'O identitate memorabilă');
+  const headline=section?.headline||profile.lead[en?1:0];
   const summary=section?.intro||(en?String(options.descriptionEn||'').trim()||t.intro:facts.short);
   const about=section?.about||(en?t.intro:String(description).slice(0,440));
   const verified=section?.services?.filter(x=>x&&typeof x.title==='string')?.slice(0,5)||[];
   // A no-cost EN preview never relabels unverified Romanian text as a translation.
   const extraServices=facts.remainder.filter(x=>kind!=='hotel'||!/(?:camere?\s+(?:single|duble|dubla|double)|apartamente?|mic\s+dejun|bucătărie\s+(?:la\s+)?comun|sal[aă]\s+de\s+mese|wi[\s-]?fi|internet|parcare)/i.test(x));
   const displayServices=verified.length?verified.map(x=>({title:x.title,detail:x.detail||''})):
-   !en?extraServices.slice(0,4).map(x=>({title:x,detail:''})):[];
+   !en&&!specificFacts.length?extraServices.slice(0,4).map(x=>({title:x,detail:''})):[];
   const roomName=label=>{
    const l=label.toLowerCase();
    return !en?label:/apartament|apartment/.test(l)?'apartments':/single/.test(l)?'single rooms':/dubl|double/.test(l)?'double rooms':label;
@@ -114,9 +120,9 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   const visit='<a class="cta" href="#'+focus+'-'+lang+'">'+(focus==='contact'?t.contact:focus==='about'?t.about:t.cta)+' <span aria-hidden="true">↗</span></a>';
   const nav='<header class="design-nav"><strong class="brand">'+esc(name)+'</strong><nav>'+
    '<a href="#about-'+lang+'">'+t.nav[0]+'</a><a href="#offer-'+lang+'">'+t.nav[1]+'</a><a href="#contact-'+lang+'">'+t.nav[2]+'</a></nav></header>';
-  const category=en?({hotel:'Guesthouse / accommodation',restaurant:'Restaurant / café',shop:'Shop / products',salon:'Beauty studio',services:'Professional services',personal:'Portfolio'}[kind]||'Business'):activity;
+  const category=profile[en?'en':'ro'];
   const eyebrow='<div class="eyebrow">'+esc(category)+'</div>';
-  const heading='<div class="hero-content">'+eyebrow+'<span class="tiny-mark">'+esc(extraCreatorPremiumPresets[family].tag)+'</span><h1>'+esc(name)+'</h1>'+
+  const heading='<div class="hero-content">'+eyebrow+'<h1>'+esc(name)+'</h1>'+
    '<h2>'+esc(headline)+'</h2><p>'+esc(summary)+'</p>'+visit+'</div>';
   let hero='';
   if(family==='asym'){
@@ -125,7 +131,7 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
     '<span class="floating-title">'+esc(name)+'</span></div></section>';
   }else if(family==='immersive'){
    hero='<section class="hero immersive-hero">'+visual('backdrop')+'<div class="hero-shade"></div><div class="immersive-top">'+eyebrow+
-    '<span>EST. / '+esc(name)+'</span></div>'+heading+'<div class="hero-bottom"><span>01 — 03</span><span>'+t.more+' ↓</span></div></section>';
+    '<span>'+esc(category)+'</span></div>'+heading+'<div class="hero-bottom"><span>01 — 03</span><span>'+t.more+' ↓</span></div></section>';
   }else if(family==='split'){
    hero='<section class="hero split-hero"><div class="split-copy">'+heading+'<span class="split-signature">'+esc(name)+'</span></div>'+
     '<div class="split-art">'+visual('large')+'<div class="split-stamp">'+esc(en?meta[2]:meta[1])+'</div></div></section>';
@@ -164,14 +170,19 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
   const metricsBlock=metrics?'<div class="metrics">'+metrics+'</div>':'';
   const amenitiesBlock=amenities?'<div class="amenities">'+amenities+'</div>':'';
   const servicesBlock=services?'<div class="services">'+services+'</div>':'';
+  const businessFacts=specificFacts.length?'<div class="business-facts">'+specificFacts.map(x=>'<article class="business-fact" data-field="'+esc(x.id)+'"><h3>'+esc(en?x.en:x.ro)+'</h3><p>'+esc(x.value)+'</p></article>').join('')+'</div>':'';
   const offer='<section class="offers" id="offer-'+lang+'"><div class="section-top"><span class="eyebrow">02 / '+t.details+'</span>'+
-   '<h2>'+t.offer+'</h2></div>'+metricsBlock+servicesBlock+amenitiesBlock+
-   (!metrics&&!services&&!amenities?'<p>'+esc(en?t.intro:description)+'</p>':'')+'</section>';
+   '<h2>'+t.offer+'</h2></div>'+metricsBlock+businessFacts+servicesBlock+amenitiesBlock+
+   (!metrics&&!services&&!amenities&&!businessFacts?'<p>'+esc(en?t.intro:description)+'</p>':'')+'</section>';
   const intro='<section class="intro" id="about-'+lang+'"><div class="intro-index">01 / '+t.about+'</div>'+
-   '<div class="intro-copy"><span class="eyebrow">'+t.about+'</span><h2>'+esc(headline)+'</h2><p>'+esc(about)+'</p></div></section>';
-  const contactContent=contact?esc(contact):esc(t.noContent);
+   '<div class="intro-copy"><span class="eyebrow">'+t.about+'</span><h2>'+t.about+'</h2><p>'+esc(about)+'</p></div></section>';
+  const rawContact=String(contact||'').trim();
+  const email=rawContact.match(/[a-z0-9.!#$%&'*+/=?^_{|}~-]+@[a-z0-9.-]+\.[a-z]{2,}/i)?.[0];
+  const phone=rawContact.match(/(?:\+?\d[\d ()-]{6,}\d)/)?.[0];
+  const contactContent=rawContact?esc(rawContact):esc(t.noContent);
+  const contactLinks=(email?'<a class="cta" href="mailto:'+esc(email)+'">'+(en?'Email us':'Scrie-ne')+'</a>':'')+(phone?'<a class="cta" href="tel:'+phone.replace(/[^+0-9]/g,'')+'">'+(en?'Call us':'Sună-ne')+'</a>':'');
   const contactPanel='<section class="contact" id="contact-'+lang+'"><span class="eyebrow">03 / '+t.contact+'</span>'+
-   '<h2>'+t.contact+'</h2><p>'+contactContent+'</p><div class="contact-signature">'+esc(name)+'</div></section>';
+   '<h2>'+t.contact+'</h2><p>'+contactContent+'</p><div class="contact-links">'+contactLinks+'</div><div class="contact-signature">'+esc(name)+'</div></section>';
   const layout=family==='conversion'||family==='cards'?hero+offer+intro+contactPanel:
    family==='story'||family==='editorial'?hero+intro+offer+contactPanel:
    family==='mosaic'||family==='gallery'?hero+offer+intro+contactPanel:hero+intro+offer+contactPanel;
@@ -185,8 +196,8 @@ function extraCreatorPremiumLocalHtml(name,activity,description,style,contact,la
  return '<!doctype html><html lang="'+(format==='both'?'ro':format)+'"><head><meta charset="utf-8">'+
   '<meta name="viewport" content="width=device-width,initial-scale=1">'+
   '<meta http-equiv="Content-Security-Policy" content="default-src &#39;none&#39;;style-src &#39;unsafe-inline&#39;;img-src data:;">'+
-  '<title>'+esc(name)+'</title><style>'+extraCreatorPremiumSiteStyle+GUESTHOUSE_SITE_CSS+preferenceCss+'</style></head>'+
-  '<body class="premium-site theme-'+family+'" style="'+colors+'">'+controls+'<div class="site-shell">'+galleryBody+'</div></body></html>';
+  '<title>'+esc(name)+'</title><style>'+extraCreatorPremiumSiteStyle+GUESTHOUSE_SITE_CSS+preferenceCss+extraCreatorProfessionalSiteCss+'</style></head>'+
+  '<body class="premium-site theme-'+family+'" data-business-kind="'+esc(kind)+'" style="'+colors+'">'+controls+'<div class="site-shell">'+galleryBody+'</div></body></html>';
 }
 extraCreatorLocalHtml=extraCreatorPremiumLocalHtml;
 function extraCreatorPremiumGallery(selected,onSelect,context={}){
@@ -202,18 +213,18 @@ function extraCreatorPremiumGallery(selected,onSelect,context={}){
   const style=extraCreatorStyleById(id);
   const card=extraToolsEl('article','premium-gallery-card'+(selected===id?' is-selected':''));
   const preview=extraToolsEl('div','premium-thumb thumb-'+family);
-  const hasBusiness=typeof context?.description==='string'&&context.description.trim().length>=10;
+  const hasBusiness=typeof context?.kind==='string';
   const site=extraCreatorPremiumLocalHtml(
     hasBusiness?(context.name||'Afacerea mea'):'Aramis',
     hasBusiness?(context.activity||'Prezentare afacere'):'Pensiune / cazare',
-    hasBusiness?context.description:'Pensiune cu mic dejun inclus. 5 camere single, 10 camere duble și 3 apartamente. Bucătărie comună. Sală de mese. Wi-Fi.',
+    hasBusiness?(context.description||'Completează descrierea afacerii pentru a vedea propriul conținut.'):'Pensiune cu mic dejun inclus. 5 camere single, 10 camere duble și 3 apartamente. Bucătărie comună. Sală de mese. Wi-Fi.',
     ro,hasBusiness?context.contact||'':'Contact demonstrativ',
     hasBusiness?context.language||'ro':'ro',
-    {kind:hasBusiness?context.kind||'other':'hotel',styleId:id,photo:hasBusiness?context.photo||'':'',gallery:hasBusiness?context.gallery||[]:[],prefs:context.prefs||{}});
+    {kind:hasBusiness?context.kind||'other':'hotel',businessDetails:hasBusiness?context.businessDetails||{}:{},styleId:id,photo:hasBusiness?context.photo||'':'',gallery:hasBusiness?context.gallery||[]:[],prefs:context.prefs||{}});
   const frame=extraToolsEl('iframe','premium-thumb-frame');
   frame.setAttribute('sandbox','');frame.setAttribute('loading','lazy');frame.setAttribute('tabindex','-1');
   frame.title=extraToolsLocale('Miniatură prezentare '+ro,'Preview of '+en);frame.srcdoc=site;preview.append(frame);
-  const badge=extraToolsEl('div','premium-card-badge',family.toUpperCase());
+  const badge=extraToolsEl('div','premium-card-badge',extraToolsLocale('Prezentare ','Layout ')+String(grid.children.length+1).padStart(2,'0'));
   const title=extraToolsEl('strong','premium-gallery-card-title',extraToolsLocale(ro,en));
   const description=extraToolsEl('p','premium-gallery-card-note',desc);
   const row=extraToolsEl('div','premium-gallery-card-actions');

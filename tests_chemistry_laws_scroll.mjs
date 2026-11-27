@@ -12,7 +12,7 @@ assert.equal(new Set(CHEMISTRY_LAWS.map(x=>x.id)).size,CHEMISTRY_LAWS.length,'No
 for(const item of CHEMISTRY_LAWS){
  assert.ok(CHEMISTRY_LAWS_GROUPS.some(group=>group.id===item.group),item.id+' category');
  assert.equal(item.subject,'chemistry');
- for(const key of ['ro','en','formula','explainRo','explainEn','exampleRo','exampleEn','scopeRo','scopeEn'])
+ for(const key of ['ro','formula','explainRo','exampleRo','scopeRo'])
   assert.ok(typeof item[key]==='string'&&item[key].length>=10,item.id+' missing '+key);
 }
 const html=await(await app.fetch(new Request('https://chemistry-laws-grade.test/'))).text();

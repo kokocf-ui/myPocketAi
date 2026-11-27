@@ -107,7 +107,7 @@ function extraCreatorOptionPicker(current,onSave){
 function extraCreatorSiteDetails(description,kind){
  const raw=String(description||'').trim();
  const counts=[];
- if(kind==='hotel'){
+ if(kind==='hotel'||kind==='guesthouse'){
   const rex=/\b(\d{1,3})\s*(camere?\s+(?:single|duble|dubla|double|matrimoniale|twin|triple|familiale|family|suite|standard|deluxe)|(?:single|duble|dubla|double|matrimoniale|twin|triple|familiale|suite|standard|deluxe)|apartamente?|rooms?\s+(?:single|double|twin|family|suite|deluxe|standard)|apartments?|suites?)\b/gi;
   for(const match of raw.matchAll(rex)){
    const value=match[1];let title=match[2].trim();
@@ -127,9 +127,9 @@ function extraCreatorSiteDetails(description,kind){
  ];
  for(const [re,ro,en] of amenityPatterns)if(re.test(raw))amenities.push({ro,en});
  const segments=raw.split(/[.;\n]+/).map(x=>x.trim()).filter(Boolean);
- const short=kind==='hotel'&&amenities.some(x=>x.ro==='Mic dejun inclus')?
+ const short=(kind==='hotel'||kind==='guesthouse')&&amenities.some(x=>x.ro==='Mic dejun inclus')?
   'Cazare cu mic dejun inclus':(segments[0]||raw).replace(/\b(?:Are|We have|There are)\s+\d+.*$/i,'').trim().slice(0,165);
- const remainder=(kind==='hotel'?segments.slice(1):segments).slice(0,5);
+ const remainder=(kind==='hotel'||kind==='guesthouse'?segments.slice(1):segments).slice(0,5);
  return {counts:counts.slice(0,12),amenities:amenities.slice(0,8),short:short||segments[0]||raw.slice(0,130),remainder};
 }
 function extraCreatorLocalHtml(name,activity,description,style,contact,language,options={}){
@@ -250,15 +250,20 @@ function extraCreatorWebsite(work){
  extraCreatorNotice(area,'Machetă locală: în acest APK testăm stilul și structura. Generarea cu Eva și accesul Premium verificat sunt încă neactivate.','Local draft: in this APK you can test style and structure. Eva generation and verified Premium access are not enabled.');
  const name=extraToolsField(area,extraToolsLocale('Numele afacerii','Business name'),'text',extraToolsLocale('Ex.: Aramis','e.g. Aramis'));
  const type=extraToolsField(area,extraToolsLocale('Domeniu','Business category'),'select');
- const categories=[['hotel','Pensiune / cazare','Guesthouse / hotel'],['restaurant','Restaurant / cafenea / bar','Restaurant / café / bar'],['services','Meseriași / servicii','Trades / services'],['salon','Salon / frumusețe','Beauty salon'],['shop','Magazin / produse','Shop'],['personal','Portofoliu / eveniment','Portfolio / event'],['other','Alt domeniu','Other']];
+ const categories=[['guesthouse','Pensiune','Guesthouse'],['hotel','Hotel','Hotel'],['restaurant','Restaurant','Restaurant'],['cafe','Cafenea / ceainărie','Café / tea room'],['bar','Bar / pub','Bar / pub'],['services','Meseriași / servicii','Trades / services'],['salon','Salon / frumusețe','Beauty salon'],['shop','Magazin / produse','Shop'],['personal','Portofoliu / eveniment','Portfolio / event'],['other','Alt domeniu','Other']];
  for(const [key,ro,en] of categories){const option=extraToolsEl('option','',extraToolsLocale(ro,en));option.value=key;type.append(option)}
  const desc=extraToolsField(area,extraToolsLocale('Descrie serviciile și particularitățile','Describe services and details'),'textarea',
   extraToolsLocale('Ex.: 5 camere single, 10 duble, mic dejun inclus, bucătărie la comun','e.g. 5 single rooms, 10 doubles, breakfast included'));
+ const businessDetails=extraCreatorBusinessControls(area,type,()=>{
+  work.siteAiCopy=null;work.siteHtml='';
+  work.creatorForm?.preview?.replaceChildren();
+  if(work.creatorForm?.note)work.creatorForm.note.textContent=extraToolsLocale('Domeniul sau datele s-au schimbat. Regenerează previzualizarea.','Business type or details changed. Rebuild the preview.');
+ });
  let selected=extraCreatorVisualStyles[0];
  const styleButton=extraToolsBtn(extraToolsLocale('🎨 Vezi modele profesionale de site','🎨 Browse professional website layouts'),()=>extraCreatorStylePicker(selected.id,value=>{
   selected=value;styleLabel.textContent=extraToolsLocale('Model ales: ','Selected layout: ')+extraToolsLocale(value.ro,value.en);
  },{name:name.value.trim(),kind:type.value,activity:type.options[type.selectedIndex]?.textContent||'',
-   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,gallery:guesthouseGallery.getGallery(),language:lang.value,prefs:designPrefs}));
+   description:desc.value.trim(),contact:contact.value.trim(),photo:photoData,gallery:guesthouseGallery.getGallery(),language:lang.value,prefs:designPrefs,businessDetails:businessDetails.getDetails()}));
  styleButton.classList.add('extra-creator-style-pick');
  const styleLabel=extraToolsEl('p','extra-creator-selected-style',extraToolsLocale('Stil ales: ','Selected style: ')+extraToolsLocale(selected.ro,selected.en));
  area.append(styleButton,styleLabel);
@@ -302,7 +307,10 @@ function extraCreatorWebsite(work){
  area.append(photo,photoButton,photoLabel);
  const updatePhotoGuidance=()=>{
   const hints={
-   hotel:['🏡 Fotografia pensiunii','Building exterior','Fotografia exterioară a pensiunii este imaginea principală.','The guesthouse exterior is the main photo.'],
+   guesthouse:['🏡 Fotografia pensiunii','Guesthouse exterior','Alege o fotografie reală a pensiunii.','Choose a real photograph of the guesthouse.'],
+   hotel:['🏨 Fotografia hotelului','Hotel photograph','Alege exteriorul hotelului sau un spațiu reprezentativ.','Choose the hotel exterior or a representative space.'],
+   cafe:['☕ Fotografia cafenelei','Café photograph','Prezintă spațiul sau băuturile reale.','Show the space or actual drinks.'],
+   bar:['🍸 Fotografia barului','Bar photograph','Prezintă atmosfera reală a barului.','Show the actual bar atmosphere.'],
    restaurant:['🍽 Fotografia localului','Venue photograph','Alege o fotografie reprezentativă a restaurantului, cafenelei sau barului.','Choose a representative restaurant, café or bar photograph.'],
    services:['🛠 Fotografie reprezentativă','Representative photo','Poate fi o lucrare reală executată sau echipa.','Choose real completed work or your team.'],
    salon:['✂ Fotografia salonului','Salon photograph','Alege o imagine a salonului sau a serviciului principal.','Choose the salon or its principal service.'],
@@ -390,7 +398,7 @@ function extraCreatorWebsite(work){
   if(!title||!story){note.textContent=extraToolsLocale('Completează numele afacerii și serviciile oferite.','Enter the business name and services.');return}
   work.creatorProjectSettings=management.getConfig();
   work.siteHtml=extraCreatorLocalHtml(title,type.options[type.selectedIndex]?.textContent||type.value,story,selected.ro+' '+extra.value,contact.value,lang.value,
-   {kind:type.value,styleId:selected.id,photo:photoData,gallery:guesthouseGallery.getGallery(),prefs:designPrefs,aiCopy:work.siteAiCopy||null});
+   {kind:type.value,businessDetails:businessDetails.getDetails(),styleId:selected.id,photo:photoData,gallery:guesthouseGallery.getGallery(),prefs:designPrefs,aiCopy:work.siteAiCopy||null});
   const frame=extraToolsEl('iframe','extra-creator-preview');
   frame.setAttribute('sandbox','');frame.title=extraToolsLocale('Machetă locală a site-ului','Local website draft');
   frame.srcdoc=work.siteHtml;preview.replaceChildren(frame);
@@ -399,11 +407,12 @@ function extraCreatorWebsite(work){
   extraToolsLocale('Previzualizare a designului; traducerea în engleză este pregătită automat la generarea cu Eva.','Design preview only; the English translation is produced when Eva generates the site.');
   work.creatorForm?.onPreviewReady?.();
  };
+ desc.addEventListener('input',()=>{work.siteAiCopy=null});
  const actions=extraToolsActions(area,
   extraToolsBtn(extraToolsLocale('👁 Previzualizează site-ul','👁 Preview site'),generate,true),
   extraToolsBtn(extraToolsLocale('⛶ Ecran complet','⛶ Full screen'),()=>work.siteHtml?extraCreatorFullscreen(work.siteHtml):(note.textContent=extraToolsLocale('Creează întâi previzualizarea.','Preview first.'))));
  area.append(note,preview);
- work.creatorForm={name,type,desc,extra,lang,contact,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked,
+ work.creatorForm={name,type,desc,extra,lang,contact,getBusinessDetails:businessDetails.getDetails,getStyle:()=>selected,getPreferences:()=>({...designPrefs}),getPhoto:()=>photoData,getGallery:guesthouseGallery.getGallery,getFeatures:()=>({contact:featureContact.checked,booking:featureBooking.checked,
   shop:featureShop.checked,privacyUrl:privacy.value.trim()}),
  getCommerce:()=>({currency:currency.value,slotCapacity:Number(capacity.value)||0,slotMinutes:60,
   automaticConfirmation:autoConfirm.checked,products:products.filter(p=>p.title.trim()&&p.priceMinor>0).map(p=>({...p}))}),

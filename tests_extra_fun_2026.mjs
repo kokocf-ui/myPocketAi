@@ -71,7 +71,7 @@ assert.match(EXTRA_FUN_UI_SCRIPT,/storage\.setItem\(key,'1'\)/,'Maxim only once 
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunAstrology/);
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopup/,'Horoscope must open separate modal');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunPopupLine/,'Detailed modal sections required');
-assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunCrossword/);
+assert.doesNotMatch(EXTRA_FUN_UI_SCRIPT,/extraFunCrossword|extraFunButton\(tabs,'Rebus'/,'Rebus removed at user request');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunIntegrame/,'Separate arrowword grid required');
 assert.match(EXTRA_FUN_UI_SCRIPT,/funGeneratePuzzle\(mode,funPuzzleSeed\(\),difficulty\)/,'Both games must generate a fresh board on demand');
 assert.match(EXTRA_FUN_UI_SCRIPT,/extraFunHelp/,'Beginner game rules required');

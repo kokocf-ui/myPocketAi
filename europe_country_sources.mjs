@@ -1,4 +1,6 @@
-// European sources catalog v1. DISCOVERY ONLY: this module never calls a provider.
+import {keylessGtfsMetadata} from './keyless_transport_sources.mjs';
+import {OPEN_SURFACE_TRANSPORT_SOURCE} from './public_transport_sources.mjs';
+// European sources catalog v2. METADATA ONLY: this module never calls a provider.
 // Source inclusion != permission, working API, live data, timetable coverage or booking.
 // Every source requires a separate checked adapter and commercial-use/license review.
 export const EUROPE_COUNTRIES=Object.freeze(
@@ -34,6 +36,7 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
  NL:{transport:[source('nl_ndov','NDOV public transport feed (agreement needed)','https://www2.ndovloket.nl/','national','data_feed','agreement_required')],general:[]},
  NO:{transport:[source('no_entur','Entur Journey Planner v3','https://developer.entur.no/docs/open-services/journey-planner','national','api','attribution_required')],general:[]},
  SE:{transport:[source('se_trafiklab','Trafiklab public transport open-data APIs','https://www.trafiklab.se/','national','api','registration_review')],general:[]},
+ EE:{transport:[source('ee_digitransit','Digitransit Routing v2 documented Estonia coverage','https://digitransit.fi/en/developers/apis/','national','api','api_key_required')],general:[]},
  FI:{transport:[source('fi_digitransit','Digitransit Routing API','https://digitransit.fi/en/developers/apis/','national','api','api_key_required')],general:[]},
  CH:{transport:[source('ch_transportdata','Swiss national public transport GTFS','https://opentransportdata.swiss/en/cookbook/timetable-cookbook/gtfs/','national','dataset')],general:[]},
  AT:{transport:[source('at_mobility_data','Austria transport association open data','https://data.mobilitaetsverbuende.at/de/data-sets','national','dataset')],general:[]},
@@ -41,7 +44,7 @@ export const EUROPE_SOURCE_CATALOG=Object.freeze({
  IT:{transport:[source('it_nap_mmtis','Italian NAP for multimodal transport (NeTEx/SIRI)','https://www.cciss.it/nap/mmtis/public/en/static/multimodal','national','nap')],general:[]},
  IE:{transport:[source('ie_nta_gtfs','Ireland NTA GTFS national schedules','https://data.gov.ie/dataset/nta-gtfs','national','dataset','reuse_terms_review'),
                source('ie_nta_live','Ireland NTA realtime APIs','https://developer.nationaltransport.ie/','national','api','api_key_required')],general:[]},
- BE:{transport:[source('be_rail_open','Belgian national rail timetable data SNCB/NMBS','https://www.belgiantrain.be/en/3rd-party-services/mobility-service-providers/public-data/','national','dataset')],general:[]},
+ BE:{transport:[source('be_irail','iRail Belgian rail connections','https://docs.irail.be/','belgian_rail','api','no_api_key_terms_identity_and_limiter_required'),source('be_rail_open','Belgian national rail timetable data SNCB/NMBS','https://www.belgiantrain.be/en/3rd-party-services/mobility-service-providers/public-data/','national','dataset')],general:[]},
  CZ:{transport:[source('cz_prague_pid','Prague integrated transport GTFS/realtime','https://pid.cz/en/opendata/','prague_region','dataset')],general:[]}
 });
 export const EUROPE_COMMON_SOURCES=Object.freeze({
@@ -60,10 +63,15 @@ export function europeanCountrySources(countryCode){
  if(!EUROPE_COUNTRIES.includes(country))return null;
  const custom=EUROPE_SOURCE_CATALOG[country]||{transport:[],general:[]};
  return {
-  country,transport:[...EUROPE_COMMON_SOURCES.transport,...custom.transport],
+  country,transport:[...EUROPE_COMMON_SOURCES.transport,...custom.transport,...keylessGtfsMetadata(country).map(s=>({...s,url:s.datasetUrl})),{
+   id:OPEN_SURFACE_TRANSPORT_SOURCE.id,name:OPEN_SURFACE_TRANSPORT_SOURCE.name,
+   url:OPEN_SURFACE_TRANSPORT_SOURCE.publisherUrl,scope:OPEN_SURFACE_TRANSPORT_SOURCE.scope,
+   kind:'open_gtfs_dataset',access:'explicit_opt_in_and_release_gates',status:'implemented_gated',
+   coverage:'requires_loaded_feed_stop_and_date_verification'
+  }],
   general:[...EUROPE_COMMON_SOURCES.general,...custom.general],
   status:'catalog_only',
   note:'Sources require integration, license and coverage validation before requests'
  };
 }
-export const EUROPE_SOURCE_CATALOG_VERSION=1;
+export const EUROPE_SOURCE_CATALOG_VERSION=2;

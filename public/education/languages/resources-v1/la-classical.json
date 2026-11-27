@@ -1,0 +1,148 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "la-classical",
+  "version": "27b7d5e469f88449826c16bd4bf7954e7b79e6847c41640f791f654d2ca53e2e",
+  "language": "la",
+  "variant": "classical",
+  "sourceLanguage": "ro",
+  "level": "foundation",
+  "locale": "la",
+  "pronunciationNote": "Transcriere istorică / transliterare conform variantei selectate. TTS italian/grec modern este numai aproximativ.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "domus",
+      "phonetic": "/ˈdo.mus/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "liber",
+      "phonetic": "/ˈli.ber/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "diēs",
+      "phonetic": "/ˈdi.eːs/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "nox",
+      "phonetic": "/noks/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "amīcus",
+      "phonetic": "/aˈmiː.kus/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "familia",
+      "phonetic": "/faˈmi.li.a/",
+      "gloss": "casă, grup domestic, familie (în contextul istoric)",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "urbs",
+      "phonetic": "/urbs/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "tempus",
+      "phonetic": "/ˈtem.pus/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "esse",
+      "explanation": "Prezent indicativ activ al lui esse. Pronumele personale pot fi omise. Lungimea vocalelor este importantă în latina clasică; vocea italiană a dispozitivului este numai un model aproximativ.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "ego",
+          "form": "sum"
+        },
+        {
+          "person": "tū",
+          "form": "es"
+        },
+        {
+          "person": "is / ea / id",
+          "form": "est"
+        },
+        {
+          "person": "nōs",
+          "form": "sumus"
+        },
+        {
+          "person": "vōs",
+          "form": "estis"
+        },
+        {
+          "person": "eī / eae / ea",
+          "form": "sunt"
+        }
+      ],
+      "task": {
+        "prompt": "Nōs ___ discipulī.",
+        "answers": [
+          "sumus"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "classical",
+      "title": "Vocabular de lectură istorică",
+      "note": "Sensurile depind de text și epocă. Acesta este un lexic de lectură, nu un ghid de călătorie contemporan.",
+      "entryIds": [
+        "word-0",
+        "word-1",
+        "word-2",
+        "word-3",
+        "word-4",
+        "word-5",
+        "word-6",
+        "word-7"
+      ]
+    }
+  ]
+}

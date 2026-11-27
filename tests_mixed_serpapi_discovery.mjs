@@ -126,3 +126,28 @@ assert.equal(borderResult.datesChecked[0].airportQueries.length,borderRequests.l
  'Diagnostics show exactly which pairs were checked rather than claiming full coverage');
 
 console.log('PASS: progressive earliest-day flight discovery, deduplication, optional date and opt-in');
+
+const attemptedGateways=[];
+const recoveredAirport=await discoverMixedFlightCandidates(env,{
+ origin:nearBorderOrigin,destination:nearBorderDestination,departureAt:'2026-11-20T02:00:00Z',
+ discover:airportList,maxProviderQueries:9,
+ search:async(_,q)=>{
+  attemptedGateways.push(q);
+  if(q.departureAirports.length===1&&q.departureAirports[0]==='LTN')return {status:'candidate_results_only',candidates:[wizzDirect]};
+  return {status:'invalid_airport_query',diagnostic:'Invalid airport',candidates:[]};
+ }
+});
+assert.ok(recoveredAirport.candidates.length,'One rejected airport query cannot suppress later independent gateways');
+assert.equal(recoveredAirport.airportQueryRejected,true);
+assert.equal(recoveredAirport.searchIncomplete,true);
+assert.ok(attemptedGateways.length<=9);
+assert.equal(new Set(attemptedGateways.map(q=>JSON.stringify([q.departureAirports,q.arrivalAirports,q.stops]))).size,attemptedGateways.length,
+ 'Never retry the same invalid airport query');
+for(const status of ['free_quota_not_confirmed','search_http_401','search_http_403','search_http_429','provider_error']){
+ let stops=0;
+ await discoverMixedFlightCandidates(env,{origin:nearBorderOrigin,destination:nearBorderDestination,
+  departureAt:'2026-11-20T02:00:00Z',discover:airportList,maxProviderQueries:9,
+  search:async()=>{stops++;return {status,candidates:[]}}
+ });
+ assert.equal(stops,1,status+' must stop immediately, not expand into retries');
+}

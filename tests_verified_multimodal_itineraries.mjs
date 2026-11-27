@@ -101,3 +101,15 @@ const dynamic=composeVerifiedMixedItineraries({
 assert.equal(dynamic.journeys[0].modeSignature,'train → bus');
 assert.equal(composeVerifiedMixedItineraries({...search,legs:itinerary,departureAt:'not-a-date'}).status,'invalid_request');
 console.log('PASS verified multimodal discovery: alternatives, chronology, prices, no invented transfers, no hardcoded geography');
+
+// One ordinary provider itinerary already timed its consecutive local legs.
+// Do not add a second arbitrary boarding margin inside that same itinerary.
+const localWalk=leg('actual-door-A','station-A','walking',0,10,{localItineraryId:'validated:one',localLegIndex:0});
+const localTrain=leg('station-A','actual-door-B','train',11,60,{localItineraryId:'validated:one',localLegIndex:1});
+assert.equal(composeVerifiedMixedItineraries({...search,legs:[localWalk,localTrain]}).journeys.length,1);
+for(const change of [{localItineraryId:'another-journey'},{localLegIndex:2},{provider:'another-supplier'},{mode:'flight'}]){
+ assert.equal(composeVerifiedMixedItineraries({...search,legs:[localWalk,{...localTrain,...change}]}).journeys.length,0,
+  'Local adjacency cannot skip independent-provider, skipped-leg or flight margins');
+}
+assert.equal(composeVerifiedMixedItineraries({...search,legs:[localWalk,{...localTrain,departureTime:t(9)}]}).journeys.length,0,'Provider adjacency cannot permit chronology overlap');
+console.log('PASS provider-contained local adjacency reuses actual timing only; cross-itinerary/source/flight buffers remain');

@@ -8,7 +8,8 @@ on:
       - 'science_grade_progression.mjs'
       - 'science_shared_pack_loader.mjs'
       - 'tests_science_shared_packs_browser.mjs'
-      - 'public/education/science/shared/**'
+      - 'tests_science_source_browser.mjs'
+      - 'public/education/science/shared-v2/**'
       - 'science_ro_course_plan.mjs'
       - 'education_country_ui.mjs'
       - 'index.js'
@@ -29,6 +30,7 @@ jobs:
       - run: npx playwright install --with-deps chromium
       - run: node tests_physics_real_mobile_browser.mjs
       - run: node tests_science_shared_packs_browser.mjs
+      - run: node tests_science_source_browser.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:

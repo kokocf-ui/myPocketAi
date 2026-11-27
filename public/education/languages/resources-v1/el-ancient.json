@@ -1,0 +1,148 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "el-ancient",
+  "version": "7fba2dc89f0efff4599f62015a8bff06748c80410afca3f892217639467859d8",
+  "language": "el",
+  "variant": "ancient",
+  "sourceLanguage": "ro",
+  "level": "foundation",
+  "locale": "el-GR",
+  "pronunciationNote": "Transcriere istorică / transliterare conform variantei selectate. TTS italian/grec modern este numai aproximativ.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "οἶκος",
+      "phonetic": "oîkos",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-1",
+      "term": "βιβλίον",
+      "phonetic": "biblíon",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-2",
+      "term": "ἡμέρα",
+      "phonetic": "hēméra",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-3",
+      "term": "νύξ",
+      "phonetic": "nýx",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-4",
+      "term": "φίλος",
+      "phonetic": "phílos",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-5",
+      "term": "γένος",
+      "phonetic": "génos",
+      "gloss": "neam, origine, familie (după context)",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-6",
+      "term": "πόλις",
+      "phonetic": "pólis",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    },
+    {
+      "id": "word-7",
+      "term": "χρόνος",
+      "phonetic": "khrónos",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "classical",
+      "notation": "transliteration"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "εἰμί",
+      "explanation": "Prezent indicativ al lui εἰμί în greaca veche; aici sunt numai persoanele singular și plural, fără dual. Nu folosi formele grecei moderne pentru a completa tabelul. Pronunția istorică diferă între epoci și convenții.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "ἐγώ",
+          "form": "εἰμί"
+        },
+        {
+          "person": "σύ",
+          "form": "εἶ"
+        },
+        {
+          "person": "αὐτός",
+          "form": "ἐστί(ν)"
+        },
+        {
+          "person": "ἡμεῖς",
+          "form": "ἐσμέν"
+        },
+        {
+          "person": "ὑμεῖς",
+          "form": "ἐστέ"
+        },
+        {
+          "person": "αὐτοί",
+          "form": "εἰσί(ν)"
+        }
+      ],
+      "task": {
+        "prompt": "Ἡμεῖς ___ μαθηταί.",
+        "answers": [
+          "ἐσμέν"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "classical",
+      "title": "Vocabular de lectură istorică",
+      "note": "Sensurile depind de text și epocă. Acesta este un lexic de lectură, nu un ghid de călătorie contemporan.",
+      "entryIds": [
+        "word-0",
+        "word-1",
+        "word-2",
+        "word-3",
+        "word-4",
+        "word-5",
+        "word-6",
+        "word-7"
+      ]
+    }
+  ]
+}

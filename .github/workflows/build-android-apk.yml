@@ -1,6 +1,12 @@
 name: Build myPocket AI Android APK
 on:
   workflow_dispatch:
+    inputs:
+      publish_signed_apk:
+        description: 'Publish this signed branch-test APK as a prerelease with a direct download link (no production deploy)'
+        type: boolean
+        default: false
+        required: false
   pull_request:
     branches: [main]
     paths:
@@ -8,8 +14,11 @@ on:
       - 'tests_one_field_live_request.mjs'
       - 'national_public_transport_ui.mjs'
       - 'tests_transport_departure_entrypoints.mjs'
+      - 'tests_national_transit_back_browser.mjs'
       - 'android/**'
       - 'index.js'
+      - 'route_navigation_ui.mjs'
+      - 'tests_route_navigation*.mjs'
       - 'backend.js'
       - 'communication_ui.mjs'
       - 'communication_live_style.mjs'
@@ -112,9 +121,15 @@ jobs:
           if-no-files-found: error
           retention-days: 7
   signed-branch-preview:
-    # Manual only, never a production deployment or GitHub Release.
+    concurrency:
+      group: pocketai-signed-branch-test
+      cancel-in-progress: false
+    # Manual only; optional prerelease artifact, never a production deployment.
+    permissions:
+      contents: write
     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
-    runs-on: ubuntu-latest
+    # Playwright 1.56 supports Ubuntu 24.04, not the new ubuntu-latest 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
@@ -132,10 +147,47 @@ jobs:
         run: |
           node --check index.js
           node tests_android_ui_preview.mjs
+          node tests_frontend_boot_syntax.mjs
+          node tests_education_exercise_tutor.mjs
+          node tests_education_review_2026.mjs
+          node tests_education_input_tools.mjs
+          node tests_walking_address_arrival.mjs
+          node tests_transit_full_journey_native.mjs
+          node tests_route_navigation_ui.mjs
+          npm run test:transit-reported-failures
+          npm run test:mixed-orientation
           node tests_divertisment_frontend_presence.mjs
           node tests_education_source_translation.mjs
           node tests_science_container_translation.mjs
+          node tests_practical_courses.mjs
+          node tests_practical_workshops.mjs
+          node tests_foreign_language_resources.mjs
           node scripts/build_android_ui_preview.mjs
+      - name: Verify compiled mobile walking and handwriting removal before signing
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          # Surface a bounded diagnostic through the Checks API as CI log
+          # downloads are not reachable in the restricted coding workspace.
+          run_checked() {
+            if "$@" > "$RUNNER_TEMP/walking-mobile-gate.log" 2>&1; then
+              cat "$RUNNER_TEMP/walking-mobile-gate.log"
+            else
+              tail -25 "$RUNNER_TEMP/walking-mobile-gate.log" | sed 's/^/::error::/'
+              return 1
+            fi
+          }
+          run_checked npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0 leaflet@1.9.4 @tomickigrzegorz/leaflet-rotate@0.3.0
+          run_checked npx playwright install --with-deps chromium
+          run_checked npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check/signed-walking
+          run_checked node scripts/check_bundled_browser_names.mjs .bundle-check/signed-walking/index.js
+          export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
+          export POCKET_BUNDLE=./.bundle-check/signed-walking/index.check.mjs
+          run_checked node tests_transit_walking_parity_browser.mjs
+          run_checked node tests_education_input_browser.mjs
+          run_checked node tests_transit_viewport_browser.mjs
+          run_checked node tests_route_navigation_browser.mjs
+          run_checked node tests_national_transit_back_browser.mjs
       - name: Check permanent keystore and latest published APK
         env:
           GH_TOKEN: ${{ github.token }}
@@ -164,7 +216,15 @@ jobs:
           CODE=$(printf '%s' "$BADGING" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
           [[ "$CODE" =~ ^[0-9]+$ ]] && test "$CODE" -lt 2100000000
           echo "Reference release: $TAG, versionCode=$CODE"
-          echo "POCKET_VERSION_CODE=$((CODE + 1))" >> "$GITHUB_ENV"
+          # A user can already have a previous signed test installed. Increment
+          # beyond our published test versions too, not just the stable APK.
+          MAX_CODE=$CODE
+          PREVIEW_NOTES=$(gh api "repos/${GITHUB_REPOSITORY}/releases?per_page=100" --jq '.[] | select(.prerelease == true and (.tag_name | startswith("education-test-"))) | .body')
+          while read -r PREVIEW_CODE; do
+            if [[ "$PREVIEW_CODE" =~ ^[0-9]+$ ]] && test "$PREVIEW_CODE" -gt "$MAX_CODE"; then MAX_CODE=$PREVIEW_CODE; fi
+          done < <(printf '%s\n' "$PREVIEW_NOTES" | sed -nE 's/.*(versionCode|APK)[[:space:]]*([0-9]{5,10}).*/\2/p')
+          test "$MAX_CODE" -lt 2100000000
+          echo "POCKET_VERSION_CODE=$((MAX_CODE + 1))" >> "$GITHUB_ENV"
           echo "POCKET_KEY_ALIAS=mypocketai-release" >> "$GITHUB_ENV"
           echo "POCKET_KEYSTORE_PATH=$KEY" >> "$GITHUB_ENV"
       - name: Build permanent-key signed branch APK
@@ -194,6 +254,10 @@ jobs:
           grep -F 'assets/tools-ui-preview.html' "$RUNNER_TEMP/preview-files.txt"
           grep -F 'assets/preview/education/literature/authored/FR/CP.json' "$RUNNER_TEMP/preview-files.txt"
           grep -F 'assets/preview/education/literature/authored/HU/1.json' "$RUNNER_TEMP/preview-files.txt"
+          for COURSE in finance trades business digital career daily; do
+            grep -F "assets/preview/education/practical/course-v1/$COURSE.json" "$RUNNER_TEMP/preview-files.txt"
+          done
+          grep -F 'assets/preview/education/languages/resources-v1/en-GB.json' "$RUNNER_TEMP/preview-files.txt"
           test "$(grep -c 'assets/preview/packs/p-.*\.json' "$RUNNER_TEMP/preview-files.txt")" -ge 3496
           cp "$APK" myPocketAI-signed-education-test.apk
           sha256sum myPocketAI-signed-education-test.apk
@@ -203,6 +267,16 @@ jobs:
           path: myPocketAI-signed-education-test.apk
           if-no-files-found: error
           retention-days: 7
+      - name: Publish requested signed test APK for direct mobile download
+        if: ${{ inputs.publish_signed_apk }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
+            --target "$GITHUB_SHA" --prerelease --latest=false \
+            --title "myPocketAI — test antet fix și două manevre GPS (${GITHUB_RUN_ID})" \
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: national alternatives Back opens a clean destination search, without the old confirmed selection or departure. Calendar Back still retains the destination. Direction arrows accompany both bottom maneuvers and a semitransparent map-corner badge with distance; inaccurate/stale/off-route GPS clears the badge. New compiled browser regression covers toolbar and Android Back. Retains the first-start transit map height correction. Remove conflicting inline preview height and synchronize real Leaflet sizing after layout changes. Navigation commands occupy a fixed header above the map, not over it. Bottom panel shows two distinct maneuvers: highlighted first upcoming maneuver and the following itinerary instruction. Real Leaflet and rotation renderer regression tests use local synthetic tiles, with GPS/native adapters controlled. Compact previews and continuous public transport directions retained, along with poor/stale GPS and off-route safeguards. Shared walking, driving and verified transit walking presentation. Stop restores the static preview. Native snapshot resume does not start a new route search. Handwriting removal and previous walking fixes retained. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
+
       - name: Remove temporary key and reference APK
         if: always()
         run: rm -f "$RUNNER_TEMP/pocket-preview-release.jks" "$RUNNER_TEMP/check.csr" "$RUNNER_TEMP/published/myPocketAI-signed-release.apk"

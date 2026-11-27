@@ -1,0 +1,194 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "pl",
+  "version": "c8959c556fa0e6f6ab036651f22413c333828a68033db4f7c0061ec908de8894",
+  "language": "pl",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "pl-PL",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "dom",
+      "phonetic": "/dɔm/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "książka",
+      "phonetic": "/ˈkɕɔ̃ʂka/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "dzień",
+      "phonetic": "/d͡ʑɛɲ/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "noc",
+      "phonetic": "/nɔt͡s/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "przyjaciel",
+      "phonetic": "/pʂɨˈjat͡ɕɛl/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "rodzina",
+      "phonetic": "/rɔˈd͡ʑina/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "miasto",
+      "phonetic": "/ˈmjastɔ/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "czas",
+      "phonetic": "/t͡ʂas/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Poproszę wodę.",
+      "phonetic": "/pɔˈprɔʂɛ ˈvɔdɛ/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Potrzebuję pomocy.",
+      "phonetic": "/pɔtʂɛˈbujɛ pɔˈmɔt͡sɨ/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Czy może pan powtórzyć wolniej?",
+      "phonetic": "/t͡ʂɨ ˈmɔʐɛ pan pɔfˈtuʐɨt͡ɕ ˈvɔlɲɛj/",
+      "gloss": "Puteți repeta mai rar? (către un bărbat)",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Jeden bilet, proszę.",
+      "phonetic": "/ˈjɛdɛn ˈbilɛt ˈprɔʂɛ/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "być",
+      "explanation": "Prezentul verbului być este neregulat. Pronumele subiect poate lipsi deoarece terminația identifică de obicei persoana. Forma jestem nu se folosește pentru toate persoanele.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "ja",
+          "form": "jestem"
+        },
+        {
+          "person": "ty",
+          "form": "jesteś"
+        },
+        {
+          "person": "on / ona / ono",
+          "form": "jest"
+        },
+        {
+          "person": "my",
+          "form": "jesteśmy"
+        },
+        {
+          "person": "wy",
+          "form": "jesteście"
+        },
+        {
+          "person": "oni / one",
+          "form": "są"
+        }
+      ],
+      "task": {
+        "prompt": "My ___ tutaj.",
+        "answers": [
+          "jesteśmy"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

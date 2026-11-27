@@ -55,7 +55,7 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
       facts.exercise!==facts.answer,
       'Not just a lesson title: '+country+'/'+year.id+'/'+subject+'/'+topic.id+' lengths '+[facts.explanation.length,facts.workedExample.length,facts.exercise.length,facts.answer.length].join('/'));
      assert.ok(english.explanation.length>=260&&english.workedExample.length>=35,
-      'English version must contain independently authored substantive content');
+      'Shared source must remain substantive for translation');
      const p=years.findIndex(x=>x.id===year.id);
      const output=scienceGradeLessonFrame({subject,stage:'lower',grade:year.id,
       topic:topic.id,chapter:topic.ro,language:'ro',gradePosition:p});
@@ -67,7 +67,8 @@ for(const country of EDUCATION_EUROPE_COUNTRIES){
       'Reader must expose the selected lesson content, not generic boilerplate');
      assert.ok(translated.includes(english.workedExample)&&translated.includes(english.answer));
      assert.doesNotMatch(output,/programă obligatorie a țării|calificare oficială/);
-     assert.notEqual(facts.explanation,english.explanation,'English must not be raw Romanian');
+     assert.deepEqual(english,facts,'No prewritten translated duplicate; shared reader owns translation');
+     assert.equal(facts.sourceLanguage,'ro');
     }
     if(schoolStage==='upper')for(const topic of plan.topics){
      const enGuide=SCIENCE_GUIDES_EN[subject]?.[topic.id];

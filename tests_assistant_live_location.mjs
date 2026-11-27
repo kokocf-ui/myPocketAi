@@ -32,9 +32,9 @@ try{
  assert.match(result.reply,/10 Mill Lane/);
  assert.doesNotMatch(result.reply,/South Stifford/);
  assert.match(result.reply,/Grays/);
- assert.match(result.reply,/RM20 4YE/);
+ assert.doesNotMatch(result.reply,/RM20 4YE/);
  assert.equal(result.house_number,'10');
- assert.equal(result.postcode,'RM20 4YE');
+ assert.equal(result.postcode,null);
  assert.equal(result.gps_accuracy_m,20);
 
  result=await ask('Pe ce stradă mă aflu?');
@@ -63,4 +63,4 @@ assert.match(frontend,/function needsLocation\(text\).*unde ma aflu/);
 assert.ok(frontend.includes('maximumAge:forceRefresh?0:30000'),'Force-refresh may not use a cached geolocation fix');
 assert.ok(frontend.includes('updatedAt:pos.timestamp'),'Preserve provider GPS acquisition time');
 assert.ok(frontend.includes('selfQuery&&(!fallback||fallback.age_ms>30000)'),'Old position must not be reused for where-am-I');
-console.log('PASS: self-location intent, accurate street/postcode, coarse fix, stale rejection, frontend refresh contract');
+console.log('PASS: self-location intent, estimated street, hidden unconfirmed postcode, coarse fix, stale rejection, frontend refresh contract');

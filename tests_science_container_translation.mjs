@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import frontend from './index.js';
 const html=await(await frontend.fetch(new Request('https://test.example/'))).text();
-const start=html.indexOf('function scienceLocalizeContainer(container){');
+const start=html.indexOf('function scienceLocalizeContainer(');
 const end=html.indexOf('\nfunction scienceBuildPackCorrelationBanner(',start);
 assert.ok(start>=0&&end>start);
 const state={language:'az'};let calls=0,lookup=[],release,failed=false;

@@ -4,10 +4,19 @@ import assert from 'node:assert/strict';
 import {writeFileSync,mkdirSync,cpSync,rmSync,readdirSync,readFileSync} from 'node:fs';
 import {resolve,join} from 'node:path';
 import app from '../index.js';
+import {practicalValidatePack} from '../practical_course_pack_loader.mjs';
+import {createHash} from 'node:crypto';
 
 const response=await app.fetch(new Request('https://lifewise-ai-v2.kokocf.workers.dev/'));
 assert.equal(response.status,200,'Frontend generator did not return HTTP 200');
 const html=await response.text();
+assert.ok(Buffer.byteLength(html)<8000000,'Offline preview HTML exceeds the 8MB budget');
+assert.ok(html.includes('PocketAndroidAttachmentExport')&&html.includes('function funBirthReading(')&&html.includes('extra-fun-word-answer')&&html.includes('extra-fun-joke-reader')&&html.includes('comm-inline-image'),'Chat media / entertainment physical-feedback correction missing');
+assert.ok(html.includes('function foreignPracticeOpen(')&&html.includes('comm-voice-receipt-footer')&&html.includes('commChatSyncStatus'),'Adaptive languages / chat receipt correction missing');
+assert.ok(html.includes('edu-workspace-dialog')&&html.includes('foreign-resource-progression'),'Separate work area and language progression missing');
+assert.ok(html.includes('language-tutor-body')&&html.includes('foreign-resource-head'),'Mobile dialog containment missing');
+assert.ok(html.includes('function practicalWorkshopOpen('),'Guided practical workshop missing');
+assert.ok(html.includes('async function languageResourcesOpen('),'Language resources missing');
 assert.ok(html.length>100000,'Unexpectedly short frontend bundle');
 for(const required of ['extraCreatorHome(work)','extraCreatorLocalHtml','Creare pagini și imagini','extraToolsMountNavigation','extra-work-nav','eduTranslateSourceText'])
  assert.ok(html.includes(required),'Missing branch UI feature: '+required);
@@ -25,3 +34,9 @@ for(const file of ['FR/CP','HU/1','HU/2','HU/3','HU/4']){
  assert.equal(data.schema,'mypocket-literature-authored/v2','Unexpected authored pack schema '+file);
 }
 console.log('DEBUG PREVIEW: branch HTML and '+packs.length+' annual Education packs bundled; online API remains remote.');
+
+for(const id of ['finance','trades','business','digital','career','daily']){
+ const pack=JSON.parse(readFileSync(join(root,'preview/education/practical/course-v1',id+'.json'),'utf8'));
+ assert.ok(practicalValidatePack(pack,id),'Invalid practical preview pack: '+id);
+ assert.equal(pack.version,createHash('sha256').update(JSON.stringify(pack.content)).digest('hex'));
+}

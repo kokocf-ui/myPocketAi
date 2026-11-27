@@ -4,32 +4,175 @@ on:
   # No transport provider probes on unrelated deployments.
   workflow_dispatch:
     inputs:
+      probe_oradea_readonly:
+        description: 'Read-only Oradea: two public local probes and bounded public GTFS calendar inspection; no deploy, secrets or paid search'
+        required: false
+        default: false
+        type: boolean
+
+      oradea_legacy_control_only:
+        description: 'With Oradea readonly: one local control without country hints, no repeat feed download'
+        required: false
+        default: false
+        type: boolean
+
       run_live:
         description: 'Use free flight search credits for one explicit live request'
         required: false
         default: false
         type: boolean
 
+      inspect_open_gtfs:
+        description: 'Inspect the official open FlixBus/FlixTrain GTFS; no transport API credits or deploy'
+        required: false
+        default: false
+        type: boolean
+
+      prove_surface_runtime:
+        description: 'Compile official source and test actual branch JS runtime; no deployment or paid search'
+        required: false
+        default: false
+        type: boolean
+
+      surface_replay_run:
+        description: 'Replay public synthetic surface artifact from this run ID, OFFLINE (no new providers)'
+        required: false
+        default: ''
+        type: string
+
+      probe_local_connections:
+        description: 'Bounded ordinary local checks at source endpoints; runtime proof may try standalone walking if the timetable is missing, no paid/flight search'
+        required: false
+        default: false
+        type: boolean
+
 jobs:
+  oradea-readonly:
+    if: inputs.probe_oradea_readonly == true
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check diagnostic safety offline
+        run: python3 tests_oradea_readonly_diagnostic.py
+      - name: Inspect public Oradea feed and existing local requests (no changes)
+        env:
+          LEGACY_CONTROL_ONLY: ${{ inputs.oradea_legacy_control_only }}
+        run: |
+          EXTRA=()
+          if [ "$LEGACY_CONTROL_ONLY" = 'true' ]; then EXTRA+=(--legacy-control-only); fi
+          python3 scripts/diagnose_oradea_readonly.py --allow-network --output "$RUNNER_TEMP/oradea-readonly.json" "${EXTRA[@]}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: oradea-readonly-summary
+          path: ${{ runner.temp }}/oradea-readonly.json
+          retention-days: 7
+          if-no-files-found: ignore
   live-mixed:
+    if: inputs.probe_oradea_readonly != true
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Check backend flight provider status (no search credits)
+      - uses: actions/checkout@v4
+        if: inputs.inspect_open_gtfs == true || inputs.prove_surface_runtime == true || inputs.surface_replay_run != ''
+      - uses: actions/setup-node@v4
+        if: inputs.prove_surface_runtime == true || inputs.surface_replay_run != ''
+        with:
+          node-version: '22'
+      - uses: actions/download-artifact@v4
+        if: inputs.surface_replay_run != ''
+        with:
+          name: open-surface-runtime-proof
+          run-id: ${{ inputs.surface_replay_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/surface-replay
+      - name: Replay saved public responses with current connector (NO live calls)
+        if: inputs.surface_replay_run != ''
         run: |
-          python3 - <<'PY'
-          import json,urllib.request,urllib.error
-          u='https://lifewise-ai-v2.kokocf.workers.dev/api/flight-source-status?probe=1'
-          try:
-              with urllib.request.urlopen(urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 Chrome/125.0 Safari/537.36','Accept':'application/json'}),timeout=20) as f:
-                  data=json.load(f)
-                  print('Flight health HTTP',f.status)
-                  print('Flight health:',json.dumps({k:data.get(k) for k in (
-                    'status','keyConfigured','pilotEnabled','termsReviewed',
-                    'pilotConfigured','freePlan','hasQuota','flightSearchActive')},ensure_ascii=False))
-          except Exception as exc:
-              print('Flight health failed:',str(exc)[:200])
-          PY
+          node tests_verified_multimodal_itineraries.mjs
+          node scripts/replay_open_surface_connections.mjs "$RUNNER_TEMP/surface-replay/runtime-proof.json" "$RUNNER_TEMP/offline-replay.json"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.surface_replay_run != ''
+        with:
+          name: open-surface-offline-replay
+          path: ${{ runner.temp }}/offline-replay.json
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Compile actual source and prove branch surface runtime
+        if: inputs.prove_surface_runtime == true
+        env:
+          PROBE_LOCAL: ${{ inputs.probe_local_connections }}
+        run: |
+          python3 tests_open_surface_gtfs.py
+          node tests_open_surface_runtime.mjs
+          node tests_mixed_walking_connection.mjs
+          PYTHONPATH=scripts python3 -c "import os,pathlib; from inspect_open_surface_gtfs import download; download(pathlib.Path(os.environ['RUNNER_TEMP'])/'official.zip')"
+          python3 scripts/build_open_surface_index.py --file "$RUNNER_TEMP/official.zip" --output "$RUNNER_TEMP/surface-index.json"
+          node scripts/prove_open_surface_runtime.mjs "$RUNNER_TEMP/surface-index.json" "$RUNNER_TEMP/runtime-proof.json"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.prove_surface_runtime == true
+        with:
+          name: open-surface-runtime-proof
+          path: |
+            ${{ runner.temp }}/runtime-proof.json
+            ${{ runner.temp }}/surface-index.json
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Inspect official open European surface feed (no paid API)
+        if: inputs.inspect_open_gtfs == true
+        env:
+          PROBE_LOCAL: ${{ inputs.probe_local_connections }}
+        run: |
+          EXTRA=()
+          if [ "$PROBE_LOCAL" = 'true' ]; then EXTRA+=(--probe-local); fi
+          python3 scripts/inspect_open_surface_gtfs.py --origin 51.475 0.325 --destination 47.0612 21.9473 --departure-at 2026-12-03T06:00:00Z --output "$RUNNER_TEMP/open-surface-proof.json" "${EXTRA[@]}"
+      - name: Preserve public synthetic source and endpoint evidence
+        if: always() && inputs.inspect_open_gtfs == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-surface-proof
+          path: ${{ runner.temp }}/open-surface-proof.json
+          retention-days: 7
+          if-no-files-found: ignore
+      - name: Inspect binding presence, runtime analytics and no-credit flight health
+        if: inputs.surface_replay_run == ''
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          node --input-type=module <<'JS'
+          const token=process.env.CLOUDFLARE_API_TOKEN,account=process.env.CLOUDFLARE_ACCOUNT_ID;
+          const notice=(title,value)=>console.log('::notice title='+title+'::'+JSON.stringify(value).replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A'));
+          const headers={Authorization:'Bearer '+token,'Content-Type':'application/json'};
+          const cf=async(path,options={})=>{
+            const r=await fetch('https://api.cloudflare.com/client/v4/'+path,{...options,headers,signal:AbortSignal.timeout(20000)});
+            const body=await r.json();
+            if(!r.ok||body.success===false){notice('runtime-api-status',{http:r.status,codes:body.errors?.map(e=>e.code)});return null}
+            return body;
+          };
+          const settings=await cf('accounts/'+account+'/workers/scripts/lifewise-ai-api/settings');
+          if(settings?.result){
+            const bindings=settings.result.bindings||[];
+            const names=['GEOAPIFY_API_KEY','EXA_API_KEY','BRAVE_API_KEY','SERPAPI_API_KEY','TFL_APP_KEY','TRANSCAPI_API_KEY','MOTIS_API_BASE_URL','RO_URBAN_API_TOKEN','RO_URBAN_VPC'];
+            const flags=['SERPAPI_FLIGHTS_PILOT_ENABLED','SERPAPI_FLIGHTS_TERMS_REVIEWED','HERE_TRANSIT_ENABLED','SMART_COUNTRY_REGISTRY_ENABLED'];
+            notice('transport-binding-presence',Object.fromEntries(names.map(name=>[name,bindings.some(b=>b.name===name)])));
+            notice('transport-runtime-flags',Object.fromEntries(flags.map(name=>[name,String(bindings.find(b=>b.name===name)?.text||'unset')])));
+            notice('transport-runtime-limits',{cpu_ms:settings.result.limits?.cpu_ms??null,usage_model:settings.result.usage_model??null,observability_enabled:settings.result.observability?.enabled??null});
+          }
+          const since=new Date(Date.now()-3600000).toISOString(),until=new Date().toISOString();
+          const query=`query { viewer { accounts(filter: {accountTag: "${account}"}) { workersInvocationsAdaptive(limit: 20, filter: {datetime_geq: "${since}", datetime_leq: "${until}", scriptName: "lifewise-ai-api"}) { dimensions { status } sum { requests errors subrequests } } } } }`;
+          const analytics=await cf('graphql',{method:'POST',body:JSON.stringify({query})});
+          if(analytics?.data)notice('transport-worker-hourly-outcomes',analytics.data.viewer?.accounts?.[0]?.workersInvocationsAdaptive||[]);
+          else if(analytics?.errors)notice('transport-analytics-unavailable',{codes:analytics.errors.map(e=>e.extensions?.code||'query_failed')});
+          try{
+            const r=await fetch('https://lifewise-ai-v2.kokocf.workers.dev/api/flight-source-status?probe=1',{headers:{Accept:'application/json'},signal:AbortSignal.timeout(20000)});
+            const health=await r.json();
+            notice('flight-no-credit-health',{http:r.status,...Object.fromEntries(['status','keyConfigured','pilotEnabled','termsReviewed','pilotConfigured','freePlan','hasQuota','flightSearchActive','consumesSearchCredits'].map(k=>[k,health[k]??null]))});
+          }catch{notice('flight-no-credit-health',{status:'health_endpoint_unreachable'})}
+          JS
       - name: Request one live synthetic UK to Romania mixed journey
         if: github.event_name == 'workflow_dispatch' && inputs.run_live == true
         run: |

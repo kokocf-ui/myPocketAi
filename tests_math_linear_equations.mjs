@@ -59,6 +59,6 @@ for(const invalid of [
 ])assert.equal(api.parse(invalid),null,'unsupported expressions must not be guessed: '+invalid);
 assert.ok(embedded.includes("const steps=item.detailed||mathAlgebraLocal('solve',item.text)?.value"),
  'Solve uses the verified local linear solver first');
-assert.ok(embedded.includes("const method=item.methodGuide||mathAlgebraLocal('explain',item.text)?.value"),
- 'Method uses a separate deterministic general explanation');
+assert.ok(embedded.includes("const method=item.methodGuide||mathAppliedMethod(mathAlgebraLocal('solve',item.text)?.value)"),
+ 'Method teaches from the deterministic working of this equation');
 console.log('PASS deterministic linear equations, identity/contradiction, method separation and regression from screenshots');

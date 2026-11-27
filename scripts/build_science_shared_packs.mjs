@@ -1,21 +1,22 @@
 #!/usr/bin/env node
-// Extract the original shared secondary teaching frames into per-subject
-// static assets. This is not a substitute for a national year pack.
-import {mkdir,readFile,writeFile} from 'node:fs/promises';
+// Historical command retained for CI. v2 JSON is now the authored source, not
+// output regenerated from bilingual JS banks. Normal mode refreshes hashes;
+// --verify never writes. Staging separately validates the same contract.
+import {readFile,writeFile} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {SCIENCE_LOWER_TOPIC_LESSONS} from '../science_lower_secondary_lessons.mjs';
-const dir=new URL('../public/education/science/shared/',import.meta.url);
+import {scienceValidateSharedPack} from '../science_shared_pack_loader.mjs';
+const dir=new URL('../public/education/science/shared-v2/',import.meta.url);
 const verify=process.argv.includes('--verify');
-await mkdir(dir,{recursive:true});
 let bytes=0;
 for(const subject of ['physics','chemistry','biology','astronomy']){
- const topics=SCIENCE_LOWER_TOPIC_LESSONS[subject];
- const version=createHash('sha256').update(JSON.stringify(topics)).digest('hex');
- const content=JSON.stringify({schema:'mypocket-science-shared/v1',subject,version,topics});
  const file=new URL(subject+'.json',dir);
- if(verify){
-  if((await readFile(file,'utf8').catch(()=>null))!==content)throw new Error('Shared science pack missing or out of sync: '+subject);
- }else await writeFile(file,content);
+ const raw=await readFile(file,'utf8'),data=JSON.parse(raw);
+ const {schema,subject:packSubject,version,...payload}=data;
+ if(!scienceValidateSharedPack(data,subject))throw new Error('Invalid source science pack: '+subject);
+ const digest=createHash('sha256').update(JSON.stringify(payload)).digest('hex');
+ if(verify&&version!==digest)throw new Error('Science pack hash out of sync: '+subject);
+ const content=JSON.stringify({schema,subject:packSubject,version:digest,...payload});
+ if(!verify)await writeFile(file,content);
  bytes+=Buffer.byteLength(content);
 }
-console.log((verify?'Verified':'Built')+' 4 shared science packs ('+bytes+' bytes)');
+console.log((verify?'Verified':'Updated hashes for')+' 4 single-source science packs ('+bytes+' bytes)');

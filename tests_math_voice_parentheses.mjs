@@ -200,7 +200,7 @@ assert.ok(embedded.includes("step.fullAfter).join(' ')"),'voice reads the lesson
 assert.ok(embedded.includes("item.detailed=steps"),'supported arithmetic uses the local step renderer');
 assert.ok(embedded.includes("item.detailed.steps.length"),'multiple numbered steps are displayed');
 
-// The Method button is not a second solution: it teaches reusable rules.
+// The Method button teaches reusable rules by applying them to this exercise.
 // Use the same verified arithmetic corpus as the Solve button.
 const method=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
  String.fromCharCode(10)+'mathMethodGuide',
@@ -208,20 +208,20 @@ const method=vm.runInNewContext(embedded.slice(equalityStart,equalityEnd)+
 const guide=method('3 * (2 * -1) + 5 = 20');
 assert.ok(guide,'the sample gets a local, reusable teaching guide');
 assert.match(guide.heading,/Cum abordăm/i);
-assert.match(guide.intro,/regula generală/,'method tells the student what it teaches');
-assert.ok(guide.rules.length>=5,'cover precedence, parentheses, signs, checking');
-assert.ok(guide.rules.some(r=>/Regula semnelor/.test(r.title)),'negative multiplication rule');
-assert.ok(guide.rules.some(r=>/Verificarea/.test(r.title)),'general equality-checking advice');
-assert.ok(guide.rules.every(r=>!r.text.includes('Stânga = −1')),'do not repeat the solved equation');
-assert.ok(guide.rules.every(r=>!r.text.includes('egalitatea este falsă')),'no repeated specific verdict');
+assert.match(guide.intro,/aplicăm pe datele din enunț/,'method applies the rules to this exercise');
+assert.equal(guide.rules.length,worked.steps.length,'each arithmetic reduction is explained in method mode');
+assert.ok(guide.rules.some(r=>/Regula semnelor/.test(r.text)),'sign rule applied to the actual multiplication');
+assert.ok(guide.rules.some(r=>r.text.includes('−1')),'specific intermediate results are not hidden');
+assert.match(guide.tip,/20/,'method includes a check against the original right-hand side');
 assert.equal(method('x+1=2'),null,'symbolic exercises use the method-specific AI prompt');
 assert.equal(method('2/0=3'),null,'invalid arithmetic is not treated as valid');
 assert.ok(embedded.includes("session.mode!=='explain'"),'method mode hides the exact verdict banner');
 assert.ok(embedded.includes('item.methodGuide'),'method has its own visible renderer');
 assert.ok(embedded.includes("mode==='explain'?learningLabel('Matematică · Metodă'"),'method dialog has a distinct title');
-assert.ok(embedded.includes('Predă numai METODA GENERALĂ'),'fallback AI prompt requests general teaching');
+assert.ok(embedded.includes("educationExerciseInstruction(session.mode==='explain'?'method':'solve')"),'AI method is demonstrated on the selected exercise');
+assert.ok(!embedded.includes('Predă numai METODA GENERALĂ'),'no numeric-application ban in the AI prompt');
 assert.ok(embedded.includes('functionLesson:null,detailed:null,methodGuide:null,started:false'),'math preparation is deferred per selected task');
-assert.ok(embedded.includes("mathAlgebraLocal('explain',item.text)?.value"),'math method engines are still used on demand');
+assert.ok(embedded.includes("mathAppliedMethod(mathAlgebraLocal('solve',item.text)?.value)"),'verified algebra working supports the applied method on demand');
 
 // A learner must never lose the typed/dictated exercise when choosing one
 // of the three actions, navigating between modules, or reopening the WebView.

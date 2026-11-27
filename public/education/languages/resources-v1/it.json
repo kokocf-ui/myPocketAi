@@ -1,0 +1,233 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "it",
+  "version": "859190639c3aebd065312f9168905ce0062e8ac47a0d3ea1db7188fe2c897f89",
+  "language": "it",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "it-IT",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "casa",
+      "phonetic": "/ˈkaza/",
+      "gloss": "casă",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "libro",
+      "phonetic": "/ˈlibro/",
+      "gloss": "carte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "giorno",
+      "phonetic": "/ˈdʒorno/",
+      "gloss": "zi",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "notte",
+      "phonetic": "/ˈnɔtte/",
+      "gloss": "noapte",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "amico",
+      "phonetic": "/aˈmiko/",
+      "gloss": "prieten",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "famiglia",
+      "phonetic": "/faˈmiʎʎa/",
+      "gloss": "familie",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "città",
+      "phonetic": "/tʃitˈta/",
+      "gloss": "oraș",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "tempo",
+      "phonetic": "/ˈtɛmpo/",
+      "gloss": "timp",
+      "glossLanguage": "ro",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Vorrei dell’acqua, per favore.",
+      "phonetic": "/vorˈrɛi delˈlakkwa per faˈvore/",
+      "gloss": "Aș dori apă, vă rog.",
+      "glossLanguage": "ro",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Ho bisogno di aiuto.",
+      "phonetic": "/ɔ biˈzoɲɲo di aˈjuto/",
+      "gloss": "Am nevoie de ajutor.",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Può ripetere più lentamente?",
+      "phonetic": "/pwɔ riˈpɛtere pju lentaˈmente/",
+      "gloss": "Puteți repeta mai rar?",
+      "glossLanguage": "ro",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Un biglietto, per favore.",
+      "phonetic": "/um biʎˈʎetto per faˈvore/",
+      "gloss": "Un bilet, vă rog.",
+      "glossLanguage": "ro",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "essere",
+      "explanation": "Prezent indicativ. Verbul essere este neregulat; pronumele poate lipsi când persoana este clară din formă. Lui și lei folosesc è, nu e (care este conjuncția „și”).",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "io",
+          "form": "sono"
+        },
+        {
+          "person": "tu",
+          "form": "sei"
+        },
+        {
+          "person": "lui / lei",
+          "form": "è"
+        },
+        {
+          "person": "noi",
+          "form": "siamo"
+        },
+        {
+          "person": "voi",
+          "form": "siete"
+        },
+        {
+          "person": "loro",
+          "form": "sono"
+        }
+      ],
+      "task": {
+        "prompt": "Noi ___ studenti.",
+        "answers": [
+          "siamo"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    },
+    {
+      "id": "grammar-1",
+      "title": "parlare",
+      "explanation": "Prezent regulat în -are: parl- primește -o, -i, -a, -iamo, -ate, -ano. Pronumele poate fi omis în context.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "io",
+          "form": "parlo"
+        },
+        {
+          "person": "tu",
+          "form": "parli"
+        },
+        {
+          "person": "lui / lei",
+          "form": "parla"
+        },
+        {
+          "person": "noi",
+          "form": "parliamo"
+        },
+        {
+          "person": "voi",
+          "form": "parlate"
+        },
+        {
+          "person": "loro",
+          "form": "parlano"
+        }
+      ],
+      "task": {
+        "prompt": "Tu ___ italiano.",
+        "answers": [
+          "parli"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

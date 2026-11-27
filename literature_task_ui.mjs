@@ -102,6 +102,7 @@ if(typeof litOpen==='function'&&typeof LIT_TOPICS==='object'&&
    }
   }
   const shown=originalOpen(stage);
+  if(['branches','topics'].includes(stage)&&typeof $==='function'){const panel=$('moduleContent')?.querySelector?.('.lit-panel'),pack=typeof LIT_NATIONAL_YEAR==='object'?LIT_NATIONAL_YEAR.pack:null;if(panel&&pack&&typeof eduYearWorkspaceButton==='function'){const b=eduYearWorkspaceButton(panel,{pack,subject:'literature'});panel.querySelector('.lit-options')?.before(b)}}
   // Textbook units as headings between the lesson cards (full grid width).
   if(stage==='topics'&&litJourney.branch==='program'&&typeof $==='function'){
    const units=litProgram()?.units||[];
@@ -642,6 +643,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   ' Address a high-school pupil with mature interpretation and evidence-based argument. Respect the current 2026–2027 curricula: grade 9 follows the new programme, grades 10–12 continue their prior programme. Do not present the same course for every year, nor invent compulsory reading lists. Do not suggest Star Wars or Războiul stelelor as a Romanian required reading: it is a movie screenplay novelization, not a verified compulsory book; prefer original illustrations or works the user selects. If an example text is not confirmed by the applicable curriculum, mark it explicitly as optional, never obligatory. ':'';
  const grammarFocus=litJourney.branch==='grammar'&&litJourney.country==='RO'?
   ' This is a Romanian GRAMMAR lesson, not literary history or a literature review. Never introduce an unrelated writer, novel, poem or play as the lesson topic. Use precise grade-appropriate examples from Romanian language. Explain the selected grammar topic, do not choose a literary work for the learner. ':'';
+ const exerciseMode=['method','solve','correction'].includes(mode);
  const prompt=(isHungarianAdmission?'You are a Hungarian school admission tutor for language, mathematics and transfer. Write in ':'You are an experienced language and literature teacher. Write in ')+language+
  '. Country of education: '+(educationCountrySelection.label||litJourney.country)+
  '. Original curriculum language: '+curriculumLanguage+
@@ -649,14 +651,14 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
  '. Retain proper names, original literary titles, technical symbols and original-language examples as needed, with explanations in '+language+'.'+
  '. Class/year: '+litJourney.grade+'. Profile: '+litJourney.track+'. Region: '+(litJourney.region||'unspecified')+
  '. Curriculum: '+(plan.verified?'general framework identified; order is pedagogical':'advisory plan; do not claim an officially verified national syllabus')+
- '. Activity: '+mode+'. '+admissionPolicy+pupilPolicy+grammarFocus+' Explain the lesson fully and directly, without offering a form. '+
- 'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
+ '. Activity: '+mode+'. '+admissionPolicy+(exerciseMode?' Use grade-appropriate simple explanations tied to the given task. ':pupilPolicy)+grammarFocus+(exerciseMode?educationExerciseInstruction(mode):' Explain the lesson fully and directly, without offering a form. ')+
+ (exerciseMode?'':'For lessons explain every important subtopic in depth, with definitions, distinctions, developed examples, interpretation, common mistakes and a reasoned conclusion; never return a short outline or just objectives. Use clear headings, no decorative rules. List alternatives a., b., c. and exercises 1., 2., 3., each on its own line. '+
  'For exercises and tests produce at least five clear numbered tasks without exposing their solutions until the learner answers. '+
  'For literary study cover the author, context, themes, structure and evidence-based interpretation. '+
  'For an essay write the FINISHED sustained prose, not a plan, skeleton, generic headings or disconnected summaries. Follow the requested essay type and approximate word target; each argument must be interpreted and connected to the work. For a summary be faithful to known source evidence. Never invent quotations or author attributions. '+
- 'Task: '+request+'. '+source;
+ '')+'Task: '+request+'. '+source;
  const lessonTimeoutMs=mode==='essay'?180000:['study','write'].includes(mode)?90000:
-  ['summary','analysis'].includes(mode)?60000:30000;
+  ['summary','analysis','method','solve','correction'].includes(mode)?60000:30000;
  try{
   if(mode==='essay'&&opts.pages){
    // One HTTP request per A4 section, with visible progress between requests.
@@ -733,7 +735,7 @@ async function litSimpleGenerate(out,status,mode,request,source='',onReady=null,
   // Long-form GPT-OSS requests outlast the former 11-second cutoff.
   const response=await Promise.race([fetch(CLIENT_CONFIG.apiUrl,{method:'POST',
    headers:{'Content-Type':'application/json'},
-   body:JSON.stringify({message:prompt.slice(0,3900),module:'education_study',
+   body:JSON.stringify({message:prompt.slice(0,exerciseMode?31000:3900),module:'education_study',
     education_subject:apiSubject,education_activity:mode,
     ...(mode==='essay'?{education_essay_pages:litEssaySpec(opts.pages).pages}:{}),
     language:answerLanguage,history:[]}),
@@ -823,6 +825,12 @@ function litSimpleWorkspace(panel){
   sourceLink.href=HUNGARY_ADMISSION_REFERENCES.foreignPupils;sourceLink.target='_blank';sourceLink.rel='noopener noreferrer';
   panel.append(sourceLink);
  }
+ const workspacePack=typeof LIT_NATIONAL_YEAR==='object'?LIT_NATIONAL_YEAR.pack:null;
+ const workspaceKey=String(topic[0]||'');
+ if(branch==='program'&&workspacePack?.country===litJourney.country&&workspacePack.stage===litJourney.level&&workspacePack.grade===String(litJourney.grade)&&typeof eduLessonWorkspace==='function'){
+  const row=workspacePack.chapters?.[workspaceKey]?.[workspacePack.language];
+  if(row)eduLessonWorkspace(panel,{pack:workspacePack,row,lessonKey:workspaceKey,subject:'literature'});
+ }
  const grammarAnalysis=branch==='grammar'&&litJourney.topic==='ro-grammar-analysis';
  const needsInput=['analysis','writing'].includes(branch)||grammarAnalysis||(branch==='vocabulary'&&litJourney.topic==='dictionary');
  const request=needsInput?litSimpleNode(branch==='vocabulary'?'input':'textarea','','lit-input lit-activity-input'):null;
@@ -855,7 +863,7 @@ function litSimpleWorkspace(panel){
    return displayed;
   });
  };
- const buttons=branch==='analysis'||grammarAnalysis?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','lesson']]:
+ const buttons=branch==='analysis'||grammarAnalysis?[['Analizează','Analyse','analysis'],['Explică metoda','Explain method','method']]:
   branch==='writing'?[['Compune','Compose','write'],['Explică','Explain','lesson']]:
   branch==='vocabulary'&&litJourney.topic==='dictionary'?[['Caută definiția','Define','define'],['Exemple','Examples','examples']]:
   [['Teorie','Theory','lesson'],['Exemple','Examples','examples'],['Exerciții','Exercises','exercises'],['Teste','Tests','test']];
@@ -873,8 +881,8 @@ function litSimpleWorkspace(panel){
   if(!assignmentText){status.textContent=litSimpleLabel('Alege mai întâi Exerciții sau Teste.','Choose Exercises or Tests first.');return}
   if(!answers.value.trim()){answers.focus();return}
   litSimpleGenerate(correction,status,'correction',
-   'Evaluează răspunsul elevului: '+answers.value.trim().slice(0,1500)+'.',
-   'Întrebările originale: '+assignmentText.slice(0,2200)+'. Oferă corectarea pe fiecare întrebare.',
+   'Evaluează răspunsul elevului: '+answers.value.trim().slice(0,10000)+'.',
+   'Întrebările originale: '+assignmentText.slice(0,12000)+'. Oferă corectarea pe fiecare întrebare.',
    text=>litShowMaterialReader(litSimpleLabel('Corectarea exercițiilor','Corrected answers'),text));
  }));
  panel.append(review);

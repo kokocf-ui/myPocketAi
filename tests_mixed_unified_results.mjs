@@ -1,3 +1,4 @@
+import {transportTicketUrl} from './transport_ticket_links.mjs';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 
@@ -35,12 +36,12 @@ const resolver=(choice,flight,host)=>{
  host.textContent='Itinerariu pregătit în căutarea inițială';
 };
 const run=new Function('document','state','$','renderTransitChoices','showTransitRetrySelector',
- 'dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions',
+ 'clearTransitOptionsViewport','dialogText','mixedFarePresentation','mixedOperatorName','resolveMixedFlightGroundOptions','transportTicketUrl',
  snippet+'\nreturn {renderMixedUnifiedResults};');
-const api=run(document,state,$,()=>{shown++;body.replaceChildren();},()=>{},
+const api=run(document,state,$,()=>{shown++;body.replaceChildren();},()=>{},()=>{},
  (ro,en)=>ro,item=>item.fareFrom?'De la '+item.fareFrom.amount+' '+item.fareFrom.currency:
  item.fareObserved?'Tarif orientativ: '+item.fareObserved.amount+' '+item.fareObserved.currency:'',
- name=>{const el=new Element('a');el.textContent=name;return el},resolver);
+ name=>{const el=new Element('a');el.textContent=name;return el},resolver,transportTicketUrl);
 const data={
  transit:[],
  operator_options:[{operator:'FlixBus',mode:'coach',from:'London',to:'Oradea',
@@ -63,13 +64,14 @@ assert.equal(cards[0].children[1].textContent,'🚌');
 assert.equal(cards[1].children[1].textContent,'✈️');
 
 cards[0].onclick();
-assert.equal(body.children[0].tag,'button','Back stays inside results');
+assert.equal(body.children[0].className,'quick-navigation-toolbar transit-detail-toolbar','Back stays pinned inside results and supports native Back');
+assert.equal(body.children[0].children[0].tag,'button');
 const link=body.children.find(e=>e.tag==='a');
 assert.equal(link?.href,'https://www.flixbus.co.uk/bus-routes/london-oradea');
-assert.equal(link?.textContent,'FlixBus');
+assert.equal(link?.textContent,'Bilete și rezervare · FlixBus');
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-access-leg'));
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-egress-leg'));
-body.children[0].onclick();
+body.children[0].children[0].onclick();
 assert.equal(shown,2);
 cards=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'));
 cards[1].onclick();
@@ -97,3 +99,16 @@ assert.equal(sources[1].children[1].href,'https://www.flixbus.com/bus-routes/bru
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-access-leg'));
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-egress-leg'));
 console.log('PASS mixed results: direct flight details, FlixBus evidence, no search trigger');
+
+const scheduled={id:'open-surface:0',completeDoorToDoor:false,accessStatus:'scheduled_connection_found',egressStatus:'no_local_journey_returned',
+ source:{attribution:'Fixture Flix GTFS ODbL'},
+ legs:[{from:'Victoria',to:'Oradea Intrans',mode:'coach',operator:'Fixture',line:'1926',departureTime:'2026-12-03T08:30:00Z',arrivalTime:'2026-12-04T23:55:00Z',stopCount:1,stops:[{name:'Victoria',arrivalTime:'2026-12-03T08:30:00Z',departureTime:'2026-12-03T08:30:00Z'}]}]};
+api.renderMixedUnifiedResults({transit:[],scheduled_surface_options:[scheduled]},choice);
+cards=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'));
+assert.equal(cards.length,1,'Actual dated surface source survives missing flights and local egress');
+assert.ok(!body.children.some(e=>e.className==='mixed-no-routes-note'));
+cards[0].onclick();
+assert.ok(body.children.some(e=>e.className==='mixed-surface-dated-leg'));
+assert.match(body.children.find(e=>e.className==='mixed-surface-local-egress').textContent,/Neconfirmat/);
+assert.equal(selectedFlights,1,'Surface selection never starts air enrichment');
+console.log('PASS dated surface details: source times/stops retained, missing egress explicit, no airport dependency');

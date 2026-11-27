@@ -1,0 +1,87 @@
+name: Education study packs — lazy content safety
+on:
+  pull_request:
+    paths:
+      - 'index.js'
+      - 'education_mobile_containment.mjs'
+      - 'education_lesson_workspace.mjs'
+      - 'tests_education_mobile_containment_browser.mjs'
+      - 'practical_*.mjs'
+      - 'tests_practical_*.mjs'
+      - 'public/education/practical/course-v1/**'
+      - 'foreign_language*.mjs'
+      - 'communication_delivery_ui.mjs'
+      - 'oracle_communication_ui.mjs'
+      - 'tests_communication_delivery_browser.mjs'
+      - 'tests_foreign_language_practice*.mjs'
+      - 'public/education/languages/resources-v1/**'
+      - 'scripts/check_foreign_language_resources.mjs'
+      - 'tests_foreign_language_resources*.mjs'
+      - 'education_study_*.mjs'
+      - 'education_pack_service.mjs'
+      - 'science_ro_*.mjs'
+      - 'science_lower_secondary_lessons.mjs'
+      - '*laws_reference.mjs'
+      - 'biology_reference.mjs'
+      - 'biology_upper_*.mjs'
+      - 'physics_lower_english_*.mjs'
+      - 'chemistry_university_core.mjs'
+      - 'math_ro[5-8]*.mjs'
+      - 'public/education/study-v1/**'
+      - 'public/education/science/shared-v2/**'
+      - 'scripts/*education*study*.mjs'
+      - 'scripts/stage_education_pack_assets.mjs'
+      - 'tests_education_study_*.mjs'
+      - '.github/workflows/education-study-packs.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  mobile-safety:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0
+      - run: npx playwright install --with-deps chromium
+      - name: Source, offline, update and routing contracts
+        run: |
+          npm run test:practical-workshops
+          npm run test:foreign-resources
+          npm run check
+          npm run test:education-study
+          npm run test:science-source
+          npm run test:chat-media
+          node tests_fun_generator_2026.mjs
+          node tests_extra_fun_2026.mjs
+          npm run test:education-input
+          node tests_math_ro5_source_alignment.mjs
+          node tests_math_ro678_country_curriculum.mjs
+          node tests_physics_video_repair.mjs
+          node tests_physics_europe_coverage.mjs
+          node tests_biology_year_depth.mjs
+          node tests_chemistry_country_year_depth.mjs
+          node tests_curriculum_pack_decoupling_2026.mjs
+          node scripts/stage_education_pack_assets.mjs
+      - name: Production payload and actual mobile readers
+        env:
+          WRANGLER_SEND_METRICS: 'false'
+        run: |
+          npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check
+          node scripts/check_bundled_browser_names.mjs .bundle-check/index.js
+          node scripts/check_education_study_bundle.mjs .bundle-check/index.js
+          export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
+          export POCKET_BUNDLE=./.bundle-check/index.check.mjs
+          node tests_education_mobile_containment_browser.mjs
+          node tests_practical_workshops_browser.mjs
+          node tests_foreign_language_resources_browser.mjs
+          node tests_foreign_language_practice_browser.mjs
+          node tests_communication_delivery_browser.mjs
+          node tests_entertainment_mobile_browser.mjs
+          node tests_education_study_browser.mjs
+          node tests_science_source_browser.mjs
+          node tests_education_workspace_browser.mjs
+          node tests_education_input_browser.mjs

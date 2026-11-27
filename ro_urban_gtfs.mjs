@@ -38,6 +38,7 @@ function active(feed,day){
 }
 function leg(ride,a,b){
  return {mode:modes.get(String(ride.route?.route_type))||'public_transport',
+  stopCount:ride.completeStops?ride.entries.indexOf(b)-ride.entries.indexOf(a):null,
   from:a.stop.stop_name,to:b.stop.stop_name,fromStopId:a.stop.stop_id,toStopId:b.stop.stop_id,
   departureTime:new Date(a.dep).toISOString(),arrivalTime:new Date(b.arr).toISOString(),
   lineNames:[String(ride.route?.route_short_name||ride.route?.route_long_name||ride.trip.trip_headsign||'').slice(0,60)].filter(Boolean),
@@ -68,8 +69,9 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
  if(!origins.size||!targets.size)return {status:'no_nearby_gtfs_stop',journeys:[]};
  const allowed=active(feed,date);
  if(!allowed.size)return {status:'no_service_on_date',journeys:[]};
- const perTrip=new Map();
+ const perTrip=new Map(),rawTripCounts=new Map();
  for(const row of feed.stop_times){
+  const rawId=String(row?.trip_id||'');rawTripCounts.set(rawId,(rawTripCounts.get(rawId)||0)+1);
   const trip=trips.get(String(row?.trip_id||'')),stop=stops.get(String(row?.stop_id||''));
   if(!trip||!stop||!allowed.has(String(trip.service_id)))continue;
   const arrival=timeSec(row.arrival_time),departure=timeSec(row.departure_time),seq=Number(row.stop_sequence);
@@ -83,7 +85,7 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
  for(const [tripId,entries] of perTrip){
   entries.sort((a,b)=>a.seq-b.seq);
   if(entries.length<2||entries.some((e,i)=>i&&(e.seq===entries[i-1].seq||e.arr<entries[i-1].dep)))continue;
-  const trip=trips.get(tripId),ride={tripId,trip,route:routes.get(String(trip.route_id)),entries};
+  const trip=trips.get(tripId),ride={tripId,trip,route:routes.get(String(trip.route_id)),entries,completeStops:rawTripCounts.get(tripId)===entries.length};
   for(let i=0;i<entries.length;i++){
    const id=String(entries[i].stop.stop_id);
    if(!depByStop.has(id))depByStop.set(id,[]);
@@ -123,5 +125,13 @@ export function planRomanianUrbanGtfs(feed,from,to,options={}){
   }
  }
  result.sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime)||a.legs.length-b.legs.length);
- return {status:result.length?'success':'no_verified_itinerary',journeys:result.slice(0,Math.min(6,Math.max(1,Number(options.maxResults)||4))),time_zone:zone,date,schedule_only:true};
+ const limit=Math.min(6,Math.max(1,Number(options.maxResults)||4)),selected=result.slice(0,limit);
+ const busOnly=j=>j.legs.length>0&&j.legs.every(l=>['bus','coach','trolleybus'].includes(l.mode));
+ const bus=result.find(busOnly);
+ if(limit>1&&bus&&!selected.some(busOnly)){
+  if(selected.length>=limit)selected.pop();
+  selected.push(bus);
+  selected.sort((a,b)=>Date.parse(a.arrivalDateTime)-Date.parse(b.arrivalDateTime));
+ }
+ return {status:selected.length?'success':'no_verified_itinerary',journeys:selected,time_zone:zone,date,schedule_only:true};
 }

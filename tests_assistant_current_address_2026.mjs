@@ -60,8 +60,8 @@ try{
   assert.equal(result.address_is_estimate,true);
   assert.equal(result.house_number,null);
   assert.match(result.reply,/Locație aproximativă: Mill Lane, Grays/);
-  assert.match(result.reply,/Coduri poștale din apropiere \(neconfirmate\): RM20 4YD/);
-  assert.match(result.reply,/RM20 4YE/);
+  assert.doesNotMatch(result.reply,/Coduri poștale din apropiere|RM20 4YD/);
+  assert.equal(result.postcode,null);assert.deepEqual(result.nearby_postcodes,[]);
   assert.match(result.reply,/Nu pot confirma numărul clădirii/);
   assert.match(result.reply,/12 Mill Lane/);
   assert.match(result.reply,/14 Mill Lane/);
@@ -98,4 +98,4 @@ vm.runInContext(script.slice(start,end),ctx);
 for(const q of questions)assert.equal(ctx.requestUsesLocation(q),true,'Frontend must request fresh GPS: '+q);
 for(const q of ['Ce înseamnă adresa IP?', 'Cum funcționează GPS?', 'La ce temperatură fierbe apa?'])
  assert.equal(ctx.requestUsesLocation(q),false,'Non-location question: '+q);
-console.log('PASS self-address variants, GPS requirement, nearby candidate addresses, unconfirmed postcode and honest precision');
+console.log('PASS self-address variants, GPS requirement, nearby candidate addresses, hidden unconfirmed postcodes and honest precision');

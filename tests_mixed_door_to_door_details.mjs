@@ -46,8 +46,8 @@ let requests=0;
 const forbiddenFetch=async()=>{requests++;throw Error('Selection must not make a request')};
 const mkName=name=>{const a=new Element('a');a.textContent=name;return a};
 const resolve=new Function('document','state','fetch','dialogText',
- 'mixedOperatorName','transitModeName',snippet+';return resolveMixedFlightGroundOptions;')(
- document,state,forbiddenFetch,(ro,en)=>ro,mkName,x=>x);
+ 'mixedOperatorName','transitModeName','appendTransportTicketAction',snippet+';return resolveMixedFlightGroundOptions;')(
+ document,state,forbiddenFetch,(ro,en)=>ro,mkName,x=>x,()=>{});
 const source={label:'Mill Lane, Grays',latitude:51.48,longitude:0.30};
 const target={label:'Strada Nufărului 1, Oradea',latitude:47.06,longitude:21.95};
 const choice={journeyOrigin:source,transitDestination:target,

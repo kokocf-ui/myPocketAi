@@ -1,0 +1,233 @@
+{
+  "schema": "mypocket-language-resources/v1",
+  "key": "ro",
+  "version": "59cc3325d32a1d52f00b4821003853d2549204010b316f59f37da935abcdb988",
+  "language": "ro",
+  "variant": "standard",
+  "sourceLanguage": "ro",
+  "level": "A1",
+  "locale": "ro-RO",
+  "pronunciationNote": "IPA largă pentru exemplele marcate IPA; celelalte exemple sunt transliterări etichetate separat. Pronunția variază după regiune și context.",
+  "scopeNote": "Resursă introductivă originală, nu dicționar exhaustiv și nu curs complet A1–C2. Explicațiile sunt sursă unică; motorul comun traduce explicațiile, nu formele de învățat.",
+  "provenance": [
+    "Conținut introductiv original al proiectului: lexic, expresii practice și explicații gramaticale. Nu este o copie a unui dicționar sau manual publicat.",
+    "Cadru general CEFR: https://www.coe.int/en/web/common-european-framework-reference-languages"
+  ],
+  "dictionary": [
+    {
+      "id": "word-0",
+      "term": "casă",
+      "phonetic": "/ˈkasə/",
+      "gloss": "house",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-1",
+      "term": "carte",
+      "phonetic": "/ˈkarte/",
+      "gloss": "book",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-2",
+      "term": "zi",
+      "phonetic": "/zi/",
+      "gloss": "day",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-3",
+      "term": "noapte",
+      "phonetic": "/ˈno̯apte/",
+      "gloss": "night",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-4",
+      "term": "prieten",
+      "phonetic": "/priˈeten/",
+      "gloss": "friend",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-5",
+      "term": "familie",
+      "phonetic": "/faˈmilie/",
+      "gloss": "family",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-6",
+      "term": "oraș",
+      "phonetic": "/oˈraʃ/",
+      "gloss": "city",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "word-7",
+      "term": "timp",
+      "phonetic": "/timp/",
+      "gloss": "time",
+      "glossLanguage": "en",
+      "category": "vocabulary",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-10",
+      "term": "Aș dori apă, vă rog.",
+      "phonetic": "/aʃ doˈri ˈapə və roɡ/",
+      "gloss": "I would like water, please.",
+      "glossLanguage": "en",
+      "category": "restaurant",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-11",
+      "term": "Am nevoie de ajutor.",
+      "phonetic": "/am neˈvoje de aʒuˈtor/",
+      "gloss": "I need help.",
+      "glossLanguage": "en",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "entry-12",
+      "term": "Puteți repeta mai rar?",
+      "phonetic": "/puˈtetsʲ repeˈta maj rar/",
+      "gloss": "Could you repeat more slowly?",
+      "glossLanguage": "en",
+      "category": "help",
+      "notation": "ipa"
+    },
+    {
+      "id": "travel",
+      "term": "Un bilet, vă rog.",
+      "phonetic": "/un biˈlet və roɡ/",
+      "gloss": "One ticket, please.",
+      "glossLanguage": "en",
+      "category": "directions",
+      "notation": "ipa"
+    }
+  ],
+  "lessons": [
+    {
+      "id": "grammar-0",
+      "title": "a fi",
+      "explanation": "Prezent indicativ. Forma se schimbă după persoană. „Sunt” se folosește atât la persoana I singular, cât și la persoana a III-a plural.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "eu",
+          "form": "sunt"
+        },
+        {
+          "person": "tu",
+          "form": "ești"
+        },
+        {
+          "person": "el / ea",
+          "form": "este"
+        },
+        {
+          "person": "noi",
+          "form": "suntem"
+        },
+        {
+          "person": "voi",
+          "form": "sunteți"
+        },
+        {
+          "person": "ei / ele",
+          "form": "sunt"
+        }
+      ],
+      "task": {
+        "prompt": "Eu ___ elev.",
+        "answers": [
+          "sunt"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    },
+    {
+      "id": "grammar-1",
+      "title": "a învăța",
+      "explanation": "Prezent indicativ. Verbul a învăța are alternanțe în rădăcină: învăț, înveți, învață. Nu aplica mecanic o singură terminație tuturor persoanelor.",
+      "sourceLanguage": "ro",
+      "forms": [
+        {
+          "person": "eu",
+          "form": "învăț"
+        },
+        {
+          "person": "tu",
+          "form": "înveți"
+        },
+        {
+          "person": "el / ea",
+          "form": "învață"
+        },
+        {
+          "person": "noi",
+          "form": "învățăm"
+        },
+        {
+          "person": "voi",
+          "form": "învățați"
+        },
+        {
+          "person": "ei / ele",
+          "form": "învață"
+        }
+      ],
+      "task": {
+        "prompt": "Tu ___ română.",
+        "answers": [
+          "înveți"
+        ],
+        "feedback": "Compară persoana, timpul și forma din tabel. Păstrează accentele și diacriticele."
+      }
+    }
+  ],
+  "guide": [
+    {
+      "id": "directions",
+      "title": "Bilete și transport",
+      "note": "",
+      "entryIds": [
+        "travel"
+      ]
+    },
+    {
+      "id": "restaurant",
+      "title": "La masă",
+      "note": "",
+      "entryIds": [
+        "entry-10"
+      ]
+    },
+    {
+      "id": "help",
+      "title": "Ajutor și clarificări",
+      "note": "Formule de comunicare, nu înlocuitor pentru serviciile de urgență.",
+      "entryIds": [
+        "entry-11",
+        "entry-12"
+      ]
+    }
+  ]
+}

@@ -4,10 +4,10 @@ import {createServer} from 'node:http';
 import {timingSafeEqual} from 'node:crypto';
 import {readFileSync,statSync} from 'node:fs';
 import {join,resolve} from 'node:path';
-import {planRomanianUrbanGtfs} from './ro_urban_gtfs.mjs';
-import {routeTopologyFromGtfs} from './transport_route_topology.mjs';
+import {ROMANIA_GTFS_REGIONS} from './regional_gtfs_registry.mjs';
+import {createRomanianGtfsDispatcher} from './romanian_gtfs_dispatch.mjs';
 
-export const REGIONS=['oradea','bucharest','cluj','iasi'];
+export const REGIONS=Object.freeze([...ROMANIA_GTFS_REGIONS,'romania']);
 const reply=(response,code,data)=>{
  response.statusCode=code;
  response.setHeader('Content-Type','application/json; charset=utf-8');
@@ -22,20 +22,25 @@ function sameToken(received,expected){
  const supplied=Buffer.from(received.slice(marker.length)),secret=Buffer.from(expected);
  return supplied.length===secret.length && timingSafeEqual(supplied,secret);
 }
-export function loadRomanianFeeds(directory){
+export function loadRomanianFeeds(directory,{maxTotalBytes=150*1024*1024}={}){
+ // Parsed JSON uses several times its disk size; 47 regional slots must not
+ // multiply the old per-feed cap beyond the 1 GiB container memory budget.
+ const budget=Math.max(0,Math.min(150*1024*1024,Number(maxTotalBytes)||0));
+ let loadedBytes=0;
  const feeds={};
  for(const region of REGIONS){
   try{
    const filename=join(directory,region+'.json'),stats=statSync(filename);
-   if(!stats.isFile()||stats.size>150*1024*1024)continue;
+   if(!stats.isFile()||stats.size>budget-loadedBytes)continue;
    const feed=JSON.parse(readFileSync(filename,'utf8'));
    if(Array.isArray(feed.stops)&&Array.isArray(feed.trips)&&Array.isArray(feed.stop_times))
-    feeds[region]=feed;
+    {feeds[region]=feed;loadedBytes+=stats.size;}
   }catch{ /* Missing or malformed feeds must never produce guessed journeys. */ }
  }
  return feeds;
 }
 export function createRomanianUrbanServer({token,feeds={}}={}){
+ const dispatch=createRomanianGtfsDispatcher(feeds);
  return createServer(async(request,response)=>{
   const url=new URL(request.url||'/', 'http://localhost');
   if(request.method==='GET'&&url.pathname==='/healthz')return reply(response,200,{status:'ok',service:'pocketai-romania-urban'});
@@ -51,20 +56,8 @@ export function createRomanianUrbanServer({token,feeds={}}={}){
     pieces.push(chunk);
    }
    const body=JSON.parse(Buffer.concat(pieces).toString('utf8'));
-   const region=typeof body.region==='string'?body.region:'';
-   if(!REGIONS.includes(region))return reply(response,400,{error:'unsupported_region'});
-   if(!feeds[region])return reply(response,503,{status:'feed_not_loaded',journeys:[]});
-   const result=planRomanianUrbanGtfs(feeds[region],body.from,body.to,{
-    date:body.date,afterHHMM:body.afterHHMM,
-    maxStraightLineMeters:body.maxStraightLineMeters,maxResults:body.maxResults
-   });
-   if(!result.journeys.length&&['no_service_on_date','no_verified_itinerary'].includes(result.status)){
-    const lines=routeTopologyFromGtfs(feeds[region],body.from,body.to,{
-     country:'RO',maxStraightLineMeters:body.maxStraightLineMeters,maxResults:body.maxResults});
-    if(lines.length)return reply(response,200,{status:'route_only',journeys:lines,
-     schedule_status:'unavailable',service_today_verified:false});
-   }
-   return reply(response,200,result);
+   const {httpStatus=200,...result}=dispatch(body);
+   return reply(response,httpStatus,result);
   }catch{return reply(response,400,{error:'invalid_request'});}
  });
 }

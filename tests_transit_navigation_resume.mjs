@@ -23,7 +23,7 @@ assert.match(map,/if\(resume\?\.resumed\)beginTransitVisualTracking\(current\)/)
 assert.match(map,/navigationContext:context/,'Save selected journey in native service');
 assert.match(map,/savedWalks\.get\(i\)/,'Rehydrate walking geometry without a new lookup');
 assert.match(map,/loadRouteRotationLibrary\(\)/);
-assert.match(map,/current\.navigating\?'0px'/,'Active navigation fills the screen');
+assert.match(map,/viewport\?\.height\|\|window\.innerHeight/,'Planning and active navigation both fit the visual viewport');
 assert.match(map,/stopRouteTracking\(current\)/,'Stop explicitly, not on app Home');
 assert.match(service,/ACTION_OPEN_NAVIGATION/);
 assert.match(service,/Intent\.FLAG_ACTIVITY_CLEAR_TOP\|Intent\.FLAG_ACTIVITY_SINGLE_TOP/);

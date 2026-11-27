@@ -1,0 +1,221 @@
+# Official open surface timetable — branch integration
+
+## Scope and activation boundary
+
+`open_surface_timetable.mjs` searches a precompiled, public FlixBus/FlixTrain
+European GTFS index. `mixed_open_surface.mjs` independently requests ordinary
+local transport at both exact source stops, using `createMixedLocalPlanner` via
+the existing mixed pipeline. No airport or flight result is a prerequisite.
+Unverified first/last mile does **not** suppress the actual dated source legs.
+The unified results screen shows theoretical schedules, source stops and
+explicit missing connections. A complete option enters the existing transport
+details/map selector only after both dated, coordinate-anchored local links and
+the normal verified-mixed chronology/geography checks pass.
+
+This code is wired into `searchMixedIndicativeOptions` but defaults OFF. It is
+not an announcement of live application coverage or a new deployment. No new
+server, Oracle storage, paid API, ticket availability or protected connection
+is implied. Accepted APK501894/live backend are unchanged.
+
+## Offline preparation, no ZIP download during routing
+
+1. Download the official source outside Git using the existing bounded
+   `scripts/inspect_open_surface_gtfs.py:download` helper.
+2. Compile with:
+
+   ```sh
+   python3 scripts/build_open_surface_index.py --file /path/to/official.zip --output .open-surface-assets/index.json
+   ```
+
+3. The compiler excludes shapes, deduplicates identical service calendars,
+   preserves source trip/route/stop IDs, pickup/dropoff, exceptions and GTFS
+   >24h times, and rejects malformed trips as a whole. It currently supports
+   **only agency timezone UTC**, as declared by this official feed; it rejects
+   other feed timezones rather than importing Romanian or phone-local rules.
+4. Index is capped at 20 MiB. Runtime validates schema, coordinates, references,
+   calls and ordering once per asset binding/isolate. Stale (>7-day-old) builds,
+   queries outside feed validity or beyond the current 60-day policy are refused.
+   A warm isolate rechecks freshness. No user route/GPS is cached in this index.
+5. Bounded search: nearest six source stops within 80 km of origin / 40 km of
+   destination, three rides / 72 hours, 45-minute exact-source-ID transfers,
+   at most two candidate enrichments, two access samples + one egress query each,
+   within the shared twelve-local-query budget and cancellable eighteen seconds.
+   Results are not exhaustive. Empty results never prove that no service exists.
+
+## Configuration after explicit deployment/licence readiness
+
+No runtime binding or feature flag has been activated by this change. When
+release is separately approved and actual Worker resource tests pass, the same
+backend Worker can use free static assets, **not a new paid routing service**:
+
+```toml
+# Add to the existing backend config only at the approved activation stage:
+[assets]
+directory = "./.open-surface-assets"
+binding = "OPEN_SURFACE_ASSETS"
+run_worker_first = true
+html_handling = "none"
+# OPEN_SURFACE_ENABLED = "true" belongs under [vars], not [assets].
+```
+
+The flag alone never downloads a missing index. An absent binding/index remains
+`index_not_configured`/`index_unavailable`, with no external search fallback.
+`GET /api/open-surface/index.json` exposes the same public derivative index when
+explicitly enabled; no private payload or authentication is copied into it.
+A refreshed asset requires an approved asset deployment, not a silent scheduled
+production job. Expiry fails closed if no refresh happens.
+
+## Licence / redistribution before activation
+
+Source archive: https://gtfs.gis.flix.tech/gtfs_generic_eu.zip
+Publisher: https://transport.data.gouv.fr/datasets/flixbus-horaires-theoriques-du-reseau-europeen-1
+Licence conditions: https://doc.transport.data.gouv.fr/le-point-d-acces-national/cadre-juridique/conditions-dutilisation-des-donnees/licence-odbl
+
+Source metadata and visible attribution are retained. ODbL 1.0 and the PAN
+particular conditions apply, including applicable derivative-database access,
+attribution/share-alike and PAN/original-format republication requirements.
+The JSON access endpoint alone is **not** a declaration that every PAN
+redistribution condition has been fulfilled. Before public activation, settle
+publication of the qualifying derivative in the required original format and
+PAN registration. Neither raw nor compiled source data is committed to Git.
+
+## Verification
+
+- `node tests_open_surface_runtime.mjs`: real Python compiler → JS runtime,
+  mocked providers; validates calendars, exceptions, >24h, source ID joins,
+  bounded/fresh asset loading, wrong-date refusal and local-link composition.
+- `tests_mixed_unified_results.mjs`: source timetable details and explicit gaps.
+- `tests_mixed_indicative_browser.mjs`: real compiled frontend on 360/393/430 px,
+  partial source details/stops, Back, complete source option to existing details,
+  with no extra network lookup on selection.
+- `.github/workflows/mixed-live-diagnostic.yml (prove_surface_runtime=true)`: manual actual-source compile,
+  runtime resource diagnostic, optional public TfL in branch Worker and one
+  ordinary deployed Oradea egress query, plus at most one existing standalone
+  pedestrian request if its timetable is missing. No Cloudflare secret reads/deploy,
+  flight, HERE, Exa or Brave calls. Artifacts expire after seven days.
+
+Actual-source runtime and local results are recorded below after the manual
+workflow finishes. Model/browser tests are not live local coverage evidence.
+
+
+## Actual-source runtime proof 45991226188 / check 140479263073
+
+SUCCESS using branch 1a0aa68. Actual compiled index: 8,632,964 bytes; 2072 stops,
+1224 routes, 2602 deduplicated calendars, 41327 valid trips (six malformed
+source trips excluded). Source SHA256:
+`63d76c6a7f919066088380dc5141d2fa00b36b11161720ce61f087289ff5f74e`.
+Node read+validate+search 287 ms, search 103 ms, heap 72.1 MiB, process RSS
+169.5 MiB. **These are Node diagnostics, NOT Worker CPU/memory acceptance.**
+The free Worker budget has not been demonstrated: do not activate this full
+index on production or upgrade a paid tier to hide a resource failure.
+
+Public TfL via actual branch Worker: access Dec 3 06:22→07:46 UTC, before
+Victoria boarding 08:30 UTC. Two ordinary access samples, six TfL HTTP requests.
+Exactly one ordinary deployed Romanian request: HTTP200,
+`ro_urban_feed_unavailable`, provider `Romania GTFS static`, region `oradea`,
+`feed_not_loaded`. Thus egress is now KNOWN unavailable from that timetable,
+not the earlier unknown/truncated annotation. No full journey was claimed.
+
+### Subsequent walking/geometry correction under verification
+
+For short gaps <=4 km geodesic only, the local dispatcher can explicitly opt
+into existing standalone pedestrian routing when ordinary transit has no
+usable schedule. That additional dispatch shares the same twelve-call cap;
+geometry is reused between dated samples in the same request. No alternate
+provider is tried after reported quota/access failure. The adapter requires
+real provider coordinates, matching start/end within 75 m, positive provider
+duration/distance and plausible speed. An unverified nearby approach, missing
+geometry/time or wrong endpoint stays incomplete. Walking duration is marked
+`timingEstimated`, not a scheduled vehicle departure.
+
+TfL's path.lineString JSON [lat,lon] was previously passed through the encoded
+polyline decoder, explaining the observed near-zero map coordinates. A shared
+geometry adapter now parses JSON, reverses to map [lon,lat], supports genuine
+encoded paths, and checks geometry against the leg's actual endpoint evidence.
+No endpoint lines are fabricated. The full source-composed journey preserves
+returned local geometry/steps and the estimate flag for pedestrian legs.
+Actual-source+walking/geometry proof result is pending the next manual run.
+
+
+## Actual walking/geometry proof 45991954687 / check 140481713942
+
+SUCCESS on 0fd77f2. Public TfL through branch Worker confirmed the same dated
+access Dec 3 06:22→07:46 UTC, five actual local legs. Geometry is now real
+London-region data, not near (0,0): per-leg coordinate counts 21 / 476 / 30 /
+198 / 36. The final London bus geometry ends [-0.1486652,51.4922956], close to
+the actual source Victoria coach stop.
+
+Exactly one further ordinary transit egress response confirmed
+`ro_urban_feed_unavailable` again, followed by exactly one standalone walking
+request to the existing frontend/backend origin (no new walking service).
+Actual returned walking route: 3469 m, 3256.628 seconds, 95 geometry points.
+Start [21.95854,47.043244], end [21.947405,47.061302], both within 75 m of the
+synthetic requested points. Adapted walking time: Dec 5 00:05→00:59:16.628 UTC,
+explicit duration estimate, NOT a theoretical bus departure.
+
+Both endpoints passed independently. Full composition still returned false in
+that run: the general graph added a second generic interchange margin inside
+the already timed, coordinate/label/chronology-validated five-leg TfL journey.
+The follow-up correction marks the validated ordinary itinerary's consecutive
+leg scope/index. ONLY immediately adjacent non-flight legs in the SAME source
+and itinerary can reuse that provider's own timing. Different source/itinerary,
+skipped legs, flights and negative chronological overlap retain rejection or
+their original margins. Separate intercity transfers still require at least
+45 minutes and exact source stop IDs; access still ends >=15 minutes before
+coach boarding, egress begins >=10 minutes after alighting.
+
+`composeOpenSurfaceOption` is now a pure re-validation boundary, allowing saved
+actual public responses to be replayed without live requests. A new manual
+`surface_replay_run` workflow input downloads the earlier synthetic diagnostic
+artifact inside Actions and tests it with the corrected connector. During
+replay all binding/health/live diagnostic steps are skipped; no provider call
+is required. Offline replay result is pending, not yet a complete-journey claim.
+
+Resource diagnostics in the second run remain NOT Worker/free-tier validation:
+Node prepare+search 222 ms / search 75 ms, heap 74.2 MiB, RSS 162.4 MiB. Default
+feature remains OFF; no paid-tier upgrade or production activation is implied.
+
+
+## Offline real-response replay 45992442387 / check 140483405966
+
+SUCCESS on e3f3aee. Reused the actual public source/TfL/standalone-walking
+responses saved by run 45991954687; **zero new provider requests**. All live,
+source-download, binding-inspection and health steps were skipped in this run.
+The same composer used by the live runtime now verifies the complete synthetic
+nine-leg journey: Dec 3 06:22 UTC → Dec 5 00:59:16.628 UTC. Surface mode signature
+`train → metro → coach → coach → coach` (walks omitted by that normal signature).
+The explicitly estimated final walking leg remains marked `timingEstimated`.
+Total fare remains unknown; no protected transfer or seat availability claim.
+An additional wrong-day egress mutation was refused in this same replay.
+
+This is a replay of real observed responses under the corrected composition
+rules, not another live fetch, current ticket availability or phone acceptance.
+The preserved local/source margins are asserted during replay. The completed
+journey uses exact operator stop IDs between coaches and actual returned local
+coordinates/times. There is no airport in this test chain.
+
+### Validation after the connector correction
+
+PASS: Python compiler/runtime fixtures including actual ordinary Worker response,
+verified multimodal engine/negative adjacency cases; npm mixed-orientation and
+transit-reported-failures suites; backend/frontend Wrangler **dry-runs**;
+bundled browser-name guard; real Wrangler-bundled mobile browser tests at
+360/393/430 px (partial schedules, published stops, complete source option to
+existing details, Back, early streamed options, cancellation and no query replay);
+navigation heading/fullscreen and maneuver-model regressions.
+
+### Remaining release gates — not hidden by the successful route proof
+
+1. Full-index Node routing measured ~75–103 ms and ~72–74 MiB heap. It has not
+   been proven to fit the actual Worker's free CPU/memory limits. Reduce/index
+   the query-time data footprint or run suitable computation client-side before
+   activation; never silently enable a paid plan or a new routing server.
+2. Complete PAN/ODbL derivative publication/original-format handling and refresh
+   packaging before public distribution. Expired datasets must fail closed.
+3. Only then deploy matching backend/assets/frontend and deliver a signed branch
+   APK for physical validation. No production/main merge is authorized here.
+
+No new APK, Cloudflare deployment, live feature flag/binding, Oracle change,
+HERE request or paid activation took place. APK501894 remains the accepted UI
+build; the live backend remains v187/f7ab634. This stage establishes a concrete
+source-backed path forward, not universal rail/coach coverage.

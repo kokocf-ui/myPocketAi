@@ -1,3 +1,4 @@
+import {beforeTransitAbort} from './transit_deadline.mjs';
 // Reuse the SAME coordinate-to-coordinate public transport planner used for
 // ordinary street addresses. A dated flight changes the ARRIVAL DEADLINE;
 // it does not require a different, airport-specific route search engine.
@@ -30,7 +31,7 @@ export function selectFixedPointConnection(journeys,{
 export async function planFixedPointBoardingAccess(env,{
  origin,boardingPoint,earliestDeparture,latestArrival,limit=4
 }={},{
- planner,now=Date.now()
+ planner,now=Date.now(),signal=null
 }={}){
  if(!point(origin)||!point(boardingPoint))return {
   status:'fixed_point_unverified',journey:null,attemptedAt:[]
@@ -51,15 +52,19 @@ export async function planFixedPointBoardingAccess(env,{
   journey:null,attemptedAt:[]};
  const attemptedAt=candidates.map(ms=>new Date(ms).toISOString());
  const samples=await Promise.allSettled(attemptedAt.map(departureAt=>
-  planner(env,origin,boardingPoint,limit,{departureAt})));
+  signal?beforeTransitAbort(()=>planner(env,origin,boardingPoint,limit,{departureAt,signal}),signal,
+   {status:'search_timeout',journeys:[]},{status:'provider_unavailable',journeys:[]}):planner(env,origin,boardingPoint,limit,{departureAt})));
  const journeys=samples.flatMap(r=>r.status==='fulfilled'&&Array.isArray(r.value?.journeys)?
   r.value.journeys:[]);
  const chosen=selectFixedPointConnection(journeys,{
   earliestDeparture:new Date(earliest).toISOString(),
   latestArrival:new Date(deadline).toISOString()
  });
- return {status:chosen?'scheduled_connection_found':samples.some(r=>
-   r.status==='fulfilled'&&r.value?.status==='not_configured')?
-   'local_transport_not_configured':'no_connection_before_boarding',
-  journey:chosen,attemptedAt};
+ const statuses=samples.map(r=>r.status==='fulfilled'?r.value?.status:'provider_unavailable');
+ const checkedSchedule=journeys.length>0||statuses.every(s=>['success','no_usable_journeys','no_journeys_returned'].includes(s));
+ return {status:chosen?'scheduled_connection_found':signal?.aborted?'search_timeout':
+  statuses.includes('not_configured')?'local_transport_not_configured':
+  checkedSchedule?'no_connection_before_boarding':
+  String(statuses.find(s=>s&&s!=='success')||'local_provider_unavailable'),
+  journey:chosen,attemptedAt,providerStatuses:statuses};
 }

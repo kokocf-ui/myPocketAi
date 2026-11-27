@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import vm from 'node:vm';
+import {CREATOR_BUSINESS_SCRIPT} from './creator_business_profiles.mjs';
 import {EXTRA_TOOLS_WORKSPACE_SCRIPT} from './extra_tools_workspace.mjs';
 import {CREATOR_SITE_AI_SCRIPT} from './creator_site_ai.mjs';
 import {CREATOR_IMAGE_AI_SCRIPT} from './creator_image_ai.mjs';
@@ -11,7 +12,7 @@ assert.match(EXTRA_TOOLS_WORKSPACE_SCRIPT,/function extraCreatorWorkingImages/);
 assert.match(CREATOR_SITE_AI_SCRIPT,/lifewise-ai-creator-preview\.kokocf\.workers\.dev\/site/);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorWorkingWebsite\(work\)/);
 assert.match(CREATOR_SITE_SCRIPT,/extraCreatorWorkingImages\(work\)/);
-const f=new Function(CREATOR_SITE_AI_SCRIPT+';return {parse:extraCreatorParseAI,prompt:extraCreatorAiSitePrompt,call:extraCreatorCallAiWebsite};')();
+const f=new Function(CREATOR_BUSINESS_SCRIPT+CREATOR_SITE_AI_SCRIPT+';return {parse:extraCreatorParseAI,prompt:extraCreatorAiSitePrompt,call:extraCreatorCallAiWebsite};')();
 const valid=JSON.stringify({ro:{headline:'Cazare la Aramis',intro:'Bine ați venit.',about:'Mic dejun inclus.',
  services:[{title:'Camere single',detail:'5 camere single'},{title:'Apartamente',detail:'3 apartamente'}]},
  en:{headline:'Stay at Aramis',intro:'Welcome',about:'Breakfast included',services:[]}});

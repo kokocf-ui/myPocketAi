@@ -1,3 +1,4 @@
+import {beforeTransitAbort} from './transit_deadline.mjs';
 // Provider-neutral *search strategy* for myPocketAI's mixed transport.
 //
 // A supplier must explicitly be enabled + licensed, and return dated,
@@ -65,7 +66,7 @@ function candidatePairs(origin,destination,rawNodes,maxHubs){
 export async function searchMixedRouteProviders({
  origin,destination,departureAt,candidateNodes=[],sources=[],
  maxProviderCalls=20,maxHubs=6,maxResults=8,horizonHours=72,
- allowedModes=null,identityCrosswalk=[],parallelDirect=false,now=Date.now()
+ allowedModes=null,identityCrosswalk=[],parallelDirect=false,now=Date.now(),budgetMs=18000,signal:parentSignal=null
 }={}){
  const from=fromNode(origin),to=fromNode(destination);
  if(!from||!to||from.id===to.id||!asDate(departureAt)||
@@ -78,8 +79,15 @@ export async function searchMixedRouteProviders({
   s&&s.licensed===true&&s.enabled===true&&isId(s.id)&&typeof s.searchLegs==='function');
  if(!providers.length)return {status:'sources_unavailable',journeys:[],
   providerChecks:[],searchCalls:0,completeJourneyVerified:false};
+ const controller=new AbortController(),signal=controller.signal;
+ const cancel=()=>controller.abort();parentSignal?.addEventListener('abort',cancel,{once:true});
+ if(parentSignal?.aborted)cancel();
+ const timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(18000,Number(budgetMs)||18000)));
+ let calls=0;
+ const search=(source,query)=>beforeTransitAbort(()=>{calls++;return source.searchLegs({...query,signal});},signal,{status:'search_timeout',legs:[]},{status:'provider_unavailable',legs:[]});
+ try{
  const observed=new Map(),checks=[];
- let calls=0,failures=0;
+ let failures=0;
  const requestedEnd=new Date(Date.parse(departureAt)+timeHorizon*3600000).toISOString();
  // On direct A→B comparisons, fetch independent providers concurrently.
  // Only the already authorized, budgeted suppliers are included.
@@ -91,7 +99,7 @@ export async function searchMixedRouteProviders({
   const active=providers.filter(s=>typeof s.canServe!=='function'||s.canServe(pair.from,pair.to))
    .slice(0,budget);
   await Promise.all(active.map(async source=>{
-   try{prefetched.set(source.id+':'+pairKey(pair.from,pair.to),{result:await source.searchLegs({
+   try{prefetched.set(source.id+':'+pairKey(pair.from,pair.to),{result:await search(source,{
     from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
     modes:allowedModes,readOnly:true
    })});}
@@ -108,20 +116,20 @@ export async function searchMixedRouteProviders({
    tasks.push({pair,source,key:source.id+':'+pairKey(pair.from,pair.to)});
   }
  }
- calls=tasks.length;
+
  // Real suppliers have nontrivial latency. A small concurrency cap allows
  // ground-only alternatives to be explored inside the Android search timeout
  // without flooding any individual licensed API.
  let cursor=0;
  const responses=new Array(tasks.length);
  const worker=async()=>{
-  while(cursor<tasks.length){
+  while(cursor<tasks.length&&!signal.aborted){
    const index=cursor++;
    const {pair,source,key}=tasks[index];
    try{
     const earlier=prefetched.get(key);
     if(earlier?.failed)throw Error('provider_unreachable');
-    responses[index]={result:earlier?earlier.result:await source.searchLegs({
+    responses[index]={result:earlier?earlier.result:await search(source,{
      from:pair.from,to:pair.to,departureAt,untilAt:requestedEnd,
      modes:allowedModes,readOnly:true
     })};
@@ -130,13 +138,13 @@ export async function searchMixedRouteProviders({
  };
  await Promise.all(Array.from({length:Math.min(3,tasks.length)},()=>worker()));
  for(const [index,{pair,source}] of tasks.entries()){
-  const response=responses[index];
+  const response=responses[index]||prefetched.get(source.id+':'+pairKey(pair.from,pair.to));
   if(response?.failed){
    failures++;checks.push({source:source.id,status:'provider_unreachable'});continue;
   }
   const result=response?.result;
   if(result?.status!=='success'||!Array.isArray(result.legs)){
-   checks.push({source:source.id,status:result?.status||'unavailable'});
+   checks.push({source:source.id,status:result?.status||(signal.aborted?'search_timeout':'unavailable')});
    failures++;continue;
   }
   let accepted=0;
@@ -167,5 +175,6 @@ export async function searchMixedRouteProviders({
    // Missing supplier feeds or partial graphs must never be called a usable
    // A-to-B journey, even if a nearby airport produced an isolated result.
    missingConnections:graph.status!=='verified',
-   budgetExhausted:calls>=budget};
+   budgetExhausted:calls>=budget,searchIncomplete:signal.aborted};
+ }finally{clearTimeout(timer);parentSignal?.removeEventListener('abort',cancel);controller.abort();}
 }

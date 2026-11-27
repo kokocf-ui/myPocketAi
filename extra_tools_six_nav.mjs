@@ -13,7 +13,7 @@ const EXTRA_TOOLS_V2_GROUPS=[
   ['fun-astro','☀️','Astrologie și zodii','Astrology and zodiac','Horoscop și astrogramă simplificată','Horoscope and simplified birth chart'],
   ['fun-maxim','📜','Maxima zilei','Quote of the day','O cugetare nouă în fiecare zi','One thought each day'],
   ['fun-jokes','😄','Bancul zilei','Joke of the day','Bancuri și colecție offline','Jokes and offline collection'],
-  ['fun-puzzles','🧩','Integrame, rebus și Sudoku','Crosswords and Sudoku','Jocuri offline pentru relaxare','Offline logic and word games']]}
+  ['fun-puzzles','🧩','Integrame și Sudoku','Crosswords and Sudoku','Jocuri offline pentru relaxare','Offline logic and word games']]}
 ];
 let extraToolsV2ReturnGroup=null;
 let extraToolsV2ActiveGroup=null;

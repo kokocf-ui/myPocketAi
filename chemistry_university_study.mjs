@@ -11,21 +11,22 @@ export function chemistryUniversityCourseChoices({year=0,specialty=''}={}){
  if(y<1||y>5||!track)return [];
  const cores=CHEMISTRY_UNIVERSITY_CORE.filter(x=>x.year===y).map(x=>({
   id:'uni-chem-core-'+x.id,courseId:x.id,originalTopic:x.topic,
-  ro:x.ro,en:x.en,level:'advanced',year:y,courseType:'core'
+  ro:x.ro,en:x.en||x.ro,sourceLanguage:x.sourceLanguage,level:'advanced',year:y,courseType:'core'
  }));
  const specialists=CHEMISTRY_SPECIALTY_TOPICS.filter(x=>x.specialty===track)
   .filter((x,index)=>CHEMISTRY_UNIVERSITY_SPECIALTY_YEARS[index]===y).map(x=>({
    id:'uni-chem-spec-'+x.id,courseId:x.id,originalTopic:x.id,
-   ro:x.ro,en:x.en,level:'advanced',year:y,courseType:'specialist'
+   ro:x.ro,en:x.en||x.ro,sourceLanguage:x.sourceLanguage,level:'advanced',year:y,courseType:'specialist'
   }));
  return [...cores,...specialists];
 }
 export function chemistryUniversityStudyDocument({courseId='',country='',routeId='',year=0,
  specialty='',language='ro',lessons=[]}={}){
  const route=chemistryUniversityRoute(country,routeId);
- const y=Number(year),ro=language==='ro',t=(a,b)=>ro?a:b;
+ const y=Number(year);
  if(!route||!Number.isInteger(y)||y<1||y>route.years)return null;
  const core=CHEMISTRY_UNIVERSITY_CORE.find(x=>x.id===courseId&&x.year===y);
+ const ro=(core?.sourceLanguage||language)==='ro',t=(a,b)=>ro?a:b;
  const spec=CHEMISTRY_SPECIALTY_TOPICS.find(x=>x.id===courseId&&x.specialty===specialty);
  if(!core&&!spec)return null;
  if(spec){

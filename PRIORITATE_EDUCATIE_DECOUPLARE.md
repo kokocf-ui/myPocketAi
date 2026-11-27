@@ -1,4 +1,36 @@
-# Prioritatea curentă: verificare curriculară și continuarea Literaturii, cu decuplare Educație
+# Prioritatea curentă: decuplare Educație și eliminarea fișelor pretraduse duplicate
+
+## Cerere curentă — Cursuri practice, apoi APK, 26 noiembrie 2026
+
+Implementate36ateliere ghidate/6cursuri, caiete locale cu livrabile și verificări pe scenariu, stări de autoevaluare separate de citire/grilă și portofoliu final PDF. Toate materialele practice în6pachete canonice,271.439B, fără date editoriale în HTML/Worker; materialele vechi păstrate exact prin adaptoare. HTMLproducție6.937.763B (<8MB). Raport/teste/limite: `PRACTICAL_COURSES_REDESIGN_2026-11-26.md`. Nu este acreditare sau calificare profesională.
+
+Utilizatorul cere acum explicit APK. Se folosește release semnat de test al ramurii active, cheia permanentă și snapshotul UI+pachete, fără merge sau deployproducție. Publicare numai prerelease pentru link direct `.apk`; **Livrat:** prerelease `education-test-45815458856`, run success, commit24c2db8, versionCode501878, certificat comparat cu stabilul în CI; linkdirect https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45815458856/myPocketAI-signed-education-test.apk . Nu dezinstala aplicația pentru actualizare. Traducerea APK rămâne problema amânată, nu declarată reparată.
+
+
+## Cerere ulterioară — Limbi străine, 26 noiembrie 2026
+
+Implementat incrementul cerut pentru dicționar căutabil, teme/conjugări cu exerciții și răspunsuri, transcriere etichetată, ghid practic și laborator audio (TTS + înregistrare locală opțională). Cele14limbi/19variante au19pachete statice sursă unică,100.524B în afara HTML/Worker; explicații RO și traducere explicită prin motorul comun, fără traducerea formelor țintă. Este lexic **introductiv** (12intrări/variantă modernă,8/clasică), nu dicționar exhaustiv sau curs CEFR complet. Detalii/acoperire/limite: `FOREIGN_LANGUAGES_RESOURCES_2026-11-26.md`.
+
+Testele noi, browserele producție și regresiile study/science/input PASS;102comenzi UI:100PASS/aceleași2eșecuri istorice. HTML producție actual **7.065.132B** (<8MB), Worker7.449.864B; nu măsurare de spațiu pe telefon. MicrofonChromiumsimulat, traducere/TTSsimulate; fără Android fizic/AI live, fără PR/merge/deploy/APK. Traducerea APK rămâne amânată. Conținutul nou este deja decuplat, nu extinde băncile JS; restul decuplării de mai jos rămâne nefinalizat.
+
+
+## Continuare sigură pentru spațiu — 26 noiembrie 2026
+
+La recomandarea utilizatorului au fost decuplate încă **631 fișe originale**: Matematică RO V–VIII, completări RO Fizică/Chimie/Biologie, Biologie liceală și banca originală engleză de Fizică gimnazială. Patru pachete canonice în `public/education/study-v1/`, încărcate numai pentru țara/materia relevantă. Toate exporturile de date din cele25module migrate au fost comparate exact. Nu s-au eliminat materiale distincte ca presupuse traduceri. S-au păstrat lecțiile și metadatele, nu s-au creat noi certificări.
+
+S-a eliminat și includerea tranzitivă în Worker a acestor patru pachete și a celor patru `shared-v2` anterioare: adaptoare Node fără import JSON static; în Worker structuri goale, în browser descărcare/hidratare cu validare, cache, retry și protecție la navigare concurentă. HTML producție **7.041.362B** (−449.984B), Worker **7.251,47KiB** (−aprox537,91KiB); nu este o măsurare a stocării telefonului/APK-ului, iar conținutul separat/cache-ul ocupă spațiu. Detalii/teste/restanțe: `EDUCATION_SAFE_DECOUPLING_2026-11-26.md`.
+
+Testele focalizate, browserele mobile pe bundle și staging-ul trecute; `test:ui`100/102 aceleași două eșecuri istorice. Rămân alte bănci cuplate (inclusiv Math depth, teorie comună, HG/Informatică și Fizică liceală/universitară); decuplarea nu este completă. Cele patru rute noi sunt aditive; publică asset-urile înaintea frontendului când va fi autorizat, fără a retrage rutele legacy încă necesare. **Fără deploy/APK/PR/merge**, fără test de AI live sau reparare declarată a traducerii APK.
+
+## Increment anterior 26 noiembrie 2026 — cererea de sursă unică
+
+Utilizatorul cere acum verificarea pachetelor rămase cuplate, decuplarea lor și păstrarea exclusiv a fișei în limba originală; traducerea este numai treaba motorului comun. Implementat un increment, **nu toate materiile**: 33 fișe comune de Științe, 92 legi/referințe și 28 cursuri de bază Chimie universitară, într-o singură sursă română, în patru JSON-uri `science/shared-v2`. Referințele și cursurile migrate nu mai sunt în HTML. Modulele sursă vechi sunt adaptoare la aceleași JSON-uri; nu mai regenerează copii RO/EN. Raport, măsurători, teste și inventarul restanțelor: `EDUCATION_SOURCE_PACKS_2026-11-26.md`; audit reproductibil: `node scripts/audit_education_coupling.mjs`.
+
+Rămân încă bănci încorporate și variante bilingve în alte module (inclusiv cazuri Fizică liceală și universitară); continuă migrarea pe consumatori, fără ștergerea materialelor naționale distincte sau a etichetelor UI. `astronomy_laws_reference.mjs` și `chemistry_university_core.mjs`, menționate ca restanțe mai jos în istoric, sunt acum migrate. Nu este migrare academică completă, reparare a traducerii din APK sau publicare. Teste mobile pe bundle cu traduceri simulate, cache/retry, staging și dry-run trecute; `test:ui`100/102 cu restanțele istorice. Limita HTML respectată:7.491.346 octeți în producție.
+
+**Compatibilitate la publicare:** v2 folosește alt URL/cache; asset-urile v1 nu mai sunt în repo/staging și clienții vechi ar pierde aceste rute după înlocuirea serviciului. Nu publica automat: păstrează separat artifactele/rutele legacy deja publicate până la upgrade/retragere, disponibilizează v2 înainte de frontendul compatibil și verifică rollback. Niciun deploy/APK/PR/merge executat. Traducerea reală raportată pe APK rămâne amânată conform utilizatorului.
+
+## Context anterior (istoric, nu declarație de finalizare)
 
 Utilizatorul a cerut ca toate pachetele din Educație să fie independente de aplicație. Ulterior a cerut explicit să verificăm acoperirea curriculară și să continuăm implementarea Literaturii, apoi Istorie, Geografie și Informatică; continuăm decuplarea în paralel, fără a pretinde că este completă. Conținutul nou al Literaturii se creează în pachete, nu în HTML. O modificare la conținut trebuie să poată fi publicată fără reconstruirea APK-ului. Compactarea HTML-ului nu este decuplare.
 

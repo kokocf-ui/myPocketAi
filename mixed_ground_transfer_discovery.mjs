@@ -47,8 +47,9 @@ export function normalizeGroundTransferCandidates(data,origin,category){
  return items;
 }
 export async function discoverGroundTransferCandidates(env,location,{
- radiusKm=110,limit=3,fetcher=fetch
+ radiusKm=110,limit=3,fetcher=fetch,signal=null
 }={}){
+ if(signal?.aborted)return {status:'search_timeout',candidates:[]};
  const p=geoPoint(location);
  if(!p)return {status:'location_unverified',candidates:[]};
  const key=String(env?.GEOAPIFY_API_KEY||'').trim();
@@ -64,7 +65,7 @@ export async function discoverGroundTransferCandidates(env,location,{
   url.searchParams.set('apiKey',key);
   try{
    const response=await fetcher(url,{headers:{Accept:'application/json'},
-    signal:AbortSignal.timeout(6500)});
+    signal:signal?AbortSignal.any([signal,AbortSignal.timeout(6500)]):AbortSignal.timeout(6500)});
    if(!response.ok)return {status:'provider_http_'+response.status,items:[]};
    return {status:'candidates_only',items:normalizeGroundTransferCandidates(
     await response.json(),p,category)};

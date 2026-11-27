@@ -1,17 +1,38 @@
+import {beforeTransitAbort} from './transit_deadline.mjs';
 // One provider-facing TfL journey API adapter shared by all backend entry paths.
 // No fabricated journeys; callers remain responsible for destination, walking
 // feasibility and transfer validation before showing a confirmed itinerary.
+// TfL supplies London wall times without an offset in many responses. They
+// must not be parsed in the phone/server timezone or rejected by ISO-only
+// mixed connectors. Ambiguous/nonexistent DST times remain unverified.
+export function normalizeTfLInstant(value){
+ if(typeof value!=='string')return null;
+ if(/(?:Z|[+-]\d{2}:\d{2})$/.test(value)){
+  const ms=Date.parse(value);return Number.isFinite(ms)?new Date(ms).toISOString():null;
+ }
+ const match=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})(?:\.\d+)?$/.exec(value);
+ if(!match)return null;
+ const wanted=match[1]+'T'+match[2],base=Date.parse(wanted+'Z');
+ if(!Number.isFinite(base))return null;
+ const formatter=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',
+  year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
+ const candidates=[0,60].map(offset=>base-offset*60000).filter(ms=>{
+  const p=Object.fromEntries(formatter.formatToParts(ms).map(part=>[part.type,part.value]));
+  return p.year+'-'+p.month+'-'+p.day+'T'+p.hour+':'+p.minute+':'+p.second===wanted;
+ });
+ return candidates.length===1?new Date(candidates[0]).toISOString():null;
+}
 export async function requestTfLJourneys({
  from,to,appKey,appId='',departureAt=null,requestedCount=3,
- auxiliary=false,modes='',fetcher=fetch
+ auxiliary=false,modes='',includeBusAlternative=false,fetcher=fetch,
+ budgetMs=12000,supplementaryBudgetMs=1800,signal:parentSignal=null
 }={}){
  if(!from||!to)return {journeys:[],responses:[],status:'not_configured',attempts:[]};
  const base=new URL('https://api.tfl.gov.uk/Journey/JourneyResults/'+from+'/to/'+to);
  if(appKey)base.searchParams.set('app_key',appKey);
  if(appKey&&appId)base.searchParams.set('app_id',appId);
- if(auxiliary){
-  if(modes)base.searchParams.set('mode',modes);
- }else{
+ if(modes)base.searchParams.set('mode',modes);
+ if(!auxiliary){
   base.searchParams.set('nationalSearch','true');
   base.searchParams.set('alternativeMetro','true');
   base.searchParams.set('alternativeRoute','true');
@@ -33,9 +54,17 @@ export async function requestTfLJourneys({
   }
  }
  const attempts=[],responses=[];
+ const controller=new AbortController(),signal=controller.signal;
+ const cancel=()=>controller.abort();parentSignal?.addEventListener('abort',cancel,{once:true});
+ if(parentSignal?.aborted)controller.abort();
+ const deadline=Date.now()+Math.max(1,Math.min(12000,Number(budgetMs)||12000));
+ let timer=setTimeout(()=>controller.abort(),Math.max(1,deadline-Date.now()));
+ try{
  const desired=Math.max(1,Math.min(4,Number(requestedCount)||3));
- const execute=async (preference='',relaxed=false,publicAccess=false)=>{
+ const execute=async (preference='',relaxed=false,publicAccess=false,modeOverride='')=>{
+  if(signal.aborted)return null;
   const u=new URL(base.toString());
+  if(modeOverride)u.searchParams.set('mode',modeOverride);
   if(publicAccess){u.searchParams.delete('app_key');u.searchParams.delete('app_id');}
   if(!auxiliary){
    u.searchParams.set('journeyPreference',preference||'leasttime');
@@ -46,28 +75,48 @@ export async function requestTfLJourneys({
    }
   }
   try{
-   const response=await fetcher(u.toString(),{
-    headers:{Accept:'application/json'},signal:AbortSignal.timeout(relaxed?8000:10000)
-   });
+   const response=await beforeTransitAbort(()=>fetcher(u.toString(),{
+    headers:{Accept:'application/json'},signal:AbortSignal.any([signal,AbortSignal.timeout(relaxed?8000:10000)])
+   }),signal,null);
+   if(!response){attempts.push({mode:modeOverride||modes||'all',status:'search_timeout'});return null;}
    if(!response.ok){
-    attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'http_'+response.status});
+    attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'http_'+response.status});
     return null;
    }
-   const data=await response.json();
+   const data=await beforeTransitAbort(()=>response.json(),signal,null);
+   if(signal.aborted){attempts.push({mode:modeOverride||modes||'all',status:'search_timeout'});return null;}
    if(!Array.isArray(data?.journeys)){
-    attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
+    attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
     return null;
    }
-   attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:'ok',count:data.journeys.length});
+   data.journeys=data.journeys.map(j=>({...j,
+    startDateTime:normalizeTfLInstant(j.startDateTime),arrivalDateTime:normalizeTfLInstant(j.arrivalDateTime),
+    legs:(Array.isArray(j.legs)?j.legs:[]).map(l=>({...l,
+     departureTime:normalizeTfLInstant(l.departureTime),arrivalTime:normalizeTfLInstant(l.arrivalTime)}))
+   }));
+   if((modeOverride||modes)==='bus')data.journeys=data.journeys.filter(j=>
+    Array.isArray(j.legs)&&j.legs.some(l=>l.mode?.name==='bus')&&
+    j.legs.every(l=>['bus','walking','walk'].includes(l.mode?.name)));
+   attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'ok',count:data.journeys.length});
    responses.push(data);
    return data;
   }catch(error){
-   attempts.push({preference:preference||'default',public:publicAccess||!appKey,status:String(error?.name||'network_error').slice(0,50)});
+   attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:String(error?.name||'network_error').slice(0,50)});
    return null;
   }
  };
- const primary=await execute(auxiliary?'':'leasttime');
- const authDenied=Boolean(appKey)&&['http_401','http_403'].includes(attempts.at(-1)?.status);
+ // One bounded bus-only query runs alongside the normal search. It does not
+ // relax validation or replace the fastest mixed-mode options.
+ const primaryPromise=execute(auxiliary?'':'leasttime');
+ const busPromise=includeBusAlternative&&!auxiliary&&!modes?execute('leasttime',false,false,'bus'):null;
+ const primary=await primaryPromise;
+ // Once useful routes exist, optional preferences/bus diversity must not hold
+ // the whole response hostage. Keep anything already received at cancellation.
+ if(responses.some(r=>r.journeys.length)){
+  clearTimeout(timer);
+  timer=setTimeout(()=>controller.abort(),Math.max(1,Math.min(deadline-Date.now(),Number(supplementaryBudgetMs)||1800)));
+ }
+ const authDenied=Boolean(appKey)&&attempts.some(a=>a.mode===(modes||'all')&&['http_401','http_403'].includes(a.status));
  if(authDenied){
   // TfL permits limited unauthenticated access. One bounded public attempt
   // can recover a deployment with a stale Worker API key; never bypass 429.
@@ -80,10 +129,14 @@ export async function requestTfLJourneys({
  if(appKey&&!auxiliary&&!authDenied&&!responses.some(r=>r.journeys.length)){
   await execute('leasttime',true);
  }
- const journeys=responses.flatMap(r=>r.journeys);
+ if(busPromise)await busPromise;
+ const seen=new Set();
+ const journeys=responses.flatMap(r=>r.journeys).filter(j=>{
+  const key=JSON.stringify(j);if(seen.has(key))return false;seen.add(key);return true;
+ });
  return {journeys,responses,attempts,status:journeys.length
   ?(attempts.some(a=>a.public&&a.count>0)?'ok_public':'ok'):
    attempts.some(a=>a.status==='ok')?'no_journeys_returned':
    attempts.at(-1)?.status||'request_failed'};
-
+ }finally{clearTimeout(timer);parentSignal?.removeEventListener('abort',cancel);controller.abort();}
 }

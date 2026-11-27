@@ -1,6 +1,7 @@
 // School examinations by jurisdiction; official-framework links and explicit limitations.
 // Exam examples are ORIGINAL practice materials, never official past papers or certified grading.
 export const EXAM_SUBJECTS=[
+  {id:"astronomy",ro:"Astronomie / astrofizică",en:"Astronomy / astrophysics",area:"science"},
   {
     "id": "romanian",
     "ro": "Limba și literatura română",
@@ -170,8 +171,7 @@ export const EXAM_SPECS=[
     "ro": "Bacalaureat",
     "en": "Baccalaureate",
     "grades": [
-      "12",
-      "13 seral"
+      "12"
     ],
     "subjects": [
       "romanian",
@@ -1047,10 +1047,14 @@ export const EXAM_SPECS=[
   "notice": "CAO gestionează multe candidaturi; selecția poate depinde de Leaving Certificate, cerințe ale programului și probe suplimentare."
 }
 ];
+// One Bac route: differences are by subject/profile, not a second exam for seral.
+// University course revision is not university admission and has no common
+// national examination syllabus or official automatic grading.
+EXAM_SPECS.push({country:'RO',id:'university-course',ro:'Examene universitare · recapitulare orientativă',en:'University course exams · advisory revision',grades:['uni-ba-1','uni-ba-2','uni-ba-3'],subjects:['romanian','math','physics','chemistry','biology','astronomy','history','geography','computing'],source:'https://www.aracis.ro/standarde-specifice-evaluare-pe-domenii-de-licenta/',advisory:true,notice:'Recapitulare pentru examenele disciplinelor de licență, nu admitere. Nu există o programă națională unică; tematica și evaluarea depind de facultate și de fișa disciplinei. Aplicații originale, acoperire parțială, nu barem oficial.'});
 export const EXAM_COUNTRY_CODES=["RO","GB-ENG","GB-SCT","GB-WLS","GB-NIR","FR","PL","PT","DE","ES","IT","NL","IE"];
 export const EXAM_SESSION_YEARS=[2026,2027,2028];
 export function examByCountry(country){return EXAM_SPECS.filter(e=>e.country===country)}
-export function examByGrade(country,grade){return examByCountry(country).filter(e=>e.grades.includes(String(grade)))}
+export function examByGrade(country,grade){return examByCountry(country).filter(e=>e.grades.includes(country==='RO'&&String(grade)==='13 seral'?'12':String(grade)))}
 export function examSubjects(exam){return (exam?.subjects||[]).map(id=>EXAM_SUBJECTS.find(s=>s.id===id)).filter(Boolean)}
 export function examProfile(country,examId,subjectId){const e=examByCountry(country).find(x=>x.id===examId);return e&&e.subjects.includes(subjectId)?{exam:e,subject:EXAM_SUBJECTS.find(x=>x.id===subjectId)}:null}
 export function examSourceStatus(exam,session){return !exam||exam.advisory?'orientative':Number(session)===2027?'framework-verified':'session-unverified'}

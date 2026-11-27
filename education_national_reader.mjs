@@ -1,3 +1,4 @@
+import {EDUCATION_LESSON_WORKSPACE_SCRIPT} from './education_lesson_workspace.mjs';
 // Browser-only opener for national-pack activities (History, Geography,
 // Computing). Serialized with an explicit `var` name: wrangler/esbuild renames
 // module-level declarations that are also used as browser globals elsewhere
@@ -47,4 +48,4 @@ function eduNationalShowMaterial(title,text,out,language){
  return true;
 }
 
-export const EDUCATION_NATIONAL_READER_SCRIPT='var eduNationalShowMaterial='+eduNationalShowMaterial.toString()+';';
+export const EDUCATION_NATIONAL_READER_SCRIPT=EDUCATION_LESSON_WORKSPACE_SCRIPT+'\nvar eduNationalShowMaterial='+eduNationalShowMaterial.toString()+';';

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {discoverMixedGroundOperators,normalizeMixedOperatorEvidence,
- discoverGroundCorridorCities,composeOfficialGroundConnections}
+ discoverGroundCorridorCities,composeOfficialGroundConnections,resolveMixedOriginLocality}
  from './mixed_ground_operator_discovery.mjs';
 const origin={label:'Mill Lane, Grays, England, UK',country_code:'GB',latitude:51.475,longitude:0.325};
 const destination={label:'Strada Nufărului 1, Oradea, România',country_code:'RO'};
@@ -189,3 +189,21 @@ assert.ok(!corridorCalls.some(x=>/Mill Lane|Nufărului/i.test(x)),
  'Never pass street-level private route endpoints to the search provider');
 
 console.log('PASS official coach route discovery, verified geography, indicative fare, zero fabricated transfers');
+
+for(const title of ['Cheap bus tickets from London to Oradea','Bus London to Oradea - Buy affordable tickets']){
+ const rows=normalizeMixedOperatorEvidence([{url:'https://global.flixbus.com/bus-routes/bus-london-oradea',title}],{origin,destination});
+ assert.equal(rows.length,1);assert.equal(rows[0].from,'London','Official FlixBus title formats must not turn advertising words into a city');
+}
+
+let reversedGPS=0;
+const gpsOrigin=await resolveMixedOriginLocality({GEOAPIFY_API_KEY:'fixture'},
+ {latitude:51.475,longitude:.325,label:'Locația telefonului (GPS)'},{fetcher:async()=>{
+  reversedGPS++;return Response.json({results:[{city:'Grays',country_code:'gb'}]});
+ }});
+assert.equal(gpsOrigin.city,'Grays','Localised GPS label is not a locality to send to train/coach search');
+assert.equal(reversedGPS,1);
+const denied=await discoverMixedGroundOperators({EXA_API_KEY:'fixture'},
+ {origin:{...origin,city:'Grays'},destination:{...destination,city:'Oradea'},
+ fetcher:async()=>new Response('{}',{status:402})});
+assert.deepEqual(denied.sourceErrors,['exa_http_402','exa_http_402']);
+assert.equal(denied.searchIncomplete,true,'A quota failure is not a completed negative search');

@@ -1,0 +1,792 @@
+{
+  "schema": "mypocket-practical-course/v1",
+  "id": "daily",
+  "sourceLanguage": "ro",
+  "version": "1865e083182080a9e0382228ffc03d86d90e9fff54b9dfaf7f14f3eeaf094d41",
+  "content": {
+    "course": {
+      "id": "daily",
+      "icon": "🏠",
+      "ro": "Viață practică",
+      "en": "Everyday practical skills",
+      "summary": "Planificare, reparații simple, consum, sănătate și siguranță.",
+      "unit": "daily",
+      "lessons": [
+        [
+          "Organizarea timpului",
+          "Prioritizează sarcinile după urgență și importanță; rezervă timp pentru pauze și imprevizibil. O listă scurtă de activități realizabile este mai utilă decât un program imposibil. Revizuiește ce s-a realizat și mută restul conștient.",
+          "Planifică o zi cu trei sarcini principale și perioade de rezervă.",
+          "Exemplu: programezi cumpărăturile înainte de pregătirea mesei și păstrezi timp pentru drum.",
+          "Ce caracterizează un plan realizabil?",
+          [
+            "Priorități, timp disponibil și pauze",
+            "Timp infinit",
+            "Toate sarcinile simultan",
+            "Nicio rezervă"
+          ],
+          0
+        ],
+        [
+          "Cumpărături și comparații",
+          "Compară prețuri raportate la aceeași unitate și verifică termenul, calitatea și nevoia reală. Un produs mai ieftin pe ambalaj nu este întotdeauna mai ieftin per kilogram sau litru. Nu face stocuri ce se pot altera doar pentru o reducere.",
+          "Calculează prețul per 100 g sau per litru pentru două produse.",
+          "Exemplu: 500 g la 3 costă 6 pe kilogram; 1 kg la 5 costă 5 pe kilogram.",
+          "Cum compari corect ambalaje diferite?",
+          [
+            "Preț pe aceeași unitate",
+            "Doar mărimea etichetei",
+            "Numărul de reclame",
+            "Doar culoarea cutiei"
+          ],
+          0
+        ],
+        [
+          "Întreținerea preventivă",
+          "Verificările vizuale și curățenia pot preveni probleme obișnuite, dar nu înlocuiesc reviziile obligatorii. Oprește intervenția dacă există risc electric, gaz, cădere sau substanțe periculoase și solicită personal calificat. Urmează instrucțiunile producătorului.",
+          "Construiește un calendar pentru activități sigure, neintruzive, precum verificarea filtrelor accesibile.",
+          "Exemplu: observi miros de gaz: te îndepărtezi, eviți acționarea întrerupătoarelor și apelezi serviciile competente.",
+          "Ce faci în cazul unui posibil pericol legat de gaze?",
+          [
+            "Urmezi procedurile de urgență și ceri ajutor specializat",
+            "Aprinzi un chibrit",
+            "Deschizi un aparat la întâmplare",
+            "Ignori situația"
+          ],
+          0
+        ],
+        [
+          "Alimente și igienă în bucătărie",
+          "Separă alimentele crude de cele gata de consum, curăță suprafețele și respectă recomandările oficiale pentru temperaturi și depozitare. Evită să deduci siguranța unui aliment doar din miros sau aspect. Pentru alergii, verifică ingredientele și contaminarea încrucișată.",
+          "Pregătește un plan de organizare a frigiderului și un checklist de igienă.",
+          "Exemplu: folosește ustensile separate sau spală-le adecvat între carne crudă și alimente gata de consum.",
+          "Ce previne contaminarea încrucișată?",
+          [
+            "Separarea alimentelor crude și gătite",
+            "Folosirea aceleiași tocătoare murdare",
+            "Păstrarea la cald necontrolat",
+            "Ignorarea alergiilor"
+          ],
+          0
+        ],
+        [
+          "Documente și servicii administrative",
+          "Păstrează copii necesare, expirările și confirmările într-un sistem organizat. Pentru permise, asigurări și documente de identitate consultă autoritățile competente și nu trimite fotografii sau numere personale către surse neconfirmate.",
+          "Construiește un registru cu tipul documentului, valabilitate, sursa oficială și data verificării.",
+          "Exemplu: primești o solicitare nesolicitată de fotografie a actului; verifică independent cine o cere și de ce.",
+          "Ce faci înainte de trimiterea unui document personal?",
+          [
+            "Verifici identitatea, scopul și canalul sigur",
+            "Îl publici pe internet",
+            "Îl trimiți oricui întreabă",
+            "Ignori protecția datelor"
+          ],
+          0
+        ],
+        [
+          "Pregătirea pentru situații neprevăzute",
+          "Un plan simplu include contacte de urgență, rute de ieșire, acces la medicamente prescrise și verificarea avertismentelor oficiale. Cunoaște numerele de urgență locale; ele diferă după jurisdicție. Nu încerca intervenții pentru care nu ai pregătire și nu expune alte persoane la risc.",
+          "Redactează un checklist de siguranță pentru locuință și revizuiește-l periodic.",
+          "Exemplu: în caz de incendiu, prioritatea este evacuarea și apelarea serviciilor competente, nu recuperarea obiectelor.",
+          "Care este prima prioritate într-un incendiu activ?",
+          [
+            "Siguranța oamenilor și evacuarea",
+            "Salvarea documentelor cu orice risc",
+            "Filmatul situației",
+            "Deschiderea tuturor aparatelor"
+          ],
+          0
+        ]
+      ],
+      "chapters": [
+        {
+          "id": "daily-1",
+          "level": "beginner",
+          "order": 1,
+          "title": "Organizarea timpului",
+          "theory": "Prioritizează sarcinile după urgență și importanță; rezervă timp pentru pauze și imprevizibil. O listă scurtă de activități realizabile este mai utilă decât un program imposibil. Revizuiește ce s-a realizat și mută restul conștient.",
+          "method": "Planifică o zi cu trei sarcini principale și perioade de rezervă.",
+          "caseStudy": "Exemplu: programezi cumpărăturile înainte de pregătirea mesei și păstrezi timp pentru drum.",
+          "question": {
+            "prompt": "Ce caracterizează un plan realizabil?",
+            "choices": [
+              "Priorități, timp disponibil și pauze",
+              "Timp infinit",
+              "Toate sarcinile simultan",
+              "Nicio rezervă"
+            ],
+            "correct": 0,
+            "explanation": "Planifică o zi cu trei sarcini principale și perioade de rezervă."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "daily-2",
+          "level": "beginner",
+          "order": 2,
+          "title": "Cumpărături și comparații",
+          "theory": "Compară prețuri raportate la aceeași unitate și verifică termenul, calitatea și nevoia reală. Un produs mai ieftin pe ambalaj nu este întotdeauna mai ieftin per kilogram sau litru. Nu face stocuri ce se pot altera doar pentru o reducere.",
+          "method": "Calculează prețul per 100 g sau per litru pentru două produse.",
+          "caseStudy": "Exemplu: 500 g la 3 costă 6 pe kilogram; 1 kg la 5 costă 5 pe kilogram.",
+          "question": {
+            "prompt": "Cum compari corect ambalaje diferite?",
+            "choices": [
+              "Preț pe aceeași unitate",
+              "Doar mărimea etichetei",
+              "Numărul de reclame",
+              "Doar culoarea cutiei"
+            ],
+            "correct": 0,
+            "explanation": "Calculează prețul per 100 g sau per litru pentru două produse."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "daily-3",
+          "level": "intermediate",
+          "order": 3,
+          "title": "Întreținerea preventivă",
+          "theory": "Verificările vizuale și curățenia pot preveni probleme obișnuite, dar nu înlocuiesc reviziile obligatorii. Oprește intervenția dacă există risc electric, gaz, cădere sau substanțe periculoase și solicită personal calificat. Urmează instrucțiunile producătorului.",
+          "method": "Construiește un calendar pentru activități sigure, neintruzive, precum verificarea filtrelor accesibile.",
+          "caseStudy": "Exemplu: observi miros de gaz: te îndepărtezi, eviți acționarea întrerupătoarelor și apelezi serviciile competente.",
+          "question": {
+            "prompt": "Ce faci în cazul unui posibil pericol legat de gaze?",
+            "choices": [
+              "Urmezi procedurile de urgență și ceri ajutor specializat",
+              "Aprinzi un chibrit",
+              "Deschizi un aparat la întâmplare",
+              "Ignori situația"
+            ],
+            "correct": 0,
+            "explanation": "Construiește un calendar pentru activități sigure, neintruzive, precum verificarea filtrelor accesibile."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "daily-4",
+          "level": "intermediate",
+          "order": 4,
+          "title": "Alimente și igienă în bucătărie",
+          "theory": "Separă alimentele crude de cele gata de consum, curăță suprafețele și respectă recomandările oficiale pentru temperaturi și depozitare. Evită să deduci siguranța unui aliment doar din miros sau aspect. Pentru alergii, verifică ingredientele și contaminarea încrucișată.",
+          "method": "Pregătește un plan de organizare a frigiderului și un checklist de igienă.",
+          "caseStudy": "Exemplu: folosește ustensile separate sau spală-le adecvat între carne crudă și alimente gata de consum.",
+          "question": {
+            "prompt": "Ce previne contaminarea încrucișată?",
+            "choices": [
+              "Separarea alimentelor crude și gătite",
+              "Folosirea aceleiași tocătoare murdare",
+              "Păstrarea la cald necontrolat",
+              "Ignorarea alergiilor"
+            ],
+            "correct": 0,
+            "explanation": "Pregătește un plan de organizare a frigiderului și un checklist de igienă."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "daily-5",
+          "level": "advanced",
+          "order": 5,
+          "title": "Documente și servicii administrative",
+          "theory": "Păstrează copii necesare, expirările și confirmările într-un sistem organizat. Pentru permise, asigurări și documente de identitate consultă autoritățile competente și nu trimite fotografii sau numere personale către surse neconfirmate.",
+          "method": "Construiește un registru cu tipul documentului, valabilitate, sursa oficială și data verificării.",
+          "caseStudy": "Exemplu: primești o solicitare nesolicitată de fotografie a actului; verifică independent cine o cere și de ce.",
+          "question": {
+            "prompt": "Ce faci înainte de trimiterea unui document personal?",
+            "choices": [
+              "Verifici identitatea, scopul și canalul sigur",
+              "Îl publici pe internet",
+              "Îl trimiți oricui întreabă",
+              "Ignori protecția datelor"
+            ],
+            "correct": 0,
+            "explanation": "Construiește un registru cu tipul documentului, valabilitate, sursa oficială și data verificării."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        },
+        {
+          "id": "daily-6",
+          "level": "advanced",
+          "order": 6,
+          "title": "Pregătirea pentru situații neprevăzute",
+          "theory": "Un plan simplu include contacte de urgență, rute de ieșire, acces la medicamente prescrise și verificarea avertismentelor oficiale. Cunoaște numerele de urgență locale; ele diferă după jurisdicție. Nu încerca intervenții pentru care nu ai pregătire și nu expune alte persoane la risc.",
+          "method": "Redactează un checklist de siguranță pentru locuință și revizuiește-l periodic.",
+          "caseStudy": "Exemplu: în caz de incendiu, prioritatea este evacuarea și apelarea serviciilor competente, nu recuperarea obiectelor.",
+          "question": {
+            "prompt": "Care este prima prioritate într-un incendiu activ?",
+            "choices": [
+              "Siguranța oamenilor și evacuarea",
+              "Salvarea documentelor cu orice risc",
+              "Filmatul situației",
+              "Deschiderea tuturor aparatelor"
+            ],
+            "correct": 0,
+            "explanation": "Redactează un checklist de siguranță pentru locuință și revizuiește-l periodic."
+          },
+          "practice": [
+            "Explică în propriile cuvinte regula de bază a lecției și indică un exemplu realist.",
+            "Rezolvă cazul practic de mai sus, cu pași numerotați și verificarea concluziei.",
+            "Construiește un checklist aplicabil unei situații reale, precizând ce trebuie verificat înainte de acțiune."
+          ]
+        }
+      ]
+    },
+    "syllabus": {
+      "id": "daily",
+      "intro": "Învățare practică pentru decizii casnice: organizarea timpului, compararea prețurilor, întreținere preventivă sigură, igienă alimentară, evidența documentelor și planificarea situațiilor neprevăzute. Nu înlocuiește instruirea profesională, autoritățile sau serviciile de urgență.",
+      "outcomes": [
+        "Planifici activități cu priorități și intervale realiste.",
+        "Compari costul produselor pe unități echivalente.",
+        "Recunoști riscuri și limite pentru lucrări casnice sau alimente.",
+        "Organizezi documente fără expunerea datelor și pregătești un plan de urgență."
+      ],
+      "project": "DOSAR DE ORGANIZARE — redactează un plan săptămânal realist, compară trei produse cu unități diferite, întocmește calendarul verificărilor nepericuloase, un checklist de igienă a bucătăriei, un registru fără date sensibile și un plan scurt de evacuare.",
+      "rubric": [
+        "Fiecare decizie este justificată prin cifre sau criterii.",
+        "Planul are priorități și rezerve de timp.",
+        "Riscurile sunt tratate conservator, cu trimitere către personal calificat.",
+        "Nu incluzi identificatori personali, date sensibile sau acțiuni periculoase."
+      ],
+      "prerequisite": "Nu sunt necesare calificări sau echipamente speciale; exercițiile sunt de planificare și evaluare."
+    },
+    "guides": {
+      "daily-1": {
+        "goal": "Să organizezi o zi pe priorități și timp disponibil.",
+        "steps": [
+          "Notează activitățile și termenele reale.",
+          "Separă activitățile urgente de cele importante, dar neurgente.",
+          "Estimează durata fiecăreia cu o marjă rezonabilă.",
+          "Planifică pauze și deplasări, nu numai munca efectivă.",
+          "Revizuiește la final ce trebuie mutat în ziua următoare."
+        ],
+        "model": [
+          "PLAN EXEMPLU",
+          "09:00–09:30: răspunsuri importante.",
+          "09:30–11:00: proiect principal.",
+          "11:00–11:15: pauză.",
+          "11:15–12:00: documente și verificări.",
+          "12:00–12:30: rezervă pentru întârzieri."
+        ],
+        "check": [
+          "Planul nu depășește orele disponibile.",
+          "Ai alocat timp pentru pauze.",
+          "Știi care sarcină trebuie finalizată întâi."
+        ],
+        "exercise": [
+          "Construiește un program cu trei obiective și duratele lor.",
+          "Reorganizează planul dacă apare o urgență de 45 de minute."
+        ]
+      },
+      "daily-2": {
+        "goal": "Să compari prețuri pe unitate și să alegi informat.",
+        "steps": [
+          "Notează cantitatea netă din fiecare ambalaj.",
+          "Transformă la o unitate comună: kilogram, litru sau 100 g.",
+          "Împarte prețul la cantitatea comparabilă.",
+          "Verifică termenul de valabilitate și cantitatea pe care o vei folosi.",
+          "Nu cumpăra un stoc mai mare doar pentru că prețul pe unitate este mai mic."
+        ],
+        "model": [
+          "COMPARAȚIE EXEMPLU",
+          "A: 500 g pentru 3 → 6/kg.",
+          "B: 1 kg pentru 5 → 5/kg.",
+          "B este mai ieftin per kg, dacă poți folosi produsul înainte de alterare.",
+          "Diferența: 1 per kilogram."
+        ],
+        "check": [
+          "Compari aceeași unitate și același tip de produs.",
+          "Verifici termenul și calitatea.",
+          "Ții cont de cantitatea necesară."
+        ],
+        "exercise": [
+          "Compară 750 ml la 4 cu 1 litru la 5.",
+          "Explică de ce produsul mai ieftin/kg nu este întotdeauna cea mai bună alegere."
+        ]
+      },
+      "daily-3": {
+        "goal": "Să organizezi întreținerea preventivă fără intervenții periculoase.",
+        "steps": [
+          "Citește instrucțiunile producătorului înainte de curățare sau verificare.",
+          "Întocmește o listă de controale vizuale și sarcini fără risc.",
+          "Notează reviziile obligatorii și cine are dreptul să le execute.",
+          "Oprește activitatea și apelează serviciile competente la miros de gaz, cabluri avariate sau risc de incendiu.",
+          "Păstrează dovada verificărilor și urmărește problemele recurente."
+        ],
+        "model": [
+          "CALENDAR EXEMPLU",
+          "Săptămânal: verificare vizuală și curățenie obișnuită.",
+          "Lunar: revizuirea filtrelor accesibile doar dacă manualul permite.",
+          "La termen: service și inspecții efectuate de persoane calificate.",
+          "Incident: oprire, îndepărtare din zonă și apel la specialist."
+        ],
+        "check": [
+          "Nu improvizezi la instalații periculoase.",
+          "Ai acces la instrucțiunile aparatului.",
+          "Știi pe cine contactezi când există un risc."
+        ],
+        "exercise": [
+          "Construiește un calendar pentru trei activități sigure.",
+          "Descrie diferența dintre observație vizuală și reparație tehnică."
+        ]
+      },
+      "daily-4": {
+        "goal": "Să previi contaminarea alimentelor în bucătărie.",
+        "steps": [
+          "Separă produsele crude de alimentele gata de consum.",
+          "Spală mâinile, suprafețele și ustensilele după sarcini cu risc de contaminare.",
+          "Respectă instrucțiunile oficiale de temperatură și depozitare corespunzătoare produsului.",
+          "Verifică ingredientele când există alergii și previne contaminarea încrucișată.",
+          "Nu presupune că un aliment este sigur doar pentru că arată sau miroase bine."
+        ],
+        "model": [
+          "CHECKLIST BUCĂTĂRIE",
+          "Înainte: suprafețe curate, mâini spălate, ingrediente verificate.",
+          "În timpul pregătirii: tocător separat pentru produse crude.",
+          "După: curățare, depozitare în condițiile recomandate, eliminarea riscurilor.",
+          "Pentru alergii: verificare etichete și ustensile."
+        ],
+        "check": [
+          "Ingredientele și alergiile sunt verificate.",
+          "Crudul este separat de produsele gata de consum.",
+          "Nu ignori instrucțiunile de păstrare."
+        ],
+        "exercise": [
+          "Construiește un flux de lucru pentru pregătirea unei salate și a cărnii crude.",
+          "Identifică trei puncte unde poate apărea contaminarea încrucișată."
+        ]
+      },
+      "daily-5": {
+        "goal": "Să ții o evidență minimă, sigură și actuală a documentelor.",
+        "steps": [
+          "Listează documentele utile și instituția emitentă.",
+          "Notează separat data expirării și unde verifici informația.",
+          "Folosește nume neutre de fișiere și protejează copii digitale cu acces limitat.",
+          "Nu publica documente cu identificatori personali sau fotografii de acte.",
+          "Pentru reînnoire, consultă instituția competentă din țara selectată."
+        ],
+        "model": [
+          "REGISTRU MODEL — fără date personale",
+          "Document: permis de conducere | expirare: [completezi local].",
+          "Instituție: autoritatea emitentă.",
+          "Acțiune: verificare termen în portalul oficial.",
+          "Fișier: Permis_valabilitate_verificare.pdf.",
+          "Nu stoca parole, coduri sau identificatori în acest exemplu."
+        ],
+        "check": [
+          "Nu păstrezi în clar date sensibile în liste partajate.",
+          "Expirările sunt verificate la autoritățile competente.",
+          "Ai copii de siguranță protejate."
+        ],
+        "exercise": [
+          "Creează o listă de documente fără numere sau date personale.",
+          "Stabilește când trebuie verificată expirarea fiecărui document."
+        ]
+      },
+      "daily-6": {
+        "goal": "Să pregătești un plan de reacție la evenimente neprevăzute.",
+        "steps": [
+          "Identifică ieșirile, punctul de întâlnire și persoanele care au nevoie de sprijin.",
+          "Notează modalitatea de a apela numărul local de urgență fără a inventa unul.",
+          "Pregătește contacte importante și obiecte esențiale accesibile.",
+          "Exersează mental ordinea priorităților: viață, evacuare, apel către servicii competente.",
+          "Revizuiește planul când se schimbă locuința sau membrii gospodăriei."
+        ],
+        "model": [
+          "PLAN DE BAZĂ EXEMPLU",
+          "Risc: incendiu într-o locuință.",
+          "Prioritate: părăsirea zonei periculoase, fără întoarcere după bunuri.",
+          "Punct de întâlnire: loc sigur ales de familie.",
+          "Apel: numărul de urgență valabil în zona respectivă.",
+          "Verificare: nimeni nu intră înapoi înainte de intervenția autorităților."
+        ],
+        "check": [
+          "Persoanele cunosc traseul de ieșire.",
+          "Contactele și procedurile sunt actualizate.",
+          "Nu sunt sugerate intervenții periculoase pentru persoane nepregătite."
+        ],
+        "exercise": [
+          "Redactează un checklist de evacuare pentru o situație fictivă.",
+          "Identifică trei acțiuni care ar crește riscul și trebuie evitate."
+        ]
+      }
+    },
+    "depth": {
+      "daily-1": [
+        [
+          "Priorități reale",
+          "Urgent nu înseamnă automat important. Grupează sarcinile după consecințele întârzierii și rezultatul urmărit. Alege un număr realist de obiective pentru zi și păstrează loc pentru evenimente neprevăzute."
+        ],
+        [
+          "Durata completă",
+          "O activitate poate include pregătire, deplasare, executare și verificare. Dacă notezi numai timpul efectiv de lucru, programul poate deveni imposibil. Adaugă pauze și intervale de rezervă."
+        ],
+        [
+          "Revizuirea planului",
+          "La final compară ce ai programat cu ce ai realizat. Nu ascunde blocajele, ci identifică ce a durat mai mult și ce poate fi amânat fără consecințe serioase. Folosește observațiile pentru planificarea următoare."
+        ]
+      ],
+      "daily-2": [
+        [
+          "Unitatea comună",
+          "Două ambalaje trebuie comparate în kilograme, litri sau altă unitate relevantă. De exemplu, 500 g la preț 3 înseamnă 6 pe kilogram. Dacă ai un ambalaj de 1 kg la 5, acesta are preț unitar mai mic."
+        ],
+        [
+          "Calitatea și folosirea",
+          "Un ambalaj mare poate fi mai ieftin pe unitate, dar inutil dacă produsul se alterează înainte de consum. Compară ingredientele, calitatea și cantitatea necesară, nu doar eticheta promoțională."
+        ],
+        [
+          "Costuri asociate",
+          "Transportul, taxele sau alte condiții pot schimba costul real. Nu presupune că două produse au caracteristici identice numai pentru că numele seamănă. Notează ipotezele comparației."
+        ]
+      ],
+      "daily-3": [
+        [
+          "Întreținerea preventivă",
+          "Verificările vizuale și curățenia permisă de producător pot ajuta la identificarea problemelor devreme. Stabilește un calendar simplu pentru activități sigure și pentru reviziile care necesită personal calificat."
+        ],
+        [
+          "Semnale de oprire",
+          "Cablurile deteriorate, mirosul de gaz sau instalațiile instabile nu sunt exerciții de bricolaj. Îndepărtează-te din zona de risc și contactează persoanele competente conform procedurilor locale. Nu desface aparate pentru a investiga fără pregătire."
+        ],
+        [
+          "Registrul verificărilor",
+          "Notează data, ce ai observat și acțiunea recomandată, fără concluzii tehnice inventate. Păstrează separat dovezile reviziilor profesionale obligatorii. O evidență clară permite identificarea problemelor care reapar și verificarea termenelor reale de întreținere."
+        ]
+      ],
+      "daily-4": [
+        [
+          "Contaminarea încrucișată",
+          "Microorganismele pot trece de la alimente crude la cele gata de consum prin mâini, suprafețe și ustensile. Separă aceste activități și curăță corect zonele de lucru. Aspectul sau mirosul normal nu garantează siguranța alimentelor."
+        ],
+        [
+          "Depozitare și temperaturi",
+          "Respectă instrucțiunile valabile pentru tipul de aliment și recomandările autorității de siguranță alimentară. Nu atribui aceeași temperatură tuturor alimentelor. Într-un exercițiu notează ce date trebuie verificate înainte de depozitare."
+        ],
+        [
+          "Alergeni",
+          "O alergie alimentară poate impune evitarea unor ingrediente și a contaminării încrucișate. Citește etichetele și folosește ustensile adecvate; nu presupune siguranța pe baza unei rețete generale."
+        ]
+      ],
+      "daily-5": [
+        [
+          "Ce merită urmărit",
+          "Un registru administrativ poate conține tipul actului, instituția emitentă, termenul de valabilitate și data verificării, fără copierea numerelor personale. Separă fișele de evidență de copiile documentelor."
+        ],
+        [
+          "Confidențialitate",
+          "Nu publica fotografii de acte și nu trimite date către solicitări neverificate. Folosește acces limitat, păstrare sigură și copii de rezervă adecvate. În curs lucrează numai cu exemple fictive."
+        ],
+        [
+          "Reguli locale",
+          "Pașii de reînnoire, termenele și documentele necesare diferă după țară și tipul actului. Consultă autoritatea emitentă, nu un link generic și nu o procedură veche."
+        ]
+      ],
+      "daily-6": [
+        [
+          "Prioritatea este siguranța",
+          "Un plan de urgență trebuie să pună viața și evacuarea înaintea recuperării bunurilor. Identifică ieșirile și un punct de întâlnire sigur. Evită intervenții pentru care nu ai pregătire."
+        ],
+        [
+          "Contacte și adaptare",
+          "Verifică numărul local de urgență și stabilește cum poate primi ajutor fiecare membru al gospodăriei. Persoanele cu nevoi de mobilitate sau tratamente indispensabile pot necesita adaptări speciale. Nu presupune că același plan este potrivit tuturor."
+        ],
+        [
+          "Exersare și actualizare",
+          "Revizuiește periodic traseele și datele de contact. Un exercițiu pe hârtie poate identifica obstacole fără să creeze un pericol real. Nu transforma o simulare într-o situație riscantă."
+        ]
+      ]
+    },
+    "workshops": [
+      {
+        "id": "daily-1",
+        "title": "O zi cu marjă",
+        "minutes": 25,
+        "scenario": "Ai între 16:00 și 19:00 trei sarcini: deplasare 30 minute, cumpărături 45 și pregătirea documentelor 40. Adaugă pauză și marjă pentru întârzieri.",
+        "artifact": "Orar realist cu priorități și rezervă de timp",
+        "template": "Interval disponibil:\nSarcini și durate:\nOrdine și dependențe:\nPauză:\nMarjă pentru întârzieri:\nCe amân dacă se depășește timpul:",
+        "mistake": "Nu planifica fiecare minut ca și cum deplasarea și întreruperile nu ar exista.",
+        "transfer": "O întârziere consumă 25 minute. Arată concret ce păstrezi și ce reprogramezi.",
+        "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+        "tools": [
+          "Caiet local",
+          "Calculator simplu, unde este necesar",
+          "Instrucțiuni oficiale, fără simulări periculoase"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Orar realist cu priorități și rezervă de timp”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Câte minute rămân după cele trei sarcini, înainte de pauză și marjă?",
+          "answer": 65,
+          "explanation": "Intervalul are 180 minute; 30 + 45 + 40 = 115; rămân 65 pentru pauză, marjă sau alte nevoi."
+        }
+      },
+      {
+        "id": "daily-2",
+        "title": "Preț pe aceeași unitate",
+        "minutes": 30,
+        "scenario": "Pachetul A are 750 g la 9 unități monetare; B are 1,2 kg la 15. Comparăm același tip de produs, fără alte costuri în scenariu.",
+        "artifact": "Comparație de preț unitar și cantitate utilă",
+        "template": "Pachet | Cantitate în kg | Preț | Preț/kg\nA:\nB:\nCantitatea de care am nevoie:\nPierderi posibile:\nAlegere și motiv:",
+        "mistake": "Pachetul mai mare nu este automat mai ieftin și nici mai potrivit dacă nu îl folosești integral.",
+        "transfer": "Adaugă o taxă de livrare la unul dintre produse și discută alegerea după costul total și cantitatea necesară.",
+        "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+        "tools": [
+          "Caiet local",
+          "Calculator simplu, unde este necesar",
+          "Instrucțiuni oficiale, fără simulări periculoase"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Comparație de preț unitar și cantitate utilă”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "number",
+          "question": "Cât costă un kilogram din pachetul A?",
+          "answer": 12,
+          "explanation": "9 / 0,75 = 12 unități/kg; B costă 15 / 1,2 = 12,5 unități/kg. A este mai ieftin pe kg în acest scenariu."
+        }
+      },
+      {
+        "id": "daily-3",
+        "title": "Întreținere fără intervenții periculoase",
+        "minutes": 35,
+        "scenario": "Observi la exterior un cablu deteriorat al unui aparat. Nu îl porni, nu îl desfă și nu încerca repararea. Îndepărtarea de surse de energie trebuie făcută numai dacă este sigură, fără atingerea părții deteriorate.",
+        "artifact": "Registru de observații și solicitare de service",
+        "template": "Aparat fictiv:\nSimptom observat fără testare:\nAcțiuni de oprire a utilizării:\nCe NU fac:\nManual / service autorizat de contactat:\nCe informații neconfidențiale transmit:",
+        "mistake": "Nu „verifica dacă mai merge” un aparat cu deteriorare vizibilă și nu improviza reparații electrice.",
+        "transfer": "Separă în registru curățarea exterioară permisă de manual de intervențiile care trebuie lăsate specialistului.",
+        "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+        "tools": [
+          "Caiet local",
+          "Calculator simplu, unde este necesar",
+          "Instrucțiuni oficiale, fără simulări periculoase"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Registru de observații și solicitare de service”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Care este alegerea sigură?",
+          "choices": [
+            "Oprești utilizarea și soliciți evaluare competentă, fără intervenție",
+            "Îl pornești ca să confirmi defectul",
+            "Acoperi defectul și continui"
+          ],
+          "correct": 0,
+          "explanation": "Deteriorarea vizibilă este suficientă pentru oprirea utilizării. Instruirea practică de aici nu autorizează reparații electrice."
+        }
+      },
+      {
+        "id": "daily-4",
+        "title": "Separare și igienă",
+        "minutes": 40,
+        "scenario": "Într-un scenariu de hârtie ai alimente crude ambalate, o salată gata de consum și ustensile comune. Nu se gătește și nu se testează alimente suspecte.",
+        "artifact": "Plan de prevenire a contaminării încrucișate",
+        "template": "Produse crude, separate:\nAlimente gata de consum:\nOrdinea operațiunilor:\nUstensile și suprafețe:\nIgiena mâinilor:\nCe verific pe etichetă și în sursele oficiale:\nCând nu folosesc produsul:",
+        "mistake": "Aspectul sau mirosul nu garantează siguranța alimentelor. Nu folosi aceeași ustensilă neigienizată pentru crud și gata de consum.",
+        "transfer": "Adaugă în plan o alergie declarată și explică de ce nu poți garanta lipsa alergenului fără verificarea ingredientelor și a contactului încrucișat.",
+        "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+        "tools": [
+          "Caiet local",
+          "Calculator simplu, unde este necesar",
+          "Instrucțiuni oficiale, fără simulări periculoase"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Plan de prevenire a contaminării încrucișate”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce acțiune previne mai bine contaminarea încrucișată?",
+          "choices": [
+            "Separarea și igienizarea adecvată a ustensilelor și suprafețelor",
+            "Aceeași placă de lucru necurățată pentru toate alimentele",
+            "Gustarea produsului suspect"
+          ],
+          "correct": 0,
+          "explanation": "Separarea produselor și igiena reduc contaminarea încrucișată. Temperaturile și condițiile concrete se verifică în recomandările oficiale și pe etichetă."
+        }
+      },
+      {
+        "id": "daily-5",
+        "title": "Pregătește cererea, nu trimite date",
+        "minutes": 45,
+        "scenario": "Pentru o solicitare administrativă fictivă ai nevoie să afli instituția, formularul și termenul. Nu folosi CNP, copii de acte sau parole în exercițiu.",
+        "artifact": "Listă de documente și jurnal al solicitării",
+        "template": "Scopul cererii:\nInstituție competentă de verificat:\nCanal oficial independent:\nFormular și versiune:\nDocumente solicitate oficial:\nTermen confirmat / necunoscut:\nNumăr fictiv de înregistrare:\nDovadă de depunere:",
+        "mistake": "Nu deduce lista obligatorie dintr-o postare neoficială și nu plăti într-un cont primit prin mesaj neverificat.",
+        "transfer": "Creează un mesaj scurt prin care ceri clarificarea unui document lipsă, fără date personale.",
+        "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+        "tools": [
+          "Caiet local",
+          "Calculator simplu, unde este necesar",
+          "Instrucțiuni oficiale, fără simulări periculoase"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Listă de documente și jurnal al solicitării”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce dovadă păstrezi după o depunere reală prin canal oficial?",
+          "choices": [
+            "Confirmarea sau numărul de înregistrare, în spațiu sigur",
+            "Doar o amintire a zilei",
+            "Parola contului într-un grup public"
+          ],
+          "correct": 0,
+          "explanation": "Confirmarea permite urmărirea solicitării. În caiet folosim numai un număr fictiv, nu documente reale."
+        }
+      },
+      {
+        "id": "daily-6",
+        "title": "Plan pentru o situație neprevăzută",
+        "minutes": 50,
+        "scenario": "Elaborezi pe hârtie un plan de gospodărie pentru întreruperea comunicațiilor și evacuarea cerută de autorități. Nu simula fizic un incendiu și nu te expune riscului.",
+        "artifact": "Plan de contacte, loc de întâlnire și responsabilități",
+        "template": "Riscul discutat:\nInstrucțiuni oficiale de verificat:\nTraseu și alternativă sigură:\nLoc de întâlnire:\nResponsabilități și nevoi speciale:\nContacte fictive / sursă sigură:\nCe NU încerc:\nDată de revizuire:",
+        "mistake": "Nu reintra într-o zonă periculoasă pentru obiecte și nu substitui acest plan instrucțiunilor serviciilor de urgență.",
+        "transfer": "Revizuiește planul pentru o persoană cu mobilitate redusă: precizează ce ajutor competent trebuie organizat din timp.",
+        "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+        "tools": [
+          "Caiet local",
+          "Calculator simplu, unde este necesar",
+          "Instrucțiuni oficiale, fără simulări periculoase"
+        ],
+        "evidence": [
+          {
+            "id": "artifact",
+            "text": "Am produs livrabila „Plan de contacte, loc de întâlnire și responsabilități”, nu doar am recitit teoria."
+          },
+          {
+            "id": "reason",
+            "text": "Am explicat o alegere prin datele concrete ale scenariului și am notat ce lipsește."
+          },
+          {
+            "id": "check",
+            "text": "Am verificat rezultatul față de exemplul explicat și am corectat greșelile observate."
+          },
+          {
+            "id": "safety",
+            "text": "Am respectat limita de siguranță și confidențialitate a acestui exercițiu."
+          }
+        ],
+        "checkpoint": {
+          "type": "choice",
+          "question": "Ce faci când autoritățile dispun evacuarea?",
+          "choices": [
+            "Urmezi instrucțiunile lor fără a reintra pentru bunuri",
+            "Te întorci pentru obiecte uitate",
+            "Testezi singur o intervenție periculoasă"
+          ],
+          "correct": 0,
+          "explanation": "Protejarea vieții și instrucțiunile autorităților au prioritate. Planul didactic nu este instruire de salvator sau prim ajutor certificat."
+        }
+      }
+    ],
+    "pathway": {
+      "title": "DOSAR DE ORGANIZARE",
+      "principle": "Mai întâi înțelegi exemplul, apoi produci o lucrare, verifici și explici decizia. Nu este suficient să memorezi răspunsuri.",
+      "safety": "Exerciții de planificare, nu intervenții de urgență, reparații, diagnostic sau certificare de igienă. Nu exersa situații care ar putea produce vătămare.",
+      "tools": [
+        "Caiet local",
+        "Calculator simplu, unde este necesar",
+        "Instrucțiuni oficiale, fără simulări periculoase"
+      ],
+      "finalTemplate": "Scopul dosarului:\nContext fictiv și limite:\n1. Livrabila capitolului 1 și concluzia:\n2. Livrabila capitolului 2 și concluzia:\n3. Livrabila capitolului 3 și concluzia:\n4. Livrabila capitolului 4 și concluzia:\n5. Livrabila capitolului 5 și concluzia:\n6. Livrabila capitolului 6 și concluzia:\nCe am corectat după verificare:\nRiscuri / informații care trebuie verificate de un specialist:\nCe voi aplica mai departe în siguranță:"
+    }
+  }
+}

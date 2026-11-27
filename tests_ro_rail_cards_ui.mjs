@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import vm from 'node:vm';
+import app from './index.js';
 
 const source=readFileSync('index.js','utf8');
 const from=source.indexOf('function isRomanianRailJourney(');
@@ -37,13 +38,16 @@ const context={
  formatTravelDurationMinutes:min=>min+' min',
  transitModeName:mode=>mode==='train'?'Tren':mode,
  transitLineLabel:leg=>(leg.lineNames||[]).join(', '),
+ appendTransitStopCount(){},appendTransportTicketAction(){},
  mixedOperatorName:name=>{const el=createElement('a');el.textContent=String(name);return el},
  validTransitBoardingStop:stop=>Boolean(stop?.latitude&&stop?.longitude),
  dialogText:(ro,en)=>ro,closeAnswerReader(){},selectTransitJourney(){},
  $:()=>({classList:{add(){}},setAttribute(){}}),transitAccessText:()=>['Variante']
 };
 vm.createContext(context);
-vm.runInContext(fragment+';globalThis.rail={isRomanianRailJourney,appendRomanianRailCards,appendRomanianRailDetails};',context);
+const generated=await(await app.fetch(new Request('https://test.local/'))).text();
+const executable=generated.slice(generated.indexOf('function isRomanianRailJourney('),generated.indexOf('function appendTransitCards('));
+vm.runInContext(executable+';globalThis.rail={isRomanianRailJourney,appendRomanianRailCards,appendRomanianRailDetails};',context);
 const leg={mode:'train',from:'București Nord Gr.A',to:'Brașov',
  departureTime:'2026-11-12T04:41:00.000Z',arrivalTime:'2026-11-12T07:15:00.000Z',
  lineNames:['IR 1535'],operator:'CFR Călători'};

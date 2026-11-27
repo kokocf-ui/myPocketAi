@@ -12,10 +12,10 @@ assert.ok(frontend.includes('mixed_composition:choice.mixedComposition||undefine
 assert.ok(form.includes('mixedJourney:true,transitDirect:true,mixedComposition:true'));
 // Rail, coach and ferry transfer nodes must be discovered independently
 // of flight providers, even when a direct public-transport route exists.
-assert.ok(backend.includes('discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:2})'));
-assert.ok(backend.includes('discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:2})'));
-assert.ok(backend.includes('discoverAirportCandidates(env,start,{radiusKm:240,limit:12})'));
-assert.ok(backend.includes('discoverAirportCandidates(env,end,{radiusKm:240,limit:12})'));
+assert.ok(backend.includes('discoverGroundTransferCandidates(env,start,{radiusKm:140,limit:3,signal:request.signal})'));
+assert.ok(backend.includes('discoverGroundTransferCandidates(env,end,{radiusKm:140,limit:3,signal:request.signal})'));
+assert.ok(!backend.includes('discoverAirportCandidates(env,start,{radiusKm:240,limit:12})'),'Surface graph does not spend hub slots on airports');
+assert.ok(backend.includes('makeLocalMixedSource({planner:localPointPlanner'),'Graph uses the ordinary local journey pipeline for terminal links');
 assert.ok(backend.includes('originGround.candidates||[]'));
 assert.ok(backend.includes('destinationGround.candidates||[]'));
 assert.ok(backend.includes("mixedHubRole:'origin_access'"));
