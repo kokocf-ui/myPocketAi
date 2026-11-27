@@ -15,6 +15,7 @@ import tempfile
 import urllib.request
 import zipfile
 from collections import defaultdict, deque
+from open_surface_timetable import plan_candidates
 
 FEED_URL = "https://gtfs.gis.flix.tech/gtfs_generic_eu.zip"
 SOURCE_URL = "https://transport.data.gouv.fr/datasets/flixbus-horaires-theoriques-du-reseau-europeen-1"
@@ -51,7 +52,7 @@ def load_feed(path):
     return feed
 
 
-def inspect(feed, origin, destination, origin_radius=80000, destination_radius=40000):
+def inspect(feed, origin, destination, origin_radius=80000, destination_radius=40000, departure_at=None):
     stops = {s["stop_id"]: s for s in feed["stops"]}
     routes = {r["route_id"]: r for r in feed["routes"]}
     trips = {t["trip_id"]: t for t in feed["trips"]}
@@ -106,13 +107,16 @@ def inspect(feed, origin, destination, origin_radius=80000, destination_radius=4
                     "from": stops[sid]["stop_name"], "to": stops[to_id]["stop_name"],
                     "line": route.get("route_short_name"), "routeType": route.get("route_type")}
             queue.append((to_id, path + [item], visited | {to_id}))
-    return {"source": SOURCE_URL, "download": FEED_URL, "licence": "ODbL-1.0 + PAN specific conditions",
+    report = {"source": SOURCE_URL, "download": FEED_URL, "licence": "ODbL-1.0 + PAN specific conditions",
             "counts": {key: len(value) for key, value in feed.items()},
             "agencies": [{k: a.get(k) for k in ("agency_id", "agency_name", "agency_timezone")} for a in feed["agency"]],
             "feedInfo": feed["feed_info"], "originStops": starts[:8], "destinationStops": ends[:8],
             "originStopCount": len(starts), "destinationStopCount": len(ends),
             "surfacePaths": found, "topologyOnly": True, "timetableAligned": False,
             "accessVerified": False, "egressVerified": False, "seatOrFareVerified": False}
+    if departure_at:
+        report["datedSearch"] = plan_candidates(feed, starts, ends, departure_at)
+    return report
 
 
 def download(path):
@@ -132,6 +136,7 @@ def download(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--file", type=pathlib.Path)
+    parser.add_argument("--departure-at")
     parser.add_argument("--origin", nargs=2, type=float, required=True)
     parser.add_argument("--destination", nargs=2, type=float, required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
@@ -140,7 +145,7 @@ def main():
         path = args.file or pathlib.Path(tmp) / "operator.zip"
         if not args.file:
             download(path)
-        report = inspect(load_feed(path), args.origin, args.destination)
+        report = inspect(load_feed(path), args.origin, args.destination, departure_at=args.departure_at)
         with open(path, "rb") as source:
             report["sha256"] = hashlib.file_digest(source, "sha256").hexdigest()
         args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -148,7 +153,9 @@ def main():
         print(json.dumps(report, ensure_ascii=False))
         # Check annotations are readable via GitHub API even when log download
         # redirects are blocked in the coding sandbox. No secrets/private input.
-        for key in ("counts", "agencies", "feedInfo", "originStops", "destinationStops", "surfacePaths"):
+        for key in ("counts", "agencies", "feedInfo", "originStops", "destinationStops", "surfacePaths", "datedSearch"):
+            if key not in report:
+                continue
             value = json.dumps(report[key], ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
             print("::notice title=open-gtfs-" + key + "::" + value)
 
