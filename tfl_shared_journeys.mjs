@@ -2,6 +2,26 @@ import {beforeTransitAbort} from './transit_deadline.mjs';
 // One provider-facing TfL journey API adapter shared by all backend entry paths.
 // No fabricated journeys; callers remain responsible for destination, walking
 // feasibility and transfer validation before showing a confirmed itinerary.
+// TfL supplies London wall times without an offset in many responses. They
+// must not be parsed in the phone/server timezone or rejected by ISO-only
+// mixed connectors. Ambiguous/nonexistent DST times remain unverified.
+export function normalizeTfLInstant(value){
+ if(typeof value!=='string')return null;
+ if(/(?:Z|[+-]\d{2}:\d{2})$/.test(value)){
+  const ms=Date.parse(value);return Number.isFinite(ms)?new Date(ms).toISOString():null;
+ }
+ const match=/^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2})(?:\.\d+)?$/.exec(value);
+ if(!match)return null;
+ const wanted=match[1]+'T'+match[2],base=Date.parse(wanted+'Z');
+ if(!Number.isFinite(base))return null;
+ const formatter=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/London',
+  year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hourCycle:'h23'});
+ const candidates=[0,60].map(offset=>base-offset*60000).filter(ms=>{
+  const p=Object.fromEntries(formatter.formatToParts(ms).map(part=>[part.type,part.value]));
+  return p.year+'-'+p.month+'-'+p.day+'T'+p.hour+':'+p.minute+':'+p.second===wanted;
+ });
+ return candidates.length===1?new Date(candidates[0]).toISOString():null;
+}
 export async function requestTfLJourneys({
  from,to,appKey,appId='',departureAt=null,requestedCount=3,
  auxiliary=false,modes='',includeBusAlternative=false,fetcher=fetch,
@@ -69,6 +89,11 @@ export async function requestTfLJourneys({
     attempts.push({mode:modeOverride||modes||'all',preference:preference||'default',public:publicAccess||!appKey,status:'invalid_response'});
     return null;
    }
+   data.journeys=data.journeys.map(j=>({...j,
+    startDateTime:normalizeTfLInstant(j.startDateTime),arrivalDateTime:normalizeTfLInstant(j.arrivalDateTime),
+    legs:(Array.isArray(j.legs)?j.legs:[]).map(l=>({...l,
+     departureTime:normalizeTfLInstant(l.departureTime),arrivalTime:normalizeTfLInstant(l.arrivalTime)}))
+   }));
    if((modeOverride||modes)==='bus')data.journeys=data.journeys.filter(j=>
     Array.isArray(j.legs)&&j.legs.some(l=>l.mode?.name==='bus')&&
     j.legs.every(l=>['bus','walking','walk'].includes(l.mode?.name)));

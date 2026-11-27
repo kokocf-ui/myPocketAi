@@ -90,3 +90,83 @@ No promise of arbitrary airport/terminal coverage is made.
 
 HERE usage0/max2 unchanged and disabled, no Oracle/main merge/production frontend
 deploy, no subscription, no new provider activation or paid fallback.
+
+
+## Actual open feed investigation and local-date repair (subsequent stage)
+
+### Real source evidence, not fixtures
+
+Official static dataset: https://gtfs.gis.flix.tech/gtfs_generic_eu.zip
+Publisher page: https://transport.data.gouv.fr/datasets/flixbus-horaires-theoriques-du-reseau-europeen-1
+Downloaded in Actions runs 45985222438, 45985522457 and 45985736746.
+Actual counts: 2072 stops, 1224 routes, 41333 trips, 284106 stop_times;
+feed validity 2026-11-23 through 2027-05-23. Agencies FlixBus-eu and FlixTrain-eu
+specify UTC. ODbL plus PAN particular conditions must be respected before
+redistributing an index/database (attribution and applicable share-alike).
+
+The Python diagnostic planner uses service calendars/exceptions, service-day
+GTFS times including >24h, stop order, pickup/dropoff restrictions where given,
+agency timezone and minimum 45-minute same-source-stop transfers. It is NOT
+integrated into application routing. Eleven Python tests pass; these supplement,
+not replace, the actual downloaded-source observations.
+
+Synthetic request 2026-12-03T06:00Z, 72-hour horizon, source-derived candidates
+(all times UTC):
+
+| Candidate | Leg | Departure | Arrival |
+|---|---|---|---|
+| 1 | 700 London Victoria → Paris Bercy | Dec 3 08:30 | Dec 3 16:50 |
+| 1 | N1309 Paris Bercy → Prague Florenc | Dec 3 20:25 | Dec 4 09:35 |
+| 1 | 1926 Prague Florenc → Oradea Intrans | Dec 4 12:05 | Dec 4 23:55 |
+| 2 | N380 London Victoria → Hamburg ZOB | Dec 3 20:30 | Dec 4 14:35 |
+| 2 | 1926 Hamburg ZOB → Oradea Intrans | Dec 5 04:00 | Dec 5 23:55 |
+
+These are theoretical scheduled candidates, not seat/fare availability or
+protected transfers. Oradea source stop is about 2187 m from the synthetic
+final point. Neither that distance nor a plausible connection proves egress.
+
+### Actual local probe exposed a date bug
+
+Run 45985736746 made two ordinary domestic requests only, no flight/Exa/Brave/
+HERE searches. Requested access date: Dec 3 06:00Z. Returned TfL journey:
+Nov 27 11:01→12:19 Europe/London. This MUST NOT be joined to the coach.
+The egress result is UNKNOWN because the old combined annotation was truncated
+at 4096 characters by geometry. No repeat requests were made just for logging.
+Future diagnostics now emit compact per-end results with requested timestamps
+and retain the public synthetic report as a seven-day Actions artifact.
+
+Source inspection establishes the date-loss path: ordinary London routing
+bypassed initialization of departureAt/effectiveDepartureAt inside the
+international/regional branch. The branch correction initializes and validates
+these before branching, retaining the existing 60-day and quick-offset policy.
+The regional path reuses those values rather than maintaining another copy.
+
+Further interoperability fixes: shared TfL adapter converts offset-free London
+wall times to canonical UTC instants. Ambiguous autumn or nonexistent spring
+DST times remain null/unverified rather than guessing. The normalizer now
+preserves arrivalPoint coordinates alongside legacy arrivalLatLon. Mixed
+endpoint anchoring/compaction can also read legacy arrivalLatLon snapshots.
+
+### Validation and explicit limits
+
+PASS: npm run check; npm run test:mixed-orientation;
+npm run test:transit-reported-failures (includes new endpoint-date test);
+shared TfL reader, calendar, flight-ground connector; 11 Python tests.
+New test exercises mixed-local → actual ordinary Worker → MOCKED TfL,
+asserting selected future date/time, canonical instants/DST, both geographic
+endpoints, and rejection when the provider supplies today's journey instead.
+This is not a live verification of the corrected deployed backend.
+A stale MOTIS source assertion was updated to include the already-existing
+request cancellation signal; it does not authorize a new provider.
+
+Full npm test is NOT green: after the mixed/provider tests it stops at the
+unrelated accommodation assertion tests.mjs:27 (radius expected 5000, actual
+2000). No hotel behavior changed in this stage.
+
+No deploy, new APK, paid activation, HERE request, Oracle change or main merge.
+Accepted APK501894 and live backend v187/f7ab634 remain unchanged.
+Remaining work: production-suitable refreshed/indexed open-source timetable
+integration with licence handling (not downloading/parsing the ZIP per mobile
+request), confirm Oradea egress, verify both outer links against matching
+backend source and exact scheduled joins, and investigate suspect TfL geometry
+format separately. Do not present the current result as a complete journey.

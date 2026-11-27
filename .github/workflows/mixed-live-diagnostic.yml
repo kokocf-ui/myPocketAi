@@ -37,6 +37,14 @@ jobs:
           EXTRA=()
           if [ "$PROBE_LOCAL" = 'true' ]; then EXTRA+=(--probe-local); fi
           python3 scripts/inspect_open_surface_gtfs.py --origin 51.475 0.325 --destination 47.0612 21.9473 --departure-at 2026-12-03T06:00:00Z --output "$RUNNER_TEMP/open-surface-proof.json" "${EXTRA[@]}"
+      - name: Preserve public synthetic source and endpoint evidence
+        if: always() && inputs.inspect_open_gtfs == true
+        uses: actions/upload-artifact@v4
+        with:
+          name: open-surface-proof
+          path: ${{ runner.temp }}/open-surface-proof.json
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Inspect binding presence, runtime analytics and no-credit flight health
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}

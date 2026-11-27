@@ -26,10 +26,15 @@ def ask_local(origin, destination, when):
             data = json.load(response)
         if data.get('flight_candidates') or data.get('operator_options'):
             return {'status': 'unexpected_mixed_response'}
+        leg_fields = ('mode', 'from', 'to', 'departureTime', 'arrivalTime', 'durationMinutes', 'lineNames', 'departurePoint', 'arrivalPoint', 'arrivalLatLon')
+        compact = []
+        for journey in (data.get('transit') or [])[:1]:
+            item = {k: journey.get(k) for k in ('startDateTime', 'arrivalDateTime', 'time_zone', 'durationMinutes')}
+            item['legs'] = [{k: leg.get(k) for k in leg_fields} for leg in (journey.get('legs') or [])]
+            compact.append(item)
         return {'status': data.get('reason', data.get('status')), 'provider': data.get('transit_provider'),
                 'providerStatus': data.get('provider_status'),
-                'journeys': [{k: j.get(k) for k in ('startDateTime', 'arrivalDateTime', 'time_zone', 'durationMinutes', 'legs')}
-                             for j in (data.get('transit') or [])[:1]],
+                'journeys': compact,
                 'routeOnlyCount': len(data.get('route_options_without_schedule') or [])}
     except (urllib.error.URLError, ValueError, TimeoutError) as error:
         return {'status': 'local_check_unavailable', 'errorType': type(error).__name__}
@@ -51,4 +56,5 @@ def probe_local_ends(report, origin, destination):
     # chronological end-to-end completion. The actual join validates those.
     return {'status': 'local_endpoint_checks', 'requests': 2, 'access': entry, 'egress': exit,
             'boardingTime': first['departureTime'], 'alightingTime': last['arrivalTime'],
+            'accessRequestedAt': report['datedSearch']['requestedAt'], 'egressRequestedAt': after,
             'completeDoorToDoor': False}

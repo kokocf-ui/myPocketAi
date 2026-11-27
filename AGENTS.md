@@ -7,6 +7,32 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ETAPĂ OPEN-GTFS + DATA LEGĂTURILOR LOCALE (fără deploy/APK):**
+Feed oficial FlixBus/FlixTrain descărcat efectiv prin Actions, nu fixture:
+2072 stops / 1224 routes / 41333 trips, valabil 20261123–20270523.
+Runs45985222438(topologie),45985522457(orar),45985736746(2endpointchecks).
+Pentru test sintetic 2026-12-03T06:00Z, sursa dă Victoria→Paris→Prague→Oradea
+și Victoria→Hamburg→Oradea. Orare UTC, transferuri la același source stop ID,
+min45m; NU locuri/preț/protecție transfer/door-to-door. Python diagnostic ONLY,
+NU runtime integrat. Licență ODbL+condițiiPAN, atribuire/redistribuire de tratat.
+Ultimul live accessTfL a întors Nov27 în loc de Dec3: NU legătură validă.
+Egress NECUNOSCUT: annotation4096truncated; fără rerun doar pentru logging.
+Cauză source confirmată: departureAt/effectiveDepartureAt inițializate numai
+în branch regional/internațional. Acum validate înainte de branching; duplicate
+eliminate. TfL London walltime→UTC canonic; DST ambiguous/gap rămâne null.
+TfL arrivalPoint coordonat păstrat, fallback legacy arrivalLatLon în connector.
+Noul tests_mixed_tfl_endpoint_date verifică realWorker dispatch cu PROVIDER MOCK:
+data/ora viitoare, DST, coords și refuzul răspunsului de azi. NU probă livefix.
+Probe local compact+per-end notices+artifact7zile pentru rulari viitoare.
+PASS check, mixed-orientation, transit-reported-failures, sharedTfL/calendar/
+flightconnector, 11Python. npm test se oprește în tests.mjs:27 hotel radius
+expected5000 actual2000 (în afara transportului); NU fullsuite verde.
+Raport complet în MIXED_ENDPOINT_GROUND_FOLLOWUP_2026-11-26.md.
+Rămân: integrare sursăorar/refresh+licență în runtime, egressOradea real,
+validare temporală/geografică ambelorcapete cu backendmatching, geometrieTfL
+suspectă de investigat. Backendlivev187f7ab634/APK501894 neschimbate;
+HERE0/max2, nopaid/Oracle/mainmerge. Nu declara mixtul rezolvat.
+
 **CERERE CURENTĂ —501894 ACCEPTAT UI; REVENIRE LA MIXT:**
 User: „Da, este bine acum.” Acceptă recentele corecțiiUI/Back/săgeți, NUconfirmare
 GPSfundal/cronologietransit. Cere acceslocație→aeroport și aeroport→destinație,

@@ -168,6 +168,16 @@ def main():
                     compact = {**candidate, "legs": [{k: v for k, v in leg.items() if k != "stops"} for leg in candidate["legs"]]}
                     encoded = json.dumps(compact, ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
                     print("::notice title=open-gtfs-dated-candidate-" + str(i) + "::" + encoded)
+            if key == "localEnds":
+                for end in ("access", "egress"):
+                    # Per-end, geometry-free evidence stays readable through
+                    # GitHub's 4096-character check-annotation limit.
+                    compact = {k: v for k, v in data.get(end, {}).items() if k != "journeys"}
+                    compact["requestedAt"] = data.get(end + "RequestedAt")
+                    compact["journeys"] = [{**j, "legs": j.get("legs", [])[:5]} for j in data.get(end, {}).get("journeys", [])[:1]]
+                    encoded = json.dumps(compact, ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+                    print("::notice title=open-gtfs-local-" + end + "::" + encoded)
+                data = {k: v for k, v in data.items() if k not in ("access", "egress")}
             value = json.dumps(data, ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
             print("::notice title=open-gtfs-" + key + "::" + value)
 

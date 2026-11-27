@@ -42,7 +42,7 @@ assert.match(b,/url\.searchParams\.set\('time',departure\.iso\)/,
  'Licensed MOTIS request includes exact selected ISO time');
 assert.match(b,/url\.searchParams\.set\('searchWindow','3600'\)/,
  'Provider-side departure window permits alternative departures');
-assert.match(b,/planMOTISMixedJourney\(env,mixedOrigin,\{latitude:targetLat,longitude:targetLon\},lang,effectiveDepartureAt\)/,
+assert.match(b,/planMOTISMixedJourney\(env,mixedOrigin,\{latitude:targetLat,longitude:targetLon\},lang,effectiveDepartureAt,\{signal:request\.signal\}\)/,
  'Calendar field reaches the international planner');
 assert.match(b,/selectScheduledMOTISAlternatives\(journeys,\{/,
  'Back-end uses earliest arrival and mode-diversity ranking');

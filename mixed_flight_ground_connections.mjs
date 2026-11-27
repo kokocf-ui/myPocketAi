@@ -37,7 +37,7 @@ export const journeyAnchoredToPoints=(journey,from,to,{fromRadius=350,toRadius=3
  const legs=Array.isArray(journey?.legs)?journey.legs:[];
  if(!legs.length)return false;
  const start=metresBetween(legs[0].departurePoint,from);
- const finish=metresBetween(legs.at(-1).arrivalPoint,to);
+ const finish=metresBetween(legs.at(-1).arrivalPoint??legs.at(-1).arrivalLatLon,to);
  // Airport POIs can represent an entire mapped facility, not a terminal.
 // Allow the station to fall within its grounds but never assert a specific
 // terminal/platform as verified from this test alone.
@@ -59,7 +59,7 @@ export const compactJourney=j=>{
    durationMinutes:metric(l.durationMinutes,10080),
    distanceMeters:metric(l.distanceMeters,2000000),
    departurePoint:pointCoords(l.departurePoint),
-   arrivalPoint:pointCoords(l.arrivalPoint),
+   arrivalPoint:pointCoords(l.arrivalPoint??l.arrivalLatLon),
    departureZone:String(l.departureZone||timeZone||'').slice(0,80)||null,
    arrivalZone:String(l.arrivalZone||timeZone||'').slice(0,80)||null,
    operator:l.operator||'',bookingUrl:transportTicketUrl(l.bookingUrl),operatorUrl:transportTicketUrl(l.operatorUrl),lineNames:Array.isArray(l.lineNames)?l.lineNames.slice(0,5):[],

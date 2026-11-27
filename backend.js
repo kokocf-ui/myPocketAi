@@ -4048,8 +4048,20 @@ async function handleBackendRequest(request, env, runtime={}) {
       const transitStartedAt = Date.now();
       const transportErrors = {};
       const tflChecks={attempts:[],rawJourneys:0,endpointAccepted:0,finalAccepted:0,requestStatus:'not_attempted'};
-      let effectiveDepartureAt=null;
-      let departureAt=null;
+      // Every transit branch, including ordinary London point-to-point
+      // connections, must receive the requested date. Previously only the
+      // international/regional branch initialized these, so mixed local
+      // delegation silently queried "now" for a future flight/coach.
+      const initialDeparture=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
+      const initialDepartureMs=initialDeparture?Date.parse(initialDeparture):null;
+      if(initialDeparture&&(!Number.isFinite(initialDepartureMs)||initialDepartureMs<Date.now()-120000||initialDepartureMs>Date.now()+60*86400000)){
+        return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
+          reply:lang==='en'?'Choose a departure date and time within the next 60 days.':'Alege o dată și o oră de plecare în următoarele 60 de zile.',
+          transit_available:false,route_available:false,reason:'departure_time_out_of_range'});
+      }
+      const departureOffsetMinutes=[0,15,30,60,120].includes(Number(data.transit_departure_offset))?Number(data.transit_departure_offset):0;
+      let departureAt=initialDeparture?new Date(initialDepartureMs).toISOString():null;
+      let effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
       const transitOptions = [];
       const requestedOptionsCount=requestedTransitCount(message,data.transit_count);
       const transportPreference=data.transit_preference==='bus_only'?'bus_only':'all';
@@ -4386,16 +4398,7 @@ async function handleBackendRequest(request, env, runtime={}) {
           // door-to-door provider before MOTIS or the old external-link fallback.
           // GB, Ireland and NL+BE each have their own TransCAPI planning zone.
           // Cross-zone UK→Europe journeys still require a licensed international planner.
-          const departureOffsetMinutes=[0,15,30,60,120].includes(Number(data.transit_departure_offset))?Number(data.transit_departure_offset):0;
-          const selectedDeparture=typeof data.transit_departure_at==='string'?data.transit_departure_at.trim():'';
-          const requestedMs=selectedDeparture?Date.parse(selectedDeparture):null;
-          if(selectedDeparture&&(!Number.isFinite(requestedMs)||requestedMs<Date.now()-120000||requestedMs>Date.now()+60*86400000)){
-            return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,
-              reply:lang==='en'?'Choose a departure date and time within the next 60 days.':'Alege o dată și o oră de plecare în următoarele 60 de zile.',
-              transit_available:false,route_available:false,reason:'departure_time_out_of_range'});
-          }
-          departureAt=selectedDeparture?new Date(requestedMs).toISOString():null;
-          effectiveDepartureAt=departureAt||(departureOffsetMinutes?new Date(Date.now()+departureOffsetMinutes*60000).toISOString():null);
+          // departureAt/effectiveDepartureAt were validated before branching.
           // Selected A→B origin overrides phone GPS for mixed travel only.
           const chosenOrigin=data.journey_origin;
           const originLat=Number(chosenOrigin?.latitude),originLon=Number(chosenOrigin?.longitude);
@@ -4999,7 +5002,7 @@ async function handleBackendRequest(request, env, runtime={}) {
                 const point=l.departurePoint||{},properties=Array.isArray(point.additionalProperties)?point.additionalProperties:[];
                 const property=key=>String(properties.find(p=>String(p.key||'').toLowerCase()===key.toLowerCase())?.value||'').slice(0,160);
                 const lineNames=[...new Set((Array.isArray(l.routeOptions)?l.routeOptions:[]).map(r=>String(r.lineIdentifier?.name||r.name||'').trim()).filter(Boolean))].slice(0,6);
-                return {stopCount:tflLegStopCount(l),departureStopId:String(point.naptanId||point.icsId||point.id||'').slice(0,100),departurePoint:transitOperatorPoint(point),lineNames,stopIndicator:property('Indicator')||property('StopLetter')||property('PlatformName'),towards:property('Towards'),mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
+                return {stopCount:tflLegStopCount(l),departureStopId:String(point.naptanId||point.icsId||point.id||'').slice(0,100),departurePoint:transitOperatorPoint(point),lineNames,stopIndicator:property('Indicator')||property('StopLetter')||property('PlatformName'),towards:property('Towards'),mode:l.mode&&l.mode.name||"transport",from:l.departurePoint&&l.departurePoint.commonName||"",to:l.arrivalPoint&&l.arrivalPoint.commonName||"",durationMinutes:Number(l.duration)||null,departureTime:l.departureTime||null,arrivalTime:l.arrivalTime||null,arrivalPoint:transitOperatorPoint(l.arrivalPoint),instruction:l.instruction&&l.instruction.summary||"",arrivalLatLon:(Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lat))&&Number.isFinite(Number(l.arrivalPoint&&l.arrivalPoint.lon)))?{lat:Number(l.arrivalPoint.lat),lon:Number(l.arrivalPoint.lon)}:null,coordinates,geometryAvailable:coordinates.length >= 2};
               });
               const routeSegments = legs.filter(leg => leg.geometryAvailable).map(leg => ({mode:leg.mode,from:leg.from,to:leg.to,coordinates:leg.coordinates}));
               transitOptions.push({provider:"TfL",time_zone:"Europe/London",durationMinutes:Number(j.duration)||null,startDateTime:j.startDateTime||null,arrivalDateTime:j.arrivalDateTime||null,legs,routeSegments,geometryAvailable:routeSegments.length > 0});

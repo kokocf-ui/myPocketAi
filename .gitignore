@@ -10,3 +10,6 @@ android/app/build/
 .telegram-mtproto-session
 .bundle-check/
 math-browser-audit/
+
+# Local Python inspection/test bytecode, never source data.
+__pycache__/
