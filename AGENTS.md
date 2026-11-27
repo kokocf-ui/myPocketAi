@@ -14,7 +14,14 @@ Cerințănouă: rândurilelungi din câmpurilede scriere sărămânăvizibile.
 Corecție: soft/pre-wrap+breakwordexplicitînceledouăeditoarecompacte, fără
 overfloworizontal; tastareala sfârșit urmăreștecursorulvertical, fărărescrierea
 valorii/formulei. Testeprozălungă+formulefărăspații, ambelecâmpuri,3viewporturi,
-source+WranglerbundlePASS; noilecaractere+textulpăstrateexact. APKtestîn pregătire.
+source+WranglerbundlePASS; noilecaractere+textulpăstrateexact.
+APK501890 ELIBERAT: sursă5d9bc89, run45967985425/job140401202955SUCCESS,
+certificat/identity/version/snapshot/publicarePASSînCI; fysiskretetîncăpending.
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45967985425/myPocketAI-signed-education-test.apk
+Release460346304/asset799688909,77,661,652B; GitHubSHA256metadata
+21eee77015f32ef4cbb88fc65595f719b4d88eca165bea26ae4c5effd004643e.
+Updatepeste501889fărădezinstalare/dateșterse. Fărăbackend/prodfrontenddeploy,
+transportchanges/paidactivation/stylusremovalînacestbuild.
 
 **APK501889 ELIBERAT — fereastra de lucru compactă, cerere explicită user:**
 User a corectat pe drept lipsa APK-ului: nu poate verifica doar sursa pe telefon.
