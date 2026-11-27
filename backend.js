@@ -1,3 +1,4 @@
+import {tflJourneyCoordinates} from './tfl_journey_geometry.mjs';
 import {openSurfaceDataResponse} from './open_surface_data.mjs';
 import {mixedProgressResponse} from './mixed_progress_stream.mjs';
 import {createMixedLocalPlanner} from './mixed_local_planner.mjs';
@@ -4979,28 +4980,11 @@ async function handleBackendRequest(request, env, runtime={}) {
             }));
             tflChecks.rawJourneys=tj.journeys.length;
             if(!tj.journeys.length)transportErrors.tfl=tflData.status;
-            // Decode TfL's encoded polyline geometry (precision 5) for map rendering.
-            const decodeTfLPolyline = (encoded) => {
-              if (typeof encoded !== "string" || !encoded) return [];
-              const points = []; let index = 0, lat = 0, lon = 0;
-              try {
-                while (index < encoded.length) {
-                  let result = 0, shift = 0, byte;
-                  do { byte = encoded.charCodeAt(index++) - 63; result |= (byte & 0x1f) << shift; shift += 5; } while (byte >= 0x20 && index <= encoded.length);
-                  lat += (result & 1) ? ~(result >> 1) : (result >> 1);
-                  result = 0; shift = 0;
-                  do { byte = encoded.charCodeAt(index++) - 63; result |= (byte & 0x1f) << shift; shift += 5; } while (byte >= 0x20 && index <= encoded.length);
-                  lon += (result & 1) ? ~(result >> 1) : (result >> 1);
-                  points.push([lon / 1e5, lat / 1e5]);
-                  if (points.length > 20000) return [];
-                }
-              } catch { return []; }
-              return points;
-            };
+            // TfL JSON lat/lon paths and explicitly encoded paths share a
+            // checked map-coordinate adapter; do not decode JSON as polyline.
             for (const j of (Array.isArray(tj.journeys) ? tj.journeys : []).slice(0,30)) {
               const legs = (Array.isArray(j.legs) ? j.legs : []).map(l => {
-                const encodedLine = l.path && (l.path.lineString || l.path.lineStringEncoded) || "";
-                const coordinates = decodeTfLPolyline(encodedLine).filter(c => Array.isArray(c) && c.length === 2 && Number.isFinite(c[0]) && Number.isFinite(c[1]) && Math.abs(c[0]) <= 180 && Math.abs(c[1]) <= 90);
+                const coordinates = tflJourneyCoordinates(l);
                 const point=l.departurePoint||{},properties=Array.isArray(point.additionalProperties)?point.additionalProperties:[];
                 const property=key=>String(properties.find(p=>String(p.key||'').toLowerCase()===key.toLowerCase())?.value||'').slice(0,160);
                 const lineNames=[...new Set((Array.isArray(l.routeOptions)?l.routeOptions:[]).map(r=>String(r.lineIdentifier?.name||r.name||'').trim()).filter(Boolean))].slice(0,6);

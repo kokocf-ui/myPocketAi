@@ -70,7 +70,8 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provid
    mode,from,to,departureTime:start,arrivalTime:end,
    operator:short(raw.operator),bookingUrl:transportTicketUrl(raw.bookingUrl)||transportTicketUrl(raw.operatorUrl),lineNames:Array.isArray(raw.lineNames)?raw.lineNames:[],
    provider:source,verified:true,
-   verificationSource:source+': dated authorized operator journey timetable',
+   verificationSource:source+(mode==='walking'?': provider pedestrian route duration estimate':': dated authorized operator journey timetable'),
+   timingEstimated:raw.timingEstimated===true,
    // A per-leg / booking-total fare is not confirmed by the route geometry.
    fareVerified:false,cancelled:raw.cancelled===true
   });

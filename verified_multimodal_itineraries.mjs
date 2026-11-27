@@ -53,6 +53,7 @@ export function normalizeVerifiedMixedLeg(raw){
     arrivalZone:safeText(raw.arrivalZone,65),
     // Operator-declared same-ticket connections may provide their own transfer
     // validation; no such shortcut is inferred from matching airline names.
+    timingEstimated:raw.timingEstimated===true,
     protectedConnection:raw.protectedConnection===true
   };
 }
@@ -86,7 +87,7 @@ function asVisibleJourney(path,searchStart,geography){
     departureTime:l.departureTime,arrivalTime:l.arrivalTime,
     durationMinutes:(l.arrivalMs-l.departureMs)/60000,
     operator:l.operator,lineNames:l.lineNames,
-    verified:true,departureZone:l.departureZone,arrivalZone:l.arrivalZone,
+    verified:true,timingEstimated:l.timingEstimated,departureZone:l.departureZone,arrivalZone:l.arrivalZone,
     fareLocal:l.fareLocal,bookingUrl:l.bookingUrl,verificationSource:l.verificationSource
   }));
   const modes=path.filter(l=>!isWalk(l.mode)).map(l=>l.mode);

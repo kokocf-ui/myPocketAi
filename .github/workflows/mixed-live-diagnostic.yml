@@ -23,7 +23,7 @@ on:
         type: boolean
 
       probe_local_connections:
-        description: 'Two ordinary domestic transit checks at open-GTFS endpoints; no flight/Exa/Brave/HERE searches'
+        description: 'Bounded ordinary local checks at source endpoints; runtime proof may try standalone walking if the timetable is missing, no paid/flight search'
         required: false
         default: false
         type: boolean
@@ -46,6 +46,7 @@ jobs:
         run: |
           python3 tests_open_surface_gtfs.py
           node tests_open_surface_runtime.mjs
+          node tests_mixed_walking_connection.mjs
           PYTHONPATH=scripts python3 -c "import os,pathlib; from inspect_open_surface_gtfs import download; download(pathlib.Path(os.environ['RUNNER_TEMP'])/'official.zip')"
           python3 scripts/build_open_surface_index.py --file "$RUNNER_TEMP/official.zip" --output "$RUNNER_TEMP/surface-index.json"
           node scripts/prove_open_surface_runtime.mjs "$RUNNER_TEMP/surface-index.json" "$RUNNER_TEMP/runtime-proof.json"

@@ -90,8 +90,48 @@ PAN registration. Neither raw nor compiled source data is committed to Git.
   with no extra network lookup on selection.
 - `.github/workflows/mixed-live-diagnostic.yml (prove_surface_runtime=true)`: manual actual-source compile,
   runtime resource diagnostic, optional public TfL in branch Worker and one
-  ordinary deployed Oradea egress query. No Cloudflare secret reads/deploy,
+  ordinary deployed Oradea egress query, plus at most one existing standalone
+  pedestrian request if its timetable is missing. No Cloudflare secret reads/deploy,
   flight, HERE, Exa or Brave calls. Artifacts expire after seven days.
 
 Actual-source runtime and local results are recorded below after the manual
 workflow finishes. Model/browser tests are not live local coverage evidence.
+
+
+## Actual-source runtime proof 45991226188 / check 140479263073
+
+SUCCESS using branch 1a0aa68. Actual compiled index: 8,632,964 bytes; 2072 stops,
+1224 routes, 2602 deduplicated calendars, 41327 valid trips (six malformed
+source trips excluded). Source SHA256:
+`63d76c6a7f919066088380dc5141d2fa00b36b11161720ce61f087289ff5f74e`.
+Node read+validate+search 287 ms, search 103 ms, heap 72.1 MiB, process RSS
+169.5 MiB. **These are Node diagnostics, NOT Worker CPU/memory acceptance.**
+The free Worker budget has not been demonstrated: do not activate this full
+index on production or upgrade a paid tier to hide a resource failure.
+
+Public TfL via actual branch Worker: access Dec 3 06:22→07:46 UTC, before
+Victoria boarding 08:30 UTC. Two ordinary access samples, six TfL HTTP requests.
+Exactly one ordinary deployed Romanian request: HTTP200,
+`ro_urban_feed_unavailable`, provider `Romania GTFS static`, region `oradea`,
+`feed_not_loaded`. Thus egress is now KNOWN unavailable from that timetable,
+not the earlier unknown/truncated annotation. No full journey was claimed.
+
+### Subsequent walking/geometry correction under verification
+
+For short gaps <=4 km geodesic only, the local dispatcher can explicitly opt
+into existing standalone pedestrian routing when ordinary transit has no
+usable schedule. That additional dispatch shares the same twelve-call cap;
+geometry is reused between dated samples in the same request. No alternate
+provider is tried after reported quota/access failure. The adapter requires
+real provider coordinates, matching start/end within 75 m, positive provider
+duration/distance and plausible speed. An unverified nearby approach, missing
+geometry/time or wrong endpoint stays incomplete. Walking duration is marked
+`timingEstimated`, not a scheduled vehicle departure.
+
+TfL's path.lineString JSON [lat,lon] was previously passed through the encoded
+polyline decoder, explaining the observed near-zero map coordinates. A shared
+geometry adapter now parses JSON, reverses to map [lon,lat], supports genuine
+encoded paths, and checks geometry against the leg's actual endpoint evidence.
+No endpoint lines are fabricated. The full source-composed journey preserves
+returned local geometry/steps and the estimate flag for pedestrian legs.
+Actual-source+walking/geometry proof result is pending the next manual run.

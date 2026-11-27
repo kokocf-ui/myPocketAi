@@ -2,14 +2,16 @@
 // This is not another HTTP call to the Worker and never starts mixed discovery.
 // Memoization is request-scoped: no user's address/GPS is stored globally.
 import {beforeTransitAbort} from './transit_deadline.mjs';
+import {mixedGreatCircleKm} from './mixed_route_quality.mjs';
+import {walkingRouteConnection} from './mixed_walking_connection.mjs';
 const point=p=>p&&p.latitude!=null&&p.longitude!=null&&p.latitude!==''&&p.longitude!==''&&Number.isFinite(+p.latitude)&&
  Number.isFinite(+p.longitude)&&Math.abs(+p.latitude)<=90&&Math.abs(+p.longitude)<=180;
 export function createMixedLocalPlanner({env,dispatch,language='ro',maxCalls=12}={}){
- const cache=new Map();let calls=0;
- return async (unused,from,to,limit=4,{departureAt=null,signal=null}={})=>{
+ const cache=new Map(),walkingCache=new Map();let calls=0;
+ return async (unused,from,to,limit=4,{departureAt=null,signal=null,allowWalking=false}={})=>{
   if(!point(from)||!point(to))return {status:'missing_coordinates',journeys:[]};
   if(signal?.aborted)return {status:'search_timeout',journeys:[]};
-  const key=[+from.latitude,+from.longitude,+to.latitude,+to.longitude,departureAt||'now'].join('|');
+  const key=[+from.latitude,+from.longitude,+to.latitude,+to.longitude,departureAt||'now',allowWalking?'walk-fallback':'transit'].join('|');
   if(!cache.has(key)){
    if(calls>=maxCalls)return {status:'local_query_budget_exhausted',journeys:[]};
    calls++;
@@ -33,6 +35,28 @@ export function createMixedLocalPlanner({env,dispatch,language='ro',maxCalls=12}
     try{
      const response=await dispatch(request,env),data=await response.json();
      const journeys=Array.isArray(data.transit)?data.transit:[];
+     const distance=mixedGreatCircleKm(from,to);
+     // For a short local gap, reuse standalone "Traseu pietonal" exactly as
+     // the passenger can already use it. Never bypass an exhausted/denied
+     // provider and never estimate a line/duration from geographic distance.
+     const blocked=JSON.stringify([data.reason,data.error_code,data.provider_status]).match(/quota|exhausted|http[_ ]?(?:401|402|403|429)|access_denied|budget_exceeded/i);
+     if(!journeys.length&&allowWalking&&response.ok&&!blocked&&distance!==null&&distance>0&&distance<=4&&!signal?.aborted){
+      const walkingKey=[+from.latitude,+from.longitude,+to.latitude,+to.longitude].join('|');
+      if(!walkingCache.has(walkingKey)&&calls<maxCalls){
+       calls++;
+       walkingCache.set(walkingKey,(async()=>{
+        const req=new Request('https://mixed-local.internal/api/chat',{
+         method:'POST',headers:{'Content-Type':'application/json'},...(signal?{signal}:{}),
+         body:JSON.stringify({message:language==='en'?'Walking':'Traseu pietonal',module:'maps',language,history:[],
+          location:from,coordinates:from,location_requested:true,route_profile:'walk',route_destination:destination,
+          mixed_journey:false,mixed_composition:false,national_public_transport:false})});
+        try{return await (await dispatch(req,env)).json()}catch{return null}
+       })());
+      }
+      const walked=walkingCache.has(walkingKey)?await (signal?beforeTransitAbort(()=>walkingCache.get(walkingKey),signal,null):walkingCache.get(walkingKey)):null;
+      const walking=walkingRouteConnection(walked,from,destination,departureAt||new Date().toISOString());
+      if(walking)return {status:'success',journeys:[walking],provider:walking.provider,provider_status:{walking:'existing_standalone_router'},transit_status:data.reason||'no_local_timetable'};
+     }
      return {status:journeys.length?'success':data.transport_lines_available===true?'route_only':!response.ok?'local_provider_http_'+response.status:String(data.reason||data.error_code||'no_local_journey_returned'),
       journeys,provider:data.transit_provider||null,provider_status:data.provider_status||{},
       route_options_without_schedule:data.route_options_without_schedule||[]};

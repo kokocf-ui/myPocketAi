@@ -18,7 +18,14 @@ Flag OPEN_SURFACE_ENABLED + OPEN_SURFACE_ASSETS NEACTIVATE; nicio configlive nou
 LicențăODbL/PAN republicareformatoriginal/registrare încă de închis înaintepublic.
 OPEN_SURFACE_RUNTIME.md: contract/activare/limite. Manual workflow nou
 mixed-live-diagnostic.yml (prove_surface_runtime=true) pentru actual-source JS/resource proof și opțional
-TfLpublic cu sourcebackend + un singur egressROdomestic. Rezultat încă PENDING.
+TfLpublic cu sourcebackend + un singur egressROdomestic. Run45991226188/check140479263073SUCCESS: index8.63MB/41,327validtrips,
+72.1MiBNodeheap/169.5MiBRSS,search103ms. NU Worker/freeCPUacceptance; featureOFF.
+AccesLIVE branchTfL Dec3 06:22→07:46UTC,boarding08:30. EgressHTTP200 clar
+ro_urban_feed_unavailable/feed_not_loaded/oradea. Nufulljourney.
+Etapanouă: optional shortwalking fallback folosește standalonewalking existent,
+75m endpoints/providerduration+geometry, estimateflag/shared12cap/noquotaoverride.
+TfLlineStringJSON nu encodedPolyline; parsernou+endpointcheck reparăcoords
+aproapezero. Live walking/geometryproof urmează, rezultat încă PENDING.
 PASS runtimefixture Pythoncompiler→JS, mixedorientation, unifiedresults, boot,
 compiled browser360/393/430 inclusiv sourcepartial/stops/Back/complete details.
 Nu confunda fixtures/UI cu proba live. Nu activa HERE/paid/Oracle/main/deploy/APK.

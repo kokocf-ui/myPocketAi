@@ -37,10 +37,11 @@ export async function searchOpenSurfaceOptions(env,{
     option.accessStatus=option.egressStatus='local_transport_not_configured';publish();return;
    }
    const egressAt=iso(Date.parse(last.arrivalTime)+10*60000);
+   const endpointPlanner=(e,from,to,count,options)=>planner(e,from,to,count,{...options,allowWalking:true});
    const [access,egress]=await Promise.all([
     planFixedPointBoardingAccess(env,{origin:start,boardingPoint:boarding,earliestDeparture:requested,
-     latestArrival:iso(Date.parse(first.departureTime)-15*60000)}, {planner,now,signal}),
-    beforeTransitAbort(()=>planner(env,alighting,end,4,{departureAt:egressAt,signal}),signal,{status:'search_timeout',journeys:[]})
+     latestArrival:iso(Date.parse(first.departureTime)-15*60000)}, {planner:endpointPlanner,now,signal}),
+    beforeTransitAbort(()=>endpointPlanner(env,alighting,end,4,{departureAt:egressAt,signal}),signal,{status:'search_timeout',journeys:[]})
    ]);
    option.accessStatus=access.status;option.egressStatus=egress.status;
    if(access.journey&&verifiedLocal(access.journey,start,boarding)){
@@ -63,7 +64,15 @@ export async function searchOpenSurfaceOptions(env,{
      legs:[...localLegs,...legs],maxLegs:10,horizonHours:72,maxResults:1});
     if(composed.journeys?.length){
      option.completeDoorToDoor=true;
-     option.journey={...composed.journeys[0],openSurfaceCandidateId:option.id,schedule_status:'scheduled',time_zone:'UTC',
+     const originals=[...access.journey.legs,...option.legs,...egressJourney.legs];
+     const legsWithGeometry=composed.journeys[0].legs.map(leg=>{
+      const raw=originals.find(l=>Date.parse(l.departureTime)===Date.parse(leg.departureTime)&&Date.parse(l.arrivalTime)===Date.parse(leg.arrivalTime));
+      if(!raw)return leg;
+      return {...leg,...(Array.isArray(raw.coordinates)?{coordinates:raw.coordinates,geometryAvailable:raw.geometryAvailable===true}:{}),
+       ...(Array.isArray(raw.steps)?{steps:raw.steps}:{}),...(raw.distanceMeters!=null?{distanceMeters:raw.distanceMeters}:{}),
+       ...(raw.stopCount!=null?{stopCount:raw.stopCount}:{}),...(Array.isArray(raw.stops)?{stops:raw.stops}:{}),timingEstimated:raw.timingEstimated===true};
+     });
+     option.journey={...composed.journeys[0],legs:legsWithGeometry,openSurfaceCandidateId:option.id,schedule_status:'scheduled',time_zone:'UTC',
       sourceAttribution:source.attribution,transferProtectionVerified:false,seatOrFareVerified:false};
     }
    }

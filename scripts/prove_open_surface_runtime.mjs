@@ -23,33 +23,39 @@ if(process.env.PROBE_LOCAL==='true'){
  let domesticCalls=0,tflHttpCalls=0,egressHttpCalls=0;
  const realFetch=globalThis.fetch;
  // The branch Worker runs in process with no secrets. Only public TfL and
- // exactly one domestic deployed egress request are allowed to leave it.
+ // one transit + at most one standalone walking egress request are allowed to leave it.
  globalThis.fetch=async(input,options)=>{
   const u=new URL(typeof input==='string'?input:input.url||String(input));
   if(u.hostname==='api.tfl.gov.uk'){
    if(++tflHttpCalls>10)throw Error('TfL HTTP budget exhausted');
   }else if(u.hostname==='lifewise-ai-v2.kokocf.workers.dev'&&u.pathname==='/api/chat'){
-   if(++egressHttpCalls>1)throw Error('Egress HTTP budget exhausted');
+   if(++egressHttpCalls>2)throw Error('Egress HTTP budget exhausted');
   }else throw Error('Forbidden provider '+u.hostname);
   return realFetch(input,options);
  };
  try{
   const domestic=createMixedLocalPlanner({dispatch:worker.fetch,env:{AI:{run:async()=>{throw Error('No LLM allowed')}}}});
-  const planner=async(env,from,to,limit,options)=>{
-   if(++domesticCalls>3)throw Error('Local query budget exhausted');
-   if(to.id!=='surface:destination')return domestic(env,from,to,1,options);
-   const response=await fetch('https://lifewise-ai-v2.kokocf.workers.dev/api/chat',{
-    method:'POST',signal:options.signal,headers:{'Content-Type':'application/json','Accept':'application/json'},
-    body:JSON.stringify({message:'Transport public',module:'maps',language:'ro',history:[],
-     location:from,coordinates:from,location_requested:true,journey_origin:from,
-     transit_destination:to,transit_query:to.label,transit_departure_at:options.departureAt,transit_count:1,
-     mixed_journey:false,mixed_composition:false,national_public_transport:false})
-   });
-   const data=await response.json();
-   report.egressResponse={http:response.status,reason:data.reason,provider:data.transit_provider,providerStatus:data.provider_status,
+  const remoteDomestic=createMixedLocalPlanner({env:{},dispatch:async request=>{
+   const payload=await request.clone().json();
+   const response=await fetch(new Request('https://lifewise-ai-v2.kokocf.workers.dev/api/chat',request));
+   const data=await response.clone().json();
+   const summary={http:response.status,reason:data.reason,provider:data.transit_provider,providerStatus:data.provider_status,
     routeOnlyCount:data.route_options_without_schedule?.length||0,transportLinesAvailable:data.transport_lines_available,
     reply:String(data.reply||'').slice(0,700)};
-   return {status:data.reason||data.status||'unknown',journeys:data.transit||[]};
+   if(payload.route_profile==='walk')report.walkingResponse={...summary,routeAvailable:data.route_available,
+    distanceMeters:data.route?.distanceMeters,durationSeconds:data.route?.durationSeconds,coordinateCount:data.route?.coordinates?.length,
+    firstCoordinate:data.route?.coordinates?.[0],lastCoordinate:data.route?.coordinates?.at(-1),accessKind:data.route?.access_kind};
+   else report.egressResponse=summary;
+   return response;
+  }});
+  const planner=async(env,from,to,limit,options)=>{
+   if(++domesticCalls>3)throw Error('Local query budget exhausted');
+   if(to.id!=='surface:destination'){
+    const result=await domestic(env,from,to,1,options);
+    if(result.journeys?.length)report.accessGeometry=result.journeys[0].legs.map(l=>({mode:l.mode,points:l.coordinates?.length||0,first:l.coordinates?.[0],last:l.coordinates?.at(-1)}));
+    return result;
+   }
+   return remoteDomestic(env,from,to,limit,options);
   };
   const result=await searchOpenSurfaceOptions({},query,{planner,loadIndex:async()=>({status:'ready',index})});
   // Don't lose details in the full artifact, but check annotations stay tiny.
@@ -64,5 +70,6 @@ if(process.env.PROBE_LOCAL==='true'){
 }
 writeFileSync(output,JSON.stringify(report,null,2));
 const notice=(title,value)=>console.log('::notice title='+title+'::'+JSON.stringify(value).replace(/%/g,'%25').replace(/\r/g,'%0D').replace(/\n/g,'%0A'));
-notice('open-surface-runtime',{...report,planned:undefined,result:undefined,egressResponse:undefined});
+notice('open-surface-runtime',{...report,planned:undefined,result:undefined,egressResponse:undefined,walkingResponse:undefined});
 if(report.egressResponse)notice('open-surface-egress',report.egressResponse);
+if(report.walkingResponse)notice('open-surface-walking',report.walkingResponse);

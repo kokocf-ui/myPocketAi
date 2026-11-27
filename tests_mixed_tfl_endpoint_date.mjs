@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import worker from './backend.js';
 import {createMixedLocalPlanner} from './mixed_local_planner.mjs';
 import {normalizeTfLInstant} from './tfl_shared_journeys.mjs';
+import {tflJourneyCoordinates} from './tfl_journey_geometry.mjs';
 import {compactJourney,journeyAnchoredToPoints} from './mixed_flight_ground_connections.mjs';
 assert.equal(normalizeTfLInstant('2026-12-03T06:00:00'),'2026-12-03T06:00:00.000Z');
 assert.equal(normalizeTfLInstant('2026-07-01T06:00:00'),'2026-07-01T05:00:00.000Z');
@@ -31,7 +32,7 @@ globalThis.fetch=async input=>{
  return Response.json({journeys:[{startDateTime:at(10),arrivalDateTime:at(85),duration:75,
   legs:[{mode:{name:'bus'},duration:75,departureTime:at(10),arrivalTime:at(85),routeOptions:[{name:'Fixture bus'}],
    departurePoint:{commonName:origin.label,lat:origin.latitude,lon:origin.longitude},
-   arrivalPoint:{commonName:stop.label,lat:stop.latitude,lon:stop.longitude}}]}]});
+   arrivalPoint:{commonName:stop.label,lat:stop.latitude,lon:stop.longitude},path:{lineString:JSON.stringify([[origin.latitude,origin.longitude],[stop.latitude,stop.longitude]])}}]}]});
 };
 try{
  const planner=createMixedLocalPlanner({env:{TFL_APP_KEY:'fixture',AI:{run:async()=>{throw Error('No LLM allowed')}}},dispatch:worker.fetch});
@@ -43,6 +44,11 @@ try{
  assert.ok(Date.parse(journey.startDateTime)>=requestMs);
  assert.equal(journeyAnchoredToPoints(journey,origin,stop),true,'Actual TfL arrival coordinates reach connector');
  assert.equal(compactJourney(journey).legs[0].arrivalPoint.lat,stop.latitude);
+ assert.deepEqual(journey.legs[0].coordinates,[[origin.longitude,origin.latitude],[stop.longitude,stop.latitude]],'TfL JSON lat/lon is converted, never decoded as polyline near zero');
+ assert.equal(tflJourneyCoordinates({path:{lineString:'[[51.4,0.3],oops]'},departurePoint:origin,arrivalPoint:stop}).length,0);
+ assert.equal(tflJourneyCoordinates({path:{lineString:'[[0,0],[0.001,0.001]]'},departurePoint:origin,arrivalPoint:stop}).length,0);
+ assert.deepEqual(tflJourneyCoordinates({path:{lineStringEncoded:'_p~iF~ps|U_ulLnnqC_mqNvxq`@'},departurePoint:{latitude:38.5,longitude:-120.2},arrivalPoint:{latitude:43.252,longitude:-126.453}}),[[-120.2,38.5],[-120.95,40.7],[-126.453,43.252]]);
+
  assert.equal(compactJourney({...journey,legs:[{...journey.legs[0],arrivalPoint:undefined,arrivalLatLon:{lat:stop.latitude,lon:stop.longitude}}]}).legs[0].arrivalPoint.lon,stop.longitude,'Legacy snapshot arrivalLatLon remains readable');
  stale=true;
  const stalePlanner=createMixedLocalPlanner({env:{TFL_APP_KEY:'fixture',AI:{run:async()=>{throw Error('No LLM')}}},dispatch:worker.fetch});

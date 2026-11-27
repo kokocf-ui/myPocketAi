@@ -56,7 +56,7 @@ export const compactJourney=j=>{
   fareComplete:j?.fareComplete===true,
   legs:legs.slice(0,30).map(l=>({mode:l.mode,from:l.from,to:l.to,
    departureTime:l.departureTime,arrivalTime:l.arrivalTime,
-   durationMinutes:metric(l.durationMinutes,10080),
+   durationMinutes:metric(l.durationMinutes,10080),timingEstimated:l.timingEstimated===true,
    distanceMeters:metric(l.distanceMeters,2000000),
    departurePoint:pointCoords(l.departurePoint),
    arrivalPoint:pointCoords(l.arrivalPoint??l.arrivalLatLon),
