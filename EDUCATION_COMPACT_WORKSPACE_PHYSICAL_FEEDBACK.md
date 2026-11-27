@@ -46,3 +46,9 @@ The user correctly noted that source-only work cannot be checked on their phone 
 - Install over the existing application without uninstalling or clearing data. Physical layout acceptance is pending. Physics/Chemistry/Astronomy are excluded from the compact shared-workspace style.
 
 This supersedes the previous source-only delivery boundary. Backend v187, production frontend, Oracle and HERE/paid-service state remain unchanged. Transport is unresolved; this build makes no further transport changes. The signing workflow's release notes now identify Education-layout testing rather than claiming a transport fix.
+
+## Follow-up: long writing lines must remain visible
+
+The user accepted the compact appearance in the physical screenshot of APK501889, then requested readable long lines. Both shared editors now explicitly use soft/pre-wrap, including space-free formulae/identifiers, with no horizontal clipping/scroll hunt. Wrapping is presentation-only: original values, explicit newlines, drafts and submitted formula text are not rewritten. At end-of-text insertion the editor scrolls to keep the newly typed ending visible; the fixed primary commands remain in place. Long content scrolls inside its textarea, not by expanding the entire form beyond the phone viewport.
+
+New browser cases enter long prose and long space-free formulae into both editors at 360×640,393×817,430×932, type an additional character, verify exact value preservation, no horizontal overflow and end/caret vertical following, while checking action hit targets/form bounds. PASS against source and final Wrangler bundle; generated script-name/boot checks PASS. No additional transport or stylus changes in this specific follow-up; stylus removal remains the separate discussed change, not silently claimed implemented.

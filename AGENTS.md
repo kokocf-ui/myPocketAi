@@ -7,6 +7,15 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**FOLLOW-UP DUPĂ RETEST501889:** user spune „arată mult mai bine” (acceptare
+aspectcompact, NUvalidareatuturorfuncțiilor). Stylusraportatnefuncțional; discută
+eliminareaîn favoareasimbolurilor/previzualizării, NUdeclaraeliminatîncă.
+Cerințănouă: rândurilelungi din câmpurilede scriere sărămânăvizibile.
+Corecție: soft/pre-wrap+breakwordexplicitînceledouăeditoarecompacte, fără
+overfloworizontal; tastareala sfârșit urmăreștecursorulvertical, fărărescrierea
+valorii/formulei. Testeprozălungă+formulefărăspații, ambelecâmpuri,3viewporturi,
+source+WranglerbundlePASS; noilecaractere+textulpăstrateexact. APKtestîn pregătire.
+
 **APK501889 ELIBERAT — fereastra de lucru compactă, cerere explicită user:**
 User a corectat pe drept lipsa APK-ului: nu poate verifica doar sursa pe telefon.
 Run45965463970/job140392969235SUCCESS; debugSKIPPED. Sursă92e844bf41842bef412ca6f78964db73e636d490.

@@ -15,6 +15,14 @@ export function educationCompactWorkspace({box,prompt,answer,select,actions,stat
  for(const [field,title,key] of [[prompt,label('Enunț','Question'),'prompt'],[answer,label('Rezolvarea mea','My solution'),'answer']]){
   const section=make('label');section.className='edu-compact-field';section.dataset.field=key;
   const name=make('span',title);name.className='edu-compact-field-name';section.append(name,field);fields.append(section);
+  // Soft wrapping changes presentation only: never insert line breaks into
+  // a formula/question or shorten the submitted text to fit the viewport.
+  field.wrap='soft';
+  field.addEventListener('input',()=>requestAnimationFrame(()=>{
+   if(!field.isConnected)return;
+   field.scrollLeft=0;
+   if(field.selectionStart===field.value.length&&field.selectionEnd===field.value.length)field.scrollTop=field.scrollHeight;
+  }));
   field.placeholder=key==='prompt'?label('Scrie cerința sau alege un exercițiu…','Write a question or choose an exercise…'):label('Scrie aici rezolvarea și pașii urmați…','Write your answer and working here…');
  }
  // Tool buttons must not live inside a label (which would focus the keyboard).
@@ -72,7 +80,7 @@ dialog.edu-workspace-dialog.edu-compact-dialog[open]{padding:10px!important;gap:
 .edu-compact-dialog .edu-compact-fields{display:flex;flex-direction:column;flex:1 1 0!important;min-height:0!important;gap:8px!important}
 .edu-compact-dialog .edu-compact-field{display:flex!important;flex-direction:column!important;flex:1 1 0!important;min-height:0!important;gap:4px!important;min-width:0!important}
 .edu-compact-dialog .edu-compact-field-name{font-size:14px!important;line-height:1.2!important;font-weight:650;color:#d6eef5}
-.edu-compact-dialog .edu-compact-field>textarea{position:static!important;flex:1 1 0!important;height:0!important;min-height:36px!important;max-height:none!important;width:100%!important;box-sizing:border-box!important;resize:none!important;overflow:auto!important;padding:9px!important;font-size:16px!important;line-height:1.35!important;color:#effaff!important;background:#081e2d!important;border:1px solid #72b2c5!important;border-radius:12px!important}
+.edu-compact-dialog .edu-compact-field>textarea{position:static!important;flex:1 1 0!important;height:0!important;min-height:36px!important;max-height:none!important;width:100%!important;box-sizing:border-box!important;resize:none!important;white-space:pre-wrap!important;overflow-wrap:anywhere!important;word-break:break-word!important;overflow-x:hidden!important;overflow-y:auto!important;padding:9px!important;font-size:16px!important;line-height:1.35!important;color:#effaff!important;background:#081e2d!important;border:1px solid #72b2c5!important;border-radius:12px!important}
 .edu-compact-dialog .edu-compact-tools{flex:none!important;position:relative;min-width:0}
 .edu-compact-dialog .edu-compact-tools>.edu-input-tools{display:none!important;margin:0!important;gap:0!important;min-height:0!important}
 .edu-compact-dialog .edu-compact-tools>.edu-compact-tools-active:not([hidden]){display:flex!important}

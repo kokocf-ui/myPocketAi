@@ -88,6 +88,18 @@ try{
   // One tool strip follows the selected editor; symbols cannot leak into
   // the other field. Keyboard-sized viewport keeps primary actions visible.
   await page.evaluate(()=>window.__compactTest.open('math'));await work.waitFor();
+  // Natural prose and space-free formulae wrap without changing the value.
+  // Typing at the end follows the caret vertically, never clips it sideways.
+  for(const field of [question,answer]){
+   for(const value of [('O cerință foarte lungă, cu explicații complete. ').repeat(75),'x+'.repeat(1700)+'1234567890'.repeat(35)]){
+    await field.fill(value);await field.press('End');await field.press('a');await page.waitForTimeout(30);
+    assert.equal(await field.inputValue(),value+'a','Soft wrapping must not change/truncate text or inject newlines');
+    const g=await field.evaluate(f=>({wrap:f.wrap,width:f.clientWidth,scrollWidth:f.scrollWidth,height:f.clientHeight,scrollHeight:f.scrollHeight,top:f.scrollTop,left:f.scrollLeft,whiteSpace:getComputedStyle(f).whiteSpace}));
+    assert.equal(g.wrap,'soft');assert.equal(g.whiteSpace,'pre-wrap');assert.ok(g.scrollWidth<=g.width+1,JSON.stringify(g));assert.equal(g.left,0);
+    assert.ok(g.scrollHeight>g.height&&g.top>0,'Caret stays visible at the end of a long entry: '+JSON.stringify(g));
+    await fit();
+   }
+  }
   await question.fill('x+1');await question.focus();
   let active=work.locator('.edu-compact-tools-active');
   await active.getByRole('button',{name:'∑ Simboluri și șabloane',exact:true}).tap();
