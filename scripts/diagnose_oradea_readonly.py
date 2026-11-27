@@ -90,9 +90,13 @@ def inspect_feed(request=get_bytes):
 
 
 def query_local(case,when,request=get_bytes):
+    origin,destination=ORIGIN,DESTINATION
+    if case=='legacy_oradea_dispatch':
+        origin={k:v for k,v in ORIGIN.items() if k!='country_code'}
+        destination={k:v for k,v in DESTINATION.items() if k!='country_code'}
     body={'message':'Transport public','language':'ro','module':'maps','history':[],
-      'location_requested':True,'location':ORIGIN,'coordinates':ORIGIN,'journey_origin':ORIGIN,
-      'transit_destination':DESTINATION,'transit_query':DESTINATION['label'],'transit_departure_at':when,
+      'location_requested':True,'location':origin,'coordinates':origin,'journey_origin':origin,
+      'transit_destination':destination,'transit_query':destination['label'],'transit_departure_at':when,
       'mixed_journey':False,'mixed_composition':False,'national_public_transport':False,'transit_count':1}
     status,raw,_=request(API,data=json.dumps(body).encode(),limit=2*1024*1024)
     payload=json.loads(raw)
@@ -118,6 +122,7 @@ def notice(title,data):
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--allow-network',action='store_true')
+    parser.add_argument('--legacy-control-only',action='store_true',help='One daytime request without country hints, no repeated ZIP download')
     parser.add_argument('--output',type=Path,default=Path('.bundle-check/oradea-readonly.json'))
     args=parser.parse_args()
     report={'diagnosticOnly':True,'deploymentChanged':False,'productionFeedImported':False,
@@ -125,12 +130,14 @@ def main():
       'status':'not_run','reason':'explicit_allow_network_required'}
     if args.allow_network:
         report.pop('reason');report['status']='diagnostic_completed_not_acceptance'
-        try:
-            report['publicFeed']=inspect_feed();notice('oradea-public-feed',report['publicFeed'])
-        except Exception as error:
-            report['publicFeed']={'status':'inspection_failed','errorType':type(error).__name__}
-            notice('oradea-public-feed',report['publicFeed']);report['status']='diagnostic_incomplete'
-        for case,when in CASES:
+        if not args.legacy_control_only:
+            try:
+                report['publicFeed']=inspect_feed();notice('oradea-public-feed',report['publicFeed'])
+            except Exception as error:
+                report['publicFeed']={'status':'inspection_failed','errorType':type(error).__name__}
+                notice('oradea-public-feed',report['publicFeed']);report['status']='diagnostic_incomplete'
+        cases=(('legacy_oradea_dispatch',CASES[0][1]),) if args.legacy_control_only else CASES
+        for case,when in cases:
             try:
                 result=query_local(case,when);report['cases'].append(result);notice('oradea-live-case',result)
             except Exception as error:

@@ -54,6 +54,17 @@ class ReadonlyTests(unittest.TestCase):
             self.assertNotIn('must not save',json.dumps(result))
         self.assertEqual(calls,[API,API])
 
+    def test_legacy_control_keeps_points_time_but_removes_country_hints(self):
+        def request(url,**options):
+            body=json.loads(options['data'])
+            self.assertNotIn('country_code',body['journey_origin'])
+            self.assertNotIn('country_code',body['transit_destination'])
+            self.assertEqual(body['journey_origin']['latitude'],47.043244)
+            self.assertEqual(body['transit_departure_at'],CASES[0][1])
+            return 200,json.dumps({'transit_provider':'Romania GTFS static'}).encode(),{}
+        result=query_local('legacy_oradea_dispatch',CASES[0][1],request)
+        self.assertEqual(result['case'],'legacy_oradea_dispatch')
+
     def test_unknown_destinations_or_provider_expansion_refused(self):
         with self.assertRaisesRegex(ValueError,'unapproved'):
             get_bytes('https://api.entur.io/')
