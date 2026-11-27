@@ -18,8 +18,14 @@ fundal rgba .58 și distanță, doar în navigare cu instrucțiune recunoscută.
 GPS slab/vechi/offroute/sosire ascunde badge; Start așteaptă poziție nouă.
 Source+compiled realLeaflet nav PASS4viewporturi+rotație; compiled nationalBack/
 coverage/viewport/walking/input PASS; calendar/native/boot/model PASS.
-Raport `NAVIGATION_ARROWS_NATIONAL_BACK.md`. APK nou încă nepublicat la acest
-punct; 501893 este ultima livrare. Aspect501893 apreciat, NU acceptare background
+Raport `NAVIGATION_ARROWS_NATIONAL_BACK.md`. APK501894 PUBLICAT, sursă976876b,
+run45980243484/job140442019810SUCCESS (3m4s),debugSKIPPED; compiled navigation/
+nationalBack/walking/input/viewport + permanentcert/identity/version/snapshotPASSCI.
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45980243484/myPocketAI-signed-education-test.apk
+Release460439551/asset799983907,77,663,460B,GitHubSHA256metadata:
+aa79d2b773f264a00c661f728dd158aade9a69af27dc7bf9c0aacb02e74bee27.
+Updatefărădezinstalare/dateșterse; nuinspecțielocalăAPK. Noul retest fizic pending.
+Aspect501893 apreciat, NU acceptare background
 sau cronologie transport. Fără backend/deployprod/HERE/paid/mainmerge/Oracle.
 
 **CERERE CURENTĂ — RETEST501892: PRIMA PORNIRE / ANTET FIX / DOUĂ MANEVRE:**

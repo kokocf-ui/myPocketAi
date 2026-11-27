@@ -6,7 +6,27 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
-## Cel mai nou APK — 501893: prima pornire, antet fix, două manevre
+## Cel mai nou APK — 501894: căutare nouă și săgeți de navigare
+
+[**Descarcă APK-ul semnat 501894**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45980243484/myPocketAI-signed-education-test.apk)
+
+Instalează peste versiunea existentă, **fără dezinstalare sau ștergerea datelor**.
+Run45980243484/job140442019810 SUCCESS; sursă976876b. Compiled realLeaflet,
+national Back/walking/input/viewport și certificat/identity/version/snapshot PASS CI.
+
+1. Din alternativele transportului public național, „Anterior” trebuie să deschidă
+   un câmp gol, fără vechea sugestie confirmată. Verifică și butonul Android Back.
+2. Din calendar înapoi la destinație: selecția rămâne, pentru ajustarea aceleiași căutări.
+3. În navigare: săgeți la instrucțiunile de jos și într-o casetă semitransparentă
+   în colțul dreapta-jos al hărții, cu distanța până la manevră.
+4. Cu GPS nesigur sau în afara traseului, săgeata veche nu rămâne pe hartă.
+   Oprirea readuce previzualizarea, fără caseta de navigare.
+5. Harta mare de la prima pornire și comenzile deasupra hărții trebuie păstrate.
+
+Aspectul501893 a fost apreciat de utilizator. Noua versiune și GPS-ul în fundal
+rămân de verificat fizic, în siguranță. Raport: `NAVIGATION_ARROWS_NATIONAL_BACK.md`.
+
+## APK anterior — 501893: prima pornire, antet fix, două manevre
 
 [**Descarcă APK-ul semnat 501893**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45977801782/myPocketAI-signed-education-test.apk)
 

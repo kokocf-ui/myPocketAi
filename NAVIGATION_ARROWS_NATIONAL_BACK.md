@@ -43,5 +43,18 @@ beside the bottom instructions and in a semitransparent map-corner box.
 
 ## Delivery
 
-Signed branch-test APK pending; last published is APK501893. Physical verification
-of new arrows and clean search, as well as background GPS, remains required.
+**Signed branch-test APK501894 published.**
+
+- Source `976876bd7217005707c15c6b577f993756a5ff18`.
+- Run `45980243484`, signed job `140442019810`: SUCCESS in 3m4s; debug skipped.
+  Compiled navigation/national Back/walking/input/viewport and permanent signing
+  certificate, package identity, version and snapshot gates PASS in CI.
+- Download: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45980243484/myPocketAI-signed-education-test.apk
+- Release `460439551`, asset `799983907`, 77,663,460 bytes.
+- SHA256 from GitHub asset metadata:
+  `aa79d2b773f264a00c661f728dd158aade9a69af27dc7bf9c0aacb02e74bee27`.
+  No independent local APK inspection claimed.
+- Install over the existing app without uninstalling or deleting data.
+
+Physical verification of new arrows and clean search, as well as background GPS,
+remains required. Backend v187 unchanged; no production deployment or main merge.
