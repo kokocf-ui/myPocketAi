@@ -29,7 +29,7 @@ const iso=v=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}T.*(?:Z|[+-]\d{2}:\d{2})$/.
 const busOnly=j=>j.legs.some(l=>['bus','coach','trolleybus'].includes(l.mode))&&j.legs.every(l=>['walking','bus','coach','trolleybus'].includes(l.mode));
 export function enturNationalConfigured(env={}){
  return env.ENTUR_NATIONAL_ENABLED==='true'&&env.ENTUR_TERMS_REVIEWED==='true'&&
-  /^[a-z0-9][a-z0-9._-]{2,79}$/i.test(String(env.ENTUR_CLIENT_NAME||''));
+  /^[a-z0-9][a-z0-9._-]{2,79}$/.test(String(env.ENTUR_CLIENT_NAME||''));
 }
 // Complete provider legs only. Do not repair missing transfers, endpoint gaps,
 // unknown modes, cancelled journeys or malformed times with invented walks.
@@ -66,6 +66,7 @@ export function normalizeEnturPattern(raw,{from,to,departureAt}={}){
  const start=legs[0].departureTime,end=legs.at(-1).arrivalTime;
  if(Date.parse(end)-Date.parse(start)>72*3600000)return null;
  return {provider:'Entur',source:'Entur Journey Planner v3',source_url:'https://developer.entur.no/docs/open-services/journey-planner',
+  attribution:{text:'Public transport data from Entur — Norwegian Licence for Open Government Data (NLOD)',url:'https://developer.entur.no/docs/open-services/journey-planner'},
   time_zone:'Europe/Oslo',country_code:'NO',startDateTime:start,arrivalDateTime:end,
   durationMinutes:Math.ceil((Date.parse(end)-Date.parse(start))/60000),legs,scheduled:true,
   real_time:legs.some(l=>l.realtime),fareLocal:null,fareComplete:false,seatAvailability:'unverified',

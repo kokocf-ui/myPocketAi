@@ -1,3 +1,4 @@
+import {keylessGtfsSource} from './keyless_transport_sources.mjs';
 import {OPEN_SURFACE_TRANSPORT_SOURCE} from './public_transport_sources.mjs';
 import {NATIONAL_TRANSPORT_COUNTRIES,nationalTransportCoverage} from './national_transport_registry.mjs';
 import {europeanCountrySources,EUROPE_COUNTRIES} from './europe_country_sources.mjs';
@@ -87,6 +88,14 @@ export function selectCountryProviders(request={}){
  const candidateIds=resolved.flatMap(c=>sourcesFor(c,category,branch,request));
  const mode=fold(request.mode||request.transportMode);
  const selected=configuredIds(candidateIds,request.enabledProviders||[]).filter(id=>locality(id,request)).filter(id=>{
+  const staticSource=keylessGtfsSource(id);
+  if(staticSource||id==='irail_national_transit'){
+   const country=staticSource?.country||'BE';
+   if(resolved.length!==1||resolved[0]!==country)return false;
+   if(['airport_transfer','international_transport','urban_transport'].includes(category))return false;
+   return !mode||['train','rail','mixed','mixed_transport','public_transport','intercity_transport'].includes(mode)||
+    Boolean(staticSource&&['bus','tram','metro','ferry','funicular','trolleybus'].includes(mode)&&staticSource.modes.includes(mode));
+  }
   if(id!==OPEN_SURFACE_TRANSPORT_SOURCE.id)return true;
   if(!resolved.every(c=>NATIONAL_TRANSPORT_COUNTRIES[c]))return false;
   return !mode||['train','rail','coach','mixed','mixed_transport','public_transport','intercity_transport','international_transport'].includes(mode);

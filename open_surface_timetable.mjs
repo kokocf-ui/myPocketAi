@@ -8,9 +8,9 @@ const dayKey=ms=>new Date(ms).toISOString().slice(0,10).replaceAll('-','');
 const iso=ms=>new Date(ms).toISOString();
 const point=p=>p&&typeof p.latitude==='number'&&typeof p.longitude==='number'&&Number.isFinite(p.latitude)&&Number.isFinite(p.longitude)&&Math.abs(p.latitude)<=90&&Math.abs(p.longitude)<=180;
 const validDay=s=>typeof s==='string'&&/^\d{8}$/.test(s)&&new Date(Date.parse(s.slice(0,4)+'-'+s.slice(4,6)+'-'+s.slice(6)+'T00:00:00Z')).toISOString().slice(0,10).replaceAll('-','')===s;
-export function validateOpenSurfaceIndex(index,{now=Date.now()}={}){
+export function validateOpenSurfaceIndex(index,{now=Date.now(),expectedSource=OPEN_SURFACE_SOURCE,allowedModes=['train','coach']}={}){
  try{
-  if(index?.schema!==1||index.source!==OPEN_SURFACE_SOURCE||index.timezone!=='UTC'||!/^[a-f0-9]{64}$/.test(index.sourceSha256||'')||
+  if(index?.schema!==1||index.source!==expectedSource||index.timezone!=='UTC'||!/^[a-f0-9]{64}$/.test(index.sourceSha256||'')||
    !validDay(index.validFrom)||!validDay(index.validTo)||index.validTo<index.validFrom||
    !index.attribution||!index.licenseUrl)return 'invalid_index';
   const generated=stamp(index.generatedAt);
@@ -20,7 +20,7 @@ export function validateOpenSurfaceIndex(index,{now=Date.now()}={}){
    !Array.isArray(index.trips)||index.trips.length>60000)return 'invalid_index';
   if(index.stops.some(s=>!Array.isArray(s)||typeof s[0]!=='string'||s[0].length>100||!s[1]||!point({latitude:s[2],longitude:s[3]}))||
    new Set(index.stops.map(s=>s[0])).size!==index.stops.length)return 'invalid_index';
-  if(index.routes.some(r=>!Array.isArray(r)||!r[0]||!r[1]||!['train','coach'].includes(r[3])))return 'invalid_index';
+  if(index.routes.some(r=>!Array.isArray(r)||!r[0]||!r[1]||!allowedModes.includes(r[3])))return 'invalid_index';
   if(index.services.some(s=>!Array.isArray(s)||!Number.isInteger(s[2])||s[2]<0||s[2]>127||
    !(s[0]===''&&s[1]===''||validDay(s[0])&&validDay(s[1])&&s[1]>=s[0])||
    !s[3]||typeof s[3]!=='object'||Object.entries(s[3]).some(([day,t])=>!validDay(day)||![1,2].includes(t))))return 'invalid_index';
@@ -57,7 +57,8 @@ function visibleLeg(index,ride,board,alight){
 }
 // Loaded index is validated ONCE by the asset loader, not on every query.
 export function planOpenSurfaceCandidates(index,{
- origin,destination,departureAt,days=3,maxRides=3,transferMinutes=45,now=Date.now(),signal=null,budgetMs=1500
+ origin,destination,departureAt,days=3,maxRides=3,transferMinutes=45,now=Date.now(),signal=null,budgetMs=1500,
+ originRadiusKm=80,destinationRadiusKm=40
 }={}){
  const requested=stamp(departureAt),begun=performance.now();
  if(requested===null||requested<now-120000||requested>now+60*86400000||
@@ -65,7 +66,8 @@ export function planOpenSurfaceCandidates(index,{
   !Number.isInteger(transferMinutes)||transferMinutes<45||transferMinutes>240||!point(origin)||!point(destination))return {status:'invalid_request',candidates:[]};
  const horizon=requested+days*86400000;
  if(dayKey(requested)<index.validFrom||dayKey(horizon)>index.validTo)return {status:'outside_feed_validity',candidates:[]};
- const starts=nearbySurfaceStops(index,origin),ends=nearbySurfaceStops(index,destination,{radiusKm:40});
+ if(!Number.isFinite(originRadiusKm)||originRadiusKm<0||originRadiusKm>80||!Number.isFinite(destinationRadiusKm)||destinationRadiusKm<0||destinationRadiusKm>40)return {status:'invalid_request',candidates:[]};
+ const starts=nearbySurfaceStops(index,origin,{radiusKm:originRadiusKm}),ends=nearbySurfaceStops(index,destination,{radiusKm:destinationRadiusKm});
  const deadline=()=>signal?.aborted||performance.now()-begun>Math.max(1,Math.min(3000,budgetMs));
  const rides=[],midnight=Date.parse(iso(requested).slice(0,10)+'T00:00:00Z');
  for(let delta=-2;delta<=days;delta++){

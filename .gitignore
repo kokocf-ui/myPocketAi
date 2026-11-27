@@ -16,3 +16,7 @@ __pycache__/
 
 # Generated licensed public transport snapshots (build/release artifacts only).
 .open-surface-assets/
+
+# Prepared keyless GTFS snapshots and downloaded source ZIPs (never commit).
+.keyless-gtfs-assets/
+.keyless-gtfs-downloads/

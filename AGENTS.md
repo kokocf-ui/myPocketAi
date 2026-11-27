@@ -7,6 +7,34 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ULTIMA ETAPĂ — SURSE FĂRĂ API KEY IMPLEMENTATE, INACTIVE:**
+User: „Implementăm ce avem deocamdată”. Raport KEYLESS_PUBLIC_TRANSPORT.md.
+NO: Entur existent păstrat, lowercase ET-Client-Name + atribuire NLOD în rezultate;
+nu activat. BE: irail_national_transit.mjs + registry/policy/Worker dispatch,
+rail-only stație→stație, direct+transfer same-station >=2min; walking vias refuzate,
+endpoints <=150m, toate punctele/stops reverse-country verified. Fără fare/seats/
+geometry/door-to-door/realtime blanket. Necesită flags+terms+User-Agent real și
+IRAIL_RATE_LIMITER.limit global; binding/infrastructură NUprovisionate/activate.
+GTFS pentru DE/FR/IE/LU/CZ(PID)/CH: keyless_gtfs_sources.json comun Python/JS,
+compiler offline scripts/build_keyless_gtfs_index.py, runtime keyless_gtfs_transit,
+registry intercity/public + backend; NU urban/airport/crossborder autoselect.
+Source-specific optin PUBLIC_GTFS_ENABLED/REVIEWED_SOURCES/ASSETS, OFF implicit.
+GTFS local noon-minus12 elapsed UTC (DST/25h), calendar+exceptions, <=7zile
+snapshot freshness, fereastră2–7localdays, directridesonly/24hquery/150m/100ms;
+nu transfergraph/walk/frequency/on-demand/realtime. Operator/route selection
+explicit păstreazăTOATEintermediatestops chiarstrăine. Index<=5MiB/10ktrips/
+100kcalls, oneparsedsourcecache, nicidescărcareZIP peruser, niciproviderfallback.
+NU freeWorker CPU/memory acceptance; fullcountryfeeds potdepășibuget și sunt
+refuzate până laselecțieexplicită+profilare. Nuafirmafeednațional/coverage completă.
+Noile surse au numai synthetic/local contract proof, NUnewactualGTFS/liveprobe.
+PASS npm test:keyless-transport (9PythonCLI+6iRail+5GTFS+3actualWorker fixtures),
+npm test:national-transport, npm test:mixed-orientation, check/boot/diffcheck,
+Wranglerbackenddryrun. Test Entur countryguard actualizat pentru noul BEadapter;
+nu relaxare countryvalidation. Configlive nemodificat, no flags/assets/limiternoi,
+nodeploy/APK/HERE/paid/Oracle/newserver/mainmerge. APK501894/backendv187 neschimbate.
+Rămân: reuse/licence/privacy review, limiterglobal real, feedsactuale+refresh/
+distribuire și resursefree, rute reale+backendmatching înainteactivare/release.
+
 **CERERE NOUĂ — TRANSPORT PUBLIC ÎN REGISTRUL ȚĂRILOR:**
 User: „Hai să băgăm și în registrul țărilor transportul public”. Implementat
 SmartRegistryv3 public_transport/transportpublic + EuropeanSourceCatalogv2.

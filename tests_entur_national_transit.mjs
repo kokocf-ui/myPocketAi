@@ -11,7 +11,7 @@ const clone=v=>structuredClone(v);
 
 test('Norway opt-in requires both explicit switches and an identifying client header',async()=>{
  assert.equal(enturNationalConfigured({}),false);assert.equal(enturNationalConfigured(env),true);
- for(const patch of [{ENTUR_NATIONAL_ENABLED:false},{ENTUR_TERMS_REVIEWED:'false'},{ENTUR_CLIENT_NAME:''},{ENTUR_CLIENT_NAME:'bad\r\nheader'}]){
+ for(const patch of [{ENTUR_NATIONAL_ENABLED:false},{ENTUR_TERMS_REVIEWED:'false'},{ENTUR_CLIENT_NAME:''},{ENTUR_CLIENT_NAME:'bad\r\nheader'},{ENTUR_CLIENT_NAME:'Uppercase-Client'}]){
   const e={...env,...patch};assert.equal(enturNationalConfigured(e),false);
   const result=await plan(e,options,{...testOpts,fetchImpl:()=>{throw Error('disabled must never call');}});
   assert.equal(result.status,'not_configured');assert.ok(!configuredNationalTransportProviders(e).includes('entur_national_transit'));
@@ -24,7 +24,7 @@ test('Norway opt-in requires both explicit switches and an identifying client he
 test('Country policy is domestic-only for all 49 countries; catalog is never a connection',()=>{
  for(const country of EUROPE_COUNTRIES){
   assert.equal(policy({originCountry:country,destinationCountry:country==='GB'?'RO':'GB',enabledProviders:['entur_national_transit']}).status,'international_destination');
-  if(!['RO','GB','NO','FI','EE','DE'].includes(country)){
+  if(!['RO','GB','NO','FI','EE','DE','BE'].includes(country)){
    assert.equal(policy({originCountry:country,destinationCountry:country,enabledProviders:['entur_national_transit']}).status,'country_provider_not_connected');
    assert.deepEqual(nationalTransportCoverage(country,configuredNationalTransportProviders(env)).configured_adapters,[]);
   }

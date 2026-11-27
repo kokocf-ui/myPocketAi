@@ -10,6 +10,12 @@ export function nationalTransportResponse(result,{country,provider,language='ro'
   ' · '+j.legs.filter(l=>l.mode!=='walking').map(l=>[l.mode,...l.lineNames].join(' ')+' · '+l.from+' → '+l.to).join(' / ')).join('\n');
  const unavailable=result?.status==='invalid_departure'
   ?(en?'Choose a valid departure within the next 60 days.':'Alege o plecare validă în următoarele 60 de zile.')
+  :result?.status==='rail_station_access_required'
+  ?(en?'This source covers rail station-to-station journeys only. Verified walking access to both stations is required separately.':'Această sursă acoperă numai călătorii între gări. Accesul pietonal verificat la ambele gări trebuie calculat separat.')
+  :result?.status==='outside_feed_validity'
+  ?(en?'The selected departure is outside the loaded timetable window. No alternative date was substituted.':'Plecarea aleasă este în afara ferestrei de orar încărcate. Nu am înlocuit data cu alta.')
+  :result?.status==='mode_not_supported'
+  ?(en?'This rail source cannot fulfil a bus-only request.':'Această sursă feroviară nu poate răspunde unei cereri numai cu autobuzul.')
   :result?.status==='free_quota_exhausted'
   ?(en?'The free monthly transit allowance is exhausted. Requests are stopped; no paid fallback is used.':'Cota lunară gratuită pentru transport s-a epuizat. Cererile sunt oprite; nu folosesc o alternativă cu plată.')
   :result?.status==='budget_unavailable'
@@ -22,6 +28,8 @@ export function nationalTransportResponse(result,{country,provider,language='ro'
  const reply=journeys.length
   ?(en?'Domestic public transport · ':'Transport public național · ')+country+' → '+destination.label+'\n'+description+'\n\n'+
    (en?'Source: ':'Sursa: ')+provider+'. '+
+   (result?.source_scope?result.source_scope+'\n':'')+
+   (result?.direct_rides_only?(en?'Direct scheduled rides only; no transfer or realtime calculation. ':'Numai curse directe din orar; fără calcul de transferuri sau actualizări în timp real. '):'')+
    (journeys.some(indicative)?(en?'Indicative route; the timetable cannot be guaranteed. Confirm with the operator.':'Traseu orientativ; orarul nu poate fi garantat. Verifică la operator.')+' ':'')+
    (en?'Times only where supplied by the provider; live updates only where explicitly supplied. Walking access and transfers need separate navigation checks.':
     'Ore numai unde sunt furnizate de operator; actualizări în timp real numai unde sunt furnizate explicit. Accesul pietonal și transferurile necesită verificare separată pentru navigare.')+
@@ -30,6 +38,8 @@ export function nationalTransportResponse(result,{country,provider,language='ro'
  return {reply,national_public_transport:true,country_code:country,mixed_journey:false,international_journey:false,
   transit_available:journeys.length>0,route_available:false,route_geometry_available:false,transit_geometry_available:false,
   transit:journeys,fastest_transit:journeys[0]||null,transit_provider:provider,source:provider,
+  ...(result?.source_scope?{source_scope:result.source_scope}:{}),
+  ...(result?.direct_rides_only===true?{direct_rides_only:true}:{}),
   reason:journeys.length?'national_itineraries_found':result?.status||'provider_unavailable',
   transit_destination_point:{latitude:destination.latitude,longitude:destination.longitude,label:destination.label},
   transit_departure_at:departureAt||null,provider_status:{national:result?.status||'provider_unavailable',...(result?.source_status||{})}};

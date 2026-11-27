@@ -1,3 +1,6 @@
+import {planIrailNationalJourney} from './irail_national_transit.mjs';
+import {planKeylessGtfsJourney} from './keyless_gtfs_transit.mjs';
+import {KEYLESS_GTFS_SOURCES} from './keyless_transport_sources.mjs';
 import {tflJourneyCoordinates} from './tfl_journey_geometry.mjs';
 import {openSurfaceDataResponse} from './open_surface_data.mjs';
 import {mixedProgressResponse} from './mixed_progress_stream.mjs';
@@ -3995,6 +3998,8 @@ async function handleBackendRequest(request, env, runtime={}) {
       }
       authorizedNationalProvider=authorization.provider;verifiedNationalCountry=originCountry;
       const extraNationalPlanner={
+        ...Object.fromEntries(KEYLESS_GTFS_SOURCES.map(source=>[source.id,{plan:(env,query,opts)=>planKeylessGtfsJourney(env,{...query,sourceId:source.id},opts),label:source.name}])),
+        irail_national_transit:{plan:planIrailNationalJourney,label:'iRail'},
         here_national_transit:{plan:planHereNationalJourney,label:'HERE Public Transit'},
         germany_motis_national_transit:{plan:planGermanyNationalJourney,label:'MOTIS Germany'},
         entur_national_transit:{plan:planEnturNationalJourney,label:'Entur'},
