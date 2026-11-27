@@ -72,6 +72,10 @@ export function convertTransCAPIToMixedLegs(journey,query,{journeyIndex=0,provid
    provider:source,verified:true,
    verificationSource:source+(mode==='walking'?': provider pedestrian route duration estimate':': dated authorized operator journey timetable'),
    timingEstimated:raw.timingEstimated===true,
+   // This adapter has checked every adjacent point, label and timestamp
+   // within ONE ordinary provider journey. Preserve that provenance so the
+   // graph does not invent a second interchange margin inside it.
+   localItineraryId:prefix,localLegIndex:i,
    // A per-leg / booking-total fare is not confirmed by the route geometry.
    fareVerified:false,cancelled:raw.cancelled===true
   });

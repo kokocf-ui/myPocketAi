@@ -54,6 +54,8 @@ export function normalizeVerifiedMixedLeg(raw){
     // Operator-declared same-ticket connections may provide their own transfer
     // validation; no such shortcut is inferred from matching airline names.
     timingEstimated:raw.timingEstimated===true,
+    localItineraryId:typeof raw.localItineraryId==='string'&&raw.localItineraryId.length<=300?raw.localItineraryId:null,
+    localLegIndex:Number.isInteger(raw.localLegIndex)&&raw.localLegIndex>=0&&raw.localLegIndex<30?raw.localLegIndex:null,
     protectedConnection:raw.protectedConnection===true
   };
 }
@@ -65,6 +67,13 @@ export function normalizeVerifiedMixedLeg(raw){
  */
 export function minimumMixedTransferMinutes(previous,next){
   if(!previous)return next?.mode==='flight'?90:0;
+  // Adjacent legs from one coordinate/chronology-validated ordinary provider
+  // journey already include that provider's walking/boarding time. This is
+  // NOT a protected/through-ticket promise and never crosses a source scope.
+  if(previous.mode!=='flight'&&next.mode!=='flight'&&previous.provider===next.provider&&
+   previous.localItineraryId&&previous.localItineraryId===next.localItineraryId&&
+   Number.isInteger(previous.localLegIndex)&&next.localLegIndex===previous.localLegIndex+1&&
+   previous.to?.id===next.from?.id)return 0;
   if(previous.mode==='flight')return next.mode==='flight'?90:next.mode==='walking'?20:45;
   if(next.mode==='flight')return 105;
   if(previous.mode==='walking')return next.mode==='walking'?0:5;

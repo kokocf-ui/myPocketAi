@@ -25,7 +25,16 @@ ro_urban_feed_unavailable/feed_not_loaded/oradea. Nufulljourney.
 Etapanouă: optional shortwalking fallback folosește standalonewalking existent,
 75m endpoints/providerduration+geometry, estimateflag/shared12cap/noquotaoverride.
 TfLlineStringJSON nu encodedPolyline; parsernou+endpointcheck reparăcoords
-aproapezero. Live walking/geometryproof urmează, rezultat încă PENDING.
+aproapezero. Run45991954687/check140481713942SUCCESS: TfLgeometrypoints21/476/30/198/36,
+Londoncoords corecte. ROwalkingreal3469m/3256.628s/95points,75mends verified,
+Dec5 00:05→00:59:16.628UTC estimated. 2accessqueries/6TfLHTTP +1ROtransit
++1standalonewalkingHTTP, noflight/HERE/Exa/Brave. Ambelecapete verifieddar
+completefalse: graph dubla marginile în itineraryTfL validat deja. Fixnou
+localItineraryId/localLegIndex numai adjacency sameprovider/nonflight,
+nu modifică marjeîntresurse/45mcoach/15mboarding/10megress. Purecomposer
+composeOpenSurfaceOption permite replayartifact existent fără cererinoi.
+Offlineworkflow surface_replay_run=45991954687 urmează, rezultat PENDING.
+ResurseNode222ms/heap74MiB/RSS162MiB NUWorkerfreeCPUproof. FlagOFF încontinuare.
 PASS runtimefixture Pythoncompiler→JS, mixedorientation, unifiedresults, boot,
 compiled browser360/393/430 inclusiv sourcepartial/stops/Back/complete details.
 Nu confunda fixtures/UI cu proba live. Nu activa HERE/paid/Oracle/main/deploy/APK.

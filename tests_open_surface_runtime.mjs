@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import worker from './backend.js';
 import {spawnSync} from 'node:child_process';
 import {readFileSync} from 'node:fs';
 import {OPEN_SURFACE_SOURCE,validateOpenSurfaceIndex,planOpenSurfaceCandidates,loadOpenSurfaceIndex} from './open_surface_timetable.mjs';
@@ -84,3 +85,21 @@ const independent=await searchMixedIndicativeOptions({}, {...query,international
 assert.equal(air,0);assert.equal(ground,1);assert.equal(surface,1);assert.equal(independent.scheduled_surface_options.length,1);
 assert.match(readFileSync('index.js','utf8'),/function appendMixedScheduledSurfaceCards/);
 console.log('PASS Python-compiled → Worker UTC timetable, calendar/exceptions, >24h, pickup, source IDs, bounded loading/freshness, fixed-point local joins, wrong-date rejection, independent surface and explicit gaps');
+
+const realFetch=globalThis.fetch,realNow=Date.now;
+globalThis.fetch=async input=>{throw Error('No external source authorized in Worker contract test: '+String(input))};
+Date.now=()=>now;
+try{
+ const response=await worker.fetch(new Request('https://fixture.test/api/chat',{method:'POST',headers:{'Content-Type':'application/json'},
+  body:JSON.stringify({message:'Transport mixt',module:'travel',language:'ro',history:[],mixed_journey:true,mixed_composition:true,mixed_ground_only:true,
+   journey_origin:origin,location:origin,location_requested:true,transit_destination:destination,transit_query:destination.label,transit_departure_at:when})}),
+  {...env,AI:{run:async()=>{throw Error('No LLM allowed')}}});
+ const body=await response.json();
+ assert.equal(response.status,200);
+ assert.equal(body.scheduled_surface_options?.length,1,JSON.stringify(body).slice(0,1500));
+ assert.equal(body.scheduled_surface_options[0].completeDoorToDoor,false,'Missing real local provider cannot turn a source timetable into door-to-door');
+ assert.equal(body.flight_search_status,'disabled');
+ const db=await worker.fetch(new Request('https://fixture.test/api/open-surface/index.json'),env);
+ assert.equal(db.status,200);
+ console.log('PASS actual mixed Worker response carries independent source schedules/explicit local gaps and public data endpoint without flights or provider keys');
+}finally{globalThis.fetch=realFetch;Date.now=realNow}

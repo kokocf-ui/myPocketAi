@@ -22448,7 +22448,7 @@ function appendMixedScheduledSurfaceCards(host,options,choice){
      const section=document.createElement('section');section.className='mixed-surface-local-'+side;
      section.textContent=(side==='access'?dialogText('Acces la îmbarcare: ','Access to boarding: '):dialogText('Până la destinația exactă: ','To the exact destination: '))+
       (journey?String(journey.startDateTime)+' → '+String(journey.arrivalDateTime):dialogText('⚠ Neconfirmat · ','⚠ Unverified · ')+String(status||'unverified'));
-     for(const l of journey?.legs||[]){const row=document.createElement('p');row.textContent=String(l.from)+' → '+String(l.to)+' · '+String(l.departureTime)+' → '+String(l.arrivalTime);section.append(row)}
+     for(const l of journey?.legs||[]){const row=document.createElement('p');row.textContent=String(l.from)+' → '+String(l.to)+' · '+String(l.departureTime)+' → '+String(l.arrivalTime)+(l.timingEstimated?dialogText(' · durată pietonală estimată',' · estimated walking duration'):'');section.append(row)}
      body.append(section);
     };
     addLocal(option.accessJourney,'access',option.accessStatus);

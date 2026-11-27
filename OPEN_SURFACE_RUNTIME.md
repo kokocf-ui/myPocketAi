@@ -135,3 +135,42 @@ encoded paths, and checks geometry against the leg's actual endpoint evidence.
 No endpoint lines are fabricated. The full source-composed journey preserves
 returned local geometry/steps and the estimate flag for pedestrian legs.
 Actual-source+walking/geometry proof result is pending the next manual run.
+
+
+## Actual walking/geometry proof 45991954687 / check 140481713942
+
+SUCCESS on 0fd77f2. Public TfL through branch Worker confirmed the same dated
+access Dec 3 06:22→07:46 UTC, five actual local legs. Geometry is now real
+London-region data, not near (0,0): per-leg coordinate counts 21 / 476 / 30 /
+198 / 36. The final London bus geometry ends [-0.1486652,51.4922956], close to
+the actual source Victoria coach stop.
+
+Exactly one further ordinary transit egress response confirmed
+`ro_urban_feed_unavailable` again, followed by exactly one standalone walking
+request to the existing frontend/backend origin (no new walking service).
+Actual returned walking route: 3469 m, 3256.628 seconds, 95 geometry points.
+Start [21.95854,47.043244], end [21.947405,47.061302], both within 75 m of the
+synthetic requested points. Adapted walking time: Dec 5 00:05→00:59:16.628 UTC,
+explicit duration estimate, NOT a theoretical bus departure.
+
+Both endpoints passed independently. Full composition still returned false in
+that run: the general graph added a second generic interchange margin inside
+the already timed, coordinate/label/chronology-validated five-leg TfL journey.
+The follow-up correction marks the validated ordinary itinerary's consecutive
+leg scope/index. ONLY immediately adjacent non-flight legs in the SAME source
+and itinerary can reuse that provider's own timing. Different source/itinerary,
+skipped legs, flights and negative chronological overlap retain rejection or
+their original margins. Separate intercity transfers still require at least
+45 minutes and exact source stop IDs; access still ends >=15 minutes before
+coach boarding, egress begins >=10 minutes after alighting.
+
+`composeOpenSurfaceOption` is now a pure re-validation boundary, allowing saved
+actual public responses to be replayed without live requests. A new manual
+`surface_replay_run` workflow input downloads the earlier synthetic diagnostic
+artifact inside Actions and tests it with the corrected connector. During
+replay all binding/health/live diagnostic steps are skipped; no provider call
+is required. Offline replay result is pending, not yet a complete-journey claim.
+
+Resource diagnostics in the second run remain NOT Worker/free-tier validation:
+Node prepare+search 222 ms / search 75 ms, heap 74.2 MiB, RSS 162.4 MiB. Default
+feature remains OFF; no paid-tier upgrade or production activation is implied.

@@ -22,6 +22,12 @@ on:
         default: false
         type: boolean
 
+      surface_replay_run:
+        description: 'Replay public synthetic surface artifact from this run ID, OFFLINE (no new providers)'
+        required: false
+        default: ''
+        type: string
+
       probe_local_connections:
         description: 'Bounded ordinary local checks at source endpoints; runtime proof may try standalone walking if the timetable is missing, no paid/flight search'
         required: false
@@ -34,11 +40,30 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        if: inputs.inspect_open_gtfs == true || inputs.prove_surface_runtime == true
+        if: inputs.inspect_open_gtfs == true || inputs.prove_surface_runtime == true || inputs.surface_replay_run != ''
       - uses: actions/setup-node@v4
-        if: inputs.prove_surface_runtime == true
+        if: inputs.prove_surface_runtime == true || inputs.surface_replay_run != ''
         with:
           node-version: '22'
+      - uses: actions/download-artifact@v4
+        if: inputs.surface_replay_run != ''
+        with:
+          name: open-surface-runtime-proof
+          run-id: ${{ inputs.surface_replay_run }}
+          github-token: ${{ github.token }}
+          path: ${{ runner.temp }}/surface-replay
+      - name: Replay saved public responses with current connector (NO live calls)
+        if: inputs.surface_replay_run != ''
+        run: |
+          node tests_verified_multimodal_itineraries.mjs
+          node scripts/replay_open_surface_connections.mjs "$RUNNER_TEMP/surface-replay/runtime-proof.json" "$RUNNER_TEMP/offline-replay.json"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.surface_replay_run != ''
+        with:
+          name: open-surface-offline-replay
+          path: ${{ runner.temp }}/offline-replay.json
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Compile actual source and prove branch surface runtime
         if: inputs.prove_surface_runtime == true
         env:
@@ -76,6 +101,7 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
       - name: Inspect binding presence, runtime analytics and no-credit flight health
+        if: inputs.surface_replay_run == ''
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
