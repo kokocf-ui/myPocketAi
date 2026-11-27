@@ -1,0 +1,15 @@
+import assert from 'node:assert/strict';
+import {pocketRouteManeuver} from './route_navigation_ui.mjs';
+const route={distanceMeters:700,steps:[{text:'Start',distanceMeters:100},{text:'Right',distanceMeters:200},{text:'Left',distanceMeters:400},{text:'Arrive',distanceMeters:0}]};
+const p=along=>({away:0,totalMeters:700,alongMeters:along});
+assert.equal(pocketRouteManeuver(route,p(0),6).text,'Right');
+assert.equal(pocketRouteManeuver(route,p(210),6).text,'Left');
+assert.equal(pocketRouteManeuver(route,p(210),6).distance,90);
+assert.equal(pocketRouteManeuver(route,p(695),6).status,'arrived');
+assert.notEqual(pocketRouteManeuver(route,p(695),30).status,'arrived');
+assert.equal(pocketRouteManeuver(route,p(50),50).status,'gps');
+assert.equal(pocketRouteManeuver(route,{...p(50),away:300},5).status,'offroute');
+assert.equal(pocketRouteManeuver(null,null,5).status,'gps');
+assert.equal(pocketRouteManeuver({...route,steps:[]},p(10),6).status,'continue');
+assert.equal(pocketRouteManeuver(route,{...p(10),totalMeters:0},6).status,'gps');
+console.log('PASS navigation maneuver model: distance-scaled progress, next turn, arrival accuracy, off-route and insufficient GPS safeguards');

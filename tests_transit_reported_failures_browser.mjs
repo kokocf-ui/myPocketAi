@@ -52,14 +52,14 @@ try{
   await page.evaluate(()=>{window.__walkSelection=window.__reportedTransit.select()});
   const body=page.locator('#moduleLayerBody');
   const map=page.locator('.transit-full-journey-map');await map.waitFor();
-  await map.locator('.transit-screen-page').waitFor();
+  await map.locator('.transit-full-journey-details').waitFor();
   assert.ok(await map.locator('.route-map-canvas').isVisible(),'Map opens directly while initial access is pending');
-  assert.match(await map.locator('.transit-template-store .transit-access-status').textContent(),/Se calculează/);
-  await page.waitForFunction(()=>document.querySelector('.transit-template-store .transit-access-status')?.textContent.includes('Se calculează'));
+  assert.match(await map.locator('.transit-full-journey-details .transit-access-status').textContent(),/Se calculează/);
+  await page.waitForFunction(()=>document.querySelector('.transit-full-journey-details .transit-access-status')?.textContent.includes('Se calculează'));
   await page.waitForTimeout(40);assert.ok(pendingWalks.length);holdWalk=false;for(const resolve of pendingWalks.splice(0))resolve();
   await page.evaluate(()=>window.__walkSelection);
   await page.waitForFunction(()=>document.querySelector('.route-map-status')?.textContent.includes('pietonal'));
-  assert.match(await map.locator('.transit-template-store .transit-access-status').textContent(),/pietonal/);
+  assert.match(await map.locator('.transit-full-journey-details .transit-access-status').textContent(),/pietonal/);
   assert.equal(await map.locator('.transit-all-legs > div').count(),5);
   assert.equal(await map.locator('.transit-walk-stage-status').count(),3);
   assert.ok((await map.locator('.transit-walk-stage-status').allTextContents()).every(s=>s.includes('neverificat')));
@@ -105,13 +105,13 @@ try{
   walkSuccess=true;holdWalk=false;
   await page.evaluate(()=>window.__reportedTransit.select());
   assert.equal(await page.locator('.transit-full-journey-map').count(),1,'Success preserves the direct map');
-  assert.match(await page.locator('.transit-template-store .transit-access-status').textContent(),/verificat/);
+  assert.match(await page.locator('.transit-full-journey-details .transit-access-status').textContent(),/verificat/);
   // A returned walk which cannot reach boarding with its safety margin must
   // never enable navigation, even though details/map stay available.
   const urgent={...journey,firstVehicleDepartureTime:new Date(Date.now()+120000).toISOString()};
   await page.evaluate(j=>window.__reportedTransit.init(j),urgent);
   await page.evaluate(()=>window.__reportedTransit.select());
-  assert.match(await page.locator('.transit-template-store .transit-access-status').textContent(),/Nu mai este timp/);
+  assert.match(await page.locator('.transit-full-journey-details .transit-access-status').textContent(),/Nu mai este timp/);
   assert.equal(await page.locator('.transit-fixed-controls .route-map-open').first().isDisabled(),true);
   assert.equal(await page.locator('.transit-full-journey-map').count(),1,'Infeasible boarding must not erase the itinerary');
   assert.deepEqual(errors,[]);await page.close();

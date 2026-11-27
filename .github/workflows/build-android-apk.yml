@@ -16,6 +16,8 @@ on:
       - 'tests_transport_departure_entrypoints.mjs'
       - 'android/**'
       - 'index.js'
+      - 'route_navigation_ui.mjs'
+      - 'tests_route_navigation*.mjs'
       - 'backend.js'
       - 'communication_ui.mjs'
       - 'communication_live_style.mjs'
@@ -150,6 +152,7 @@ jobs:
           node tests_education_input_tools.mjs
           node tests_walking_address_arrival.mjs
           node tests_transit_full_journey_native.mjs
+          node tests_route_navigation_ui.mjs
           npm run test:transit-reported-failures
           npm run test:mixed-orientation
           node tests_divertisment_frontend_presence.mjs
@@ -182,6 +185,7 @@ jobs:
           run_checked node tests_transit_walking_parity_browser.mjs
           run_checked node tests_education_input_browser.mjs
           run_checked node tests_transit_viewport_browser.mjs
+          run_checked node tests_route_navigation_browser.mjs
       - name: Check permanent keystore and latest published APK
         env:
           GH_TOKEN: ${{ github.token }}
@@ -268,8 +272,8 @@ jobs:
         run: |
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
-            --title "myPocketAI — test fără stylus și acces pietonal (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: remove handwriting/stylus UI from all Education editors while retaining keyboard, symbols, templates, growing brace preview and long-line wrapping. Public transport walking access and transfers share one explicit coordinate-backed walking request with a 45-second per-request deadline, endpoint-matched alternatives, preserved geometry for missed departures, and bounded two-request transfer concurrency. Existing stage pagination is unchanged. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
+            --title "myPocketAI — test hartă compactă și manevre GPS (${GITHUB_RUN_ID})" \
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: compact map previews with full continuous directions underneath; public transport itinerary stages no longer split across pages. Navigation alone uses a full-screen map with a two-line next-maneuver strip updated from GPS, including poor/stale GPS and off-route safeguards. Shared walking, driving and verified transit walking presentation. Stop restores the static preview. Native snapshot resume does not start a new route search. Handwriting removal and previous walking fixes retained. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
 
       - name: Remove temporary key and reference APK
         if: always()

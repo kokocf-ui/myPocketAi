@@ -53,7 +53,7 @@ try{
   const layer=page.locator('.transit-full-journey-map');await layer.waitFor();
   assert.ok(await layer.locator('.route-map-canvas').isVisible(),'Map appears before the walking response');
   await page.evaluate(()=>window.__selection);
-  await page.waitForFunction(()=>document.querySelectorAll('.transit-template-store .transit-walk-stage-status').length===2&&[...document.querySelectorAll('.transit-template-store .transit-walk-stage-status')].every(el=>el.textContent==='Traseu pietonal verificat.'));
+  await page.waitForFunction(()=>document.querySelectorAll('.transit-full-journey-details .transit-walk-stage-status').length===2&&[...document.querySelectorAll('.transit-full-journey-details .transit-walk-stage-status')].every(el=>el.textContent==='Traseu pietonal verificat.'));
   const selected=await page.evaluate(()=>window.__walkingParity.selected());
   assert.ok(selected.accessRoute,'Retain the verified boarding route even when vehicle cannot be caught');
   assert.equal(selected.accessRoute.destination.label,'Stop 1','Choose matching walking alternative');

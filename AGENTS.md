@@ -7,7 +7,26 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
-**CERERE CURENTĂ — ELIMINARE STYLUS + PIETONAL TRANSPORT PUBLIC:**
+**CERERE CURENTĂ — HARTĂ COMPACTĂ / NAVIGAȚIE FULLSCREEN CU MANEVRĂ GPS:**
+User aprobă o singură hartă cu toți pașii dedesubt, NU pagini pentru etape.
+Hartă mică la previzualizare; DOAR navigația fullscreen, una-două linii pentru
+următoarea manevră actualizată GPS. Lista preview rămâne statică. Cerința nouă
+supersedează interpretarea veche fără scrollvertical pentru detaliile traseului;
+acum lista completă poate derula intern, nu fereastra întreagă.
+Implementat `route_navigation_ui.mjs`+index: previews walk/drive/transit24dvh,
+full continuous transit stages + instrucțiuni walk verificate, fărăstagepager.
+Navigationfullmap,controlsoverlay,strip2liniiGPS;progressdoarînnavigare;
+stoprestabileștepreviewstatic. Accuracy>35m/stale/error/offroute=>warning,
+no-fix20s,arrival18m/accuracy15m. Native serviceunchanged;snapshotresume
+fărănewsearch/Start. NUcronologiecompletăîmbarcare/coborâre,NUfizicvalidated.
+Sursă+compiledbrowsernou360/393/430+landscape640x360PASS(walk/drive/transit,
+GPSsuccesiune,stop,bad/stale/offroute,resumefărăquery);continuous13stages/
+Romanianfares/categories/tickets/Back/rotationPASS;walking8.5s+native+audit+
+heading+input/boot/Androidpreview+mixedorientationPASS. Bundle6888889chars.
+Raport `MAP_PREVIEW_LIVE_NAVIGATION_DELIVERY.md`. APKsemnatnouîncurs.
+Fărăbackend/prodfrontenddeploy/HERE/paid/Oracle/mainmerge.
+
+**ISTORIC501891 — ELIMINARE STYLUS + PIETONAL TRANSPORT PUBLIC:**
 User confirmă din capturi: poate desena, transcrierea eșuează; cere eliminare
 scriere de mână/stylus DE PESTE TOT. Eliminat buton/dialog/codupload/initializer
 browser+Back selector, inclusiv Science/exams/limbi; tastatura/simboluri/șabloane/

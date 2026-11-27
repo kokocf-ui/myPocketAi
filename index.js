@@ -1,3 +1,4 @@
+import {ROUTE_NAVIGATION_SCRIPT,ROUTE_NAVIGATION_STYLE} from './route_navigation_ui.mjs';
 import {TRANSIT_VIEWPORT_SCRIPT,TRANSIT_VIEWPORT_STYLE} from './transit_viewport_ui.mjs';
 import {MIXED_PROGRESS_CLIENT_SCRIPT} from './mixed_progress_stream.mjs';
 import {transportTicketUrl,transportOperatorTicketSite,transportTicketLink} from './transport_ticket_links.mjs';
@@ -20111,6 +20112,7 @@ ${NATIONAL_PUBLIC_TRANSPORT_SCRIPT}
 ${MIXED_TRANSPORT_COMPARISON_SCRIPT}
 ${MIXED_PROGRESS_CLIENT_SCRIPT}
 ${TRANSIT_VIEWPORT_SCRIPT}
+${ROUTE_NAVIGATION_SCRIPT}
 function showJourneyMode(choice){
  if(choice?.mixedJourney){showOneFieldJourney(choice);return;}
  state.moduleSearchCategory=choice;
@@ -22585,14 +22587,7 @@ function beginTransitVisualTracking(current){
  current.navigating=true;current.follow=true;
  current.layer.classList.add('navigating');
  document.body.classList.add('pocket-navigation-fullscreen');
- // Route planning uses a small overview map; actual navigation needs a
- // centred, zoomed view, with the next walking instruction still visible.
- if(!current.viewportPager){
-  current.mapHost.style.setProperty('height','clamp(250px,57dvh,620px)','important');
-  current.mapHost.style.setProperty('max-height','none','important');
-  current.details.style.setProperty('max-height','35dvh','important');
- }
- current.viewportPager?.refresh();
+ current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');
  current.layer.querySelector('.transit-fixed-controls button:last-child')?.removeAttribute('hidden');
  current.layer.style.bottom='0px';
  current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
@@ -22610,12 +22605,13 @@ function beginTransitVisualTracking(current){
   if(activeRouteMap!==current||!current.navigating)return;
   const c=position?.coords,age=Date.now()-Number(position?.timestamp);
   if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||
-     !Number.isFinite(c.accuracy)||age>30000||age< -5000)return;
+     !Number.isFinite(c.accuracy)||c.accuracy<0||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(age)||age>30000||age< -5000){pocketUpdateManeuver(current,null,null,Infinity);return;}
   current.lastFix=[c.latitude,c.longitude];
   if(!current.liveMarker)current.liveMarker=current.leaflet.circleMarker(current.lastFix,{
     radius:9,color:'#fff',weight:3,fillColor:'#04c9d4',fillOpacity:1}).addTo(current.map);
   else current.liveMarker.setLatLng(current.lastFix);
   if(c.accuracy>60){
+   pocketUpdateManeuver(current,null,null,c.accuracy);
    current.liveStatus.textContent=dialogText('Precizie GPS redusă','GPS accuracy low')+
     ' ±'+Math.round(c.accuracy)+' m';return;
   }
@@ -22643,6 +22639,7 @@ function beginTransitVisualTracking(current){
    const match=projectWalkingPosition(route,c.latitude,c.longitude);
    if(!closest||match.away<closest.away)closest={index,route,...match};
   }
+  pocketUpdateManeuver(current,closest?.route?{...closest.route,destination:{label:closest.index===-1?String(current.journey.boarding_stop?.label||''):String(current.journey.legs?.[closest.index]?.to||'')}}:null,closest,c.accuracy);
   if(closest&&closest.away<=Math.max(45,c.accuracy*2)){
    const label=closest.index===-1?String(current.journey.boarding_stop?.label||'stație'):
     String(current.journey.legs?.[closest.index]?.to||'următoarea legătură');
@@ -22651,7 +22648,7 @@ function beginTransitVisualTracking(current){
   }else current.liveStatus.textContent=dialogText('Urmărește punctul albastru; caut transferul pietonal verificat.',
    'Follow the blue marker; looking for a verified walking transfer.');
  };
- const onError=error=>{if(activeRouteMap!==current)return;current.liveStatus.textContent=
+ const onError=error=>{if(activeRouteMap!==current)return;pocketUpdateManeuver(current,null,null,Infinity);current.liveStatus.textContent=
   error?.code===1?dialogText('Permite GPS pentru urmărirea pe hartă.','Allow location for map tracking.'):
   dialogText('Semnal GPS indisponibil; navigația vocală Android continuă dacă este activă.',
    'GPS fix unavailable; Android voice navigation may continue.')};
@@ -22703,7 +22700,7 @@ window.pocketRestoreNavigationSession=restoreTransitSessionFromNative;
 async function openTransitJourneyMap(selected,resume=null){
  const journey=selected?.journey;if(!journey)return;
  dismissSelectionKeyboard();closeAnswerReader(false);closeRouteMap(false);inputEl.blur();
- const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map transit-viewport-screen';
+ const layer=document.createElement('section');layer.className='route-map-window transit-full-journey-map transit-viewport-screen route-unified-preview';
  layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');
  layer.setAttribute('aria-label',dialogText('Traseu complet','Complete journey'));
  layer.style.cssText='display:flex;flex-direction:column;overflow:hidden';
@@ -22792,7 +22789,7 @@ async function openTransitJourneyMap(selected,resume=null){
   current.mapHost.style.removeProperty('max-height');
   current.details.style.removeProperty('max-height');
   current.resize?.();
-  current.followButton.textContent=dialogText('Navigare','Navigate');stop.hidden=true;current.viewportPager?.refresh();
+  current.followButton.textContent=dialogText('Navigare','Navigate');stop.hidden=true;
   current.map?.setHeading?.(0);
   if(current.overviewPoints?.length>1)current.map?.fitBounds(current.overviewPoints,{padding:[24,24]});
   current.map?.invalidateSize();
@@ -22835,46 +22832,38 @@ async function openTransitJourneyMap(selected,resume=null){
  refresh.onclick=()=>{back.onclick();void refreshTransitDepartures(refresh)};details.append(refresh);
  if(journey.attribution?.text){const source=document.createElement('p');source.className='transit-source-attribution';source.style.cssText='font-size:12px;overflow-wrap:anywhere';source.textContent=journey.attribution.text;details.append(source)}
  if(transitScheduleUncertain(journey)){const warning=document.createElement('p');warning.textContent=dialogText('Traseu orientativ; orarul nu poate fi garantat. Verifică la operator.','Indicative route; the timetable cannot be guaranteed. Confirm with the operator.');details.append(warning)}
- const templates=document.createElement('div');templates.className='transit-template-store';templates.hidden=true;
- follow.remove();recenter.remove();stop.remove();templates.append(...details.childNodes);
- const panel=document.createElement('div'),pagerBar=document.createElement('div'),tools=document.createElement('div');
- tools.className='transit-fixed-controls';
+ // One continuous itinerary under a compact overview map, no stage pages.
+ follow.remove();recenter.remove();stop.remove();
+ const tools=document.createElement('div');tools.className='transit-fixed-controls';
  const overview=document.createElement('button');overview.type='button';overview.textContent=dialogText('Traseu','Journey');
  follow.textContent=dialogText('Navigare','Navigate');follow.setAttribute('aria-label',dialogText('Pornește navigarea cu Eva','Start navigation with Eva'));
  stop.textContent=dialogText('Oprește','Stop');stop.hidden=true;
- tools.append(overview,follow,recenter,stop);details.append(panel);
- layer.append(head,note,mapHost,details,pagerBar,tools,templates);document.body.append(layer);
+ tools.append(overview,follow,recenter,stop);
+ layer.append(head,note,mapHost,details,tools);document.body.append(layer);
  const current={layer,route:selected.accessRoute||null,journey,mapHost,details,
   followButton:follow,recenter,liveStatus:note,walkRoutes,
   map:null,watchId:null,navigating:false,cleanup:()=>{},resize:null,backAction:back.onclick};
- activeRouteMap=current;
- current.viewportPager=mountTransitScreenPager(panel,()=>[
-  {id:-1,label:dialogText('Traseu','Journey'),nodes:[...templates.children].filter(el=>el!==stages).concat(note)},
-  ...[...stages.children].map((row,i)=>({id:i,label:dialogText('Etapa ','Stage ')+(i+1)+'/'+stages.children.length,nodes:[...row.children]}))
- ],pagerBar,stage=>{current.visibleStage=stage;current.focusStage?.(stage)});
- overview.onclick=()=>current.viewportPager.first();
- if(finalWalkAction)finalWalkAction.onclick=()=>current.viewportPager.goGroup((journey.legs||[]).length-1);
- const changes=new MutationObserver(()=>current.viewportPager.refresh());changes.observe(templates,{childList:true,subtree:true,characterData:true});changes.observe(note,{childList:true,characterData:true,subtree:true});
+ activeRouteMap=current;pocketAttachManeuver(current);
+ overview.onclick=()=>{details.scrollTop=0;current.focusStage?.(-1)};
+ if(finalWalkAction)finalWalkAction.onclick=()=>{stages.lastElementChild?.scrollIntoView({block:'nearest'});current.focusStage?.((journey.legs||[]).length-1)};
  current.refreshSelection=()=>{
   accessStatus.textContent=selected.loading?transitAccessText()[10]:selected.error||
    (selected.timeUnverified?transitAccessText()[21]:selected.accessRoute?dialogText('Acces pietonal verificat.','Walking access verified.'):'');
-  const advice=transitBoardingAdvice(journey);if(advice)templates.querySelector('.transit-boarding-buffer-notice')?.replaceChildren(document.createTextNode(advice));
+  const advice=transitBoardingAdvice(journey);if(advice)details.querySelector('.transit-boarding-buffer-notice')?.replaceChildren(document.createTextNode(advice));
   follow.disabled=Boolean(selected.loading||selected.error||selected.timeUnverified||transitScheduleUncertain(journey));
   if(selected.error)note.textContent=selected.error;
   current.route=selected.accessRoute||null;
   if(selected.accessRoute&&validMapRoute(selected.accessRoute)){walkRoutes.set(-1,selected.accessRoute);current.drawAccess?.(selected.accessRoute)}
-  current.viewportPager.refresh();
  };
  current.refreshSelection();
- const releaseViewport=()=>{changes.disconnect();current.viewportPager.close()};
  const resize=()=>{
   const viewport=window.visualViewport;
   layer.style.top=(viewport?.offsetTop||0)+'px';layer.style.height=(viewport?.height||window.innerHeight)+'px';layer.style.bottom='auto';
-  current.viewportPager.refresh();current.map?.invalidateSize();
+  current.map?.invalidateSize();
  };
  current.resize=resize;window.addEventListener('resize',resize);window.visualViewport?.addEventListener('resize',resize);
  const removeResize=()=>{window.removeEventListener('resize',resize);window.visualViewport?.removeEventListener('resize',resize)};
- current.cleanup=()=>{removeResize();releaseViewport()};resize();
+ current.cleanup=()=>{removeResize()};resize();
  try{
   const L=await loadRouteMapLibrary();if(activeRouteMap!==current||!layer.isConnected)return;
   const rotateReady=await loadRouteRotationLibrary();
@@ -22948,7 +22937,7 @@ async function openTransitJourneyMap(selected,resume=null){
   if(all.length&&!current.navigating)note.textContent=dialogText('Etapele sunt pe hartă. Verific transferurile pietonale…',
    'Journey stops are mapped. Checking walking transfers…');
   const controller=new AbortController();
-  current.cleanup=()=>{removeResize();controller.abort();releaseViewport()};
+  current.cleanup=()=>{removeResize();controller.abort()};
   // At most two requests at once; an initial boarding check must not hold up
   // all later transfers. Each request has its own deadline and is never retried.
   let walkCursor=0;const boundedJobs=walkJobs.slice(0,12);
@@ -22976,7 +22965,10 @@ async function openTransitJourneyMap(selected,resume=null){
      const walk=document.createElement('small');walk.style.display='block';
      walk.textContent='📌 '+Math.round(verified.distanceMeters||0)+' m'+
        (Number.isFinite(verified.durationSeconds)?' · '+formatTravelDurationMinutes(verified.durationSeconds/60):'');
-     const status=row?.querySelector('.transit-walk-stage-status');if(status)status.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');row?.append(walk)}
+     const status=row?.querySelector('.transit-walk-stage-status');if(status)status.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');row?.append(walk);
+     const instructions=document.createElement('ol');instructions.className='transit-walking-instructions';
+     for(const step of verified.steps||[]){if(!step.text)continue;const li=document.createElement('li');li.textContent=step.text;instructions.append(li)}
+     if(instructions.children.length)row?.append(instructions)}
    }catch{unverified.push(job.i+1)}
   }};
   await Promise.all([verifyNext(),verifyNext()]);
@@ -23352,7 +23344,8 @@ function updateDrivingNextTurn(current,projected,accuracy){
 function stopRouteTracking(current,message,stopNative=true){
  if(!current)return;
  const wasNavigating=Boolean(current.navigating);
- current.navigating=false;
+ current.navigating=false;clearTimeout(current.maneuverTimer);
+ for(const row of current.stepRows||[]){row.removeAttribute('aria-current');row.removeAttribute('data-route-step-complete');row.classList.remove('route-step-complete')}
  syncDrivingVoiceControl(current);
  if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}
  // Closing a map releases only the UI GPS watch; native navigation persists.
@@ -23383,24 +23376,27 @@ function startRouteTracking(current,resumeNative=false){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
  current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');
+ if(current.maneuverText)current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');
  current.voiceMuted=window.__pocketNavigationMuted===true;
  syncDrivingVoiceControl(current);
  // In native foreground service, the same GPS route remains active if Eva
  // is minimized, the screen locks or Android recreates this WebView.
- if(!resumeNative&&!pocketNativeRouteCommand('start',current.route)){
+ current.nativeUnavailable=!resumeNative&&!pocketNativeRouteCommand('start',current.route);
+ if(current.nativeUnavailable){
+  if(current.maneuverText)current.maneuverText.textContent=dialogText('Navigație doar pe ecran; serviciul Android nu a pornit.','On-screen navigation only; Android background service did not start.');
   current.liveStatus.hidden=false;
   current.liveStatus.textContent=dialogText('Navigația vizuală funcționează, dar serviciul Android în fundal nu a pornit.','Visual tracking works, but Android background navigation did not start.');
  }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
- const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
+ const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
-  if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];return}
+  if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);return}
   stale();const previousFix=current.lastFix;current.lastFix=[c.latitude,c.longitude];
   if(current.liveMarker)current.liveMarker.setLatLng(current.lastFix);else current.liveMarker=current.leaflet.circleMarker(current.lastFix,{radius:8,color:'#ffffff',fillColor:'#05d6dc',fillOpacity:1,weight:3}).addTo(current.map);
   current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
   if(current.follow){if(current.firstFix){current.map.setView(current.lastFix,16,{animate:false});current.firstFix=false}else current.map.panTo(current.lastFix,{animate:false})}
   const accuracy=' ±'+Math.round(c.accuracy)+' m';
-  if(c.accuracy>60){current.liveStatus.textContent=t[7]+accuracy;if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}return}
+  if(c.accuracy>60){pocketUpdateManeuver(current,null,null,c.accuracy,current.stepRows);current.liveStatus.textContent=t[7]+accuracy;if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}return}
   let heading=Number.isFinite(c.heading)&&c.heading>=0&&c.speed>=0.5?c.heading:null;
   if(heading===null&&previousFix){
    const delta=Math.hypot((c.latitude-previousFix[0])*111320,(c.longitude-previousFix[1])*111320*Math.cos(c.latitude*Math.PI/180));
@@ -23411,9 +23407,10 @@ function startRouteTracking(current,resumeNative=false){
   if(typeof saveLocation==='function')saveLocation(c);
   const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
   updateDrivingNextTurn(current,projected,c.accuracy);
+  pocketUpdateManeuver(current,current.route,projected,c.accuracy,current.stepRows);
   current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+formatNavigationKilometers(projected.remaining,state.language)+accuracy;
  };
- const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
+ const failure=error=>{if(!current.navigating||activeRouteMap!==current)return;if(error?.code===1){stopRouteTracking(current,t[5]);if(typeof forgetSharedLocation==='function')forgetSharedLocation()}else{current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}};
  try{const id=navigator.geolocation.watchPosition(success,failure,{enableHighAccuracy:true,maximumAge:0,timeout:12000});if(current.navigating)current.watchId=id;else navigator.geolocation.clearWatch(id)}catch{stopRouteTracking(current,t[4])}
 }
 function routeNavigationLink(route){const button=document.createElement('button');button.type='button';button.className='route-map-open route-eva-tracking';button.textContent=routeLiveText()[0];button.onclick=async()=>{const chosen=state.lastRouteOptions?.includes(route)&&state.lastRouteOptions.includes(state.lastRoute)?state.lastRoute:route;if(activeRouteMap?.route===chosen){activeRouteMap.navigating?stopRouteTracking(activeRouteMap):startRouteTracking(activeRouteMap)}else await openRouteMap(chosen,button,state.lastRouteOptions,true)};return button}
@@ -23442,7 +23439,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
  const resumeNative=arguments.length>4&&arguments[4]===true;
  dismissSelectionKeyboard();
  if(!validMapRoute(route))return;state.lastRoute=route;closeAnswerReader(false);closeRouteMap(false);inputEl.blur();const t=routeMapText();
- const layer=document.createElement('section');layer.className='route-map-window';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
+ const layer=document.createElement('section');layer.className='route-map-window route-unified-preview';layer.setAttribute('role','dialog');layer.setAttribute('aria-modal','true');layer.setAttribute('aria-label',t.title);
  const header=document.createElement('div');header.className='route-map-header';const title=document.createElement('h2');title.textContent=t.title;const previous=document.createElement('button');previous.type='button';previous.className='route-header-action';previous.textContent=dialogText("Anterior","Previous");previous.onclick=()=>{const transitOptions=transitOptionsForRoute(route);closeRouteMap(false);if(transitOptions?.length)showTransitChoices(transitOptions);else openWalkingRouteChoices(route,options)};const returning=document.createElement('button');returning.type='button';returning.className='route-header-action';returning.textContent=dialogText("Închide harta","Close map");returning.onclick=()=>{if(state.navigationReturnContext)returnToNavigationSource();else{closeRouteMap(false);if(state.currentView==='module')showView('module');else showView('home')}};header.append(previous,title,returning)
  const status=document.createElement('p');status.className='route-map-status';status.textContent=t.loading;
  const external=document.createElement('a');external.target='_blank';external.rel='noopener noreferrer';external.textContent=routeLiveText()[10];
@@ -23475,7 +23472,7 @@ async function openRouteMap(route,origin,options=state.lastRouteOptions,startNav
   current.voiceMuted=next;window.__pocketNavigationMuted=next;
   syncDrivingVoiceControl(current);
  };
- syncDrivingVoiceControl(current);
+ syncDrivingVoiceControl(current);current.stepRows=list.children;pocketAttachManeuver(current);
  recenter.onclick=()=>{current.follow=true;if(current.lastFix)current.map?.setView(current.lastFix,16,{animate:false})};activeRouteMap=current;
  const resize=()=>{const top=document.querySelector('.bottom-nav')?.getBoundingClientRect().top;layer.style.bottom=current.navigating?'0px':(top>0?Math.max(12,window.innerHeight-top+10):108)+'px';current.map?.invalidateSize()};current.resize=resize;
  const key=e=>{if(e.key==='Escape'){e.preventDefault();closeRouteMap()}};
@@ -27110,6 +27107,7 @@ main.page:has(#view-module.my-documents-active.active){
 ${FOREIGN_LANGUAGE_RESOURCES_STYLE}
 ${EDUCATION_MOBILE_CONTAINMENT_STYLE}
 ${TRANSIT_VIEWPORT_STYLE}
+${ROUTE_NAVIGATION_STYLE}
 
 </style>
 </body>

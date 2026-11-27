@@ -50,41 +50,36 @@ try{
   assert.ok(await body.evaluate(el=>el.scrollHeight<=el.clientHeight+1),'Options must fit without vertical scrolling');
   await body.locator('.transit-screen-page .transit-journey-choice').first().tap();
   const layer=page.locator('.transit-full-journey-map');await layer.waitFor();
-  await layer.locator('.transit-screen-page').waitFor();
+  await layer.locator('.transit-full-journey-details').waitFor();
   assert.equal(walkingRequests,0,'The map/details shell must open BEFORE map-library/walking lookups');
   assert.equal(await layer.locator('.route-map-canvas').isVisible(),true);
   assert.equal(await layer.locator('.transit-fixed-controls').isVisible(),true);
   assert.equal(await page.evaluate(()=>window.__viewport.commands().length),0,'Selection must not start native navigation');
   const bounds=async()=>{
    const result=await layer.evaluate(el=>({height:innerHeight,rect:el.getBoundingClientRect().toJSON(),
-    boxes:[el,...el.querySelectorAll('.transit-full-journey-details,.transit-page-panel,.transit-screen-page')].map(n=>({cls:n.className,h:n.clientHeight,s:n.scrollHeight,w:n.clientWidth,sw:n.scrollWidth})),
-    tools:[...el.querySelectorAll('.transit-screen-pager button,.transit-fixed-controls button')].filter(n=>!n.hidden).map(n=>n.getBoundingClientRect().toJSON())}));
+    boxes:[el].map(n=>({cls:n.className,h:n.clientHeight,s:n.scrollHeight,w:n.clientWidth,sw:n.scrollWidth})),
+    tools:[...el.querySelectorAll('.transit-screen-pager button,.transit-fixed-controls button')].filter(n=>!n.hidden&&getComputedStyle(n).display!=='none').map(n=>n.getBoundingClientRect().toJSON())}));
    assert.ok(result.rect.y>=0&&result.rect.bottom<=result.height+1,JSON.stringify(result));
    for(const box of result.boxes){assert.ok(box.s<=box.h+1,'Vertical overflow '+JSON.stringify(box));assert.ok(box.sw<=box.w+1,'Horizontal overflow '+JSON.stringify(box))}
    for(const box of result.tools)assert.ok(box.y>=result.rect.y&&box.bottom<=result.rect.bottom+1,'Fixed controls are reachable without scrolling');
   };
   await bounds();
   if(width===360&&height===640&&process.env.TRANSIT_SCREENSHOT)await page.screenshot({path:process.env.TRANSIT_SCREENSHOT});
-  const seen=new Map();let pages=0;
-  const next=layer.getByRole('button',{name:'Pagina următoare',exact:true});
-  while(true){
-   await bounds();
-   const pageText=await layer.locator('.transit-screen-page').innerText();
-   const group=await layer.locator('.transit-screen-page').getAttribute('data-group');
-   seen.set(group,(seen.get(group)||'')+' '+pageText);pages++;
-   assert.ok(pages<180,'Pagination must terminate');
-   if(await next.isDisabled())break;await next.tap();
-  }
-  assert.equal(seen.size,14,'Overview and EVERY stage reachable without scroll');
-  assert.match(seen.get('-1'),/Destinația confirmată/);assert.match(seen.get('-1'),/Sursa oficială/);
+  assert.equal(await layer.locator('.transit-screen-pager').count(),0,'No itinerary stage pages');
+  const details=layer.locator('.transit-full-journey-details');
+  const fullText=await details.innerText();
+  assert.match(fullText,/Destinația confirmată/);assert.match(fullText,/Sursa oficială/);
+  assert.equal(await details.locator('.transit-all-legs > div').count(),13,'All stages in one list');
   for(let i=0;i<13;i++){
-   assert.match(seen.get(String(i)),new RegExp('Stația plecare '+i));
-   assert.match(seen.get(String(i)),new RegExp('Stația sosire '+i));
-   const normalize=text=>text.replace(/\s+/g,' ').trim();
-   assert.ok(normalize(seen.get(String(i))).includes(normalize(legs[i].from)),'Full departure place preserved');
-   assert.ok(normalize(seen.get(String(i))).includes(normalize(legs[i].to)),'Full arrival place preserved');
-   if(i%3)assert.match(seen.get(String(i)),/Bilete și rezervare/);
+   const row=details.locator('.transit-all-legs > div').nth(i);
+   assert.ok((await row.innerText()).includes(legs[i].from.trim()));
+   assert.ok((await row.innerText()).includes(legs[i].to.trim()));
+   if(i%3)assert.match(await row.innerText(),/Bilete și rezervare/);
   }
+  const previewMap=await layer.locator('.route-map-canvas').boundingBox();
+  assert.ok(previewMap.height<=height*.29,'Compact preview map');
+  await details.evaluate(el=>{el.scrollTop=el.scrollHeight});
+  assert.ok(await details.evaluate(el=>el.scrollTop>0),'Only the directions list scrolls');
   await page.evaluate(()=>window.__viewport.release());
   await page.waitForFunction(()=>document.querySelector('.route-map-canvas')?.dataset.mapReady==='true');
   await bounds();
@@ -103,7 +98,7 @@ try{
   await page.waitForFunction(()=>document.querySelector('.route-map-canvas')?.dataset.mapReady==='true');
   const start=layer.getByRole('button',{name:'Pornește navigarea cu Eva',exact:true});await start.waitFor();
   await page.waitForFunction(()=>!document.querySelector('.transit-fixed-controls .route-map-open')?.disabled);
-  await page.waitForFunction(()=>document.querySelector('.transit-template-store .transit-walk-stage-status')?.textContent.includes('verificat.')&&!document.querySelector('.transit-template-store .transit-walk-stage-status')?.textContent.includes('neverificat'));
+  await page.waitForFunction(()=>document.querySelector('.transit-full-journey-details .transit-walk-stage-status')?.textContent.includes('verificat.')&&!document.querySelector('.transit-full-journey-details .transit-walk-stage-status')?.textContent.includes('neverificat'));
   await start.tap();await page.waitForTimeout(60);
   assert.equal(await page.evaluate(()=>JSON.parse(window.__viewport.commands()[0]).action),'start');
   await bounds();
@@ -121,11 +116,10 @@ try{
   await page.waitForFunction(()=>document.querySelector('#moduleLayerBody .transit-screen-page')?.textContent.includes('Operator autocar'));
   assert.ok(await body.evaluate(el=>el.scrollHeight<=el.clientHeight+1),'Romanian categories fit the phone');
   await body.locator('.transit-screen-page .transit-journey-choice').first().tap();await layer.waitFor();
-  await layer.locator('.transit-screen-page').waitFor();await bounds();
-  const railSeen=[];const rn=layer.getByRole('button',{name:'Pagina următoare',exact:true});
-  while(true){railSeen.push(await layer.locator('.transit-screen-page').innerText());await bounds();if(await rn.isDisabled())break;await rn.tap()}
-  assert.match(railSeen.join(' '),/48,5 RON/);assert.match(railSeen.join(' '),/verificat la operator/);
-  assert.match(railSeen.join(' '),/Episcopia Bihor \(Oradea\)/);assert.match(railSeen.join(' '),/Operator autocar/);
+  await layer.locator('.transit-full-journey-details').waitFor();await bounds();
+  const railText=await layer.locator('.transit-full-journey-details').innerText();
+  assert.match(railText,/48,5 RON/);assert.match(railText,/verificat la operator/);
+  assert.match(railText,/Episcopia Bihor \(Oradea\)/);assert.match(railText,/Operator autocar/);
   await page.evaluate(()=>window.pocketAndroidBack());
   await page.waitForFunction(()=>document.querySelector('#moduleLayerBody .transit-screen-page')?.textContent.includes('Operator autocar'));
   assert.equal(await road.getAttribute('aria-selected'),'true','Romanian category survives map Back');
@@ -133,5 +127,5 @@ try{
   await page.waitForFunction(()=>document.querySelector('#moduleLayerBody .transit-screen-page')?.textContent.includes('CFR Călători'));
   assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS direct public option -> map+viewport-paged details; no vertical/horizontal overflow, full long text/13 stages/tickets, fixed controls, opt-in Start/Stop, landscape reflow, Romanian categories/fares/localities/operators and native Back at 360x640/794,393x817,430x932; mocked map/provider');
+ console.log('PASS direct public option -> compact map+continuous itinerary (no stage pages); no whole-screen overflow, full long text/13 stages/tickets, fixed controls, opt-in Start/Stop, landscape reflow, Romanian categories/fares/localities/operators and native Back at 360x640/794,393x817,430x932; mocked map/provider');
 }finally{await browser.close();await new Promise(ok=>server.close(ok))}

@@ -1,5 +1,5 @@
-// Public transport: information is paged to measured viewport space, not
-// hidden below the map. Pagination preserves links/actions and full text.
+// Public transport alternative choices are paged to the available viewport.
+// Selected itineraries use continuous directions in route_navigation_ui.mjs.
 export const TRANSIT_VIEWPORT_STYLE=String.raw`
 .transit-full-journey-map.transit-viewport-screen{display:flex!important;flex-direction:column!important;overflow:hidden!important;box-sizing:border-box;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)!important;min-height:0!important;z-index:1200!important}
 .transit-viewport-screen .route-map-header{flex:none;padding:4px 6px;gap:4px}
