@@ -21,7 +21,15 @@ cacheLeafletsize==DOM,nogap/overlap,2maneuvers/GPSguard/stop/resume/nosearch.
 NegativecontrololdbundleFAILheaderoverlap;faultinjectoldinlineheightFAILgap
 PEPRIMApornire. Browsernameguard6892447charsPASS;compiledtransitviewport/
 walkingparity+boot/model/native/heading/check/AndroidpreviewPASS.
-Raport `NAVIGATION_FIRST_START_HEADER_TWO_MANEUVERS.md`. APKnouîncurs.
+Raport `NAVIGATION_FIRST_START_HEADER_TWO_MANEUVERS.md`.
+APK501893 PUBLICAT, sursă245ee23d27e28de56330e2513eab22220a7cd0ba,
+run45977801782/job140433827291SUCCESS,debugSKIPPED;compiledrealLeafletnav+
+model/walking/input/viewport+certificat/identity/version/snapshot/publicarePASSCI.
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45977801782/myPocketAI-signed-education-test.apk
+Release460421031/asset799923741,77,662,548B,GitHubSHA256metadata:
+2cfeb98b71fca6f9e6c722b6381b95cbaffd480ef362bfdd016adbe14f799675.
+Updatepesteexistentfărădezinstalare/dateșterse. Fizicprimapornire/aspect/GPS
+pending;nuinspecțielocalăAPK. Transitaudit+reportedfailurebrowser+compilededuinputPASS.
 AcceptareuserDOARaspectîmbunătățit501892,NUbackground/cronologietransit.
 Fărăbackend/prodfrontenddeploy/HERE/paid/Oracle/mainmerge.
 

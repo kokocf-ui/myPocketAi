@@ -6,7 +6,27 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
-## Cel mai nou APK — 501892: hartă compactă și manevră GPS
+## Cel mai nou APK — 501893: prima pornire, antet fix, două manevre
+
+[**Descarcă APK-ul semnat 501893**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45977801782/myPocketAI-signed-education-test.apk)
+
+Instalează peste versiunea existentă, **fără dezinstalare sau ștergerea datelor**.
+Run45977801782/job140433827291 SUCCESS; sursă245ee23. Model, compiled real
+Leaflet navigation/walking/input/viewport, certificat, identity/version/snapshot PASS CI.
+
+- Pornește navigația o singură dată: harta trebuie să umple spațiul dintre
+  comenzi și panoul de jos, fără zona goală mare.
+- Antetul și comenzile navigare/recentrare/oprire stau deasupra hărții.
+- Jos: prima manevră evidențiată cu distanță și al doilea rând „Apoi: …”.
+  Textul foarte lung este prescurtat vizual pe rând; nu se inventează alt pas.
+- Oprirea revine la previzualizarea compactă și lista completă statică.
+
+Testele folosesc Leaflet+rotație reale, dar hărți locale sintetice și GPS/native
+controlate. Defectul vechi reinjectat este detectat pe PRIMA pornire a navigației.
+**Verificarea fizică rămâne în așteptare.** Nu privi telefonul în timpul
+traversării sau conducerii. Raport: `NAVIGATION_FIRST_START_HEADER_TWO_MANEUVERS.md`.
+
+## APK anterior — 501892: hartă compactă și manevră GPS
 
 [**Descarcă APK-ul semnat 501892**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45975242408/myPocketAI-signed-education-test.apk)
 
@@ -24,7 +44,9 @@ walking/input/viewport, certificat permanent, identity/version/snapshot PASS CI.
    numai când este sigur, fără a privi ecranul în timpul traversării/conducerii.
 5. Revenirea la traseul salvat nu trebuie să pornească o căutare nouă.
 
-Testele au GPS/hartă/native simulate. **Validarea fizică rămâne în așteptare.**
+Retest fizic: utilizatorul apreciază aspectul, dar raportează prima hartă mică
+și nevoia de a porni de două ori; corecția este în501893. Fundalul GPS nu este
+validat fizic prin această apreciere. Testele501892 aveau GPS/hartă/native simulate.
 Serviciul Android de fundal nu este schimbat și nu se declară rezolvată toată
 succesiunea îmbarcare/coborâre/transfer. Niciun deploy de producție sau serviciu
 plătit/HERE activat. Raport: `MAP_PREVIEW_LIVE_NAVIGATION_DELIVERY.md`.

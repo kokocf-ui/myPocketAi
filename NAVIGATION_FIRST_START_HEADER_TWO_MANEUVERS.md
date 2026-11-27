@@ -31,4 +31,14 @@ Leaflet also caches its viewport independently of CSS. Added post-layout request
 
 ## Delivery
 
-Signed branch-test APK pending at source checkpoint. Record source/run/version/link after publication. No backend or production frontend deploy, main merge, HERE/paid activation or Oracle changes.
+**Signed APK501893 published.**
+
+- Source `245ee23d27e28de56330e2513eab22220a7cd0ba`.
+- Run `45977801782`, signed job `140433827291`: SUCCESS; debug skipped. New model and compiled real-Leaflet navigation suite, walking/input/viewport gates, permanent certificate, package identity, versionCode and UI snapshot gates PASS in CI.
+- Download: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45977801782/myPocketAI-signed-education-test.apk
+- Release `460421031`, asset `799923741`, 77,662,548 bytes.
+- SHA256 from GitHub asset metadata: `2cfeb98b71fca6f9e6c722b6381b95cbaffd480ef362bfdd016adbe14f799675`. No independent local APK inspection claimed.
+- Install over the existing app without uninstalling or deleting data. Phone first-start appearance/GPS acceptance is pending.
+- Final transit audit and reported-failure browser regressions PASS; compiled Education input/handwriting-removal regression PASS.
+
+No backend or production frontend deploy, main merge, HERE/paid activation or Oracle changes.
