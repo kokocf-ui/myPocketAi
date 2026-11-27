@@ -36,4 +36,15 @@ These are source/compiled-browser tests with synthetic providers, NOT live UK ro
 
 ## Delivery
 
-Signed branch test APK pending at source checkpoint. Source commit, CI run/version/download and final compiled reruns are recorded below once completed.
+**Signed APK 501891 published.**
+
+- Source: `ecce8ebd8fd5abdf851fa13960311a4a0c297e32` (application fix `538e130`; subsequent commits only CI diagnostics/runner compatibility).
+- Run `45971650296`, signed job `140413269742`: SUCCESS. Debug skipped. Compiled mobile walking/input/viewport gates, permanent certificate, package identity, versionCode and bundled snapshot verification all PASS in CI.
+- Download: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45971650296/myPocketAI-signed-education-test.apk
+- Release `460375146`, asset `799786801`, 77,660,220 bytes.
+- SHA256 from GitHub asset metadata: `7029928faa887be513e2e7c7cf389ebeb053dc19b86e68d55285eb7007aa01a2`. No independent local APK inspection claimed.
+- Install over the existing application, without uninstalling or deleting data. Physical phone verification remains pending.
+- Final local compiled walking parity/input/viewport/compact/full Education workspace reruns PASS; mixed orientation regressions PASS. Browser-name guard 6,881,089 chars.
+- The first two signed-build attempts (`45971185117`, `45971441853`) stopped at the newly added browser gate before signing/publication: Ubuntu latest had advanced to 26.04, unsupported by pinned Playwright 1.56.1. Checks API diagnostics identified this; pinning the signed runner to supported Ubuntu 24.04 fixed it. No gate was disabled.
+
+This APK removes handwriting UI and corrects the identified walking-flow defects. It does not redesign stage pagination or establish live/physical transport acceptance. Backend v187 and production frontend remain unchanged; no HERE/paid activation, main merge or Oracle changes.

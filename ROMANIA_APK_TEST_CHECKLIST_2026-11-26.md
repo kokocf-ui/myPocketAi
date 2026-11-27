@@ -6,14 +6,43 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
-## Cel mai nou APK — 501889: fereastra de lucru compactă
+## Cel mai nou APK — 501891: fără stylus, corecții pietonale la transport
+
+[**Descarcă APK-ul semnat 501891**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45971650296/myPocketAI-signed-education-test.apk)
+
+Instalează peste versiunea existentă, **fără dezinstalare sau ștergerea datelor**.
+Run45971650296/job140413269742 SUCCESS, sursăecce8eb. Certificatul permanent,
+identitatea, versionCode501891 și snapshotul sursei au fost verificate în CI.
+
+- Educație: opțiunea de scriere de mână/stylus nu mai trebuie să existe în niciun
+  editor. Tastatura, simbolurile, șabloanele, acolada în previzualizare și
+  încadrarea rândurilor lungi rămân disponibile.
+- Transport public: verifică dacă accesul la prima stație și transferurile
+  pietonale se încarcă. Răspunsurile nu mai sunt întrerupte după numai 8 secunde.
+  Un drum verificat trebuie păstrat pe hartă și când plecarea nu mai poate fi
+  prinsă; în acest caz navigarea pentru plecarea respectivă rămâne blocată.
+- Paginarea etapelor NU a fost redesenată. Nu este declarată acceptată fizic.
+- Testele de răspuns întârziat/alternative/plecare infezabilă/anulare au trecut,
+  inclusiv în bundle-ul compilat, cu furnizori simulați. **Verificarea pe telefon
+  rămâne în așteptare**, nu se declară transportul rezolvat integral.
+- Niciun deploy backend/frontend de producție, serviciu plătit sau HERE activat.
+
+Raport: `STYLUS_REMOVAL_TRANSIT_WALKING_PHONE_FEEDBACK.md`.
+
+## APK anterior — 501890: rânduri lungi în câmpurile compacte
+
+Încadrare automată și urmărirea tastării la sfârșit în ambele câmpuri, fără
+modificarea textului trimis. Inclus și în501891. Stylusul încă exista în501890.
+
+## APK anterior — 501889: fereastra de lucru compactă
 
 [**Descarcă APK-ul semnat 501889**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45965463970/myPocketAI-signed-education-test.apk)
 
 Instalează peste aplicația existentă, **fără dezinstalare sau ștergerea datelor**,
 apoi închide și redeschide aplicația. CI a verificat același certificat permanent,
 identitatea aplicației, versionCode501889 și snapshotul sursei92e844b.
-Run45965463970/job140392969235 SUCCESS; acceptarea fizică este încă în așteptare.
+Run45965463970/job140392969235 SUCCESS; utilizatorul a apreciat aspectul compact
+(„arată mult mai bine”), dar a raportat transcrierea nefuncțională.
 
 Verifică fereastra de lucru la matematică, istorie, geografie, informatică,
 literatură și biologie: un titlu, Enunț + Rezolvarea mea, un rând activ de

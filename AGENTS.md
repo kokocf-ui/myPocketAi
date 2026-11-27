@@ -26,9 +26,19 @@ Browsernou8.5sreal/mockHTTP3viewporturi+misseddeparture+alternate+cancelPASS;
 inputbrowser8materii+Science/exams/limbifărăstylusPASS;realbackenddispatcher
 walkingcontext/providersmockPASS;transitaudit/viewport/reportedfailures/
 compact/input/mathreview/boot/AndroidpreviewPASS. Compilednames6881089chars,
-compiledfinalrerun+APKîncurs. Fărăbackend/prodfrontenddeploy/HERE/paid/mainmerge.
+compiledfinalrerun+fullworkspace+mixedorientation PASS.
+APK501891 PUBLICAT: sursăecce8eb (fixapp538e130, restulCI), run45971650296 /
+job140413269742 SUCCESS; compiledwalking/input/viewport + certificatpermanent /
+identity / versionCode / snapshot / publication PASSînCI. Debugskipped.
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45971650296/myPocketAI-signed-education-test.apk
+Release460375146/asset799786801,77,660,220B,GitHubSHA256metadata:
+7029928faa887be513e2e7c7cf389ebeb053dc19b86e68d55285eb7007aa01a2.
+Updatepesteexistentfărădezinstalare/ștergeredate. Fizicpending, nuinspecțielocalăAPK.
+Primele2builduri45971185117/45971441853auopritÎNAINTEdesemnare: Playwright1.56
+nusupUbuntu26.04latest; annotationsAPIaudovedit;runnerpin24.04rezolvă,nugatebypass.
+Fărăbackend/prodfrontenddeploy/HERE/paid/mainmerge.
 
-**FOLLOW-UP DUPĂ RETEST501889:** user spune „arată mult mai bine” (acceptare
+**ISTORIC — FOLLOW-UP DUPĂ RETEST501889 (supersedat de501891 mai sus):** user spune „arată mult mai bine” (acceptare
 aspectcompact, NUvalidareatuturorfuncțiilor). Stylusraportatnefuncțional; discută
 eliminareaîn favoareasimbolurilor/previzualizării, NUdeclaraeliminatîncă.
 Cerințănouă: rândurilelungi din câmpurilede scriere sărămânăvizibile.
