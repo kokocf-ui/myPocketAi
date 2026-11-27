@@ -137,6 +137,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--file", type=pathlib.Path)
     parser.add_argument("--departure-at")
+    parser.add_argument("--probe-local", action="store_true")
     parser.add_argument("--origin", nargs=2, type=float, required=True)
     parser.add_argument("--destination", nargs=2, type=float, required=True)
     parser.add_argument("--output", type=pathlib.Path, required=True)
@@ -146,6 +147,9 @@ def main():
         if not args.file:
             download(path)
         report = inspect(load_feed(path), args.origin, args.destination, departure_at=args.departure_at)
+        if args.probe_local:
+            from probe_surface_local_ends import probe_local_ends
+            report["localEnds"] = probe_local_ends(report, args.origin, args.destination)
         with open(path, "rb") as source:
             report["sha256"] = hashlib.file_digest(source, "sha256").hexdigest()
         args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -153,10 +157,18 @@ def main():
         print(json.dumps(report, ensure_ascii=False))
         # Check annotations are readable via GitHub API even when log download
         # redirects are blocked in the coding sandbox. No secrets/private input.
-        for key in ("counts", "agencies", "feedInfo", "originStops", "destinationStops", "surfacePaths", "datedSearch"):
+        for key in ("counts", "agencies", "feedInfo", "originStops", "destinationStops", "surfacePaths", "datedSearch", "localEnds"):
             if key not in report:
                 continue
-            value = json.dumps(report[key], ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+            data = report[key]
+            if key == "datedSearch":
+                data = {k: v for k, v in data.items() if k != "candidates"}
+                data["candidateCount"] = len(report[key]["candidates"])
+                for i, candidate in enumerate(report[key]["candidates"]):
+                    compact = {**candidate, "legs": [{k: v for k, v in leg.items() if k != "stops"} for leg in candidate["legs"]]}
+                    encoded = json.dumps(compact, ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
+                    print("::notice title=open-gtfs-dated-candidate-" + str(i) + "::" + encoded)
+            value = json.dumps(data, ensure_ascii=False).replace("%", "%25").replace("\r", "%0D").replace("\n", "%0A")
             print("::notice title=open-gtfs-" + key + "::" + value)
 
 
