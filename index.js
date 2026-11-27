@@ -22587,11 +22587,11 @@ function beginTransitVisualTracking(current){
  current.navigating=true;current.follow=true;
  current.layer.classList.add('navigating');
  document.body.classList.add('pocket-navigation-fullscreen');
- current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');
+ current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
  current.layer.querySelector('.transit-fixed-controls button:last-child')?.removeAttribute('hidden');
  current.layer.style.bottom='0px';
  current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
- current.map.invalidateSize();
+ pocketSyncNavigationMap(current);
  current.map.on('dragstart',()=>{current.follow=false;current.recenter.hidden=false});
  current.recenter.onclick=()=>{current.follow=true;
   if(current.lastFix)current.map.setView(current.lastFix,17,{animate:false})};
@@ -22716,7 +22716,7 @@ async function openTransitJourneyMap(selected,resume=null){
  const note=document.createElement('p');note.className='route-map-status';note.setAttribute('role','status');
  note.textContent=dialogText('Încarc toate etapele traseului…','Loading all journey legs…');
  const mapHost=document.createElement('div');mapHost.className='route-map-canvas';
- mapHost.style.cssText='height:clamp(165px,28dvh,300px)!important;min-height:165px;max-height:30dvh;flex:none!important';
+ mapHost.style.cssText='min-height:0'; // Shared CSS owns preview and navigation sizing.
  const details=document.createElement('section');details.className='route-directions transit-full-journey-details';
  details.style.cssText='flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 18px 28px;overscroll-behavior:contain';
  const destination=String(state.lastTransitResponse?.transit_destination_point?.label||
@@ -23361,7 +23361,7 @@ function stopRouteTracking(current,message,stopNative=true){
  }
  clearTimeout(current.gpsTimer);current.gpsTimer=null;
  current.liveMarker?.remove();current.liveMarker=null;
- current.layer.classList?.remove('navigating');
+ current.layer.classList?.remove('navigating');pocketSyncNavigationMap(current);
  if(current.navigation)current.navigation.textContent=routeLiveText()[0];
  if(current.recenter)current.recenter.hidden=true;
  if(current.liveStatus){current.liveStatus.textContent=message||'';current.liveStatus.hidden=!message}
@@ -23376,7 +23376,7 @@ function startRouteTracking(current,resumeNative=false){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
  current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');
- if(current.maneuverText)current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');
+ if(current.maneuverText)current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
  current.voiceMuted=window.__pocketNavigationMuted===true;
  syncDrivingVoiceControl(current);
  // In native foreground service, the same GPS route remains active if Eva
@@ -23386,7 +23386,7 @@ function startRouteTracking(current,resumeNative=false){
   if(current.maneuverText)current.maneuverText.textContent=dialogText('Navigație doar pe ecran; serviciul Android nu a pornit.','On-screen navigation only; Android background service did not start.');
   current.liveStatus.hidden=false;
   current.liveStatus.textContent=dialogText('Navigația vizuală funcționează, dar serviciul Android în fundal nu a pornit.','Visual tracking works, but Android background navigation did not start.');
- }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];
+ }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];pocketSyncNavigationMap(current);
  const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
@@ -23434,7 +23434,7 @@ function loadRouteMapLibrary(){
   script.onload=()=>{clearTimeout(timer);window.L?resolve(window.L):reject(new Error('Map unavailable'))};script.onerror=()=>{clearTimeout(timer);script.remove();reject(new Error('Map unavailable'))};document.head.append(script);
  }).catch(error=>{leafletLoading=null;throw error});return leafletLoading;
 }
-function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current,undefined,false);current.cleanup();current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
+function closeRouteMap(restoreFocus=true){const current=activeRouteMap;if(!current)return;activeRouteMap=null;stopRouteTracking(current,undefined,false);current.cleanup();current.mapSizeObserver?.disconnect();cancelAnimationFrame(current.mapSizeFrame);current.map?.remove();current.layer.remove();if(restoreFocus){const options=transitOptionsForRoute(current.route);if(options?.length)showTransitChoices(options);else if(current.origin?.isConnected)current.origin.focus({preventScroll:true})}}
 async function openRouteMap(route,origin,options=state.lastRouteOptions,startNavigation=false){
  const resumeNative=arguments.length>4&&arguments[4]===true;
  dismissSelectionKeyboard();

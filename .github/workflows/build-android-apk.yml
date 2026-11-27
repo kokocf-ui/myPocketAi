@@ -176,7 +176,7 @@ jobs:
               return 1
             fi
           }
-          run_checked npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0
+          run_checked npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0 leaflet@1.9.4 @tomickigrzegorz/leaflet-rotate@0.3.0
           run_checked npx playwright install --with-deps chromium
           run_checked npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check/signed-walking
           run_checked node scripts/check_bundled_browser_names.mjs .bundle-check/signed-walking/index.js
@@ -272,8 +272,8 @@ jobs:
         run: |
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
-            --title "myPocketAI — test hartă compactă și manevre GPS (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: compact map previews with full continuous directions underneath; public transport itinerary stages no longer split across pages. Navigation alone uses a full-screen map with a two-line next-maneuver strip updated from GPS, including poor/stale GPS and off-route safeguards. Shared walking, driving and verified transit walking presentation. Stop restores the static preview. Native snapshot resume does not start a new route search. Handwriting removal and previous walking fixes retained. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
+            --title "myPocketAI — test antet fix și două manevre GPS (${GITHUB_RUN_ID})" \
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: fix the first-start transit map height that previously required starting navigation twice. Remove conflicting inline preview height and synchronize real Leaflet sizing after layout changes. Navigation commands occupy a fixed header above the map, not over it. Bottom panel shows two distinct maneuvers: highlighted first upcoming maneuver and the following itinerary instruction. Real Leaflet and rotation renderer regression tests use local synthetic tiles, with GPS/native adapters controlled. Compact previews and continuous public transport directions retained, along with poor/stale GPS and off-route safeguards. Shared walking, driving and verified transit walking presentation. Stop restores the static preview. Native snapshot resume does not start a new route search. Handwriting removal and previous walking fixes retained. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
 
       - name: Remove temporary key and reference APK
         if: always()

@@ -7,7 +7,25 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
-**CERERE CURENTĂ — HARTĂ COMPACTĂ / NAVIGAȚIE FULLSCREEN CU MANEVRĂ GPS:**
+**CERERE CURENTĂ — RETEST501892: PRIMA PORNIRE / ANTET FIX / DOUĂ MANEVRE:**
+User: „arată mult mai bine”, dar navigația necesită2porniri pentru hartămare.
+Capturi094441/094523/094535: antet/comenzi suprapuse,primamaphostmic+golmare.
+Cere antetfixDEASUPRAhărții și jos2rânduri: prima manevrăevidențiată+următoarea.
+CAUZĂCONFIRMATĂ: inlineheightclamp165/28dvh!important înopenTransitJourneyMap
+bateCSS100%;Stopîlșterge,explică2apornire. Eliminatinlineheight,sharedCSSowners.
+Navgridheader+commands+maprest+2rows;prima bold/bg/cyanborder,a2a„Apoi:”.
+LeafletpostlayoutdoubleRAF+ResizeObserver,cancel/disconnectlaclose,nonewsearch.
+TestbrowseractualizatcuLeaflet1.9.4+rotation0.3.0REALE,tileslocaleSVG,GPS/native
+mock. Source+compiledPASS4viewporturi+rotationlive,1ststartwalk/drive/transit,
+cacheLeafletsize==DOM,nogap/overlap,2maneuvers/GPSguard/stop/resume/nosearch.
+NegativecontrololdbundleFAILheaderoverlap;faultinjectoldinlineheightFAILgap
+PEPRIMApornire. Browsernameguard6892447charsPASS;compiledtransitviewport/
+walkingparity+boot/model/native/heading/check/AndroidpreviewPASS.
+Raport `NAVIGATION_FIRST_START_HEADER_TWO_MANEUVERS.md`. APKnouîncurs.
+AcceptareuserDOARaspectîmbunătățit501892,NUbackground/cronologietransit.
+Fărăbackend/prodfrontenddeploy/HERE/paid/Oracle/mainmerge.
+
+**ISTORIC501892 — HARTĂ COMPACTĂ / NAVIGAȚIE CU MANEVRĂ GPS:**
 User aprobă o singură hartă cu toți pașii dedesubt, NU pagini pentru etape.
 Hartă mică la previzualizare; DOAR navigația fullscreen, una-două linii pentru
 următoarea manevră actualizată GPS. Lista preview rămâne statică. Cerința nouă
