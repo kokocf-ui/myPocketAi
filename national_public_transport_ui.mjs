@@ -1,6 +1,20 @@
 export const NATIONAL_PUBLIC_TRANSPORT_SCRIPT=String.raw`
 // Only Maps > National public transport; GPS country and domestic routes are verified server-side.
 let nationalTransitSession=null;
+// Back from itinerary alternatives means a NEW national search, not restoring
+// the previous destination as an already-confirmed suggestion.
+function restartNationalTransitSearch(){
+ nationalTransitSession?.stop?.();
+ cancelTransitAccess(true);
+ state.moduleSearchGeneration++;state.moduleSearchBusy=false;
+ state.transitRefreshGeneration=(state.transitRefreshGeneration||0)+1;
+ state.transitRefreshAbort?.abort();state.transitRefreshAbort=null;state.transitRefreshBusy=false;
+ const choice={kind:'transit',nationalPublicTransport:true,mixedJourney:false,
+  title:'Transport public național',prompt:'Transport public numai în țara verificată din GPS.'};
+ state.lastTransitChoice=choice;state.lastTransitResponse=null;state.moduleSearchReply='';
+ state.routeSearchContext=null;state.pendingRouteDestination=null;state.pendingTravelMode=null;
+ showNationalTransitSearch(choice);
+}
 function showNationalTransitSearch(choice){
  if(nationalTransitSession?.stop)nationalTransitSession.stop();
  state.moduleSearchCategory=choice;state.moduleSearchReturnMode='root';

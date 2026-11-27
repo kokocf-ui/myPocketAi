@@ -61,7 +61,7 @@ try{
   for(const profile of ['walk','drive']){
    await page.evaluate(r=>window.__nav.open(r),{...route,profile});
    const layer=page.locator('.route-unified-preview');const list=layer.locator('.route-directions');
-   assert.ok((await list.boundingBox()).height>=45,'Preview leaves readable space for directions');assert.equal(await list.locator('li').count(),4);assert.equal(await list.locator('[aria-current]').count(),0,'Preview list is static');
+   assert.ok((await list.boundingBox()).height>=45,'Preview leaves readable space for directions');assert.equal(await layer.locator('.route-direction-badge').isHidden(),true,'No direction overlay in preview');assert.equal(await list.locator('li').count(),4);assert.equal(await list.locator('[aria-current]').count(),0,'Preview list is static');
    const preview=await layer.locator('.route-map-canvas').boundingBox();assert.ok(preview.height<=height*.29,'Compact preview map');
    await layer.locator('.route-eva-tracking').click();
    assert.ok(await list.isHidden(),'Full list gives way to two-line maneuver only during navigation');
@@ -69,20 +69,24 @@ try{
    if(width===360&&profile==='walk'){await page.setViewportSize({width:640,height:360});await navigationGeometry();await page.setViewportSize({width,height});await navigationGeometry()}
    const cue=layer.locator('.route-next-maneuver');
    await page.evaluate(()=>window.__nav.fix(.3));assert.match(await cue.locator('.route-next-maneuver-text').innerText(),/100 m.*dreapta/);
-   assert.match(await cue.locator('.route-following-maneuver').innerText(),/Apoi:.*stânga/);
+   assert.match(await cue.locator('.route-next-maneuver-text').innerText(),/^↱/);
+   assert.match(await cue.locator('.route-following-maneuver').innerText(),/Apoi: ↰.*stânga/);
+   const badge=layer.locator('.route-direction-badge');assert.ok(await badge.isVisible());assert.equal(await badge.locator('strong').innerText(),'↱');
+   const bb=await badge.boundingBox(),mb=await layer.locator('.route-map-canvas').boundingBox();assert.ok(bb.x>=mb.x&&bb.y>=mb.y&&bb.x+bb.width<=mb.x+mb.width&&bb.y+bb.height<=mb.y+mb.height,'Arrow badge stays inside the unrotated map corner');
+   assert.match(await badge.evaluate(n=>getComputedStyle(n).backgroundColor),/rgba/,'Semitransparent map badge');
    assert.notEqual(await cue.locator('.route-next-maneuver-text').evaluate(n=>getComputedStyle(n).backgroundColor),await cue.locator('.route-following-maneuver').evaluate(n=>getComputedStyle(n).backgroundColor),'First maneuver is highlighted');
    await page.evaluate(()=>window.__nav.fix(.303));assert.match(await cue.locator('.route-next-maneuver-text').innerText(),/90 m.*stânga/);
-   assert.match(await cue.locator('.route-following-maneuver').innerText(),/Apoi:.*Ai ajuns/);
+   assert.match(await cue.locator('.route-following-maneuver').innerText(),/Apoi: ●.*Ai ajuns/);assert.equal(await badge.locator('strong').innerText(),'↰');
    assert.equal(await list.locator('[aria-current="step"]').textContent(),'Virează la stânga. · 400 m');
-   await page.evaluate(()=>window.__nav.fix(.303,50));assert.match(await cue.innerText(),/GPS/,'Poor accuracy clears the previous turn');
-   await page.evaluate(()=>window.__nav.fix(.303,6,51.49));assert.match(await cue.innerText(),/afara traseului/);
-   await page.evaluate(()=>window.__nav.fix(.303,6,51.48,40000));assert.match(await cue.innerText(),/GPS/,'Stale fixes do not advance instructions');
-   await page.evaluate(()=>window.__nav.fix(.3099));assert.match(await cue.innerText(),/Ai ajuns la Test destination/);
+   await page.evaluate(()=>window.__nav.fix(.303,50));assert.match(await cue.innerText(),/GPS/,'Poor accuracy clears the previous turn');assert.ok(await badge.isHidden(),'Poor GPS removes the map arrow');
+   await page.evaluate(()=>window.__nav.fix(.303,6,51.49));assert.match(await cue.innerText(),/afara traseului/);assert.ok(await badge.isHidden());
+   await page.evaluate(()=>window.__nav.fix(.303,6,51.48,40000));assert.match(await cue.innerText(),/GPS/,'Stale fixes do not advance instructions');assert.ok(await badge.isHidden());
+   await page.evaluate(()=>window.__nav.fix(.3099));assert.match(await cue.innerText(),/Ai ajuns la Test destination/);assert.ok(await badge.isHidden(),'Arrival clears upcoming direction');
    await page.evaluate(()=>window.__nav.fail());assert.match(await cue.innerText(),/GPS/);
-   await layer.locator('.route-eva-tracking').click();assert.ok(await list.isVisible());assert.equal(await list.locator('[aria-current]').count(),0,'Stopping restores static preview');
+   await layer.locator('.route-eva-tracking').click();assert.ok(await list.isVisible());assert.ok(await badge.isHidden(),'Stop hides the map arrow');assert.equal(await list.locator('[aria-current]').count(),0,'Stopping restores static preview');
    assert.ok((await layer.locator('.route-map-canvas').boundingBox()).height<=height*.29);
    // Resume the saved native snapshot without a new search or a second Start.
-   await layer.locator('.route-eva-tracking').click();const before=await page.evaluate(()=>window.__nav.commands().length);
+   await layer.locator('.route-eva-tracking').click();assert.ok(await badge.isHidden(),'Restart waits for new GPS, no stale arrow');const before=await page.evaluate(()=>window.__nav.commands().length);
    const snapshot=await page.evaluate(()=>window.__nav.commands().filter(c=>c.action==='start').at(-1));
    await page.evaluate(()=>window.__nav.close());
    await page.evaluate(raw=>window.pocketRestoreNavigationSession(raw),JSON.stringify(snapshot));
@@ -100,7 +104,7 @@ try{
   // preview-height defect, not just CSS frame dimensions.
   if(process.env.POCKET_LEGACY_TRANSIT_HEIGHT==='1')await page.evaluate(()=>document.querySelector('.transit-full-journey-map .route-map-canvas').style.setProperty('height','clamp(165px,28dvh,300px)','important'));
   await page.getByRole('button',{name:'Pornește navigarea cu Eva',exact:true}).click();await navigationGeometry();
-  await page.evaluate(()=>window.__nav.fix(.303));assert.match(await page.locator('.route-next-maneuver').innerText(),/stânga/,'Transit walking shares GPS maneuver progression');
+  await page.evaluate(()=>window.__nav.fix(.303));assert.match(await page.locator('.route-next-maneuver').innerText(),/stânga/,'Transit walking shares GPS maneuver progression');assert.equal(await page.locator('.route-direction-badge strong').innerText(),'↰');
   const native=await page.evaluate(()=>window.__nav.commands().at(-1));assert.equal(native.walkingLegs.length,1,'Do not send the initial walking path twice');
   await page.getByRole('button',{name:'Oprește',exact:true}).click();assert.ok(await page.locator('.transit-full-journey-details').isVisible());
   assert.equal(searches,0,'Saved paths, GPS and resume do not search again');

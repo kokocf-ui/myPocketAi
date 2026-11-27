@@ -14,6 +14,7 @@ on:
       - 'tests_one_field_live_request.mjs'
       - 'national_public_transport_ui.mjs'
       - 'tests_transport_departure_entrypoints.mjs'
+      - 'tests_national_transit_back_browser.mjs'
       - 'android/**'
       - 'index.js'
       - 'route_navigation_ui.mjs'
@@ -186,6 +187,7 @@ jobs:
           run_checked node tests_education_input_browser.mjs
           run_checked node tests_transit_viewport_browser.mjs
           run_checked node tests_route_navigation_browser.mjs
+          run_checked node tests_national_transit_back_browser.mjs
       - name: Check permanent keystore and latest published APK
         env:
           GH_TOKEN: ${{ github.token }}
@@ -273,7 +275,7 @@ jobs:
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
             --title "myPocketAI — test antet fix și două manevre GPS (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: fix the first-start transit map height that previously required starting navigation twice. Remove conflicting inline preview height and synchronize real Leaflet sizing after layout changes. Navigation commands occupy a fixed header above the map, not over it. Bottom panel shows two distinct maneuvers: highlighted first upcoming maneuver and the following itinerary instruction. Real Leaflet and rotation renderer regression tests use local synthetic tiles, with GPS/native adapters controlled. Compact previews and continuous public transport directions retained, along with poor/stale GPS and off-route safeguards. Shared walking, driving and verified transit walking presentation. Stop restores the static preview. Native snapshot resume does not start a new route search. Handwriting removal and previous walking fixes retained. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: national alternatives Back opens a clean destination search, without the old confirmed selection or departure. Calendar Back still retains the destination. Direction arrows accompany both bottom maneuvers and a semitransparent map-corner badge with distance; inaccurate/stale/off-route GPS clears the badge. New compiled browser regression covers toolbar and Android Back. Retains the first-start transit map height correction. Remove conflicting inline preview height and synchronize real Leaflet sizing after layout changes. Navigation commands occupy a fixed header above the map, not over it. Bottom panel shows two distinct maneuvers: highlighted first upcoming maneuver and the following itinerary instruction. Real Leaflet and rotation renderer regression tests use local synthetic tiles, with GPS/native adapters controlled. Compact previews and continuous public transport directions retained, along with poor/stale GPS and off-route safeguards. Shared walking, driving and verified transit walking presentation. Stop restores the static preview. Native snapshot resume does not start a new route search. Handwriting removal and previous walking fixes retained. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Automated delayed-response and missed-departure regressions pass; live phone walking behavior remains to be verified. This is not a claim that all transport issues are resolved. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
 
       - name: Remove temporary key and reference APK
         if: always()

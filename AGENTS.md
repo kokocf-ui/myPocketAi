@@ -7,6 +7,21 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ACTUALIZARE — FEEDBACK501893 / SĂGEȚI ȘI CĂUTARE NOUĂ:**
+User: „Este mult mai bine”; revenirea din alternative naționale păstrează vechea
+selecție (capturi100252/100256). Cere săgeți jos și casetă semitransparentă în
+colțul hărții. `restartNationalTransitSearch` golește destinație/datǎ/răspuns/
+route context și invalidează generațiile/refresh; toolbar + Android Back folosesc
+aceeași cale. Calendar Back păstrează destinația intenționat.
+`pocketManeuverSymbol` comun, săgeți în ambele rânduri; badge dreapta-jos cu
+fundal rgba .58 și distanță, doar în navigare cu instrucțiune recunoscută.
+GPS slab/vechi/offroute/sosire ascunde badge; Start așteaptă poziție nouă.
+Source+compiled realLeaflet nav PASS4viewporturi+rotație; compiled nationalBack/
+coverage/viewport/walking/input PASS; calendar/native/boot/model PASS.
+Raport `NAVIGATION_ARROWS_NATIONAL_BACK.md`. APK nou încă nepublicat la acest
+punct; 501893 este ultima livrare. Aspect501893 apreciat, NU acceptare background
+sau cronologie transport. Fără backend/deployprod/HERE/paid/mainmerge/Oracle.
+
 **CERERE CURENTĂ — RETEST501892: PRIMA PORNIRE / ANTET FIX / DOUĂ MANEVRE:**
 User: „arată mult mai bine”, dar navigația necesită2porniri pentru hartămare.
 Capturi094441/094523/094535: antet/comenzi suprapuse,primamaphostmic+golmare.

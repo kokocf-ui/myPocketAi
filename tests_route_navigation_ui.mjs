@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {pocketRouteManeuver} from './route_navigation_ui.mjs';
+import {pocketRouteManeuver,pocketManeuverSymbol} from './route_navigation_ui.mjs';
 const route={distanceMeters:700,steps:[{text:'Start',distanceMeters:100},{text:'Right',distanceMeters:200},{text:'Left',distanceMeters:400},{text:'Arrive',distanceMeters:0}]};
 const p=along=>({away:0,totalMeters:700,alongMeters:along});
 assert.equal(pocketRouteManeuver(route,p(0),6).text,'Right');
@@ -17,3 +17,7 @@ assert.equal(pocketRouteManeuver(null,null,5).status,'gps');
 assert.equal(pocketRouteManeuver({...route,steps:[]},p(10),6).status,'continue');
 assert.equal(pocketRouteManeuver(route,{...p(10),totalMeters:0},6).status,'gps');
 console.log('PASS navigation maneuver model: distance-scaled progress, next turn, arrival accuracy, off-route and insufficient GPS safeguards');
+
+for(const [text,icon] of [['Virează la stânga pe London Road.','↰'],['Turn right.','↱'],['Continuă înainte.','↑'],['Întoarce pe traseu.','↶'],['Intră în sensul giratoriu.','⟳'],['Take the elevator.','↕'],['Ai ajuns la destinație.','●'],['Traversează la trecere.','•']])assert.equal(pocketManeuverSymbol({text}),icon);
+assert.equal(pocketManeuverSymbol({text:'Provider exit',maneuverType:'ExitLeft'}),'↰');
+assert.equal(pocketManeuverSymbol({text:'Unknown instruction'}),'•','No invented straight turn');

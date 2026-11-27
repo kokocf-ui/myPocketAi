@@ -22467,7 +22467,7 @@ function renderTransitChoices(options,selectedIndex=null){
   cancelTransitAccess(true);
   if(selectedIndex!==null){if(state.lastTransitChoice?.mixedJourney)renderMixedUnifiedResults(state.lastTransitResponse||{},state.lastTransitChoice);else renderTransitChoices(options);return}
   if(state.lastTransitChoice?.mixedJourney)cancelMixedProgressSearch();
-  if(state.lastTransitChoice?.nationalPublicTransport){showNationalTransitSearch(state.lastTransitChoice);return}
+  if(state.lastTransitChoice?.nationalPublicTransport){restartNationalTransitSearch();return}
   // Mixed journeys return to the one-field destination and mode selector.
   if(state.lastTransitChoice?.mixedJourney&&state.lastTransitChoice?.transitDestination){
    const fromChoice=(MODULE_QUICK_CHOICES.maps||[]).find(item=>item.mixedJourney);
@@ -22587,7 +22587,7 @@ function beginTransitVisualTracking(current){
  current.navigating=true;current.follow=true;
  current.layer.classList.add('navigating');
  document.body.classList.add('pocket-navigation-fullscreen');
- current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
+ current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.directionBadge)current.directionBadge.hidden=true;if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
  current.layer.querySelector('.transit-fixed-controls button:last-child')?.removeAttribute('hidden');
  current.layer.style.bottom='0px';
  current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
@@ -23376,7 +23376,7 @@ function startRouteTracking(current,resumeNative=false){
  if(activeRouteMap!==current||!current.map||current.navigating)return;const t=routeLiveText();
  if(typeof navigator==='undefined'||!navigator.geolocation?.watchPosition){current.liveStatus.hidden=false;current.liveStatus.textContent=t[4];return}
  current.navigating=true;current.watchId=null;current.follow=true;current.firstFix=true;current.layer.classList?.add('navigating');
- if(current.maneuverText)current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
+ if(current.maneuverText)current.maneuverText.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');if(current.directionBadge)current.directionBadge.hidden=true;if(current.followingManeuverText)current.followingManeuverText.textContent=dialogText('Confirm poziția înaintea următoarei manevre.','Confirming position before the next maneuver.');
  current.voiceMuted=window.__pocketNavigationMuted===true;
  syncDrivingVoiceControl(current);
  // In native foreground service, the same GPS route remains active if Eva

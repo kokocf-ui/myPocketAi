@@ -13,11 +13,27 @@ export function pocketRouteManeuver(route,projection,accuracy){
   const step=steps[i];
   if(i>0&&at>travelled+3&&typeof step?.text==='string'&&step.text.trim()){
    const following=steps.slice(i+1).find(v=>typeof v?.text==='string'&&v.text.trim());
-   return {status:'turn',index:i,text:step.text,distance:at-travelled,remaining,following:following?{text:following.text}:null};
+   return {status:'turn',index:i,text:step.text,distance:at-travelled,remaining,maneuverType:step.maneuverType||'',following:following?{text:following.text,maneuverType:following.maneuverType||''}:null};
   }
   at+=Math.max(0,Number(step?.distanceMeters)||0);
  }
  return {status:'continue',remaining,index:Math.max(0,steps.length-1)};
+}
+// Symbol describes the provider instruction, never a lane or invented bearing.
+// Unknown instructions have a neutral bullet, not a fabricated straight arrow.
+export function pocketManeuverSymbol(step){
+ const type=String(step?.maneuverType||'');
+ if(/^(?:ExitRight|StayRight|MergeRight|TurnRight|Right|SlightRight|SharpRight)$/i.test(type))return '↱';
+ if(/^(?:ExitLeft|StayLeft|MergeLeft|TurnLeft|Left|SlightLeft|SharpLeft)$/i.test(type))return '↰';
+ const text=String(step?.text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+ if(/u[ -]?turn|intoarc|returnati|demi-tour|wenden/.test(text))return '↶';
+ if(/roundabout|sens(?:ul)? giratoriu|rond-point|kreisverkehr|rotonda|rotatoria/.test(text))return '⟳';
+ if(/left|stang|gauche|links|sinistra|izquierda|esquerda/.test(text))return '↰';
+ if(/right|dreapt|droite|rechts|destra|derecha|direita/.test(text))return '↱';
+ if(/elevator|lift|ascensor|liftul/.test(text))return '↕';
+ if(/arriv|ai ajuns|destinatie|destination reached|ziel erreicht/.test(text))return '●';
+ if(/straight|inainte|continue|continua|mergi|urmeaza|geradeaus|tout droit/.test(text))return '↑';
+ return '•';
 }
 export const ROUTE_NAVIGATION_STYLE=String.raw`
 body:has(.route-unified-preview) .extra-fun-daily-banner{display:none!important}
@@ -45,7 +61,11 @@ body:has(.route-unified-preview) .extra-fun-daily-banner{display:none!important}
 .route-following-maneuver{font-size:12px;color:#d3e3eb;border-left:3px solid transparent}
 .route-directions [aria-current="step"]{background:#135b70;border-left:3px solid #50e4e1}
 .route-directions .route-step-complete{opacity:.6}
-.route-unified-preview.navigating .pocket-drive-next-turn{top:12px!important}
+.route-direction-badge{display:none}
+.route-unified-preview.navigating .route-direction-badge:not([hidden]){display:flex;position:absolute;right:12px;bottom:32px;z-index:1200;flex-direction:column;align-items:center;justify-content:center;width:68px;min-height:70px;padding:5px;border:1px solid #c7f5fbbb;border-radius:13px;box-sizing:border-box;background:rgba(7,25,38,.58);backdrop-filter:blur(2px);color:#fff;text-shadow:0 1px 2px #000;pointer-events:none}
+.route-direction-badge strong{font-size:36px;line-height:1.1}
+.route-direction-badge small{font-size:12px;font-weight:700}
+.route-unified-preview.navigating .pocket-drive-next-turn{display:none!important}
 .route-unified-preview.navigating .pocket-driving-voice-toggle{top:12px!important}
 `;
 export function pocketAttachManeuver(current){
@@ -56,6 +76,11 @@ export function pocketAttachManeuver(current){
  current.maneuverText=text;current.maneuverCue=cue;
  text.textContent=dialogText('Aștept poziția GPS…','Waiting for GPS…');
  const host=current.mapHost||current.layer.querySelector('.route-map-canvas');
+ if(host){
+  const badge=document.createElement('div');badge.className='route-direction-badge';badge.hidden=true;
+  const icon=document.createElement('strong');icon.setAttribute('aria-hidden','true');const distance=document.createElement('small');
+  badge.append(icon,distance);host.append(badge);current.directionBadge=badge;current.directionBadgeIcon=icon;current.directionBadgeDistance=distance;
+ }
  if(host&&typeof ResizeObserver==='function'){current.mapSizeObserver=new ResizeObserver(()=>pocketSyncNavigationMap(current));current.mapSizeObserver.observe(host)}
 }
 export function pocketUpdateManeuver(current,route,projection,accuracy,rows=null){
@@ -64,13 +89,17 @@ export function pocketUpdateManeuver(current,route,projection,accuracy,rows=null
  let text=next.status==='gps'?dialogText('Semnal GPS insuficient pentru următoarea manevră.','Waiting for an accurate GPS fix.'):
   next.status==='offroute'?dialogText('Ești în afara traseului verificat. Revino la traseu.','You are off the verified route. Return to the route.'):
   next.status==='arrived'?dialogText('Ai ajuns la ','You have reached ')+String(route.destination?.label||route.label||dialogText('destinație','your destination')):
-  next.status==='turn'?Math.max(0,Math.round(next.distance))+' m · '+next.text:
+  next.status==='turn'?pocketManeuverSymbol(next)+' '+Math.max(0,Math.round(next.distance))+' m · '+next.text:
   Math.round(next.remaining)+' m · '+dialogText('Continuă pe traseul verificat.','Continue on the verified route.');
- const following=next.status==='turn'&&next.following?dialogText('Apoi: ','Then: ')+next.following.text:
+ const following=next.status==='turn'&&next.following?dialogText('Apoi: ','Then: ')+pocketManeuverSymbol(next.following)+' '+next.following.text:
   next.status==='gps'||next.status==='offroute'?dialogText('Următoarea manevră va apărea după confirmarea poziției.','Next maneuver needs a confirmed position.'):
   next.status==='arrived'?dialogText('Tronson încheiat.','Leg completed.'):
   dialogText('Nu mai sunt alte manevre în acest tronson.','No further maneuvers in this leg.');
  if(current.followingManeuverText&&current.followingManeuverText.textContent!==following){current.followingManeuverText.textContent=following;current.followingManeuverText.title=following}
+ if(current.directionBadge){
+  const visible=next.status==='turn'&&pocketManeuverSymbol(next)!=='•';current.directionBadge.hidden=!visible;
+  if(visible){current.directionBadgeIcon.textContent=pocketManeuverSymbol(next);current.directionBadgeDistance.textContent=Math.max(0,Math.round(next.distance))+' m';current.directionBadge.setAttribute('aria-label',text)}
+ }
  if(current.nativeUnavailable)text=dialogText('Doar pe ecran, fără serviciul Android. ','On-screen only, Android service unavailable. ')+text;
  clearTimeout(current.maneuverTimer);
  if(projection&&Number.isFinite(accuracy)&&accuracy<=35)current.maneuverTimer=setTimeout(()=>pocketUpdateManeuver(current,null,null,Infinity,rows),20000);
@@ -95,4 +124,4 @@ export function pocketSyncNavigationMap(current){
  };
  current.mapSizeFrame=requestAnimationFrame(()=>{refresh();current.mapSizeFrame=requestAnimationFrame(refresh)});
 }
-export const ROUTE_NAVIGATION_SCRIPT=[['pocketSyncNavigationMap',pocketSyncNavigationMap],['pocketRouteManeuver',pocketRouteManeuver],['pocketAttachManeuver',pocketAttachManeuver],['pocketUpdateManeuver',pocketUpdateManeuver]].map(([name,fn])=>'var '+name+'='+fn.toString()+';').join('\n');
+export const ROUTE_NAVIGATION_SCRIPT=[['pocketManeuverSymbol',pocketManeuverSymbol],['pocketSyncNavigationMap',pocketSyncNavigationMap],['pocketRouteManeuver',pocketRouteManeuver],['pocketAttachManeuver',pocketAttachManeuver],['pocketUpdateManeuver',pocketUpdateManeuver]].map(([name,fn])=>'var '+name+'='+fn.toString()+';').join('\n');
