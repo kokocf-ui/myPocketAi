@@ -8127,7 +8127,7 @@ window.pocketAndroidBack=function(){
  const creatorLayer=[...document.querySelectorAll('.creator-business-overlay,.extra-creator-style-overlay,.extra-creator-overlay')].at(-1);if(creatorLayer){creatorLayer.remove();return}
  const funPopup=[...document.querySelectorAll('.extra-fun-modal')].at(-1);if(funPopup?.pocketDismiss){funPopup.pocketDismiss();return}
  const openLayers=[...document.querySelectorAll('dialog[open]')];const topLayer=openLayers.at(-1);
- if(topLayer?.matches?.('.comm-media-viewer,.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog,[data-education-ink]')){topLayer.close();return}
+ if(topLayer?.matches?.('.comm-media-viewer,.foreign-practice-dialog,.foreign-resource-dialog,.language-tutor-dialog,.edu-workspace-dialog,.practical-activity-dialog')){topLayer.close();return}
  // The paged Mathematics/Theory reader is layered above the theory catalogue.
  // Close its TOP layer before touching the underlying dialogue or app navigation.
  // Previously it was missing here, allowing physical Back to reach Eva's exit prompt.
@@ -21052,7 +21052,7 @@ function transitBoardingLineLabel(stop,vehicle){
 }
 function validTransitBoardingStop(stop){return stop&&typeof stop.label==='string'&&stop.label.trim()&&Number.isFinite(stop.latitude)&&Number.isFinite(stop.longitude)&&Math.abs(stop.latitude)<=90&&Math.abs(stop.longitude)<=180}
 function transitDistance(a,b){const rad=Math.PI/180,dlat=(b.latitude-a.latitude)*rad,dlon=(b.longitude-a.longitude)*rad,h=Math.sin(dlat/2)**2+Math.cos(a.latitude*rad)*Math.cos(b.latitude*rad)*Math.sin(dlon/2)**2;return 6371000*2*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)))}
-function transitWalkingMatches(route,stop){if(!validMapRoute(route)||!['walk','foot'].includes(route.profile)||!validTransitBoardingStop(stop))return false;const end=route.coordinates.at(-1),destination=route.destination;return destination&&Number.isFinite(destination.latitude)&&Number.isFinite(destination.longitude)&&transitDistance(destination,stop)<2&&transitDistance({latitude:end[1],longitude:end[0]},stop)<=120}
+function transitWalkingMatches(route,stop){if(!validMapRoute(route)||!['walk','foot'].includes(route.profile)||!validTransitBoardingStop(stop))return false;const end=route.coordinates.at(-1);return transitDistance({latitude:end[1],longitude:end[0]},stop)<=150}
 function cancelTransitAccess(clearSelection=false){state.transitAccessGeneration=(state.transitAccessGeneration||0)+1;state.transitAccessAbort?.abort();state.transitAccessAbort=null;if(clearSelection)state.selectedTransitJourney=null}
 function transitBoardingSummary(journey){const stop=journey.boarding_stop,t=transitAccessText();if(!validTransitBoardingStop(stop))return t[11];const vehicle=(journey.legs||[]).find(l=>!/^(walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))),line=transitBoardingLineLabel(stop,vehicle);return [t[7]+': '+stop.label,stop.indicator?stop.indicator:'',line?t[6]+': '+line:'',stop.towards?'→ '+stop.towards:'',t[4]+': '+transitClock(stop.departure_time||journey.firstVehicleDepartureTime,journey.time_zone)].filter(Boolean).join(' · ')}
 const TRAVEL_MODE_TEXT={ro:['Cum vrei să ajungi?','Pietonal','Transport public','Mașină'],en:['How would you like to travel?','Walk','Public transport','Drive'],fr:['Comment souhaitez-vous voyager ?','À pied','Transports publics','Voiture'],de:['Wie möchten Sie reisen?','Zu Fuß','Öffentliche Verkehrsmittel','Auto'],it:['Come vuoi viaggiare?','A piedi','Trasporto pubblico','Auto'],es:['¿Cómo quieres viajar?','A pie','Transporte público','Coche'],pt:['Como pretende viajar?','A pé','Transportes públicos','Carro'],nl:['Hoe wil je reizen?','Lopen','Openbaar vervoer','Auto'],ru:['Как вы хотите добраться?','Пешком','Общественный транспорт','Автомобиль'],pl:['Jak chcesz dotrzeć?','Pieszo','Transport publiczny','Samochód']};
@@ -22549,15 +22549,35 @@ function transitVerifiedPath(route,from,to){
  return transitDistance({latitude:a[1],longitude:a[0]},{latitude:from[0],longitude:from[1]})<=150&&
         transitDistance({latitude:b[1],longitude:b[0]},{latitude:to[0],longitude:to[1]})<=150;
 }
+// Same coordinate-backed road router used by the standalone walking tool.
+// Its provider can take 12s per calculation plus entrance/access alternatives;
+// the former 8s boarding timeout aborted valid requests before that work ended.
+async function transitWalkingRequest(start,end,signal){
+ const controller=new AbortController();
+ const abort=()=>controller.abort();
+ if(signal?.aborted)abort();else signal?.addEventListener('abort',abort,{once:true});
+ const timeout=setTimeout(abort,45000);
+ try{
+  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,
+   body:JSON.stringify({message:routeActionsText().prompt+end.label,language:state.language,
+    module:state.currentModule||'maps',history:[],location:start,coordinates:start,
+    location_requested:true,route_profile:'walk',route_destination:end,
+    route_context:{profile:'walk',origin:start,destination:end,destination_query:end.label,origin_query:'',pending:null}})});
+  if(!response.ok)throw Error('walk_route_unavailable');
+  const result=await response.json();
+  if(result.status!=='success'||result.route_available!==true)return null;
+  const from=[start.latitude,start.longitude],to=[end.latitude,end.longitude];
+  // A mapped entrance may be the preferred standalone route. Keep the base
+  // alternative when that entrance is not the requested boarding/transfer point.
+  const candidates=[result.route,...(Array.isArray(result.routes)?result.routes:[])];
+  const routes=candidates.filter((route,i)=>candidates.indexOf(route)===i&&transitVerifiedPath(route,from,to));
+  return routes.length?{...result,route:routes[0],routes}:null;
+ }finally{clearTimeout(timeout);signal?.removeEventListener('abort',abort)}
+}
 async function transitStreetPath(from,to,label,signal){
- const start={latitude:from[0],longitude:from[1]},end={latitude:to[0],longitude:to[1],label};
- const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal,
-  body:JSON.stringify({message:routeActionsText().prompt+label,language:state.language,
-   module:state.currentModule||'maps',history:[],location:start,coordinates:start,
-   location_requested:true,route_profile:'walk',route_destination:end,route_context:null})});
- if(!response.ok)throw Error('walk_route_unavailable');
- const result=await response.json();
- return result.status==='success'&&result.route_available===true&&transitVerifiedPath(result.route,from,to)?result.route:null;
+ const start={latitude:from[0],longitude:from[1],label:dialogText('Plecarea','Start')};
+ const end={latitude:to[0],longitude:to[1],label};
+ return (await transitWalkingRequest(start,end,signal))?.route||null;
 }
 
 function beginTransitVisualTracking(current){
@@ -22927,10 +22947,13 @@ async function openTransitJourneyMap(selected,resume=null){
   if(resume?.resumed)beginTransitVisualTracking(current);
   if(all.length&&!current.navigating)note.textContent=dialogText('Etapele sunt pe hartă. Verific transferurile pietonale…',
    'Journey stops are mapped. Checking walking transfers…');
-  const controller=new AbortController(),timeout=setTimeout(()=>controller.abort(),35000);
-  current.cleanup=()=>{removeResize();clearTimeout(timeout);controller.abort();releaseViewport()};
-  // One at a time to keep the navigation API bounded; the map opens immediately.
-  for(const job of walkJobs.slice(0,12)){
+  const controller=new AbortController();
+  current.cleanup=()=>{removeResize();controller.abort();releaseViewport()};
+  // At most two requests at once; an initial boarding check must not hold up
+  // all later transfers. Each request has its own deadline and is never retried.
+  let walkCursor=0;const boundedJobs=walkJobs.slice(0,12);
+  const verifyNext=async()=>{while(walkCursor<boundedJobs.length){
+   const job=boundedJobs[walkCursor++];
    if(activeRouteMap!==current||controller.signal.aborted){unverified.push(job.i+1);continue;}
    try{
     if(transitDistance({latitude:job.from[0],longitude:job.from[1]},
@@ -22955,13 +22978,13 @@ async function openTransitJourneyMap(selected,resume=null){
        (Number.isFinite(verified.durationSeconds)?' · '+formatTravelDurationMinutes(verified.durationSeconds/60):'');
      const status=row?.querySelector('.transit-walk-stage-status');if(status)status.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');row?.append(walk)}
    }catch{unverified.push(job.i+1)}
-  }
+  }};
+  await Promise.all([verifyNext(),verifyNext()]);
   if(walkJobs.length>12)unverified.push(...walkJobs.slice(12).map(j=>j.i+1));
   if(activeRouteMap===current&&!current.navigating)note.textContent=selected.error|| (unverified.length?
    dialogText('Traseu orientativ: segmentele fără geometrie verificată sunt punctate.',
     'Overview map: segments without verified geometry are dashed.'):
    dialogText('Traseu complet, cu transferurile pietonale verificate.','Journey mapped with verified walking transfers.'));
-  clearTimeout(timeout);
  }catch(error){if(activeRouteMap===current)note.textContent=dialogText('Harta nu s-a încărcat.',
   'Map could not be loaded.')}
 }
@@ -22992,7 +23015,7 @@ async function selectTransitJourneyWithNavigation(options,index,navigate=false){
   selected.loading=false;selected.error='';updateDetails();return;
  }
  if(isRomanianRailJourney(journey)&&!validTransitBoardingStop(stop)){selected.loading=false;selected.error='';selected.timeUnverified=true;updateDetails();return;}
- const fail=message=>{if(!valid())return;selected.loading=false;selected.error=message;selected.timeUnverified=true;journey.accessWalkVerified=false;updateDetails()};
+ const fail=(message,walkVerified=false)=>{if(!valid())return;selected.loading=false;selected.error=message;selected.timeUnverified=true;journey.accessWalkVerified=walkVerified;updateDetails()};
  if(!validTransitBoardingStop(stop)){
   // A verified provider itinerary without coordinate-backed boarding data
   // is still useful as timetable details; do not pretend to navigate to a stop.
@@ -23001,25 +23024,26 @@ async function selectTransitJourneyWithNavigation(options,index,navigate=false){
   }
   fail(t[11]);return
  }
- const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');if(Number.isFinite(departure)&&departure<=Date.now()){fail(t[14]);return}
+ const departure=Date.parse(journey.firstVehicleDepartureTime||stop.departure_time||'');
  let timer,locationReady=false;try{
   const coordinates=state.lastTransitChoice?.journeyOrigin||await Promise.race([getCurrentCoordinates(false),new Promise((_,reject)=>{timer=setTimeout(()=>reject(Error('GPS timeout')),8000)})]);clearTimeout(timer);if(!valid())return;if(!coordinates||!Number.isFinite(coordinates.latitude)||!Number.isFinite(coordinates.longitude)){fail(t[12]);return}
-  locationReady=true;const controller=new AbortController();state.transitAccessAbort=controller;timer=setTimeout(()=>controller.abort(),8000);
-  const response=await fetch(CLIENT_CONFIG.apiUrl,{method:'POST',headers:{'Content-Type':'application/json'},signal:controller.signal,body:JSON.stringify({message:routeActionsText().prompt+stop.label,language:state.language,module:state.currentModule||'assistant',history:[],location:coordinates,coordinates,location_requested:true,route_profile:'walk',route_destination:{latitude:stop.latitude,longitude:stop.longitude,label:stop.label},route_context:null})});
-  const data=await response.json();if(!valid())return;if(!response.ok||data.status!=='success'||data.route_available!==true||!transitWalkingMatches(data.route,stop)){fail(t[13]);return}
-  const seconds=Number(data.route.durationSeconds);
-  if(!Number.isFinite(seconds)||seconds<0){fail(dialogText('Durata mersului pe jos nu a fost verificată.','Walking duration could not be verified.'));return}
+  locationReady=true;const controller=new AbortController();state.transitAccessAbort=controller;
+  const data=await transitWalkingRequest({...coordinates,label:dialogText('Poziția mea','My location')},{latitude:stop.latitude,longitude:stop.longitude,label:stop.label},controller.signal);
+  if(!valid())return;if(!data||!transitWalkingMatches(data.route,stop)){fail(dialogText('Acces la prima stație: ','Access to first stop: ')+t[13]);return}
+  selected.accessRoute=data.route;selected.walkingReply=String(data.reply||'');
+  const seconds=data.route.durationSeconds;
+  if(typeof seconds!=='number'||!Number.isFinite(seconds)||seconds<0){fail(dialogText('Durata mersului pe jos nu a fost verificată.','Walking duration could not be verified.'),true);return}
   const margin=Number.isFinite(Number(journey.safetyMarginMinutes))?Math.max(0,Math.min(15,Number(journey.safetyMarginMinutes))):5;
   journey.walkToFirstStopMinutes=Math.ceil(seconds/60);
   journey.accessWalkVerified=true;
   const meters=Number(data.route.distanceMeters);
   journey.accessWalkDistanceMeters=data.route.distanceMeters!=null&&Number.isFinite(meters)&&meters>=0?meters:null;
   if(Number.isFinite(departure)&&departure<Date.now()+seconds*1000+margin*60000){
-   fail(dialogText('Nu mai este timp pentru această plecare. ','Not enough time for this departure. ')+transitBoardingAdvice(journey));return
+   fail(dialogText('Nu mai este timp pentru această plecare. ','Not enough time for this departure. ')+transitBoardingAdvice(journey),true);return
   }
   selected.loading=false;selected.accessRoute=data.route;selected.accessOptions=(Array.isArray(data.routes)?data.routes:[data.route]).filter(r=>transitWalkingMatches(r,stop)&&(!Number.isFinite(departure)||!Number.isFinite(r.durationSeconds)||departure>=Date.now()+r.durationSeconds*1000+Math.max(0,margin)*60000));selected.walkingReply=String(data.reply||'');selected.timeUnverified=!Number.isFinite(departure)||!Number.isFinite(seconds);state.lastRoute=data.route;state.lastRouteOptions=selected.accessOptions;state.lastRouteReply=selected.walkingReply;state.routeSearchContext=data.route_context||null;
   if(navigate)await openTransitJourneyMap(selected);else updateDetails();
- }catch(error){if(valid())fail(locationReady?t[13]:t[12])}finally{clearTimeout(timer);if(valid())state.transitAccessAbort=null}
+ }catch(error){if(valid())fail(locationReady?dialogText('Acces la prima stație: ','Access to first stop: ')+t[13]:t[12])}finally{clearTimeout(timer);if(valid())state.transitAccessAbort=null}
  };
  try{await verifyAccess()}finally{accessDone?.()}
 }

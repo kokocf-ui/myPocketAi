@@ -43,9 +43,9 @@ try{
  for(const width of [360,393,430]){
   const page=await browser.newPage({viewport:{width,height:817},isMobile:true,hasTouch:true});const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  let releaseWalk=null,holdWalk=true,walkSuccess=false;
+  const pendingWalks=[];let holdWalk=true,walkSuccess=false;
   await page.route('**/*',async r=>r.request().method()==='POST'?
-   (holdWalk?await new Promise(resolve=>{releaseWalk=resolve}):null,r.fulfill({status:walkSuccess?200:503,contentType:'application/json',body:JSON.stringify(walkSuccess?{status:'success',route_available:true,route:{profile:'walk',coordinates:[[.3,51.48],[.302,51.482]],destination:{latitude:51.482,longitude:.302},durationSeconds:180,distanceMeters:300}}:{status:'error',route_available:false})})):
+   (holdWalk?await new Promise(resolve=>{pendingWalks.push(resolve)}):null,r.fulfill({status:walkSuccess?200:503,contentType:'application/json',body:JSON.stringify(walkSuccess?{status:'success',route_available:true,route:{profile:'walk',coordinates:[[.3,51.48],[.302,51.482]],destination:{latitude:51.482,longitude:.302},durationSeconds:180,distanceMeters:300}}:{status:'error',route_available:false})})):
    r.request().url().startsWith('http://127.0.0.1:')?r.continue():r.abort());
   await page.goto('http://127.0.0.1:'+server.address().port+'/?nativeLaunch=1');
   await page.evaluate(j=>window.__reportedTransit.init(j),journey);
@@ -56,7 +56,7 @@ try{
   assert.ok(await map.locator('.route-map-canvas').isVisible(),'Map opens directly while initial access is pending');
   assert.match(await map.locator('.transit-template-store .transit-access-status').textContent(),/Se calculează/);
   await page.waitForFunction(()=>document.querySelector('.transit-template-store .transit-access-status')?.textContent.includes('Se calculează'));
-  await page.waitForTimeout(40);assert.ok(releaseWalk);holdWalk=false;releaseWalk();
+  await page.waitForTimeout(40);assert.ok(pendingWalks.length);holdWalk=false;for(const resolve of pendingWalks.splice(0))resolve();
   await page.evaluate(()=>window.__walkSelection);
   await page.waitForFunction(()=>document.querySelector('.route-map-status')?.textContent.includes('pietonal'));
   assert.match(await map.locator('.transit-template-store .transit-access-status').textContent(),/pietonal/);
@@ -92,11 +92,11 @@ try{
   assert.equal(await body.locator('.mixed-unverified-candidate').count(),3,'Android Back also restores mixed results');
   // Cancel a pending pedestrian lookup: its late failure must not reopen details.
   await page.evaluate(j=>window.__reportedTransit.init(j),journey);
-  releaseWalk=null;holdWalk=true;
+  pendingWalks.length=0;holdWalk=true;
   await page.evaluate(()=>{window.__walkSelection=window.__reportedTransit.select()});
-  await page.waitForTimeout(40);assert.ok(releaseWalk);
+  await page.waitForTimeout(40);assert.ok(pendingWalks.length);
   await page.locator('.transit-full-journey-map .route-map-header button').first().click();
-  releaseWalk();await page.evaluate(()=>window.__walkSelection);
+  for(const resolve of pendingWalks.splice(0))resolve();await page.evaluate(()=>window.__walkSelection);
   await body.locator('.transit-screen-page .transit-journey-choice').waitFor();
   assert.equal(await body.locator('.transit-screen-page .transit-journey-choice').count(),1,'Late pedestrian reply cannot replace the options after Back');
   // Verified access enriches the same map instead of replacing it with a

@@ -17,6 +17,7 @@ let events=0;const field={value:'ab',selectionStart:1,selectionEnd:2,maxLength:6
 assert.equal(educationInputInsert(field,'√'),true);assert.equal(field.value,'a√');assert.equal(field.selectionStart,2);assert.equal(events,1);
 assert.equal(educationInputInsert(field,'12345'),false);assert.equal(field.value,'a√','No silent truncation');field.readOnly=true;assert.equal(educationInputInsert(field,'x'),false);
 new vm.Script(EDUCATION_INPUT_TOOLS_SCRIPT);
+assert.doesNotMatch(EDUCATION_INPUT_TOOLS_SCRIPT,/educationOpenInk|data-ink-open|stylus|education-ink|Scriere de mână/i,'No handwriting UI or upload code is shipped');
 const html=await(await frontend.fetch(new Request('https://test/'))).text();
 const script=html.match(/<script>([\s\S]*?)<\/script>/)[1];new vm.Script(script);
 const from=script.indexOf('function mathSplitExercises('),to=script.indexOf('function mathSvgElement(',from);

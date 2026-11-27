@@ -40,7 +40,7 @@
     "test:national-germany": "node tests_germany_national_transit.mjs && node tests_germany_national_backend.mjs",
     "test:national-here": "node tests_here_national_transit.mjs && node tests_here_transit_budget.mjs && node tests_here_national_backend.mjs",
     "test:transit-reported-failures": "node tests_transit_reported_failures.mjs && node tests_mixed_serpapi_discovery.mjs && node tests_transit_latency_partial.mjs && node tests_mixed_shared_local_surface.mjs",
-    "test:transit-reported-failures:browser": "node tests_transit_reported_failures_browser.mjs && node tests_transit_viewport_browser.mjs"
+    "test:transit-reported-failures:browser": "node tests_transit_reported_failures_browser.mjs && node tests_transit_viewport_browser.mjs && node tests_transit_walking_parity_browser.mjs"
   },
   "dependencies": {
     "teleproto": "1.232.1"

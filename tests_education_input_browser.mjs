@@ -37,7 +37,7 @@ window.__eduTest={
 `;
 assert.ok(html.includes('function examOpen(stage){'));
 html=html.replace('function examOpen(stage){',hook+'\nfunction examOpen(stage){');
-const apiCalls=[],inkCalls=[];let failInk=false,delayInk=false;
+const apiCalls=[],inkCalls=[];
 let failAPI=false,failAssets=false;
 const server=createServer(async(req,res)=>{
  if(req.url.startsWith('/education/')){
@@ -59,8 +59,7 @@ try{
   if(req.method()==='POST'){
    let data={};try{data=req.postDataJSON()}catch{}
    if(req.url().endsWith('/api/education-ink')){
-    inkCalls.push(data);if(delayInk)await new Promise(r=>setTimeout(r,250));
-    try{return await route.fulfill({status:failInk?503:200,contentType:'application/json',body:JSON.stringify(failInk?{status:'unavailable'}:{status:'success',transcript:'{\nx+y=5\nx-y=1\n}',verified:false,requires_review:true})})}catch{return}
+    inkCalls.push(data);return route.fulfill({status:503,contentType:'application/json',body:'{}'});
    }
    if(data.module){apiCalls.push(data);if(failAPI)return route.fulfill({status:503,contentType:'application/json',body:'{}'});return route.fulfill({contentType:'application/json',body:JSON.stringify({status:'success',reply:'Incorect. Metodă: identificăm datele. 1. Scriem relația. 2. Înlocuim datele. 3. Verificăm rezultatul.'})})}
   }
@@ -75,7 +74,7 @@ try{
   await page.evaluate(s=>window.__eduTest.pack(s),subject);
   const field=page.locator('.edu-lesson-workspace').getByRole('textbox',{name:'Rezolvarea ta',exact:true});
   await field.fill('abc');
-  const tools=page.locator('.edu-compact-tools .edu-compact-tools-active').or(field.locator('xpath=following-sibling::*[1]').filter({has:page.locator('[data-ink-open]')}));await tools.locator('[data-ink-open]').waitFor();
+  const tools=page.locator('.edu-compact-tools .edu-compact-tools-active').or(field.locator('xpath=following-sibling::*[1]').filter({has:page.getByRole('button',{name:'∑ Simboluri și șabloane',exact:true})}));await tools.getByRole('button',{name:'∑ Simboluri și șabloane',exact:true}).waitFor();assert.equal(await page.locator('[data-ink-open],[data-education-ink]').count(),0,'Handwriting removed');
   await tools.getByRole('button',{name:'∑ Simboluri și șabloane',exact:true}).click();
   await field.evaluate(f=>{f.blur();f.setSelectionRange(1,2)});
   await tools.getByRole('button',{name:'√',exact:true}).click();
@@ -92,45 +91,20 @@ try{
  await page.evaluate(()=>window.__eduTest.pack('math'));
  const national=page.locator('.edu-lesson-workspace');
  await national.locator('select').selectOption({label:'Cerință proprie'});
- await national.locator('.edu-compact-tools-active [data-ink-open]').waitFor();
+ await national.locator('.edu-compact-tools-active').getByRole('button',{name:'∑ Simboluri și șabloane',exact:true}).waitFor();
  await national.locator('select').selectOption('0');
  assert.equal(await national.getByRole('textbox',{name:'Enunțul problemei',exact:true}).isEditable(),false,'Readonly question cannot be edited by the palette');
  assert.equal(await national.locator('.edu-compact-tools .edu-input-tools[hidden]').count(),1,'Readonly prompt tools are hidden; only answer tools remain');
  await page.evaluate(()=>window.__eduTest.genericMath());
  const field=page.locator('#mathEducationText');await field.waitFor();
- await field.fill('Enunț: ');await field.evaluate(f=>f.setSelectionRange(f.value.length,f.value.length));
- const tools=field.locator('xpath=following-sibling::*[1]');await tools.locator('[data-ink-open]').click();
- let dialog=page.locator('[data-education-ink]');await dialog.waitFor({state:'visible'});
- let canvas=dialog.locator('canvas');assert.equal(await canvas.evaluate(c=>getComputedStyle(c).touchAction),'none');
- const draw=async(type='pen')=>canvas.evaluate((c,type)=>{
-  const r=c.getBoundingClientRect();
-  for(const [name,x,y] of [['pointerdown',20,20],['pointermove',80,55],['pointerup',80,55]])c.dispatchEvent(new PointerEvent(name,{bubbles:true,pointerId:42,pointerType:type,clientX:r.left+x,clientY:r.top+y,button:0}));
- },type);
- const hasInk=()=>canvas.evaluate(c=>{const d=c.getContext('2d').getImageData(0,0,c.width,c.height).data;for(let i=0;i<d.length;i+=4)if(d[i]<100)return true;return false});
- assert.equal(inkCalls.length,0);await draw('pen');assert.equal(await hasInk(),true,'Pen events draw ink');assert.equal(inkCalls.length,0,'Drawing alone never uploads');
- await dialog.getByRole('button',{name:'Anulează ultima trasare',exact:true}).click();await page.waitForFunction(()=>document.getElementById('mathEducationText').educationInkDraft.length===0);assert.equal(await hasInk(),false);
- await draw('touch');assert.equal(await hasInk(),true,'Touch events draw ink');
- await canvas.scrollIntoViewIfNeeded();const touchBox=await canvas.boundingBox();await page.touchscreen.tap(touchBox.x+30,touchBox.y+30);assert.equal(await field.evaluate(f=>f.educationInkDraft.length),2,'Actual emulated touchscreen also draws');
- await dialog.getByRole('button',{name:'Închide',exact:true}).click();
- await tools.locator('[data-ink-open]').click();dialog=page.locator('[data-education-ink]');canvas=dialog.locator('canvas');assert.equal(await hasInk(),true,'Reopening retains the field ink draft in memory');
- await dialog.getByRole('button',{name:'Transcrie (trimite desenul)',exact:true}).click();
- const transcript=dialog.getByRole('textbox',{name:'Transcriere de verificat',exact:true});await transcript.waitFor();
- await dialog.getByText(/Transcriere AI neverificată/).waitFor();
- assert.equal(inkCalls.length,1);assert.equal(inkCalls[0].consent,true);assert.match(inkCalls[0].image,/^data:image\/png;base64,/);
- const insert=dialog.getByRole('button',{name:'Inserează transcrierea verificată',exact:true});assert.equal(await insert.isDisabled(),true,'Review is mandatory');
- await transcript.fill('{\nx+y=6\nx-y=2\n}');await dialog.getByRole('checkbox').check();assert.equal(await insert.isEnabled(),true);
- await insert.click();assert.equal(await field.inputValue(),'Enunț: {\nx+y=6\nx-y=2\n}','Checked and corrected transcription inserted without solving');assert.equal(apiCalls.length,0);
- await field.fill('');await tools.locator('[data-ink-open]').click();dialog=page.locator('[data-education-ink]');canvas=dialog.locator('canvas');
- failInk=true;await dialog.getByRole('button',{name:'Transcrie (trimite desenul)',exact:true}).click();await dialog.getByText(/Transcriere indisponibilă sau anulată/).waitFor();assert.equal(await hasInk(),true);assert.equal(await field.inputValue(),'');failInk=false;
- await dialog.getByRole('button',{name:'Transcrie (trimite desenul)',exact:true}).click();await dialog.getByText(/Transcriere AI neverificată/).waitFor();
- await dialog.getByRole('checkbox').check();await dialog.getByRole('button',{name:'Șterge desenul',exact:true}).click();assert.equal(await dialog.getByRole('button',{name:'Inserează transcrierea verificată',exact:true}).isDisabled(),true,'Changing ink invalidates transcription');
- await draw();delayInk=true;await dialog.getByRole('button',{name:'Transcrie (trimite desenul)',exact:true}).click();
- await field.evaluate(f=>{f.value='altă cerință';f.dispatchEvent(new Event('input',{bubbles:true}))});
- await dialog.getByRole('button',{name:'Închide',exact:true}).click();assert.equal(await field.inputValue(),'altă cerință','Late OCR never overwrites a changed question');delayInk=false;
- // Existing science palette coexists with shared templates and handwriting.
+ assert.equal(await page.locator('[data-ink-open],[data-education-ink]').count(),0);
+ assert.equal(await page.evaluate(()=>typeof educationOpenInk),'undefined','No callable handwriting dialog remains');
+ assert.equal(inkCalls.length,0,'No handwriting uploads');
+ // Existing science palettes and shared templates remain.
  for(const subject of ['physics','chemistry']){
   await page.evaluate(s=>window.__eduTest.genericScience(s),subject);
-  await page.locator('#scienceEducationText + .edu-input-tools [data-ink-open]').waitFor();
+  await page.locator('#scienceEducationText + .edu-input-tools').getByRole('button',{name:'∑ Simboluri și șabloane',exact:true}).waitFor();
+  assert.equal(await page.locator('[data-ink-open],[data-education-ink]').count(),0);
   assert.equal(await page.locator('.science-symbol-toggle').count(),1);
  }
  await page.evaluate(()=>window.__eduTest.exams());await page.locator('#examProblemText + .edu-input-tools').waitFor();await page.locator('#examAnswerText + .edu-input-tools').waitFor();
@@ -140,5 +114,5 @@ try{
  await page.evaluate(()=>window.__eduTest.outsideLearning());
  assert.equal(await page.locator('#outsideLearning').getAttribute('data-education-input-tools'),null,'No toolbar leaks into non-education inputs');
  assert.deepEqual(errors,[],'No mobile browser errors');
- console.log('PASS production mobile input tools: 8 subjects, cursor insertion, Enter-growing brace, templates, pen/touch events, undo/clear, consent/review/correction, memory draft, API failure and stale OCR guards (AI mocked; no physical stylus claim)');
+ console.log('PASS production mobile input tools: 8 subjects, cursor insertion, Enter-growing brace, templates, handwriting removed everywhere, no OCR calls, science/exams/languages tools preserved');
 }finally{await browser?.close();await new Promise(r=>server.close(r))}

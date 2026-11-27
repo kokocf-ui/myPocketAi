@@ -51,13 +51,13 @@ globalThis.fetch=async input=>{
  throw Error('Unexpected provider '+u.href);
 };
 try{
- const ask=async(destination={...pin,label,country_code:'GB'},profile='walk')=>{
+ const ask=async(destination={...pin,label,country_code:'GB'},profile='walk',extra={})=>{
   urls=[];
   const response=await worker.fetch(new Request('https://test.local/api/chat',{
    method:'POST',headers:{'content-type':'application/json'},
    body:JSON.stringify({message:'Pe jos',language:'ro',module:'maps',history:[],
     location:{latitude:51.479,longitude:.279,accuracy:15},
-    route_profile:profile,route_destination:destination})
+    route_profile:profile,route_destination:destination,...extra})
   }),{GEOAPIFY_API_KEY:'test',AI:{run:async()=>({response:'Test fallback AI'})}});
   if(response.status!==200)console.error('ARRIVAL TEST FAILURE',response.status,(await response.clone().text()).slice(0,600),urls.map(u=>u.pathname));
   assert.equal(response.status,200);
@@ -75,6 +75,15 @@ try{
  assert.equal(answer.route.destination.longitude,.2802);
  assert.equal(urls.filter(u=>u.pathname==='/v1/geocode/search'&&String(u.searchParams.get('text')||'').startsWith('433 London Road')).length,0,
   'No extra geocoder call for an already-correct route');
+ // Transit uses the identical explicit walking context, including a transfer
+ // origin that can differ from the phone's GPS. Exercise the real dispatcher.
+ const transferOrigin={latitude:51.479,longitude:.279,label:'Transfer station'};
+ const transferDestination={...pin,label,country_code:'GB'};
+ answer=await ask(transferDestination,'walk',{route_context:{profile:'walk',origin:transferOrigin,
+  destination:transferDestination,destination_query:label,origin_query:'',pending:null}});
+ assert.equal(answer.route_available,true,'Transit walking request reaches the same road router');
+ assert.equal(answer.route.origin.label,'Transfer station');
+ assert.equal(answer.route.destination.longitude,.2802);
  mode='unverified';answer=await ask();
  assert.equal(answer.route_available,false);
  assert.equal(answer.route_error_code,'route_arrival_street_unverified');

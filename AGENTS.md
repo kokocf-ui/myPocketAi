@@ -7,6 +7,27 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**CERERE CURENTĂ — ELIMINARE STYLUS + PIETONAL TRANSPORT PUBLIC:**
+User confirmă din capturi: poate desena, transcrierea eșuează; cere eliminare
+scriere de mână/stylus DE PESTE TOT. Eliminat buton/dialog/codupload/initializer
+browser+Back selector, inclusiv Science/exams/limbi; tastatura/simboluri/șabloane/
+acoladăpreview/wraprămân. LegacyAPIpăstratpentruAPKvechi, fărădeploy/activare.
+Raport `STYLUS_REMOVAL_TRANSIT_WALKING_PHONE_FEEDBACK.md`.
+User: standalonepietonalfuncționează, transportpublicnu; întreabădecepagini.
+DefecteconfirmateÎNSURSĂ(nucauzătelefon100%dovedită): boardingabort8s vs
+backend12s/calcul+alternative; cutoffmap35scomun; plecareinfezabilăpierdegeometrie.
+Fix: helpercomunwalkingcontextorigin/destinationexplicit,45s/request+cancel,
+matchingalternativeambelecapete150m,fărămetadataexact2m;2transferworkers/max12,
+fărăretry;boardingrequestreused;geometriepăstratădacăvehicululnupoatefiprins,
+navigareîncăblocată;duratanullNUzero. Eroarefirststopetichetatăexplicit.
+PaginareaNUredesenată; explicație: alegereanterioarăpentrufărăscrollsus/jos,
+NUcerințăderutare,NUacceptareUX. Mixtîncontinuarenerezolvat.
+Browsernou8.5sreal/mockHTTP3viewporturi+misseddeparture+alternate+cancelPASS;
+inputbrowser8materii+Science/exams/limbifărăstylusPASS;realbackenddispatcher
+walkingcontext/providersmockPASS;transitaudit/viewport/reportedfailures/
+compact/input/mathreview/boot/AndroidpreviewPASS. Compilednames6881089chars,
+compiledfinalrerun+APKîncurs. Fărăbackend/prodfrontenddeploy/HERE/paid/mainmerge.
+
 **FOLLOW-UP DUPĂ RETEST501889:** user spune „arată mult mai bine” (acceptare
 aspectcompact, NUvalidareatuturorfuncțiilor). Stylusraportatnefuncțional; discută
 eliminareaîn favoareasimbolurilor/previzualizării, NUdeclaraeliminatîncă.
