@@ -7,6 +7,27 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**PRIORITATE NOUĂ — FEREASTRA DE LUCRU, după capturile fizice 0800–0804:**
+Utilizatorul respinge fereastra comună prea lungă/confuză (matematică, istorie,
+literatură, informatică etc.); fizica/chimia/astronomia sunt explicit EXCEPȚII,
+NU le redesena. Transportul este amânat. APK501888 a fost retestat NEGATIV de
+utilizator („nu ai rezolvat ... ai complicat”), NU este soluție validată.
+Corecție de sursă: `education_compact_workspace.mjs`, integrat în scriptul și
+stilul ferestrei comune. Un singur titlu, Enunț + Rezolvarea mea în formular
+limitat la ecran, un rând activ de instrumente (nu două copii), trei acțiuni
+vizibile Verifică/Rezolvă/Metoda, secundare la Alte opțiuni. Selectarea opțională
+a lecției și ciornele/contextul/requesturile/asistentul rămân. Viewportul vizual
+ține comenzile deasupra tastaturii; fizică/chimie/astronomie excluse explicit.
+Browsernou: 6 materii, intrări reale an+lecție, 360×640/393×817/430×932, fără
+scroll de formular, acțiuni hit-test, ciorne/result/Back, erori/anulare/late reply,
+simboluri și tastatură vizuală PASS. Suitele existente workspace/input/mobile
+și contractele tutor/review/input/math/science PASS. Frontend dry-run + bundled
+browser names + noile teste și workspace suite contra bundle PASS. Fix esbuild
+la inițializatorul input-tools exportat explicit prin globalThis.
+Raport `EDUCATION_COMPACT_WORKSPACE_PHYSICAL_FEEDBACK.md`. DOAR sursă, fără APK/
+deploy nou; acceptare fizică încă în așteptare. Arborele de lucru avea deja
+numeroase modificări anterioare, păstrate; nu reseta/commita totul la grămadă.
+
 **APK501888 ELIBERAT PENTRU ASPECTUL TRANSPORTULUI PUBLIC — 26 nov 2026:**
 User: mixtul îl lăsăm pe mâine; cere APK să vadă transportul public.
 Aprobă exclusiv APKsemnatbranch cuUI nou, NUbackenddeploy/main/prodfrontend.
@@ -18,7 +39,7 @@ Release459932169/asset797823872, 77,659,548B, GitHubdigestSHA256
 6f8cd574fc4a1dfa2590f5215d2cf91b00fd59676210132196f341faf6fc942c (metadata;
 nuinspecțielocalăAPK). NotesreleaseactualizatepentrutestPUBLIC, nureparațiemixt.
 DoarUIbranchinclusînAPK; backendv187neschimbat. Nicioactivarepaid/HERE/Oracle/
-prodfrontend. Testfizic501888încăNEEFECTUAT. Mixtnerezolvat, amânatpentr mâine.
+prodfrontend. Testfizic501888NEGATIV(user:complică,nurezolvă). Mixtnerezolvat, amânatpentr mâine.
 Etapele de mai jos care spun „fără APK nou” descriu starea anterioară acestei
 cereri explicite; versiunea nouă de test este cea de aici.
 

@@ -143,6 +143,9 @@ jobs:
         run: |
           node --check index.js
           node tests_android_ui_preview.mjs
+          node tests_frontend_boot_syntax.mjs
+          node tests_education_exercise_tutor.mjs
+          node tests_education_review_2026.mjs
           npm run test:transit-reported-failures
           npm run test:mixed-orientation
           node tests_divertisment_frontend_presence.mjs
@@ -238,8 +241,8 @@ jobs:
         run: |
           gh release create "education-test-${GITHUB_RUN_ID}" myPocketAI-signed-education-test.apk \
             --target "$GITHUB_SHA" --prerelease --latest=false \
-            --title "myPocketAI — signed Romania test (${GITHUB_RUN_ID})" \
-            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes local transport reuse at both ends, independent rail/coach/corridor searches, progressive mixed results with selectable early options and preserved detail/Back navigation, and the physical-report walking/latency fixes. Requires backend v187, deployed separately; this build does not deploy a backend. Operator route pages may include changes and are indicative, not a dated booking or guaranteed connection. Real UK–Oradea door-to-door service availability remains for live/physical testing. No new paid services, HERE activation, main merge, Oracle changes or production frontend deployment. Germany HERE is OFF and unverified. Test prerelease, not the latest production release."
+            --title "myPocketAI — test fereastra de lucru (${GITHUB_RUN_ID})" \
+            --notes "User-requested signed branch-test APK from ${GITHUB_SHA}; versionCode ${POCKET_VERSION_CODE}. Focus: compact Education work area for Mathematics, History, Geography, Computing, Literature and Biology. One header, question and solution together, one active input-tool strip, visible Check/Solve/Method buttons and secondary actions under More options. Physics, Chemistry and Astronomy excluded from the new layout. Same permanent signing certificate as production, verified during build; installs as an update without uninstalling. Includes the exact local branch UI snapshot. Browser/mock checks are not physical acceptance; this APK is for the user's phone test. Transport remains unresolved and unchanged by this Education correction. Existing backend v187 is unchanged; no backend or production frontend deployment, main merge, Oracle changes, HERE activation or new paid services. Test prerelease, not the latest production release."
 
       - name: Remove temporary key and reference APK
         if: always()

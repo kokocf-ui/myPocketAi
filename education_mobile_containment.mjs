@@ -1,3 +1,4 @@
+import {EDUCATION_COMPACT_WORKSPACE_STYLE} from './education_compact_workspace.mjs';
 // Final, narrowly scoped mobile layout contract. Do not alter the global dock,
 // generic maths editor, lesson data or other dialog families.
 export const EDUCATION_MOBILE_CONTAINMENT_STYLE=String.raw`
@@ -51,4 +52,4 @@ main.page:has(#view-module.learning-languages.active){box-sizing:border-box!impo
 .foreign-resource-dialog table{table-layout:fixed!important}
 .edu-lesson-workspace textarea,.edu-lesson-workspace select{flex:0 0 auto!important;position:static!important;margin:0!important}
 @media(max-height:520px){dialog.language-tutor-dialog[open]{padding:8px!important;gap:6px!important}.language-tutor-dialog .education-theory-head>h2{font-size:16px!important}}
-`;
+`+EDUCATION_COMPACT_WORKSPACE_STYLE;

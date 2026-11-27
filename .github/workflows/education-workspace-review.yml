@@ -14,6 +14,9 @@ on:
       - 'tests_education_exercise_tutor.mjs'
       - '*national*.mjs'
       - 'education_lesson_workspace.mjs'
+      - 'education_compact_workspace.mjs'
+      - 'education_mobile_containment.mjs'
+      - 'tests_education_compact_workspace_browser.mjs'
       - 'education_pack_service.mjs'
       - 'tests_exam_curriculum_europe.mjs'
       - 'exam*.mjs'
@@ -61,4 +64,5 @@ jobs:
           node scripts/check_bundled_browser_names.mjs .bundle-check/index.js
           export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
           POCKET_BUNDLE=./.bundle-check/index.check.mjs node tests_education_workspace_browser.mjs
+          POCKET_BUNDLE=./.bundle-check/index.check.mjs node tests_education_compact_workspace_browser.mjs
           POCKET_BUNDLE=./.bundle-check/index.check.mjs node tests_education_input_browser.mjs

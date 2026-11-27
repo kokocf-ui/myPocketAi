@@ -69,6 +69,7 @@ try{
   assert.equal(await workspace.locator('textarea').first().inputValue(),expected.question,subject+' task');
   const field=workspace.getByRole('textbox',{name:'Rezolvarea ta',exact:true});
   await field.fill('Ciornă '+subject);
+  if(await workspace.locator('.edu-compact-more').count())await workspace.locator('.edu-compact-more').click();
   await workspace.getByRole('button',{name:'Metodă și reper local'}).click();
   assert.ok((await page.locator('#educationPagedLessonDialog').textContent()).includes(expected.answer),subject+' local reference');
   assert.ok((await page.locator('#educationPagedLessonDialog').textContent()).includes('nu este un verdict'),subject+' no fake offline grade');await page.evaluate(()=>document.getElementById('educationPagedLessonDialog').close());

@@ -102,14 +102,14 @@ try{
   const modal=page.locator('.edu-workspace-dialog'),work=modal.locator('.edu-lesson-workspace');await work.waitFor();
   assert.equal(await work.evaluate(w=>w.closest('#moduleContent')),null);
   const answer=work.getByRole('textbox',{name:'Rezolvarea ta',exact:true});await answer.fill('Da, deoarece capătul 5 este inclus în [2,5].');
-  await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));const reader=page.locator('#educationPagedLessonDialog');await reader.getByText(/Compară singur/).waitFor();
+  await tap(work.getByRole('button',{name:'Alte opțiuni',exact:true}));await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));const reader=page.locator('#educationPagedLessonDialog');await reader.getByText(/Compară singur/).waitFor();
   await page.evaluate(()=>window.__mobile.back());await reader.waitFor({state:'detached'});assert.ok(await modal.isVisible());
   await tap(work.getByRole('button',{name:'🧩 Rezolvă pas cu pas',exact:true}));await reader.waitFor();
   assert.equal(await work.locator('[data-workspace-result]').isVisible(),false,'No inline result');
   await page.screenshot({path:'.bundle-check/mobile-containment/math-result-'+viewport.width+'.png'});
   const nextPage=reader.getByRole('button',{name:/Următor|Next/});await tap(nextPage);await page.evaluate(()=>window.__mobile.back());await reader.waitFor({state:'detached'});
   await answer.scrollIntoViewIfNeeded();await page.screenshot({path:'.bundle-check/mobile-containment/math-'+viewport.width+'.png'});
-  await page.setViewportSize({width:viewport.width,height:430});await answer.fill('Rezolvare păstrată cu tastatura deschisă.');await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));await page.evaluate(()=>window.__mobile.back());await page.setViewportSize(viewport);
+  await page.setViewportSize({width:viewport.width,height:430});await answer.fill('Rezolvare păstrată cu tastatura deschisă.');await tap(work.getByRole('button',{name:'Alte opțiuni',exact:true}));await tap(work.getByRole('button',{name:'📖 Metodă și reper local',exact:true}));await page.evaluate(()=>window.__mobile.back());await page.setViewportSize(viewport);
   await page.evaluate(()=>window.__mobile.back());await modal.waitFor({state:'detached'});
   await tap(panel.locator('.edu-workspace-open'));await work.waitFor();assert.equal(await answer.inputValue(),'Rezolvare păstrată cu tastatura deschisă.');await page.evaluate(()=>window.__mobile.back());await modal.waitFor({state:'detached'});
   await page.evaluate(()=>window.__mobile.mathTopics());

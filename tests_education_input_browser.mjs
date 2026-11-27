@@ -75,7 +75,7 @@ try{
   await page.evaluate(s=>window.__eduTest.pack(s),subject);
   const field=page.locator('.edu-lesson-workspace').getByRole('textbox',{name:'Rezolvarea ta',exact:true});
   await field.fill('abc');
-  const tools=field.locator('xpath=following-sibling::*[1]');await tools.locator('[data-ink-open]').waitFor();
+  const tools=page.locator('.edu-compact-tools .edu-compact-tools-active').or(field.locator('xpath=following-sibling::*[1]').filter({has:page.locator('[data-ink-open]')}));await tools.locator('[data-ink-open]').waitFor();
   await tools.getByRole('button',{name:'∑ Simboluri și șabloane',exact:true}).click();
   await field.evaluate(f=>{f.blur();f.setSelectionRange(1,2)});
   await tools.getByRole('button',{name:'√',exact:true}).click();
@@ -92,9 +92,10 @@ try{
  await page.evaluate(()=>window.__eduTest.pack('math'));
  const national=page.locator('.edu-lesson-workspace');
  await national.locator('select').selectOption({label:'Cerință proprie'});
- await national.getByRole('textbox',{name:'Enunțul problemei',exact:true}).locator('xpath=following-sibling::*[1]').locator('[data-ink-open]').waitFor();
+ await national.locator('.edu-compact-tools-active [data-ink-open]').waitFor();
  await national.locator('select').selectOption('0');
- assert.equal(await national.getByRole('textbox',{name:'Enunțul problemei',exact:true}).locator('xpath=following-sibling::*[1]').isVisible(),false,'Readonly question cannot be edited by the palette');
+ assert.equal(await national.getByRole('textbox',{name:'Enunțul problemei',exact:true}).isEditable(),false,'Readonly question cannot be edited by the palette');
+ assert.equal(await national.locator('.edu-compact-tools .edu-input-tools[hidden]').count(),1,'Readonly prompt tools are hidden; only answer tools remain');
  await page.evaluate(()=>window.__eduTest.genericMath());
  const field=page.locator('#mathEducationText');await field.waitFor();
  await field.fill('Enunț: ');await field.evaluate(f=>f.setSelectionRange(f.value.length,f.value.length));

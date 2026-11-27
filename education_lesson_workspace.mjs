@@ -1,3 +1,4 @@
+import {EDUCATION_COMPACT_WORKSPACE_SCRIPT} from './education_compact_workspace.mjs';
 // Shared national-lesson workspace. Content stays in the loaded pack, never
 // copied into HTML. Open answers are not graded by string equality.
 export function eduLessonWorkspace(host,{pack,row,lessonKey,subject='literature',inline=false}={}){
@@ -23,7 +24,7 @@ export function eduLessonWorkspace(host,{pack,row,lessonKey,subject='literature'
  let controller=null,serial=0;
  const cancel=()=>{serial++;controller?.abort();controller=null;check.disabled=false};
  const save=()=>{try{localStorage.setItem(draftKey(),JSON.stringify({prompt:prompt.value,answer:answer.value}))}catch{}};
- const load=()=>{cancel();output.textContent='';status.textContent='';const task=tasks[Number(select.value)];prompt.value=task.prompt;prompt.readOnly=task.kind!=='custom';answer.value='';try{const d=JSON.parse(localStorage.getItem(draftKey())||'null');if(d){if(task.kind==='custom')prompt.value=String(d.prompt||'');answer.value=String(d.answer||'')}}catch{}};
+ const load=()=>{cancel();output.textContent='';status.textContent='';const task=tasks[Number(select.value)];prompt.value=task.prompt;prompt.readOnly=task.kind!=='custom';answer.value='';try{const d=JSON.parse(localStorage.getItem(draftKey())||'null');if(d){if(task.kind==='custom')prompt.value=String(d.prompt||'');answer.value=String(d.answer||'')}}catch{}box.eduCompactRefresh?.()};
  const run=async mode=>{
   if(controller)return;
   if(!prompt.value.trim()||(mode==='correction'&&!answer.value.trim())){status.textContent=mode==='correction'?label('Completează enunțul și rezolvarea.','Enter the problem and your solution.'):label('Completează enunțul exercițiului.','Enter the exercise question.');return}
@@ -54,26 +55,33 @@ export function eduLessonWorkspace(host,{pack,row,lessonKey,subject='literature'
  button(label('Șterge ciorna acestei cerințe','Clear this task draft'),()=>{cancel();answer.value='';if(tasks[Number(select.value)].kind==='custom')prompt.value='';try{localStorage.removeItem(draftKey())}catch{}output.textContent='';status.textContent=''});
  box.eduCancel=cancel;select.onchange=load;
  prompt.addEventListener('input',()=>{cancel();output.textContent='';status.textContent='';save()});answer.addEventListener('input',()=>{cancel();output.textContent='';status.textContent='';save()});
- box.append(select,prompt,answer,actions,status,output);host.append(box);load();return box;
+ box.append(select,prompt,answer,actions,status,output);host.append(box);load();
+ if(educationUseCompactWorkspace(subject))educationCompactWorkspace({box,prompt,answer,select,actions,status,label,row,tasks});
+ return box;
 }
 // A workspace is a separate, bounded modal; the topic menu remains untouched.
 export function eduOpenLessonWorkspace(options={}){
  const label=(ro,en)=>typeof learningLabel==='function'?learningLabel(ro,en):ro;
  document.querySelectorAll('dialog.edu-workspace-dialog').forEach(d=>{d.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.eduCancel?.());d.close();d.remove()});
  const dialog=document.createElement('dialog');dialog.className='education-theory-dialog edu-workspace-dialog';
+ const compact=educationUseCompactWorkspace(options.subject);if(compact)dialog.classList.add('edu-compact-dialog');
  const head=document.createElement('header');head.className='education-theory-head';
  const title=document.createElement('h2');title.textContent=label('Fereastra de lucru','Work area');
  const back=document.createElement('button');back.type='button';back.className='secondary-btn';back.textContent=label('← Înapoi','← Back');back.onclick=()=>dialog.close();head.append(title,back);
  const body=document.createElement('div');body.className='edu-workspace-body';dialog.append(head,body);document.body.append(dialog);
- const render=opts=>{body.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.eduCancel?.());body.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.remove());globalThis.eduLessonWorkspace(body,{...opts,inline:true})};
+ const render=opts=>{const topic=body.querySelector('.edu-compact-year-topic');if(topic)body.prepend(topic);body.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.eduCancel?.());body.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.remove());const work=globalThis.eduLessonWorkspace(body,{...opts,inline:true});
+  if(compact){const topic=body.querySelector(':scope > select');if(topic){const context=work.querySelector('.edu-compact-context');context.querySelector('.edu-compact-topic')?.remove();context.prepend(topic)}}};
  if(options.year){
   const pack=options.pack,choose=document.createElement('select');choose.setAttribute('aria-label',label('Tema opțională pentru lucru','Optional work topic'));
   const own=document.createElement('option');own.value='';own.textContent=label('Cerință proprie — fără temă prestabilită','Custom problem — no preset topic');choose.append(own);
   for(const [key,content] of Object.entries(pack.chapters||{})){const row=content[pack.language];if(!row)continue;const option=document.createElement('option');option.value=key;option.textContent=row.title;choose.append(option)}
-  body.append(choose);
+  choose.className='edu-compact-year-topic';body.append(choose);
   const pick=()=>{const key=choose.value,row=key?pack.chapters[key][pack.language]:{title:label('Cerință proprie','Custom problem'),test:[],exercises:[],steps:[],sample:'',worked:''};render({pack,row,lessonKey:key||'__custom-year',subject:options.subject})};choose.onchange=pick;pick();
  }else render(options);
- dialog.addEventListener('close',()=>{body.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.eduCancel?.());dialog.remove()},{once:true});
+ const viewport=window.visualViewport,fullHeight=window.innerHeight;
+ const resize=()=>{if(!compact)return;const height=viewport?.height||window.innerHeight;dialog.style.setProperty('top',((viewport?.offsetTop||0)+8)+'px','important');dialog.style.setProperty('bottom','auto','important');dialog.style.setProperty('margin','0 auto','important');dialog.style.setProperty('height',Math.max(160,height-16)+'px','important');dialog.style.setProperty('max-height',Math.max(160,height-16)+'px','important');dialog.classList.toggle('edu-compact-keyboard',height<fullHeight*.75)};
+ if(compact){viewport?.addEventListener('resize',resize);window.addEventListener('resize',resize);resize()}
+ dialog.addEventListener('close',()=>{viewport?.removeEventListener('resize',resize);window.removeEventListener('resize',resize);body.querySelectorAll('.edu-lesson-workspace').forEach(w=>w.eduCancel?.());dialog.remove()},{once:true});
  try{dialog.showModal()}catch{dialog.setAttribute('open','')}
  return dialog;
 }
@@ -82,4 +90,4 @@ export function eduYearWorkspaceButton(host,{pack,subject}={}){
  const b=document.createElement('button');b.type='button';b.className='secondary-btn edu-year-workspace-open';b.textContent=typeof learningLabel==='function'?learningLabel('✍️ Rezolvă o problemă · fereastra de lucru','✍️ Solve a problem · work area'):'✍️ Fereastra de lucru';
  b.onclick=()=>globalThis.eduOpenLessonWorkspace({pack,subject,year:true});host.append(b);return b;
 }
-export const EDUCATION_LESSON_WORKSPACE_SCRIPT=[['eduLessonWorkspace',eduLessonWorkspace],['eduOpenLessonWorkspace',eduOpenLessonWorkspace],['eduYearWorkspaceButton',eduYearWorkspaceButton]].map(([name,fn])=>'var '+name+'='+fn.toString()+';').join('\n')+'\nglobalThis.eduLessonWorkspace=eduLessonWorkspace;globalThis.eduOpenLessonWorkspace=eduOpenLessonWorkspace;';
+export const EDUCATION_LESSON_WORKSPACE_SCRIPT=EDUCATION_COMPACT_WORKSPACE_SCRIPT+'\n'+[['eduLessonWorkspace',eduLessonWorkspace],['eduOpenLessonWorkspace',eduOpenLessonWorkspace],['eduYearWorkspaceButton',eduYearWorkspaceButton]].map(([name,fn])=>'var '+name+'='+fn.toString()+';').join('\n')+'\nglobalThis.eduLessonWorkspace=eduLessonWorkspace;globalThis.eduOpenLessonWorkspace=eduOpenLessonWorkspace;';
