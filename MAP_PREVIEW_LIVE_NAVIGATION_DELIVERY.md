@@ -30,4 +30,12 @@ The signed APK workflow now also runs the new model and compiled navigation brow
 
 ## Delivery
 
-Signed branch-test APK pending at source checkpoint. Record run/source/version/asset here after publication.
+**Signed branch-test APK 501892 published.**
+
+- Source `26030c900e97ecbbe9eb89dc2699addd27a0cd32`.
+- Run `45975242408`, signed job `140425232055`: SUCCESS. Debug skipped. New model and compiled navigation/walking/input/viewport browser gates passed before signing. Permanent certificate, application identity, versionCode and bundled UI snapshot gates passed in CI.
+- Direct download: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45975242408/myPocketAI-signed-education-test.apk
+- Release `460401171`, asset `799866851`, 77,661,848 bytes.
+- SHA256 from GitHub asset metadata: `e844e844bb53fc4f05a68c7530bc3f66312a553324206aab4e5c9f26e5d8851b`. No independent local APK inspection claimed.
+- Install over the existing app without uninstalling or deleting data. Physical appearance/GPS/background acceptance remains pending.
+- Backend v187, production frontend, main, HERE/paid providers and Oracle unchanged.

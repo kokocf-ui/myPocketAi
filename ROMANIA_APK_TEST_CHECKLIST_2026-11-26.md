@@ -6,7 +6,30 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
-## Cel mai nou APK — 501891: fără stylus, corecții pietonale la transport
+## Cel mai nou APK — 501892: hartă compactă și manevră GPS
+
+[**Descarcă APK-ul semnat 501892**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45975242408/myPocketAI-signed-education-test.apk)
+
+Instalează peste versiunea existentă, **fără dezinstalare sau ștergerea datelor**.
+Run45975242408/job140425232055 SUCCESS; sursă26030c9. Compiled navigation,
+walking/input/viewport, certificat permanent, identity/version/snapshot PASS CI.
+
+1. În previzualizarea traseului: harta mică, toți pașii dedesubt; transportul
+   public nu mai are pagini separate pentru etape. Lista se derulează intern.
+2. La pornirea navigației: hartă pe tot ecranul, controale suprapuse și o bandă
+   de maximum două rânduri pentru următoarea manevră, actualizată după GPS.
+3. La oprire: revine harta mică și lista completă statică.
+4. GPS slab/vechi sau poziție în afara traseului: avertizare în loc de o manevră
+   rămasă afișată eronat. Pentru verificarea în deplasare, folosește telefonul
+   numai când este sigur, fără a privi ecranul în timpul traversării/conducerii.
+5. Revenirea la traseul salvat nu trebuie să pornească o căutare nouă.
+
+Testele au GPS/hartă/native simulate. **Validarea fizică rămâne în așteptare.**
+Serviciul Android de fundal nu este schimbat și nu se declară rezolvată toată
+succesiunea îmbarcare/coborâre/transfer. Niciun deploy de producție sau serviciu
+plătit/HERE activat. Raport: `MAP_PREVIEW_LIVE_NAVIGATION_DELIVERY.md`.
+
+## APK anterior — 501891: fără stylus, corecții pietonale la transport
 
 [**Descarcă APK-ul semnat 501891**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45971650296/myPocketAI-signed-education-test.apk)
 

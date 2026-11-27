@@ -23,7 +23,15 @@ Sursă+compiledbrowsernou360/393/430+landscape640x360PASS(walk/drive/transit,
 GPSsuccesiune,stop,bad/stale/offroute,resumefărăquery);continuous13stages/
 Romanianfares/categories/tickets/Back/rotationPASS;walking8.5s+native+audit+
 heading+input/boot/Androidpreview+mixedorientationPASS. Bundle6888889chars.
-Raport `MAP_PREVIEW_LIVE_NAVIGATION_DELIVERY.md`. APKsemnatnouîncurs.
+Raport `MAP_PREVIEW_LIVE_NAVIGATION_DELIVERY.md`.
+APK501892 PUBLICAT, sursă26030c900e97ecbbe9eb89dc2699addd27a0cd32,
+run45975242408/job140425232055SUCCESS,debugSKIPPED. Modelnou+compilednav/
+walking/input/viewport+certificatpermanent/identity/version/snapshot/publicare
+PASSînCI. FizicGPS/aspect/backgroundpending;nuinspecțielocalăAPK.
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45975242408/myPocketAI-signed-education-test.apk
+Release460401171/asset799866851,77,661,848B,GitHubSHA256metadata:
+e844e844bb53fc4f05a68c7530bc3f66312a553324206aab4e5c9f26e5d8851b.
+Updatepesteexistentfărădezinstalare/ștergeredate.
 Fărăbackend/prodfrontenddeploy/HERE/paid/Oracle/mainmerge.
 
 **ISTORIC501891 — ELIMINARE STYLUS + PIETONAL TRANSPORT PUBLIC:**
