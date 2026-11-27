@@ -125,7 +125,8 @@ jobs:
     permissions:
       contents: write
     if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
-    runs-on: ubuntu-latest
+    # Playwright 1.56 supports Ubuntu 24.04, not the new ubuntu-latest 26.04.
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
