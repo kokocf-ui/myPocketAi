@@ -22155,8 +22155,12 @@ function appendMixedTransitComparison(host,options){
 function renderMixedUnifiedResults(data,choice){
  clearTransitOptionsViewport();
  state.mixedProgressDetail=false;
+ const surfaceOptions=Array.isArray(data?.scheduled_surface_options)?data.scheduled_surface_options:[];
+ const supplied=Array.isArray(data?.transit)?data.transit:[];
+ const seenSurface=new Set(supplied.map(j=>j.openSurfaceCandidateId).filter(Boolean));
+ const options=[...supplied,...surfaceOptions.filter(o=>o.completeDoorToDoor===true&&o.journey&&!seenSurface.has(o.id)).map(o=>o.journey)];
+ data={...data,transit:options};
  state.lastTransitResponse=data;
- const options=Array.isArray(data?.transit)?data.transit:[];
  renderTransitChoices(options);
  const host=$('moduleLayerBody');if(!host)return;
  const endpoints=document.createElement('strong');endpoints.className='mixed-origin-destination';
@@ -22210,7 +22214,7 @@ function renderMixedUnifiedResults(data,choice){
      '✈️ The supplier did not return flights for this search. This does not prove none operate.');
   host.append(airNote);
  }
- if(!options.length&&!providers.length&&!connections.length){
+ if(!options.length&&!providers.length&&!connections.length&&!surfaceOptions.length){
   const groundNote=document.createElement('p');groundNote.className='mixed-ground-search-disclosure';
   const status=String(data?.operator_discovery_status||'not_reported');
   groundNote.textContent=data?.ground_search_incomplete===true?
@@ -22228,6 +22232,7 @@ function renderMixedUnifiedResults(data,choice){
   }
   host.append(groundNote);
  }
+ if(surfaceOptions.length)appendMixedScheduledSurfaceCards(host,surfaceOptions,choice);
  if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);
  if(providers.length)appendMixedGroundOperatorCards(host,providers,choice);
  if(flights.length)appendMixedAirCandidateCards(host,flights,choice);
@@ -22244,7 +22249,7 @@ function renderMixedUnifiedResults(data,choice){
   const disclaimer=document.createElement('p');disclaimer.textContent=dialogText('Acestea sunt puncte de legătură, nu zboruri sau transferuri confirmate. Variantele aeriene primite sunt păstrate chiar dacă un transfer terestru nu poate fi verificat.',
    'These are connection points, not confirmed flights or transfers. Returned flight options are retained even if a ground transfer cannot be verified.');group.append(disclaimer);host.append(group);
  }
- if(!options.length&&!providers.length&&!connections.length&&!flights.length){
+ if(!options.length&&!providers.length&&!connections.length&&!flights.length&&!surfaceOptions.length){
   const note=document.createElement('p');note.className='mixed-no-routes-note';
   note.textContent=dialogText('Nu am primit încă variante de transport de la furnizorii conectați. Rămâi în Transport mixt; schimbă data sau revino la destinație.',
    'Connected suppliers have not returned transport options. Stay in Mixed Transport; change the date or return to the destination.');
@@ -22414,6 +22419,50 @@ function appendMixedGroundConnectionCards(host,connections,choice){
      dialogText(' · stația de sosire nu este identificată de furnizor; traseul până la adresă trebuie încă verificat.',
       ' · the operator has not identified the arrival stop; onward routing to your address is not verified.');
     body.append(final);
+   }
+  });
+ }
+}
+function appendMixedScheduledSurfaceCards(host,options,choice){
+ const source=options[0]?.source;
+ const attribution=document.createElement('p');attribution.className='mixed-surface-attribution';
+ attribution.textContent=String(source?.attribution||'FlixBus / FlixTrain — ODbL')+
+  dialogText(' · orar teoretic, nu rezervare; transferuri și bilete separate, neprotejate. Orele de mai jos sunt UTC.',
+   ' · theoretical schedule, not a booking; separate, unprotected transfers/tickets. Times below are UTC.');
+ host.append(attribution);
+ const partial=options.filter(o=>o.completeDoorToDoor!==true);
+ if(!partial.length)return;
+ mixedResultsSectionTitle(host,dialogText('Tren / autocar · orar datat, legături locale incomplete',
+  'Train / coach · dated schedule, incomplete local connections'));
+ for(const option of partial.slice(0,2)){
+  const legs=Array.isArray(option.legs)?option.legs:[];if(!legs.length)continue;
+  const route=String(legs[0].from)+' → '+String(legs.at(-1).to);
+  mixedCandidateCard(host,{name:route,icons:legs.map(l=>l.mode==='train'?'🚆':'🚌').join(' → '),
+   summary:String(legs[0].departureTime)+' → '+String(legs.at(-1).arrivalTime)+' · UTC',
+   subtitle:dialogText('Orar publicat. Nu este încă un traseu complet până la adresă.',
+    'Published schedule. Not yet a complete journey to the address.'),
+   onSelect:()=>{
+    const body=mixedCandidateDetailShell(route,()=>renderMixedUnifiedResults(dataForMixed(),choice));if(!body)return;
+    const warning=document.createElement('p');warning.textContent=attribution.textContent;body.append(warning);
+    const addLocal=(journey,side,status)=>{
+     const section=document.createElement('section');section.className='mixed-surface-local-'+side;
+     section.textContent=(side==='access'?dialogText('Acces la îmbarcare: ','Access to boarding: '):dialogText('Până la destinația exactă: ','To the exact destination: '))+
+      (journey?String(journey.startDateTime)+' → '+String(journey.arrivalDateTime):dialogText('⚠ Neconfirmat · ','⚠ Unverified · ')+String(status||'unverified'));
+     for(const l of journey?.legs||[]){const row=document.createElement('p');row.textContent=String(l.from)+' → '+String(l.to)+' · '+String(l.departureTime)+' → '+String(l.arrivalTime);section.append(row)}
+     body.append(section);
+    };
+    addLocal(option.accessJourney,'access',option.accessStatus);
+    for(const leg of legs){
+     const section=document.createElement('section');section.className='mixed-surface-dated-leg';
+     const heading=document.createElement('strong');heading.textContent=String(leg.from)+' → '+String(leg.to);section.append(heading);
+     const times=document.createElement('p');times.textContent=String(leg.operator||'')+' · '+String(leg.line||'')+' · '+String(leg.departureTime)+' → '+String(leg.arrivalTime)+' · UTC';section.append(times);
+     const stops=document.createElement('details'),label=document.createElement('summary');label.textContent=dialogText('Stații publicate: ','Published stops: ')+String(leg.stopCount);stops.append(label);
+     for(const stop of leg.stops||[]){const row=document.createElement('p');row.textContent=String(stop.name)+' · '+String(stop.arrivalTime)+' / '+String(stop.departureTime);stops.append(row)}
+     section.append(stops);body.append(section);
+    }
+    addLocal(option.egressJourney,'egress',option.egressStatus);
+    const credit=document.createElement('a');credit.textContent=dialogText('Sursa oficială și licența datelor','Official source and data licence');
+    credit.href='https://transport.data.gouv.fr/datasets/flixbus-horaires-theoriques-du-reseau-europeen-1';credit.target='_blank';credit.rel='noopener noreferrer';body.append(credit);
    }
   });
  }

@@ -99,3 +99,16 @@ assert.equal(sources[1].children[1].href,'https://www.flixbus.com/bus-routes/bru
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-access-leg'));
 assert.ok(body.children.some(e=>e.className==='mixed-unverified-egress-leg'));
 console.log('PASS mixed results: direct flight details, FlixBus evidence, no search trigger');
+
+const scheduled={id:'open-surface:0',completeDoorToDoor:false,accessStatus:'scheduled_connection_found',egressStatus:'no_local_journey_returned',
+ source:{attribution:'Fixture Flix GTFS ODbL'},
+ legs:[{from:'Victoria',to:'Oradea Intrans',mode:'coach',operator:'Fixture',line:'1926',departureTime:'2026-12-03T08:30:00Z',arrivalTime:'2026-12-04T23:55:00Z',stopCount:1,stops:[{name:'Victoria',arrivalTime:'2026-12-03T08:30:00Z',departureTime:'2026-12-03T08:30:00Z'}]}]};
+api.renderMixedUnifiedResults({transit:[],scheduled_surface_options:[scheduled]},choice);
+cards=body.children.filter(e=>e.className.includes('mixed-unverified-candidate'));
+assert.equal(cards.length,1,'Actual dated surface source survives missing flights and local egress');
+assert.ok(!body.children.some(e=>e.className==='mixed-no-routes-note'));
+cards[0].onclick();
+assert.ok(body.children.some(e=>e.className==='mixed-surface-dated-leg'));
+assert.match(body.children.find(e=>e.className==='mixed-surface-local-egress').textContent,/Neconfirmat/);
+assert.equal(selectedFlights,1,'Surface selection never starts air enrichment');
+console.log('PASS dated surface details: source times/stops retained, missing egress explicit, no airport dependency');

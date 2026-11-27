@@ -72,6 +72,25 @@ try{
   assert.equal(external,beforeSurface,'Selecting surface details only reads initial evidence');
   await page.evaluate(d=>window.__mixed.init(d),{...data,transit:[],operator_options:[],ground_connections:[],operator_source_errors:['exa_http_402'],ground_search_incomplete:true});
   assert.match(await body.locator('.mixed-ground-search-disclosure').innerText(),/refuzat accesul sau a atins limita de cotă/);
+  const scheduled={id:'open-surface:0',completeDoorToDoor:false,accessStatus:'scheduled_connection_found',egressStatus:'no_local_journey_returned',
+   source:{attribution:'FlixBus / FlixTrain — ODbL'},
+   legs:[{from:'Victoria',to:'Oradea Intrans',mode:'coach',operator:'FlixBus',line:'1926',departureTime:at(60),arrivalTime:at(600),stopCount:1,
+    stops:[{name:'Victoria',arrivalTime:at(60),departureTime:at(60)},{name:'Oradea Intrans',arrivalTime:at(600),departureTime:at(600)}]}]};
+  await page.evaluate(d=>window.__mixed.init(d),{transit:[],scheduled_surface_options:[scheduled]});
+  assert.equal(await body.locator('.mixed-unverified-candidate').count(),1);
+  const beforeScheduled=external;
+  await body.locator('.mixed-unverified-candidate').tap();
+  assert.match(await body.locator('.mixed-surface-local-egress').innerText(),/Neconfirmat/);
+  assert.match(await body.locator('.mixed-surface-dated-leg').innerText(),/1926/);
+  await body.locator('.mixed-surface-dated-leg summary').tap();
+  assert.match(await body.locator('.mixed-surface-dated-leg details').innerText(),/Oradea Intrans/);
+  await body.locator('.transit-detail-toolbar button').tap();
+  assert.equal(await body.locator('.mixed-unverified-candidate').count(),1);
+  assert.equal(external,beforeScheduled,'Dated surface details read only precomputed data');
+  // Fully joined surface options enter the normal details/map route selector.
+  await page.evaluate(d=>window.__mixed.init(d),{transit:[],scheduled_surface_options:[{...scheduled,completeDoorToDoor:true,journey:{...data.transit[0],openSurfaceCandidateId:scheduled.id}}]});
+  await page.evaluate(()=>window.__mixed.select());
+  assert.ok(await body.locator('.transit-ticket-link').count()>0,'Complete source-backed surface journey uses existing details');
   const beforeWizard=external;
   await page.evaluate(()=>window.__mixed.wizard());
   await body.getByRole('button',{name:'Transport mixt',exact:true}).tap();

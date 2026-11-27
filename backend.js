@@ -1,3 +1,4 @@
+import {openSurfaceDataResponse} from './open_surface_data.mjs';
 import {mixedProgressResponse} from './mixed_progress_stream.mjs';
 import {createMixedLocalPlanner} from './mixed_local_planner.mjs';
 import {planHereNationalJourney} from './here_national_transit.mjs';
@@ -1408,6 +1409,7 @@ async function handleBackendRequest(request, env, runtime={}) {
     }
 
     const url = new URL(request.url);
+    if(url.pathname==='/api/open-surface/index.json')return openSurfaceDataResponse(request,env);
 
     // Follow-up to a user-selected flight, without spending another SerpApi
     // search credit. Real airport identities/timezones and ground schedules

@@ -1,4 +1,5 @@
 import {beforeTransitAbort} from './transit_deadline.mjs';
+import {searchOpenSurfaceOptions} from './mixed_open_surface.mjs';
 // Independent exploratory sources: a scheduled ground journey must not hide
 // flight/coach/rail route evidence. No ticket-stock prerequisite, guessed times
 // or invented first/last mile. Failed enrichment preserves the source option.
@@ -39,6 +40,9 @@ export async function searchMixedIndicativeOptions(env,{
  const groundFallback=()=>({...partialGround,status:partialGround?.status||'search_timeout',searchIncomplete:true});
  // Enrich the air branch as soon as its own candidates arrive. Ground
  // discovery must neither wait for this nor delay it by up to twenty seconds.
+ const surfaceWork=(dependencies.searchSurface||searchOpenSurfaceOptions)(env,{
+  origin,destination,departureAt,signal,onProgress
+ },{planner:dependencies.planAccess});
  const airWork=(async()=>{
   const air=includeFlights&&(international||km>=150)?await bounded(
    ()=>discoverAir(env,{origin,destination,departureAt,maxDays:3,cache,cacheBaseUrl,budgetMs:22000,signal}),
@@ -67,9 +71,10 @@ export async function searchMixedIndicativeOptions(env,{
    flight_search_status:air?.status||'provider_unavailable',flight_search_incomplete:air?.searchIncomplete===true});
   return {air,flights,ready};
  })();
- const [{air,flights,ready},groundResult]=await Promise.all([
+ const [{air,flights,ready},groundResult,surfaceResult]=await Promise.all([
   airWork,
-  km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]})
+  km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]}),
+  surfaceWork
  ]);
  clearTimeout(groundTimer);groundAbort.abort();
  signal?.removeEventListener('abort',cancel);
@@ -85,6 +90,6 @@ export async function searchMixedIndicativeOptions(env,{
   flight_provider_queries:Number(air?.providerSearchCount)||0,
   flight_candidates_received:Array.isArray(air?.candidates)?air.candidates.length:0,
   ...(flights.length?{flight_candidates:flights,flight_details_prepared:ready}:{}),
-  ...groundFields(ground)
+  ...groundFields(ground),...surfaceResult
  };
 }

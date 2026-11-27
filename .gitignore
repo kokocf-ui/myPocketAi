@@ -13,3 +13,6 @@ math-browser-audit/
 
 # Local Python inspection/test bytecode, never source data.
 __pycache__/
+
+# Generated licensed public transport snapshots (build/release artifacts only).
+.open-surface-assets/

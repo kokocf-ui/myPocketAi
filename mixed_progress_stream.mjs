@@ -64,7 +64,7 @@ export async function readMixedProgressResponse(response,onProgress,signal){
  }catch(error){
   // Preserve source-backed progress on transport interruption, not on explicit
   // user cancellation. Do not silently present an interrupted search as final.
-  if(!signal?.aborted&&last&&['transit','operator_options','ground_connections','flight_candidates'].some(k=>last[k]?.length))
+  if(!signal?.aborted&&last&&['transit','operator_options','ground_connections','flight_candidates','scheduled_surface_options'].some(k=>last[k]?.length))
    return {...last,status:'success',reply:last.reply||'Partial mixed transport results',mixed_search_incomplete:true};
   throw error;
  }finally{signal?.removeEventListener('abort',abort);await reader.cancel().catch(()=>{});reader.releaseLock()}

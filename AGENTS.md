@@ -7,6 +7,22 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ÎN CURS — INTEGRARE ORAR OPEN-SURFACE (OFF, fără deploy/APK):**
+User: „Dacă mai este de rezolvat, eu zic sa continui”. Sursa oficială intră în
+runtimebranch prin searchMixedIndicativeOptions independent de zbor/Exa/Brave.
+Compiler Python→JSONasset, plannerJS UTC-only feed, calendar+exceptions,3rides/
+72h/45m same-sourceID. NoZIPdownload perrequest. max2candidates, sharedlocal12cap,
+2accesssamples+1egress/candidate; ordinaryplanner reused. UI păstrează orar/
+stații reale+gaps; complet numai după ambelelocale și verificări geografie/orar.
+Flag OPEN_SURFACE_ENABLED + OPEN_SURFACE_ASSETS NEACTIVATE; nicio configlive nouă.
+LicențăODbL/PAN republicareformatoriginal/registrare încă de închis înaintepublic.
+OPEN_SURFACE_RUNTIME.md: contract/activare/limite. Manual workflow nou
+open-surface-runtime.yml pentru actual-source JS/resource proof și opțional
+TfLpublic cu sourcebackend + un singur egressROdomestic. Rezultat încă PENDING.
+PASS runtimefixture Pythoncompiler→JS, mixedorientation, unifiedresults, boot,
+compiled browser360/393/430 inclusiv sourcepartial/stops/Back/complete details.
+Nu confunda fixtures/UI cu proba live. Nu activa HERE/paid/Oracle/main/deploy/APK.
+
 **ETAPĂ OPEN-GTFS + DATA LEGĂTURILOR LOCALE (fără deploy/APK):**
 Feed oficial FlixBus/FlixTrain descărcat efectiv prin Actions, nu fixture:
 2072 stops / 1224 routes / 41333 trips, valabil 20261123–20270523.
