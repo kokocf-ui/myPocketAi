@@ -170,3 +170,33 @@ integration with licence handling (not downloading/parsing the ZIP per mobile
 request), confirm Oradea egress, verify both outer links against matching
 backend source and exact scheduled joins, and investigate suspect TfL geometry
 format separately. Do not present the current result as a complete journey.
+
+
+## Latest continuation: runtime integration + real endpoint proof
+
+See `OPEN_SURFACE_RUNTIME.md` for the current implementation, exact evidence,
+resource measurements and release gates. The older diagnostic-only statements
+above describe earlier stages, not the latest branch capability.
+
+The branch now compiles official GTFS to a bounded asset, searches it in JS
+independently of flights, reuses ordinary local routing at both endpoints,
+optionally reuses real standalone walking for short gaps, and presents dated
+source legs with explicit incomplete connections in the unified results.
+TfL date propagation and JSON geometry interpretation were corrected.
+
+Actual-source run 45991226188 established the requested-date London access and
+confirmed Oradea urban feed_not_loaded. Run 45991954687 additionally confirmed
+the actual Oradea standalone walking route (3469m,3256.628s,95points), not a
+straight-line estimate. Both local endpoints independently verified. The
+remaining generic-margin conflict inside a single TfL itinerary was corrected
+without changing cross-source, flight or separate-ticket buffers.
+
+Offline run 45992442387 replayed those actual saved source/local responses with
+**zero new provider requests** and verified the synthetic complete nine-leg
+journey: 2026-12-03T06:22Z → 2026-12-05T00:59:16.628Z. It is not a fresh live
+fetch or ticket/seat/physical acceptance. Price and transfer protection remain
+unverified. Real provider walking duration is explicitly an estimate.
+
+No deploy/new APK/paid/HERE/Oracle/main merge. Source integration remains OFF
+until free Worker resource fit and ODbL/PAN distribution/refresh packaging are
+established. Accepted APK501894/live backend v187/f7ab634 unchanged.

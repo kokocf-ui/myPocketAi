@@ -7,7 +7,25 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
-**ÎN CURS — INTEGRARE ORAR OPEN-SURFACE (OFF, fără deploy/APK):**
+**ULTIMUL REZULTAT — ORAR + AMBELECAPETE + REPLAY REAL (OFF, fără deploy/APK):**
+Run45992442387/check140483405966SUCCESS,sourcee3f3aee: replay offline al
+răspunsurilorREALE din45991954687, ZEROproviderrequests; toate live/healthsteps
+SKIPPED. Purecomposer verifică traseulsintetic9legs: Dec3 06:22UTC→Dec5
+00:59:16.628UTC. ModeSignature train→metro→coach→coach→coach (+walking),
+fareCompletefalse/transferProtectionfalse. Wrongdayegressmutant REJECTED.
+Nu este noulivefetch/seats/fare/phoneacceptance. Detalii OPEN_SURFACE_RUNTIME.md.
+Compiler+runtime sunt integratebranch dar OPEN_SURFACE_ENABLED/ASSETS inexistente
+în configlive. Niciodeploy/APK/HERE/Oracle/paid/mainmerge. APK501894/backendv187
+f7ab634 neschimbate. RELEASEGATES: fullindex8.6MBNodeheap72–74MiB/search75–103ms
+NU Worker/freeCPUacceptance. Reduce queryfootprint/indexing sau clientcompute;
+nuactivaplanplătit/servernou caocolire. ODbL/PAN redistribuireformatoriginal/
+registrare+refresh încădeînchis înaintepublic. Apoi backendmatching+signedAPK.
+FinalPASS: mixedorientation/reportedfailures, actualWorker contracts+walking/
+TfLgeometry/date,11Python, wranglerB+Fdryrun/nameguard, compiledmobilemixed+
+streamedprogress360/393/430, navheading/fullscreen/maneuvermodel. Fullnpmtest
+rămâne cunoscut blocat la tests.mjs:27 hotelradius5000vs2000 (nu fullsuiteverde).
+
+**ISTORICUL ETAPEI — INTEGRARE ORAR OPEN-SURFACE (OFF, fără deploy/APK):**
 User: „Dacă mai este de rezolvat, eu zic sa continui”. Sursa oficială intră în
 runtimebranch prin searchMixedIndicativeOptions independent de zbor/Exa/Brave.
 Compiler Python→JSONasset, plannerJS UTC-only feed, calendar+exceptions,3rides/
@@ -33,7 +51,7 @@ completefalse: graph dubla marginile în itineraryTfL validat deja. Fixnou
 localItineraryId/localLegIndex numai adjacency sameprovider/nonflight,
 nu modifică marjeîntresurse/45mcoach/15mboarding/10megress. Purecomposer
 composeOpenSurfaceOption permite replayartifact existent fără cererinoi.
-Offlineworkflow surface_replay_run=45991954687 urmează, rezultat PENDING.
+Offlineworkflow surface_replay_run=45991954687 finalizatSUCCESS45992442387; veziultimulrezultat.
 ResurseNode222ms/heap74MiB/RSS162MiB NUWorkerfreeCPUproof. FlagOFF încontinuare.
 PASS runtimefixture Pythoncompiler→JS, mixedorientation, unifiedresults, boot,
 compiled browser360/393/430 inclusiv sourcepartial/stops/Back/complete details.

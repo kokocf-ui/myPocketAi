@@ -174,3 +174,48 @@ is required. Offline replay result is pending, not yet a complete-journey claim.
 Resource diagnostics in the second run remain NOT Worker/free-tier validation:
 Node prepare+search 222 ms / search 75 ms, heap 74.2 MiB, RSS 162.4 MiB. Default
 feature remains OFF; no paid-tier upgrade or production activation is implied.
+
+
+## Offline real-response replay 45992442387 / check 140483405966
+
+SUCCESS on e3f3aee. Reused the actual public source/TfL/standalone-walking
+responses saved by run 45991954687; **zero new provider requests**. All live,
+source-download, binding-inspection and health steps were skipped in this run.
+The same composer used by the live runtime now verifies the complete synthetic
+nine-leg journey: Dec 3 06:22 UTC → Dec 5 00:59:16.628 UTC. Surface mode signature
+`train → metro → coach → coach → coach` (walks omitted by that normal signature).
+The explicitly estimated final walking leg remains marked `timingEstimated`.
+Total fare remains unknown; no protected transfer or seat availability claim.
+An additional wrong-day egress mutation was refused in this same replay.
+
+This is a replay of real observed responses under the corrected composition
+rules, not another live fetch, current ticket availability or phone acceptance.
+The preserved local/source margins are asserted during replay. The completed
+journey uses exact operator stop IDs between coaches and actual returned local
+coordinates/times. There is no airport in this test chain.
+
+### Validation after the connector correction
+
+PASS: Python compiler/runtime fixtures including actual ordinary Worker response,
+verified multimodal engine/negative adjacency cases; npm mixed-orientation and
+transit-reported-failures suites; backend/frontend Wrangler **dry-runs**;
+bundled browser-name guard; real Wrangler-bundled mobile browser tests at
+360/393/430 px (partial schedules, published stops, complete source option to
+existing details, Back, early streamed options, cancellation and no query replay);
+navigation heading/fullscreen and maneuver-model regressions.
+
+### Remaining release gates — not hidden by the successful route proof
+
+1. Full-index Node routing measured ~75–103 ms and ~72–74 MiB heap. It has not
+   been proven to fit the actual Worker's free CPU/memory limits. Reduce/index
+   the query-time data footprint or run suitable computation client-side before
+   activation; never silently enable a paid plan or a new routing server.
+2. Complete PAN/ODbL derivative publication/original-format handling and refresh
+   packaging before public distribution. Expired datasets must fail closed.
+3. Only then deploy matching backend/assets/frontend and deliver a signed branch
+   APK for physical validation. No production/main merge is authorized here.
+
+No new APK, Cloudflare deployment, live feature flag/binding, Oracle change,
+HERE request or paid activation took place. APK501894 remains the accepted UI
+build; the live backend remains v187/f7ab634. This stage establishes a concrete
+source-backed path forward, not universal rail/coach coverage.
