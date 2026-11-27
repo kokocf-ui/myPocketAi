@@ -8,6 +8,12 @@ let html=await(await app.fetch(new Request('https://test.local/'))).text();
 const hook=String.raw`
 window.__mixed={
  init(data){state.language='ro';pocketRevealMainApp();openModule('maps');state.lastTransitChoice={kind:'transit',mixedJourney:true,transitDirect:true,journeyOrigin:{latitude:51.48,longitude:.29,label:'Locația mea GPS'},transitDestination:{latitude:47.05,longitude:21.92,label:'Adresa finală Oradea'}};document.getElementById('moduleQuickLayer').classList.add('open');document.getElementById('moduleQuickLayer').setAttribute('aria-hidden','false');renderMixedUnifiedResults(data,state.lastTransitChoice)},
+ wizard(){
+  oneFieldJourneyIncoming={selected_origin:{latitude:51.48,longitude:.29,label:'District label',city:'Grays',country_code:'GB'},
+   selected_destination:{latitude:47.05,longitude:21.92,label:'Piața Unirii',city:'Oradea',country_code:'RO'}};
+  runModuleSearch=async choice=>{window.__capturedMixedChoice=choice};
+  showOneFieldJourney({kind:'transit',mixedJourney:true});
+ },
  async select(){await selectTransitJourney(state.lastTransitResponse.transit,0)}
 };`;
 html=html.replace('function extraFunGames(){',hook+'\nfunction extraFunGames(){');
@@ -64,6 +70,16 @@ try{
   await body.locator('.transit-detail-toolbar button').tap();
   assert.equal(await body.locator('.mixed-unverified-candidate').count(),2);
   assert.equal(external,beforeSurface,'Selecting surface details only reads initial evidence');
+  await page.evaluate(d=>window.__mixed.init(d),{...data,transit:[],operator_options:[],ground_connections:[],operator_source_errors:['exa_http_402'],ground_search_incomplete:true});
+  assert.match(await body.locator('.mixed-ground-search-disclosure').innerText(),/refuzat accesul sau a atins limita de cotă/);
+  const beforeWizard=external;
+  await page.evaluate(()=>window.__mixed.wizard());
+  await body.getByRole('button',{name:'Transport mixt',exact:true}).tap();
+  await body.getByRole('button',{name:'Caută trasee',exact:true}).tap();
+  const selected=await page.evaluate(()=>window.__capturedMixedChoice);
+  assert.equal(selected.journeyOrigin.city,'Grays','Actual wizard retains structured origin, not an ambiguous label');
+  assert.equal(selected.transitDestination.city,'Oradea','Actual wizard retains destination city for train/coach discovery');
+  assert.equal(external,beforeWizard,'Calendar handoff does not trigger an extra search');
   assert.deepEqual(errors,[]);await page.close();
  }
  console.log('PASS production mobile 360/393/430: indicative train+coach+flight coexist, details without network, per-leg tickets, explicit gaps, Back retains all modes');

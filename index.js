@@ -22221,6 +22221,11 @@ function renderMixedUnifiedResults(data,choice){
     '🚆 🚌 Surface route discovery is not connected. Flights are not all the alternatives.'):
    dialogText('🚆 🚌 Nu am primit încă legături terestre utilizabile de la sursele conectate. Nu am confirmat absența trenurilor sau autocarelor.',
     '🚆 🚌 Connected sources have not returned usable surface links. This is not confirmation that trains or coaches are absent.');
+  const errors=Array.isArray(data?.operator_source_errors)?data.operator_source_errors:[];
+  if(errors.some(code=>/^(?:exa|brave)_http_(?:401|402|403|429)$/.test(String(code)))||data?.ground_corridor_status==='quota_or_access_blocked'){
+   groundNote.textContent=dialogText('🚆 🚌 Sursa de căutare terestră a refuzat accesul sau a atins limita de cotă. Căutarea nu este completă; nu înseamnă că nu există trenuri/autocare. Nu activez servicii cu plată.',
+    '🚆 🚌 Surface search access was denied or its quota limit was reached. Search is incomplete; this does not mean no trains/coaches operate. No paid service is enabled.');
+  }
   host.append(groundNote);
  }
  if(connections.length)appendMixedGroundConnectionCards(host,connections,choice);

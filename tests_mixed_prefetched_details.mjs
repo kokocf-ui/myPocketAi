@@ -28,12 +28,12 @@ const out=await prepareMixedFlightOptions({},{
 },{now:Date.parse('2026-11-18T00:00:00Z'),connect:mockConnect,
  discover:mockDiscover,resolveZone:mockZone});
 assert.equal(out.length,3,'Every visible option is enriched before response');
-assert.equal(connected,2,'Only direct flights call the connector');
+assert.equal(connected,3,'Flight connections must not suppress first/last-mile searches');
 assert.equal(airportQueries,2,'All flights share airport discovery');
 assert.equal(zoneQueries,2,'All flights share timezone discovery');
 assert.equal(out[0].itinerary.accessJourney.legs[0].distanceMeters,510);
 assert.equal(out[1].itinerary.accessJourney.legs[0].distanceMeters,510);
-assert.equal(out[2].itinerary.status,'air_transfer_unverified');
+assert.equal(out[2].itinerary.status,'ground_transfer_incomplete');
 assert.equal(out[2].itinerary.completeDoorToDoor,false);
 assert.equal(out[2].itinerary.flight.from,'STN');
 const broken=await prepareMixedFlightOptions({},{

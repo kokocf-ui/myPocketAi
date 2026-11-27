@@ -217,9 +217,9 @@ function showOneFieldJourney(choice){
  const runMode=async(mode)=>{
   if(state.busy||state.moduleSearchBusy||!selected)return;
   const point={latitude:selected.latitude,longitude:selected.longitude,label:selected.label,
-   country_code:selected.country_code||''};
+   country_code:selected.country_code||'',city:String(selected.city||'')};
   const from=origin?{latitude:origin.latitude,longitude:origin.longitude,label:origin.label,
-   country_code:origin.country_code||''}:null;
+   country_code:origin.country_code||'',city:String(origin.city||'')}:null;
   if(mode==='transit'){
    // Store the complete selected A→B stage for both Back mechanisms.
    const stageChoice={...choice,kind:'transit',mixedJourney:true,transitDirect:true,mixedComposition:true,

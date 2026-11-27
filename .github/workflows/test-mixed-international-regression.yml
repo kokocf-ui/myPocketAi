@@ -24,6 +24,7 @@ on:
       - 'tests_mixed_door_to_door_details.mjs'
       - 'mixed_prefetched_details.mjs'
       - 'tests_mixed_prefetched_details.mjs'
+      - 'tests_mixed_endpoint_enrichment.mjs'
       - 'tests_transport_departure_entrypoints.mjs'
       - '.github/workflows/test-mixed-international-regression.yml'
 jobs:
@@ -48,6 +49,7 @@ jobs:
           node tests_mixed_unified_results.mjs
           node tests_mixed_door_to_door_details.mjs
           node tests_mixed_prefetched_details.mjs
+          node tests_mixed_endpoint_enrichment.mjs
           node tests_mixed_flight_provider_reliability.mjs
           node tests_transport_departure_entrypoints.mjs
           node tests_ro_national_transit.mjs

@@ -35,7 +35,7 @@ export async function prepareMixedFlightOptions(env,{
 }={},{
  connect=connectCandidateFlightToGround,
  discover=discoverAirportCandidates,resolveZone=resolveAirportZone,
- planAccess,planEgress=null,planRegional=null,now=Date.now(),budgetMs=7500,signal=null
+ planAccess,planEgress=null,planRegional=null,now=Date.now(),budgetMs=20000,signal=null,onPrepared=null
 }={}){
  const selected=Array.isArray(candidates)?candidates.slice(0,Math.max(0,Math.min(6,limit))):[];
  if(!point(origin)||!point(destination))return selected.map(flight=>({
@@ -55,8 +55,8 @@ export async function prepareMixedFlightOptions(env,{
   if(!zoneCache.has(key))zoneCache.set(key,Promise.resolve().then(()=>resolveZone(e,airport,at,options)));
   return zoneCache.get(key);
  };
- return Promise.all(selected.map(async flight=>{
-  if(!Array.isArray(flight?.legs)||flight.legs.length!==1)return {
+ return Promise.all(selected.map(async (flight,index)=>{
+  if(!Array.isArray(flight?.legs)||!flight.legs.length||flight.legs.length>6)return {
    ...flight,itinerary:incomplete(flight,origin,destination,'air_transfer_unverified')
   };
   try{
@@ -65,10 +65,12 @@ export async function prepareMixedFlightOptions(env,{
    },{discover:cachedDiscover,resolveZone:cachedZone,
     ...(typeof planAccess==='function'?{planAccess}:{}),
     planEgress,planRegional,now,budgetMs,signal});
-   return {...flight,itinerary:{
+   const prepared={...flight,itinerary:{
     ...incomplete(flight,origin,destination,details?.status||'provider_unavailable'),
     ...(details&&typeof details==='object'?details:{})
    }};
+   if(!signal?.aborted)onPrepared?.(prepared,index);
+   return prepared;
   }catch{return {...flight,itinerary:incomplete(flight,origin,destination,
     'ground_provider_unavailable')}}
  }));

@@ -42,8 +42,10 @@ const backend=readFileSync(new URL('./backend.js',import.meta.url),'utf8');
 const fields=readFileSync(new URL('./mixed_indicative_search.mjs',import.meta.url),'utf8');
 assert.ok(fields.includes("flight_search_status:air?.status||'provider_unavailable'"));
 assert.ok(fields.includes('let flights=Array.isArray'));
-assert.ok(fields.includes('setTimeout(()=>resolve(null),8500)'),
- 'Ground enrichment cannot wait indefinitely');
+assert.ok(fields.includes('setTimeout(cancelEnrichment,'),
+ 'Ground enrichment has a cancellation deadline');
+assert.ok(fields.includes('enrichAbort.signal,onPrepared:publishPrepared'),
+ 'Keep completed legs while other flight details wait');
 assert.ok(fields.includes('flight_candidates:flights'));
 assert.ok(backend.includes('cacheBaseUrl:new URL(request.url).origin'));
 const frontend=readFileSync(new URL('./index.js',import.meta.url),'utf8');

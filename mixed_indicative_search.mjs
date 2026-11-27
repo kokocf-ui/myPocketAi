@@ -31,7 +31,8 @@ export async function searchMixedIndicativeOptions(env,{
   ground_connections:Array.isArray(ground?.connections)?ground.connections:[],
   ground_corridor_status:ground?.corridorDiscoveryStatus||null,
   ground_search_incomplete:ground?.searchIncomplete===true,
-  operator_discovery_status:ground?.status||'provider_unavailable',operator_search_summary:ground?.summary||null});
+  operator_discovery_status:ground?.status||'provider_unavailable',operator_search_summary:ground?.summary||null,
+  operator_source_errors:Array.isArray(ground?.sourceErrors)?ground.sourceErrors:[]});
  const groundTimer=setTimeout(()=>groundAbort.abort(),19500);
  const groundWork=()=>beforeTransitAbort(()=>discoverGround(env,{origin,destination,signal:groundAbort.signal,
   onProgress:partial=>{partialGround={...partialGround,...partial};onProgress?.(groundFields(partialGround));}}),groundAbort.signal,null);
@@ -44,15 +45,23 @@ export async function searchMixedIndicativeOptions(env,{
    25000,{status:'provider_unavailable',candidates:[]}):{status:'disabled',candidates:[]};
   let flights=Array.isArray(air?.candidates)?air.candidates.slice(0,6):[],ready=false;
   if(flights.length){
-   let timeout;
+   const enrichAbort=new AbortController();
+   const cancelEnrichment=()=>enrichAbort.abort();
+   signal?.addEventListener('abort',cancelEnrichment,{once:true});
+   if(signal?.aborted)cancelEnrichment();
+   const timeout=setTimeout(cancelEnrichment,Math.max(1,Math.min(21000,dependencies.enrichmentBudgetMs||21000)));
+   const publishPrepared=(prepared,index)=>{
+    if(enrichAbort.signal.aborted)return;
+    flights[index]=prepared;
+    onProgress?.({flight_candidates:[...flights],flight_details_prepared:false,
+     flight_search_status:air?.status||'provider_unavailable',flight_search_incomplete:air?.searchIncomplete===true});
+   };
    try{
-    const enriched=await Promise.race([
-     prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
-      {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional,signal}),
-     new Promise(resolve=>{timeout=setTimeout(()=>resolve(null),8500)})
-    ]);
+    const enriched=await beforeTransitAbort(()=>prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
+      {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional,
+       budgetMs:20000,signal:enrichAbort.signal,onPrepared:publishPrepared}),enrichAbort.signal,null);
     if(Array.isArray(enriched)&&enriched.length){flights=enriched;ready=true;}
-   }catch{}finally{clearTimeout(timeout)}
+   }catch{}finally{clearTimeout(timeout);enrichAbort.abort();signal?.removeEventListener('abort',cancelEnrichment)}
   }
   if(!signal?.aborted)onProgress?.({flight_candidates:flights,flight_details_prepared:ready,
    flight_search_status:air?.status||'provider_unavailable',flight_search_incomplete:air?.searchIncomplete===true});

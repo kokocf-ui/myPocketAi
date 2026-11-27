@@ -7,6 +7,29 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**CERERE CURENTĂ —501894 ACCEPTAT UI; REVENIRE LA MIXT:**
+User: „Da, este bine acum.” Acceptă recentele corecțiiUI/Back/săgeți, NUconfirmare
+GPSfundal/cronologietransit. Cere acceslocație→aeroport și aeroport→destinație,
+și căutare tren/autocar independentă; mixtul pare încă blocat pe aeroporturi.
+Raport `MIXED_ENDPOINT_GROUND_FOLLOWUP_2026-11-26.md`.
+FixuriBRANCH: multilegflights nu mai sar complet peste legăturilelocale, primul/
+ultimul aeroport sunt puncteleexacte; airtransfers rămânunverified,nufulljourney.
+Connector20s max+parent21s cancel înlocuiesc7.5/8.5s, progres pervariantă păstrează
+rezultatele bune dacă altăvariantăîntârzie. Wizardpăstreazăcity; GPSlabelslocalizate
+nu sunt localități. SourceErrorsground propagate+UIquota/access;HTTP402oprește
+coridor ca401/403/429; eroare=>incomplete. Fărănoi furnizori/cote/cityhardcode.
+DiagnosticLIVEfărăsearchcreditsrun45981812790/check140447330009SUCCESS:
+GEO/Exa/Brave/Serp/TfL/TransCAPI/ROurbanprezente,MOTISabsent,HEREOFF/registryON;
+flighthealthfree_active/noSearchCredits. NUpobăsoldExa/Brave/routecoverage.
+Hourlyaggregate37success/162subreq și13disconnect/28subreq,0errors,nuusertrace.
+Modelnouactualprefetch/connector8.1s+multileg+partialabortPASS; mixedorientation/
+transitaudit/check/bootPASS; compiledmobilemixed+wizardcity/progress/Back/cancel,
+Leafletnav4viewporturi+nationalBackPASS; F+Backenddryrun/nameguard6896882PASS.
+Nuconcluziefizică/livejourneys. Niciodeploy/APKnou; ultim501894/backendv187f7ab634.
+NueliberaAPKdoarpentrufixtureverde: necesarbackendmatching+probărelevantăsurse.
+Gapsrămase: internaționaldatedproviderabsent,quotas/coveragegroundnecunoscute,
+localmax12calls/timezonesmayblocklateroptions. HERE0/max2,nopaid/Oracle/mainmerge.
+
 **ACTUALIZARE — FEEDBACK501893 / SĂGEȚI ȘI CĂUTARE NOUĂ:**
 User: „Este mult mai bine”; revenirea din alternative naționale păstrează vechea
 selecție (capturi100252/100256). Cere săgeți jos și casetă semitransparentă în
@@ -24,7 +47,8 @@ nationalBack/walking/input/viewport + permanentcert/identity/version/snapshotPAS
 https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45980243484/myPocketAI-signed-education-test.apk
 Release460439551/asset799983907,77,663,460B,GitHubSHA256metadata:
 aa79d2b773f264a00c661f728dd158aade9a69af27dc7bf9c0aacb02e74bee27.
-Updatefărădezinstalare/dateșterse; nuinspecțielocalăAPK. Noul retest fizic pending.
+Updatefărădezinstalare/dateșterse; nuinspecțielocalăAPK. UserconfirmăacumUIbine;
+GPSfundal/cronologietransit neconfirmate.
 Aspect501893 apreciat, NU acceptare background
 sau cronologie transport. Fără backend/deployprod/HERE/paid/mainmerge/Oracle.
 

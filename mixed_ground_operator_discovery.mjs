@@ -336,7 +336,7 @@ async function discoverOfficialCorridorConnections(env,{
        body:JSON.stringify({query,type:'auto',numResults:8,contents:{text:{maxCharacters:850}}}),
        signal:AbortSignal.timeout(7000)
       });
-      if([401,403,429].includes(r.status))quotaBlocked=true;
+      if([401,402,403,429].includes(r.status))quotaBlocked=true;
       if(!r.ok)return [];
       const data=await r.json();
       return normalizeMixedOperatorEvidence(data.results,{origin:{city:pair.from},destination:{city:pair.to}})
@@ -348,7 +348,7 @@ async function discoverOfficialCorridorConnections(env,{
     try{
      const r=await fetcher(u,{headers:{Accept:'application/json',
       'X-Subscription-Token':braveKey},signal:AbortSignal.timeout(7000)});
-     if([401,403,429].includes(r.status))quotaBlocked=true;
+     if([401,402,403,429].includes(r.status))quotaBlocked=true;
      if(!r.ok)return [];
      const data=await r.json();
      const hits=(Array.isArray(data.web?.results)?data.web.results:[]).map(x=>({
@@ -395,7 +395,7 @@ async function discoverOfficialCorridorConnections(env,{
 
 export async function resolveMixedOriginLocality(env,origin,{fetcher=fetch}={}){
  const known=locality(origin);
- if(known&&!/^(?:gps|location|my location|locatia mea|locatia telefonului|departure|plecare)$/i.test(fold(known)))return origin;
+ if(known&&!/\bgps\b|^(?:location|my location|locatia mea|locatia telefonului|departure|plecare)$/i.test(fold(known)))return origin;
  if(!env?.GEOAPIFY_API_KEY||origin?.latitude==null||origin?.longitude==null||
    !Number.isFinite(+origin.latitude)||!Number.isFinite(+origin.longitude))return null;
  const u=new URL('https://api.geoapify.com/v1/geocode/reverse');
@@ -456,7 +456,8 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
   return selected;
  };
  const publish=()=>onProgress?.({status:accepted.length||partialConnections.length?'official_operator_options':'partial_operator_route_pages',
-  operators:selectedOperators(),connections:partialConnections,corridorDiscoveryStatus:corridorStatus,searchIncomplete:true});
+  operators:selectedOperators(),connections:partialConnections,corridorDiscoveryStatus:corridorStatus,
+  sourceErrors:errors.slice(0,4),searchIncomplete:true});
  const verify=async option=>{
   if(!option.access_transfer_needed)return {...option,
    access_transfer_verified:true,country_match_verified:true};
@@ -525,7 +526,7 @@ export async function discoverMixedGroundOperators(env,{origin,destination,fetch
  const [corridor]=await Promise.all([corridorPromise,directPromise]);
  corridorStatus=corridor.status;
  const eligible=normalizeMixedOperatorEvidence(candidateResults,{origin,destination});
- return {connections:corridor.connections,searchIncomplete:corridor.searchIncomplete===true,
+ return {connections:corridor.connections,searchIncomplete:corridor.searchIncomplete===true||errors.length>0,
   corridorDiscoveryStatus:corridor.status,
   corridorCitiesChecked:corridor.corridorCities,
   corridorSegmentPages:corridor.segmentPages,
