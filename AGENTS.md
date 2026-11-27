@@ -7,6 +7,32 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**ULTIMA ETAPĂ — ORADEA DIAGNOSTIC READ-ONLY (NUfix/NUdeploy):**
+User „Ok, continuăm” aprobă diagnosticul Oradea înainte de schimbări.
+Raport ORADEA_READONLY_DIAGNOSTIC.md. Workflow existent mixed-live-diagnostic
+inputnou probe_oradea_readonly → jobizolatfărăsecrets; live-mixed SKIPPED,
+chiar dacăalteinputs sunttrue. Run46000807025/check140511665049 SUCCESS:
+un singurdownloadpublicZIP înmemorie, fărăimport/republicare/rawartifact;
+HTTP200/676657bytes, SHA57721d7640cbc0d60f0711d96e75bb68ee4c1d5aac94f6c660e9ae73f4cb2a68,
+555stops/60routes/6365trips, calendar20261125–20270220, 1serviceID activDec3/Dec5,
+Europe/Bucharest, feedversion3.47. NUlicențăaprobată/validaretoatestoptimes/rutăreală.
+2cererilocale sinteticeaceleașipuncte47.043244,21.95854→47.0612,21.9473:
+Dec3 10:00+02 șiDec5 02:05+02 ambele HTTP200/ro_urban_feed_unavailable/
+providerstatusfeed_not_loaded/regionromania,0journeys. Controlunicsuplimentar
+fărăcountryhints, fărăredownload:46001120517/check140512720538 SUCCESS,
+Dec3 10:00+02 → regionoradea,aceeașieroare. Total1ZIP+3localrequests, noflight/
+search/walk/HERE/paid. 7PythonreadonlysafetytestsPASS. scripts/diagnose_oradea_readonly.py
+implicitOFF; --legacy-control-only separăcontrolulfărărepetare.
+CAUZA PRIVATĂ EXACTĂ NECONFIRMATĂ: ro_urban_client mapeazăORICEHTTP503 la
+feed_not_loaded;reproduslocal JSONmissingfeed și plain503outage→acelașistatus.
+Nuafirmaoradea.jsonlipseștefărăinventarprivat; healthz=livenesschiar0feeds.
+LoaderciteșteJSONonce/startup; nudescarcăZIPautomat. Sourcepublicexistă și calendar
+acoperădatele; problema nu e explicatădoarprinnighttime sau dispatchromania.
+Volumulprivat/mount/fișiere/permisiuni/raw503/serviceversion neinspectatedinaceastă
+sesiune. RaportincludecomandăDOARcitireîncontainer existent, tokenfolositintern
+nicilogat/cerutînchat; NEEXECUTATĂ. Nurestart/reimport/permchange/VPCchange/deploy/
+APK/mainmerge/Oracleoperations. Modificatnumaidiagnostic+docs, nuruntime/configlive.
+
 **ULTIMA ETAPĂ — SURSE FĂRĂ API KEY IMPLEMENTATE, INACTIVE:**
 User: „Implementăm ce avem deocamdată”. Raport KEYLESS_PUBLIC_TRANSPORT.md.
 NO: Entur existent păstrat, lowercase ET-Client-Name + atribuire NLOD în rezultate;
