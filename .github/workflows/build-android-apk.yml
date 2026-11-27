@@ -162,15 +162,25 @@ jobs:
         env:
           WRANGLER_SEND_METRICS: 'false'
         run: |
-          npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0
-          npx playwright install --with-deps chromium
-          npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check/signed-walking
-          node scripts/check_bundled_browser_names.mjs .bundle-check/signed-walking/index.js
+          # Surface a bounded diagnostic through the Checks API as CI log
+          # downloads are not reachable in the restricted coding workspace.
+          run_checked() {
+            if "$@" > "$RUNNER_TEMP/walking-mobile-gate.log" 2>&1; then
+              cat "$RUNNER_TEMP/walking-mobile-gate.log"
+            else
+              tail -25 "$RUNNER_TEMP/walking-mobile-gate.log" | sed 's/^/::error::/'
+              return 1
+            fi
+          }
+          run_checked npm install --no-save --no-package-lock playwright@1.56.1 wrangler@4.168.0
+          run_checked npx playwright install --with-deps chromium
+          run_checked npx wrangler deploy --config wrangler-frontend.toml --dry-run --outdir .bundle-check/signed-walking
+          run_checked node scripts/check_bundled_browser_names.mjs .bundle-check/signed-walking/index.js
           export CHROMIUM_PATH="$(node --input-type=module -e "import {chromium} from 'playwright';console.log(chromium.executablePath())")"
           export POCKET_BUNDLE=./.bundle-check/signed-walking/index.check.mjs
-          node tests_transit_walking_parity_browser.mjs
-          node tests_education_input_browser.mjs
-          node tests_transit_viewport_browser.mjs
+          run_checked node tests_transit_walking_parity_browser.mjs
+          run_checked node tests_education_input_browser.mjs
+          run_checked node tests_transit_viewport_browser.mjs
       - name: Check permanent keystore and latest published APK
         env:
           GH_TOKEN: ${{ github.token }}
