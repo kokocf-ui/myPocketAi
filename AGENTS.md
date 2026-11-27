@@ -7,6 +7,18 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**APK501889 ELIBERAT — fereastra de lucru compactă, cerere explicită user:**
+User a corectat pe drept lipsa APK-ului: nu poate verifica doar sursa pe telefon.
+Run45965463970/job140392969235SUCCESS; debugSKIPPED. Sursă92e844bf41842bef412ca6f78964db73e636d490.
+CI a verificat build/certificat permanent/package/versionCode501889/snapshot.
+https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45965463970/myPocketAI-signed-education-test.apk
+Release460329771/asset799624363,77,661,520B; GitHubSHA256metadata
+ e8bb78a21c3f1ddfa53f254963b39b6f927696c8b40f0a0212f224b6ebbaa336.
+Instalare peste501888fărădezinstalare/ștergeredate. Includecompactworkspace,
+NUaltăreparațietransport. Fizică/chimie/astronomieexcluse dinlayoutnou.
+Validarefizică501889încăîn așteptare. Backendv187/prodfrontend/Oracle/HERE/
+paidservicesneschimbate. Mainnemerged. AcestAPKsupersedeazănotelesource-onlydejos.
+
 **PRIORITATE NOUĂ — FEREASTRA DE LUCRU, după capturile fizice 0800–0804:**
 Utilizatorul respinge fereastra comună prea lungă/confuză (matematică, istorie,
 literatură, informatică etc.); fizica/chimia/astronomia sunt explicit EXCEPȚII,

@@ -34,3 +34,15 @@ All AI/media calls are mocked, and curriculum assets are local. No provider/AI c
 ## Delivery boundary
 
 Source correction only in this phase. No new APK, production frontend/backend deployment, main merge, transport changes or paid service activation. The existing large working tree predates this correction and was preserved, not reset/staged wholesale. Physical acceptance of the compact work area is still pending; do not label the user's issue physically resolved based only on these tests.
+
+## Subsequent explicit APK delivery request — completed
+
+The user correctly noted that source-only work cannot be checked on their phone and explicitly requested the APK. The existing signed branch-test workflow was dispatched, without a production/backend deployment.
+
+- Source **92e844bf41842bef412ca6f78964db73e636d490**; run **45965463970**, signed job **140392969235 SUCCESS**, debug skipped.
+- Build, permanent-signing-certificate match, app identity, increasing **versionCode501889**, branch snapshot and prerelease publication all PASS in CI.
+- Download: https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45965463970/myPocketAI-signed-education-test.apk
+- Release460329771, asset799624363,77,661,520 bytes; GitHub SHA256 metadata `e8bb78a21c3f1ddfa53f254963b39b6f927696c8b40f0a0212f224b6ebbaa336`. No independent local APK/signature inspection claimed.
+- Install over the existing application without uninstalling or clearing data. Physical layout acceptance is pending. Physics/Chemistry/Astronomy are excluded from the compact shared-workspace style.
+
+This supersedes the previous source-only delivery boundary. Backend v187, production frontend, Oracle and HERE/paid-service state remain unchanged. Transport is unresolved; this build makes no further transport changes. The signing workflow's release notes now identify Education-layout testing rather than claiming a transport fix.

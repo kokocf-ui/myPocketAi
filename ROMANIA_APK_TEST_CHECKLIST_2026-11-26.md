@@ -6,7 +6,23 @@
 > Investigație: `TRANSIT_APK501887_PHYSICAL_FAILURE_2026-11-26.md`.
 
 
-## Cel mai nou APK — 501888: verificare aspect transport public
+## Cel mai nou APK — 501889: fereastra de lucru compactă
+
+[**Descarcă APK-ul semnat 501889**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45965463970/myPocketAI-signed-education-test.apk)
+
+Instalează peste aplicația existentă, **fără dezinstalare sau ștergerea datelor**,
+apoi închide și redeschide aplicația. CI a verificat același certificat permanent,
+identitatea aplicației, versionCode501889 și snapshotul sursei92e844b.
+Run45965463970/job140392969235 SUCCESS; acceptarea fizică este încă în așteptare.
+
+Verifică fereastra de lucru la matematică, istorie, geografie, informatică,
+literatură și biologie: un titlu, Enunț + Rezolvarea mea, un rând activ de
+instrumente, Verifică/Rezolvă/Metoda la vedere și secundare la Alte opțiuni.
+Fizica, chimia și astronomia nu primesc noul aspect. Transportul rămâne
+nerezolvat și nu a fost modificat suplimentar în această corecție. Niciun deploy
+backend/frontend de producție.
+
+## APK anterior — 501888: retest transport public negativ
 
 [**Descarcă APK-ul semnat 501888**](https://github.com/kokocf-ui/myPocketAi/releases/download/education-test-45900192177/myPocketAI-signed-education-test.apk)
 
