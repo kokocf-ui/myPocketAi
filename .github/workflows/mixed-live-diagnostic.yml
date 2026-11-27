@@ -16,6 +16,12 @@ on:
         default: false
         type: boolean
 
+      prove_surface_runtime:
+        description: 'Compile official source and test actual branch JS runtime; no deployment or paid search'
+        required: false
+        default: false
+        type: boolean
+
       probe_local_connections:
         description: 'Two ordinary domestic transit checks at open-GTFS endpoints; no flight/Exa/Brave/HERE searches'
         required: false
@@ -28,7 +34,30 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-        if: inputs.inspect_open_gtfs == true
+        if: inputs.inspect_open_gtfs == true || inputs.prove_surface_runtime == true
+      - uses: actions/setup-node@v4
+        if: inputs.prove_surface_runtime == true
+        with:
+          node-version: '22'
+      - name: Compile actual source and prove branch surface runtime
+        if: inputs.prove_surface_runtime == true
+        env:
+          PROBE_LOCAL: ${{ inputs.probe_local_connections }}
+        run: |
+          python3 tests_open_surface_gtfs.py
+          node tests_open_surface_runtime.mjs
+          PYTHONPATH=scripts python3 -c "import os,pathlib; from inspect_open_surface_gtfs import download; download(pathlib.Path(os.environ['RUNNER_TEMP'])/'official.zip')"
+          python3 scripts/build_open_surface_index.py --file "$RUNNER_TEMP/official.zip" --output "$RUNNER_TEMP/surface-index.json"
+          node scripts/prove_open_surface_runtime.mjs "$RUNNER_TEMP/surface-index.json" "$RUNNER_TEMP/runtime-proof.json"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.prove_surface_runtime == true
+        with:
+          name: open-surface-runtime-proof
+          path: |
+            ${{ runner.temp }}/runtime-proof.json
+            ${{ runner.temp }}/surface-index.json
+          retention-days: 7
+          if-no-files-found: ignore
       - name: Inspect official open European surface feed (no paid API)
         if: inputs.inspect_open_gtfs == true
         env:

@@ -88,7 +88,7 @@ PAN registration. Neither raw nor compiled source data is committed to Git.
 - `tests_mixed_indicative_browser.mjs`: real compiled frontend on 360/393/430 px,
   partial source details/stops, Back, complete source option to existing details,
   with no extra network lookup on selection.
-- `.github/workflows/open-surface-runtime.yml`: manual actual-source compile,
+- `.github/workflows/mixed-live-diagnostic.yml (prove_surface_runtime=true)`: manual actual-source compile,
   runtime resource diagnostic, optional public TfL in branch Worker and one
   ordinary deployed Oradea egress query. No Cloudflare secret reads/deploy,
   flight, HERE, Exa or Brave calls. Artifacts expire after seven days.

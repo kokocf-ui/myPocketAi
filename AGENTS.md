@@ -17,7 +17,7 @@ stații reale+gaps; complet numai după ambelelocale și verificări geografie/o
 Flag OPEN_SURFACE_ENABLED + OPEN_SURFACE_ASSETS NEACTIVATE; nicio configlive nouă.
 LicențăODbL/PAN republicareformatoriginal/registrare încă de închis înaintepublic.
 OPEN_SURFACE_RUNTIME.md: contract/activare/limite. Manual workflow nou
-open-surface-runtime.yml pentru actual-source JS/resource proof și opțional
+mixed-live-diagnostic.yml (prove_surface_runtime=true) pentru actual-source JS/resource proof și opțional
 TfLpublic cu sourcebackend + un singur egressROdomestic. Rezultat încă PENDING.
 PASS runtimefixture Pythoncompiler→JS, mixedorientation, unifiedresults, boot,
 compiled browser360/393/430 inclusiv sourcepartial/stops/Back/complete details.
