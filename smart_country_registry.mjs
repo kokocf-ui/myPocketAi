@@ -1,6 +1,7 @@
-import {NATIONAL_TRANSPORT_COUNTRIES} from './national_transport_registry.mjs';
+import {OPEN_SURFACE_TRANSPORT_SOURCE} from './public_transport_sources.mjs';
+import {NATIONAL_TRANSPORT_COUNTRIES,nationalTransportCoverage} from './national_transport_registry.mjs';
 import {europeanCountrySources,EUROPE_COUNTRIES} from './europe_country_sources.mjs';
-// Smart Country Registry v2 — configuration and dispatch decisions, no network calls.
+// Smart Country Registry v3 — configuration and dispatch decisions, no network calls.
 // Providers must be explicitly enabled by backend configuration, never by this file.
 // A resolved country is the country of the REQUEST, not necessarily the phone's GPS.
 const fold = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
@@ -35,11 +36,11 @@ function worldwideCountries(){
 }
 export const identifyCountry = value => aliases.get(fold(value)) ?? worldwideCountries().get(fold(value)) ?? null;
 const poi = new Set(['restaurant','pub','cafe','hotel','pharmacy','supermarket','parking','zoo','park','museum','market','shop','fuel','car_repair','fast_food','confectionery','corner_shop','lounge','hospital','cinema','atm','bank','post_office','library','shopping_fashion','beauty_services','home_goods','appliances','furniture','diy_garden','mall','charging','car_wash','car_dealers','school','stadium','toilets','poi']);
-const categoryAliases = {transport:'mixed_transport',transport_mixed:'mixed_transport',mixed:'mixed_transport',hoteluri:'hotel',restaurante:'restaurant',parcari:'parking',parcări:'parking',farmacii:'pharmacy',evenimente:'events',stiri:'news',știri:'news'};
+const categoryAliases = {transport_public:'public_transport',public_transport:'public_transport',transport:'mixed_transport',transport_mixed:'mixed_transport',mixed:'mixed_transport',hoteluri:'hotel',restaurante:'restaurant',parcari:'parking',parcări:'parking',farmacii:'pharmacy',evenimente:'events',stiri:'news',știri:'news'};
 export function classifyCategory(category){
  const key=fold(category).replace(/\s+/g,'_');
  const normalized=categoryAliases[key]||key;
- return {category:normalized,branch:['urban_transport','intercity_transport','mixed_transport','international_transport','airport_transfer','walking','driving'].includes(normalized)?'transport':'general'};
+ return {category:normalized,branch:['public_transport','urban_transport','intercity_transport','mixed_transport','international_transport','airport_transfer','walking','driving'].includes(normalized)?'transport':'general'};
 }
 const globalGeneral = {
  places:['geoapify','photon','tomtom_places'],
@@ -47,7 +48,8 @@ const globalGeneral = {
  news:[],events:[],education:[],weather:[]
 };
 const local=Object.fromEntries(Object.entries(NATIONAL_TRANSPORT_COUNTRIES).map(([country,p])=>[country,{
- transport:{urban_transport:p.urban_transport,intercity_transport:p.intercity_transport},
+ transport:{urban_transport:p.urban_transport,intercity_transport:p.intercity_transport,
+  supplementary_transport:p.supplementary_transport,international_transport:p.international_transport},
  general:country==='GB'?{shop:['uk_food_retailers'],corner_shop:['uk_food_retailers'],fast_food:['uk_food_retailers']}:{}
 }]));
 const unique = values => [...new Set(values.filter(Boolean))];
@@ -59,10 +61,17 @@ function sourcesFor(country,category,branch,request){
   const key=poi.has(category)?'places':category;
   return [...(globalGeneral[key]||[]),...(profile.general[category]||[])];
  }
+ if(category==='public_transport'){
+  const crossBorder=identifyCountry(request.originCountry)&&identifyCountry(request.destinationCountry)&&
+   identifyCountry(request.originCountry)!==identifyCountry(request.destinationCountry);
+  return [...(crossBorder?[]:profile.transport.urban_transport||[]),...(profile.transport.intercity_transport||[]),
+   ...(profile.transport.supplementary_transport||[])];
+ }
+ if(category==='intercity_transport')return [...(profile.transport.intercity_transport||[]),...(profile.transport.supplementary_transport||[])];
  if(category==='mixed_transport'){
   // Without confirmed legs, only discover candidates from endpoints;
   // do not run every country's urban and national providers.
-  return [...(profile.transport.intercity_transport||[])];
+  return [...(profile.transport.intercity_transport||[]),...(profile.transport.supplementary_transport||[])];
  }
  if(category==='airport_transfer')return [...(profile.transport.urban_transport||[])];
  return [...(profile.transport[category]||[])];
@@ -76,7 +85,12 @@ export function selectCountryProviders(request={}){
  const resolved=isTransport && origin && destination ? unique([origin,destination]) : [explicit||destination||origin].filter(Boolean);
  if(!resolved.length)return {branch,countries:[],providers:[],status:'country_unresolved'};
  const candidateIds=resolved.flatMap(c=>sourcesFor(c,category,branch,request));
- const selected=configuredIds(candidateIds,request.enabledProviders||[]).filter(id=>locality(id,request));
+ const mode=fold(request.mode||request.transportMode);
+ const selected=configuredIds(candidateIds,request.enabledProviders||[]).filter(id=>locality(id,request)).filter(id=>{
+  if(id!==OPEN_SURFACE_TRANSPORT_SOURCE.id)return true;
+  if(!resolved.every(c=>NATIONAL_TRANSPORT_COUNTRIES[c]))return false;
+  return !mode||['train','rail','coach','mixed','mixed_transport','public_transport','intercity_transport','international_transport'].includes(mode);
+ });
  return {branch,countries:resolved,providers:selected,status:selected.length?'ready':'no_configured_provider'};
 }
 // A mixed itinerary is composed from validated, country-tagged stages.
@@ -87,16 +101,16 @@ export function planMixedTransportSources({stages=[],enabledProviders=[]}={}){
  if(!Array.isArray(stages)||stages.length===0)return {stages:[],status:'missing_verified_stages'};
  const entries=stages.map((stage,index)=>{
   const mode=fold(stage.mode||stage.category);
-  const category=mode==='flight'?'international_transport':mode==='airport'?'airport_transfer':mode==='rail'?'intercity_transport':mode==='bus'?'urban_transport':mode||'mixed_transport';
+  const category=mode==='flight'?'international_transport':mode==='airport'?'airport_transfer':['rail','train','coach'].includes(mode)?'intercity_transport':mode==='bus'?'urban_transport':mode||'mixed_transport';
   const result=selectCountryProviders({...stage,category,enabledProviders});
   return {index,mode,category,...result};
  });
  return {stages:entries,status:entries.every(x=>x.status==='ready')?'ready':'partial_coverage'};
 }
 export {europeanCountrySources,EUROPE_COUNTRIES};
-export function countryCoverage(country){
+export function countryCoverage(country,{enabledProviders=[]}={}){
  const code=identifyCountry(country);
  if(!code)return null;
- return {country:code,branches:['transport','general'],configuredByBackend:true,sourceCatalog:europeanCountrySources(code),notes:'Catalog entries are discovery metadata, not configured adapters'};
+ return {country:code,branches:['transport','general'],configuredByBackend:true,sourceCatalog:europeanCountrySources(code),publicTransport:nationalTransportCoverage(code,enabledProviders),notes:'Catalog entries are discovery metadata, not configured adapters'};
 }
-export const COUNTRY_REGISTRY_VERSION=2;
+export const COUNTRY_REGISTRY_VERSION=3;

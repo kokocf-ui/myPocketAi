@@ -1,4 +1,5 @@
-// European sources catalog v1. DISCOVERY ONLY: this module never calls a provider.
+import {OPEN_SURFACE_TRANSPORT_SOURCE} from './public_transport_sources.mjs';
+// European sources catalog v2. METADATA ONLY: this module never calls a provider.
 // Source inclusion != permission, working API, live data, timetable coverage or booking.
 // Every source requires a separate checked adapter and commercial-use/license review.
 export const EUROPE_COUNTRIES=Object.freeze(
@@ -61,10 +62,15 @@ export function europeanCountrySources(countryCode){
  if(!EUROPE_COUNTRIES.includes(country))return null;
  const custom=EUROPE_SOURCE_CATALOG[country]||{transport:[],general:[]};
  return {
-  country,transport:[...EUROPE_COMMON_SOURCES.transport,...custom.transport],
+  country,transport:[...EUROPE_COMMON_SOURCES.transport,...custom.transport,{
+   id:OPEN_SURFACE_TRANSPORT_SOURCE.id,name:OPEN_SURFACE_TRANSPORT_SOURCE.name,
+   url:OPEN_SURFACE_TRANSPORT_SOURCE.publisherUrl,scope:OPEN_SURFACE_TRANSPORT_SOURCE.scope,
+   kind:'open_gtfs_dataset',access:'explicit_opt_in_and_release_gates',status:'implemented_gated',
+   coverage:'requires_loaded_feed_stop_and_date_verification'
+  }],
   general:[...EUROPE_COMMON_SOURCES.general,...custom.general],
   status:'catalog_only',
   note:'Sources require integration, license and coverage validation before requests'
  };
 }
-export const EUROPE_SOURCE_CATALOG_VERSION=1;
+export const EUROPE_SOURCE_CATALOG_VERSION=2;

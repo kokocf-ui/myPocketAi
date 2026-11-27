@@ -1,3 +1,4 @@
+import {OPEN_SURFACE_TRANSPORT_SOURCE,openSurfaceConfigured,publicSurfaceSourceForCountry} from './public_transport_sources.mjs';
 import {hereNationalConfigured} from './here_national_transit.mjs';
 import {germanyNationalConfigured} from './germany_national_transit.mjs';
 import {digitransitNationalConfigured} from './digitransit_national_transit.mjs';
@@ -16,6 +17,9 @@ const implemented={
 export const NATIONAL_TRANSPORT_COUNTRIES=Object.freeze(Object.fromEntries(
  EUROPE_COUNTRIES.map(country=>[country,Object.freeze({
   country,domesticOnly:true,gpsCountryRequired:true,
+  // Supplementary network candidates are NOT domestic national planners.
+  supplementary_transport:Object.freeze([OPEN_SURFACE_TRANSPORT_SOURCE.id]),
+  international_transport:Object.freeze([OPEN_SURFACE_TRANSPORT_SOURCE.id]),
   urban_transport:Object.freeze(implemented[country]?.urban_transport||[]),
   intercity_transport:Object.freeze(implemented[country]?.intercity_transport||[]),
   domesticPlanner:implemented[country]?.domesticPlanner||null,
@@ -32,6 +36,7 @@ export function configuredNationalTransportProviders(env={}){
   try{const u=new URL(String(url||'').trim());return u.protocol==='https:'&&!u.username&&!u.password&&!u.search&&!u.hash&&u.pathname==='/';}catch{return false;}
  };
  return [
+  openSurfaceConfigured(env)?OPEN_SURFACE_TRANSPORT_SOURCE.id:null,
   hereNationalConfigured(env)?'here_national_transit':null,
   germanyNationalConfigured(env)?'germany_motis_national_transit':null,
   enturNationalConfigured(env)?'entur_national_transit':null,
@@ -55,5 +60,8 @@ export function nationalTransportCoverage(country,enabledProviders=[]){
   integration_status:profile.integrationStatus,
   coverage_status:urban.length||intercity.length?'configured_adapters_coverage_not_verified':'not_connected',
   countrywide_coverage_verified:false,
+  public_transport_registered:true,
+  supplementary_sources:[publicSurfaceSourceForCountry(code,enabledProviders)],
+  international_sources:profile.international_transport.filter(id=>enabled.has(id)),
   source_catalog: europeanCountrySources(code)?.transport||[]};
 }

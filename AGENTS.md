@@ -7,6 +7,26 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
+**CERERE NOUĂ — TRANSPORT PUBLIC ÎN REGISTRUL ȚĂRILOR:**
+User: „Hai să băgăm și în registrul țărilor transportul public”. Implementat
+SmartRegistryv3 public_transport/transportpublic + EuropeanSourceCatalogv2.
+49profile păstreazăurban/domesticadapters; open_surface_gtfs înregistrează
+supplementary/international candidates distinct, NUcountrywide/urbancoverage.
+public_transport_sources.mjs centralizeazăID, modes coach/train, licence/gates,
+observedcountriesGB/FR/CZ/DE/RO (NUlistăcompletădeservită), configuredpredicate
+comun loader+registry(flagtrue + callableassetsbinding). OFFimplicit, fărăload/
+providerrequests la citireregistry. MetadataAPI arată supplementary_sources/
+international_sources/public_transport_registered, domestic supported/configured
+nemodificate. Nu transformăFlix în plannernațional, nuactiveazăFR/DE/HERE etc.
+Selectarea exclude flight/ferry/walk/drive/airport/urban și țăridinscopînexterior;
+publiccrossborder nu apeleazărețeleurbanedouățări. Local/coach/trainstage separate.
+PASS new49profile/config/realWorker-metadata fixture; npm national-transport
+(inclusivHERE/DE/FI/EE/NO/RO/GB), mixedorientation, check, boot, backenddryrun.
+Testfixturecalendarnationalexpansion clockfrozen prin t.mock, NUrelaxaredateprod.
+Raport PUBLIC_TRANSPORT_COUNTRY_REGISTRY.md. Fărăliveprobes/deploy/APK/paid/
+HERE/Oracle/mainmerge. ReleasegatesfreeWorker+ODbL/PAN rămân; APK501894/livev187
+f7ab634 neschimbate. Înregistrare≠activare/acoperire/acceptarepe telefon.
+
 **ULTIMUL REZULTAT — ORAR + AMBELECAPETE + REPLAY REAL (OFF, fără deploy/APK):**
 Run45992442387/check140483405966SUCCESS,sourcee3f3aee: replay offline al
 răspunsurilorREALE din45991954687, ZEROproviderrequests; toate live/healthsteps

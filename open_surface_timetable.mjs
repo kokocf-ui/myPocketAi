@@ -1,7 +1,8 @@
+import {OPEN_SURFACE_TRANSPORT_SOURCE,openSurfaceConfigurationStatus} from './public_transport_sources.mjs';
 // Dated search over an offline-compiled official FlixBus/FlixTrain UTC index.
 // No feed download, paid fallback, city hardcode or invented interchange.
 import {mixedGreatCircleKm} from './mixed_route_quality.mjs';
-export const OPEN_SURFACE_SOURCE='https://gtfs.gis.flix.tech/gtfs_generic_eu.zip';
+export const OPEN_SURFACE_SOURCE=OPEN_SURFACE_TRANSPORT_SOURCE.sourceUrl;
 const stamp=s=>typeof s==='string'&&/(Z|[+-]\d\d:\d\d)$/.test(s)&&Number.isFinite(Date.parse(s))?Date.parse(s):null;
 const dayKey=ms=>new Date(ms).toISOString().slice(0,10).replaceAll('-','');
 const iso=ms=>new Date(ms).toISOString();
@@ -112,9 +113,9 @@ export function planOpenSurfaceCandidates(index,{
 }
 const loaded=new WeakMap();
 export async function loadOpenSurfaceIndex(env,{now=Date.now()}={}){
- if(String(env.OPEN_SURFACE_ENABLED||'')!=='true')return {status:'disabled',index:null};
+ const configuration=openSurfaceConfigurationStatus(env);
+ if(configuration!=='configured_pending_feed_validation')return {status:configuration,index:null};
  const binding=env.OPEN_SURFACE_ASSETS;
- if(!binding?.fetch)return {status:'index_not_configured',index:null};
  if(!loaded.has(binding))loaded.set(binding,(async()=>{
   try{
    const r=await binding.fetch(new Request('https://surface-assets.internal/index.json'));

@@ -107,7 +107,10 @@ test('Secure client and HTTP server handle automatic Romania dispatch end to end
   assert.equal(answer.status,'ok');assert.equal(answer.journeys[0].legs[0].mode,'bus');
  }finally{await new Promise(resolve=>server.close(resolve));}
 });
-test('Worker uses verified GPS country, blocks transborder and never falls back to Bilo for unserved local trips',async()=>{
+test('Worker uses verified GPS country, blocks transborder and never falls back to Bilo for unserved local trips',async(t)=>{
+ // Keep the fixed scheduled fixture in the future without weakening the
+ // Worker's real departure-date validation as wall-clock time advances.
+ t.mock.method(Date,'now',()=>Date.parse('2026-11-26T12:00:00Z'));
  const original=globalThis.fetch;let country='ro',destinationCountry='ro',urbanCalls=0,planned;
  globalThis.fetch=async input=>{
   const u=new URL(input);assert.equal(u.hostname,'api.geoapify.com','No unrelated supplier/AI requests');
