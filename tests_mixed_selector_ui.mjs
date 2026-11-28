@@ -69,7 +69,8 @@ assert.equal(numbers.length,2,'Distinct real house numbers must not be lost');
 const selectStart=frontend.indexOf('async function selectTransitJourney(');
 const selectEnd=frontend.indexOf('function appendSelectedTransit(',selectStart);
 assert.ok(selectStart>0&&selectEnd>selectStart);
-assert.ok(frontend.slice(selectStart,selectEnd).includes('state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false)'),
+assert.match(frontend.slice(selectStart,selectEnd),
+ /state\.lastTransitChoice\?\.journeyOrigin\|\|await (?:Promise\.race\(\[)?getCurrentCoordinates\(false\)/,
  'Selecting an A-to-B journey must calculate boarding access from the chosen departure, not phone GPS');
 assert.ok(frontend.includes("const gps=state.lastTransitChoice?.journeyOrigin||await getCurrentCoordinates(false)"),
  'Refreshing an A-to-B journey must preserve the chosen departure');
