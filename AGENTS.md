@@ -16,6 +16,10 @@ Rezolvat în `backend.js` (`journey_suggest`), `journey_suggestion_rank.mjs`, `o
 4) Deduplicat `stradă + număr + localitate` (clădire pură preferată față de magazine de la parter; coduri poștale contradictorii eliminate când nu s-a căutat după cod poștal).
 5) În UI, destinațiile verificate sunt afișate înaintea completărilor și diferențiate vizual; fluxul „de la A la B” păstrează expresia la completare/editare și rezolvă coordonatele verificate ale plecării (inclusiv când GPS-ul telefonului este în UK).
 PASS `tests_journey_search_refinements.mjs` + 16 suite regresie journey/adresă/transport/UI + `npm run check`.
+Publicat cu acordul utilizatorului (fără merge în `main`, fără deploy frontend producție, fără modificări Oracle/HERE/paid):
+- Deploy backend Worker (`deploy-cloudflare.yml` `backend_only=true`): run `46130762241` SUCCESS din `08f2889` (`OPEN_SURFACE`/`PUBLIC_GTFS`/`IRAIL`/`HERE` rămân OFF).
+- Live geocoder prefix smoke (`test-journey-live-city-prefix.yml`): run `46130922875` SUCCESS (`O`, `Or`, `Ora`, `Orade`, `Oradea` pe Cloudflare real).
+- APK semnat de test pe branch (`build-android-apk.yml` `publish_signed_apk=true`): run `46130492331` SUCCESS, `versionCode 501895`, prerelease `education-test-46130492331` (`12acafc`).
 
 **ETAPA ANTERIOARĂ — ORADEA DIAGNOSTIC READ-ONLY (NUfix/NUdeploy):**
 User „Ok, continuăm” aprobă diagnosticul Oradea înainte de schimbări.
