@@ -88,5 +88,67 @@ jobs:
             console.log('::error title=victoriaFail::'+JSON.stringify(vicLabels));
             regFail=true;
           }
+
+          // Live Romanian door-to-door + Bilo deduplication check: Strada Nufărului 1, Oradea -> Piața Unirii 2, Cluj-Napoca
+          const [origSugRes,destSugRes]=await Promise.all([
+            fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({journey_suggest:{query:'Strada Nufărului 1, Oradea'}}),
+              signal:AbortSignal.timeout(25000)}),
+            fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({journey_suggest:{query:'Piața Unirii 2, Cluj-Napoca'}}),
+              signal:AbortSignal.timeout(25000)})
+          ]);
+          const origCand=((await origSugRes.json().catch(()=>({}))).candidates||[])[0];
+          const destCand=((await destSugRes.json().catch(()=>({}))).candidates||[])[0];
+          if(!origCand||!destCand){
+            console.log('::error title=roEndpointsFail::'+JSON.stringify({origCand,destCand}));
+            regFail=true;
+          }else{
+            const mixRes=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
+              body:JSON.stringify({
+                message:'Transport mixt de la '+origCand.label+' până la '+destCand.label,
+                language:'ro',module:'maps',history:[],
+                location_requested:true,location:origCand,coordinates:origCand,
+                journey_origin:origCand,transit_destination:destCand,
+                transit_query:destCand.label,mixed_journey:true,mixed_composition:true,
+                transit_preference:'all'
+              }),
+              signal:AbortSignal.timeout(55000)});
+            const mixData=await mixRes.json().catch(()=>({}));
+            const transit=Array.isArray(mixData.transit)?mixData.transit:[];
+            const summary=transit.map(j=>{
+              const legs=Array.isArray(j.legs)?j.legs:[];
+              const vehLegs=legs.filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||'')));
+              return {
+                start:j.startDateTime,arr:j.arrivalDateTime,dur:j.durationMinutes,
+                mapped:j.door_to_door_mapped===true,
+                modes:legs.map(l=>l.mode),
+                from:legs[0]?.from,to:legs.at(-1)?.to,
+                vehSig:vehLegs.map(l=>[l.departureTime,l.arrivalTime,l.from,l.to,l.operator].join('|')).join('>>'),
+                boarding:j.boarding_stop?.label||null,
+                firstCoords:legs[0]?.coordinates?.length||0,
+                lastCoords:legs.at(-1)?.coordinates?.length||0
+              };
+            });
+            console.log('::notice title=liveOradeaClujDoorToDoor::'+JSON.stringify({
+              http:mixRes.status,count:transit.length,providerStatus:mixData.provider_status,options:summary
+            }));
+            // Verify zero duplicate intercity vehicle signatures if Bilo returned options
+            const intercitySigs=transit.map(j=>{
+              const ic=(j.legs||[]).filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))&&
+                (/oradea/i.test(String(l.from||''))||/cluj/i.test(String(l.to||''))));
+              return ic.length?ic.map(l=>[l.departureTime,l.arrivalTime,l.operator].join('|')).join('>>'):null;
+            }).filter(Boolean);
+            const uniqueSigs=new Set(intercitySigs);
+            if(intercitySigs.length!==uniqueSigs.size){
+              console.log('::error title=biloDedupFail::'+JSON.stringify(intercitySigs));
+              regFail=true;
+            }
+            const targetOpt=summary.find((_,idx)=>(transit[idx].legs||[]).some(l=>/[·•]/.test(String(l.from||''))||l.mode==='train'||l.railReplacement===true))||summary[0];
+            if(targetOpt&&(!targetOpt.mapped||targetOpt.modes.length<3||targetOpt.firstCoords<2||targetOpt.lastCoords<2)){
+              console.log('::error title=roDoorToDoorFail::'+JSON.stringify(targetOpt));
+              regFail=true;
+            }
+          }
           if(regFail)process.exit(1);
           NODE

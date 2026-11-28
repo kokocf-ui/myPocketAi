@@ -379,9 +379,79 @@ const biloSourceStopReference=value=>{
  return {id:code,source:'Bilo provider-local stop reference',
   ...(positioned?{latitude,longitude}:{})};
 };
+function biloCanonicalMode(mode,railReplacement=false){
+ const m=String(mode||'').toLowerCase();
+ const base=['train','rail'].includes(m)?'rail':
+  ['coach','bus','minibus','trolleybus'].includes(m)?'road':m;
+ return railReplacement?base+':rr':base;
+}
+function biloCanonicalEndpoint(rawName,locality=''){
+ const raw=String(rawName||'').trim();
+ const parts=raw.split(/\s*[·•]\s*/).map(s=>s.trim()).filter(Boolean);
+ const city=normalize(locality||(parts.length>=2?parts[0]:''));
+ let stop=normalize(parts.length>=2?parts.slice(1).join(' '):raw);
+ if(city&&stop.startsWith(city+' '))stop=stop.slice(city.length+1).trim();
+ const bare=Boolean(city)&&stop===city;
+ return {city:city||(bare?stop:''),stop:bare?'':stop,rawLen:raw.length};
+}
+function biloStopsEquivalent(aName,aLoc,bName,bLoc){
+ const a=biloCanonicalEndpoint(aName,aLoc),b=biloCanonicalEndpoint(bName,bLoc);
+ if(a.city&&b.city&&a.city!==b.city)return false;
+ if(a.stop&&b.stop)return a.stop===b.stop;
+ return Boolean(a.city||b.city)&&(a.city===b.city||a.city===b.stop||b.city===a.stop);
+}
+export function mergeOrAppendBiloJourney(list,candidate){
+ if(!candidate||!Array.isArray(candidate.legs)||!candidate.legs.length)return list;
+ const matchIdx=list.findIndex(existing=>{
+  if(!Array.isArray(existing?.legs)||existing.legs.length!==candidate.legs.length)return false;
+  return existing.legs.every((eLeg,i)=>{
+   const cLeg=candidate.legs[i];
+   if(biloCanonicalMode(eLeg.mode,eLeg.railReplacement)!==biloCanonicalMode(cLeg.mode,cLeg.railReplacement))return false;
+   const depDiff=Math.abs(Date.parse(eLeg.departureTime)-Date.parse(cLeg.departureTime));
+   const arrDiff=Math.abs(Date.parse(eLeg.arrivalTime)-Date.parse(cLeg.arrivalTime));
+   if(!Number.isFinite(depDiff)||!Number.isFinite(arrDiff)||depDiff>60000||arrDiff>60000)return false;
+   if(!biloStopsEquivalent(eLeg.from,eLeg.fromLocality,cLeg.from,cLeg.fromLocality))return false;
+   if(!biloStopsEquivalent(eLeg.to,eLeg.toLocality,cLeg.to,cLeg.toLocality))return false;
+   const opE=normalize(eLeg.operator||''),opC=normalize(cLeg.operator||'');
+   if(opE&&opC&&opE!==opC)return false;
+   const lnE=normalize((eLeg.lineNames||[])[0]||''),lnC=normalize((cLeg.lineNames||[])[0]||'');
+   if(lnE&&lnC&&lnE!==lnC)return false;
+   return true;
+  });
+ });
+ if(matchIdx<0){list.push(candidate);return list;}
+ const prev=list[matchIdx];
+ const mergedLegs=prev.legs.map((eLeg,i)=>{
+  const cLeg=candidate.legs[i];
+  const richerFrom=biloCanonicalEndpoint(cLeg.from,cLeg.fromLocality).stop&&
+   (!biloCanonicalEndpoint(eLeg.from,eLeg.fromLocality).stop||String(cLeg.from||'').length>String(eLeg.from||'').length);
+  const richerTo=biloCanonicalEndpoint(cLeg.to,cLeg.toLocality).stop&&
+   (!biloCanonicalEndpoint(eLeg.to,eLeg.toLocality).stop||String(cLeg.to||'').length>String(eLeg.to||'').length);
+  return {
+   ...eLeg,
+   from:richerFrom?cLeg.from:eLeg.from,
+   to:richerTo?cLeg.to:eLeg.to,
+   ...(cLeg.fromLocality&&!eLeg.fromLocality?{fromLocality:cLeg.fromLocality}:{}),
+   ...(cLeg.toLocality&&!eLeg.toLocality?{toLocality:cLeg.toLocality}:{}),
+   ...(cLeg.fromSourceStopRef&&!eLeg.fromSourceStopRef?{fromSourceStopRef:cLeg.fromSourceStopRef}:{}),
+   ...(cLeg.toSourceStopRef&&!eLeg.toSourceStopRef?{toSourceStopRef:cLeg.toSourceStopRef}:{}),
+   operator:eLeg.operator||cLeg.operator||'',
+   lineNames:(eLeg.lineNames?.length?eLeg.lineNames:cLeg.lineNames)||[],
+   bookingUrl:eLeg.bookingUrl||cLeg.bookingUrl,
+   operatorUrl:eLeg.operatorUrl||cLeg.operatorUrl,
+   ...(eLeg.railReplacement||cLeg.railReplacement?{railReplacement:true}:{})
+  };
+ });
+ list[matchIdx]={
+  ...prev,
+  legs:mergedLegs,
+  fareLocal:prev.fareLocal||candidate.fareLocal||null
+ };
+ return list;
+}
 export function normalizeBiloTrips(payload,limit=5,date=''){
  const {items,mode:rootMode}=biloRecords(payload);
- const seen=new Set(),out=[];
+ const out=[];
  for(const item of items.slice(0,100)){
   if(out.length>=Math.min(20,Math.max(1,limit)))break;
   if(!item||typeof item!=='object')continue;
@@ -418,10 +488,7 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
   const start=legs[0].departureTime,end=legs[legs.length-1].arrivalTime;
   const durationMinutes=Math.round((Date.parse(end)-Date.parse(start))/60000);
   if(durationMinutes<1||durationMinutes>48*60)continue;
-  const id=legs.map(x=>[x.from,x.to,x.departureTime,x.mode].join('|')).join(',');
-  if(seen.has(id))continue;
-  seen.add(id);
-  out.push({startDateTime:start,arrivalDateTime:end,durationMinutes,legs,
+  mergeOrAppendBiloJourney(out,{startDateTime:start,arrivalDateTime:end,durationMinutes,legs,
     time_zone:'Europe/Bucharest',fareLocal:biloFare(record)||biloFare(item),
     scheduled:true,real_time:false,source:'Bilo: operator schedule'});
  }
@@ -537,14 +604,12 @@ export async function planRomanianNationalJourney(env,query,opts={}){
    }catch{return null;}
   }));
   const details=new Map(fetched.filter(Boolean).map(x=>[x.id,x.trip]));
-  const completed=[],seenJourneys=new Set();
+  const completed=[];
   for(const record of items){
    const id=biloTripId(record);
    const trip=details.get(id)||normalizeBiloTrips({mode:rootMode,results:[record]},1,date)[0];
    if(!trip)continue;
-   const key=trip.legs.map(l=>[l.mode,l.from,l.to,l.departureTime].join('|')).join(';');
-   if(seenJourneys.has(key))continue;
-   seenJourneys.add(key);completed.push(trip);
+   mergeOrAppendBiloJourney(completed,trip);
   }
   // Rail replacement buses and independent long-distance coaches are
   // different services. Even if the all-mode response returned a CFR bus,
@@ -559,8 +624,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   const busLookup=checkOfficial?await officialBiloBusJourneys(query,date,limit,fetchImpl)
     :{status:'not_checked',journeys:[],records:0};
   for(const coach of busLookup.journeys){
-   const key=coach.legs.map(l=>[l.mode,l.from,l.to,l.departureTime].join('|')).join(';');
-   if(!seenJourneys.has(key)){seenJourneys.add(key);completed.push(coach);}
+   mergeOrAppendBiloJourney(completed,coach);
   }
   if(completed.length){
    // Safe aggregate statistics help distinguish missing provider coverage

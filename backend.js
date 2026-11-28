@@ -79,7 +79,8 @@ import {planEnglandLocalGtfs,englandLocalGtfsRegion} from "./en_urban_client.mjs
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
-import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
+import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,bucharestTravelDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
+import {enrichRomanianDoorToDoorJourneys} from "./ro_door_to_door.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {normalizeStorybookRequest,storybookSystemPrompt,storybookUserPrompt,parseStorybookChapters,storybookQualityIssue} from "./storybook_generation.mjs";
 import {fetchStorybookHistory} from "./storybook_history_research.mjs";
@@ -4459,14 +4460,30 @@ async function handleBackendRequest(request, env, runtime={}) {
             reply:lang==='en'?'Choose a valid departure in the next 60 days.':'Alege o plecare validă în următoarele 60 de zile.',
             transit_available:false,route_available:false,reason:'ro_departure_date_invalid'});
         }
-        const date=romanianDepartureDate(message,selectedAt||null);
+        let date=romanianDepartureDate(message,selectedAt||null);
         const vehicle=requestedRomanianVehicle(message,data.transit_preference);
-        const result=await planRomanianNationalJourney(env,{origin,destination},{
+        let result=await planRomanianNationalJourney(env,{origin,destination},{
           date,vehicle,limit:vehicle==='all'?10:8
         });
-        const allJourneys=requestedAt&&result.journeys.length
-          ?result.journeys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000)
-          :result.journeys;
+        let baseJourneys=result.journeys;
+        if(requestedAt&&baseJourneys.length){
+          baseJourneys=baseJourneys.filter(j=>Date.parse(j.startDateTime)>=requestedAt-120000);
+        }else if(!selectedAt&&baseJourneys.length&&date===bucharestTravelDate(null)){
+          const upcomingToday=baseJourneys.filter(j=>Date.parse(j.startDateTime)>=Date.now()-300000);
+          if(upcomingToday.length){
+            baseJourneys=upcomingToday;
+          }else{
+            const nextDate=new Date(Date.parse(date+'T12:00:00Z')+86400000).toISOString().slice(0,10);
+            const nextRes=await planRomanianNationalJourney(env,{origin,destination},{
+              date:nextDate,vehicle,limit:vehicle==='all'?10:8
+            });
+            const upcomingNext=(nextRes.journeys||[]).filter(j=>Date.parse(j.startDateTime)>=Date.now()-300000);
+            if(upcomingNext.length){
+              result=nextRes;date=nextDate;baseJourneys=upcomingNext;
+            }
+          }
+        }
+        const allJourneys=baseJourneys;
         const vehicleJourneys=filterRomanianVehicleJourneys(allJourneys,vehicle);
         const cityJourneys=filterRomanianCityEndpoints(vehicleJourneys,origin,destination);
         const grouped=groupRomanianJourneys(cityJourneys,requestedOptionsCount);
@@ -4477,18 +4494,69 @@ async function handleBackendRequest(request, env, runtime={}) {
           ?[...grouped.rail,...grouped.road,...grouped.mixed]
           :rankRomanianJourneys(cityJourneys).slice(0,requestedOptionsCount);
         if(journeys.length){
-          const reply=romanianJourneySummary(journeys,origin,destination,lang);
+          const roOriginPoint=data.journey_origin||data.route_context?.origin||
+            (hasValidLocation?{latitude,longitude,label:lang==='en'?'My location (GPS)':'Locația mea (GPS)',city:origin,country_code:'RO'}:null);
+          const roDestPoint=data.transit_destination||data.route_context?.destination||null;
+          const validRoDest=roDestPoint&&roDestPoint.latitude!=null&&roDestPoint.longitude!=null&&
+            Number.isFinite(Number(roDestPoint.latitude))&&Number.isFinite(Number(roDestPoint.longitude));
+          const roDoorPlanner=createMixedLocalPlanner({env,dispatch:handleBackendRequest,language:lang,maxCalls:20});
+          let [enrichedJourneys,extraMixed]=await Promise.all([
+            enrichRomanianDoorToDoorJourneys(env,journeys,{
+              originPoint:roOriginPoint,destinationPoint:roDestPoint,
+              originCity:origin,destinationCity:destination,
+              localPlanner:roDoorPlanner,lang,maxEnrich:4
+            }),
+            mixedExtraFields()
+          ]);
+          let activeGrouped=grouped;
+          if(!selectedAt&&date===bucharestTravelDate(null)){
+            const catchable=enrichedJourneys.filter(j=>Date.parse(j.startDateTime)>=Date.now()-180000);
+            if(catchable.length&&catchable.length<enrichedJourneys.length){
+              const keepOrig=new Set(journeys.filter((_,idx)=>Date.parse(enrichedJourneys[idx]?.startDateTime)>=Date.now()-180000));
+              enrichedJourneys=catchable;
+              activeGrouped={
+                rail:grouped.rail.filter(j=>keepOrig.has(j)),
+                road:grouped.road.filter(j=>keepOrig.has(j)),
+                mixed:grouped.mixed.filter(j=>keepOrig.has(j))
+              };
+            }else if(!catchable.length){
+              const nextDate=new Date(Date.parse(date+'T12:00:00Z')+86400000).toISOString().slice(0,10);
+              const nextRes=await planRomanianNationalJourney(env,{origin,destination},{
+                date:nextDate,vehicle,limit:vehicle==='all'?10:8
+              });
+              const nextVeh=filterRomanianVehicleJourneys(nextRes.journeys||[],vehicle);
+              const nextCity=filterRomanianCityEndpoints(nextVeh,origin,destination);
+              const nextGrp=groupRomanianJourneys(nextCity,requestedOptionsCount);
+              const nextList=vehicle==='all'?[...nextGrp.rail,...nextGrp.road,...nextGrp.mixed]:rankRomanianJourneys(nextCity).slice(0,requestedOptionsCount);
+              if(nextList.length){
+                result=nextRes;date=nextDate;activeGrouped=nextGrp;
+                const nextPlanner=createMixedLocalPlanner({env,dispatch:handleBackendRequest,language:lang,maxCalls:20});
+                enrichedJourneys=await enrichRomanianDoorToDoorJourneys(env,nextList,{
+                  originPoint:roOriginPoint,destinationPoint:roDestPoint,
+                  originCity:origin,destinationCity:destination,
+                  localPlanner:nextPlanner,lang,maxEnrich:4
+                });
+                journeys.splice(0,journeys.length,...nextList);
+              }
+            }
+          }
+          const enrichedByRef=new Map(journeys.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
+          const mapGroup=list=>annotateTransportJourneys(list.map(j=>({...(enrichedByRef.get(j)||j),romanian_national_journey:true})),lang);
+          const hasMappedGeometry=enrichedJourneys.some(j=>j.door_to_door_mapped===true);
+          const reply=romanianJourneySummary(enrichedJourneys,origin,destination,lang);
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
-            transit_available:true,route_available:false,route_geometry_available:false,transit_geometry_available:false,
-            ...await mixedExtraFields(),mixed_journey:true,romanian_national_journey:true,transit:annotateTransportJourneys(journeys.map(j=>({...j,romanian_national_journey:true})),lang),
+            transit_available:true,route_available:false,route_geometry_available:hasMappedGeometry,transit_geometry_available:hasMappedGeometry,
+            ...extraMixed,mixed_journey:true,romanian_national_journey:true,
+            ...(validRoDest?{transit_destination_point:{latitude:Number(roDestPoint.latitude),longitude:Number(roDestPoint.longitude),label:String(roDestPoint.label||destination)}}:{}),
+            transit:annotateTransportJourneys(enrichedJourneys.map(j=>({...j,romanian_national_journey:true})),lang),
             // Structured pages for the UI: one Bilo search, then grouped results.
             transit_pages:vehicle==='all'?{
-              rail:annotateTransportJourneys(grouped.rail.map(j=>({...j,romanian_national_journey:true})),lang),
-              road:annotateTransportJourneys(grouped.road.map(j=>({...j,romanian_national_journey:true})),lang),
-              mixed:annotateTransportJourneys(grouped.mixed.map(j=>({...j,romanian_national_journey:true})),lang)
+              rail:mapGroup(activeGrouped.rail),
+              road:mapGroup(activeGrouped.road),
+              mixed:mapGroup(activeGrouped.mixed)
             }:null,
             transit_page_order:['rail','road','mixed'],
-            fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(journeys)[0],romanian_national_journey:true}],lang)[0],
+            fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(enrichedJourneys)[0],romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,
             rail_replacement_notice:(
