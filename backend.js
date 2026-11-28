@@ -79,7 +79,7 @@ import {planEnglandLocalGtfs,englandLocalGtfsRegion} from "./en_urban_client.mjs
 import {requestedRomanianVehicle,filterRomanianVehicleJourneys,romanianModeNoResultsMessage,rankRomanianJourneys,filterRomanianCityEndpoints,groupRomanianJourneys} from "./ro_transport_mode_policy.mjs";
 import {explicitOriginDestinationPair} from "./route_explicit_origin.mjs";
 import {addRomanianWalkingAccess} from "./ro_urban_walking.mjs";
-import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,bucharestTravelDate,romanianJourneySummary,reverseRomanianOriginCity} from "./ro_national_transit.mjs";
+import {romanianNationalQuery,romanianHistoryJourney,planRomanianNationalJourney,romanianDepartureDate,bucharestTravelDate,romanianJourneySummary,reverseRomanianOriginCity,canonicalizeRomanianCityName} from "./ro_national_transit.mjs";
 import {enrichRomanianDoorToDoorJourneys} from "./ro_door_to_door.mjs";
 import {classifyNewsRequest,requiresLiveNewsRetrieval} from "./response_intent.mjs";
 import {normalizeStorybookRequest,storybookSystemPrompt,storybookUserPrompt,parseStorybookChapters,storybookQualityIssue} from "./storybook_generation.mjs";
@@ -202,7 +202,22 @@ const TRAVEL_POI_RULES=[
  [/^(?:scoala|school|college|universit\w*|ecole|schule|scuola|escuela|escola|szkola|школа)\s+/i,'education'],
  [/^(?:cinema|cinematograf(?:ul)?|teatr(?:ul|u)?|kino|театр|theatre|theater)\s+/i,'entertainment']
 ];
-const TRAVEL_STREET_WORDS=/\b(?:strada|str\.?|street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|way|drive|close|crescent|boulevard|blvd|square|rue|chemin|route|strasse|straße|gasse|via|viale|calle|avenida|rua|straat|ulica)\b|улица|проспект/iu;
+const TRAVEL_STREET_WORDS=/\b(?:strada|str\.?|piața|piata|p-ța|p-ta|calea|bulevardul|bd\.?|b-dul|șoseaua|soseaua|șos\.?|sos\.?|aleea|splaiul|intrarea|pasajul|drumul|street|st\.?|road|rd\.?|lane|ln\.?|avenue|ave\.?|way|drive|close|crescent|boulevard|blvd|square|rue|chemin|route|strasse|straße|gasse|via|viale|calle|avenida|rua|straat|ulica)\b|улица|проспект/iu;
+function houseNumberMatches(candidateHouse,wantedHouse){
+ const cand=String(candidateHouse||'').trim().toLowerCase();
+ const want=String(wantedHouse||'').trim().toLowerCase();
+ if(!want)return true;
+ if(!cand)return false;
+ if(cand===want)return true;
+ const wantNum=want.match(/^(\d+)$/)?.[1];
+ if(wantNum&&cand===wantNum+'a')return false;
+ const range=wantNum?cand.match(/^(\d+)\s*[-/]\s*(\d+)$/):null;
+ if(range){
+  const n=Number(wantNum),a=Number(range[1]),b=Number(range[2]);
+  if(n>=a&&n<=b&&b-a<=6&&(n===a||n===b||b-a<=2||(n-a)%2===0))return true;
+ }
+ return false;
+}
 // Normalize the requested door number before geocoding. A street-only map
 // feature must never count as the numbered destination the user supplied.
 function canonicalTravelHouseNumber(query){
@@ -253,12 +268,14 @@ function travelPlaceCandidateMatches(query,p){
  }
  if(spec.kind==='address'){
   if(spec.postcode)return has(p.postcode||formatted,words(spec.name))&&(!spec.locality||has(formatted,words(spec.locality)));
-  const house=spec.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)(?:\s|,)/i)?.[1];if(house&&String(p.housenumber||'').toLowerCase()!==house.toLowerCase())return false;
+  const house=spec.name.match(/^(\d+[a-z]?(?:[-/]\d+)?)(?:\s|,)/i)?.[1];if(house&&!houseNumberMatches(p.housenumber,house))return false;
   const street=spec.name.replace(/^\d+[a-z]?(?:[-/]\d+)?\s+/i,'');
   const streetWords=v=>words(v)
-   .map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard'}[w]||w))
+   .map(w=>({rd:'road',st:'street',ln:'lane',ave:'avenue',blvd:'boulevard',pta:'piata'}[w]||w))
    .filter(w=>!['strada','str','street','soseaua','sos','calea','aleea','bulevardul','bd','boulevard','road','lane','avenue','drive','close','rue','via','calle'].includes(w));
-  if(!streetWords(street).every(w=>streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:'')).includes(w)))return false;
+  const wantedSw=streetWords(street);
+  const candSw=streetWords(p.street||(/street/i.test(p.result_type||'')?p.name:''));
+  if(!wantedSw.every(w=>candSw.includes(w)))return false;
   return !spec.locality||has(formatted,words(spec.locality));
  }
  return true;
@@ -2087,6 +2104,23 @@ async function handleBackendRequest(request, env, runtime={}) {
         const result=await response.json();
         return Array.isArray(result.results)?result.results:Array.isArray(result.features)?result.features.map(f=>f.properties||{}):[];
       });
+      // Romanian/European squares ("Piața Unirii 1, Oradea") often index compound
+      // door ranges ("1-3") and square geometry under street-first UTF-8 text.
+      if(parsed.kind==='address'&&num&&/\b(?:piața|piata|p-ța|p-ta|square|plaza|platz|place|piazza)\b/iu.test(raw)&&raw!==selected){
+        const streetOnly=parsed.name.replace(/^\d+[a-z]?(?:[-/]\d+)?\s+/i,'').trim();
+        for(const extraText of [raw,parsed.locality?[streetOnly,parsed.locality].join(', '):'']){
+          if(!extraText)continue;
+          promises.push((async()=>{
+            const url=new URL('https://api.geoapify.com/v1/geocode/search');
+            url.searchParams.set('text',extraText);
+            url.searchParams.set('format','json');
+            url.searchParams.set('limit','30');
+            url.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            if(nationalCountry)url.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
+            return geocodeResults(url).catch(()=>[]);
+          })());
+        }
+      }
       // UK station searches use official TfL stop points alongside Geoapify.
       // Commercial premises remain available as landmarks; no category is removed.
       if(nationalCountry==='GB'&&/(?:station|underground|tube|railway|rail)/i.test(selected)&&
@@ -2122,20 +2156,53 @@ async function handleBackendRequest(request, env, runtime={}) {
       }
       const seen=new Set(),candidates=[];
       const norm=value=>String(value||'').normalize('NFD').replace(/\p{M}/gu,'').toLowerCase().replace(/\s+/g,' ').trim();
-      const specificLocality=p=>String(p.village||p.town||p.city||
-        (isSupraLocalLocality(p.municipality)?'':p.municipality)||'').trim();
+      const cleanRoUat=value=>String(value||'').replace(/^(?:municipiul|orașul|orasul|comuna|satul)\s+/iu,'').trim();
+      const specificLocality=p=>{
+        const direct=String(p.village||p.town||'').trim();
+        if(direct)return direct;
+        const cc=String(p.country_code||'').toLowerCase();
+        if(cc==='ro'){
+          const muniRaw=String(p.municipality||'').trim();
+          if(muniRaw&&!isSupraLocalLocality(muniRaw)&&!/^sector(?:ul)?\s*[1-6]$/i.test(norm(muniRaw))){
+            const muni=cleanRoUat(muniRaw);
+            if(muni)return muni;
+          }
+          const distRaw=String(p.district||'').trim();
+          if(/^comuna\s+/iu.test(distRaw)){
+            const comm=cleanRoUat(distRaw);
+            if(comm)return comm;
+          }
+          const lat=Number(p.lat),lon=Number(p.lon);
+          if(norm(p.city)==='oradea'&&Number.isFinite(lat)&&Number.isFinite(lon)&&
+             lat>=46.965&&lat<=47.0175&&lon>=21.945&&lon<=22.025){
+            return 'Sânmartin';
+          }
+        }
+        return String(p.city||(isSupraLocalLocality(p.municipality)?'':p.municipality)||'').trim();
+      };
+      const canonSettle=value=>{
+        const n=normalizeGeoName(value);
+        return ({bucharest:'bucuresti',bukarest:'bucuresti'})[n]||n;
+      };
       const matchesVerifiedPlace=p=>{
+        const settlement=specificLocality(p);
+        const claimedCity=String(p.city||'').trim();
+        if(settlement&&claimedCity&&canonSettle(settlement)!==canonSettle(claimedCity)&&parsed.locality){
+          const locNorm=canonSettle(parsed.locality);
+          const setNorm=canonSettle(settlement);
+          if(locNorm&&!setNorm.startsWith(locNorm)&&!locNorm.split(' ').every(w=>setNorm.split(' ').some(sw=>sw===w||sw.startsWith(w))))return false;
+        }
         if(!partialLocality){
           if(!travelPlaceCandidateMatches(selected,p))return false;
           if(parsed.kind==='poi'&&parsed.locality&&!parsed.locality.includes(',')){
-            const settlement=specificLocality(p);
-            const wantedWords=normalizeGeoName(parsed.locality).split(' ').filter(Boolean);
+            const wantedLoc=canonSettle(parsed.locality);
+            const wantedWords=wantedLoc.split(' ').filter(Boolean);
             const cleanFormatted=normalizeGeoName(String([p.suburb,p.district,p.formatted,p.country].filter(Boolean).join(' '))
               .replace(/\b[\p{L}\p{M}-]+(?:\s+[\p{L}\p{M}-]+)?\s+metropolitan\s+area\b/giu,' ')
               .replace(/\bzona\s+metropolitan[aă]\s+[\p{L}\p{M}-]+\b/giu,' '));
-            const settleNorm=normalizeGeoName(settlement);
-            const settleOk=Boolean(settleNorm)&&(settleNorm===normalizeGeoName(parsed.locality)||
-              settleNorm.startsWith(normalizeGeoName(parsed.locality))||
+            const settleNorm=canonSettle(settlement);
+            const settleOk=Boolean(settleNorm)&&(settleNorm===wantedLoc||
+              settleNorm.startsWith(wantedLoc)||
               wantedWords.every(w=>settleNorm.split(' ').some(sw=>sw===w||sw.startsWith(w))));
             const labelOk=!settleNorm&&wantedWords.every(w=>cleanFormatted.split(' ').some(lw=>lw===w||lw.startsWith(w)));
             const suburbOk=Boolean(p.suburb||p.district)&&wantedWords.every(w=>normalizeGeoName([p.suburb,p.district].filter(Boolean).join(' ')).split(' ').some(sw=>sw===w||sw.startsWith(w)));
@@ -2146,23 +2213,42 @@ async function handleBackendRequest(request, env, runtime={}) {
         // A house in a neighbouring village must not be identified as the
         // requested city because its broader municipality has that name.
         // Use the most specific location supplied by the map provider.
-        const locality=specificLocality(p);
-        if(!locality||!norm(locality).startsWith(norm(partialLocality)))return false;
+        const locality=settlement;
+        if(!locality||!canonSettle(locality).startsWith(canonSettle(partialLocality)))return false;
         return travelPlaceCandidateMatches(parsed.name,p);
       };
+      const streetRefAnchors=[];
+      const requestedStreetName=parsed.kind==='address'?parsed.name.replace(/^\d+[a-z]?(?:[-/]\d+)?\s+/i,'').trim():'';
+      const isSquareAddress=parsed.kind==='address'&&/\b(?:piața|piata|p-ța|p-ta|square|plaza|platz|place|piazza)\b/iu.test(requestedStreetName);
       const collectVerified=answersToCollect=>{
        for(const answer of answersToCollect){
         if(answer.status!=='fulfilled')continue;
         for(const p of answer.value){
           const latitude=Number(p.lat),longitude=Number(p.lon);
           if(!Number.isFinite(latitude)||!Number.isFinite(longitude)||Math.abs(latitude)>90||Math.abs(longitude)>180)continue;
-          // A requested house number requires the SAME provider-confirmed number.
-          // Neither street centre nor a neighbouring building is an exact result.
           if(nationalCountry&&String(p.country_code||'').toUpperCase()!==nationalCountry)continue;
-          if(num&&norm(p.housenumber)!==norm(num))continue;
-          if(!matchesVerifiedPlace(p))continue;
           const settlement=specificLocality(p);
-          const label=String(p.formatted||[p.name,p.housenumber,p.street,settlement||p.city,p.country].filter(Boolean).join(', ')).trim().slice(0,240);
+          if(isSquareAddress&&requestedStreetName&&settlement){
+            const streetCandidate=String(p.street||(/^(?:street|square)$/i.test(String(p.result_type||''))?p.name:'')||'');
+            if(streetCandidate&&normalizeGeoName(streetCandidate)===normalizeGeoName(requestedStreetName)){
+              streetRefAnchors.push({
+                latitude,longitude,city:canonSettle(settlement),
+                isStreetFeature:/^(?:street|square)$/i.test(String(p.result_type||''))&&!p.housenumber
+              });
+            }
+          }
+          // A requested house number requires a provider-confirmed matching number
+          // (exact or verified range such as 1-3 on the same building).
+          if(num&&!houseNumberMatches(p.housenumber,num))continue;
+          if(!matchesVerifiedPlace(p))continue;
+          const claimedCity=String(p.city||'').trim();
+          const cityContradicted=Boolean(settlement&&claimedCity&&canonSettle(settlement)!==canonSettle(claimedCity));
+          const streetLine=[p.street,p.housenumber].filter(Boolean).join(' ').trim();
+          const namePrefix=p.name&&norm(p.name)!==norm(streetLine)&&norm(p.name)!==norm(p.street||'')?String(p.name).trim():'';
+          const rawLabel=cityContradicted
+            ?[namePrefix,streetLine||p.address_line1,settlement,p.country].filter(Boolean).join(', ')
+            :String(p.formatted||[p.name,p.housenumber,p.street,settlement||p.city,p.country].filter(Boolean).join(', '));
+          const label=String(rawLabel).trim().slice(0,240);
           if(!label)continue;
           const key=latitude.toFixed(5)+'|'+longitude.toFixed(5)+'|'+norm(label);
           if(seen.has(key))continue;
@@ -2175,12 +2261,82 @@ async function handleBackendRequest(request, env, runtime={}) {
             suburb:String(p.suburb||p.district||'').slice(0,80),
             kind:String(isTransitCat?'public_transport':(p.result_type||'place')).slice(0,30),source:p.source||'Geoapify',
             stop_id:String(p.stop_id||''),_name:String(p.name||p.brand||'').slice(0,160),
-            _postcode:String(p.postcode||'').slice(0,20),
+            _postcode:cityContradicted?'':String(p.postcode||'').slice(0,20),
             _categories:Array.isArray(p.categories)?p.categories.slice(0,12):[]});
         }
        }
       };
       collectVerified(answers);
+      // Filter mistagged OSM building outliers on squares (e.g. a building 650 m away
+      // on Strada Tudor Vladimirescu tagged addr:street="Piața Unirii", addr:housenumber="1").
+      if(isSquareAddress&&num&&candidates.length&&streetRefAnchors.length){
+        const filteredSquareCandidates=candidates.filter(cand=>{
+          const sameCityRefs=streetRefAnchors.filter(r=>r.city===canonSettle(cand.city));
+          const explicitSquareRefs=sameCityRefs.filter(r=>r.isStreetFeature);
+          const clusterRefs=explicitSquareRefs.length?explicitSquareRefs:
+            sameCityRefs.filter(r=>sameCityRefs.filter(o=>o!==r&&routeGeoDistance(r,o)<=300).length>=1);
+          if(!clusterRefs.length)return true;
+          const minDist=Math.min(...clusterRefs.map(r=>routeGeoDistance(cand,r)));
+          return minDist<=420;
+        });
+        if(filteredSquareCandidates.length){
+          candidates.length=0;
+          candidates.push(...filteredSquareCandidates);
+        }else if(streetRefAnchors.some(r=>r.isStreetFeature)){
+          const sqRef=streetRefAnchors.find(r=>r.isStreetFeature);
+          const nearSquare=[];
+          for(const answer of answers){
+            if(answer.status!=='fulfilled')continue;
+            for(const p of answer.value){
+              const lat=Number(p.lat),lon=Number(p.lon);
+              if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+              if(routeGeoDistance(sqRef,{latitude:lat,longitude:lon})>260)continue;
+              const sc=String(p.street||p.name||'');
+              if(normalizeGeoName(sc)!==normalizeGeoName(requestedStreetName))continue;
+              if(p.housenumber&&new RegExp('^'+num.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'(?:[a-z]|\\s*[-/]\\s*\\d+)?$','i').test(String(p.housenumber).trim())){
+                nearSquare.push(p);
+              }
+            }
+          }
+          if(nearSquare.length){
+            candidates.length=0;
+            for(const p of nearSquare){
+              const settlement=specificLocality(p);
+              const label=String(p.formatted||[p.street,p.housenumber,settlement,p.country].filter(Boolean).join(', ')).trim().slice(0,240);
+              candidates.push({label,latitude:Number(p.lat),longitude:Number(p.lon),city:settlement.slice(0,100),
+                country_code:String(p.country_code||'').toUpperCase().slice(0,2),
+                street:String(p.street||'').slice(0,120),house_number:String(p.housenumber||'').slice(0,20),
+                suburb:String(p.suburb||p.district||'').slice(0,80),
+                kind:String(p.result_type||'building').slice(0,30),source:p.source||'Geoapify',
+                stop_id:'',_name:String(p.name||'').slice(0,160),_postcode:String(p.postcode||'').slice(0,20),_categories:[]});
+            }
+          }else{
+            for(const answer of answers){
+              if(answer.status!=='fulfilled')continue;
+              for(const p of answer.value){
+                const lat=Number(p.lat),lon=Number(p.lon);
+                if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+                if(/^(?:street|square)$/i.test(String(p.result_type||''))&&!p.housenumber&&
+                   normalizeGeoName(p.street||p.name||'')===normalizeGeoName(requestedStreetName)&&
+                   routeGeoDistance(sqRef,{latitude:lat,longitude:lon})<=80){
+                  const settlement=specificLocality(p);
+                  const sqName=String(p.street||p.name||requestedStreetName).trim();
+                  const label=[sqName+' '+num,settlement,p.country||'Romania'].filter(Boolean).join(', ');
+                  candidates.length=0;
+                  candidates.push({label,latitude:lat,longitude:lon,city:settlement.slice(0,100),
+                    country_code:String(p.country_code||'').toUpperCase().slice(0,2),
+                    street:sqName.slice(0,120),house_number:String(num).slice(0,20),
+                    suburb:String(p.suburb||p.district||'').slice(0,80),
+                    kind:'building',source:p.source||'Geoapify',
+                    stop_id:'',_name:'',_postcode:String(p.postcode||'').slice(0,20),_categories:[]});
+                  break;
+                }
+              }
+              if(candidates.length===1&&routeGeoDistance(candidates[0],sqRef)<=80)break;
+            }
+          }
+        }
+      }
       // Named POIs without locality: always query UTF-8 search/autocomplete and,
       // when forward geocoding only surfaces one regional branch (e.g. Beiuș for
       // "Muzeul Țării Crișurilor" while Oradea is indexed in /v2/places), expand
@@ -4439,12 +4595,14 @@ async function handleBackendRequest(request, env, runtime={}) {
       }
       if(roTransitQuery && (env.BILO_API_KEY || !env.MOTIS_API_BASE_URL) &&
          (!data.national_public_transport||authorizedNationalProvider==='ro_national_transit')){
-        const origin=data.national_public_transport===true
+        const rawOrigin=data.national_public_transport===true
           ?await reverseRomanianOriginCity(env,{latitude,longitude})
           :roTransitQuery.origin || await reverseRomanianOriginCity(env,hasValidLocation?{latitude,longitude}:null);
-        const destination=data.national_public_transport===true
+        const rawDestination=data.national_public_transport===true
           ?String(data.transit_destination?.city||data.transit_destination?.label||'').trim()
-          :roTransitQuery.destination;
+          :(roTransitQuery.destination || (data.transit_destination?await reverseRomanianOriginCity(env,data.transit_destination):''));
+        const origin=canonicalizeRomanianCityName(rawOrigin)||rawOrigin;
+        const destination=canonicalizeRomanianCityName(rawDestination)||rawDestination;
         if(!origin||!destination){
           const reply=lang==='en'
             ?'For a verified trip in Romania, tell me the departure and arrival city (for example: train from Oradea to Cluj-Napoca).'
@@ -4501,13 +4659,14 @@ async function handleBackendRequest(request, env, runtime={}) {
             Number.isFinite(Number(roDestPoint.latitude))&&Number.isFinite(Number(roDestPoint.longitude));
           const extraOverrides={
             ...(roOriginPoint?{origin:{...roOriginPoint,city:roOriginPoint.city||origin,country_code:roOriginPoint.country_code||'RO'}}:{}),
-            ...(roDestPoint?{destination:{...roDestPoint,city:roDestPoint.city||destination,country_code:roDestPoint.country_code||'RO'}}:{})
+            ...(roDestPoint?{destination:{...roDestPoint,city:roDestPoint.city||destination,country_code:roDestPoint.country_code||'RO'}}:{}),
+            includeGroundDiscovery:false
           };
           let [enrichedJourneys,extraMixed]=await Promise.all([
             enrichRomanianDoorToDoorJourneys(env,journeys,{
               originPoint:roOriginPoint,destinationPoint:roDestPoint,
               originCity:origin,destinationCity:destination,
-              lang,maxEnrich:8,maxSubrequests:26
+              lang,maxEnrich:8,maxSubrequests:36
             }).catch(()=>journeys),
             mixedExtraFields(extraOverrides).catch(()=>({}))
           ]);

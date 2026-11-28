@@ -73,19 +73,43 @@ const priced = item => {
 // Rank unverified flight suggestions for exploration, NOT confirmed travel.
 // A direct flight is preferable to an unnecessary 2-3 connection detour.
 // Provider duration is preferred to subtraction of two different local clocks.
-export function rankMixedFlightCandidates(candidates,{max=12}={}){
+export function rankMixedFlightCandidates(candidates,{max=12,airportCandidates=null}={}){
  const seen=new Set(),distinct=[];
  for(const item of Array.isArray(candidates)?candidates:[]){
   if(!Array.isArray(item?.legs)||!item.legs.length)continue;
   const key=signature(item);if(!key||seen.has(key))continue;
   seen.add(key);distinct.push(item);
  }
+ const originDist=new Map(),destDist=new Map();
+ for(const a of Array.isArray(airportCandidates?.origin)?airportCandidates.origin:[]){
+  const c=String(a?.iata||'').toUpperCase();
+  if(code(c)&&a?.distanceMeters!=null&&Number.isFinite(Number(a.distanceMeters)))
+   originDist.set(c,Number(a.distanceMeters));
+ }
+ for(const a of Array.isArray(airportCandidates?.destination)?airportCandidates.destination:[]){
+  const c=String(a?.iata||'').toUpperCase();
+  if(code(c)&&a?.distanceMeters!=null&&Number.isFinite(Number(a.distanceMeters)))
+   destDist.set(c,Number(a.distanceMeters));
+ }
+ const groundPenaltyMinutes=item=>{
+  const depCode=String(item?.legs?.[0]?.from||'').toUpperCase();
+  const arrCode=String(item?.legs?.at(-1)?.to||'').toUpperCase();
+  const d1=originDist.get(depCode),d2=destDist.get(arrCode);
+  if(d1===undefined&&d2===undefined)return null;
+  const km=((d1||0)+(d2||0))/1000;
+  return Math.round(km*1.1);
+ };
  distinct.sort((a,b)=>{
   const aStops=a.legs.length-1,bStops=b.legs.length-1;
   if(aStops!==bStops)return aStops-bStops;
   const aDuration=Number(a.totalFlightDurationMinutes),bDuration=Number(b.totalFlightDurationMinutes);
   const da=Number.isFinite(aDuration)&&aDuration>0?aDuration:Infinity;
   const db=Number.isFinite(bDuration)&&bDuration>0?bDuration:Infinity;
+  const ga=groundPenaltyMinutes(a),gb=groundPenaltyMinutes(b);
+  if(ga!==null&&gb!==null&&Number.isFinite(da)&&Number.isFinite(db)){
+   const effA=da+ga,effB=db+gb;
+   if(Math.abs(effA-effB)>=12)return effA-effB;
+  }
   if(da!==db)return da-db;
   if(priced(a)!==priced(b))return priced(a)-priced(b);
   return String(a.legs[0].startLocal||'').localeCompare(String(b.legs[0].startLocal||''));
@@ -233,7 +257,7 @@ export async function discoverMixedFlightCandidates(env,{origin,destination,depa
   if(foundThisDay||!['candidate_results_only','provider_error'].includes(lastStatus))break;
  }
  return {status:all.length?'candidate_results_only':lastStatus,
-  candidates:rankMixedFlightCandidates(all,{max:20}),datesChecked,
+  candidates:rankMixedFlightCandidates(all,{max:20,airportCandidates}),datesChecked,
   departureAirports,arrivalAirports,borderAirport,airportCandidates,providerSearchCount:queries,
   searchIncomplete:controller.signal.aborted||queryBudgetExhausted||airportQueryRejected||lastStatus!=='candidate_results_only',
   airportQueryRejected,

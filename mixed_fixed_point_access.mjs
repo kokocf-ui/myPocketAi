@@ -45,7 +45,13 @@ export async function planFixedPointBoardingAccess(env,{
  };
  // Near-by provider searches are more useful than a midnight search for a
  // 06:00 flight. Each one remains bounded to four source-backed options.
- const candidates=[deadline-4*3600000,deadline-2*3600000]
+ const rad=Math.PI/180,dLat=(+boardingPoint.latitude-+origin.latitude)*rad,dLon=(+boardingPoint.longitude-+origin.longitude)*rad;
+ const h=Math.sin(dLat/2)**2+Math.cos(+origin.latitude*rad)*Math.cos(+boardingPoint.latitude*rad)*Math.sin(dLon/2)**2;
+ const distKm=12742*Math.atan2(Math.sqrt(h),Math.sqrt(Math.max(0,1-h)));
+ const offsets=distKm>=85&&deadline-earliest>=6*3600000
+  ?[deadline-6.5*3600000,deadline-4*3600000,deadline-2*3600000]
+  :[deadline-4*3600000,deadline-2*3600000];
+ const candidates=offsets
   .map(v=>Math.max(earliest,now-120000,v))
   .filter((v,i,all)=>v<deadline-300000&&all.indexOf(v)===i);
  if(!candidates.length)return {status:'boarding_deadline_infeasible',

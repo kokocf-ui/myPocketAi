@@ -87,8 +87,22 @@ export function localAirportInstant(local,zoneName,offsetSeconds){
 export async function resolveAirportZone(env,airport,at,{
  fetcher=fetch,signal=null
 }={}){
+ if(!validPoint(airport)||!validIso(at))return null;
+ if(fetcher===fetch&&String(airport?.country_code||'').toUpperCase()==='RO'){
+  try{
+   const dt=new Date(Date.parse(at));
+   const tzPart=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',timeZoneName:'shortOffset'})
+    .formatToParts(dt).find(p=>p.type==='timeZoneName')?.value||'';
+   const m=tzPart.match(/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/);
+   if(m){
+    const sign=m[1]==='-'?-1:1;
+    const offsetSeconds=sign*(Number(m[2])*3600+Number(m[3]||0)*60);
+    return {name:'Europe/Bucharest',offsetSeconds};
+   }
+  }catch{}
+ }
  const key=String(env?.GEOAPIFY_API_KEY||'');
- if(!key||!validPoint(airport)||!validIso(at))return null;
+ if(!key)return null;
  const url=new URL('https://api.geoapify.com/v1/timezone');
  url.searchParams.set('lat',String(airport.latitude));
  url.searchParams.set('lon',String(airport.longitude));

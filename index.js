@@ -22965,26 +22965,34 @@ async function openTransitJourneyMap(selected,resume=null){
   if(selected.accessRoute&&validMapRoute(selected.accessRoute)){
    walkRoutes.set(-1,selected.accessRoute);current.drawAccess?.(selected.accessRoute);
    if(!(journey.legs||[]).length||!transitWalkLeg(journey.legs?.[0]?.mode)){
-    accessStage.replaceChildren();accessStage.hidden=false;
-    const wTitle=document.createElement('strong');
-    wTitle.textContent='📌 '+transitAccessText()[22];
-    const wPlace=document.createElement('div');
-    wPlace.textContent=String(state.lastTransitChoice?.journeyOrigin?.label||dialogText('Poziția mea','My location'))+
-     ' → '+String(journey.boarding_stop?.label||journey.legs?.[0]?.from||'');
-    const wMeta=document.createElement('small');wMeta.style.display='block';
-    wMeta.textContent='📌 '+formatNavigationKilometers(selected.accessRoute.distanceMeters||0,state.language)+
-     (Number.isFinite(selected.accessRoute.durationSeconds)?' · '+formatTravelDurationMinutes(selected.accessRoute.durationSeconds/60):'');
-    const wState=document.createElement('p');wState.className='transit-walk-stage-status';
-    wState.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');
-    accessStage.append(wTitle,wPlace,wState,wMeta);
-    const wSteps=document.createElement('ol');wSteps.className='transit-walking-instructions';
-    for(const step of selected.accessRoute.steps||[]){
-     if(!step?.text)continue;
-     const li=document.createElement('li');
-     li.textContent=step.text+(Number.isFinite(Number(step.distanceMeters))&&Number(step.distanceMeters)>0?' · '+formatNavigationKilometers(step.distanceMeters,state.language):'');
-     wSteps.append(li);
+    const originShort=String(state.lastTransitChoice?.journeyOrigin?.label||dialogText('Poziția mea','My location')).trim();
+    const targetShort=String(journey.boarding_stop?.label||journey.legs?.[0]?.from||'').trim();
+    const normStageLabel=v=>String(v||'').split(',')[0].normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
+    const sameStageEndpoint=Boolean(originShort&&targetShort&&normStageLabel(originShort)===normStageLabel(targetShort));
+    if(!sameStageEndpoint||Number(selected.accessRoute.distanceMeters||0)>=35){
+     accessStage.replaceChildren();accessStage.hidden=false;
+     const wTitle=document.createElement('strong');
+     wTitle.textContent='📌 '+transitAccessText()[22];
+     const wPlace=document.createElement('div');
+     const resolvedTarget=sameStageEndpoint
+      ?String(journey.legs?.find(l=>!transitWalkLeg(l?.mode))?.from||dialogText('Stație de îmbarcare','Boarding stop')).trim()
+      :targetShort;
+     wPlace.textContent=originShort+(resolvedTarget&&normStageLabel(resolvedTarget)!==normStageLabel(originShort)?' → '+resolvedTarget:'');
+     const wMeta=document.createElement('small');wMeta.style.display='block';
+     wMeta.textContent='📌 '+formatNavigationKilometers(selected.accessRoute.distanceMeters||0,state.language)+
+      (Number.isFinite(selected.accessRoute.durationSeconds)?' · '+formatTravelDurationMinutes(selected.accessRoute.durationSeconds/60):'');
+     const wState=document.createElement('p');wState.className='transit-walk-stage-status';
+     wState.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');
+     accessStage.append(wTitle,wPlace,wState,wMeta);
+     const wSteps=document.createElement('ol');wSteps.className='transit-walking-instructions';
+     for(const step of selected.accessRoute.steps||[]){
+      if(!step?.text)continue;
+      const li=document.createElement('li');
+      li.textContent=step.text+(Number.isFinite(Number(step.distanceMeters))&&Number(step.distanceMeters)>0?' · '+formatNavigationKilometers(step.distanceMeters,state.language):'');
+      wSteps.append(li);
+     }
+     if(wSteps.children.length)accessStage.append(wSteps);
     }
-    if(wSteps.children.length)accessStage.append(wSteps);
    }
   }
  };

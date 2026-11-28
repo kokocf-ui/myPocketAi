@@ -526,11 +526,55 @@ function materializeLocalJourneyLegs(journey,fromPt,toPt,maxRadiusM=350){
 
 const osmUrbanCache=new Map();
 
+const RO_AIRPORT_TERMINALS=Object.freeze([
+  {iata:'OTP',latitude:44.5707,longitude:26.0744,label:'Aeroportul Internațional Henri Coandă București'},
+  {iata:'BBU',latitude:44.4961,longitude:26.0825,label:'Aeroportul Internațional București Băneasa'},
+  {iata:'OMR',latitude:47.0315,longitude:21.9038,label:'Aeroportul Internațional Oradea'},
+  {iata:'CLJ',latitude:46.7821,longitude:23.6869,label:'Aeroportul Internațional Avram Iancu Cluj'},
+  {iata:'TSR',latitude:45.8086,longitude:21.3279,label:'Aeroportul Internațional Traian Vuia Timișoara'},
+  {iata:'IAS',latitude:47.1785,longitude:27.6206,label:'Aeroportul Internațional Iași'},
+  {iata:'SBZ',latitude:45.7874,longitude:24.0913,label:'Aeroportul Internațional Sibiu'},
+  {iata:'GHV',latitude:45.7042,longitude:25.5249,label:'Aeroportul Internațional Brașov-Ghimbav'},
+  {iata:'BAY',latitude:47.6584,longitude:23.4701,label:'Aeroportul Internațional Maramureș'},
+  {iata:'SUJ',latitude:47.6875,longitude:26.3541,label:'Aeroportul Internațional Ștefan cel Mare Suceava'},
+  {iata:'BCM',latitude:46.5219,longitude:26.9103,label:'Aeroportul Internațional George Enescu Bacău'},
+  {iata:'CRA',latitude:44.3181,longitude:23.8886,label:'Aeroportul Internațional Craiova'},
+  {iata:'TGM',latitude:46.4677,longitude:24.4125,label:'Aeroportul Internațional Transilvania Târgu Mureș'},
+  {iata:'CND',latitude:44.3622,longitude:28.4883,label:'Aeroportul Internațional Mihail Kogălniceanu'},
+  {iata:'SMJ',latitude:47.7033,longitude:22.8857,label:'Aeroportul Internațional Satu Mare'},
+  {iata:'ARW',latitude:46.1766,longitude:21.2620,label:'Aeroportul Internațional Arad'}
+]);
+
+export function snapRomanianAirportTerminal(pt){
+  const ll=toLatLon(pt);
+  if(!ll||!inRomaniaApprox(ll))return pt;
+  const code=String(pt?.iata||'').trim().toUpperCase();
+  const text=String(pt?.name||pt?.label||'');
+  const isAirportLike=Boolean(code)||/\b(?:aeroport\w*|airport|henri coand|avram iancu|traian vuia)\b/i.test(text);
+  if(!isAirportLike)return pt;
+  for(const term of RO_AIRPORT_TERMINALS){
+    const d=pointDistanceMeters(ll,term);
+    if((code&&code===term.iata&&d<=3500)||(!code&&d<=2400)){
+      if(d<=1050){
+        return {...pt,latitude:term.latitude,longitude:term.longitude,label:String(pt?.label||pt?.name||term.label)};
+      }
+      const ratio=1050/d;
+      return {
+        ...pt,
+        latitude:ll.latitude+(term.latitude-ll.latitude)*ratio,
+        longitude:ll.longitude+(term.longitude-ll.longitude)*ratio,
+        label:String(pt?.label||pt?.name||term.label)
+      };
+    }
+  }
+  return pt;
+}
+
 async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
   latestArrivalMs=null,earliestStartMs=null,lang='ro',fetchImpl=defaultFetch,inflight=null
 }={}){
   const dist=pointDistanceMeters(fromPt,toPt);
-  if(!Number.isFinite(dist)||dist<1400||dist>16000)return null;
+  if(!Number.isFinite(dist)||dist<1350||dist>36000)return null;
   const allowFallback=env?.RO_OSM_URBAN_FALLBACK==='true'||
     (env?.RO_OSM_URBAN_FALLBACK!=='false'&&(typeof env?.RO_URBAN_VPC?.fetch==='function'||Boolean(env?.RO_URBAN_API_URL)));
   if(!allowFallback)return null;
@@ -540,7 +584,7 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
   let topo=osmUrbanCache.get(gridKey);
   if(!topo||topo.until<=Date.now()){
     topo=await withInflight(inflight,'osm-urban:'+gridKey,async()=>{
-      const q=`[out:json][timeout:4];(node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["public_transport"~"stop_position|platform"];node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["highway"="bus_stop"];node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["railway"="tram_stop"];)->.starts;(node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["public_transport"~"stop_position|platform"];node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["highway"="bus_stop"];node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["railway"="tram_stop"];)->.ends;rel(bn.starts)["type"="route"]["route"~"^(tram|bus|trolleybus|subway|light_rail)$"]->.r1;rel.r1(bn.ends)->.direct;node(r.direct)->.rnodes;(.starts;.ends;.direct;.rnodes;);out body;`;
+      const q=`[out:json][timeout:5];(nwr(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["public_transport"~"stop_position|platform"];node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["highway"="bus_stop"];node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["railway"~"tram_stop|station|halt"];)->.starts;(nwr(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["public_transport"~"stop_position|platform"];node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["highway"="bus_stop"];node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["railway"~"tram_stop|station|halt"];)->.ends;rel(bn.starts)["type"="route"]["route"~"^(tram|bus|trolleybus|subway|light_rail|train)$"]->.r1n;rel(bw.starts)["type"="route"]["route"~"^(tram|bus|trolleybus|subway|light_rail|train)$"]->.r1w;(.r1n;.r1w;)->.r1;(rel.r1(bn.ends);rel.r1(bw.ends);)->.direct;node(r.direct)->.rnodes;way(r.direct:"platform")->.rways;(.starts;.ends;.direct;.rnodes;.rways;);out body center;`;
       let elements=null;
       for(const endpoint of ['https://overpass.private.coffee/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
         try{
@@ -548,7 +592,7 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
             method:'POST',
             headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8','Accept':'application/json'},
             body:'data='+encodeURIComponent(q),
-            signal:AbortSignal.timeout(4200)
+            signal:AbortSignal.timeout(5200)
           });
           if(!res.ok)continue;
           const json=await res.json();
@@ -557,12 +601,14 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
       }
       if(!elements){return null;}
       const nodes=new Map();
+      const ways=new Map();
       const rels=[];
       for(const el of elements){
         if(el?.type==='node'&&Number.isFinite(el.lat)&&Number.isFinite(el.lon))nodes.set(el.id,el);
+        else if(el?.type==='way'&&Number.isFinite(el.center?.lat)&&Number.isFinite(el.center?.lon))ways.set(el.id,{...el,lat:el.center.lat,lon:el.center.lon});
         else if(el?.type==='relation'&&Array.isArray(el.members))rels.push(el);
       }
-      const modeMap={tram:'tram',light_rail:'tram',bus:'bus',trolleybus:'trolleybus',subway:'metro'};
+      const modeMap={tram:'tram',light_rail:'tram',bus:'bus',trolleybus:'trolleybus',subway:'metro',train:'train'};
       let best=null;
       for(const rel of rels){
         const tags=rel.tags||{};
@@ -570,8 +616,9 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
         const ref=String(tags.ref||tags.name||'').trim().slice(0,40);
         if(!mode||!ref)continue;
         const stopMembers=rel.members
-          .filter(m=>m?.type==='node'&&nodes.has(m.ref)&&!/^(?:way|track)$/i.test(String(m.role||'')))
-          .map(m=>nodes.get(m.ref));
+          .filter(m=>!/^(?:way|track|forward|backward|)$/i.test(String(m?.role||'stop'))||(m?.type==='node'&&Boolean(nodes.get(m.ref)?.tags&&(nodes.get(m.ref).tags.public_transport||nodes.get(m.ref).tags.highway==='bus_stop'||nodes.get(m.ref).tags.railway||nodes.get(m.ref).tags.name))))
+          .map(m=>m?.type==='node'?nodes.get(m.ref):m?.type==='way'?ways.get(m.ref):null)
+          .filter(Boolean);
         if(stopMembers.length<2)continue;
         for(let i=0;i<stopMembers.length-1;i++){
           const aNode=stopMembers[i];
@@ -679,8 +726,8 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
     }
   }
 
-  // Secondary multimodal fallback via Geoapify approximated_transit for 1-transfer suburban/metropolitan links (>2.2 km)
-  if(env?.GEOAPIFY_API_KEY&&dist>2200){
+  // Secondary multimodal fallback via Geoapify approximated_transit for 0/1/2-transfer urban & airport links (>=1.35 km)
+  if(env?.GEOAPIFY_API_KEY&&dist>=1350){
     try{
       const gKey='geo-transit:'+[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),lang].join('|');
       const feat=await withInflight(inflight,gKey,async()=>{
@@ -690,21 +737,21 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
         u.searchParams.set('details','instruction_details,route_details');
         u.searchParams.set('lang',['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'ro');
         u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
-        const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(4500)});
+        const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5500)});
         if(!r.ok)return null;
         const data=await r.json();
         return data?.features?.[0]||null;
       });
-      const rawSteps=feat?.properties?.legs?.[0]?.steps;
+      const rawSteps=(feat?.properties?.legs||[]).flatMap(leg=>Array.isArray(leg?.steps)?leg.steps:[]);
       const allCoords=feat?.geometry?.type==='MultiLineString'
-        ?(Array.isArray(feat.geometry.coordinates[0])?feat.geometry.coordinates[0]:feat.geometry.coordinates.flat())
+        ?(Array.isArray(feat.geometry.coordinates?.[0]?.[0])?feat.geometry.coordinates.flat(1):feat.geometry.coordinates)
         :feat?.geometry?.type==='LineString'?feat.geometry.coordinates:[];
       if(Array.isArray(rawSteps)&&rawSteps.length>=2&&allCoords.length>=2){
         const groups=[];
         for(const st of rawSteps){
           const rawM=String(st?.travel_mode||st?.mode||'').toLowerCase();
           const isW=/^(?:walk|walking|foot|pedestrian)$/.test(rawM);
-          const tMode=isW?'walking':/tram|light_rail/.test(rawM)?'tram':/trolley/.test(rawM)?'trolleybus':/subway|metro/.test(rawM)?'metro':'bus';
+          const tMode=isW?'walking':/tram|light_rail/.test(rawM)?'tram':/trolley/.test(rawM)?'trolleybus':/subway|metro/.test(rawM)?'metro':/train|rail/.test(rawM)?'train':'bus';
           const line=String(st?.transit?.short_name||st?.transit?.name||st?.route?.short_name||st?.line||'').trim().slice(0,36);
           const fIdx=Math.max(0,Number(st?.from_index)||0);
           const tIdx=Math.min(allCoords.length-1,Math.max(fIdx+1,Number(st?.to_index)||fIdx+1));
@@ -732,17 +779,22 @@ async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
         }
         const hasTransit=groups.some(g=>g.mode!=='walking');
         const walkMeters=groups.filter(g=>g.mode==='walking').reduce((s,g)=>s+g.meters,0);
-        if(hasTransit&&walkMeters<dist*0.8){
+        if(hasTransit&&walkMeters<dist*0.85){
           const totalSec=groups.reduce((s,g)=>s+Math.max(60,g.seconds),0)+480;
           let cursorMs=latestArrivalMs!==null?(latestArrivalMs-totalSec*1000):((earliestStartMs??Date.now())+240000);
+          const stopFallback=line=>line?(lang==='en'?'Stop '+line:'Stația liniei '+line):(lang==='en'?'Local stop':'Stație locală');
           const built=groups.map((g,idx)=>{
             const aC=g.coords[0],bC=g.coords.at(-1);
             const durMin=Math.max(1,Math.ceil(g.seconds/60));
             const depIso=new Date(cursorMs).toISOString();
             cursorMs+=durMin*60000+(g.mode!=='walking'?180000:0);
             const arrIso=new Date(cursorMs).toISOString();
-            const fromLbl=idx===0?String(fromPt.label||'Plecarea'):(g.fromStop||groups[idx-1]?.toStop||'Stație locală');
-            const toLbl=idx===groups.length-1?String(toPt.label||'Destinația'):(g.toStop||groups[idx+1]?.fromStop||'Stație locală');
+            const fromLbl=(idx===0&&g.mode==='walking')
+              ?String(fromPt.label||'Plecarea')
+              :(g.fromStop||groups[idx-1]?.toStop||stopFallback(g.line||groups[idx-1]?.line));
+            const toLbl=(idx===groups.length-1&&g.mode==='walking')
+              ?String(toPt.label||'Destinația')
+              :(g.toStop||groups[idx+1]?.fromStop||stopFallback(g.line||groups[idx+1]?.line));
             return {
               mode:g.mode,
               lineNames:g.mode==='walking'?[]:(g.line?[g.line]:[]),
@@ -788,13 +840,23 @@ async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
         .filter((t,i,arr)=>Number.isFinite(t)&&(i===0||Math.abs(t-arr[0])>=15*60000))
     :[departureAtMs];
   let scored=[];
+  let routeOnlyPick=null;
   for(const windowMs of candidateWindows){
     const bucketKey='urban:'+[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),
       toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),Math.floor(windowMs/600000)].join('|');
     const oracleRes=await withInflight(inflight,bucketKey,()=>planRomanianUrbanViaOracle(env,{
       from:fromPt,to:toPt,departureAt:new Date(windowMs).toISOString(),limit:8,verifiedCountry:'RO',maxStraightLineMeters:950
     },{fetchImpl}));
-    if(!oracleRes||oracleRes.status==='feed_not_loaded'||oracleRes.status==='route_only')break;
+    if(!oracleRes||oracleRes.status==='feed_not_loaded')break;
+    if(oracleRes.status==='route_only'){
+      for(const j of Array.isArray(oracleRes.journeys)?oracleRes.journeys:[]){
+        const legs=Array.isArray(j?.legs)?j.legs:[];
+        const aPt=toLatLon(j?.access||legs[0]?.departurePoint);
+        const ePt=toLatLon(j?.egress||legs.at(-1)?.arrivalPoint||legs.at(-1)?.arrivalLatLon);
+        if(legs.length&&aPt&&ePt){routeOnlyPick={j,aPt,ePt};break;}
+      }
+      break;
+    }
     if(!Array.isArray(oracleRes.journeys)||!oracleRes.journeys.length)continue;
     scored=oracleRes.journeys.map(j=>{
       const legs=Array.isArray(j.legs)?j.legs:[];
@@ -816,6 +878,39 @@ async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
       latestArrivalMs!==null?(b.estEnd-a.estEnd||b.estStart-a.estStart):(a.estEnd-b.estEnd||a.estStart-b.estStart)
     );
     if(scored.length)break;
+  }
+  if(!scored.length&&routeOnlyPick){
+    const {j,aPt,ePt}=routeOnlyPick;
+    const rawLegs=j.legs;
+    const rideTotalMin=Math.max(6*rawLegs.length,Math.ceil(pointDistanceMeters(aPt,ePt)/290)+4*rawLegs.length);
+    const estWalkAMin=Math.max(2,Math.ceil((pointDistanceMeters(fromPt,aPt)*1.35)/72));
+    const estWalkEMin=Math.max(2,Math.ceil((pointDistanceMeters(ePt,toPt)*1.35)/72));
+    const waitMin=8;
+    const vehStartMs=latestArrivalMs!==null
+      ?(latestArrivalMs-(estWalkEMin+4+rideTotalMin)*60000)
+      :((earliestStartMs??departureAtMs??Date.now())+(estWalkAMin+waitMin)*60000);
+    const perLegMin=Math.max(5,Math.ceil(rideTotalMin/rawLegs.length));
+    let curMs=vehStartMs;
+    const timedLegs=rawLegs.map(l=>{
+      const dIso=new Date(curMs).toISOString();
+      curMs+=perLegMin*60000;
+      const aIso=new Date(curMs).toISOString();
+      curMs+=3*60000;
+      return {
+        ...l,
+        departureTime:dIso,
+        arrivalTime:aIso,
+        durationMinutes:perLegMin,
+        operator:(l.operator?l.operator+' · ':'')+(lang==='en'?'GTFS local line (indicative headway)':'linie locală GTFS (frecvență orientativă)'),
+        localScheduleEstimated:true
+      };
+    });
+    const firstDep=Date.parse(timedLegs[0].departureTime);
+    const lastArr=Date.parse(timedLegs.at(-1).arrivalTime);
+    scored=[{
+      j:{...j,legs:timedLegs},aPt,ePt,firstDep,lastArr,
+      estStart:firstDep-estWalkAMin*60000,estEnd:lastArr+estWalkEMin*60000
+    }];
   }
   if(!scored.length)return null;
 
@@ -849,9 +944,47 @@ async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
   return full;
 }
 
+export async function planRomanianAirportOrUrbanConnection(env,fromPoint,toPoint,{
+  departureAt=null,latestArrival=null,lang='ro',fetchImpl=defaultFetch
+}={}){
+  const rawFrom=toLatLon(fromPoint),rawTo=toLatLon(toPoint);
+  if(!rawFrom||!rawTo||!inRomaniaApprox(rawFrom)||!inRomaniaApprox(rawTo))return null;
+  const dist=pointDistanceMeters(rawFrom,rawTo);
+  if(!Number.isFinite(dist)||dist<80||dist>48000)return null;
+  const fromSnap=snapRomanianAirportTerminal({...fromPoint,...rawFrom,label:String(fromPoint?.label||fromPoint?.name||'Plecarea')});
+  const toSnap=snapRomanianAirportTerminal({...toPoint,...rawTo,label:String(toPoint?.label||toPoint?.name||'Destinația')});
+  const earliestStartMs=departureAt&&Number.isFinite(Date.parse(departureAt))?Date.parse(departureAt):Date.now();
+  const latestArrivalMs=latestArrival&&Number.isFinite(Date.parse(latestArrival))?Date.parse(latestArrival):null;
+  const departureAtMs=latestArrivalMs!==null?Math.max(earliestStartMs,latestArrivalMs-75*60000):earliestStartMs;
+  const inflight=new Map();
+  let legs=await planDirectRomanianUrbanSegment(env,fromSnap,toSnap,{
+    departureAtMs,latestArrivalMs,earliestStartMs,lang,fetchImpl,inflight
+  }).catch(()=>null);
+  if(!legs?.length&&dist>=1200){
+    const fallbackEnv=env?.GEOAPIFY_API_KEY?{...env,RO_OSM_URBAN_FALLBACK:'true'}:env;
+    legs=await planOsmUrbanTransitSegment(fallbackEnv,fromSnap,toSnap,{
+      latestArrivalMs,earliestStartMs,lang,fetchImpl,inflight
+    }).catch(()=>null);
+  }
+  if(!legs?.length)return null;
+  const startDateTime=legs[0].departureTime;
+  const arrivalDateTime=legs.at(-1).arrivalTime;
+  const durationMinutes=Math.max(1,Math.round((Date.parse(arrivalDateTime)-Date.parse(startDateTime))/60000));
+  if(!Number.isFinite(durationMinutes))return null;
+  return {
+    provider:'Romania Urban Transit',
+    time_zone:'Europe/Bucharest',
+    startDateTime,
+    arrivalDateTime,
+    durationMinutes,
+    scheduled:true,
+    legs
+  };
+}
+
 export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
   originPoint=null,destinationPoint=null,originCity='',destinationCity='',
-  localPlanner=null,lang='ro',maxEnrich=8,maxSubrequests=22,fetchImpl=defaultFetch
+  localPlanner=null,lang='ro',maxEnrich=8,maxSubrequests=36,fetchImpl=defaultFetch
 }={}){
   if(!Array.isArray(journeys)||!journeys.length)return journeys;
   const inflight=new Map();
@@ -862,12 +995,14 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
     return fetchImpl(input,init);
   };
   try{
-  const orig=validPoint(originPoint)&&inRomaniaApprox(toLatLon(originPoint))
-    ?{...toLatLon(originPoint),label:String(originPoint.label||originCity||'Plecarea').trim(),city:originPoint.city||originCity,country_code:'RO'}
+  const origRaw=validPoint(originPoint)&&inRomaniaApprox(toLatLon(originPoint))
+    ?{...originPoint,...toLatLon(originPoint),label:String(originPoint.label||originPoint.name||originCity||'Plecarea').trim(),city:originPoint.city||originCity,country_code:'RO'}
     :null;
-  const dest=validPoint(destinationPoint)&&inRomaniaApprox(toLatLon(destinationPoint))
-    ?{...toLatLon(destinationPoint),label:String(destinationPoint.label||destinationCity||'Destinația').trim(),city:destinationPoint.city||destinationCity,country_code:'RO'}
+  const destRaw=validPoint(destinationPoint)&&inRomaniaApprox(toLatLon(destinationPoint))
+    ?{...destinationPoint,...toLatLon(destinationPoint),label:String(destinationPoint.label||destinationPoint.name||destinationCity||'Destinația').trim(),city:destinationPoint.city||destinationCity,country_code:'RO'}
     :null;
+  const orig=origRaw?snapRomanianAirportTerminal(origRaw):null;
+  const dest=destRaw?snapRomanianAirportTerminal(destRaw):null;
   if(!orig&&!dest)return journeys;
 
   const limitCount=Math.max(1,Math.min(10,maxEnrich));
@@ -946,7 +1081,7 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             latestArrivalMs:latestArrMs,earliestStartMs:nowMs-120000,lang,fetchImpl:budgetedFetch,inflight
           });
           if(urbanLegs?.length)return urbanLegs;
-          if(dist>1400){
+          if(dist>=1350){
             const osmLegs=await planOsmUrbanTransitSegment(env,orig,boardingTarget,{
               latestArrivalMs:latestArrMs,earliestStartMs:nowMs-120000,lang,fetchImpl:budgetedFetch,inflight
             });
@@ -984,7 +1119,7 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             earliestStartMs:lastArrMs+4*60000,lang,fetchImpl:budgetedFetch,inflight
           });
           if(urbanLegs?.length)return urbanLegs;
-          if(dist>1400){
+          if(dist>=1350){
             const osmLegs=await planOsmUrbanTransitSegment(env,alightingSource,dest,{
               earliestStartMs:lastArrMs+4*60000,lang,fetchImpl:budgetedFetch,inflight
             });

@@ -9,7 +9,7 @@ import {prepareMixedFlightOptions} from './mixed_prefetched_details.mjs';
 const point=p=>p&&p.latitude!=null&&p.longitude!=null&&Number.isFinite(+p.latitude)&&Number.isFinite(+p.longitude)&&Math.abs(+p.latitude)<=90&&Math.abs(+p.longitude)<=180;
 export async function searchMixedIndicativeOptions(env,{
  origin,destination,departureAt=null,language='ro',international=false,cache=null,cacheBaseUrl=null,
- signal=null,onProgress=null,includeFlights=true
+ signal=null,onProgress=null,includeFlights=true,includeGroundDiscovery=true
 }={},dependencies={}){
  if(!point(origin)||!point(destination))return {};
  const rad=Math.PI/180,lat=(destination.latitude-origin.latitude)*rad,lon=(destination.longitude-origin.longitude)*rad;
@@ -64,7 +64,20 @@ export async function searchMixedIndicativeOptions(env,{
     const enriched=await beforeTransitAbort(()=>prepare(env,{candidates:flights,origin,destination,requestedAt:departureAt||new Date().toISOString(),language,limit:6,airportCandidates:air?.airportCandidates},
       {planAccess:dependencies.planAccess,planEgress:dependencies.planEgress,planRegional:dependencies.planRegional,
        budgetMs:20000,signal:enrichAbort.signal,onPrepared:publishPrepared}),enrichAbort.signal,null);
-    if(Array.isArray(enriched)&&enriched.length){flights=enriched;ready=true;}
+    if(Array.isArray(enriched)&&enriched.length){
+     const completenessScore=f=>{
+      const it=f?.itinerary;
+      if(!it)return 0;
+      if(it.completeDoorToDoor===true)return 3;
+      const hasA=Boolean(it.accessJourney?.legs?.length),hasE=Boolean(it.egressJourney?.legs?.length);
+      return (hasA?1:0)+(hasE?1:0);
+     };
+     flights=enriched
+      .map((f,idx)=>({f,idx,score:completenessScore(f)}))
+      .sort((x,y)=>y.score-x.score||x.idx-y.idx)
+      .map(x=>x.f);
+     ready=true;
+    }
    }catch{}finally{clearTimeout(timeout);enrichAbort.abort();signal?.removeEventListener('abort',cancelEnrichment)}
   }
   if(!signal?.aborted)onProgress?.({flight_candidates:flights,flight_details_prepared:ready,
@@ -73,7 +86,7 @@ export async function searchMixedIndicativeOptions(env,{
  })();
  const [{air,flights,ready},groundResult,surfaceResult]=await Promise.all([
   airWork,
-  km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]}),
+  includeGroundDiscovery&&km>=30?bounded(groundWork,20000,groundFallback):Promise.resolve({status:'disabled',operators:[]}),
   surfaceWork
  ]);
  clearTimeout(groundTimer);groundAbort.abort();

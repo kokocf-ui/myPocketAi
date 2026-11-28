@@ -32,10 +32,14 @@ const splitQueryClauses=raw=>{
   return {head:prep[1].trim(),clauses:[prep[2].trim()]};
  return {head:text,clauses:[]};
 };
+const cityCanon=value=>{
+ const n=norm(value);
+ return ({bucharest:'bucuresti',bukarest:'bucuresti'})[n]||n;
+};
 const candidateMatchesClause=(c,clause)=>{
- const clauseNorm=norm(clause),clauseWords=words(clause);
+ const clauseNorm=cityCanon(clause),clauseWords=words(clauseNorm);
  if(!clauseNorm||!clauseWords.length)return true;
- const cityNorm=norm(c.city||''),cityWords=words(c.city||'');
+ const cityNorm=cityCanon(c.city||''),cityWords=words(cityNorm);
  const cityMatch=Boolean(cityNorm)&&(cityNorm===clauseNorm||cityNorm.startsWith(clauseNorm)||
   clauseWords.every(w=>cityWords.some(cw=>cw===w||cw.startsWith(w))));
  if(cityMatch)return true;
@@ -44,6 +48,10 @@ const candidateMatchesClause=(c,clause)=>{
      clauseNorm==='marea britanie'||clauseNorm==='anglia'||clauseNorm==='england')&&code==='GB')||
     (clauseNorm==='romania'&&code==='RO')||
     (clauseNorm.length===2&&code===clauseNorm.toUpperCase()))return true;
+ if(code==='RO'&&cityNorm){
+  const roStructured=words([cityNorm,norm(c._postcode||''),norm(stripSupraLocal([c.suburb,c.district].filter(Boolean).join(' ')))].join(' '));
+  return Boolean(roStructured.length)&&clauseWords.every(w=>roStructured.some(sw=>sw===w||sw.startsWith(w)));
+ }
  const cleanLabel=norm(stripSupraLocal([c.suburb,c.district,c.label].filter(Boolean).join(' ')));
  const labelWords=words(cleanLabel);
  return clauseWords.every(w=>labelWords.some(lw=>lw===w||lw.startsWith(w)));
@@ -98,10 +106,12 @@ export function rankJourneySuggestions(query,candidates=[],{origin=null,national
   if(name===headNorm||name===normalized)score+=400;
   if(primaryLocality&&norm(item.city||'')===primaryLocality)score+=260;
   else if(primaryLocality&&norm(item.city||'').startsWith(primaryLocality))score+=110;
+  const wantedHouseNum=(headNorm.match(/^(\d{1,6}[a-z]?)(?:\s|$)/)||headNorm.match(/\b(\d{1,6}[a-z]?)$/))?.[1]||'';
   if(houseRequest){
    const pureAddress=['building','house','street'].includes(norm(item.kind))||
     !norm(item._name)||streetCanon(item._name)===streetCanon(item.street);
    if(pureAddress)score+=95;
+   if(wantedHouseNum&&norm(item.house_number)===wantedHouseNum)score+=45;
   }else if(item.street&&item.house_number){
    score+=12;
   }

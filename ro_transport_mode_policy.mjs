@@ -1,3 +1,4 @@
+import {canonicalizeRomanianCityName} from './ro_national_transit.mjs';
 // Transport-mode intent is a hard filter, not a merely preferred display label.
 // Bilo search starts in 'all' mode and supplements with its documented bus API.
 // Apply strict post-filtering
@@ -57,11 +58,20 @@ export function rankRomanianJourneys(journeys){
 // coordinates/access we must not silently call that an Oradea departure.
 const place=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[^a-z0-9]+/g,' ').replace(/\s+/g,' ').trim();
+const canonicalPlace=v=>{
+ const canon=place(canonicalizeRomanianCityName(v)||v).replace(/\bromania\b/g,'').trim();
+ if(canon==='bucharest'||canon==='bukarest'||canon==='bucarest'||/^sector(?:ul)? [1-6]$/.test(canon))return 'bucuresti';
+ if(canon==='tirgu mures')return 'targu mures';
+ return canon;
+};
 function containsCity(stop,city){
- const target=place(city).replace(/\bromania\b/g,'').trim();
- const named=place(stop);
- if(!target||!named)return false;
- return (' '+named+' ').includes(' '+target+' ');
+ const target=canonicalPlace(city);
+ const namedRaw=place(stop);
+ const namedCanon=canonicalPlace(stop);
+ if(!target||(!namedRaw&&!namedCanon))return false;
+ if((' '+namedRaw+' ').includes(' '+target+' ')||(' '+namedCanon+' ').includes(' '+target+' '))return true;
+ if(target==='cluj napoca'&&(' '+namedRaw+' ').includes(' cluj '))return true;
+ return false;
 }
 export function filterRomanianCityEndpoints(journeys,origin,destination){
  return (Array.isArray(journeys)?journeys:[]).filter(j=>{

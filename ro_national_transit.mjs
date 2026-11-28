@@ -8,14 +8,93 @@ import {transportNoticeLine} from "./transport_availability_disclosure.mjs";
  */
 const ROMANIA_CITIES=new Set([
  'bucuresti','brasov','cluj napoca','cluj','oradea','timisoara','iasi','sibiu',
- 'constanta','craiova','arad','pitesti','ploiesti','targu mures','baia mare','satu mare',
+ 'constanta','craiova','arad','pitesti','ploiesti','targu mures','tirgu mures','baia mare','satu mare',
  'suceava','bacau','botosani','galati','braila','alba iulia','deva','hunedoara',
  'zalau','bistrita','resita','giurgiu','tulcea','focsani','ramnicu valcea',
  'targoviste','calarasi','slatina','drobeta turnu severin','buzau','vaslui',
- 'sfantu gheorghe','miercurea ciuc','pietra neamt','piatra neamt','beius','salonta'
+ 'sfantu gheorghe','miercurea ciuc','pietra neamt','piatra neamt','beius','salonta',
+ 'otopeni','turda','campia turzii','media','medias','sighisoara','lugoj','petrosani'
 ]);
+const RO_COUNTY_CODES=new Set([
+ 'ab','ag','ar','b','bc','bh','bi','bn','br','bt','bv','bz','cj','cl','cs','ct',
+ 'cv','db','dj','gj','gl','gr','hd','hr','if','il','is','mh','mm','ms','nt','ot',
+ 'ph','sb','sj','sm','sv','tl','tm','tr','vl','vn','vs'
+]);
+const RO_EXONYM_MAP=Object.freeze({
+ 'bucharest':'București',
+ 'bucarest':'București',
+ 'bukarest':'București',
+ 'bucuresti ilfov':'București',
+ 'bucharest ilfov':'București',
+ 'klausenburg':'Cluj-Napoca',
+ 'kolozsvar':'Cluj-Napoca',
+ 'grosswardein':'Oradea',
+ 'nagyvarad':'Oradea',
+ 'kronstadt':'Brașov',
+ 'hermannstadt':'Sibiu',
+ 'temeswar':'Timișoara',
+ 'temeschwar':'Timișoara',
+ 'jassy':'Iași',
+ 'constanza':'Constanța'
+});
 const normalize=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
  .toLowerCase().replace(/[\s_-]+/g,' ').trim();
+const romanianAirportLocality=raw=>{
+ const n=normalize(raw);
+ if(!/\b(?:aeroport\w*|airport|henri coanda|avram iancu|traian vuia|aurel vlaicu|mihail kogalniceanu|stefan cel mare|george enescu)\b/.test(n))return '';
+ if(/\b(?:henri coanda|otopeni|aurel vlaicu|baneasa|otp|bbu|bucuresti|bucharest)\b/.test(n))return 'București';
+ if(/\b(?:avram iancu|cluj|clj)\b/.test(n))return 'Cluj-Napoca';
+ if(/\b(?:oradea|omr)\b/.test(n))return 'Oradea';
+ if(/\b(?:traian vuia|timisoara|tsr)\b/.test(n))return 'Timișoara';
+ if(/\b(?:iasi|ias)\b/.test(n))return 'Iași';
+ if(/\b(?:sibiu|sbz)\b/.test(n))return 'Sibiu';
+ if(/\b(?:brasov|ghimbav|ghv)\b/.test(n))return 'Brașov';
+ if(/\b(?:maramures|tautii|baia mare|bay)\b/.test(n))return 'Baia Mare';
+ if(/\b(?:stefan cel mare|suceava|suj)\b/.test(n))return 'Suceava';
+ if(/\b(?:george enescu|bacau|bcm)\b/.test(n))return 'Bacău';
+ if(/\b(?:craiova|cra)\b/.test(n))return 'Craiova';
+ if(/\b(?:transilvania|targu mures|tirgu mures|tgm)\b/.test(n))return 'Târgu Mureș';
+ if(/\b(?:mihail kogalniceanu|constanta|cnd)\b/.test(n))return 'Constanța';
+ if(/\b(?:satu mare|smj)\b/.test(n))return 'Satu Mare';
+ if(/\b(?:arad|arw)\b/.test(n))return 'Arad';
+ if(/\b(?:tulcea|delta dunarii|tce)\b/.test(n))return 'Tulcea';
+ return '';
+};
+const mapRoExonym=value=>{
+ const trimmed=String(value||'').replace(/^\d{5,6}\s+/,'').replace(/\s+\d{5,6}$/,'').trim();
+ if(!trimmed)return '';
+ const airportCity=romanianAirportLocality(trimmed);
+ if(airportCity)return airportCity;
+ const n=normalize(trimmed);
+ if(/^sector(?:ul)?\s*[1-6]$/.test(n))return 'București';
+ if(RO_EXONYM_MAP[n])return RO_EXONYM_MAP[n];
+ return trimmed;
+};
+const isRoAdminSuffixPart=part=>{
+ const n=normalize(part).replace(/^ro\s+/,'');
+ if(!n)return true;
+ if(RO_COUNTY_CODES.has(n))return true;
+ if(/^(?:jud(?:etul|\.)?|county|region|regiunea)\b/.test(n))return true;
+ if(/\b(?:county|judetul)\b$/.test(n))return true;
+ if(/^(?:zona metropolitana|metropolitan area)\b/.test(n)||/\bmetropolitan area$/.test(n))return true;
+ return false;
+};
+export function canonicalizeRomanianCityName(raw){
+ const cleaned=cleanTown(raw);
+ if(!cleaned)return '';
+ const airportCity=romanianAirportLocality(cleaned);
+ if(airportCity)return airportCity;
+ const rawParts=cleaned.split(',').map(s=>s.trim()).filter(Boolean);
+ while(rawParts.length>=2&&/^rom[aâ]nia$/i.test(normalize(rawParts.at(-1))))rawParts.pop();
+ while(rawParts.length>=2&&isRoAdminSuffixPart(rawParts.at(-1)))rawParts.pop();
+ for(let i=rawParts.length-1;i>=0;i--){
+  const candidate=mapRoExonym(rawParts[i]);
+  const cn=normalize(candidate);
+  if(ROMANIA_CITIES.has(cn))return candidate;
+ }
+ const last=mapRoExonym(rawParts.at(-1)||cleaned);
+ return last||cleaned;
+}
 const cleanTown=v=>String(v||'')
  // Only the first sentence can be part of a locality. Following requests
  // like ". Prezintă-mi toate variantele" are instructions, not station names.
@@ -35,14 +114,22 @@ const cleanTown=v=>String(v||'')
  .trim().slice(0,100);
 const extractRoLocality=(raw,structuredCity='')=>{
  const cleaned=cleanTown(raw);
- const sc=cleanTown(structuredCity);
- if(sc&&(!cleaned||normalize(cleaned).includes(normalize(sc))))return sc;
- if(!cleaned.includes(','))return cleaned.replace(/^\d{5,6}\s+/,'').trim();
- const parts=cleaned.split(',').map(s=>s.trim()).filter(Boolean);
- if(parts.length>=2&&/^rom[aâ]nia$/iu.test(parts.at(-1)))parts.pop();
- const tail=(parts.at(-1)||cleaned).replace(/^\d{5,6}\s+/,'').replace(/\s+\d{5,6}$/,'').trim();
+ const sc=mapRoExonym(cleanTown(structuredCity));
+ const cleanedCanon=canonicalizeRomanianCityName(cleaned);
+ if(sc&&(!cleaned||normalize(cleaned).includes(normalize(sc))||normalize(cleanedCanon)===normalize(sc)))return sc;
+ if(!cleaned.includes(','))return mapRoExonym(cleaned);
+ const origParts=cleaned.split(',').map(s=>s.trim()).filter(Boolean);
+ const parts=[...origParts];
+ if(parts.length>=2&&/^rom[aâ]nia$/i.test(parts.at(-1)))parts.pop();
+ while(parts.length>=2&&isRoAdminSuffixPart(parts.at(-1)))parts.pop();
+ if(origParts.length===2&&parts.length===1&&/^rom[aâ]nia$/i.test(origParts[1])){
+  const single=mapRoExonym(parts[0]);
+  return single!==parts[0]?single:cleaned;
+ }
+ const tail=mapRoExonym(parts.at(-1)||cleaned);
  if(parts.length>=2&&!/^(?:jud(?:ețul|etul|\.)?|municipiul)\b/iu.test(tail)&&tail.length>=2)return tail;
- return cleaned;
+ if(parts.length===1&&origParts.length>=3&&tail.length>=2)return tail;
+ return cleanedCanon||cleaned;
 };
 const isRoGPS=pt=>Number.isFinite(Number(pt?.latitude))&&Number.isFinite(Number(pt?.longitude))
  && Number(pt.latitude)>=43.55&&Number(pt.latitude)<=48.35
@@ -135,7 +222,8 @@ export function romanianNationalQuery(message,opts={}){
  const explicitRomania=/\b(?:romania|romaniei|romanesti|romanian)\b/.test(normalized)
     ||String(opts.origin?.country_code||'').toUpperCase()==='RO'
     ||String(opts.destination?.country_code||'').toUpperCase()==='RO';
- const majorPair=ROMANIA_CITIES.has(normalize(origin))&&ROMANIA_CITIES.has(normalize(destination));
+ const majorPair=ROMANIA_CITIES.has(normalize(canonicalizeRomanianCityName(origin)))&&
+  ROMANIA_CITIES.has(normalize(canonicalizeRomanianCityName(destination)));
  // A named two-town journey is transport intent even before the passenger
  // selects train/coach. Do not turn a valid intercity route into a POI lookup.
  if(!explicitTransit&&!(naturalIntercity&&majorPair))return null;
@@ -593,6 +681,9 @@ export async function planRomanianNationalJourney(env,query,opts={}){
  if(!key)return {status:'not_configured',journeys:[]};
  const date=opts.date;
  if(!isDate(date))return {status:'date_invalid',journeys:[]};
+ const canonicalOrigin=canonicalizeRomanianCityName(query.origin)||query.origin;
+ const canonicalDestination=canonicalizeRomanianCityName(query.destination)||query.destination;
+ const normalizedQuery={...query,origin:canonicalOrigin,destination:canonicalDestination};
  const limit=Math.min(20,Math.max(1,Number(opts.limit)||10));
  const url='https://mcp.bilo.ro/api/v1/search';
  const requestId=opts.idempotencyKey||crypto.randomUUID();
@@ -604,7 +695,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   const response=await fetchImpl(url,{
    method:'POST',
    headers:{...headers,'Idempotency-Key':requestId},
-   body:JSON.stringify({origin:query.origin,destination:query.destination,date,
+   body:JSON.stringify({origin:normalizedQuery.origin,destination:normalizedQuery.destination,date,
     mode:'all',limit}),
    signal:AbortSignal.timeout(9500)
   });
@@ -653,14 +744,14 @@ export async function planRomanianNationalJourney(env,query,opts={}){
   // Rail replacement buses and independent long-distance coaches are
   // different services. Even if the all-mode response returned a CFR bus,
   // independently search the documented mode=bus API for private operators.
-  const closedOrigin=normalize(query.origin),closedDestination=normalize(query.destination);
+  const closedOrigin=normalize(normalizedQuery.origin),closedDestination=normalize(normalizedQuery.destination);
   const closedCorridor=date>='2024-01-08'&&date<='2026-12-12'&&
    ((closedOrigin==='oradea'&&['cluj','cluj napoca'].includes(closedDestination))||
     (closedDestination==='oradea'&&['cluj','cluj napoca'].includes(closedOrigin)));
   const includeRoad=opts.vehicle!=='rail'||closedCorridor;
   const checkOfficial=includeRoad&&(opts.tryOfficialBusSearch===true||
    (!opts.fetchImpl&&opts.tryOfficialBusSearch!==false));
-  const busLookup=checkOfficial?await officialBiloBusJourneys(query,date,limit,fetchImpl)
+  const busLookup=checkOfficial?await officialBiloBusJourneys(normalizedQuery,date,limit,fetchImpl)
     :{status:'not_checked',journeys:[],records:0};
   for(const coach of busLookup.journeys){
    mergeOrAppendBiloJourney(completed,coach);
@@ -673,7 +764,7 @@ export async function planRomanianNationalJourney(env,query,opts={}){
     const busRes=await fetchImpl(url,{
      method:'POST',
      headers:{...headers,'Idempotency-Key':crypto.randomUUID()},
-     body:JSON.stringify({origin:query.origin,destination:query.destination,date,
+     body:JSON.stringify({origin:normalizedQuery.origin,destination:normalizedQuery.destination,date,
       mode:'bus',limit:Math.min(16,Math.max(limit,10))}),
      signal:AbortSignal.timeout(7000)
     });
