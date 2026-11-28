@@ -145,14 +145,15 @@ jobs:
             const intercitySigs=transit.map(j=>{
               const ic=(j.legs||[]).filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))&&
                 (/oradea/i.test(String(l.from||''))||/cluj/i.test(String(l.to||''))));
-              return ic.length?ic.map(l=>[l.departureTime,l.arrivalTime,l.operator].join('|')).join('>>'):null;
+              return ic.length?ic.map(l=>[l.departureTime,l.arrivalTime,l.from,l.to,l.operator].join('|')).join('>>'):null;
             }).filter(Boolean);
             const uniqueSigs=new Set(intercitySigs);
             if(intercitySigs.length!==uniqueSigs.size){
               console.log('::error title=biloDedupFail::'+JSON.stringify(intercitySigs));
               regFail=true;
             }
-            const targetOpt=summary.find((_,idx)=>(transit[idx].legs||[]).some(l=>/[·•]/.test(String(l.from||''))||l.mode==='train'||l.railReplacement===true))||summary[0];
+            const coachOpt=summary.find(s=>/Autogara Intrans/i.test(s.vehSig)&&/Autogara Fany/i.test(s.vehSig));
+            const targetOpt=coachOpt||summary.find((_,idx)=>(transit[idx].legs||[]).some(l=>/[·•]/.test(String(l.from||''))||l.mode==='train'||l.railReplacement===true))||summary[0];
             if(targetOpt&&(!targetOpt.mapped||targetOpt.modes.length<3||targetOpt.firstCoords<2||targetOpt.lastCoords<2)){
               console.log('::error title=roDoorToDoorFail::'+JSON.stringify(targetOpt));
               regFail=true;

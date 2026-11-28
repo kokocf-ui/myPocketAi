@@ -535,7 +535,7 @@ async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
   const bucketKey='urban:'+[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),
     toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),Math.floor(departureAtMs/600000)].join('|');
   const oracleRes=await withInflight(inflight,bucketKey,()=>planRomanianUrbanViaOracle(env,{
-    from:fromPt,to:toPt,departureAt:new Date(departureAtMs).toISOString(),limit:4,verifiedCountry:'RO'
+    from:fromPt,to:toPt,departureAt:new Date(departureAtMs).toISOString(),limit:8,verifiedCountry:'RO'
   },{fetchImpl}));
   if(!oracleRes||oracleRes.status==='route_only'||!Array.isArray(oracleRes.journeys)||!oracleRes.journeys.length)return null;
 
@@ -592,7 +592,7 @@ async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
 
 export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
   originPoint=null,destinationPoint=null,originCity='',destinationCity='',
-  localPlanner=null,lang='ro',maxEnrich=3,maxSubrequests=16,fetchImpl=defaultFetch
+  localPlanner=null,lang='ro',maxEnrich=8,maxSubrequests=22,fetchImpl=defaultFetch
 }={}){
   if(!Array.isArray(journeys)||!journeys.length)return journeys;
   const inflight=new Map();
@@ -611,10 +611,13 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
     :null;
   if(!orig&&!dest)return journeys;
 
-  const head=journeys.slice(0,Math.max(1,Math.min(4,maxEnrich)));
-  const tail=journeys.slice(head.length);
+  const limitCount=Math.max(1,Math.min(10,maxEnrich));
+  const prioritized=journeys.map((journey,origIdx)=>({
+    journey,origIdx,
+    dur:Number.isFinite(Number(journey?.durationMinutes))?Number(journey.durationMinutes):99999
+  })).sort((a,b)=>a.dur-b.dur||a.origIdx-b.origIdx).slice(0,limitCount);
 
-  const enrichedHead=await Promise.all(head.map(async(journey,jIdx)=>{
+  const enrichOne=async(journey,priorityRank)=>{
     const rawLegs=Array.isArray(journey?.legs)?journey.legs:[];
     if(!rawLegs.length)return journey;
 
@@ -677,7 +680,7 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             if(materialized.length)return materialized[0].legs;
           }
         }catch{}
-      }else if(!localPlanner&&jIdx<2&&latestArrMs>nowMs+4*60000){
+      }else if(!localPlanner&&priorityRank<4&&latestArrMs>nowMs+4*60000){
         try{
           const urbanLegs=await planDirectRomanianUrbanSegment(env,orig,boardingTarget,{
             departureAtMs:Math.max(nowMs,latestArrMs-55*60000),
@@ -709,7 +712,7 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             .sort((a,b)=>a.endMs-b.endMs||a.startMs-b.startMs);
           if(materialized.length)return materialized[0].legs;
         }catch{}
-      }else if(!localPlanner&&jIdx<2){
+      }else if(!localPlanner&&priorityRank<4){
         try{
           const urbanLegs=await planDirectRomanianUrbanSegment(env,alightingSource,dest,{
             departureAtMs:Math.max(Date.now(),lastArrMs+6*60000),
@@ -758,8 +761,18 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
       }:{}),
       door_to_door_mapped:true
     };
-  }));
+  };
 
-  return [...enrichedHead,...tail];
+  const out=[...journeys];
+  const wave1=prioritized.slice(0,2);
+  const wave2=prioritized.slice(2);
+  const res1=await Promise.all(wave1.map((item,i)=>enrichOne(item.journey,i)));
+  wave1.forEach((item,i)=>{out[item.origIdx]=res1[i];});
+  if(wave2.length){
+    const res2=await Promise.all(wave2.map((item,i)=>enrichOne(item.journey,i+2)));
+    wave2.forEach((item,i)=>{out[item.origIdx]=res2[i];});
+  }
+
+  return out;
   }catch{return journeys;}
 }

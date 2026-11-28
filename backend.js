@@ -4507,7 +4507,7 @@ async function handleBackendRequest(request, env, runtime={}) {
             enrichRomanianDoorToDoorJourneys(env,journeys,{
               originPoint:roOriginPoint,destinationPoint:roDestPoint,
               originCity:origin,destinationCity:destination,
-              lang,maxEnrich:3,maxSubrequests:14
+              lang,maxEnrich:8,maxSubrequests:20
             }).catch(()=>journeys),
             mixedExtraFields(extraOverrides).catch(()=>({}))
           ]);
@@ -4538,7 +4538,7 @@ async function handleBackendRequest(request, env, runtime={}) {
                 enrichedJourneys=await enrichRomanianDoorToDoorJourneys(env,nextList,{
                   originPoint:roOriginPoint,destinationPoint:roDestPoint,
                   originCity:origin,destinationCity:destination,
-                  lang,maxEnrich:3,maxSubrequests:10
+                  lang,maxEnrich:6,maxSubrequests:14
                 }).catch(()=>nextList);
                 if(!Array.isArray(enrichedJourneys)||!enrichedJourneys.length)enrichedJourneys=nextList;
                 enrichedByRef=new Map(nextList.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
