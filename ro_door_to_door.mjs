@@ -1,4 +1,5 @@
 import {inRomaniaApprox,pointDistanceMeters} from './regional_gtfs_registry.mjs';
+import {romanianUrbanRegion,planRomanianUrbanViaOracle} from './ro_urban_client.mjs';
 
 const fold=value=>String(value||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
   .replace(/[șş]/gi,'s').replace(/[țţ]/gi,'t').replace(/[ăâ]/gi,'a').replace(/î/gi,'i')
@@ -27,6 +28,17 @@ const GENERIC_STATION_WORDS=new Set([
 const stationCache=new Map();
 const cityCenterCache=new Map();
 const walkRouteCache=new Map();
+const inflightStations=new Map();
+const inflightCities=new Map();
+const inflightWalks=new Map();
+const inflightUrban=new Map();
+
+function withInflight(map,key,fn){
+  if(map.has(key))return map.get(key);
+  const p=Promise.resolve().then(fn).finally(()=>map.delete(key));
+  map.set(key,p);
+  return p;
+}
 
 function isSupraLocal(value){
   const n=fold(value);
@@ -81,29 +93,31 @@ async function resolveCityCenter(env,city,anchorPoint,fetchImpl=fetch){
   const cached=cityCenterCache.get(cf);
   if(cached&&cached.until>Date.now())return cached.point;
   if(!env?.GEOAPIFY_API_KEY)return null;
-  try{
-    const u=new URL('https://api.geoapify.com/v1/geocode/search');
-    u.searchParams.set('text',`${city}, Romania`);
-    u.searchParams.set('type','city');
-    u.searchParams.set('filter','countrycode:ro');
-    u.searchParams.set('format','json');
-    u.searchParams.set('limit','5');
-    u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
-    const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(4500)});
-    if(!r.ok)return null;
-    const data=await r.json();
-    const rows=Array.isArray(data.results)?data.results:
-      Array.isArray(data.features)?data.features.map(f=>f.properties||{}):[];
-    const match=rows.find(p=>{
-      const pt=toLatLon(p);
-      if(!pt||!inRomaniaApprox(pt))return false;
-      const sc=fold(specificCity(p)||p.name||'');
-      return sc===cf||sc.startsWith(cf)||cf.split(' ').every(w=>sc.split(' ').includes(w));
-    });
-    const pt=match?toLatLon(match):null;
-    if(pt)cityCenterCache.set(cf,{point:pt,until:Date.now()+3600000});
-    return pt;
-  }catch{return null;}
+  return withInflight(inflightCities,cf,async()=>{
+    try{
+      const u=new URL('https://api.geoapify.com/v1/geocode/search');
+      u.searchParams.set('text',`${city}, Romania`);
+      u.searchParams.set('type','city');
+      u.searchParams.set('filter','countrycode:ro');
+      u.searchParams.set('format','json');
+      u.searchParams.set('limit','5');
+      u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
+      const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(4500)});
+      if(!r.ok)return null;
+      const data=await r.json();
+      const rows=Array.isArray(data.results)?data.results:
+        Array.isArray(data.features)?data.features.map(f=>f.properties||{}):[];
+      const match=rows.find(p=>{
+        const pt=toLatLon(p);
+        if(!pt||!inRomaniaApprox(pt))return false;
+        const sc=fold(specificCity(p)||p.name||'');
+        return sc===cf||sc.startsWith(cf)||cf.split(' ').every(w=>sc.split(' ').includes(w));
+      });
+      const pt=match?toLatLon(match):null;
+      if(pt)cityCenterCache.set(cf,{point:pt,until:Date.now()+3600000});
+      return pt;
+    }catch{return null;}
+  });
 }
 
 function candidateMatchesCity(p,pt,cityFold,cityCenter){
@@ -152,6 +166,7 @@ export async function resolveRomanianIntercityStop(env,{
   };
 
   if(!env?.GEOAPIFY_API_KEY)return null;
+  return withInflight(inflightStations,cacheKey,async()=>{
   const cityFold=fold(parsed.city);
   const cityCenter=await resolveCityCenter(env,parsed.city,anchorPoint,fetchImpl);
 
@@ -194,19 +209,6 @@ export async function resolveRomanianIntercityStop(env,{
     }catch{return [];}
   };
 
-  // Tier 1: Geoapify forward geocode + local public_transport / terminal Places
-  const primaryQuery=parsed.isBareCity&&isRail
-    ?`Gara ${parsed.city}, ${parsed.city}, Romania`
-    :`${parsed.stop}, ${parsed.city}, Romania`;
-  const altQuery=!parsed.isBareCity&&parsed.distinctive.length
-    ?`Autogara ${parsed.distinctive.join(' ')}, ${parsed.city}, Romania`:null;
-
-  const [geoPrimary,geoAlt,placeRows]=await Promise.all([
-    geocodeJson(primaryQuery),
-    altQuery&&fold(altQuery)!==fold(primaryQuery)?geocodeJson(altQuery):Promise.resolve([]),
-    placesNearCity()
-  ]);
-
   const scoreCandidate=p=>{
     const pt=toLatLon(p);
     if(!pt||!inRomaniaApprox(pt))return null;
@@ -241,11 +243,28 @@ export async function resolveRomanianIntercityStop(env,{
     return {pt,score:120+(isTransit?40:0)+(p.street?10:0),source:'geoapify_verified_stop'};
   };
 
-  const tier1=[...placeRows,...geoPrimary,...geoAlt].map(scoreCandidate).filter(Boolean)
-    .sort((a,b)=>b.score-a.score);
-  if(tier1.length){
-    return save({latitude:tier1[0].pt.latitude,longitude:tier1[0].pt.longitude,
-      label:parsed.displayLabel,verified:true,source:tier1[0].source});
+  // Tier 1a: Forward geocode primary query first (1 subrequest)
+  const primaryQuery=parsed.isBareCity&&isRail
+    ?`Gara ${parsed.city}, ${parsed.city}, Romania`
+    :`${parsed.stop}, ${parsed.city}, Romania`;
+  const geoPrimary=await geocodeJson(primaryQuery);
+  const tier1a=geoPrimary.map(scoreCandidate).filter(Boolean).sort((a,b)=>b.score-a.score);
+  if(tier1a.length){
+    return save({latitude:tier1a[0].pt.latitude,longitude:tier1a[0].pt.longitude,
+      label:parsed.displayLabel,verified:true,source:tier1a[0].source});
+  }
+
+  // Tier 1b: Local public_transport / terminal Places + alt query only if needed
+  const altQuery=!parsed.isBareCity&&parsed.distinctive.length
+    ?`Autogara ${parsed.distinctive.join(' ')}, ${parsed.city}, Romania`:null;
+  const [geoAlt,placeRows]=await Promise.all([
+    altQuery&&fold(altQuery)!==fold(primaryQuery)?geocodeJson(altQuery):Promise.resolve([]),
+    placesNearCity()
+  ]);
+  const tier1b=[...placeRows,...geoAlt].map(scoreCandidate).filter(Boolean).sort((a,b)=>b.score-a.score);
+  if(tier1b.length){
+    return save({latitude:tier1b[0].pt.latitude,longitude:tier1b[0].pt.longitude,
+      label:parsed.displayLabel,verified:true,source:tier1b[0].source});
   }
 
   // Tier 2: Published street address evidence verified in Geoapify (when OSM lacks the private autogara name)
@@ -304,6 +323,7 @@ export async function resolveRomanianIntercityStop(env,{
   }
 
   return save(null);
+  });
 }
 
 export async function buildVerifiedWalkingLeg(env,fromPt,toPt,{
@@ -316,34 +336,38 @@ export async function buildVerifiedWalkingLeg(env,fromPt,toPt,{
   const key=[a.latitude.toFixed(5),a.longitude.toFixed(5),b.latitude.toFixed(5),b.longitude.toFixed(5),lang].join('|');
   let route=walkRouteCache.get(key);
   if(!route||route.until<=Date.now()){
-    try{
-      const u=new URL('https://api.geoapify.com/v1/routing');
-      u.searchParams.set('waypoints',`${a.latitude},${a.longitude}|${b.latitude},${b.longitude}`);
-      u.searchParams.set('mode','walk');
-      u.searchParams.set('lang',['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'ro');
-      u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
-      const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5500)});
-      if(!r.ok)return null;
-      const data=await r.json();
-      const feat=data?.features?.[0];
-      const props=feat?.properties;
-      const rawCoords=feat?.geometry?.type==='MultiLineString'
-        ?feat.geometry.coordinates.flat()
-        :feat?.geometry?.type==='LineString'?feat.geometry.coordinates:[];
-      const coords=rawCoords.filter(c=>Array.isArray(c)&&Number.isFinite(c[0])&&Number.isFinite(c[1]));
-      const meters=Number(props?.distance),seconds=Number(props?.time);
-      if(coords.length<2||!Number.isFinite(meters)||meters<=0||!Number.isFinite(seconds)||seconds<=0)return null;
-      const startPt={latitude:coords[0][1],longitude:coords[0][0]};
-      const endPt={latitude:coords.at(-1)[1],longitude:coords.at(-1)[0]};
-      if(pointDistanceMeters(startPt,a)>150||pointDistanceMeters(endPt,b)>150)return null;
-      const steps=(props?.legs?.[0]?.steps||[]).map(s=>({
-        text:String(s?.instruction?.text||'').trim(),
-        distanceMeters:Number.isFinite(s?.distance)?Math.round(s.distance):0
-      })).filter(s=>s.text).slice(0,40);
-      route={until:Date.now()+900000,value:{coords,meters:Math.round(meters),seconds:Math.round(seconds),steps}};
-      if(walkRouteCache.size>=128)walkRouteCache.delete(walkRouteCache.keys().next().value);
-      walkRouteCache.set(key,route);
-    }catch{return null;}
+    route=await withInflight(inflightWalks,key,async()=>{
+      try{
+        const u=new URL('https://api.geoapify.com/v1/routing');
+        u.searchParams.set('waypoints',`${a.latitude},${a.longitude}|${b.latitude},${b.longitude}`);
+        u.searchParams.set('mode','walk');
+        u.searchParams.set('lang',['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'ro');
+        u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
+        const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5500)});
+        if(!r.ok)return null;
+        const data=await r.json();
+        const feat=data?.features?.[0];
+        const props=feat?.properties;
+        const rawCoords=feat?.geometry?.type==='MultiLineString'
+          ?feat.geometry.coordinates.flat()
+          :feat?.geometry?.type==='LineString'?feat.geometry.coordinates:[];
+        const coords=rawCoords.filter(c=>Array.isArray(c)&&Number.isFinite(c[0])&&Number.isFinite(c[1]));
+        const meters=Number(props?.distance),seconds=Number(props?.time);
+        if(coords.length<2||!Number.isFinite(meters)||meters<=0||!Number.isFinite(seconds)||seconds<=0)return null;
+        const startPt={latitude:coords[0][1],longitude:coords[0][0]};
+        const endPt={latitude:coords.at(-1)[1],longitude:coords.at(-1)[0]};
+        if(pointDistanceMeters(startPt,a)>150||pointDistanceMeters(endPt,b)>150)return null;
+        const steps=(props?.legs?.[0]?.steps||[]).map(s=>({
+          text:String(s?.instruction?.text||'').trim(),
+          distanceMeters:Number.isFinite(s?.distance)?Math.round(s.distance):0
+        })).filter(s=>s.text).slice(0,40);
+        const entry={until:Date.now()+900000,value:{coords,meters:Math.round(meters),seconds:Math.round(seconds),steps}};
+        if(walkRouteCache.size>=128)walkRouteCache.delete(walkRouteCache.keys().next().value);
+        walkRouteCache.set(key,entry);
+        return entry;
+      }catch{return null;}
+    });
+    if(!route)return null;
   }
   const {coords,meters,seconds,steps}=route.value;
   let depMs=departureTime?Date.parse(departureTime):null;
@@ -461,11 +485,82 @@ function materializeLocalJourneyLegs(journey,fromPt,toPt,maxRadiusM=350){
   return {legs:raw,startMs,endMs};
 }
 
+// Lightweight direct Oracle urban transit lookup (1 Oracle subrequest + <=2 cached Geoapify walk calls),
+// avoiding the 8x walk amplification of full handleBackendRequest localPlanner inside Cloudflare's 50-subrequest budget.
+async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
+  departureAtMs,latestArrivalMs=null,earliestStartMs=null,lang='ro',fetchImpl=fetch
+}={}){
+  if(!romanianUrbanRegion(fromPt,toPt,{verifiedCountry:'RO'}))return null;
+  if(!(typeof env?.RO_URBAN_VPC?.fetch==='function'||env?.RO_URBAN_API_URL)||
+     String(env?.RO_URBAN_API_TOKEN||'').trim().length<32)return null;
+  const bucketKey=[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),
+    toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),Math.floor(departureAtMs/600000)].join('|');
+  const oracleRes=await withInflight(inflightUrban,bucketKey,()=>planRomanianUrbanViaOracle(env,{
+    from:fromPt,to:toPt,departureAt:new Date(departureAtMs).toISOString(),limit:4,verifiedCountry:'RO'
+  },{fetchImpl}));
+  if(!oracleRes||oracleRes.status==='route_only'||!Array.isArray(oracleRes.journeys)||!oracleRes.journeys.length)return null;
+
+  const scored=oracleRes.journeys.map(j=>{
+    const legs=Array.isArray(j.legs)?j.legs:[];
+    if(!legs.length)return null;
+    const firstDep=Date.parse(legs[0].departureTime||'');
+    const lastArr=Date.parse(legs.at(-1).arrivalTime||j.arrivalDateTime||'');
+    if(!Number.isFinite(firstDep)||!Number.isFinite(lastArr))return null;
+    const aPt=toLatLon(j.access||legs[0].departurePoint);
+    const ePt=toLatLon(j.egress||legs.at(-1).arrivalPoint||legs.at(-1).arrivalLatLon);
+    if(!aPt||!ePt)return null;
+    const estWalkA=Math.ceil((pointDistanceMeters(fromPt,aPt)*1.35)/75);
+    const estWalkE=Math.ceil((pointDistanceMeters(ePt,toPt)*1.35)/75);
+    const estStart=firstDep-estWalkA*60000;
+    const estEnd=lastArr+estWalkE*60000;
+    if(earliestStartMs!==null&&estStart<earliestStartMs)return null;
+    if(latestArrivalMs!==null&&estEnd>latestArrivalMs)return null;
+    return {j,aPt,ePt,firstDep,lastArr,estStart,estEnd};
+  }).filter(Boolean).sort((a,b)=>
+    latestArrivalMs!==null?(b.estEnd-a.estEnd||b.estStart-a.estStart):(a.estEnd-b.estEnd||a.estStart-b.estStart)
+  );
+  if(!scored.length)return null;
+
+  const pick=scored[0];
+  const vLegs=pick.j.legs.map((l,i,arr)=>({
+    ...l,
+    ...(i===0?{departurePoint:{lat:pick.aPt.latitude,lon:pick.aPt.longitude,latitude:pick.aPt.latitude,longitude:pick.aPt.longitude,label:String(l.from||pick.j.access?.stop_name||'')}}:{}),
+    ...(i===arr.length-1?{arrivalPoint:{lat:pick.ePt.latitude,lon:pick.ePt.longitude,latitude:pick.ePt.latitude,longitude:pick.ePt.longitude,label:String(l.to||pick.j.egress?.stop_name||'')},arrivalLatLon:{lat:pick.ePt.latitude,lon:pick.ePt.longitude}}:{})
+  }));
+  const [wAccess,wEgress]=await Promise.all([
+    pointDistanceMeters(fromPt,pick.aPt)>=20
+      ?buildVerifiedWalkingLeg(env,fromPt,{...pick.aPt,label:String(vLegs[0].from||pick.j.access?.stop_name||'Stație')},{
+          arrivalTime:vLegs[0].departureTime,lang,fetchImpl
+        })
+      :Promise.resolve(null),
+    pointDistanceMeters(pick.ePt,toPt)>=20
+      ?buildVerifiedWalkingLeg(env,{...pick.ePt,label:String(vLegs.at(-1).to||pick.j.egress?.stop_name||'Stație')},toPt,{
+          departureTime:vLegs.at(-1).arrivalTime,lang,fetchImpl
+        })
+      :Promise.resolve(null)
+  ]);
+  if(pointDistanceMeters(fromPt,pick.aPt)>120&&!wAccess)return null;
+  if(pointDistanceMeters(pick.ePt,toPt)>120&&!wEgress)return null;
+  const full=[...(wAccess?[wAccess]:[]),...vLegs,...(wEgress?[wEgress]:[])];
+  const sMs=Date.parse(full[0].departureTime||'');
+  const eMs=Date.parse(full.at(-1).arrivalTime||'');
+  if(earliestStartMs!==null&&sMs<earliestStartMs)return null;
+  if(latestArrivalMs!==null&&eMs>latestArrivalMs)return null;
+  return full;
+}
+
 export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
   originPoint=null,destinationPoint=null,originCity='',destinationCity='',
-  localPlanner=null,lang='ro',maxEnrich=4,fetchImpl=fetch
+  localPlanner=null,lang='ro',maxEnrich=3,maxSubrequests=18,fetchImpl=fetch
 }={}){
   if(!Array.isArray(journeys)||!journeys.length)return journeys;
+  let subrequests=0;
+  const budgetedFetch=async(input,init)=>{
+    if(subrequests>=maxSubrequests)throw new Error('ro_door_subrequest_budget');
+    subrequests++;
+    return fetchImpl(input,init);
+  };
+  try{
   const orig=validPoint(originPoint)&&inRomaniaApprox(toLatLon(originPoint))
     ?{...toLatLon(originPoint),label:String(originPoint.label||originCity||'Plecarea').trim(),city:originPoint.city||originCity,country_code:'RO'}
     :null;
@@ -474,10 +569,10 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
     :null;
   if(!orig&&!dest)return journeys;
 
-  const head=journeys.slice(0,Math.max(1,Math.min(6,maxEnrich)));
+  const head=journeys.slice(0,Math.max(1,Math.min(4,maxEnrich)));
   const tail=journeys.slice(head.length);
 
-  const enrichedHead=await Promise.all(head.map(async journey=>{
+  const enrichedHead=await Promise.all(head.map(async(journey,jIdx)=>{
     const rawLegs=Array.isArray(journey?.legs)?journey.legs:[];
     if(!rawLegs.length)return journey;
 
@@ -488,13 +583,13 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
           rawName:leg.from,locality:leg.fromLocality||(isFirst?originCity:''),
           cityHint:isFirst?originCity:'',anchorPoint:isFirst?orig:null,
           mode:leg.mode,railReplacement:leg.railReplacement===true,
-          sourceStopRef:leg.fromSourceStopRef,fetchImpl
+          sourceStopRef:leg.fromSourceStopRef,fetchImpl:budgetedFetch
         }),
         resolveRomanianIntercityStop(env,{
           rawName:leg.to,locality:leg.toLocality||(isLast?destinationCity:''),
           cityHint:isLast?destinationCity:'',anchorPoint:isLast?dest:null,
           mode:leg.mode,railReplacement:leg.railReplacement===true,
-          sourceStopRef:leg.toSourceStopRef,fetchImpl
+          sourceStopRef:leg.toSourceStopRef,fetchImpl:budgetedFetch
         })
       ]);
       return {
@@ -538,9 +633,17 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             if(materialized.length)return materialized[0].legs;
           }
         }catch{}
+      }else if(!localPlanner&&jIdx<2&&latestArrMs>nowMs+4*60000){
+        try{
+          const urbanLegs=await planDirectRomanianUrbanSegment(env,orig,boardingTarget,{
+            departureAtMs:Math.max(nowMs,latestArrMs-55*60000),
+            latestArrivalMs:latestArrMs,earliestStartMs:nowMs-120000,lang,fetchImpl:budgetedFetch
+          });
+          if(urbanLegs?.length)return urbanLegs;
+        }catch{}
       }
       const walkLeg=await buildVerifiedWalkingLeg(env,orig,boardingTarget,{
-        arrivalTime:new Date(latestArrMs).toISOString(),lang,fetchImpl
+        arrivalTime:new Date(latestArrMs).toISOString(),lang,fetchImpl:budgetedFetch
       });
       return walkLeg?[walkLeg]:[];
     })();
@@ -562,9 +665,17 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             .sort((a,b)=>a.endMs-b.endMs||a.startMs-b.startMs);
           if(materialized.length)return materialized[0].legs;
         }catch{}
+      }else if(!localPlanner&&jIdx<2){
+        try{
+          const urbanLegs=await planDirectRomanianUrbanSegment(env,alightingSource,dest,{
+            departureAtMs:Math.max(Date.now(),lastArrMs+6*60000),
+            earliestStartMs:lastArrMs+4*60000,lang,fetchImpl:budgetedFetch
+          });
+          if(urbanLegs?.length)return urbanLegs;
+        }catch{}
       }
       const walkLeg=await buildVerifiedWalkingLeg(env,alightingSource,dest,{
-        departureTime:new Date(lastArrMs+5*60000).toISOString(),lang,fetchImpl
+        departureTime:new Date(lastArrMs+5*60000).toISOString(),lang,fetchImpl:budgetedFetch
       });
       return walkLeg?[walkLeg]:[];
     })();
@@ -606,4 +717,5 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
   }));
 
   return [...enrichedHead,...tail];
+  }catch{return journeys;}
 }

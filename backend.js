@@ -4499,15 +4499,15 @@ async function handleBackendRequest(request, env, runtime={}) {
           const roDestPoint=data.transit_destination||data.route_context?.destination||null;
           const validRoDest=roDestPoint&&roDestPoint.latitude!=null&&roDestPoint.longitude!=null&&
             Number.isFinite(Number(roDestPoint.latitude))&&Number.isFinite(Number(roDestPoint.longitude));
-          const roDoorPlanner=createMixedLocalPlanner({env,dispatch:handleBackendRequest,language:lang,maxCalls:20});
           let [enrichedJourneys,extraMixed]=await Promise.all([
             enrichRomanianDoorToDoorJourneys(env,journeys,{
               originPoint:roOriginPoint,destinationPoint:roDestPoint,
               originCity:origin,destinationCity:destination,
-              localPlanner:roDoorPlanner,lang,maxEnrich:4
+              lang,maxEnrich:3,maxSubrequests:16
             }),
             mixedExtraFields()
           ]);
+          let enrichedByRef=new Map(journeys.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
           let activeGrouped=grouped;
           if(!selectedAt&&date===bucharestTravelDate(null)){
             const catchable=enrichedJourneys.filter(j=>Date.parse(j.startDateTime)>=Date.now()-180000);
@@ -4530,17 +4530,15 @@ async function handleBackendRequest(request, env, runtime={}) {
               const nextList=vehicle==='all'?[...nextGrp.rail,...nextGrp.road,...nextGrp.mixed]:rankRomanianJourneys(nextCity).slice(0,requestedOptionsCount);
               if(nextList.length){
                 result=nextRes;date=nextDate;activeGrouped=nextGrp;
-                const nextPlanner=createMixedLocalPlanner({env,dispatch:handleBackendRequest,language:lang,maxCalls:20});
                 enrichedJourneys=await enrichRomanianDoorToDoorJourneys(env,nextList,{
                   originPoint:roOriginPoint,destinationPoint:roDestPoint,
                   originCity:origin,destinationCity:destination,
-                  localPlanner:nextPlanner,lang,maxEnrich:4
+                  lang,maxEnrich:3,maxSubrequests:12
                 });
-                journeys.splice(0,journeys.length,...nextList);
+                enrichedByRef=new Map(nextList.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
               }
             }
           }
-          const enrichedByRef=new Map(journeys.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
           const mapGroup=list=>annotateTransportJourneys(list.map(j=>({...(enrichedByRef.get(j)||j),romanian_national_journey:true})),lang);
           const hasMappedGeometry=enrichedJourneys.some(j=>j.door_to_door_mapped===true);
           const reply=romanianJourneySummary(enrichedJourneys,origin,destination,lang);

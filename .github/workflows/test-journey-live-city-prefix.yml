@@ -114,7 +114,8 @@ jobs:
                 transit_preference:'all'
               }),
               signal:AbortSignal.timeout(55000)});
-            const mixData=await mixRes.json().catch(()=>({}));
+            const rawText=await mixRes.text();
+            let mixData={};try{mixData=JSON.parse(rawText)}catch{}
             const transit=Array.isArray(mixData.transit)?mixData.transit:[];
             const summary=transit.map(j=>{
               const legs=Array.isArray(j.legs)?j.legs:[];
@@ -131,8 +132,14 @@ jobs:
               };
             });
             console.log('::notice title=liveOradeaClujDoorToDoor::'+JSON.stringify({
-              http:mixRes.status,count:transit.length,providerStatus:mixData.provider_status,options:summary
+              http:mixRes.status,count:transit.length,providerStatus:mixData.provider_status,
+              ...(!mixRes.ok?{errSnippet:rawText.slice(0,300)}:{}),
+              options:summary
             }));
+            if(!mixRes.ok){
+              console.log('::error title=roHttpFail::'+rawText.slice(0,300));
+              regFail=true;
+            }
             // Verify zero duplicate intercity vehicle signatures if Bilo returned options
             const intercitySigs=transit.map(j=>{
               const ic=(j.legs||[]).filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l.mode||''))&&
