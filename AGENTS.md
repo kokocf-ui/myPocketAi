@@ -7,19 +7,27 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
-**ULTIMA ETAPĂ — RAFINARE CĂUTARE ADRESE, POI ȘI „DE LA A LA B” ÎN „DEPLASARE SPRE…”:**
-Branch activ `arena/9d2fdd81-mypocketai` (fast-forward din `5a48632` cu acordul utilizatorului).
+**ULTIMA ETAPĂ — CORECȚII FEEDBACK TELEFON LIVE (CĂUTARE POI MULTI-ORAȘ, DEDUPLICARE GĂRI, VICTORIA STATION, PARITATE „TRASEU PE HARTĂ” ȘI UI TRANSPORT):**
+Branch activ `arena/9d2fdd81-mypocketai`.
+Rezolvat în `backend.js`, `index.js`, `journey_suggestion_rank.mjs`, `one_field_journey_ui.mjs`, `national_public_transport_ui.mjs`, `ro_urban_walking.mjs`, `transit_viewport_ui.mjs`:
+1) POI fără localitate explicită (`muzeul țării crișurilor`): suprimare bias GPS extern + interogare UTF-8 `/v1/geocode/search` + extindere regională `/v2/places` (cerc îngust pe categorie + `populated_place.city` 15 km) cu păstrarea denumirii localizate (`name:ro` / `name`) în etichetă → returnează live atât **Oradea** (`Muzeul Țării Crișurilor, Calea Matei Basarab, 410464 Oradea, Romania`), cât și **Beiuș** (`Muzeul Țării Crișurilor, Aleea Moților, 415200 Beiuș, Romania`).
+2) Eliminat triplicarea `Gara Centrală, Piața București, 410730 Oradea, Romania` (deduplicare după etichetă/cod poștal/stradă în `journey_suggestion_rank.mjs`, `one_field_journey_ui.mjs` și `national_public_transport_ui.mjs`).
+3) `London Victoria Station` în transport public național UK: potrivire multi-token normalizată pe `[p._name, p.label, p.city]` + includere tokeni oraș în `journey_suggestion_rank.mjs` → returnează live `Victoria, London, United Kingdom`.
+4) Paritate afișare traseu final mixt cu coordonate (`Traseu pe hartă`): `directMap` extins la `mappedJourney` în `index.js` (`verifyAccess()` + `openTransitJourneyMap`), coordonate complete pe segmentele pietonale în `ro_urban_walking.mjs` și etapă pietonală inițială verificată în `openTransitJourneyMap`.
+5) Buton localizat `Șterge` (`.journey-clear-field-btn`) sub câmpul de căutare în `Deplasare spre…` și în transportul național; înălțime normală (`min-height:48px`, override padding zero) pe `Actualizează plecările`; aliniere flex centrată pe `Caută trasee`.
+Publicat cu acordul utilizatorului (fără merge în `main`, fără deploy frontend producție, fără modificări Oracle/HERE/paid):
+- Deploy backend Worker (`deploy-cloudflare.yml` `backend_only=true`): run `46135942708` SUCCESS din `b5e6db1`.
+- Live geocoder & station smoke (`test-journey-live-city-prefix.yml`): run `46136056225` SUCCESS (confirmat live: `muzeul țării crișurilor` → Oradea + Beiuș, `gara, Oradea` → o singură `Gara Centrală`, `London Victoria Station` → `Victoria, London, United Kingdom`, plus prefixele `O`..`Oradea`).
+- APK semnat de test pe branch (`build-android-apk.yml` `publish_signed_apk=true`): run `46134762713` SUCCESS (inclusiv testele Playwright din CI), `versionCode 501896`, prerelease `education-test-46134762713` (`7c1d99a`).
+
+**ETAPA ANTERIOARĂ — RAFINARE CĂUTARE ADRESE, POI ȘI „DE LA A LA B” ÎN „DEPLASARE SPRE…”:**
 Rezolvat în `backend.js` (`journey_suggest`), `journey_suggestion_rank.mjs`, `one_field_journey_ui.mjs`, `assistant_bare_destination.mjs`:
-1) POI + localitate explicită (`Muzeul Țării Crișurilor, Oradea`) și POI cu diacritice fără localitate (`Muzeul Țării Crișurilor`): `/v1/geocode/search` + retry UTF-8 + fallback strict Geoapify `/v2/places` în cerc 15 km filtrat pe localitate (zero apeluri AI/Exa; nu substituie cu *Beiuș* sau *Sântandrei*).
+1) POI + localitate explicită (`Muzeul Țării Crișurilor, Oradea`): `/v1/geocode/search` + retry UTF-8 + fallback strict Geoapify `/v2/places` în cerc 15 km filtrat pe localitate (zero apeluri AI/Exa; nu substituie cu *Beiuș* sau *Sântandrei*).
 2) Eliminat wrapperele metropolitane (`Oradea Metropolitan Area` / `Zona Metropolitană`) din `candidates`, `completions` și etichete (`isSupraLocalLocality`, `specificLocality`, `stripSupraLocal`).
 3) Suprimat completările redundante când localitatea tastată este deja confirmată exact (`Strada Nufărului 12, Oradea`), păstrând prefixele parțiale (`O`..`Orade` → `Oradea`).
 4) Deduplicat `stradă + număr + localitate` (clădire pură preferată față de magazine de la parter; coduri poștale contradictorii eliminate când nu s-a căutat după cod poștal).
 5) În UI, destinațiile verificate sunt afișate înaintea completărilor și diferențiate vizual; fluxul „de la A la B” păstrează expresia la completare/editare și rezolvă coordonatele verificate ale plecării (inclusiv când GPS-ul telefonului este în UK).
-PASS `tests_journey_search_refinements.mjs` + 16 suite regresie journey/adresă/transport/UI + `npm run check`.
-Publicat cu acordul utilizatorului (fără merge în `main`, fără deploy frontend producție, fără modificări Oracle/HERE/paid):
-- Deploy backend Worker (`deploy-cloudflare.yml` `backend_only=true`): run `46130762241` SUCCESS din `08f2889` (`OPEN_SURFACE`/`PUBLIC_GTFS`/`IRAIL`/`HERE` rămân OFF).
-- Live geocoder prefix smoke (`test-journey-live-city-prefix.yml`): run `46130922875` SUCCESS (`O`, `Or`, `Ora`, `Orade`, `Oradea` pe Cloudflare real).
-- APK semnat de test pe branch (`build-android-apk.yml` `publish_signed_apk=true`): run `46130492331` SUCCESS, `versionCode 501895`, prerelease `education-test-46130492331` (`12acafc`).
+Run-uri: backend `46130762241` SUCCESS, smoke `46130922875` SUCCESS, APK `46130492331` SUCCESS (`versionCode 501895`).
 
 **ETAPA ANTERIOARĂ — ORADEA DIAGNOSTIC READ-ONLY (NUfix/NUdeploy):**
 User „Ok, continuăm” aprobă diagnosticul Oradea înainte de schimbări.
