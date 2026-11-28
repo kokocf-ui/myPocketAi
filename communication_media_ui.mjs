@@ -39,6 +39,112 @@ function buildInlineImage(message,peer,row){
  button.className='comm-inline-image';button.setAttribute('aria-label',tr('Fotografie — deschide și salvează','Photo — open and save'));row.append(button);inlineImageRows.set(message.id,row);
  inlineImageMetadata.set(button,{message,peer});if(inlineImageObserver)inlineImageObserver.observe(button);else setTimeout(()=>void loadInlineImage(message,peer,button),0);
 }
+const inlineTextRows=new Map();
+function clearInlineTextRows(){inlineTextRows.clear()}
+function forgetMissingInlineText(ids){for(const id of inlineTextRows.keys())if(!ids.has(id))inlineTextRows.delete(id)}
+function splitChatTextLinks(rawText){
+ const text=String(rawText??'');
+ const rx=/\b((?:https?:\/\/|www\.)[^\s<>"]+)/gi;
+ const parts=[];let last=0,match;
+ while((match=rx.exec(text))!==null){
+  const start=match.index;
+  let token=match[1];
+  while(token.length>4){
+   const ch=token[token.length-1];
+   if('.,;:!?\'\"»”’>'.includes(ch)){token=token.slice(0,-1);continue}
+   if(ch===')'&&(token.split(')').length>token.split('(').length)){token=token.slice(0,-1);continue}
+   if(ch===']'&&(token.split(']').length>token.split('[').length)){token=token.slice(0,-1);continue}
+   break;
+  }
+  const candidate=/^https?:\/\//i.test(token)?token:'https://'+token;
+  let safeHref='';
+  try{
+   const parsed=new URL(candidate);
+   if((parsed.protocol==='https:'||parsed.protocol==='http:')&&parsed.hostname&&parsed.hostname.includes('.'))safeHref=parsed.href;
+  }catch{}
+  if(!safeHref)continue;
+  if(start>last)parts.push({type:'text',value:text.slice(last,start)});
+  parts.push({type:'link',value:token,href:safeHref});
+  last=start+token.length;
+  rx.lastIndex=last;
+ }
+ if(last<text.length||!parts.length)parts.push({type:'text',value:text.slice(last)});
+ return parts;
+}
+function renderChatMessageBody(rawText){
+ const box=el('div',undefined,'comm-message-body');
+ const parts=splitChatTextLinks(rawText);
+ if(parts.length===1&&parts[0].type==='text'){box.textContent=parts[0].value;return box}
+ for(const part of parts){
+  if(part.type==='text'){if(part.value)box.append(document.createTextNode(part.value));continue}
+  const link=el('a',part.value,'comm-chat-link');
+  link.href=part.href;link.target='_blank';link.rel='noopener noreferrer';
+  link.addEventListener('click',ev=>{
+   ev.stopPropagation();
+   if(typeof INVITE_ROOT==='string'&&part.href.startsWith(INVITE_ROOT)){
+    const inviteCode=part.href.slice(INVITE_ROOT.length).split(/[?#]/)[0];
+    if(inviteCode.length>=32&&inviteCode.length<=150&&/^[A-Za-z0-9_-]+$/.test(inviteCode)&&typeof window.pocketInviteReceived==='function'){
+     ev.preventDefault();window.pocketInviteReceived(inviteCode);return;
+    }
+   }
+   if(window.PocketAndroidExternalLink?.postMessage){
+    ev.preventDefault();
+    try{window.PocketAndroidExternalLink.postMessage(part.href)}catch{}
+   }
+  });
+  box.append(link);
+ }
+ return box;
+}
+function nextConsecutiveReceivedVoiceRow(row){
+ const next=row?.nextElementSibling||null;
+ if(!next||!next.classList?.contains('comm-message'))return null;
+ if(!next.classList.contains('theirs')||!next.classList.contains('comm-message--voice'))return null;
+ return next;
+}
+function preloadNextReceivedVoiceRow(row){
+ const next=nextConsecutiveReceivedVoiceRow(row);
+ if(!next)return;
+ const nextAudio=next.querySelector('audio.comm-inline-audio');
+ const target=next.querySelector('.comm-voice-bar')||nextAudio;
+ const meta=target?inlineVoiceMetadata.get(target):null;
+ if(meta&&nextAudio&&nextAudio.dataset.loadState!=='ready'&&nextAudio.dataset.loadState!=='loading'){
+  void loadInlineVoice(meta.message,meta.peer,nextAudio);
+ }
+}
+async function autoPlayNextReceivedVoiceRow(row,peer,rate){
+ if(!row?.isConnected||!peer||selected?.id!==peer.id||chat.hidden||!root.classList.contains('active'))return false;
+ const next=nextConsecutiveReceivedVoiceRow(row);
+ if(!next)return false;
+ const nextAudio=next.querySelector('audio.comm-inline-audio');
+ if(!nextAudio)return false;
+ const nextPlay=next.querySelector('.comm-voice-play');
+ const nextSpeed=next.querySelector('.comm-inline-speed');
+ const target=next.querySelector('.comm-voice-bar')||nextAudio;
+ const meta=target?inlineVoiceMetadata.get(target):null;
+ if(Number.isFinite(rate)&&rate>0){
+  nextAudio.playbackRate=rate;
+  if(nextSpeed){
+   nextSpeed.textContent=rate+'×';
+   nextSpeed.setAttribute('aria-label',tr('Viteză redare','Playback speed')+' '+rate+'×');
+  }
+ }
+ next.scrollIntoView?.({block:'nearest',behavior:'smooth'});
+ if(!nextAudio.src||nextAudio.dataset.loadState!=='ready'){
+  if(nextPlay)nextPlay.textContent='…';
+  if(meta)await loadInlineVoice(meta.message,meta.peer,nextAudio);
+  if(!nextAudio.src){if(nextPlay)nextPlay.textContent='▶';return false}
+ }
+ if(!next.isConnected||selected?.id!==peer.id||chat.hidden||!root.classList.contains('active'))return false;
+ try{
+  const started=nextAudio.play();
+  if(started&&typeof started.then==='function')await started;
+  return true;
+ }catch{
+  if(nextPlay)nextPlay.textContent='▶';
+  return false;
+ }
+}
 let deliverySyncBusy=false,deliverySyncLast=0,receiptDiagnostic='';
 const deliveredSessionIds=new Set(),deliveryInFlight=new Set();
 async function confirmFetchedDelivery(messages){
@@ -56,4 +162,7 @@ export const COMMUNICATION_MEDIA_STYLE=String.raw`
 #view-communication .comm-inline-image{display:block;width:100%;min-height:130px;max-height:300px;padding:0!important;border:0!important;border-radius:12px;overflow:hidden;background:#12354a;color:#dff5ff}
 #view-communication .comm-inline-image img{display:block;width:100%;height:auto;max-height:300px;object-fit:contain}
 #view-communication .comm-message--attachment:has(.comm-inline-image){padding:5px;max-width:min(78%,330px)}
+#view-communication .comm-message-body a.comm-chat-link{color:#7ee8fa!important;text-decoration:underline!important;text-underline-offset:2px;font-weight:600;cursor:pointer;pointer-events:auto!important;touch-action:manipulation;overflow-wrap:anywhere;word-break:break-word}
+#view-communication .comm-message.mine .comm-message-body a.comm-chat-link{color:#b6f8ff!important}
+#view-communication .comm-message-body a.comm-chat-link:active{opacity:.76}
 `;

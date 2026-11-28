@@ -669,9 +669,20 @@ public final class MainActivity extends ComponentActivity {
                 recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
                 if(explicit){
                     recorder.setAudioChannels(1);
-                    recorder.setAudioEncodingBitRate(64000);
-                    recorder.setAudioSamplingRate(44100);
+                    recorder.setAudioEncodingBitRate(32000);
+                    recorder.setAudioSamplingRate(24000);
                 }
+                try{
+                    long remainingBytes=COMM_VOICE_MAX_BYTES-131072L;
+                    for(File seg:commVoiceSegments)if(seg!=null)remainingBytes-=seg.length();
+                    if(remainingBytes>262144L){
+                        recorder.setMaxFileSize(remainingBytes);
+                        recorder.setOnInfoListener((mr,what,extra)->{
+                            if(what==MediaRecorder.MEDIA_RECORDER_INFO_MAX_FILESIZE_REACHED&&session==commVoiceSession)
+                                commVoiceHandler.post(()->finishCommVoice(true,true));
+                        });
+                    }
+                }catch(Exception ignored){}
                 recorder.setOutputFile(file.getAbsolutePath());
                 recorder.prepare();
                 recorder.start();
@@ -682,7 +693,7 @@ public final class MainActivity extends ComponentActivity {
                 commVoicePaused=false;
                 notifyCommVoice(resuming?"resumed":"started",session,null,-1,0,null);
                 commVoiceTimeout=()->finishCommVoice(true,true);
-                commVoiceHandler.postDelayed(commVoiceTimeout,60000L);
+                commVoiceHandler.postDelayed(commVoiceTimeout,2700000L);
                 return;
             }catch(SecurityException error){
                 failure="MIC_PERMISSION_DENIED";
@@ -1041,6 +1052,7 @@ public final class MainActivity extends ComponentActivity {
         settings.setAllowContentAccess(true); // Required for user-selected content:// images; file:// access remains disabled.
         settings.setMixedContentMode(WebSettings.MIXED_CONTENT_NEVER_ALLOW);
         settings.setGeolocationEnabled(true);
+        settings.setMediaPlaybackRequiresUserGesture(false);
         web.setWebChromeClient(new WebChromeClient(){
             @Override public boolean onShowFileChooser(WebView view,ValueCallback<Uri[]> callback,FileChooserParams params){
                 if(web==null || !APP_HOST.equals(Uri.parse(web.getUrl()==null?"":web.getUrl()).getHost())){callback.onReceiveValue(null);return true;}
@@ -1229,12 +1241,34 @@ public final class MainActivity extends ComponentActivity {
                     try { startActivity(new Intent(Intent.ACTION_SENDTO,url)); } catch(Exception ignored) {}
                     return true;
                 }
-                if ("https".equals(url.getScheme()) && url.getHost()!=null) {
-                    try { startActivity(new Intent(Intent.ACTION_VIEW, url)); } catch(Exception ignored) {}
+                if (("https".equalsIgnoreCase(url.getScheme()) || "http".equalsIgnoreCase(url.getScheme())) && url.getHost()!=null) {
+                    try { startActivity(new Intent(Intent.ACTION_VIEW, url).addCategory(Intent.CATEGORY_BROWSABLE)); } catch(Exception ignored) {}
                 }
                 return true;
             }
         });
+        if(WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            WebViewCompat.addWebMessageListener(web,"PocketAndroidExternalLink",
+                Collections.singleton("https://"+APP_HOST),
+                (view,message,origin,isMainFrame,replyProxy)->{
+                    if(!isMainFrame||origin==null||
+                       !"https".equalsIgnoreCase(origin.getScheme())||
+                       !APP_HOST.equalsIgnoreCase(origin.getHost()))return;
+                    final String raw=message.getData();
+                    if(raw==null||raw.length()<8||raw.length()>4096)return;
+                    runOnUiThread(()->{
+                        try{
+                            Uri target=Uri.parse(raw.trim());
+                            String scheme=target.getScheme();
+                            if(("https".equalsIgnoreCase(scheme)||"http".equalsIgnoreCase(scheme))&&target.getHost()!=null){
+                                Intent intent=new Intent(Intent.ACTION_VIEW,target);
+                                intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                                startActivity(intent);
+                            }
+                        }catch(Exception ignored){}
+                    });
+                });
+        }
         // Strict first-party bridge: native navigation starts ONLY after the
         // user presses Follow in Maps, while this Activity is visible.
         // It continues in an Android location foreground service across Home,

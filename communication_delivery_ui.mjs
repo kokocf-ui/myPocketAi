@@ -14,7 +14,8 @@ function makeOutgoingJob(kind,peer,prepare,onAccepted=()=>{},preview=''){
  const job={id:crypto.randomUUID(),kind,peer,prepare,onAccepted,payload:null,busy:false,accepted:false,ackAt:0,timer:null,started:0};
  job.row=el('div',undefined,'comm-message mine comm-message--text comm-outgoing-pending');
  job.row.dataset.outgoingId=job.id;
- job.row.append(el('div',preview||tr(kind==='audio'?'🎙 Mesaj vocal':'📎 Atașament privat',kind==='audio'?'🎙 Voice note':'📎 Private attachment'),'comm-message-body'));
+ const previewText=preview||tr(kind==='audio'?'🎙 Mesaj vocal':'📎 Atașament privat',kind==='audio'?'🎙 Voice note':'📎 Private attachment');
+ job.row.append(typeof renderChatMessageBody==='function'?renderChatMessageBody(previewText):el('div',previewText,'comm-message-body'));
  job.label=el('small','', 'comm-transfer-state');job.label.setAttribute('role','status');job.row.append(job.label);
  job.retry=makeBtn(tr('Reîncearcă aceeași trimitere','Retry same send'),()=>{void attemptOutgoingJob(job)});job.retry.hidden=true;job.row.append(job.retry);
  outgoingJobs.set(job.id,job);if(selected?.id===peer.id){transcript.append(job.row);transcript.scrollTop=transcript.scrollHeight}
