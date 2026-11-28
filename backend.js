@@ -243,7 +243,7 @@ function travelPlaceSpec(value){
 function travelPlaceCandidateMatches(query,p){
  const spec=travelPlaceSpec(query),norm=v=>normalizeGeoName(v),has=(text,tokens)=>tokens.every(t=>norm(text).split(' ').includes(t)),words=v=>norm(v).split(' ').filter(t=>t.length>1),formatted=[p.formatted,p.name,p.address_line1,p.city,p.town,p.village,p.country].filter(Boolean).join(' ');
  if(spec.kind==='poi'){
-  const name=p.name||p.brand||p.datasource?.raw?.name||p.address_line1||'';
+  const name=[p.name,p.brand,p.datasource?.raw?.name,p.datasource?.raw?.['name:ro'],p.datasource?.raw?.['name:en'],p.address_line1].filter(Boolean).join(' ');
   if(!words(spec.name).length||!has(name,words(spec.name)))return false;
   if(/^(?:street|city|town|village|suburb|district|county|state|country|continent|region|postcode)$/i.test(p.result_type||''))return false;
   if(!TRAVEL_STREET_WORDS.test(spec.name)&&TRAVEL_STREET_WORDS.test(name)&&!(p.categories||[]).some(c=>/commercial|catering|accommodation|healthcare|entertainment|tourism|education|service|leisure/.test(c)))return false;
@@ -2204,43 +2204,101 @@ async function handleBackendRequest(request, env, runtime={}) {
           const distinctCities=new Set(candidates.map(c=>norm(c.city)).filter(Boolean));
           if(candidates.length>=1&&distinctCities.size<=2){
             const anchor=candidates[0];
-            const placesUrl=new URL('https://api.geoapify.com/v2/places');
+            const nameTokens=normalizeGeoName(parsed.name).split(' ').filter(w=>w.length>1);
             const cats=parsed.category==='entertainment.museum'
               ?'entertainment.museum,tourism.sights,tourism.attraction'
               :parsed.category;
-            placesUrl.searchParams.set('categories',cats);
-            placesUrl.searchParams.set('filter','circle:'+anchor.longitude+','+anchor.latitude+',85000');
-            placesUrl.searchParams.set('limit','100');
-            placesUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
-            const pr=await fetch(placesUrl.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5000)});
-            if(pr.ok){
-              const pj=await pr.json();
-              const nameTokens=normalizeGeoName(parsed.name).split(' ').filter(w=>w.length>1);
-              const regionalProps=[];
-              for(const f of Array.isArray(pj.features)?pj.features:[]){
+            const extractPoiFeatures=(features,fallbackTown=null)=>{
+              const out=[];
+              for(const f of Array.isArray(features)?features:[]){
                 const rawP=f?.properties||{};
+                if(Array.isArray(rawP.categories)&&rawP.categories.some(c=>String(c).startsWith('populated_place')))continue;
                 const lat=Number(rawP.lat??f?.geometry?.coordinates?.[1]);
                 const lon=Number(rawP.lon??f?.geometry?.coordinates?.[0]);
                 if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+                if(fallbackTown&&routeGeoDistance(fallbackTown,{latitude:lat,longitude:lon})>15000)continue;
                 const rawNames=normalizeGeoName([rawP.name,rawP.datasource?.raw?.name,
                   rawP.datasource?.raw?.['name:ro'],rawP.datasource?.raw?.['name:en'],
                   rawP.address_line1].filter(Boolean).join(' ')).split(' ');
                 if(!nameTokens.length||!nameTokens.every(t=>rawNames.includes(t)))continue;
                 const parsedPostcodeCity=String(rawP.address_line2||rawP.formatted||'')
                   .match(/\b\d{5,6}\s+([\p{L}\p{M}][\p{L}\p{M} -]{1,40}?)\s*(?:,|$)/u)?.[1]?.trim()||'';
-                const poiCity=specificLocality(rawP)||(!isSupraLocalLocality(parsedPostcodeCity)?parsedPostcodeCity:'');
+                const poiCity=specificLocality(rawP)||(!isSupraLocalLocality(parsedPostcodeCity)?parsedPostcodeCity:'')||
+                  (fallbackTown&&routeGeoDistance(fallbackTown,{latitude:lat,longitude:lon})<=8000?fallbackTown.name:'');
                 if(!poiCity)continue;
-                const displayName=String(rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'').trim();
+                const displayName=String(rawP.datasource?.raw?.['name:ro']&&/[ăâîșțĂÂÎȘȚ]/.test(raw)
+                  ?rawP.datasource.raw['name:ro']
+                  :(rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'')).trim();
                 const streetPart=rawP.street?(rawP.housenumber?rawP.street+' '+rawP.housenumber:rawP.street):'';
-                const finalCountry=String(rawP.country||'').trim();
+                const finalCountry=String(rawP.country||fallbackTown?.country||'').trim();
                 const formatted=rawP.formatted&&normalizeGeoName(rawP.formatted).includes(normalizeGeoName(poiCity))
                   ?String(rawP.formatted)
                   :[displayName,streetPart,poiCity,finalCountry].filter(Boolean).join(', ');
-                regionalProps.push({...rawP,lat,lon,name:displayName,city:poiCity,
+                out.push({...rawP,lat,lon,name:displayName,city:poiCity,
                   country_code:String(rawP.country_code||anchor.country_code||'').toLowerCase(),
                   result_type:String(rawP.result_type||'amenity'),formatted});
               }
+              return out;
+            };
+            const placesUrl=new URL('https://api.geoapify.com/v2/places');
+            placesUrl.searchParams.set('categories',parsed.category);
+            placesUrl.searchParams.set('filter','circle:'+anchor.longitude+','+anchor.latitude+',90000');
+            placesUrl.searchParams.set('limit','200');
+            placesUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const citiesUrl=new URL('https://api.geoapify.com/v2/places');
+            citiesUrl.searchParams.set('categories','populated_place.city');
+            citiesUrl.searchParams.set('filter','circle:'+anchor.longitude+','+anchor.latitude+',90000');
+            citiesUrl.searchParams.set('bias','proximity:'+anchor.longitude+','+anchor.latitude);
+            citiesUrl.searchParams.set('limit','15');
+            citiesUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const [pr,cr]=await Promise.all([
+              fetch(placesUrl.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5000)}).catch(()=>null),
+              fetch(citiesUrl.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5000)}).catch(()=>null)
+            ]);
+            if(pr?.ok){
+              const pj=await pr.json().catch(()=>({}));
+              const regionalProps=extractPoiFeatures(pj.features);
               if(regionalProps.length)collectVerified([{status:'fulfilled',value:regionalProps}]);
+            }
+            if(cr?.ok){
+              const cj=await cr.json().catch(()=>({}));
+              const haveCities=new Set(candidates.map(c=>norm(c.city)).filter(Boolean));
+              const regCities=(Array.isArray(cj.features)?cj.features:[]).map(f=>{
+                const p=f?.properties||{};
+                if(!Array.isArray(p.categories)||!p.categories.some(c=>String(c).startsWith('populated_place')))return null;
+                const lat=Number(p.lat??f?.geometry?.coordinates?.[1]);
+                const lon=Number(p.lon??f?.geometry?.coordinates?.[0]);
+                const cName=specificLocality(p)||String(p.name||'').trim();
+                const code=String(p.country_code||'').toUpperCase();
+                if(!cName||isSupraLocalLocality(cName)||!Number.isFinite(lat)||!Number.isFinite(lon))return null;
+                if(anchor.country_code&&code&&code!==anchor.country_code)return null;
+                if(haveCities.has(norm(cName)))return null;
+                const pop=Number(p.population??p.datasource?.raw?.population)||0;
+                return {name:cName,latitude:lat,longitude:lon,country:String(p.country||''),pop};
+              }).filter(Boolean).sort((a,b)=>b.pop-a.pop).slice(0,2);
+              if(regCities.length){
+                const cityJobs=await Promise.all(regCities.map(async rc=>{
+                  const cu=new URL('https://api.geoapify.com/v2/places');
+                  cu.searchParams.set('categories',cats);
+                  cu.searchParams.set('filter','circle:'+rc.longitude+','+rc.latitude+',15000');
+                  cu.searchParams.set('limit','100');
+                  cu.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+                  const gu=new URL('https://api.geoapify.com/v1/geocode/search');
+                  gu.searchParams.set('text',raw+', '+rc.name);
+                  gu.searchParams.set('format','json');
+                  gu.searchParams.set('limit','10');
+                  gu.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+                  if(nationalCountry)gu.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
+                  const [cRes,gRows]=await Promise.all([
+                    fetch(cu.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5000)}).catch(()=>null),
+                    geocodeResults(gu).catch(()=>[])
+                  ]);
+                  const cJson=cRes?.ok?await cRes.json().catch(()=>({})):{};
+                  return [...extractPoiFeatures(cJson.features,rc),...gRows];
+                }));
+                const flat=cityJobs.flat();
+                if(flat.length)collectVerified([{status:'fulfilled',value:flat}]);
+              }
             }
           }
         }catch{}
