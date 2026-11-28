@@ -22775,7 +22775,8 @@ async function openTransitJourneyMap(selected,resume=null){
  details.style.cssText='flex:1 1 auto;min-height:0;overflow-y:auto;padding:14px 18px 28px;overscroll-behavior:contain';
  const destination=String(state.lastTransitResponse?.transit_destination_point?.label||
     state.lastTransitChoice?.transitDestination?.label||journey.legs?.at(-1)?.to||'');
- const intro=document.createElement('strong');intro.textContent=String(journey.legs?.[0]?.from||'—')+' → '+destination;
+ const originLabel=String(state.lastTransitChoice?.journeyOrigin?.label||journey.legs?.[0]?.from||'—');
+ const intro=document.createElement('strong');intro.textContent=originLabel+' → '+destination;
  const timing=document.createElement('p');timing.textContent=transitDateLabel(journey.startDateTime,journey.time_zone)+' · '+(transitScheduleUncertain(journey)?dialogText('Orientativ · ','Indicative · '):'')+transitClock(journey.startDateTime,journey.time_zone)+
   ' → '+transitClock(journey.arrivalDateTime,journey.time_zone)+(journey.durationMinutes!=null?' · '+formatTravelDurationMinutes(journey.durationMinutes):'');
  const notice=document.createElement('p');notice.style.cssText='font-size:13px;opacity:.85';
@@ -22856,6 +22857,9 @@ async function openTransitJourneyMap(selected,resume=null){
  if(leaveBy){const advice=document.createElement('p');advice.className='transit-boarding-buffer-notice';
   advice.textContent=leaveBy;details.append(advice)}
  details.append(follow,recenter,stop,notice);
+ const accessStage=document.createElement('div');accessStage.className='transit-access-walk-stage';
+ accessStage.hidden=true;accessStage.style.cssText='padding:12px 5px;border-bottom:1px solid #426274';
+ details.append(accessStage);
  const stages=document.createElement('div');stages.className='transit-all-legs';
  for(const [i,leg] of (journey.legs||[]).entries()){
   const row=document.createElement('div');row.style.cssText='padding:12px 5px;border-bottom:1px solid #426274';
@@ -22907,7 +22911,29 @@ async function openTransitJourneyMap(selected,resume=null){
   follow.disabled=Boolean(selected.loading||selected.error||selected.timeUnverified||transitScheduleUncertain(journey));
   if(selected.error)note.textContent=selected.error;
   current.route=selected.accessRoute||null;
-  if(selected.accessRoute&&validMapRoute(selected.accessRoute)){walkRoutes.set(-1,selected.accessRoute);current.drawAccess?.(selected.accessRoute)}
+  if(selected.accessRoute&&validMapRoute(selected.accessRoute)){
+   walkRoutes.set(-1,selected.accessRoute);current.drawAccess?.(selected.accessRoute);
+   if(!(journey.legs||[]).length||!transitWalkLeg(journey.legs?.[0]?.mode)){
+    accessStage.replaceChildren();accessStage.hidden=false;
+    const wTitle=document.createElement('strong');
+    wTitle.textContent='📌 '+transitAccessText()[22];
+    const wPlace=document.createElement('div');
+    wPlace.textContent=String(state.lastTransitChoice?.journeyOrigin?.label||dialogText('Poziția mea','My location'))+
+     ' → '+String(journey.boarding_stop?.label||journey.legs?.[0]?.from||'');
+    const wMeta=document.createElement('small');wMeta.style.display='block';
+    wMeta.textContent='📌 '+Math.round(selected.accessRoute.distanceMeters||0)+' m'+
+     (Number.isFinite(selected.accessRoute.durationSeconds)?' · '+formatTravelDurationMinutes(selected.accessRoute.durationSeconds/60):'');
+    const wState=document.createElement('p');wState.className='transit-walk-stage-status';
+    wState.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');
+    accessStage.append(wTitle,wPlace,wState,wMeta);
+    const wSteps=document.createElement('ol');wSteps.className='transit-walking-instructions';
+    for(const step of selected.accessRoute.steps||[]){
+     if(!step?.text)continue;
+     const li=document.createElement('li');li.textContent=step.text;wSteps.append(li);
+    }
+    if(wSteps.children.length)accessStage.append(wSteps);
+   }
+  }
  };
  current.refreshSelection();
  const resize=()=>{
@@ -22956,8 +22982,13 @@ async function openTransitJourneyMap(selected,resume=null){
   for(const [i,leg] of (journey.legs||[]).entries()){
    const savedLeg=savedWalks.get(i);
    let from=transitCoordinate(leg.departurePoint),to=transitCoordinate(leg.arrivalPoint||leg.arrivalLatLon);
+   const coordStart=Array.isArray(leg.coordinates)&&leg.coordinates.length>=2&&Array.isArray(leg.coordinates[0])&&Number.isFinite(leg.coordinates[0][0])&&Number.isFinite(leg.coordinates[0][1])?[leg.coordinates[0][1],leg.coordinates[0][0]]:null;
+   const coordEnd=Array.isArray(leg.coordinates)&&leg.coordinates.length>=2&&Array.isArray(leg.coordinates.at(-1))&&Number.isFinite(leg.coordinates.at(-1)[0])&&Number.isFinite(leg.coordinates.at(-1)[1])?[leg.coordinates.at(-1)[1],leg.coordinates.at(-1)[0]]:null;
+   if(!from&&coordStart)from=coordStart;
+   if(!to&&coordEnd)to=coordEnd;
    if(!from&&savedLeg)from=[savedLeg.coordinates[0][1],savedLeg.coordinates[0][0]];
    if(!to&&savedLeg){const end=savedLeg.coordinates.at(-1);to=[end[1],end[0]]}
+   if(!from&&i===0)from=transitCoordinate(journey.access||journey.boarding_stop);
    if(!from&&i>0)from=transitCoordinate(journey.legs[i-1]?.arrivalPoint||journey.legs[i-1]?.arrivalLatLon);
    if(!to&&i+1<journey.legs.length)to=transitCoordinate(journey.legs[i+1]?.departurePoint);
    if(!from||!to){unverified.push(i+1);if(from)marker(from,'📌 '+leg.from);if(to)marker(to,'📌 '+leg.to);continue}
@@ -23040,7 +23071,11 @@ async function selectTransitJourney(options,index){
 }
 async function selectTransitJourneyWithNavigation(options,index,navigate=false){
  if(state.busy)return;cancelTransitAccess();const journey=options[index];if(!journey)return;const generation=state.transitAccessGeneration,chatGeneration=state.conversationGeneration,t=transitAccessText();const selected={journey,options,index,loading:true,error:'',accessRoute:null,accessOptions:[]};state.selectedTransitJourney=selected;
- const directMap=state.lastTransitChoice?.mixedJourney!==true&&!navigate;
+ const mappedJourney=(journey.legs||[]).some(leg=>transitCoordinate(leg?.departurePoint)||
+  transitCoordinate(leg?.arrivalPoint||leg?.arrivalLatLon)||
+  (Array.isArray(leg?.coordinates)&&leg.coordinates.length>=2))||
+  Boolean(transitCoordinate(journey.access)&&transitCoordinate(journey.egress));
+ const directMap=!navigate&&(state.lastTransitChoice?.mixedJourney!==true||mappedJourney);
  // Render the visible map/details shell before GPS or pedestrian providers.
  let accessDone;
  if(directMap){
@@ -23054,7 +23089,7 @@ async function selectTransitJourneyWithNavigation(options,index,navigate=false){
   const body=$('moduleLayerBody'),top=body?.scrollTop||0;renderTransitChoices(options,index);if(body)body.scrollTop=top;
  };
  const verifyAccess=async()=>{
- if(state.lastTransitChoice?.mixedJourney===true&&!navigate){
+ if(state.lastTransitChoice?.mixedJourney===true&&!directMap&&!navigate){
   selected.loading=false;selected.error='';updateDetails();return;
  }
  if(transitScheduleUncertain(journey)){
@@ -26077,7 +26112,11 @@ main.page:has(#view-module.module-landing.active){overflow-x:hidden!important;ov
  color:#f3fbff!important;border-color:#63adb5!important;
  box-shadow:inset 0 2px 0 rgba(235,255,255,.14),0 4px 0 #031723,0 9px 16px rgba(0,0,0,.28)!important;
 }
-#moduleQuickLayer.open .module-quick-sheet #moduleLayerBody .transit-refresh-action{
+#moduleQuickLayer.open .module-quick-sheet #moduleLayerBody .transit-refresh-action,
+.transit-full-journey-details .transit-refresh-action{
+ width:100%;min-height:48px!important;padding:12px 16px!important;margin:6px 0 8px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+ border-radius:14px;font-size:15px!important;line-height:1.25!important;
  background:linear-gradient(140deg,#723846,#4a293c 60%,#291f36)!important;
  color:#fff5f6!important;border:1.5px solid #d6949b!important;
  box-shadow:inset 0 2px 0 rgba(255,255,255,.13),0 4px 0 #1a101e,0 7px 14px rgba(0,0,0,.29)!important;

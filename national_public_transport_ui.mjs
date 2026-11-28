@@ -41,13 +41,17 @@ function showNationalTransitSearch(choice){
   lookup:ro?'Caut destinații în țara identificată…':'Searching destinations in your country…',
   noresults:ro?'Nu există sugestii verificate în această țară.':'No confirmed results within this country.',
   failed:ro?'Nu am putut încărca sugestiile. Reîncearcă.':'Suggestions unavailable. Retry.',
-  selected:ro?'Destinație confirmată':'Confirmed destination'
+  selected:ro?'Destinație confirmată':'Confirmed destination',
+  clear:ro?'✕ Golește câmpul':'✕ Clear field'
  })[key];
  const root=document.createElement('section');root.className='national-transit-one-field';
  root.style.cssText='display:flex;flex-direction:column;gap:10px;min-width:0;padding:4px 0 14px';
  const label=document.createElement('strong');label.textContent=t('label');
  const field=document.createElement('input');field.type='text';field.className='journey-one-field-input';field.autocomplete='off';field.spellcheck=false;field.maxLength=190;field.disabled=true;field.placeholder=t('placeholder');field.setAttribute('aria-label',t('label'));
  field.style.cssText='width:100%;min-height:54px;box-sizing:border-box;border-radius:16px;padding:12px;background:#102d40;border:2px solid #62b9d0;color:#fff;font-size:16px;touch-action:manipulation';
+ const clearBtn=document.createElement('button');clearBtn.type='button';clearBtn.className='journey-clear-field-btn';
+ clearBtn.textContent=t('clear');clearBtn.setAttribute('aria-label',t('clear'));
+ clearBtn.style.cssText='box-sizing:border-box;width:100%;min-height:42px;padding:8px 14px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-align:center;border-radius:12px;border:1.5px solid #62b9d0;background:linear-gradient(145deg,#173a4f,#0d2434);color:#eaf9ff;font-size:14px;font-weight:750;touch-action:manipulation';
  const hint=document.createElement('p');hint.textContent=t('hint');hint.style.cssText='margin:0;font-size:13px;color:#b7d3df';
  const status=document.createElement('p');status.textContent=t('waiting');status.setAttribute('role','status');status.setAttribute('aria-live','polite');status.style.cssText='margin:0;min-height:22px;font-size:13px;color:#c8e0e9';
  const choices=document.createElement('div');choices.className='national-transit-suggestions';choices.style.cssText='display:flex;flex-direction:column;gap:7px;max-height:40dvh;overflow-y:auto;overscroll-behavior:contain';
@@ -111,7 +115,8 @@ function showNationalTransitSearch(choice){
   try{
    // Keep the exact destination. Retry only the named station when the
    // geocoder cannot parse an address containing it; never select a town.
-   const stationRequest=/\b(?:railway\s+station|train\s+station|station|gara|gară)\b/i.test(query);
+   const fold=v=>String(v||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim();
+   const stationRequest=/\b(?:railway\s+station|train\s+station|underground\s+station|tube\s+station|station|underground|tube|gara|gară)\b/i.test(query);
    const stationName=query.split(',')[0].trim();
    const fallback=stationRequest&&stationName!==query?stationName:'';
    let options=[];
@@ -121,12 +126,30 @@ function showNationalTransitSearch(choice){
     if(!alive()||n!==seq)return;
     const candidates=(Array.isArray(data.candidates)?data.candidates:[]).filter(p=>String(p.country_code||'').toUpperCase()===country);
     options=stationRequest?candidates.filter(p=>{
-     const name=String(p._name||p.label||'').toLowerCase(),kind=String(p.kind||'')+' '+String((p._categories||[]).join(' '));
-     const base=stationName.replace(/\b(?:railway|train|station)\b/gi,'').trim().toLowerCase();
-     return name.includes(base)&&(/station|railway|public_transport|train|rail/i.test(kind)||/station|railway/i.test(name));
+     const rawHead=String(p._name||String(p.label||'').split(',')[0]);
+     const headWords=fold(rawHead).split(' ').filter(Boolean);
+     const fullWords=fold([p._name,p.label,p.city].filter(Boolean).join(' ')).split(' ').filter(Boolean);
+     const kind=fold([p.kind,(p._categories||[]).join(' '),p.source].filter(Boolean).join(' '));
+     const stripped=fold(stationName.replace(/\b(?:railway|train|rail|underground|tube|metro|station|gara|gară|statie|stația)\b/giu,' ')).split(' ').filter(Boolean);
+     const tokensToCheck=stripped.length?stripped:fold(stationName).split(' ').filter(Boolean);
+     const tokenMatch=tokensToCheck.length>0&&
+      tokensToCheck.every(tok=>fullWords.some(w=>w===tok||w.startsWith(tok)))&&
+      tokensToCheck.some(tok=>headWords.some(w=>w===tok||w.startsWith(tok)));
+     const isTransit=/station|railway|public transport|train|rail|underground|tube|metro|tfl stoppoint/.test(kind)||
+      /\b(?:station|railway|rail|underground|tube|metro|gara|gar[aă]|gare|bahnhof|stazione|estacion)\b/i.test(String(p._name||p.label||''));
+     return tokenMatch&&isTransit;
     }):candidates;
     if(options.length)break;
    }
+   const deduped=[];
+   for(const cand of options){
+    const labelNorm=fold(cand.label||''),lat=Number(cand.latitude),lon=Number(cand.longitude);
+    if(deduped.some(prev=>fold(prev.label||'')===labelNorm&&
+       (!Number.isFinite(lat)||!Number.isFinite(Number(prev.latitude))||
+        (Math.abs(Number(prev.latitude)-lat)<0.025&&Math.abs(Number(prev.longitude)-lon)<0.035))))continue;
+    deduped.push(cand);
+   }
+   options=deduped;
    if(!alive()||n!==seq)return;choices.replaceChildren();
    status.textContent=options.length?'':t('noresults');
    for(const candidate of options.slice(0,8)){
@@ -138,6 +161,12 @@ function showNationalTransitSearch(choice){
     btn.className='transit-choice-action journey-suggestion';btn.style.flex='0 0 auto';btn.style.width='100%';btn.style.textAlign='left';choices.append(btn);
    }
   }catch(err){if(alive()&&n===seq&&err?.name!=='AbortError')status.textContent=t('failed')}
+ };
+ clearBtn.onclick=()=>{
+  seq++;clearTimeout(timer);abort?.abort();point=null;field.value='';
+  choices.replaceChildren();selectedText.textContent='';
+  if(country)status.textContent=t('short');
+  if(!field.disabled)field.focus();
  };
  field.addEventListener('input',()=>{
   seq++;clearTimeout(timer);abort?.abort();point=null;choices.replaceChildren();selectedText.textContent='';
@@ -180,7 +209,7 @@ function showNationalTransitSearch(choice){
    }
   }catch(e){if(alive()){status.textContent=e?.message==='gps_denied'?t('denied'):t('unknown');retry.hidden=false;retry.style.display='block'}}
  };
- searchNodes.push(label,field,hint,status,choices,selectedText,retry);
+ searchNodes.push(label,field,clearBtn,hint,status,choices,selectedText,retry);
  root.append(...searchNodes);host.replaceChildren(root);void detect();
 }
 `;

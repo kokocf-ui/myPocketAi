@@ -74,10 +74,14 @@ export function rankJourneySuggestions(query,candidates=[],{origin=null,national
  }
  if(national&&stopRequest){
   // A station search cannot silently become a café, district or hotel.
+  const requireLondon=tokens.includes('london')||tokens.includes('londra');
   items=items.filter(c=>{
    if(!transit(c))return false;
-   const name=new Set(words(c._name||String(c.label||'').split(',')[0]));
-   if(!activeCore.length||!activeCore.every(t=>name.has(t)))return false;
+   if(requireLondon&&!/\blondon\b/.test(norm((c.city||'')+' '+(c.label||''))))return false;
+   const headWords=new Set(words(c._name||String(c.label||'').split(',')[0]));
+   const localityWords=new Set(words((c.city||'')+' '+(c.label||'')));
+   if(!activeCore.length||!activeCore.some(t=>headWords.has(t))||
+      !activeCore.every(t=>headWords.has(t)||localityWords.has(t)))return false;
    return !tubeRequest||/underground|tube|metro|subway/.test(norm((c._name||'')+' '+(c._categories||[]).join(' ')+' '+c.kind));
   });
  }
@@ -98,6 +102,8 @@ export function rankJourneySuggestions(query,candidates=[],{origin=null,national
    const pureAddress=['building','house','street'].includes(norm(item.kind))||
     !norm(item._name)||streetCanon(item._name)===streetCanon(item.street);
    if(pureAddress)score+=95;
+  }else if(item.street&&item.house_number){
+   score+=12;
   }
   if(stopRequest&&transit(item))score+=350;
   if(stopRequest&&item.source==='TfL StopPoint')score+=130;
@@ -149,6 +155,25 @@ export function rankJourneySuggestions(query,candidates=[],{origin=null,national
     }
     continue;
    }
+  }else{
+   const headA=norm(x._name||String(x.label||'').split(',')[0]);
+   const labelA=norm(stripSupraLocal(x.label||''));
+   const pcA=norm(x._postcode||'');
+   const duplicateUnnumbered=unique.some(v=>{
+    const y=v.item;
+    if(norm(y.house_number))return false;
+    const dist=distanceKm(x,y);
+    const sameCity=!cCity||!norm(y.city)||cCity===norm(y.city);
+    const labelB=norm(stripSupraLocal(y.label||''));
+    if(labelA&&labelA===labelB&&sameCity&&(dist===null||dist<3.0))return true;
+    const headB=norm(y._name||String(y.label||'').split(',')[0]);
+    if(!headA||headA!==headB||!sameCity)return false;
+    const pcB=norm(y._postcode||'');
+    if(pcA&&pcB&&pcA===pcB&&(dist===null||dist<3.0))return true;
+    if(cStreet&&cStreet===streetCanon(y.street)&&cCity&&(dist===null||dist<2.5))return true;
+    return dist!==null&&dist<0.25;
+   });
+   if(duplicateUnnumbered)continue;
   }
   unique.push(entry);
  }

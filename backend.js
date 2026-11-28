@@ -2074,8 +2074,13 @@ async function handleBackendRequest(request, env, runtime={}) {
         // toward a distant/foreign GPS coordinate (e.g. phone in UK, query in Oradea).
         const stationNationwide=Boolean(nationalCountry)&&
           /(?:station|railway|rail station|gara|gară|statie|stație)\b/iu.test(selected);
-        if(pointOk&&!stationNationwide&&!parsed.locality)
-          url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
+        const roHint=/[ăâîșțĂÂÎȘȚ]|\b(?:muzeul|muzeu|gara|gară|aeroportul|aeroport|spitalul|spital|universitatea|cetatea|palatul|parcul|biserica|mănăstirea|manastirea|primăria|primaria|strada|piața|piata|calea|bulevardul|șoseaua|soseaua)\b/iu.test(raw);
+        const biasInRo=pointOk&&Number(location.latitude)>=43.5&&Number(location.latitude)<=48.35&&
+          Number(location.longitude)>=20.2&&Number(location.longitude)<=29.8;
+        if(pointOk&&!stationNationwide){
+          if(!parsed.locality&&(!roHint||biasInRo))
+            url.searchParams.set('bias','proximity:'+Number(location.longitude)+','+Number(location.latitude));
+        }
         const response=await fetch(url.href,{signal:AbortSignal.timeout(6500)});
         if(!response.ok)throw Error('geocoding_'+response.status);
         const result=await response.json();
@@ -2161,11 +2166,13 @@ async function handleBackendRequest(request, env, runtime={}) {
           const key=latitude.toFixed(5)+'|'+longitude.toFixed(5)+'|'+norm(label);
           if(seen.has(key))continue;
           seen.add(key);
+          const isTransitCat=Array.isArray(p.categories)&&
+            p.categories.some(c=>/public_transport|railway|train|subway|metro/.test(String(c)));
           candidates.push({label,latitude,longitude,city:settlement.slice(0,100),
             country_code:String(p.country_code||'').toUpperCase().slice(0,2),
             street:String(p.street||'').slice(0,120),house_number:String(p.housenumber||'').slice(0,20),
             suburb:String(p.suburb||p.district||'').slice(0,80),
-            kind:String(p.result_type||'place').slice(0,30),source:p.source||'Geoapify',
+            kind:String(isTransitCat?'public_transport':(p.result_type||'place')).slice(0,30),source:p.source||'Geoapify',
             stop_id:String(p.stop_id||''),_name:String(p.name||p.brand||'').slice(0,160),
             _postcode:String(p.postcode||'').slice(0,20),
             _categories:Array.isArray(p.categories)?p.categories.slice(0,12):[]});
@@ -2173,19 +2180,69 @@ async function handleBackendRequest(request, env, runtime={}) {
        }
       };
       collectVerified(answers);
-      // Named POIs without locality: if ASCII-folded text missed an exact UTF-8
-      // landmark name (e.g. "Muzeul Țării Crișurilor"), also query the UTF-8 form.
-      if(parsed.kind==='poi'&&!parsed.locality&&raw!==selected&&
-         !candidates.some(c=>normalizeGeoName(c._name)===normalizeGeoName(selected))){
+      // Named POIs without locality: always query UTF-8 search/autocomplete and,
+      // when forward geocoding only surfaces one regional branch (e.g. Beiuș for
+      // "Muzeul Țării Crișurilor" while Oradea is indexed in /v2/places), expand
+      // once across the evidenced regional circle so all matching cities appear.
+      if(parsed.kind==='poi'&&!parsed.locality&&parsed.name.length>=2){
         try{
-          const utfUrl=new URL('https://api.geoapify.com/v1/geocode/search');
-          utfUrl.searchParams.set('text',raw);
-          utfUrl.searchParams.set('format','json');
-          utfUrl.searchParams.set('limit','25');
-          utfUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
-          if(nationalCountry)utfUrl.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
-          const utfRows=await geocodeResults(utfUrl);
-          if(utfRows.length)collectVerified([{status:'fulfilled',value:utfRows}]);
+          const makeUtf=endpoint=>{
+            const u=new URL(endpoint);
+            u.searchParams.set('text',raw);
+            u.searchParams.set('format','json');
+            u.searchParams.set('limit','25');
+            u.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            if(nationalCountry)u.searchParams.set('filter','countrycode:'+nationalCountry.toLowerCase());
+            return geocodeResults(u).catch(()=>[]);
+          };
+          const [utfSearch,utfAuto]=await Promise.all([
+            makeUtf('https://api.geoapify.com/v1/geocode/search'),
+            raw!==selected?makeUtf('https://api.geoapify.com/v1/geocode/autocomplete'):Promise.resolve([])
+          ]);
+          if(utfSearch.length||utfAuto.length)
+            collectVerified([{status:'fulfilled',value:utfSearch},{status:'fulfilled',value:utfAuto}]);
+          const distinctCities=new Set(candidates.map(c=>norm(c.city)).filter(Boolean));
+          if(candidates.length>=1&&distinctCities.size<=2){
+            const anchor=candidates[0];
+            const placesUrl=new URL('https://api.geoapify.com/v2/places');
+            const cats=parsed.category==='entertainment.museum'
+              ?'entertainment.museum,tourism.sights,tourism.attraction'
+              :parsed.category;
+            placesUrl.searchParams.set('categories',cats);
+            placesUrl.searchParams.set('filter','circle:'+anchor.longitude+','+anchor.latitude+',85000');
+            placesUrl.searchParams.set('limit','100');
+            placesUrl.searchParams.set('apiKey',env.GEOAPIFY_API_KEY);
+            const pr=await fetch(placesUrl.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(5000)});
+            if(pr.ok){
+              const pj=await pr.json();
+              const nameTokens=normalizeGeoName(parsed.name).split(' ').filter(w=>w.length>1);
+              const regionalProps=[];
+              for(const f of Array.isArray(pj.features)?pj.features:[]){
+                const rawP=f?.properties||{};
+                const lat=Number(rawP.lat??f?.geometry?.coordinates?.[1]);
+                const lon=Number(rawP.lon??f?.geometry?.coordinates?.[0]);
+                if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+                const rawNames=normalizeGeoName([rawP.name,rawP.datasource?.raw?.name,
+                  rawP.datasource?.raw?.['name:ro'],rawP.datasource?.raw?.['name:en'],
+                  rawP.address_line1].filter(Boolean).join(' ')).split(' ');
+                if(!nameTokens.length||!nameTokens.every(t=>rawNames.includes(t)))continue;
+                const parsedPostcodeCity=String(rawP.address_line2||rawP.formatted||'')
+                  .match(/\b\d{5,6}\s+([\p{L}\p{M}][\p{L}\p{M} -]{1,40}?)\s*(?:,|$)/u)?.[1]?.trim()||'';
+                const poiCity=specificLocality(rawP)||(!isSupraLocalLocality(parsedPostcodeCity)?parsedPostcodeCity:'');
+                if(!poiCity)continue;
+                const displayName=String(rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'').trim();
+                const streetPart=rawP.street?(rawP.housenumber?rawP.street+' '+rawP.housenumber:rawP.street):'';
+                const finalCountry=String(rawP.country||'').trim();
+                const formatted=rawP.formatted&&normalizeGeoName(rawP.formatted).includes(normalizeGeoName(poiCity))
+                  ?String(rawP.formatted)
+                  :[displayName,streetPart,poiCity,finalCountry].filter(Boolean).join(', ');
+                regionalProps.push({...rawP,lat,lon,name:displayName,city:poiCity,
+                  country_code:String(rawP.country_code||anchor.country_code||'').toLowerCase(),
+                  result_type:String(rawP.result_type||'amenity'),formatted});
+              }
+              if(regionalProps.length)collectVerified([{status:'fulfilled',value:regionalProps}]);
+            }
+          }
         }catch{}
       }
       // Named POIs with an explicit locality ("Muzeul Țării Crișurilor, Oradea"):

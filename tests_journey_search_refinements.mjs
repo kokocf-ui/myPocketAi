@@ -284,14 +284,17 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
       }
 
       // Scenario B: Bare "Muzeul Țării Crișurilor" (without ", Oradea")
+      // Live Geoapify forward geocoder returns the Beiuș branch while /v2/places
+      // (and/or UTF-8 search) has the Oradea headquarters — BOTH must be returned.
       if (text === 'Muzeul Tarii Crisurilor') {
         return Response.json({
           features: [
             {
               properties: {
-                name: 'Muzeul Municipal Beiuș',
-                formatted: 'Muzeul Municipal Beiuș, Beiuș, Romania',
+                name: 'Muzeul Țării Crișurilor',
+                formatted: 'Muzeul Țării Crișurilor, Piața Samuil Vulcan 14, Beiuș, Romania',
                 city: 'Beiuș',
+                street: 'Piața Samuil Vulcan',
                 country_code: 'ro',
                 result_type: 'amenity',
                 categories: ['entertainment.museum'],
@@ -308,15 +311,14 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
             {
               properties: {
                 name: 'Muzeul Țării Crișurilor',
-                formatted: 'Muzeul Țării Crișurilor, Strada Armatei Române 1/A, Oradea, Romania',
-                city: 'Oradea',
-                street: 'Strada Armatei Române',
-                housenumber: '1/A',
+                formatted: 'Muzeul Țării Crișurilor, Piața Samuil Vulcan 14, Beiuș, Romania',
+                city: 'Beiuș',
+                street: 'Piața Samuil Vulcan',
                 country_code: 'ro',
                 result_type: 'amenity',
                 categories: ['entertainment.museum'],
-                lat: 47.0462,
-                lon: 21.9195,
+                lat: 46.669,
+                lon: 22.35,
               },
             },
           ],
@@ -418,11 +420,12 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
       'Explicit locality query must not bias Geoapify toward UK phone GPS'
     );
 
-    // Test B: Bare "Muzeul Țării Crișurilor" without ", Oradea"
+    // Test B: Bare "Muzeul Țării Crișurilor" without ", Oradea" must surface BOTH Oradea AND Beiuș
     const museumBare = await callSuggest('Muzeul Țării Crișurilor');
-    assert.ok(museumBare.candidates.length >= 1);
-    assert.match(museumBare.candidates[0].label, /Muzeul Țării Crișurilor.*Oradea/, 'Exact museum in Oradea must rank first');
-    assert.ok(!/Beiuș|Beius/i.test(museumBare.candidates[0].label), 'Beiuș must not win for bare Muzeul Țării Crișurilor');
+    assert.ok(museumBare.candidates.length >= 2, 'Bare Muzeul Țării Crișurilor must return both Oradea and Beiuș');
+    assert.ok(museumBare.candidates.some(c => /Oradea/i.test(c.label)), 'Oradea branch must be present');
+    assert.ok(museumBare.candidates.some(c => /Beiuș|Beius/i.test(c.label)), 'Beiuș branch must also be present');
+    assert.match(museumBare.candidates[0].label, /Muzeul Țării Crișurilor.*Oradea/, 'Complete Oradea museum address ranks first');
 
     // Test C: "Strada Nufărului 12, Oradea"
     const nufarului = await callSuggest('Strada Nufărului 12, Oradea');
@@ -443,7 +446,7 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
 }
 
 // --- 4. One-field UI: confirmed destination before completion, visual distinction, "de la A la B" origin flow ---
-{
+function makeMockDom() {
   class Element {
     constructor(doc, tag = 'div') {
       this.doc = doc;
@@ -495,8 +498,9 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
       if (!this.events.has(type)) this.events.set(type, []);
       this.events.get(type).push(fn);
     }
+    removeEventListener() {}
     dispatch(type, extra = {}) {
-      for (const fn of this.events.get(type) || []) fn({ preventDefault() {}, ...extra });
+      for (const fn of this.events.get(type) || []) fn({ preventDefault() {}, stopImmediatePropagation() {}, ...extra });
     }
     click() {
       if (typeof this.onclick === 'function') this.onclick({ preventDefault() {} });
@@ -521,19 +525,26 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
     get textContent() { return this._text + this.children.map(c => c.textContent).join(''); }
   }
 
+  const byId = new Map();
   const root = new Element(null, 'div');
   const host = new Element(null, 'div');
   const chatInput = new Element(null, 'input');
+  byId.set('moduleLayerBody', host);
   const doc = {
     root,
+    byId,
     createElement: tag => new Element(doc, tag),
     querySelector: sel => root.querySelector(sel),
-    getElementById: id => (id === 'moduleLayerBody' ? host : null),
+    getElementById: id => byId.get(id) ?? null,
   };
   root.doc = doc;
   host.doc = doc;
   chatInput.doc = doc;
   root.append(host);
+  return { doc, root, host, chatInput };
+}
+{
+  const { doc, host, chatInput } = makeMockDom();
 
   let pendingTimer = null;
   let routedChoices = [];
@@ -697,7 +708,8 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
   vm.runInContext(ONE_FIELD_JOURNEY_SCRIPT, context);
   context.showOneFieldJourney({ id: 'journey', mixedJourney: true });
   const form = host.children[0];
-  const [, input, , , results, confirmed] = form.children;
+  const [, input, clearBtn, , , results, confirmed] = form.children;
+  assert.equal(clearBtn.className, 'journey-clear-field-btn', 'Clear button is placed directly underneath search input');
 
   // 4a. Partial prefix "Strada Nufărului 12, Ora":
   // Verified Oradea destination renders FIRST; Oradea Metropolitan Area completion is blocked;
@@ -907,4 +919,157 @@ const UK_GPS = { latitude: 51.475, longitude: 0.322, accuracy: 18, updatedAt: Da
   }
 }
 
-console.log('PASS: journey search refinements (POIs, exact addresses, no metropolitan wrappers, single house-number dedup, ordered distinct UI, manual A-to-B from UK GPS)');
+// --- 6. Live phone feedback regressions (triplicate station dedup, London Victoria Station, UI controls & map parity) ---
+{
+  const { readFileSync } = await import('node:fs');
+  const { NATIONAL_PUBLIC_TRANSPORT_SCRIPT } = await import('./national_public_transport_ui.mjs');
+  const { TRANSIT_VIEWPORT_STYLE } = await import('./transit_viewport_ui.mjs');
+  const indexSrc = readFileSync(new URL('./index.js', import.meta.url), 'utf8');
+
+  // 6a. Triplicate unnumbered station at same postcode/destination ("Gara Centrală, Piața București, 410730 Oradea, Romania")
+  const garaTriplicates = rankJourneySuggestions('gara, Oradea', [
+    {
+      label: 'Gara Oradea, Strada Republicii 114, 410730 Oradea, Romania',
+      _name: 'Gara Oradea',
+      street: 'Strada Republicii',
+      house_number: '114',
+      _postcode: '410730',
+      city: 'Oradea',
+      country_code: 'RO',
+      kind: 'public_transport',
+      latitude: 47.0695,
+      longitude: 21.9334,
+    },
+    {
+      label: 'Gara Centrală, Piața București, 410730 Oradea, Romania',
+      _name: 'Gara Centrală',
+      street: 'Piața București',
+      _postcode: '410730',
+      city: 'Oradea',
+      country_code: 'RO',
+      kind: 'public_transport',
+      latitude: 47.0691,
+      longitude: 21.9331,
+    },
+    {
+      label: 'Gara Centrală, Piața București, 410730 Oradea, Romania',
+      _name: 'Gara Centrală',
+      street: 'Piața București',
+      _postcode: '410730',
+      city: 'Oradea',
+      country_code: 'RO',
+      kind: 'public_transport',
+      latitude: 47.0699,
+      longitude: 21.9338,
+    },
+    {
+      label: 'Gara Centrală, Piața București, 410730 Oradea, Romania',
+      _name: 'Gara Centrală',
+      street: 'Piața București',
+      _postcode: '410730',
+      city: 'Oradea',
+      country_code: 'RO',
+      kind: 'amenity',
+      latitude: 47.0704,
+      longitude: 21.9343,
+    },
+  ]);
+  const centralaCount = garaTriplicates.filter(c => /Gara Centrală/i.test(c.label)).length;
+  assert.equal(centralaCount, 1, 'Triplicate Gara Centrală cards at 410730 Oradea must collapse to 1');
+
+  // 6b. National Public Transport: "London Victoria Station" resolves Victoria in London without deleting "London"
+  const victoriaNational = rankJourneySuggestions('London Victoria Station', [
+    {
+      label: 'Victoria Underground Station, London, United Kingdom',
+      _name: 'Victoria Underground Station',
+      city: 'London',
+      country_code: 'GB',
+      kind: 'public_transport',
+      source: 'TfL StopPoint',
+      latitude: 51.4965,
+      longitude: -0.1447,
+    },
+    {
+      label: 'Victoria Rail Station, London, United Kingdom',
+      _name: 'Victoria Rail Station',
+      city: 'London',
+      country_code: 'GB',
+      kind: 'public_transport',
+      source: 'TfL StopPoint',
+      latitude: 51.4952,
+      longitude: -0.1439,
+    },
+    {
+      label: 'Victoria Station, Southend-on-Sea, United Kingdom',
+      _name: 'Victoria Station',
+      city: 'Southend-on-Sea',
+      country_code: 'GB',
+      kind: 'public_transport',
+      latitude: 51.5418,
+      longitude: 0.7077,
+    },
+  ], { national: true, origin: UK_GPS });
+  assert.equal(victoriaNational.length, 2, 'Both London Victoria stations match while Southend is excluded');
+
+  // Also execute national_public_transport_ui.mjs lookup for "London Victoria Station" (after backend strips _name/_categories)
+  {
+    const { doc: natDoc, host: natHost } = makeMockDom();
+    const natBack = natDoc.createElement('button');
+    natBack.id = 'moduleLayerBack';
+    natDoc.byId.set('moduleLayerBack', natBack);
+    let natTimer = null;
+    const natCtx = vm.createContext({
+      CLIENT_CONFIG: { apiUrl: 'https://unit.test/api/chat' },
+      state: { language: 'ro', currentView: 'module', currentModule: 'maps', busy: false, moduleSearchBusy: false },
+      $: id => natDoc.getElementById(id),
+      document: natDoc,
+      Intl,
+      AbortController,
+      getCurrentCoordinates: async () => UK_GPS,
+      setModuleLayerMode: () => {},
+      dialogText: (ro, en) => ro || en,
+      createTransportDepartureStep: opts => {
+        const s = natDoc.createElement('section');
+        s.textContent = opts.destination;
+        return s;
+      },
+      runModuleSearch: async () => {},
+      setTimeout: fn => { natTimer = fn; return 1; },
+      clearTimeout: () => { natTimer = null; },
+      fetch: async (_url, opts) => {
+        const body = JSON.parse(opts.body);
+        if (body.national_transit_country) {
+          return { ok: true, json: async () => ({ country_code: 'GB', supported: true }) };
+        }
+        return {
+          ok: true,
+          json: async () => ({
+            candidates: victoriaNational.map(({ _name, _categories, ...pub }) => pub),
+          }),
+        };
+      },
+    });
+    vm.runInContext(NATIONAL_PUBLIC_TRANSPORT_SCRIPT, natCtx);
+    natCtx.showNationalTransitSearch({ id: 'national', nationalPublicTransport: true });
+    await new Promise(r => setImmediate(r));
+    await new Promise(r => setImmediate(r));
+    const natRoot = natHost.children[0];
+    const [, natField, natClear, , , natChoices] = natRoot.children;
+    assert.equal(natClear.className, 'journey-clear-field-btn', 'National transport also has clear button underneath field');
+    natField.value = 'London Victoria Station';
+    natField.dispatch('input');
+    await natTimer();
+    await new Promise(r => setImmediate(r));
+    assert.equal(natChoices.children.length, 2, 'London Victoria Station must show Victoria stations without deleting London');
+    natClear.onclick();
+    assert.equal(natField.value, '', 'National clear button empties field');
+    assert.equal(natChoices.children.length, 0, 'National clear button clears suggestions');
+  }
+
+  // 6c. UI styling & final route map parity checks
+  assert.match(ONE_FIELD_JOURNEY_SCRIPT, /align-items:center!important;justify-content:center!important;text-align:center!important/, 'Caută trasee button centers text horizontally and vertically');
+  assert.match(TRANSIT_VIEWPORT_STYLE, /\.transit-screen-page>\.transit-refresh-action[\s\S]*min-height:48px!important/, 'Actualizează plecările keeps full button height inside paged transit viewport');
+  assert.match(indexSrc, /const directMap=!navigate&&\(state\.lastTransitChoice\?\.mixedJourney!==true\|\|mappedJourney\)/, 'Mapped mixed journeys open Traseu pe hartă directly like National Public Transport');
+}
+
+console.log('PASS: journey search refinements (POIs, multi-city bare POIs, triplicate dedup, London Victoria Station, clear buttons, centered buttons, and final map parity)');

@@ -3,16 +3,16 @@ export const ONE_FIELD_JOURNEY_SCRIPT=String.raw`
 let oneFieldJourneySession=null;
 let oneFieldJourneyIncoming=null;
 const ONE_FIELD_JOURNEY_TEXT={
- ro:{title:'Deplasare spre…',label:'Unde dorești să ajungi?',hint:'Scrie o adresă, o stradă, un obiectiv sau „de la A la B”. Sugestiile apar pe măsură ce scrii.',placeholder:'Ex.: Nufărului 12, Oradea',search:'Verifică destinația',checking:'Caut locații pe hartă…',noResults:'Nu am găsit o destinație verificată. Adaugă localitatea sau codul poștal.',retry:'Căutarea este momentan indisponibilă. Încearcă din nou.',pick:'Selectează o locație dintre rezultate',selected:'Destinație confirmată',from:'Plecarea',fromGPS:'Locația telefonului (GPS)',verifyFrom:'Verific punctul de plecare…',missingFrom:'Nu am putut confirma plecarea. Precizeaz-o în aceeași solicitare.',modes:'Cum dorești să călătorești?',walk:'Pe jos',transit:'Transport mixt',drive:'Mașină',back:'← Înapoi',change:'Schimbă destinația',short:'Începe să scrii o locație.',oneField:'O singură solicitare. Fără formulare suplimentare.',completeCity:'Completează localitatea'},
- en:{title:'Directions to…',label:'Where would you like to go?',hint:'Enter an address, street, landmark or “from A to B”. Suggestions appear while typing.',placeholder:'e.g. 25 Oxford Street, London',search:'Find destination',checking:'Searching mapped places…',noResults:'No verified destination found. Add a town or postcode.',retry:'Search is unavailable. Please try again.',pick:'Choose a location from the results',selected:'Destination verified',from:'Leaving from',fromGPS:'Your phone location (GPS)',verifyFrom:'Checking departure…',missingFrom:'Departure could not be verified. Include a more precise origin in the same request.',modes:'How would you like to travel?',walk:'Walking',transit:'Mixed transport',drive:'Driving',back:'← Back',change:'Change destination',short:'Start entering a place.',oneField:'One request. No extra forms.',completeCity:'Complete locality'},
- fr:{title:'Itinéraire vers…',label:'Où souhaitez-vous aller ?',hint:'Saisissez une adresse, un lieu ou « de A à B ». Suggestions en direct.',placeholder:'Ex. : 12 Rue de Rivoli, Paris',search:'Chercher',checking:'Recherche cartographique…',noResults:'Destination non vérifiée. Précisez la ville.',retry:'Recherche indisponible.',pick:'Choisissez un résultat',selected:'Destination vérifiée',from:'Départ',fromGPS:'Position GPS',verifyFrom:'Vérification du départ…',missingFrom:'Départ non vérifié. Précisez-le dans la même demande.',modes:'Moyen de transport ?',walk:'À pied',transit:'Multimodal',drive:'Voiture',back:'← Retour',change:'Changer la destination',short:'Commencez à saisir.',oneField:'Une seule demande.',completeCity:'Compléter la localité'},
- de:{title:'Route nach…',label:'Wohin möchten Sie?',hint:'Adresse, Ort oder „von A nach B“ eingeben. Vorschläge erscheinen beim Tippen.',placeholder:'z. B. Hauptstraße 10, Berlin',search:'Ziel suchen',checking:'Suche auf der Karte…',noResults:'Kein bestätigtes Ziel. Ort ergänzen.',retry:'Suche nicht verfügbar.',pick:'Ort auswählen',selected:'Ziel bestätigt',from:'Start',fromGPS:'GPS-Standort',verifyFrom:'Start wird geprüft…',missingFrom:'Start nicht bestätigt. Bitte in derselben Anfrage präzisieren.',modes:'Wie reisen Sie?',walk:'Zu Fuß',transit:'Kombinierter Verkehr',drive:'Auto',back:'← Zurück',change:'Ziel ändern',short:'Ort eingeben.',oneField:'Eine Anfrage, kein Formular.',completeCity:'Ort vervollständigen'},
- it:{title:'Percorso verso…',label:'Dove vuoi andare?',hint:'Scrivi un indirizzo, luogo o « da A a B ». Suggerimenti durante la digitazione.',placeholder:'Es.: Via Roma 10, Milano',search:'Cerca destinazione',checking:'Ricerca sulla mappa…',noResults:'Destinazione non verificata. Aggiungi la città.',retry:'Ricerca non disponibile.',pick:'Scegli un luogo',selected:'Destinazione verificata',from:'Partenza',fromGPS:'Posizione GPS',verifyFrom:'Verifico la partenza…',missingFrom:'Partenza non verificata. Specifica nella stessa richiesta.',modes:'Come vuoi viaggiare?',walk:'A piedi',transit:'Trasporto misto',drive:'Auto',back:'← Indietro',change:'Cambia destinazione',short:'Inizia a scrivere.',oneField:'Un solo campo.',completeCity:'Completa località'},
- es:{title:'Ir a…',label:'¿Adónde quieres ir?',hint:'Escribe una dirección, lugar o « de A a B ». Sugerencias al escribir.',placeholder:'Ej.: Calle Mayor 10, Madrid',search:'Buscar destino',checking:'Buscando en el mapa…',noResults:'Destino sin verificar. Añade la localidad.',retry:'Búsqueda no disponible.',pick:'Elige un lugar',selected:'Destino verificado',from:'Origen',fromGPS:'Ubicación GPS',verifyFrom:'Verificando origen…',missingFrom:'Origen no verificado. Precísalo en la misma búsqueda.',modes:'¿Cómo quieres viajar?',walk:'A pie',transit:'Transporte mixto',drive:'Coche',back:'← Atrás',change:'Cambiar destino',short:'Empieza a escribir.',oneField:'Un solo campo.',completeCity:'Completar localidad'},
- pt:{title:'Ir para…',label:'Aonde pretende ir?',hint:'Escreva uma morada, local ou « de A para B ». As sugestões aparecem enquanto escreve.',placeholder:'Ex.: Rua Augusta 12, Lisboa',search:'Procurar destino',checking:'A pesquisar no mapa…',noResults:'Destino não confirmado. Acrescente a localidade ou código postal.',retry:'Pesquisa indisponível. Tente novamente.',pick:'Escolha um local',selected:'Destino confirmado',from:'Partida',fromGPS:'Posição GPS',verifyFrom:'A verificar a partida…',missingFrom:'Partida não confirmada. Especifique na mesma pesquisa.',modes:'Como quer viajar?',walk:'A pé',transit:'Transporte misto',drive:'Carro',back:'← Voltar',change:'Alterar destino',short:'Comece a escrever.',oneField:'Um único campo.',completeCity:'Completar localidade'},
- nl:{title:'Naar…',label:'Waar wilt u naartoe?',hint:'Typ een adres, plaats of « van A naar B ». Suggesties verschijnen tijdens het typen.',placeholder:'Bijv.: Damrak 12, Amsterdam',search:'Bestemming zoeken',checking:'Zoeken op de kaart…',noResults:'Geen bevestigde bestemming. Voeg een plaats of postcode toe.',retry:'Zoeken tijdelijk niet beschikbaar.',pick:'Kies een locatie',selected:'Bestemming bevestigd',from:'Vertrek',fromGPS:'GPS-locatie',verifyFrom:'Vertrek controleren…',missingFrom:'Vertrek niet bevestigd. Vul het vertrekpunt in dezelfde vraag aan.',modes:'Hoe wilt u reizen?',walk:'Lopen',transit:'Gemengd vervoer',drive:'Auto',back:'← Terug',change:'Bestemming wijzigen',short:'Begin te typen.',oneField:'Eén invoerveld.',completeCity:'Plaats aanvullen'},
- ru:{title:'Маршрут до…',label:'Куда хотите поехать?',hint:'Введите адрес, место или « от A до B ». Подсказки появляются при вводе.',placeholder:'Например: улица Ленина 12, Москва',search:'Найти пункт назначения',checking:'Поиск на карте…',noResults:'Адрес не подтверждён. Уточните город или индекс.',retry:'Поиск временно недоступен.',pick:'Выберите место',selected:'Пункт назначения подтверждён',from:'Отправление',fromGPS:'GPS-положение',verifyFrom:'Проверяю отправление…',missingFrom:'Отправление не подтверждено. Уточните его в том же запросе.',modes:'Как поедем?',walk:'Пешком',transit:'Смешанный транспорт',drive:'Автомобиль',back:'← Назад',change:'Изменить пункт',short:'Начните вводить место.',oneField:'Одно поле ввода.',completeCity:'Уточнить населённый пункт'},
- pl:{title:'Trasa do…',label:'Dokąd chcesz jechać?',hint:'Wpisz adres, miejsce lub « z A do B ». Podpowiedzi pojawiają się podczas pisania.',placeholder:'Np. Długa 12, Warszawa',search:'Szukaj celu',checking:'Wyszukiwanie na mapie…',noResults:'Nie potwierdzono adresu. Dodaj miasto lub kod pocztowy.',retry:'Wyszukiwanie niedostępne.',pick:'Wybierz miejsce',selected:'Cel potwierdzony',from:'Początek',fromGPS:'Lokalizacja GPS',verifyFrom:'Sprawdzam punkt początkowy…',missingFrom:'Nie potwierdzono punktu początkowego. Uzupełnij go w tym samym zapytaniu.',modes:'Jak chcesz podróżować?',walk:'Pieszo',transit:'Transport mieszany',drive:'Samochód',back:'← Wstecz',change:'Zmień cel',short:'Zacznij pisać.',oneField:'Jedno pole.',completeCity:'Uzupełnij miejscowość'}
+ ro:{title:'Deplasare spre…',label:'Unde dorești să ajungi?',hint:'Scrie o adresă, o stradă, un obiectiv sau „de la A la B”. Sugestiile apar pe măsură ce scrii.',placeholder:'Ex.: Nufărului 12, Oradea',search:'Verifică destinația',checking:'Caut locații pe hartă…',noResults:'Nu am găsit o destinație verificată. Adaugă localitatea sau codul poștal.',retry:'Căutarea este momentan indisponibilă. Încearcă din nou.',pick:'Selectează o locație dintre rezultate',selected:'Destinație confirmată',from:'Plecarea',fromGPS:'Locația telefonului (GPS)',verifyFrom:'Verific punctul de plecare…',missingFrom:'Nu am putut confirma plecarea. Precizeaz-o în aceeași solicitare.',modes:'Cum dorești să călătorești?',walk:'Pe jos',transit:'Transport mixt',drive:'Mașină',back:'← Înapoi',change:'Schimbă destinația',short:'Începe să scrii o locație.',oneField:'O singură solicitare. Fără formulare suplimentare.',completeCity:'Completează localitatea',clear:'✕ Golește câmpul'},
+ en:{title:'Directions to…',label:'Where would you like to go?',hint:'Enter an address, street, landmark or “from A to B”. Suggestions appear while typing.',placeholder:'e.g. 25 Oxford Street, London',search:'Find destination',checking:'Searching mapped places…',noResults:'No verified destination found. Add a town or postcode.',retry:'Search is unavailable. Please try again.',pick:'Choose a location from the results',selected:'Destination verified',from:'Leaving from',fromGPS:'Your phone location (GPS)',verifyFrom:'Checking departure…',missingFrom:'Departure could not be verified. Include a more precise origin in the same request.',modes:'How would you like to travel?',walk:'Walking',transit:'Mixed transport',drive:'Driving',back:'← Back',change:'Change destination',short:'Start entering a place.',oneField:'One request. No extra forms.',completeCity:'Complete locality',clear:'✕ Clear field'},
+ fr:{title:'Itinéraire vers…',label:'Où souhaitez-vous aller ?',hint:'Saisissez une adresse, un lieu ou « de A à B ». Suggestions en direct.',placeholder:'Ex. : 12 Rue de Rivoli, Paris',search:'Chercher',checking:'Recherche cartographique…',noResults:'Destination non vérifiée. Précisez la ville.',retry:'Recherche indisponible.',pick:'Choisissez un résultat',selected:'Destination vérifiée',from:'Départ',fromGPS:'Position GPS',verifyFrom:'Vérification du départ…',missingFrom:'Départ non vérifié. Précisez-le dans la même demande.',modes:'Moyen de transport ?',walk:'À pied',transit:'Multimodal',drive:'Voiture',back:'← Retour',change:'Changer la destination',short:'Commencez à saisir.',oneField:'Une seule demande.',completeCity:'Compléter la localité',clear:'✕ Effacer le champ'},
+ de:{title:'Route nach…',label:'Wohin möchten Sie?',hint:'Adresse, Ort oder „von A nach B“ eingeben. Vorschläge erscheinen beim Tippen.',placeholder:'z. B. Hauptstraße 10, Berlin',search:'Ziel suchen',checking:'Suche auf der Karte…',noResults:'Kein bestätigtes Ziel. Ort ergänzen.',retry:'Suche nicht verfügbar.',pick:'Ort auswählen',selected:'Ziel bestätigt',from:'Start',fromGPS:'GPS-Standort',verifyFrom:'Start wird geprüft…',missingFrom:'Start nicht bestätigt. Bitte in derselben Anfrage präzisieren.',modes:'Wie reisen Sie?',walk:'Zu Fuß',transit:'Kombinierter Verkehr',drive:'Auto',back:'← Zurück',change:'Ziel ändern',short:'Ort eingeben.',oneField:'Eine Anfrage, kein Formular.',completeCity:'Ort vervollständigen',clear:'✕ Feld leeren'},
+ it:{title:'Percorso verso…',label:'Dove vuoi andare?',hint:'Scrivi un indirizzo, luogo o « da A a B ». Suggerimenti durante la digitazione.',placeholder:'Es.: Via Roma 10, Milano',search:'Cerca destinazione',checking:'Ricerca sulla mappa…',noResults:'Destinazione non verificata. Aggiungi la città.',retry:'Ricerca non disponibile.',pick:'Scegli un luogo',selected:'Destinazione verificata',from:'Partenza',fromGPS:'Posizione GPS',verifyFrom:'Verifico la partenza…',missingFrom:'Partenza non verificata. Specifica nella stessa richiesta.',modes:'Come vuoi viaggiare?',walk:'A piedi',transit:'Trasporto misto',drive:'Auto',back:'← Indietro',change:'Cambia destinazione',short:'Inizia a scrivere.',oneField:'Un solo campo.',completeCity:'Completa località',clear:'✕ Svuota campo'},
+ es:{title:'Ir a…',label:'¿Adónde quieres ir?',hint:'Escribe una dirección, lugar o « de A a B ». Sugerencias al escribir.',placeholder:'Ej.: Calle Mayor 10, Madrid',search:'Buscar destino',checking:'Buscando en el mapa…',noResults:'Destino sin verificar. Añade la localidad.',retry:'Búsqueda no disponible.',pick:'Elige un lugar',selected:'Destino verificado',from:'Origen',fromGPS:'Ubicación GPS',verifyFrom:'Verificando origen…',missingFrom:'Origen no verificado. Precísalo en la misma búsqueda.',modes:'¿Cómo quieres viajar?',walk:'A pie',transit:'Transporte mixto',drive:'Coche',back:'← Atrás',change:'Cambiar destino',short:'Empieza a escribir.',oneField:'Un solo campo.',completeCity:'Completar localidad',clear:'✕ Borrar campo'},
+ pt:{title:'Ir para…',label:'Aonde pretende ir?',hint:'Escreva uma morada, local ou « de A para B ». As sugestões aparecem enquanto escreve.',placeholder:'Ex.: Rua Augusta 12, Lisboa',search:'Procurar destino',checking:'A pesquisar no mapa…',noResults:'Destino não confirmado. Acrescente a localidade ou código postal.',retry:'Pesquisa indisponível. Tente novamente.',pick:'Escolha um local',selected:'Destino confirmado',from:'Partida',fromGPS:'Posição GPS',verifyFrom:'A verificar a partida…',missingFrom:'Partida não confirmada. Especifique na mesma pesquisa.',modes:'Como quer viajar?',walk:'A pé',transit:'Transporte misto',drive:'Carro',back:'← Voltar',change:'Alterar destino',short:'Comece a escrever.',oneField:'Um único campo.',completeCity:'Completar localidade',clear:'✕ Limpar campo'},
+ nl:{title:'Naar…',label:'Waar wilt u naartoe?',hint:'Typ een adres, plaats of « van A naar B ». Suggesties verschijnen tijdens het typen.',placeholder:'Bijv.: Damrak 12, Amsterdam',search:'Bestemming zoeken',checking:'Zoeken op de kaart…',noResults:'Geen bevestigde bestemming. Voeg een plaats of postcode toe.',retry:'Zoeken tijdelijk niet beschikbaar.',pick:'Kies een locatie',selected:'Bestemming bevestigd',from:'Vertrek',fromGPS:'GPS-locatie',verifyFrom:'Vertrek controleren…',missingFrom:'Vertrek niet bevestigd. Vul het vertrekpunt in dezelfde vraag aan.',modes:'Hoe wilt u reizen?',walk:'Lopen',transit:'Gemengd vervoer',drive:'Auto',back:'← Terug',change:'Bestemming wijzigen',short:'Begin te typen.',oneField:'Eén invoerveld.',completeCity:'Plaats aanvullen',clear:'✕ Veld wissen'},
+ ru:{title:'Маршрут до…',label:'Куда хотите поехать?',hint:'Введите адрес, место или « от A до B ». Подсказки появляются при вводе.',placeholder:'Например: улица Ленина 12, Москва',search:'Найти пункт назначения',checking:'Поиск на карте…',noResults:'Адрес не подтверждён. Уточните город или индекс.',retry:'Поиск временно недоступен.',pick:'Выберите место',selected:'Пункт назначения подтверждён',from:'Отправление',fromGPS:'GPS-положение',verifyFrom:'Проверяю отправление…',missingFrom:'Отправление не подтверждено. Уточните его в том же запросе.',modes:'Как поедем?',walk:'Пешком',transit:'Смешанный транспорт',drive:'Автомобиль',back:'← Назад',change:'Изменить пункт',short:'Начните вводить место.',oneField:'Одно поле ввода.',completeCity:'Уточнить населённый пункт',clear:'✕ Очистить поле'},
+ pl:{title:'Trasa do…',label:'Dokąd chcesz jechać?',hint:'Wpisz adres, miejsce lub « z A do B ». Podpowiedzi pojawiają się podczas pisania.',placeholder:'Np. Długa 12, Warszawa',search:'Szukaj celu',checking:'Wyszukiwanie na mapie…',noResults:'Nie potwierdzono adresu. Dodaj miasto lub kod pocztowy.',retry:'Wyszukiwanie niedostępne.',pick:'Wybierz miejsce',selected:'Cel potwierdzony',from:'Początek',fromGPS:'Lokalizacja GPS',verifyFrom:'Sprawdzam punkt początkowy…',missingFrom:'Nie potwierdzono punktu początkowego. Uzupełnij go w tym samym zapytaniu.',modes:'Jak chcesz podróżować?',walk:'Pieszo',transit:'Transport mieszany',drive:'Samochód',back:'← Wstecz',change:'Zmień cel',short:'Zacznij pisać.',oneField:'Jedno pole.',completeCity:'Uzupełnij miejscowość',clear:'✕ Wyczyść pole'}
 };
 function oneFieldJourneyCopy(){return ONE_FIELD_JOURNEY_TEXT[state.language]||ONE_FIELD_JOURNEY_TEXT.en}
 function handoffJourneyFromAssistant(handoff){
@@ -78,7 +78,7 @@ function createTransportDepartureStep({title='',destination='',initialDepartureA
  const button=(text,click)=>{
   const b=document.createElement('button');b.type='button';b.className='module-result-card journey-primary-action';
   b.textContent=text;b.onclick=click;
-  b.style.cssText='min-width:0;min-height:51px;flex:1 1 145px;padding:10px 12px;font-size:15px;white-space:normal;touch-action:manipulation';
+  b.style.cssText='min-width:0;min-height:51px;flex:1 1 145px;padding:10px 14px;display:inline-flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;text-align:center!important;font-size:15px;font-weight:800;line-height:1.2;white-space:normal;touch-action:manipulation';
   return b;
  };
  let changed=Boolean(validInitial),submitting=false;
@@ -135,6 +135,9 @@ function showOneFieldJourney(choice){
  input.autocomplete='off';input.spellcheck=false;input.maxLength=200;
  input.placeholder=text.placeholder;input.setAttribute('aria-label',text.label);
  input.style.cssText='box-sizing:border-box;width:100%;min-height:54px;font-size:16px;color:#fff;background:#102d40;border:2px solid #62b9d0;border-radius:16px;padding:12px;outline-offset:2px;touch-action:manipulation';
+ const clearBtn=document.createElement('button');clearBtn.type='button';clearBtn.className='journey-clear-field-btn';
+ clearBtn.textContent=text.clear||'✕';clearBtn.setAttribute('aria-label',text.clear||'Clear');
+ clearBtn.style.cssText='box-sizing:border-box;width:100%;min-height:42px;padding:8px 14px;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-align:center;border-radius:12px;border:1.5px solid #62b9d0;background:linear-gradient(145deg,#173a4f,#0d2434);color:#eaf9ff;font-size:14px;font-weight:750;touch-action:manipulation';
  const hint=document.createElement('p');hint.textContent=text.hint;hint.style.cssText='margin:0;color:#b7d3df;font-size:13px;line-height:1.45';
  const status=document.createElement('p');status.setAttribute('aria-live','polite');status.style.cssText='font-size:13px;min-height:20px;margin:0;color:#c8e0e9';
  const results=document.createElement('div');results.className='journey-live-suggestions national-transit-suggestions';
@@ -226,10 +229,46 @@ function showOneFieldJourney(choice){
    })]);
   }finally{if(deadline!==null)clearTimeout(deadline)}
  };
+ const dedupeSuggestionItems=list=>{
+  const out=[],usedExact=new Set(),seenAddr=[],seenUnnumbered=[];
+  for(const candidate of list){
+   if(candidate?.completion_only){out.push(candidate);continue}
+   const lat=Number(candidate?.latitude),lon=Number(candidate?.longitude);
+   if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
+   const label=String(candidate?.label||'').trim();
+   if(!label)continue;
+   const exactKey=label.toLocaleLowerCase()+'|'+lat.toFixed(5)+'|'+lon.toFixed(5);
+   if(usedExact.has(exactKey))continue;
+   const cHouse=foldSimple(candidate.house_number),cStreet=canonStreetSimple(candidate.street),cCity=foldSimple(candidate.city);
+   if(cHouse&&cStreet&&cCity){
+    const addrId=[String(candidate.country_code||'').toUpperCase(),cCity,cStreet,cHouse].join('|');
+    if(seenAddr.some(prev=>prev.addrId===addrId&&Math.abs(prev.lat-lat)<0.022&&Math.abs(prev.lon-lon)<0.032))continue;
+    seenAddr.push({addrId,lat,lon});
+   }else if(!cHouse){
+    const labelNorm=foldSimple(label);
+    const headNorm=foldSimple(String(label.split(',')[0]||''));
+    const pc=(label.match(/\b([a-z]{1,2}\d[a-z\d]?\s*\d[a-z]{2}|\d{5,6})\b/i)?.[1]||'').toLowerCase().replace(/\s+/g,'');
+    const dup=seenUnnumbered.some(prev=>{
+     const near=Math.abs(prev.lat-lat)<0.025&&Math.abs(prev.lon-lon)<0.035;
+     const sameCity=!cCity||!prev.cCity||cCity===prev.cCity;
+     if(!near||!sameCity)return false;
+     if(labelNorm&&labelNorm===prev.labelNorm)return true;
+     if(headNorm&&headNorm===prev.headNorm&&pc&&pc===prev.pc)return true;
+     if(headNorm&&headNorm===prev.headNorm&&cStreet&&cStreet===prev.cStreet&&cCity)return true;
+     return false;
+    });
+    if(dup)continue;
+    seenUnnumbered.push({labelNorm,headNorm,pc,cStreet,cCity,lat,lon});
+   }
+   usedExact.add(exactKey);
+   out.push(candidate);
+  }
+  return out;
+ };
  const searchPhrase=()=>parseJourneyExpression(input.value.trim());
  const drawButtons=(list,onChoose,onComplete=null)=>{
   results.replaceChildren();
-  for(const item of list){
+  for(const item of dedupeSuggestionItems(list)){
    if(item.completion_only){
     if(!onComplete)continue;
     const completed=String(item.completion_query||'').trim();
@@ -245,7 +284,17 @@ function showOneFieldJourney(choice){
   }
  };
  // Restore the previously selected destination and modes when returning from the calendar.
- const searchNodes=[title,input,hint,status,results,confirmed];
+ const searchNodes=[title,input,clearBtn,hint,status,results,confirmed];
+ clearBtn.onclick=()=>{
+  seq++;clearTimeout(timer);controller?.abort();
+  state.moduleSearchCategory=null;
+  selected=null;origin=null;lastPairRaw='';observedRaw='';typing='';
+  input.readOnly=false;input.value='';input.setAttribute('aria-label',text.label);
+  confirmed.replaceChildren();results.replaceChildren();
+  if(root.children.length!==searchNodes.length)root.replaceChildren(...searchNodes);
+  status.textContent=text.short;
+  input.focus();
+ };
  const resetJourneyScroll=()=>{
   for(let element=host;element&&element.id!=='moduleQuickLayer';element=element.parentElement)element.scrollTop=0;
  };
@@ -347,7 +396,7 @@ function showOneFieldJourney(choice){
   departure.textContent=text.from+': '+(origin?.label||text.fromGPS)+(origin?'':'.'+tip);
   confirmed.append(departure,makeModeCard('transit',text.transit,mixedArt),
    makeModeCard('drive',text.drive,carArt));
-  root.replaceChildren(input,confirmed);
+  root.replaceChildren(input,clearBtn,confirmed);
   resetJourneyScroll();
   status.textContent='';
  };
@@ -403,8 +452,8 @@ function showOneFieldJourney(choice){
     // Android may mutate the input without an event. Retry the actual value.
     observedRaw='';schedule();return;
    }
-   const used=new Set(),seenAddresses=[];results.replaceChildren();
-   for(const candidate of options){
+   results.replaceChildren();
+   for(const candidate of dedupeSuggestionItems(options)){
     if(candidate.completion_only){
      const completed=String(candidate.completion_query||'').trim();
      if(!completed||completed===query||completed===raw)continue;
@@ -418,19 +467,7 @@ function showOneFieldJourney(choice){
      results.append(btn);
      continue;
     }
-    const lat=Number(candidate.latitude),lon=Number(candidate.longitude);
-    if(!Number.isFinite(lat)||!Number.isFinite(lon))continue;
     const label=String(candidate.label||'').trim();
-    if(!label)continue;
-    const key=label.toLocaleLowerCase()+'|'+lat.toFixed(5)+'|'+lon.toFixed(5);
-    if(used.has(key))continue;
-    const cHouse=foldSimple(candidate.house_number),cStreet=canonStreetSimple(candidate.street),cCity=foldSimple(candidate.city);
-    if(cHouse&&cStreet&&cCity){
-     const addrId=[String(candidate.country_code||'').toUpperCase(),cCity,cStreet,cHouse].join('|');
-     if(seenAddresses.some(prev=>prev.addrId===addrId&&Math.abs(prev.lat-lat)<0.022&&Math.abs(prev.lon-lon)<0.032))continue;
-     seenAddresses.push({addrId,lat,lon});
-    }
-    used.add(key);
     const btn=makeButton(label,()=>void choose(candidate));
     styleDestinationButton(btn);
     results.append(btn);
@@ -473,7 +510,7 @@ function showOneFieldJourney(choice){
  input.addEventListener('keydown',event=>{
   if(event.key==='Enter'){event.preventDefault();clearTimeout(timer);void lookup()}
  });
- root.append(title,input,hint,status,results,confirmed);
+ root.append(title,input,clearBtn,hint,status,results,confirmed);
  // Replace all old content atomically, just as the working national form does.
  host.replaceChildren(root);
  input.value=incoming?.raw||'';

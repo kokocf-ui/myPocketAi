@@ -60,8 +60,8 @@ function openJourney(currentModule,{hang=false,cityCompletion=false,manyResults=
  render({mixedJourney:true});
  assert.equal(host.children.length,1,'No overlapping previous search windows');
  const root=host.children[0];assert.ok(root?.isConnected);
- assert.equal(root.children.length,6,'Only label, input, hint, status, suggestions and mode section');
- return {root,input:root.children[1],status:root.children[3],results:root.children[4],
+ assert.equal(root.children.length,7,'Label, input, clear button, hint, status, suggestions and mode section');
+ return {root,input:root.children[1],clear:root.children[2],status:root.children[4],results:root.children[5],
   requests,
   async flush(){for(const [id,{cb,ms}] of [...timers]){if(ms>300)continue;timers.delete(id);cb()}
    await new Promise(resolve=>setImmediate(resolve));},
@@ -89,16 +89,19 @@ await pick.flush();
 pick.results.children[0].onclick();
 await new Promise(resolve=>setImmediate(resolve));
 assert.equal(pick.results.children.length,0,'Selecting a candidate clears the suggestion list');
-assert.equal(pick.root.children.length,2,'Only destination field and illustrated cards remain');
+assert.equal(pick.root.children.length,3,'Destination field, clear button underneath, and illustrated cards remain');
 assert.equal(pick.root.children[0],pick.input,'The confirmed destination stays in the input');
+assert.equal(pick.root.children[1],pick.clear,'Clear button remains directly underneath the input');
 assert.equal(pick.input.value,'Strada Nufărului 1, Oradea, România');
-assert.equal(pick.root.children[1].children.length,3,'Visible departure context and exactly two mode cards');
-assert.match(pick.root.children[1].children[0].textContent,/Plecarea|undefined/, 'Origin context is visible before selection');
-assert.equal(pick.root.children[1].children[1].textContent,'','Illustration card caption is a separate element');
-assert.ok(pick.root.children[1].children[1].children[0].innerHTML.includes('<svg'),'Multimodal train, coach and plane are drawn');
-assert.ok(pick.root.children[1].children[2].children[0].innerHTML.includes('<svg'),'Unbranded frontal car is drawn');
+assert.equal(pick.root.children[2].children.length,3,'Visible departure context and exactly two mode cards');
+assert.match(pick.root.children[2].children[0].textContent,/Plecarea|undefined/, 'Origin context is visible before selection');
+assert.equal(pick.root.children[2].children[1].textContent,'','Illustration card caption is a separate element');
+assert.ok(pick.root.children[2].children[1].children[0].innerHTML.includes('<svg'),'Multimodal train, coach and plane are drawn');
+assert.ok(pick.root.children[2].children[2].children[0].innerHTML.includes('<svg'),'Unbranded frontal car is drawn');
 pick.input.emit('click');
-assert.equal(pick.root.children.length,6,'Tapping destination reopens address editing without a new window');
+assert.equal(pick.root.children.length,7,'Tapping destination reopens address editing without a new window');
+pick.clear.onclick();
+assert.equal(pick.input.value,'','Clear button empties the search field immediately');
 
 const completing=openJourney('maps',{cityCompletion:true});
 completing.input.value='Piața Unirii 1, Ora';

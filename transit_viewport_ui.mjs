@@ -26,6 +26,7 @@ export const TRANSIT_VIEWPORT_STYLE=String.raw`
 #moduleLayerBody.transit-options-viewport>.transit-page-panel{flex:1 1 0!important;min-height:0;height:auto}
 .transit-options-viewport .transit-screen-page>.transit-journey-choice{width:100%;margin:0 0 8px!important;padding:10px!important;min-height:80px}
 .transit-options-viewport .transit-screen-page>.transit-journey-choice strong{font-size:15px!important;line-height:1.2!important}
+.transit-screen-page>.transit-refresh-action,.transit-full-journey-details .transit-refresh-action{width:100%;min-height:48px!important;margin:6px 0 8px!important;padding:12px 16px!important;display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;border-radius:14px;font-size:15px!important;line-height:1.25!important}
 `;
 export const TRANSIT_VIEWPORT_SCRIPT=String.raw`
 function mountTransitScreenPager(panel,sourceGroups,nav,onPage){

@@ -55,9 +55,12 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
  j.accessWalkVerified=Boolean(access);
  j.accessWalkDistanceMeters=access?.distanceMeters??null;
  j.safetyMarginMinutes=5;
- if(j.legs?.length&&e?.latitude!=null&&e?.longitude!=null){
+ if(j.legs?.length){
   j.legs=j.legs.map(l=>({...l}));
-  j.legs[j.legs.length-1].arrivalLatLon={lat:Number(e.latitude),lon:Number(e.longitude)};
+  if(a?.latitude!=null&&a?.longitude!=null)
+   j.legs[0].departurePoint={lat:Number(a.latitude),lon:Number(a.longitude)};
+  if(e?.latitude!=null&&e?.longitude!=null)
+   j.legs[j.legs.length-1].arrivalLatLon={lat:Number(e.latitude),lon:Number(e.longitude)};
  }
  j.walkingAccessVerified=Boolean(access);
  j.walkingEgressVerified=Boolean(egress);
@@ -72,7 +75,10 @@ export async function addRomanianWalkingAccess(env,journey,origin,destination,op
   if(validPoint(destination)&&j.legs?.length){
    const originalArrival=j.arrivalDateTime;
    const finalArrival=j.arrivalAtDestinationTime;
-   j.legs.push({mode:'walking',from:String(e.stop_name||'Stație'),to:'Destinație',
+   j.legs.push({mode:'walking',from:String(e.stop_name||'Stație'),
+    to:String(destination?.label||'Destinație'),
+    departurePoint:e?.latitude!=null&&e?.longitude!=null?{lat:Number(e.latitude),lon:Number(e.longitude)}:undefined,
+    arrivalLatLon:{lat:Number(destination.latitude),lon:Number(destination.longitude)},
     departureTime:originalArrival,arrivalTime:finalArrival,
     distanceMeters:egress.distanceMeters,durationMinutes:egress.durationMinutes,
     coordinates:egress.coordinates,geometryAvailable:true,lineNames:[]});
