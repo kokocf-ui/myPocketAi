@@ -4499,14 +4499,19 @@ async function handleBackendRequest(request, env, runtime={}) {
           const roDestPoint=data.transit_destination||data.route_context?.destination||null;
           const validRoDest=roDestPoint&&roDestPoint.latitude!=null&&roDestPoint.longitude!=null&&
             Number.isFinite(Number(roDestPoint.latitude))&&Number.isFinite(Number(roDestPoint.longitude));
+          const extraOverrides={
+            ...(roOriginPoint?{origin:{...roOriginPoint,city:roOriginPoint.city||origin,country_code:roOriginPoint.country_code||'RO'}}:{}),
+            ...(roDestPoint?{destination:{...roDestPoint,city:roDestPoint.city||destination,country_code:roDestPoint.country_code||'RO'}}:{})
+          };
           let [enrichedJourneys,extraMixed]=await Promise.all([
             enrichRomanianDoorToDoorJourneys(env,journeys,{
               originPoint:roOriginPoint,destinationPoint:roDestPoint,
               originCity:origin,destinationCity:destination,
-              lang,maxEnrich:3,maxSubrequests:16
-            }),
-            mixedExtraFields()
+              lang,maxEnrich:3,maxSubrequests:14
+            }).catch(()=>journeys),
+            mixedExtraFields(extraOverrides).catch(()=>({}))
           ]);
+          if(!Array.isArray(enrichedJourneys)||!enrichedJourneys.length)enrichedJourneys=journeys;
           let enrichedByRef=new Map(journeys.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
           let activeGrouped=grouped;
           if(!selectedAt&&date===bucharestTravelDate(null)){
@@ -4533,8 +4538,9 @@ async function handleBackendRequest(request, env, runtime={}) {
                 enrichedJourneys=await enrichRomanianDoorToDoorJourneys(env,nextList,{
                   originPoint:roOriginPoint,destinationPoint:roDestPoint,
                   originCity:origin,destinationCity:destination,
-                  lang,maxEnrich:3,maxSubrequests:12
-                });
+                  lang,maxEnrich:3,maxSubrequests:10
+                }).catch(()=>nextList);
+                if(!Array.isArray(enrichedJourneys)||!enrichedJourneys.length)enrichedJourneys=nextList;
                 enrichedByRef=new Map(nextList.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
               }
             }
@@ -4542,6 +4548,7 @@ async function handleBackendRequest(request, env, runtime={}) {
           const mapGroup=list=>annotateTransportJourneys(list.map(j=>({...(enrichedByRef.get(j)||j),romanian_national_journey:true})),lang);
           const hasMappedGeometry=enrichedJourneys.some(j=>j.door_to_door_mapped===true);
           const reply=romanianJourneySummary(enrichedJourneys,origin,destination,lang);
+          const topRanked=rankRomanianJourneys(enrichedJourneys)[0]||enrichedJourneys[0];
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             transit_available:true,route_available:false,route_geometry_available:hasMappedGeometry,transit_geometry_available:hasMappedGeometry,
             ...extraMixed,mixed_journey:true,romanian_national_journey:true,
@@ -4554,7 +4561,7 @@ async function handleBackendRequest(request, env, runtime={}) {
               mixed:mapGroup(activeGrouped.mixed)
             }:null,
             transit_page_order:['rail','road','mixed'],
-            fastest_transit:annotateTransportJourneys([{...rankRomanianJourneys(enrichedJourneys)[0],romanian_national_journey:true}],lang)[0],
+            fastest_transit:annotateTransportJourneys([{...topRanked,romanian_national_journey:true}],lang)[0],
             transit_provider:'Bilo',source:'Bilo: operator-published schedules (not seat availability)',
             transit_departure_at:selectedAt||null,
             rail_replacement_notice:(

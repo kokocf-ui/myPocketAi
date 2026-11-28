@@ -65,6 +65,7 @@ jobs:
       - name: Existing transport and UI tests
         run: |
           node tests_ro_national_transit.mjs
+          node tests_ro_door_to_door.mjs
           node tests_mixed_selector_ui.mjs
           node tests_mixed_results_back.mjs
           node tests_assistant_route_palette.mjs

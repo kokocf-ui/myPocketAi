@@ -99,11 +99,20 @@ export function isUnverifiedClosedCorridorRail(journey,date=''){
  const oradea=s=>/\boradea\b/.test(s),cluj=s=>/\bcluj(?: napoca)?\b/.test(s);
  return oradea(a)&&cluj(b)||cluj(a)&&oradea(b);
 }
+const BUCHAREST_LOCAL_CLOCK_FMT=new Intl.DateTimeFormat('ro-RO',{
+ timeZone:'Europe/Bucharest',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'
+});
+const BUCHAREST_OFFSET_FMT=new Intl.DateTimeFormat('en-GB',{
+ timeZone:'Europe/Bucharest',timeZoneName:'shortOffset'
+});
+const BUCHAREST_DATE_FMT=new Intl.DateTimeFormat('en-GB',{
+ timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit'
+});
+const bucharestOffsetCache=new Map();
+
 function localClock(iso){
  const date=new Date(iso);
- return Number.isFinite(date.getTime())
-  ?date.toLocaleString('ro-RO',{timeZone:'Europe/Bucharest',day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'})
-  :'';
+ return Number.isFinite(date.getTime())?BUCHAREST_LOCAL_CLOCK_FMT.format(date):'';
 }
 export function romanianNationalQuery(message,opts={}){
  const text=String(message||'');
@@ -180,13 +189,16 @@ export function romanianHistoryJourney(history,selectedDestination=''){
 // responses can contain full legs OR flat rail/bus records with HH:mm times.
 // Accept only explicitly sourced modes, stops and times; never fabricate a trip.
 function bucharestOffset(date){
- const base=new Date(date+'T12:00:00Z');
+ const key=String(date||'');
+ if(bucharestOffsetCache.has(key))return bucharestOffsetCache.get(key);
+ const base=new Date(key+'T12:00:00Z');
  if(!Number.isFinite(base.getTime()))return null;
- const name=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',timeZoneName:'shortOffset'})
-  .formatToParts(base).find(p=>p.type==='timeZoneName')?.value||'';
+ const name=BUCHAREST_OFFSET_FMT.formatToParts(base).find(p=>p.type==='timeZoneName')?.value||'';
  const m=name.match(/^GMT([+-])(\d{1,2})(?::(\d{2}))?$/);
- if(!m)return name==='GMT'?0:null;
- return (m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0));
+ const val=!m?(name==='GMT'?0:null):(m[1]==='-'?-1:1)*(Number(m[2])*60+Number(m[3]||0));
+ if(bucharestOffsetCache.size>=64)bucharestOffsetCache.delete(bucharestOffsetCache.keys().next().value);
+ bucharestOffsetCache.set(key,val);
+ return val;
 }
 function providerTimestamp(value,date,previous=null){
  if(value&&typeof value==='object'){
@@ -677,7 +689,7 @@ export async function reverseRomanianOriginCity(env,pt,fetchImpl=fetch){
 export function bucharestTravelDate(value,now=new Date()){
  const timestamp=value?new Date(value):now;
  const dt=Number.isFinite(timestamp.getTime())?timestamp:now;
- const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(dt);
+ const parts=BUCHAREST_DATE_FMT.formatToParts(dt);
  const fields=Object.fromEntries(parts.map(p=>[p.type,p.value]));
  return fields.year+'-'+fields.month+'-'+fields.day;
 }
@@ -714,6 +726,7 @@ export function romanianDepartureDate(message,selectedAt='',now=new Date()){
  return new Date(Date.parse(base+'T12:00:00Z')+increment*86400000).toISOString().slice(0,10);
 }
 export function romanianJourneySummary(journeys,origin,destination,language='ro'){
+ if(!Array.isArray(journeys)||!journeys.length)return '';
  const english=language==='en',clock=localClock;
  const duration=minutes=>{
   const hours=Math.floor(minutes/60),mins=Math.round(minutes%60);
@@ -721,13 +734,17 @@ export function romanianJourneySummary(journeys,origin,destination,language='ro'
  };
  const modeName=mode=>{
   const m=String(mode||'').toLowerCase();
+  if(m==='walking'||m==='walk'||m==='foot'||m==='pedestrian')return english?'Walk':'Mers pe jos';
   if(m==='train'||m==='rail')return english?'Train':'Tren';
   if(m==='coach')return english?'Coach':'Autocar';
   if(m==='bus'||m==='minibus')return english?'Bus':'Autobuz';
+  if(m==='tram')return english?'Tram':'Tramvai';
+  if(m==='trolleybus')return english?'Trolleybus':'Troleibuz';
   return english?'Public transport':'Transport public';
  };
  const lines=journeys.slice(0,8).map((j,i)=>{
-  const legs=j.legs.filter(l=>l.mode!=='walking');
+  const allLegs=Array.isArray(j?.legs)?j.legs:[];
+  const legs=allLegs.filter(l=>!/^(?:walking|walk|foot|pedestrian)$/i.test(String(l?.mode||'')));
   const kinds=[...new Set(legs.map(l=>modeName(l.mode)))].join(' + ');
   const transfers=Math.max(0,legs.length-1);
   const fare=j.fareLocal?' · '+j.fareLocal.amount.toFixed(2)+' '+j.fareLocal.currency:'';
@@ -736,8 +753,11 @@ export function romanianJourneySummary(journeys,origin,destination,language='ro'
    (transfers?' · '+transfers+(english?' transfers':' schimbări'):'')+fare;
  }).join('\n');
  const first=journeys[0];
- const steps=first.legs.map((l,i)=>(i+1)+'. '+clock(l.departureTime)+' – '+clock(l.arrivalTime)+
-  ' · '+l.from+' → '+l.to+' · '+[modeName(l.mode),...l.lineNames,l.operator].filter(Boolean).join(' ')).join('\n');
+ const steps=(Array.isArray(first?.legs)?first.legs:[]).map((l,i)=>{
+  const lineNames=Array.isArray(l?.lineNames)?l.lineNames:[];
+  return (i+1)+'. '+clock(l.departureTime)+' – '+clock(l.arrivalTime)+
+   ' · '+l.from+' → '+l.to+' · '+[modeName(l.mode),...lineNames,l.operator].filter(Boolean).join(' ');
+ }).join('\n');
  const caution=english
   ?'Scheduled times, not live. Fares and seat availability must be confirmed with the operator.'
   :'Ore programate, nu în timp real. Prețurile și locurile se confirmă la operator.';

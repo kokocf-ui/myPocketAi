@@ -1,6 +1,8 @@
 import assert from 'node:assert/strict';
 import worker from './backend.js';
-import {mergeOrAppendBiloJourney,planRomanianNationalJourney} from './ro_national_transit.mjs';
+import {mergeOrAppendBiloJourney,planRomanianNationalJourney,romanianJourneySummary} from './ro_national_transit.mjs';
+import {rankRomanianJourneys,groupRomanianJourneys} from './ro_transport_mode_policy.mjs';
+import {annotateTransportJourneys} from './transport_availability_disclosure.mjs';
 import {parseBiloStopLabel,resolveRomanianIntercityStop,enrichRomanianDoorToDoorJourneys} from './ro_door_to_door.mjs';
 
 // 1. Bilo duplicate removal across mode=all and mode=bus feeds
@@ -442,6 +444,130 @@ import {parseBiloStopLabel,resolveRomanianIntercityStop,enrichRomanianDoorToDoor
   assert.equal(full.legs[4].to,'Piața Gării Sud');
   assert.equal(full.legs[6].to,'Piața Unirii 2, Cluj-Napoca, Romania');
   assert.equal(full.boarding_stop.label,'Nufărul Centru');
+  assert.ok(full.legs.every(l=>Array.isArray(l.lineNames)),'every leg must expose iterable lineNames');
+
+  const summary=romanianJourneySummary(out,'Oradea','Cluj-Napoca','ro');
+  assert.match(summary,/Mers pe jos/);
+  assert.match(summary,/Strada Nufărului 1/);
+  assert.equal(rankRomanianJourneys(out).length,1);
+  assert.equal(groupRomanianJourneys(out,4).mixed.length,1);
+  assert.equal(annotateTransportJourneys(out,'ro')[0].availability_disclosure.timetable_status,'provider_timetable');
+
+  // 7. Full /api/chat Worker request end-to-end (Bilo deduplication + door-to-door legs + summary)
+  const origFetch=globalThis.fetch;
+  try{
+    const depTomorrow=new Date(Date.now()+26*3600*1000);
+    const depTomorrowIso=depTomorrow.toISOString();
+    const arrTomorrowIso=new Date(depTomorrow.getTime()+205*60000).toISOString();
+    const travelDate=depTomorrowIso.slice(0,10);
+    globalThis.fetch=async(input,init)=>{
+      const url=typeof input==='string'?input:(input?.url||String(input));
+      if(url.includes('mcp.bilo.ro/api/v1/search')){
+        return Response.json({
+          mode:'all',
+          results:[{
+            tripId:'petdor-0905',
+            mode:'bus',
+            operator:'Petdor',
+            from:'Oradea · Autogara Intrans',
+            to:'Cluj-Napoca · Autogara Fany',
+            departureTime:depTomorrowIso,
+            arrivalTime:arrTomorrowIso,
+            price:{amount:75,currency:'RON'}
+          }]
+        });
+      }
+      if(url.includes('mcp.bilo.ro/api/v1/trip-details')){
+        return Response.json({
+          trip:{
+            mode:'bus',
+            legs:[{
+              mode:'bus',
+              operator:'Petdor',
+              from:'Oradea · Autogara Intrans',
+              to:'Cluj-Napoca · Autogara Fany',
+              departureTime:depTomorrowIso,
+              arrivalTime:arrTomorrowIso
+            }]
+          }
+        });
+      }
+      if(url.includes('bilo.ro/search-api/v2/search')){
+        // Duplicate coach record from secondary Bilo bus feed
+        return Response.json({
+          mode:'bus',
+          results:[{
+            mode:'coach',
+            operator:'SC Petdor SRL',
+            origin:'Autogara Intrans',
+            originCity:'Oradea',
+            destination:'Autogara Fany',
+            destinationCity:'Cluj-Napoca',
+            departureTime:depTomorrowIso,
+            arrivalTime:arrTomorrowIso,
+            date:travelDate
+          }]
+        });
+      }
+      if(url.includes('/v1/routing')){
+        const u=new URL(url);
+        const [a,b]=(u.searchParams.get('waypoints')||'').split('|').map(s=>s.split(',').map(Number));
+        return Response.json({
+          features:[{
+            type:'Feature',
+            geometry:{type:'LineString',coordinates:[[a[1],a[0]],[(a[1]+b[1])/2,(a[0]+b[0])/2],[b[1],b[0]]]},
+            properties:{distance:1650,time:1240,legs:[{steps:[{distance:1650,instruction:{text:'Mergi spre autogară.'}}]}]}
+          }]
+        });
+      }
+      return mockExaPeriodFetch(input,init);
+    };
+
+    const res=await worker.fetch(new Request('https://example.test/api/chat',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        message:'Deplasare de la Strada Nufărului 1, 410100 Oradea, Romania la Piața Unirii 2, Cluj-Napoca, Romania: variante disponibile (tren, autocar, transport public, zbor, combinat).',
+        language:'ro',
+        mixed_journey:true,
+        transit_preference:'all',
+        transit_departure_at:new Date(depTomorrow.getTime()-2*3600*1000).toISOString(),
+        latitude:47.0398,
+        longitude:21.9489,
+        journey_origin:{
+          label:'Strada Nufărului 1, 410100 Oradea, Romania',
+          city:'Oradea',
+          latitude:47.0398,
+          longitude:21.9489,
+          country_code:'RO'
+        },
+        transit_destination:{
+          label:'Piața Unirii 2, Cluj-Napoca, Romania',
+          city:'Cluj-Napoca',
+          latitude:46.7698,
+          longitude:23.5898,
+          country_code:'RO'
+        }
+      })
+    }),{
+      BILO_API_KEY:'test-bilo-key',
+      GEOAPIFY_API_KEY:'test-geo-key',
+      EXA_API_KEY:'test-exa-key',
+      AI:{run:async()=>({response:'mock'})}
+    });
+    assert.equal(res.status,200,'/api/chat must return HTTP 200 without throwing');
+    const body=await res.json();
+    assert.equal(body.status,'success');
+    assert.equal(body.transit_available,true);
+    assert.equal(body.route_geometry_available,true);
+    assert.equal(body.transit.length,1,'duplicate Petdor connection must be merged into 1 option');
+    assert.deepEqual(body.transit[0].legs.map(l=>l.mode),['walking','bus','walking']);
+    assert.equal(body.transit[0].legs[0].from,'Strada Nufărului 1, 410100 Oradea, Romania');
+    assert.equal(body.transit[0].legs.at(-1).to,'Piața Unirii 2, Cluj-Napoca, Romania');
+    assert.match(body.reply,/Mers pe jos/);
+  }finally{
+    globalThis.fetch=origFetch;
+  }
 }
 
 console.log('PASS Romanian intercity door-to-door composition, Bilo deduplication, and verified station coordinates');

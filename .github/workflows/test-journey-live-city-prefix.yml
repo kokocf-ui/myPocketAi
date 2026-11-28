@@ -131,13 +131,14 @@ jobs:
                 lastCoords:legs.at(-1)?.coordinates?.length||0
               };
             });
+            const errTitle=!mixRes.ok?((rawText.match(/<title>([^<]{1,180})<\/title>/i)?.[1]||'')+' '+(rawText.match(/Error\s+\d{4}[^<\n]{0,120}/i)?.[0]||'')||'').trim()||rawText.slice(0,300):'';
             console.log('::notice title=liveOradeaClujDoorToDoor::'+JSON.stringify({
               http:mixRes.status,count:transit.length,providerStatus:mixData.provider_status,
-              ...(!mixRes.ok?{errSnippet:rawText.slice(0,300)}:{}),
+              ...(!mixRes.ok?{errSnippet:errTitle}:{}),
               options:summary
             }));
             if(!mixRes.ok){
-              console.log('::error title=roHttpFail::'+rawText.slice(0,300));
+              console.log('::error title=roHttpFail::'+errTitle);
               regFail=true;
             }
             // Verify zero duplicate intercity vehicle signatures if Bilo returned options

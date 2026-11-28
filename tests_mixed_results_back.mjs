@@ -16,7 +16,7 @@ let destinationChoice=null, transitRendered=false;
 const sheet={classList:{remove(){} }};
 const body=new Function('state','$','document','createTransportDepartureStep',
  'dialogText','showOneFieldJourney','runModuleSearch','renderTransitChoices',
- 'let oneFieldJourneyIncoming=null;\n'+snippet+
+ 'let oneFieldJourneyIncoming=null,cancelMixedProgressSearch=()=>{};\n'+snippet+
  '\nreturn {back:returnFromMixedJourneyResults,incoming:()=>oneFieldJourneyIncoming};')(
  state,id=>id==='moduleLayerBody'?root:{textContent:''},
  {querySelector:()=>sheet},
