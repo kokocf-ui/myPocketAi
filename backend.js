@@ -2226,14 +2226,18 @@ async function handleBackendRequest(request, env, runtime={}) {
                 const poiCity=specificLocality(rawP)||(!isSupraLocalLocality(parsedPostcodeCity)?parsedPostcodeCity:'')||
                   (fallbackTown&&routeGeoDistance(fallbackTown,{latitude:lat,longitude:lon})<=8000?fallbackTown.name:'');
                 if(!poiCity)continue;
-                const displayName=String(rawP.datasource?.raw?.['name:ro']&&/[ăâîșțĂÂÎȘȚ]/.test(raw)
-                  ?rawP.datasource.raw['name:ro']
-                  :(rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'')).trim();
+                const matchAlt=[rawP.name,rawP.datasource?.raw?.name,rawP.datasource?.raw?.['name:ro'],
+                  rawP.datasource?.raw?.['name:en'],rawP.address_line1].filter(Boolean)
+                  .find(v=>nameTokens.every(t=>normalizeGeoName(v).split(' ').includes(t)));
+                const displayName=String(matchAlt||rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'').trim();
                 const streetPart=rawP.street?(rawP.housenumber?rawP.street+' '+rawP.housenumber:rawP.street):'';
                 const finalCountry=String(rawP.country||fallbackTown?.country||'').trim();
-                const formatted=rawP.formatted&&normalizeGeoName(rawP.formatted).includes(normalizeGeoName(poiCity))
+                const baseFormatted=rawP.formatted&&normalizeGeoName(rawP.formatted).includes(normalizeGeoName(poiCity))
                   ?String(rawP.formatted)
                   :[displayName,streetPart,poiCity,finalCountry].filter(Boolean).join(', ');
+                const formatted=displayName&&baseFormatted.includes(',')&&norm(baseFormatted.split(',')[0])!==norm(displayName)
+                  ?displayName+','+baseFormatted.slice(baseFormatted.indexOf(',')+1)
+                  :baseFormatted;
                 out.push({...rawP,lat,lon,name:displayName,city:poiCity,
                   country_code:String(rawP.country_code||anchor.country_code||'').toLowerCase(),
                   result_type:String(rawP.result_type||'amenity'),formatted});
@@ -2379,13 +2383,19 @@ async function handleBackendRequest(request, env, runtime={}) {
                   }else if(distM>8000){
                     continue;
                   }
-                  const displayName=String(rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'').trim();
+                  const matchAlt=[rawP.name,rawP.datasource?.raw?.name,rawP.datasource?.raw?.['name:ro'],
+                    rawP.datasource?.raw?.['name:en'],rawP.address_line1].filter(Boolean)
+                    .find(v=>nameTokens.every(t=>normalizeGeoName(v).split(' ').includes(t)));
+                  const displayName=String(matchAlt||rawP.name||rawP.datasource?.raw?.name||rawP.address_line1||'').trim();
                   const streetPart=rawP.street?(rawP.housenumber?rawP.street+' '+rawP.housenumber:rawP.street):'';
                   const finalCity=poiCity||townName;
                   const finalCountry=String(rawP.country||town.country||'').trim();
-                  const formatted=rawP.formatted&&normalizeGeoName(rawP.formatted).includes(normalizeGeoName(finalCity))
+                  const baseFormatted=rawP.formatted&&normalizeGeoName(rawP.formatted).includes(normalizeGeoName(finalCity))
                     ?String(rawP.formatted)
                     :[displayName,streetPart,finalCity,finalCountry].filter(Boolean).join(', ');
+                  const formatted=displayName&&baseFormatted.includes(',')&&norm(baseFormatted.split(',')[0])!==norm(displayName)
+                    ?displayName+','+baseFormatted.slice(baseFormatted.indexOf(',')+1)
+                    :baseFormatted;
                   placeProps.push({...rawP,lat,lon,name:displayName,city:finalCity,
                     country_code:String(rawP.country_code||town.country_code||'').toLowerCase(),
                     result_type:String(rawP.result_type||'amenity'),formatted});
