@@ -49,7 +49,7 @@ jobs:
               candidateCount:result.candidates?.length||0,
               topResults:(result.candidates||[]).slice(0,12).map(v=>v.label),error:result.error||''}));
           }
-          if(failed){console.error('LIVE PREFIX REGRESSION: A verified Oradea completion or address is missing for at least one typed prefix.');process.exit(1)}
+          if(failed){console.log('::error::LIVE PREFIX REGRESSION');process.exit(1)}
 
           // Live regression checks for bare multi-city POI, station deduplication, and London Victoria Station
           const ukGps={latitude:51.4775,longitude:0.3007};
@@ -58,11 +58,7 @@ jobs:
             signal:AbortSignal.timeout(25000)});
           const museumData=await museumRes.json().catch(()=>({}));
           const museumLabels=(museumData.candidates||[]).map(c=>c.label);
-          console.log(JSON.stringify({liveBareMuseum:museumLabels}));
-          if(!museumLabels.some(l=>/oradea/i.test(l))||!museumLabels.some(l=>/beiu[sș]/i.test(l))){
-            console.error('LIVE BARE POI REGRESSION: Expected both Oradea and Beiuș for "muzeul țării crișurilor"');
-            process.exit(1);
-          }
+          console.log('::notice title=liveBareMuseum::'+JSON.stringify(museumLabels));
 
           const garaRes=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
             body:JSON.stringify({journey_suggest:{query:'gara, Oradea',location:ukGps}}),
@@ -70,20 +66,27 @@ jobs:
           const garaData=await garaRes.json().catch(()=>({}));
           const garaLabels=(garaData.candidates||[]).map(c=>c.label);
           const centralaHits=garaLabels.filter(l=>/^gara central[aă],/i.test(l));
-          console.log(JSON.stringify({liveGaraOradea:garaLabels,centralaCount:centralaHits.length}));
-          if(centralaHits.length>1){
-            console.error('LIVE DEDUP REGRESSION: Duplicate Gara Centrală entries returned:',centralaHits);
-            process.exit(1);
-          }
+          console.log('::notice title=liveGaraOradea::'+JSON.stringify({centralaCount:centralaHits.length,labels:garaLabels}));
 
           const vicRes=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},
             body:JSON.stringify({journey_suggest:{query:'London Victoria Station',country_code:'GB',location:ukGps}}),
             signal:AbortSignal.timeout(25000)});
           const vicData=await vicRes.json().catch(()=>({}));
           const vicLabels=(vicData.candidates||[]).map(c=>c.label);
-          console.log(JSON.stringify({liveLondonVictoria:vicLabels}));
-          if(!vicLabels.some(l=>/victoria/i.test(l)&&/london/i.test(l))){
-            console.error('LIVE STATION REGRESSION: London Victoria Station returned no London Victoria station');
-            process.exit(1);
+          console.log('::notice title=liveLondonVictoria::'+JSON.stringify(vicLabels));
+
+          let regFail=false;
+          if(!museumLabels.some(l=>/oradea/i.test(l))||!museumLabels.some(l=>/beiu[sș]/i.test(l))){
+            console.log('::error title=museumFail::'+JSON.stringify(museumLabels));
+            regFail=true;
           }
+          if(centralaHits.length>1){
+            console.log('::error title=garaDedupFail::'+JSON.stringify(centralaHits));
+            regFail=true;
+          }
+          if(!vicLabels.some(l=>/victoria/i.test(l)&&/london/i.test(l))){
+            console.log('::error title=victoriaFail::'+JSON.stringify(vicLabels));
+            regFail=true;
+          }
+          if(regFail)process.exit(1);
           NODE
