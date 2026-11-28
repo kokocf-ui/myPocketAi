@@ -33,4 +33,16 @@ assert.equal(compareMixedTransportOptions([journey('2026-12-01T09:00:00Z',2),a])
 const inWebView=new Function(MIXED_TRANSPORT_COMPARISON_SCRIPT+';return compareMixedTransportOptions')();
 assert.equal(inWebView([a,b,c]).fastestIndex,1);
 assert.equal(inWebView([a,b,c]).cheapestIndex,2);
+// Shorter duration wins "Cel mai rapid" over an overnight multi-transfer detour that happens to arrive earlier in the morning
+const overnightDetour={
+ startDateTime:'2026-11-28T22:25:00+02:00',arrivalDateTime:'2026-11-29T08:50:00+02:00',
+ legs:[{mode:'train'},{mode:'train'},{mode:'train'}],fareLocal:null
+};
+const directCoach={
+ startDateTime:'2026-11-29T09:05:00+02:00',arrivalDateTime:'2026-11-29T12:35:00+02:00',
+ legs:[{mode:'coach'}],fareLocal:null
+};
+assert.equal(compareMixedTransportOptions([overnightDetour,directCoach]).fastestIndex,1,
+ '3h 30m direct coach must win Cel mai rapid over 10h 25m overnight 3-train detour');
+assert.equal(inWebView([overnightDetour,directCoach]).fastestIndex,1);
 console.log('PASS mixed transport fastest arrival, comparable cheapest fare, WebView injection');

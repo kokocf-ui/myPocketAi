@@ -21,12 +21,15 @@ export function quotedTotalFare(journey){
 export function compareMixedTransportOptions(journeys){
   const options=Array.isArray(journeys)?journeys:[];
   if(!options.length)return {fastestIndex:null,cheapestIndex:null,priceStatus:'no_options',pricedCount:0};
-  let fastestIndex=null,earliest=Infinity;
+  let fastestIndex=null,shortest=Infinity,earliest=Infinity;
   options.forEach((j,i)=>{
     const arrival=time(j?.arrivalDateTime||j?.legs?.at(-1)?.arrivalTime);
     const departure=time(j?.startDateTime||j?.legs?.[0]?.departureTime);
     if(arrival===null||departure===null||arrival<departure)return;
-    if(arrival<earliest){earliest=arrival;fastestIndex=i;}
+    const duration=arrival-departure;
+    if(duration<shortest||(duration===shortest&&arrival<earliest)){
+      shortest=duration;earliest=arrival;fastestIndex=i;
+    }
   });
   const fares=options.map(quotedTotalFare);
   const pricedCount=fares.filter(Boolean).length;

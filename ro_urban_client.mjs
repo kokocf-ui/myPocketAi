@@ -38,7 +38,7 @@ export function romanianUrbanRegion(from,to,{verifiedCountry=null}={}){
  }
  return null;
 }
-export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,limit=4,verifiedCountry=null}={},opts={}){
+export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,limit=4,verifiedCountry=null,maxStraightLineMeters=null}={},opts={}){
  const region=romanianUrbanRegion(from,to,{verifiedCountry});
  if(!region)return {status:'outside_supported_urban_regions',journeys:[]};
  // Preferred: Workers VPC Service -> existing Cloudflare Tunnel -> Oracle loopback:8766.
@@ -72,7 +72,9 @@ export async function planRomanianUrbanViaOracle(env,{from,to,departureAt=null,l
    method:'POST',headers:{Authorization:'Bearer '+token,'Content-Type':'application/json','Accept':'application/json'},
    body:JSON.stringify({region,from:{latitude:+from.latitude,longitude:+from.longitude},
     to:{latitude:+to.latitude,longitude:+to.longitude},date,afterHHMM,
-    maxResults:Math.max(1,Math.min(6,Math.floor(limit)||4))}),
+    maxResults:Math.max(1,Math.min(6,Math.floor(limit)||4)),
+    ...(maxStraightLineMeters!==null&&Number.isFinite(Number(maxStraightLineMeters))
+      ?{maxStraightLineMeters:Math.max(150,Math.min(1200,Math.round(Number(maxStraightLineMeters))))}:{})}),
    signal:AbortSignal.timeout(6500)
   });
   if(res.status===401||res.status===403)return {status:'auth_failed',journeys:[],region};

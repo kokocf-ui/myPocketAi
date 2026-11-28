@@ -4463,7 +4463,7 @@ async function handleBackendRequest(request, env, runtime={}) {
         let date=romanianDepartureDate(message,selectedAt||null);
         const vehicle=requestedRomanianVehicle(message,data.transit_preference);
         let result=await planRomanianNationalJourney(env,{origin,destination},{
-          date,vehicle,limit:vehicle==='all'?10:8
+          date,vehicle,limit:vehicle==='all'?20:12
         });
         let baseJourneys=result.journeys;
         if(requestedAt&&baseJourneys.length){
@@ -4475,7 +4475,7 @@ async function handleBackendRequest(request, env, runtime={}) {
           }else{
             const nextDate=new Date(Date.parse(date+'T12:00:00Z')+86400000).toISOString().slice(0,10);
             const nextRes=await planRomanianNationalJourney(env,{origin,destination},{
-              date:nextDate,vehicle,limit:vehicle==='all'?10:8
+              date:nextDate,vehicle,limit:vehicle==='all'?20:12
             });
             const upcomingNext=(nextRes.journeys||[]).filter(j=>Date.parse(j.startDateTime)>=Date.now()-300000);
             if(upcomingNext.length){
@@ -4507,7 +4507,7 @@ async function handleBackendRequest(request, env, runtime={}) {
             enrichRomanianDoorToDoorJourneys(env,journeys,{
               originPoint:roOriginPoint,destinationPoint:roDestPoint,
               originCity:origin,destinationCity:destination,
-              lang,maxEnrich:8,maxSubrequests:20
+              lang,maxEnrich:8,maxSubrequests:26
             }).catch(()=>journeys),
             mixedExtraFields(extraOverrides).catch(()=>({}))
           ]);
@@ -4527,7 +4527,7 @@ async function handleBackendRequest(request, env, runtime={}) {
             }else if(!catchable.length){
               const nextDate=new Date(Date.parse(date+'T12:00:00Z')+86400000).toISOString().slice(0,10);
               const nextRes=await planRomanianNationalJourney(env,{origin,destination},{
-                date:nextDate,vehicle,limit:vehicle==='all'?10:8
+                date:nextDate,vehicle,limit:vehicle==='all'?20:12
               });
               const nextVeh=filterRomanianVehicleJourneys(nextRes.journeys||[],vehicle);
               const nextCity=filterRomanianCityEndpoints(nextVeh,origin,destination);
@@ -4538,17 +4538,18 @@ async function handleBackendRequest(request, env, runtime={}) {
                 enrichedJourneys=await enrichRomanianDoorToDoorJourneys(env,nextList,{
                   originPoint:roOriginPoint,destinationPoint:roDestPoint,
                   originCity:origin,destinationCity:destination,
-                  lang,maxEnrich:6,maxSubrequests:14
+                  lang,maxEnrich:6,maxSubrequests:18
                 }).catch(()=>nextList);
                 if(!Array.isArray(enrichedJourneys)||!enrichedJourneys.length)enrichedJourneys=nextList;
                 enrichedByRef=new Map(nextList.map((j,idx)=>[j,enrichedJourneys[idx]||j]));
               }
             }
           }
+          enrichedJourneys=rankRomanianJourneys(enrichedJourneys);
           const mapGroup=list=>annotateTransportJourneys(list.map(j=>({...(enrichedByRef.get(j)||j),romanian_national_journey:true})),lang);
           const hasMappedGeometry=enrichedJourneys.some(j=>j.door_to_door_mapped===true);
           const reply=romanianJourneySummary(enrichedJourneys,origin,destination,lang);
-          const topRanked=rankRomanianJourneys(enrichedJourneys)[0]||enrichedJourneys[0];
+          const topRanked=enrichedJourneys[0];
           return json({app:'Pocket AI',version:API_VERSION,status:'success',language:lang,message_received:message,reply,
             transit_available:true,route_available:false,route_geometry_available:hasMappedGeometry,transit_geometry_available:hasMappedGeometry,
             ...extraMixed,mixed_journey:true,romanian_national_journey:true,

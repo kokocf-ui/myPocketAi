@@ -22,4 +22,12 @@ assert.match(java,/long scaled=Math\.round\(km\*unit\)/);
 assert.match(index,/distanceMeters:Number\(route\.distanceMeters\)\|\|0/);
 assert.doesNotMatch(java,/Math\.round\(closest\.totalMeters\)\+" metri\."/);
 assert.match(java,/Math\.round\(remaining\/10\)\*10/,'metres kept for manoeuvre guidance');
+assert.doesNotMatch(index,/Math\.round\(selected\.accessRoute\.distanceMeters\|\|0\)\+' m'/,
+ 'Transit access stage displays km, not metres');
+assert.doesNotMatch(index,/Math\.round\(verified\.distanceMeters\|\|0\)\+' m'/,
+ 'Verified transit walking stage displays km, not metres');
+assert.doesNotMatch(index,/Math\.round\(meters\)\+' m'/,
+ 'Transit boarding advice displays km, not metres');
+assert.match(index,/current\.remoteOriginPreview=true/,
+ 'Navigation anchors at route departure point when physical GPS is in another locality (>5 km away)');
 console.log('PASS: navigation displays and speaks kilometres while preserving GPS metres');

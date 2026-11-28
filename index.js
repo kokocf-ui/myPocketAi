@@ -19970,7 +19970,7 @@ function appendOfficialUKJourneySources(data,host){
  host.append(area);return true;
 }
 function moduleStatus(text){clearTransitOptionsViewport();document.querySelector('.module-quick-sheet')?.classList.remove('results-mode');const body=$('moduleLayerBody');body.innerHTML='';const status=document.createElement('div');status.className='module-search-status';status.setAttribute('role','status');status.textContent=text;body.append(status)}
-function formatDistance(meters){const n=Number(meters);if(!Number.isFinite(n)||n<0)return ({ro:'Distanță indisponibilă',en:'Distance unavailable',fr:'Distance indisponible',de:'Entfernung nicht verfügbar',it:'Distanza non disponibile',es:'Distancia no disponible',pt:'Distância indisponível',nl:'Afstand niet beschikbaar',ru:'Расстояние неизвестно',pl:'Odległość niedostępna'})[state.language]||'Distance unavailable';if(n<1000)return Math.round(n)+' m';return (n/1000).toLocaleString(({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'en-GB',{maximumFractionDigits:1})+' km'}
+function formatDistance(meters){const n=Number(meters);if(!Number.isFinite(n)||n<0)return ({ro:'Distanță indisponibilă',en:'Distance unavailable',fr:'Distance indisponible',de:'Entfernung nicht verfügbar',it:'Distanza non disponibile',es:'Distancia no disponible',pt:'Distância indisponível',nl:'Afstand niet beschikbaar',ru:'Расстояние неизвестно',pl:'Odległość niedostępna'})[state.language]||'Distance unavailable';const digits=n<1000?2:1;return (n/1000).toLocaleString(({ro:'ro-RO',en:'en-GB',fr:'fr-FR',de:'de-DE',it:'it-IT',es:'es-ES',pt:'pt-PT',nl:'nl-NL',ru:'ru-RU',pl:'pl-PL'})[state.language]||'en-GB',{minimumFractionDigits:digits,maximumFractionDigits:digits})+' km'}
 function placeResultIcon(place){const special={shopping_fashion:'🛍️',beauty_services:'💇',home_goods:'🏡',appliances:'🔌',furniture:'🛋️',diy_garden:'🛠️',car_dealers:'🚘',hospital_only:'🏥',medical_dental:'🩺',atm:'🏧',bank:'🏦',currency_exchange:'💱'};if(special[String(place.type||'')])return special[String(place.type||'')];const value=(String(place.type||'')+' '+String(place.name||'')).toLowerCase();if(/petrol|fuel|gas station|benzin|esso|shell|texaco|costco fuel/.test(value))return '⛽';if(/restaurant|cafe|coffee|food|restaurant|restaurant|takeaway|pub|bar/.test(value))return '🍽️';if(/hotel|motel|guest.?house|accommodation/.test(value))return '🏨';if(/supermarket|grocery|shop|store|market/.test(value))return '🛒';if(/bus stop|bus station|train station|railway|metro|underground/.test(value))return '🚉';if(/hospital|clinic|doctor|pharmacy/.test(value))return '🏥';if(/parking|car park/.test(value))return '🅿️';if(/toilet|restroom/.test(value))return '🚻';if(/car wash|wash/.test(value))return '🚿';return '📍'}
 function localizedPlaceCategory(value){const raw=String(value||'').trim();if(raw==='medical_dental')return ({ro:'cabinet medical sau stomatologic',en:'medical or dental practice',fr:'cabinet médical ou dentaire',de:'Arzt- oder Zahnarztpraxis',it:'studio medico o dentistico',es:'consulta médica o dental',pt:'consultório médico ou dentário',nl:'medische of tandartspraktijk',ru:'медицинский или стоматологический кабинет',pl:'gabinet lekarski lub dentystyczny'})[state.language]||'medical or dental practice';const financialTypes={ro:{hospital_only:'spital',currency_exchange:'casă de schimb valutar'},en:{hospital_only:'hospital',currency_exchange:'currency exchange'},fr:{hospital_only:'hôpital',currency_exchange:'bureau de change'},de:{hospital_only:'Krankenhaus',currency_exchange:'Wechselstube'},it:{hospital_only:'ospedale',currency_exchange:'cambio valuta'},es:{hospital_only:'hospital',currency_exchange:'casa de cambio'},pt:{hospital_only:'hospital',currency_exchange:'casa de câmbio'},nl:{hospital_only:'ziekenhuis',currency_exchange:'wisselkantoor'},ru:{hospital_only:'больница',currency_exchange:'обмен валюты'},pl:{hospital_only:'szpital',currency_exchange:'kantor'}};if(financialTypes[state.language]?.[raw])return financialTypes[state.language][raw];const fixed={"ro":{"shopping_fashion":"shopping și modă","beauty_services":"salon de înfrumusețare","home_goods":"articole pentru casă","appliances":"electrocasnice","furniture":"mobilier","diy_garden":"bricolaj și grădinărit","car_dealers":"parc auto / dealer"},"en":{"shopping_fashion":"shopping and fashion","beauty_services":"beauty salon","home_goods":"homewares","appliances":"appliances","furniture":"furniture","diy_garden":"DIY and gardening","car_dealers":"car dealership"},"fr":{"shopping_fashion":"shopping et mode","beauty_services":"salon de beauté","home_goods":"articles pour la maison","appliances":"électroménager","furniture":"meubles","diy_garden":"bricolage et jardinage","car_dealers":"concessionnaire auto"},"de":{"shopping_fashion":"Shopping und Mode","beauty_services":"Schönheitssalon","home_goods":"Haushaltswaren","appliances":"Haushaltsgeräte","furniture":"Möbel","diy_garden":"Heimwerken und Garten","car_dealers":"Autohaus"},"it":{"shopping_fashion":"shopping e moda","beauty_services":"salone di bellezza","home_goods":"articoli per la casa","appliances":"elettrodomestici","furniture":"mobili","diy_garden":"fai da te e giardinaggio","car_dealers":"concessionaria auto"},"es":{"shopping_fashion":"compras y moda","beauty_services":"salón de belleza","home_goods":"artículos para el hogar","appliances":"electrodomésticos","furniture":"muebles","diy_garden":"bricolaje y jardinería","car_dealers":"concesionario de coches"},"pt":{"shopping_fashion":"compras e moda","beauty_services":"salão de beleza","home_goods":"artigos para casa","appliances":"eletrodomésticos","furniture":"móveis","diy_garden":"bricolagem e jardinagem","car_dealers":"concessionário automóvel"},"nl":{"shopping_fashion":"winkelen en mode","beauty_services":"schoonheidssalon","home_goods":"huishoudartikelen","appliances":"apparaten","furniture":"meubels","diy_garden":"klussen en tuinieren","car_dealers":"autodealer"},"ru":{"shopping_fashion":"шопинг и мода","beauty_services":"салон красоты","home_goods":"товары для дома","appliances":"бытовая техника","furniture":"мебель","diy_garden":"ремонт и сад","car_dealers":"автосалон"},"pl":{"shopping_fashion":"zakupy i moda","beauty_services":"salon urody","home_goods":"artykuły do domu","appliances":"AGD","furniture":"meble","diy_garden":"majsterkowanie i ogród","car_dealers":"salon samochodowy"}};if(fixed[state.language]?.[raw])return fixed[state.language][raw];if(fixed.en?.[raw])return fixed.en[raw];if(!raw)return quickUiText().found;const key=raw.toLowerCase().replace(/[_-]+/g,' ').replace(/\\s+/g,' ').trim();const dictionaries={
 ro:{parking:'parcare',park:'parcare',restaurant:'restaurant',pub:'pub',bar:'bar',cafe:'cafenea',café:'cafenea',fast_food:'fast-food','fast food':'fast-food',food_court:'zonă de restaurante','food court':'zonă de restaurante',hotel:'hotel',hostel:'hostel',fuel:'benzinărie',gas_station:'benzinărie','gas station':'benzinărie',car_wash:'spălătorie auto','car wash':'spălătorie auto',shop:'magazin',supermarket:'supermarket',convenience:'magazin de proximitate',bakery:'brutărie',pharmacy:'farmacie',hospital:'spital',clinic:'clinică',toilets:'toalete','bus stop':'stație de autobuz',bus_station:'autogară','train station':'gară',railway_station:'gară',museum:'muzeu',attraction:'atracție turistică',sweet_shop:"magazin de dulciuri",patisserie:"cofetărie",ice_cream:"gelaterie"},
@@ -20700,7 +20700,7 @@ function resolveMixedFlightGroundOptions(choice,flight,host){
   };
   const walkMode=mode=>/^(walking|walk|foot|pedestrian)$/i.test(String(mode||''));
   const distance=n=>n!==null&&n!==undefined&&Number.isFinite(Number(n))&&Number(n)>=0?
-   (Number(n)>=1000?(Number(n)/1000).toLocaleString(chosenZone,{maximumFractionDigits:1})+' km':
+   (Number(n)>=1000?(Number(n)/1000).toLocaleString(state.language==='ro'?'ro-RO':'en-GB',{maximumFractionDigits:1})+' km':
     Math.round(Number(n))+' m'):'';
   const minutes=n=>n!==null&&n!==undefined&&Number.isFinite(Number(n))&&Number(n)>=0?
    Math.max(1,Math.round(Number(n)))+' min':'';
@@ -21540,8 +21540,10 @@ function transitBoardingAdvice(journey){
  const recommendedDate=transitDateLabel(recommended,zone);
  const scheduledDate=transitDateLabel(journey?.startDateTime,zone);
  const meters=Number(journey?.accessWalkDistanceMeters);
+ const kmRaw=journey?.accessWalkDistanceMeters!=null&&Number.isFinite(meters)&&meters>=0
+  ?(meters/1000).toFixed(meters<1000?2:1):'';
  const walking=dialogText('Mers pe jos până la stație: ','Walk to boarding stop: ')+formatTravelDurationMinutes(buffer.walking)+
-  (journey?.accessWalkDistanceMeters!=null&&Number.isFinite(meters)&&meters>=0?' · '+Math.round(meters)+' m':'');
+  (kmRaw?' · '+dialogText(kmRaw.replace('.',','),kmRaw)+' km':'');
  return walking+'. '+dialogText('Cu '+buffer.margin+' min rezervă, pleacă cel târziu la ',
   'With a '+buffer.margin+'-minute buffer, leave by ')+
   (recommendedDate!==scheduledDate?recommendedDate+' ':'')+transitClock(recommended,zone);
@@ -21758,11 +21760,11 @@ function appendRomanianNationalPages(host,options){
 
 function mixedCompactTransportModes(journey){
  const icons={walking:'🚶',walk:'🚶',foot:'🚶',pedestrian:'🚶',train:'🚆',rail:'🚆',
-  metro:'🚇',underground:'🚇',subway:'🚇',tram:'🚊',bus:'🚌',
+  metro:'🚇',underground:'🚇',subway:'🚇',tram:'🚊',bus:'🚌',trolleybus:'🚌',
   coach:'🚌',minibus:'🚌',autocar:'🚌',flight:'✈️',plane:'✈️',
   ferry:'⛴️',car:'🚗',drive:'🚗',taxi:'🚕'};
  const labels={walking:'Pe jos',train:'Tren',metro:'Metrou',tram:'Tramvai',
-  bus:'Autobuz',coach:'Autocar',flight:'Avion',ferry:'Feribot',car:'Mașină',taxi:'Taxi'};
+  bus:'Autobuz',trolleybus:'Troleibuz',coach:'Autocar',flight:'Avion',ferry:'Feribot',car:'Mașină',taxi:'Taxi'};
  const aliases={walk:'walking',foot:'walking',pedestrian:'walking',rail:'train',
   underground:'metro',subway:'metro',minibus:'coach',autocar:'coach',
   plane:'flight',drive:'car'};
@@ -21956,13 +21958,26 @@ function transitArrivalMs(j){
  return Number.isFinite(n)?n:null;
 }
 function compareTransitDisplayTimes(a,b){
+ const start=j=>{const v=j?.startDateTime||j?.legs?.[0]?.departureTime||j?.firstVehicleDepartureTime;const n=Date.parse(v||'');return Number.isFinite(n)?n:Infinity};
+ const x=transitArrivalMs(a),y=transitArrivalMs(b);
+ // For long-distance Romanian intercity itineraries, rank by shortest total
+ // travel duration first so 3.5h-4.5h direct buses/replacement coaches outrank
+ // 10h-13h overnight 3-train detours departing before midnight.
+ if(a?.romanian_national_journey===true||b?.romanian_national_journey===true){
+  const dur=j=>{
+   const d=Number(j?.durationMinutes);
+   if(Number.isFinite(d)&&d>0)return d;
+   const s=start(j),e=transitArrivalMs(j);
+   return Number.isFinite(s)&&e!==null&&e>s?Math.round((e-s)/60000):Infinity;
+  };
+  const da=dur(a),db=dur(b);
+  if(da!==db)return da-db;
+ }
  // Earliest time at the actual destination wins, including the wait before
  // boarding. A 12-minute bus departing in an hour must not outrank walking now.
- const x=transitArrivalMs(a),y=transitArrivalMs(b);
  if(x!==null&&y!==null&&x!==y)return x-y;
  if(x===null&&y!==null)return 1;
  if(x!==null&&y===null)return -1;
- const start=j=>{const v=j?.startDateTime||j?.legs?.[0]?.departureTime||j?.firstVehicleDepartureTime;const n=Date.parse(v||'');return Number.isFinite(n)?n:Infinity};
  return start(a)-start(b)||(Number(a?.transferCount)||0)-(Number(b?.transferCount)||0);
 }
 // Comparison is available in any country with a verified walking route.
@@ -22649,10 +22664,19 @@ function beginTransitVisualTracking(current){
  current.layer.querySelector('.transit-fixed-controls button:last-child')?.removeAttribute('hidden');
  current.layer.style.bottom='0px';
  current.recenter.hidden=false;current.followButton.textContent=dialogText('Recentrează pe GPS','Follow GPS');
+ const orderedWalks=[...current.walkRoutes.entries()].sort((a,b)=>a[0]-b[0]);
+ const firstWalkEntry=orderedWalks[0]||null;
+ const firstWalkRoute=firstWalkEntry?.[1]||null;
+ const firstCoord=firstWalkRoute?.coordinates?.[0];
+ const routeStart=Array.isArray(firstCoord)&&Number.isFinite(firstCoord[0])&&Number.isFinite(firstCoord[1])
+  ?[firstCoord[1],firstCoord[0]]
+  :transitCoordinate(current.journey?.legs?.[0]?.departurePoint)||current.overviewPoints?.[0]||null;
  pocketSyncNavigationMap(current);
+ if(routeStart)current.map.setView(routeStart,17,{animate:false});
  current.map.on('dragstart',()=>{current.follow=false;current.recenter.hidden=false});
  current.recenter.onclick=()=>{current.follow=true;
-  if(current.lastFix)current.map.setView(current.lastFix,17,{animate:false})};
+  if(current.remoteOriginPreview&&routeStart)current.map.setView(routeStart,17,{animate:false});
+  else if(current.lastFix)current.map.setView(current.lastFix,17,{animate:false})};
  current.liveStatus.textContent=dialogText('Aștept poziția GPS pentru navigare…','Waiting for GPS position…');
  if(!navigator.geolocation?.watchPosition){
   current.liveStatus.textContent=dialogText('GPS indisponibil pentru urmărirea hărții. Vocea Android poate rămâne activă.',
@@ -22664,6 +22688,34 @@ function beginTransitVisualTracking(current){
   const c=position?.coords,age=Date.now()-Number(position?.timestamp);
   if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||
      !Number.isFinite(c.accuracy)||c.accuracy<0||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(age)||age>30000||age< -5000){pocketUpdateManeuver(current,null,null,Infinity);return;}
+  let closest=null;
+  for(const [index,route] of current.walkRoutes){
+   const match=projectWalkingPosition(route,c.latitude,c.longitude);
+   if(!closest||match.away<closest.away)closest={index,route,...match};
+  }
+  const distFromStart=routeStart?transitDistance({latitude:routeStart[0],longitude:routeStart[1]},{latitude:c.latitude,longitude:c.longitude}):0;
+  if((closest&&closest.away>5000||!closest&&distFromStart>5000)&&routeStart){
+   current.remoteOriginPreview=true;
+   current.lastFix=routeStart;
+   if(!current.liveMarker)current.liveMarker=current.leaflet.circleMarker(routeStart,{
+    radius:9,color:'#fff',weight:3,fillColor:'#04c9d4',fillOpacity:1}).addTo(current.map);
+   else current.liveMarker.setLatLng(routeStart);
+   if(current.follow)current.map.setView(routeStart,17,{animate:false});
+   if(firstWalkRoute){
+    const startBearing=nearestRouteBearing(firstWalkRoute,routeStart[0],routeStart[1]);
+    if(Number.isFinite(startBearing)&&typeof current.map.setHeading==='function')current.map.setHeading(startBearing);
+    const previewIdx=firstWalkEntry?firstWalkEntry[0]:-1;
+    const previewLbl=previewIdx===-1?String(current.journey.boarding_stop?.label||'stație'):String(current.journey.legs?.[previewIdx]?.to||'următoarea legătură');
+    const totalM=Number(firstWalkRoute.distanceMeters)||closest?.totalMeters||0;
+    pocketUpdateManeuver(current,{...firstWalkRoute,destination:{label:previewLbl}},{alongMeters:0,remaining:totalM,totalMeters:Math.max(1,totalM),away:0},10);
+   }
+   const startLbl=String(state.lastTransitChoice?.journeyOrigin?.label||current.journey?.legs?.[0]?.from||dialogText('punctul de plecare','departure point'));
+   current.liveStatus.textContent='📌 '+dialogText('Plecare din ','Start from ')+startLbl+
+    (firstWalkRoute?.distanceMeters?' · '+formatNavigationKilometers(firstWalkRoute.distanceMeters,state.language):'')+
+    dialogText(' (GPS actual în altă localitate)',' (current GPS in another location)');
+   return;
+  }
+  current.remoteOriginPreview=false;
   current.lastFix=[c.latitude,c.longitude];
   if(!current.liveMarker)current.liveMarker=current.leaflet.circleMarker(current.lastFix,{
     radius:9,color:'#fff',weight:3,fillColor:'#04c9d4',fillOpacity:1}).addTo(current.map);
@@ -22692,17 +22744,12 @@ function beginTransitVisualTracking(current){
   current.previousFix=current.lastFix;
   if(Number.isFinite(heading)&&typeof current.map.setHeading==='function')
    current.map.setHeading(heading);
-  let closest=null;
-  for(const [index,route] of current.walkRoutes){
-   const match=projectWalkingPosition(route,c.latitude,c.longitude);
-   if(!closest||match.away<closest.away)closest={index,route,...match};
-  }
   pocketUpdateManeuver(current,closest?.route?{...closest.route,destination:{label:closest.index===-1?String(current.journey.boarding_stop?.label||''):String(current.journey.legs?.[closest.index]?.to||'')}}:null,closest,c.accuracy);
   if(closest&&closest.away<=Math.max(45,c.accuracy*2)){
    const label=closest.index===-1?String(current.journey.boarding_stop?.label||'stație'):
     String(current.journey.legs?.[closest.index]?.to||'următoarea legătură');
    current.liveStatus.textContent='📌 '+dialogText('Spre ','Towards ')+label+
-    ' · '+Math.round(closest.remaining)+' m · GPS ±'+Math.round(c.accuracy)+' m';
+    ' · '+formatNavigationKilometers(closest.remaining,state.language)+' · GPS ±'+Math.round(c.accuracy)+' m';
   }else current.liveStatus.textContent=dialogText('Urmărește punctul albastru; caut transferul pietonal verificat.',
    'Follow the blue marker; looking for a verified walking transfer.');
  };
@@ -22871,9 +22918,10 @@ async function openTransitJourneyMap(selected,resume=null){
   label.textContent=(transitWalkLeg(leg.mode)?'📌 ':'')+(i+1)+'. '+(isRomanianRailJourney(journey)?romanianActualVehicle(leg):transitModeName(leg.mode))+(transitLineLabel(leg)?' '+transitLineLabel(leg):'');
   const place=document.createElement('div');place.textContent=isRomanianRailJourney(journey)?formatRomanianStop(leg.from,leg.fromLocality)+' → '+formatRomanianStop(leg.to,leg.toLocality):(leg.from||'—')+' → '+(leg.to||'—');
   const clock=document.createElement('small');clock.textContent=transitClock(leg.departureTime,leg.departureZone||journey.time_zone)+
-   ' → '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone);
+   ' → '+transitClock(leg.arrivalTime,leg.arrivalZone||journey.time_zone)+(leg.localScheduleEstimated===true?dialogText(' (orientativ)',' (indicative)'):'');
   row.append(label,place,clock);appendTransitStopCount(row,leg);appendTransportTicketAction(row,leg);
   if(leg.operator){const operator=document.createElement('div');operator.append(mixedOperatorName(leg.operator,leg.operatorUrl||leg.bookingUrl));row.append(operator)}
+  if(leg.localScheduleEstimated===true){const est=document.createElement('p');est.style.cssText='font-size:12px;opacity:.9';est.textContent=dialogText('Linie urbană documentată; orele intermediare sunt orientative — verifică frecvența la stație.','Documented local line; intermediate times are indicative — check local headway at the stop.');row.append(est)}
   if(isRomanianRailJourney(journey)&&/^(train|rail)$/i.test(String(leg.mode||''))&&!transitLineLabel(leg)){
    const missing=document.createElement('p');missing.textContent=dialogText('Număr tren: neprecizat de furnizor.','Train number: not supplied by provider.');row.append(missing);
   }
@@ -22925,7 +22973,7 @@ async function openTransitJourneyMap(selected,resume=null){
     wPlace.textContent=String(state.lastTransitChoice?.journeyOrigin?.label||dialogText('Poziția mea','My location'))+
      ' → '+String(journey.boarding_stop?.label||journey.legs?.[0]?.from||'');
     const wMeta=document.createElement('small');wMeta.style.display='block';
-    wMeta.textContent='📌 '+Math.round(selected.accessRoute.distanceMeters||0)+' m'+
+    wMeta.textContent='📌 '+formatNavigationKilometers(selected.accessRoute.distanceMeters||0,state.language)+
      (Number.isFinite(selected.accessRoute.durationSeconds)?' · '+formatTravelDurationMinutes(selected.accessRoute.durationSeconds/60):'');
     const wState=document.createElement('p');wState.className='transit-walk-stage-status';
     wState.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');
@@ -22933,7 +22981,9 @@ async function openTransitJourneyMap(selected,resume=null){
     const wSteps=document.createElement('ol');wSteps.className='transit-walking-instructions';
     for(const step of selected.accessRoute.steps||[]){
      if(!step?.text)continue;
-     const li=document.createElement('li');li.textContent=step.text;wSteps.append(li);
+     const li=document.createElement('li');
+     li.textContent=step.text+(Number.isFinite(Number(step.distanceMeters))&&Number(step.distanceMeters)>0?' · '+formatNavigationKilometers(step.distanceMeters,state.language):'');
+     wSteps.append(li);
     }
     if(wSteps.children.length)accessStage.append(wSteps);
    }
@@ -23058,11 +23108,11 @@ async function openTransitJourneyMap(selected,resume=null){
     job.initial.remove();line(p,'#0f91e2');walkRoutes.set(job.i,verified);
     if(activeRouteMap===current){const row=stages.children[job.i];
      const walk=document.createElement('small');walk.style.display='block';
-     walk.textContent='📌 '+Math.round(verified.distanceMeters||0)+' m'+
+     walk.textContent='📌 '+formatNavigationKilometers(verified.distanceMeters||0,state.language)+
        (Number.isFinite(verified.durationSeconds)?' · '+formatTravelDurationMinutes(verified.durationSeconds/60):'');
      const status=row?.querySelector('.transit-walk-stage-status');if(status)status.textContent=dialogText('Traseu pietonal verificat.','Walking path verified.');row?.append(walk);
      const instructions=document.createElement('ol');instructions.className='transit-walking-instructions';
-     for(const step of verified.steps||[]){if(!step.text)continue;const li=document.createElement('li');li.textContent=step.text;instructions.append(li)}
+     for(const step of verified.steps||[]){if(!step.text)continue;const li=document.createElement('li');li.textContent=step.text+(Number.isFinite(Number(step.distanceMeters))&&Number(step.distanceMeters)>0?' · '+formatNavigationKilometers(step.distanceMeters,state.language):'');instructions.append(li)}
      if(instructions.children.length)row?.append(instructions)}
    }catch{unverified.push(job.i+1)}
   }};
@@ -23499,11 +23549,31 @@ function startRouteTracking(current,resumeNative=false){
   current.liveStatus.hidden=false;
   current.liveStatus.textContent=dialogText('Navigația vizuală funcționează, dar serviciul Android în fundal nu a pornit.','Visual tracking works, but Android background navigation did not start.');
  }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];pocketSyncNavigationMap(current);
+ const firstRoutePt=current.route?.coordinates?.[0];
+ const routeStart=Array.isArray(firstRoutePt)&&Number.isFinite(firstRoutePt[0])&&Number.isFinite(firstRoutePt[1])?[firstRoutePt[1],firstRoutePt[0]]:null;
+ if(routeStart)current.map.setView?.(routeStart,16,{animate:false});
  const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
   if(!c||!Number.isFinite(c.latitude)||!Number.isFinite(c.longitude)||Math.abs(c.latitude)>90||Math.abs(c.longitude)>180||!Number.isFinite(c.accuracy)||c.accuracy<0||!Number.isFinite(age)||age>30000||age< -5000){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);return}
-  stale();const previousFix=current.lastFix;current.lastFix=[c.latitude,c.longitude];
+  stale();
+  const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
+  if(projected.away>5000&&routeStart){
+   current.remoteOriginPreview=true;current.lastFix=routeStart;
+   if(current.liveMarker)current.liveMarker.setLatLng(routeStart);else current.liveMarker=current.leaflet.circleMarker(routeStart,{radius:8,color:'#ffffff',fillColor:'#05d6dc',fillOpacity:1,weight:3}).addTo(current.map);
+   current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
+   if(current.follow){if(current.firstFix){current.map.setView(routeStart,16,{animate:false});current.firstFix=false}else current.map.panTo(routeStart,{animate:false})}
+   const startHdg=nearestRouteBearing(current.route,routeStart[0],routeStart[1]);
+   if(Number.isFinite(startHdg)){current.lastHeading=startHdg;current.map?.setHeading?.(startHdg)}
+   const totalM=Number(current.route?.distanceMeters)||projected.totalMeters||0;
+   const startProj={alongMeters:0,remaining:totalM,totalMeters:Math.max(1,totalM),away:0};
+   updateDrivingNextTurn(current,startProj,10);
+   pocketUpdateManeuver(current,current.route,startProj,10,current.stepRows);
+   current.liveStatus.textContent=t[6]+': '+formatNavigationKilometers(totalM,state.language)+dialogText(' · Plecare din punctul de start (GPS în altă localitate)',' · Starting at route origin (GPS in another location)');
+   return;
+  }
+  current.remoteOriginPreview=false;
+  const previousFix=current.lastFix;current.lastFix=[c.latitude,c.longitude];
   if(current.liveMarker)current.liveMarker.setLatLng(current.lastFix);else current.liveMarker=current.leaflet.circleMarker(current.lastFix,{radius:8,color:'#ffffff',fillColor:'#05d6dc',fillOpacity:1,weight:3}).addTo(current.map);
   current.liveMarker?.setStyle?.({opacity:1,fillOpacity:1});
   if(current.follow){if(current.firstFix){current.map.setView(current.lastFix,16,{animate:false});current.firstFix=false}else current.map.panTo(current.lastFix,{animate:false})}
@@ -23517,7 +23587,6 @@ function startRouteTracking(current,resumeNative=false){
   if(heading===null)heading=nearestRouteBearing(current.route,c.latitude,c.longitude);
   if(Number.isFinite(heading)){current.lastHeading=heading;current.map?.setHeading?.(heading)}
   if(typeof saveLocation==='function')saveLocation(c);
-  const projected=projectWalkingPosition(current.route,c.latitude,c.longitude);
   updateDrivingNextTurn(current,projected,c.accuracy);
   pocketUpdateManeuver(current,current.route,projected,c.accuracy,current.stepRows);
   current.liveStatus.textContent=projected.away>Math.max(60,c.accuracy*2)?t[9]+accuracy:t[6]+': '+formatNavigationKilometers(projected.remaining,state.language)+accuracy;

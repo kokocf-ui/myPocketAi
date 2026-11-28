@@ -524,6 +524,257 @@ function materializeLocalJourneyLegs(journey,fromPt,toPt,maxRadiusM=350){
   return {legs:raw,startMs,endMs};
 }
 
+const osmUrbanCache=new Map();
+
+async function planOsmUrbanTransitSegment(env,fromPt,toPt,{
+  latestArrivalMs=null,earliestStartMs=null,lang='ro',fetchImpl=defaultFetch,inflight=null
+}={}){
+  const dist=pointDistanceMeters(fromPt,toPt);
+  if(!Number.isFinite(dist)||dist<1400||dist>16000)return null;
+  const allowFallback=env?.RO_OSM_URBAN_FALLBACK==='true'||
+    (env?.RO_OSM_URBAN_FALLBACK!=='false'&&(typeof env?.RO_URBAN_VPC?.fetch==='function'||Boolean(env?.RO_URBAN_API_URL)));
+  if(!allowFallback)return null;
+
+  const gridKey=[fromPt.latitude.toFixed(3),fromPt.longitude.toFixed(3),
+    toPt.latitude.toFixed(3),toPt.longitude.toFixed(3)].join('|');
+  let topo=osmUrbanCache.get(gridKey);
+  if(!topo||topo.until<=Date.now()){
+    topo=await withInflight(inflight,'osm-urban:'+gridKey,async()=>{
+      const q=`[out:json][timeout:4];(node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["public_transport"~"stop_position|platform"];node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["highway"="bus_stop"];node(around:950,${fromPt.latitude.toFixed(5)},${fromPt.longitude.toFixed(5)})["railway"="tram_stop"];)->.starts;(node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["public_transport"~"stop_position|platform"];node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["highway"="bus_stop"];node(around:950,${toPt.latitude.toFixed(5)},${toPt.longitude.toFixed(5)})["railway"="tram_stop"];)->.ends;rel(bn.starts)["type"="route"]["route"~"^(tram|bus|trolleybus|subway|light_rail)$"]->.r1;rel.r1(bn.ends)->.direct;node(r.direct)->.rnodes;(.starts;.ends;.direct;.rnodes;);out body;`;
+      let elements=null;
+      for(const endpoint of ['https://overpass.private.coffee/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
+        try{
+          const res=await fetchImpl(endpoint,{
+            method:'POST',
+            headers:{'Content-Type':'application/x-www-form-urlencoded;charset=UTF-8','Accept':'application/json'},
+            body:'data='+encodeURIComponent(q),
+            signal:AbortSignal.timeout(4200)
+          });
+          if(!res.ok)continue;
+          const json=await res.json();
+          if(Array.isArray(json?.elements)){elements=json.elements;break;}
+        }catch{}
+      }
+      if(!elements){return null;}
+      const nodes=new Map();
+      const rels=[];
+      for(const el of elements){
+        if(el?.type==='node'&&Number.isFinite(el.lat)&&Number.isFinite(el.lon))nodes.set(el.id,el);
+        else if(el?.type==='relation'&&Array.isArray(el.members))rels.push(el);
+      }
+      const modeMap={tram:'tram',light_rail:'tram',bus:'bus',trolleybus:'trolleybus',subway:'metro'};
+      let best=null;
+      for(const rel of rels){
+        const tags=rel.tags||{};
+        const mode=modeMap[String(tags.route||'').toLowerCase()];
+        const ref=String(tags.ref||tags.name||'').trim().slice(0,40);
+        if(!mode||!ref)continue;
+        const stopMembers=rel.members
+          .filter(m=>m?.type==='node'&&nodes.has(m.ref)&&!/^(?:way|track)$/i.test(String(m.role||'')))
+          .map(m=>nodes.get(m.ref));
+        if(stopMembers.length<2)continue;
+        for(let i=0;i<stopMembers.length-1;i++){
+          const aNode=stopMembers[i];
+          const dA=pointDistanceMeters(fromPt,{latitude:aNode.lat,longitude:aNode.lon});
+          if(dA>950)continue;
+          for(let k=i+1;k<stopMembers.length;k++){
+            const bNode=stopMembers[k];
+            const dB=pointDistanceMeters(toPt,{latitude:bNode.lat,longitude:bNode.lon});
+            if(dB>950)continue;
+            if(pointDistanceMeters({latitude:aNode.lat,longitude:aNode.lon},{latitude:bNode.lat,longitude:bNode.lon})<500)continue;
+            const bonus=(mode==='tram'||mode==='metro')?-60:mode==='trolleybus'?-30:0;
+            const score=dA+dB+(k-i)*16+bonus;
+            if(!best||score<best.score){
+              const slice=stopMembers.slice(i,k+1);
+              const coords=slice.map(n=>[Number(n.lon),Number(n.lat)]);
+              const fromStopName=String(aNode.tags?.name||aNode.tags?.['name:ro']||'Stație transport local').trim();
+              const toStopName=String(bNode.tags?.name||bNode.tags?.['name:ro']||'Stație transport local').trim();
+              best={
+                score,mode,ref,
+                operator:String(tags.operator||tags.network||'').trim().slice(0,60),
+                stopCount:Math.max(1,k-i),
+                aPt:{latitude:Number(aNode.lat),longitude:Number(aNode.lon),label:fromStopName},
+                bPt:{latitude:Number(bNode.lat),longitude:Number(bNode.lon),label:toStopName},
+                coords
+              };
+            }
+          }
+        }
+      }
+      const entry={until:Date.now()+(best?1800000:300000),value:best};
+      if(osmUrbanCache.size>=64)osmUrbanCache.delete(osmUrbanCache.keys().next().value);
+      osmUrbanCache.set(gridKey,entry);
+      return entry;
+    });
+  }
+
+  if(topo?.value){
+    const pick=topo.value;
+    const rideDist=pointDistanceMeters(pick.aPt,pick.bPt);
+    const rideMin=Math.max(6,Math.ceil(rideDist/290)+Math.min(22,pick.stopCount));
+    const waitBufferMin=10;
+    let vehDepMs,vehArrMs;
+    if(latestArrivalMs!==null){
+      const estWalkBMin=Math.max(2,Math.ceil((pointDistanceMeters(pick.bPt,toPt)*1.35)/72));
+      vehArrMs=latestArrivalMs-estWalkBMin*60000-4*60000;
+      vehDepMs=vehArrMs-rideMin*60000;
+    }else{
+      const baseMs=earliestStartMs??Date.now();
+      const estWalkAMin=Math.max(2,Math.ceil((pointDistanceMeters(fromPt,pick.aPt)*1.35)/72));
+      vehDepMs=baseMs+(estWalkAMin+waitBufferMin)*60000;
+      vehArrMs=vehDepMs+rideMin*60000;
+    }
+    const [wAccess,wEgress]=await Promise.all([
+      pointDistanceMeters(fromPt,pick.aPt)>=25
+        ?buildVerifiedWalkingLeg(env,fromPt,pick.aPt,{
+            arrivalTime:new Date(vehDepMs-waitBufferMin*60000).toISOString(),lang,fetchImpl,inflight
+          })
+        :Promise.resolve(null),
+      pointDistanceMeters(pick.bPt,toPt)>=25
+        ?buildVerifiedWalkingLeg(env,pick.bPt,toPt,{
+            departureTime:new Date(vehArrMs).toISOString(),lang,fetchImpl,inflight
+          })
+        :Promise.resolve(null)
+    ]);
+    const walkOk=(pointDistanceMeters(fromPt,pick.aPt)<=120||Boolean(wAccess))&&
+      (pointDistanceMeters(pick.bPt,toPt)<=120||Boolean(wEgress));
+    const totalWalkM=(wAccess?.distanceMeters||0)+(wEgress?.distanceMeters||0);
+    if(walkOk&&totalWalkM<dist*0.8){
+      if(latestArrivalMs!==null&&wEgress){
+        vehArrMs=latestArrivalMs-wEgress.durationMinutes*60000-4*60000;
+        vehDepMs=vehArrMs-rideMin*60000;
+        if(wAccess){
+          const aStart=vehDepMs-waitBufferMin*60000-wAccess.durationMinutes*60000;
+          wAccess.departureTime=new Date(aStart).toISOString();
+          wAccess.arrivalTime=new Date(vehDepMs-waitBufferMin*60000).toISOString();
+        }
+        wEgress.departureTime=new Date(vehArrMs).toISOString();
+        wEgress.arrivalTime=new Date(vehArrMs+wEgress.durationMinutes*60000).toISOString();
+      }
+      const opNote=lang==='en'?'OSM local line (verify local headway)':'linie locală OSM (verifică frecvența locală)';
+      const transitLeg={
+        mode:pick.mode,
+        lineNames:[pick.ref],
+        stops:[],
+        stopCount:pick.stopCount,
+        from:pick.aPt.label,
+        to:pick.bPt.label,
+        departurePoint:{lat:pick.aPt.latitude,lon:pick.aPt.longitude,latitude:pick.aPt.latitude,longitude:pick.aPt.longitude,label:pick.aPt.label},
+        arrivalPoint:{lat:pick.bPt.latitude,lon:pick.bPt.longitude,latitude:pick.bPt.latitude,longitude:pick.bPt.longitude,label:pick.bPt.label},
+        arrivalLatLon:{lat:pick.bPt.latitude,lon:pick.bPt.longitude},
+        departureTime:new Date(vehDepMs).toISOString(),
+        arrivalTime:new Date(vehArrMs).toISOString(),
+        durationMinutes:rideMin,
+        operator:pick.operator?`${pick.operator} · ${opNote}`:opNote,
+        coordinates:pick.coords.length>=2?pick.coords:[[pick.aPt.longitude,pick.aPt.latitude],[pick.bPt.longitude,pick.bPt.latitude]],
+        geometryAvailable:pick.coords.length>=2,
+        localScheduleEstimated:true
+      };
+      const full=[...(wAccess?[wAccess]:[]),transitLeg,...(wEgress?[wEgress]:[])];
+      const sMs=Date.parse(full[0].departureTime||'');
+      const eMs=Date.parse(full.at(-1).arrivalTime||'');
+      if((earliestStartMs===null||sMs>=earliestStartMs)&&(latestArrivalMs===null||eMs<=latestArrivalMs)){
+        return full;
+      }
+    }
+  }
+
+  // Secondary multimodal fallback via Geoapify approximated_transit for 1-transfer suburban/metropolitan links (>2.2 km)
+  if(env?.GEOAPIFY_API_KEY&&dist>2200){
+    try{
+      const gKey='geo-transit:'+[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),lang].join('|');
+      const feat=await withInflight(inflight,gKey,async()=>{
+        const u=new URL('https://api.geoapify.com/v1/routing');
+        u.searchParams.set('waypoints',`${fromPt.latitude},${fromPt.longitude}|${toPt.latitude},${toPt.longitude}`);
+        u.searchParams.set('mode','approximated_transit');
+        u.searchParams.set('details','instruction_details,route_details');
+        u.searchParams.set('lang',['ro','en','fr','de','it','es','pt','nl','ru','pl'].includes(lang)?lang:'ro');
+        u.searchParams.set('apiKey',String(env.GEOAPIFY_API_KEY));
+        const r=await fetchImpl(u.href,{headers:{Accept:'application/json'},signal:AbortSignal.timeout(4500)});
+        if(!r.ok)return null;
+        const data=await r.json();
+        return data?.features?.[0]||null;
+      });
+      const rawSteps=feat?.properties?.legs?.[0]?.steps;
+      const allCoords=feat?.geometry?.type==='MultiLineString'
+        ?(Array.isArray(feat.geometry.coordinates[0])?feat.geometry.coordinates[0]:feat.geometry.coordinates.flat())
+        :feat?.geometry?.type==='LineString'?feat.geometry.coordinates:[];
+      if(Array.isArray(rawSteps)&&rawSteps.length>=2&&allCoords.length>=2){
+        const groups=[];
+        for(const st of rawSteps){
+          const rawM=String(st?.travel_mode||st?.mode||'').toLowerCase();
+          const isW=/^(?:walk|walking|foot|pedestrian)$/.test(rawM);
+          const tMode=isW?'walking':/tram|light_rail/.test(rawM)?'tram':/trolley/.test(rawM)?'trolleybus':/subway|metro/.test(rawM)?'metro':'bus';
+          const line=String(st?.transit?.short_name||st?.transit?.name||st?.route?.short_name||st?.line||'').trim().slice(0,36);
+          const fIdx=Math.max(0,Number(st?.from_index)||0);
+          const tIdx=Math.min(allCoords.length-1,Math.max(fIdx+1,Number(st?.to_index)||fIdx+1));
+          const segCoords=allCoords.slice(fIdx,tIdx+1).filter(c=>Array.isArray(c)&&Number.isFinite(c[0])&&Number.isFinite(c[1]));
+          if(segCoords.length<2)continue;
+          const prev=groups.at(-1);
+          if(prev&&prev.mode===tMode&&(tMode==='walking'||prev.line===line)){
+            prev.coords.push(...segCoords.slice(1));
+            prev.meters+=(Number(st?.distance)||0);
+            prev.seconds+=(Number(st?.time)||0);
+            if(tMode==='walking'&&st?.instruction?.text)prev.steps.push({text:String(st.instruction.text).trim(),distanceMeters:Math.round(Number(st.distance)||0)});
+            prev.toStop=String(st?.transit?.arrival_stop?.name||st?.to_stop||prev.toStop||'');
+          }else{
+            groups.push({
+              mode:tMode,line,
+              coords:[...segCoords],
+              meters:Number(st?.distance)||0,
+              seconds:Number(st?.time)||0,
+              fromStop:String(st?.transit?.departure_stop?.name||st?.from_stop||''),
+              toStop:String(st?.transit?.arrival_stop?.name||st?.to_stop||''),
+              operator:String(st?.transit?.agency_name||st?.operator||'').trim().slice(0,60),
+              steps:tMode==='walking'&&st?.instruction?.text?[{text:String(st.instruction.text).trim(),distanceMeters:Math.round(Number(st.distance)||0)}]:[]
+            });
+          }
+        }
+        const hasTransit=groups.some(g=>g.mode!=='walking');
+        const walkMeters=groups.filter(g=>g.mode==='walking').reduce((s,g)=>s+g.meters,0);
+        if(hasTransit&&walkMeters<dist*0.8){
+          const totalSec=groups.reduce((s,g)=>s+Math.max(60,g.seconds),0)+480;
+          let cursorMs=latestArrivalMs!==null?(latestArrivalMs-totalSec*1000):((earliestStartMs??Date.now())+240000);
+          const built=groups.map((g,idx)=>{
+            const aC=g.coords[0],bC=g.coords.at(-1);
+            const durMin=Math.max(1,Math.ceil(g.seconds/60));
+            const depIso=new Date(cursorMs).toISOString();
+            cursorMs+=durMin*60000+(g.mode!=='walking'?180000:0);
+            const arrIso=new Date(cursorMs).toISOString();
+            const fromLbl=idx===0?String(fromPt.label||'Plecarea'):(g.fromStop||groups[idx-1]?.toStop||'Stație locală');
+            const toLbl=idx===groups.length-1?String(toPt.label||'Destinația'):(g.toStop||groups[idx+1]?.fromStop||'Stație locală');
+            return {
+              mode:g.mode,
+              lineNames:g.mode==='walking'?[]:(g.line?[g.line]:[]),
+              stops:[],
+              from:fromLbl,
+              to:toLbl,
+              departurePoint:{lat:aC[1],lon:aC[0],latitude:aC[1],longitude:aC[0],label:fromLbl},
+              arrivalPoint:{lat:bC[1],lon:bC[0],latitude:bC[1],longitude:bC[0],label:toLbl},
+              arrivalLatLon:{lat:bC[1],lon:bC[0]},
+              departureTime:depIso,
+              arrivalTime:arrIso,
+              durationMinutes:durMin,
+              ...(g.mode==='walking'?{distanceMeters:Math.round(g.meters),steps:g.steps,verified:true}:{
+                operator:(g.operator?g.operator+' · ':'')+(lang==='en'?'estimated local schedule':'orar local orientativ'),
+                localScheduleEstimated:true
+              }),
+              coordinates:decimateWalkCoords(g.coords,180),
+              geometryAvailable:true
+            };
+          });
+          const sMs=Date.parse(built[0].departureTime||'');
+          const eMs=Date.parse(built.at(-1).arrivalTime||'');
+          if((earliestStartMs===null||sMs>=earliestStartMs)&&(latestArrivalMs===null||eMs<=latestArrivalMs)){
+            return built;
+          }
+        }
+      }
+    }catch{}
+  }
+  return null;
+}
+
 // Lightweight direct Oracle urban transit lookup (1 Oracle subrequest + <=2 cached Geoapify walk calls),
 // avoiding the 8x walk amplification of full handleBackendRequest localPlanner inside Cloudflare's 50-subrequest budget.
 async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
@@ -532,32 +783,40 @@ async function planDirectRomanianUrbanSegment(env,fromPt,toPt,{
   if(!romanianUrbanRegion(fromPt,toPt,{verifiedCountry:'RO'}))return null;
   if(!(typeof env?.RO_URBAN_VPC?.fetch==='function'||env?.RO_URBAN_API_URL)||
      String(env?.RO_URBAN_API_TOKEN||'').trim().length<32)return null;
-  const bucketKey='urban:'+[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),
-    toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),Math.floor(departureAtMs/600000)].join('|');
-  const oracleRes=await withInflight(inflight,bucketKey,()=>planRomanianUrbanViaOracle(env,{
-    from:fromPt,to:toPt,departureAt:new Date(departureAtMs).toISOString(),limit:8,verifiedCountry:'RO'
-  },{fetchImpl}));
-  if(!oracleRes||oracleRes.status==='route_only'||!Array.isArray(oracleRes.journeys)||!oracleRes.journeys.length)return null;
-
-  const scored=oracleRes.journeys.map(j=>{
-    const legs=Array.isArray(j.legs)?j.legs:[];
-    if(!legs.length)return null;
-    const firstDep=Date.parse(legs[0].departureTime||'');
-    const lastArr=Date.parse(legs.at(-1).arrivalTime||j.arrivalDateTime||'');
-    if(!Number.isFinite(firstDep)||!Number.isFinite(lastArr))return null;
-    const aPt=toLatLon(j.access||legs[0].departurePoint);
-    const ePt=toLatLon(j.egress||legs.at(-1).arrivalPoint||legs.at(-1).arrivalLatLon);
-    if(!aPt||!ePt)return null;
-    const estWalkA=Math.ceil((pointDistanceMeters(fromPt,aPt)*1.35)/75);
-    const estWalkE=Math.ceil((pointDistanceMeters(ePt,toPt)*1.35)/75);
-    const estStart=firstDep-estWalkA*60000;
-    const estEnd=lastArr+estWalkE*60000;
-    if(earliestStartMs!==null&&estStart<earliestStartMs)return null;
-    if(latestArrivalMs!==null&&estEnd>latestArrivalMs)return null;
-    return {j,aPt,ePt,firstDep,lastArr,estStart,estEnd};
-  }).filter(Boolean).sort((a,b)=>
-    latestArrivalMs!==null?(b.estEnd-a.estEnd||b.estStart-a.estStart):(a.estEnd-b.estEnd||a.estStart-b.estStart)
-  );
+  const candidateWindows=latestArrivalMs!==null
+    ?[departureAtMs,Math.max(earliestStartMs??0,latestArrivalMs-85*60000)]
+        .filter((t,i,arr)=>Number.isFinite(t)&&(i===0||Math.abs(t-arr[0])>=15*60000))
+    :[departureAtMs];
+  let scored=[];
+  for(const windowMs of candidateWindows){
+    const bucketKey='urban:'+[fromPt.latitude.toFixed(4),fromPt.longitude.toFixed(4),
+      toPt.latitude.toFixed(4),toPt.longitude.toFixed(4),Math.floor(windowMs/600000)].join('|');
+    const oracleRes=await withInflight(inflight,bucketKey,()=>planRomanianUrbanViaOracle(env,{
+      from:fromPt,to:toPt,departureAt:new Date(windowMs).toISOString(),limit:8,verifiedCountry:'RO',maxStraightLineMeters:950
+    },{fetchImpl}));
+    if(!oracleRes||oracleRes.status==='feed_not_loaded'||oracleRes.status==='route_only')break;
+    if(!Array.isArray(oracleRes.journeys)||!oracleRes.journeys.length)continue;
+    scored=oracleRes.journeys.map(j=>{
+      const legs=Array.isArray(j.legs)?j.legs:[];
+      if(!legs.length)return null;
+      const firstDep=Date.parse(legs[0].departureTime||'');
+      const lastArr=Date.parse(legs.at(-1).arrivalTime||j.arrivalDateTime||'');
+      if(!Number.isFinite(firstDep)||!Number.isFinite(lastArr))return null;
+      const aPt=toLatLon(j.access||legs[0].departurePoint);
+      const ePt=toLatLon(j.egress||legs.at(-1).arrivalPoint||legs.at(-1).arrivalLatLon);
+      if(!aPt||!ePt)return null;
+      const estWalkA=Math.ceil((pointDistanceMeters(fromPt,aPt)*1.35)/75);
+      const estWalkE=Math.ceil((pointDistanceMeters(ePt,toPt)*1.35)/75);
+      const estStart=firstDep-estWalkA*60000;
+      const estEnd=lastArr+estWalkE*60000;
+      if(earliestStartMs!==null&&estStart<earliestStartMs)return null;
+      if(latestArrivalMs!==null&&estEnd>latestArrivalMs)return null;
+      return {j,aPt,ePt,firstDep,lastArr,estStart,estEnd};
+    }).filter(Boolean).sort((a,b)=>
+      latestArrivalMs!==null?(b.estEnd-a.estEnd||b.estStart-a.estStart):(a.estEnd-b.estEnd||a.estStart-b.estStart)
+    );
+    if(scored.length)break;
+  }
   if(!scored.length)return null;
 
   const pick=scored[0];
@@ -680,13 +939,19 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             if(materialized.length)return materialized[0].legs;
           }
         }catch{}
-      }else if(!localPlanner&&priorityRank<4&&latestArrMs>nowMs+4*60000){
+      }else if(!localPlanner&&priorityRank<8&&latestArrMs>nowMs+4*60000){
         try{
           const urbanLegs=await planDirectRomanianUrbanSegment(env,orig,boardingTarget,{
-            departureAtMs:Math.max(nowMs,latestArrMs-55*60000),
+            departureAtMs:Math.max(nowMs,latestArrMs-50*60000),
             latestArrivalMs:latestArrMs,earliestStartMs:nowMs-120000,lang,fetchImpl:budgetedFetch,inflight
           });
           if(urbanLegs?.length)return urbanLegs;
+          if(dist>1400){
+            const osmLegs=await planOsmUrbanTransitSegment(env,orig,boardingTarget,{
+              latestArrivalMs:latestArrMs,earliestStartMs:nowMs-120000,lang,fetchImpl:budgetedFetch,inflight
+            });
+            if(osmLegs?.length)return osmLegs;
+          }
         }catch{}
       }
       const walkLeg=await buildVerifiedWalkingLeg(env,orig,boardingTarget,{
@@ -712,13 +977,19 @@ export async function enrichRomanianDoorToDoorJourneys(env,journeys,{
             .sort((a,b)=>a.endMs-b.endMs||a.startMs-b.startMs);
           if(materialized.length)return materialized[0].legs;
         }catch{}
-      }else if(!localPlanner&&priorityRank<4){
+      }else if(!localPlanner&&priorityRank<8){
         try{
           const urbanLegs=await planDirectRomanianUrbanSegment(env,alightingSource,dest,{
             departureAtMs:Math.max(Date.now(),lastArrMs+6*60000),
             earliestStartMs:lastArrMs+4*60000,lang,fetchImpl:budgetedFetch,inflight
           });
           if(urbanLegs?.length)return urbanLegs;
+          if(dist>1400){
+            const osmLegs=await planOsmUrbanTransitSegment(env,alightingSource,dest,{
+              earliestStartMs:lastArrMs+4*60000,lang,fetchImpl:budgetedFetch,inflight
+            });
+            if(osmLegs?.length)return osmLegs;
+          }
         }catch{}
       }
       const walkLeg=await buildVerifiedWalkingLeg(env,alightingSource,dest,{

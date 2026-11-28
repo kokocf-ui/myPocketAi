@@ -570,4 +570,89 @@ import {parseBiloStopLabel,resolveRomanianIntercityStop,enrichRomanianDoorToDoor
   }
 }
 
+// 6. When Oracle GTFS returns feed_not_loaded (e.g. Oradea 503), OSM Overpass urban relation composes
+//    walking -> tram -> coach -> walking so long urban transfers (>1.4 km) use real local transit instead of multi-km walks.
+{
+  const coachJourney={
+    source:'Bilo (date transport România)',
+    time_zone:'Europe/Bucharest',
+    startDateTime:'2026-11-29T10:30:00+02:00',
+    arrivalDateTime:'2026-11-29T13:50:00+02:00',
+    durationMinutes:200,
+    transferCount:0,
+    legs:[{
+      mode:'coach',
+      lineNames:['Fany'],
+      from:'Oradea · Gara Centrală',
+      to:'Cluj-Napoca · Autogara Beta',
+      fromSourceStopRef:{id:'oradea-gara',latitude:47.0697,longitude:21.9349},
+      toSourceStopRef:{id:'cluj-beta',latitude:46.7848,longitude:23.5865},
+      departureTime:'2026-11-29T10:30:00+02:00',
+      arrivalTime:'2026-11-29T13:50:00+02:00',
+      durationMinutes:200,
+      operator:'Fany',
+      stops:[]
+    }]
+  };
+  const mockOsmFetch=async(url)=>{
+    const u=String(url);
+    if(u.includes('overpass.private.coffee')){
+      return {
+        ok:true,status:200,
+        json:async()=>({
+          elements:[
+            {type:'node',id:101,lat:47.0368,lon:21.9475,tags:{name:'Nufărul'}},
+            {type:'node',id:102,lat:47.0520,lon:21.9360,tags:{name:'Piața Unirii'}},
+            {type:'node',id:103,lat:47.0695,lon:21.9348,tags:{name:'Gara Centrală'}},
+            {
+              type:'relation',id:9001,
+              tags:{type:'route',route:'tram',ref:'3R',operator:'OTL'},
+              members:[
+                {type:'node',ref:101,role:'stop'},
+                {type:'node',ref:102,role:'stop'},
+                {type:'node',ref:103,role:'stop'}
+              ]
+            }
+          ]
+        })
+      };
+    }
+    if(u.includes('api.geoapify.com/v1/routing')){
+      const wp=new URL(u).searchParams.get('waypoints')||'';
+      const [[lat1,lon1],[lat2,lon2]]=wp.split('|').map(p=>p.split(',').map(Number));
+      return {
+        ok:true,status:200,
+        json:async()=>({
+          features:[{
+            geometry:{type:'LineString',coordinates:[[lon1,lat1],[(lon1+lon2)/2,(lat1+lat2)/2],[lon2,lat2]]},
+            properties:{distance:320,time:240,legs:[{steps:[{instruction:{text:'Mergi spre stație'},distance:320}]}]}
+          }]
+        })
+      };
+    }
+    return {ok:false,status:404,json:async()=>({})};
+  };
+  const enrichedOsm=await enrichRomanianDoorToDoorJourneys(
+    {
+      GEOAPIFY_API_KEY:'test-geo-key',
+      RO_OSM_URBAN_FALLBACK:'true',
+      RO_URBAN_API_TOKEN:'x'.repeat(40),
+      RO_URBAN_VPC:{fetch:async()=>new Response(JSON.stringify({error:'feed_not_loaded'}),{status:503})}
+    },
+    [coachJourney],
+    {
+      originPoint:{latitude:47.0355,longitude:21.9488,label:'Strada Nufărului, Oradea',city:'Oradea',country_code:'RO'},
+      destinationPoint:{latitude:46.7745,longitude:23.5898,label:'Piața Mihai Viteazul, Cluj-Napoca',city:'Cluj-Napoca',country_code:'RO'},
+      originCity:'Oradea',destinationCity:'Cluj-Napoca',
+      fetchImpl:mockOsmFetch
+    }
+  );
+  assert.equal(enrichedOsm.length,1);
+  assert.deepEqual(enrichedOsm[0].legs.map(l=>l.mode),['walking','tram','coach','walking'],
+    'Oradea long urban transfer uses OTL Tram 3R instead of a 5+ km walk');
+  assert.deepEqual(enrichedOsm[0].legs[1].lineNames,['3R']);
+  assert.equal(enrichedOsm[0].legs[1].localScheduleEstimated,true);
+  assert.notEqual(enrichedOsm[0].route_only,true,'Scheduled intercity journey must keep Navigare enabled');
+}
+
 console.log('PASS Romanian intercity door-to-door composition, Bilo deduplication, and verified station coordinates');

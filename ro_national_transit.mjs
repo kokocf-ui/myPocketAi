@@ -333,13 +333,20 @@ function biloLegFields(seg,item,rootMode,date){
   seg.transport_type,seg.category,seg.transport?.mode,seg.transport?.type,
   seg.service?.type,seg.service?.category,item.mode,item.transport_mode,
   item.transport_type,rootMode];
+ const replacementHints=[seg.mode,seg.transport_mode,seg.transport_type,
+  seg.replacement_type,seg.replacement_reason,seg.service?.category,
+  seg.service?.type,seg.service?.name,seg.train_type,seg.service_type,
+  seg.vehicle?.description,seg.description,seg.notes,seg.note,seg.warnings,
+  seg.warning,seg.alerts,seg.alert,seg.remarks,seg.remark,seg.info,
+  item.notes,item.note,item.warnings,item.warning,item.description,item.remarks]
+  .flatMap(v=>Array.isArray(v)?v:[v]);
+ const rawTrainNo=normalize(seg.train_number||seg.trainNumber||seg.train?.number||
+  seg.line||seg.lineName||seg.service?.number||item.train_number||'');
  const replacement=seg.rail_replacement===true||seg.railReplacement===true||
   seg.replacement_bus===true||seg.replacementBus===true||
   seg.is_replacement_bus===true||seg.isRailReplacement===true||
-  [seg.mode,seg.transport_mode,seg.transport_type,
-   seg.replacement_type,seg.replacement_reason,seg.service?.category,
-   seg.service?.type,seg.vehicle?.description,seg.description]
-   .some(v=>/\b(?:rail|train|tren|feroviar).*(?:replacement|inlocui|substitu)|(?:replacement|inlocui|substitu).*(?:rail|train|tren|feroviar)/.test(normalize(v)));
+  /^(?:ir|r|re|r\s+e)\s+a\s*\d+\b/.test(rawTrainNo)||
+  replacementHints.some(v=>/\b(?:rail|train|tren|feroviar).*(?:replacement|inlocui|substitu)|(?:replacement|inlocui|substitu).*(?:rail|train|tren|feroviar|auto|autobuz|autocar)|\b(?:transbordare\s+auto|(?:autobuz|autocar|mijloc\s+auto|serviciu\s+auto)\s+(?:de\s+)?(?:inlocui|substitu|transbordare|cfr))\b/.test(normalize(v)));
  let mode=physical.map(normalizeMode).find(Boolean)||
    category.map(normalizeMode).find(Boolean)||'';
  if(replacement&&(!mode||mode==='train'))mode='coach';
@@ -507,10 +514,18 @@ export function normalizeBiloTrips(payload,limit=5,date=''){
      operator:String(typeof operator==='object'?operator.name||'':operator).slice(0,100)});
   }
   if(!legs.length)continue;
-  if(isUnverifiedClosedCorridorRail({legs},date))continue;
   const start=legs[0].departureTime,end=legs[legs.length-1].arrivalTime;
   const durationMinutes=Math.round((Date.parse(end)-Date.parse(start))/60000);
   if(durationMinutes<1||durationMinutes>48*60)continue;
+  if(isUnverifiedClosedCorridorRail({legs},date)){
+   const opNorm=normalize(legs[0]?.operator||'');
+   const knownRailReplacementOp=/\b(?:cfr|sntfc|interregional|transferoviar|astra\s+trans|regio\s+calatori)\b/.test(opNorm);
+   if(knownRailReplacementOp&&durationMinutes>=90&&durationMinutes<=360){
+    legs[0]={...legs[0],mode:'coach',railReplacement:true};
+   }else{
+    continue;
+   }
+  }
   mergeOrAppendBiloJourney(out,{startDateTime:start,arrivalDateTime:end,durationMinutes,legs,
     time_zone:'Europe/Bucharest',fareLocal:biloFare(record)||biloFare(item),
     scheduled:true,real_time:false,source:'Bilo: operator schedule'});
@@ -609,9 +624,9 @@ export async function planRomanianNationalJourney(env,query,opts={}){
    const id=biloTripId(record);
    if(!id||seenIds.has(id))continue;
    seenIds.add(id);candidates.push({id,record});
-   if(candidates.length>=Math.min(limit,8))break;
+   if(candidates.length>=Math.min(limit,12))break;
   }
-  const fetched=await Promise.all(candidates.map(async candidate=>{
+  const fetchDetailRecord=async candidate=>{
    try{
     const detailResponse=await fetchImpl('https://mcp.bilo.ro/api/v1/trip-details',{
      method:'POST',headers,body:JSON.stringify({tripId:candidate.id}),
@@ -625,7 +640,8 @@ export async function planRomanianNationalJourney(env,query,opts={}){
     if(!trip.fareLocal)trip.fareLocal=biloFare(candidate.record);
     return {id:candidate.id,trip};
    }catch{return null;}
-  }));
+  };
+  const fetched=await Promise.all(candidates.map(fetchDetailRecord));
   const details=new Map(fetched.filter(Boolean).map(x=>[x.id,x.trip]));
   const completed=[];
   for(const record of items){
@@ -648,6 +664,38 @@ export async function planRomanianNationalJourney(env,query,opts={}){
     :{status:'not_checked',journeys:[],records:0};
   for(const coach of busLookup.journeys){
    mergeOrAppendBiloJourney(completed,coach);
+  }
+  const roadCountSoFar=completed.filter(t=>(t.legs||[]).some(l=>['coach','bus','minibus'].includes(String(l.mode||'').toLowerCase()))).length;
+  const checkKeyedBus=includeRoad&&(opts.tryKeyedBusSearch===true||
+   (!opts.fetchImpl&&opts.tryKeyedBusSearch!==false&&(closedCorridor||roadCountSoFar<2)));
+  if(checkKeyedBus){
+   try{
+    const busRes=await fetchImpl(url,{
+     method:'POST',
+     headers:{...headers,'Idempotency-Key':crypto.randomUUID()},
+     body:JSON.stringify({origin:query.origin,destination:query.destination,date,
+      mode:'bus',limit:Math.min(16,Math.max(limit,10))}),
+     signal:AbortSignal.timeout(7000)
+    });
+    if(busRes.ok){
+     const busPayload=await busRes.json();
+     const {items:busItems,mode:busRoot}=biloRecords(busPayload);
+     const busCands=[];
+     for(const rec of busItems){
+      const id=biloTripId(rec);
+      if(!id||seenIds.has(id))continue;
+      seenIds.add(id);busCands.push({id,record:rec});
+      if(busCands.length>=6)break;
+     }
+     const busFetched=busCands.length?await Promise.all(busCands.map(fetchDetailRecord)):[];
+     const busDetails=new Map(busFetched.filter(Boolean).map(x=>[x.id,x.trip]));
+     for(const rec of busItems){
+      const id=biloTripId(rec);
+      const trip=busDetails.get(id)||details.get(id)||normalizeBiloTrips({mode:busRoot||'bus',results:[rec]},1,date)[0];
+      if(trip)mergeOrAppendBiloJourney(completed,trip);
+     }
+    }
+   }catch{}
   }
   if(completed.length){
    // Safe aggregate statistics help distinguish missing provider coverage

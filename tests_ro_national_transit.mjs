@@ -404,4 +404,41 @@ assert.ok(backend.includes('http_status:result.http_status||null'),'Provider HTT
 assert.match(backend,/transit_available:false/,'Unsupported timetable remains unverified');
 assert.match(backend,/transit_available:true/,'Verified schedules retain the transit results');
 assert.match(backend,/const explicitCarRoute/,'Existing driving route guard remains');
+// Closed Oradea <-> Cluj-Napoca corridor: operator-attested CFR/private single-leg services convert to railReplacement coaches,
+// while unattributed train records remain rejected; keyed bus search supplements direct road coaches without duplicates.
+{
+ const closedOpTrips=normalizeBiloTrips({
+  results:[
+   {id:'cfr-repl',origin:'Oradea',destination:'Cluj-Napoca',departureTime:'08:00',arrivalTime:'11:25',mode:'train',operator:'CFR Călători',number:'IR A1532'},
+   {id:'unattr',origin:'Oradea',destination:'Cluj-Napoca',departureTime:'09:00',arrivalTime:'11:30',mode:'train'}
+  ]
+ },5,'2026-11-28');
+ assert.equal(closedOpTrips.length,1,'Only operator-attested closed-corridor service is retained');
+ assert.equal(closedOpTrips[0].legs[0].mode,'coach');
+ assert.equal(closedOpTrips[0].legs[0].railReplacement,true);
+
+ const calls=[];
+ const closedSearch=await planRomanianNationalJourney({BILO_API_KEY:'test-key'},{origin:'Oradea',destination:'Cluj-Napoca'},{
+  date:'2026-11-28',vehicle:'all',limit:12,tryKeyedBusSearch:true,
+  fetchImpl:async(url,req)=>{
+   const body=JSON.parse(String(req?.body||'{}'));
+   calls.push({url,mode:body.mode||null});
+   if(url.endsWith('/search')&&body.mode==='all'){
+    return {ok:true,status:200,json:async()=>({results:[
+     {id:'cfr-1',origin:'Oradea',destination:'Cluj-Napoca',departureTime:'07:40',arrivalTime:'11:10',mode:'train',operator:'CFR Călători',number:'IR 1532'},
+     {id:'petdor-1',origin:'Oradea',destination:'Cluj-Napoca',departureTime:'09:05',arrivalTime:'12:35',mode:'bus',operator:'Petdor'}
+    ]})};
+   }
+   if(url.endsWith('/search')&&body.mode==='bus'){
+    return {ok:true,status:200,json:async()=>({results:[
+     {id:'petdor-1',origin:'Oradea',destination:'Cluj-Napoca',departureTime:'09:05',arrivalTime:'12:35',mode:'bus',operator:'Petdor'},
+     {id:'fany-1',origin:'Autogara Oradea',destination:'Autogara Fany Cluj-Napoca',departureTime:'10:30',arrivalTime:'13:45',mode:'coach',operator:'Fany'}
+    ]})};
+   }
+   return {ok:true,status:200,json:async()=>({segments:[]})};
+  }
+ });
+ assert.ok(calls.some(c=>c.mode==='all')&&calls.some(c=>c.mode==='bus'),'Closed corridor runs keyed all + bus searches');
+ assert.equal(closedSearch.journeys.length,3,'CFR replacement coach + Petdor + Fany merged without duplicating Petdor');
+}
 console.log('PASS Romania Bilo keyed national rail/coach intent, ISO dates, schema fail-closed, guard UK/car routes');
