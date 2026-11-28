@@ -22672,7 +22672,6 @@ function beginTransitVisualTracking(current){
   ?[firstCoord[1],firstCoord[0]]
   :transitCoordinate(current.journey?.legs?.[0]?.departurePoint)||current.overviewPoints?.[0]||null;
  pocketSyncNavigationMap(current);
- if(routeStart)current.map.setView(routeStart,17,{animate:false});
  current.map.on('dragstart',()=>{current.follow=false;current.recenter.hidden=false});
  current.recenter.onclick=()=>{current.follow=true;
   if(current.remoteOriginPreview&&routeStart)current.map.setView(routeStart,17,{animate:false});
@@ -23551,7 +23550,6 @@ function startRouteTracking(current,resumeNative=false){
  }document.body.classList?.add('pocket-navigation-fullscreen');current.resize?.();current.navigation.textContent=t[1];current.recenter.hidden=false;current.liveStatus.hidden=false;current.liveStatus.textContent=t[3];pocketSyncNavigationMap(current);
  const firstRoutePt=current.route?.coordinates?.[0];
  const routeStart=Array.isArray(firstRoutePt)&&Number.isFinite(firstRoutePt[0])&&Number.isFinite(firstRoutePt[1])?[firstRoutePt[1],firstRoutePt[0]]:null;
- if(routeStart)current.map.setView?.(routeStart,16,{animate:false});
  const stale=()=>{clearTimeout(current.gpsTimer);current.gpsTimer=setTimeout(()=>{if(current.navigating&&activeRouteMap===current){current.liveStatus.textContent=t[8];pocketUpdateManeuver(current,null,null,Infinity,current.stepRows);if(current.turnCue){current.turnCue.hidden=true;current.turnCue.style.display='none'}current.liveMarker?.setStyle?.({opacity:.35,fillOpacity:.25})}},20000)};stale();
  const success=position=>{
   if(!current.navigating||activeRouteMap!==current)return;const c=position?.coords,age=Date.now()-position?.timestamp;
