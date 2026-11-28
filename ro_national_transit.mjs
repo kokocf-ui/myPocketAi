@@ -33,6 +33,17 @@ const cleanTown=v=>String(v||'')
  .replace(/\s+(?:pe\s+|la\s+data\s+de\s+)?\d{1,2}\s+(?:ianuarie|februarie|martie|aprilie|mai|iunie|iulie|august|septembrie|octombrie|noiembrie|decembrie)(?:\s+\d{4})?(?:\s+la\s+ora\s+\d{1,2}(?::\d{2})?)?$/iu,'')
  .replace(/\s+(?:cu\s+(?:trenul|autocarul|autobuzul)|pentru\s+\d+\s+(?:persoane|adulți|adulti)|la\s+ora\s+\d{1,2}(?::\d{2})?)$/iu,'')
  .trim().slice(0,100);
+const extractRoLocality=(raw,structuredCity='')=>{
+ const cleaned=cleanTown(raw);
+ const sc=cleanTown(structuredCity);
+ if(sc&&(!cleaned||normalize(cleaned).includes(normalize(sc))))return sc;
+ if(!cleaned.includes(','))return cleaned.replace(/^\d{5,6}\s+/,'').trim();
+ const parts=cleaned.split(',').map(s=>s.trim()).filter(Boolean);
+ if(parts.length>=2&&/^rom[aâ]nia$/iu.test(parts.at(-1)))parts.pop();
+ const tail=(parts.at(-1)||cleaned).replace(/^\d{5,6}\s+/,'').replace(/\s+\d{5,6}$/,'').trim();
+ if(parts.length>=2&&!/^(?:jud(?:ețul|etul|\.)?|municipiul)\b/iu.test(tail)&&tail.length>=2)return tail;
+ return cleaned;
+};
 const isRoGPS=pt=>Number.isFinite(Number(pt?.latitude))&&Number.isFinite(Number(pt?.longitude))
  && Number(pt.latitude)>=43.55&&Number(pt.latitude)<=48.35
  && Number(pt.longitude)>=20.15&&Number(pt.longitude)<=29.95;
@@ -109,8 +120,8 @@ export function romanianNationalQuery(message,opts={}){
  if(explicitCar)return null;
  const naturalIntercity=/\b(?:vreau sa ajung|cum (?:pot sa |pot )?ajung|ce variante (?:am|exista)|cum (?:pot sa )?merg|cum ma deplasez|cum pot calatori)\b/.test(normalized);
  const matched=text.match(/(?:^|\s)(?:din|de\s+la)\s+(.+?)\s+(?:p[aâ]n[aă]\s+la|către|catre|spre|la)\s+(.+?)(?:[?!]|$)/iu);
- const origin=matched?cleanTown(matched[1]):cleanTown(opts.origin?.city||opts.origin?.label||'');
- const destination=matched?cleanTown(matched[2]):cleanTown(opts.destination?.city||opts.destination?.label||opts.transit_query||'');
+ const origin=matched?extractRoLocality(matched[1],opts.origin?.city):extractRoLocality(opts.origin?.city||opts.origin?.label||'',opts.origin?.city);
+ const destination=matched?extractRoLocality(matched[2],opts.destination?.city):extractRoLocality(opts.destination?.city||opts.destination?.label||opts.transit_query||'',opts.destination?.city);
  if(!matched&&!destination&&opts.mixed_journey!==true&&opts.travel_mode!=='transit'&&!naturalIntercity&&!/\b(?:traseu\w*|ruta|rute|itinerar\w*|plecare|sosire|mersul\s+trenurilor|spre|pana\s+la|catre)\b/.test(normalized))return null;
  const explicitRomania=/\b(?:romania|romaniei|romanesti|romanian)\b/.test(normalized)
     ||String(opts.origin?.country_code||'').toUpperCase()==='RO'
