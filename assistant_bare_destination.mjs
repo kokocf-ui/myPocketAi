@@ -27,7 +27,7 @@ export function assistantBareDestinationQuery(raw){
  const streetSuffix=/^(?:[\p{L}\p{M}\p{N}'-]+\s+){1,5}(?:street|road|avenue|lane|crescent|boulevard|square)$/iu.test(head)
   &&!/\b(?:vorbesc|discut|spune|spun|magazin|magazinul|magazine|shop|shops|store|restaurant|restaurants|despre|about|regarding|what|where|cum|unde|te|rog|please|cauta|caut|gaseste|gasesc|look|find|show|tell)\b/iu.test(head);
  const namedStreet=explicitStreet||streetSuffix;
- const namedLandmark=/^(?:muzeul?|museum|hotel(?:ul)?|hostel(?:ul)?|spital(?:ul)?|hospital|stadion(?:ul)?|stadium|gara|station|aeroport(?:ul)?|airport|castel(?:ul)?|castle|parc(?:ul)?|park|universitatea|university)\s+\S/iu.test(head);
+ const namedLandmark=/^(?:muzeul?|museum|teatrul?|teatru|theatre|theater|palatul?|palace|cetatea|citadel|hotel(?:ul)?|hostel(?:ul)?|spital(?:ul)?|hospital|stadion(?:ul)?|stadium|gara|station|aeroport(?:ul)?|airport|castel(?:ul)?|castle|parc(?:ul)?|park|universitatea|university)\s+\S/iu.test(head);
  // A full numbered address does not need a street-type prefix, whatever the
  // local writing convention (e.g. 12 Oxford Street or Nufărului 12).
  const numberFirst=/^\d+[a-z]?(?:[-/]\d+)?\s+\p{L}[\p{L}\p{M}\p{N}' .-]{1,100}$/iu.test(head);
@@ -50,9 +50,19 @@ export function parseJourneyExpression(raw){
   /(?:pe jos|pietonal|walking|walk to|on foot)/u.test(norm)?'walk':null;
  const cleanSuffix=value=>String(value||'').trim().replace(/\s+(?:cu\s+(?:mașina|masina|transportul\s+public|autobuzul|trenul|metroul)|by\s+(?:car|train|bus)|pe\s+jos|on\s+foot|walking|driving)$/iu,'').trim();
  // Pick an explicit A→B pair anywhere inside a navigation request.
- const pair=original.match(/(?:^|\s)(?:de\s+la|din|from|von|desde|da|от)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la|to|nach|hasta|a|до)\s+(.+)$/iu)
+ // Pair each origin preposition with its own language's destination marker so
+ // house sub-letters ("1 A, Oradea") are never split on Italian/Spanish "a".
+ const pair=original.match(/(?:^|\s)(?:de\s+la|din)\s+(.+?)\s+(?:până\s+la|pana\s+la|spre|către|catre|la)\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)from\s+(.+?)\s+to\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)von\s+(.+?)\s+(?:nach|bis)\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)desde\s+(.+?)\s+(?:hasta|a)\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)da\s+(.+?)\s+(?:fino\s+a|a)\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)de\s+(.+?)\s+(?:à|vers|para|até|ate)\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)van\s+(.+?)\s+naar\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)z\s+(.+?)\s+do\s+(.+)$/iu)
+   ||original.match(/(?:^|\s)от\s+(.+?)\s+до\s+(.+)$/iu)
    ||original.match(/^(.+?)\s*(?:→|->|➜)\s*(.+)$/u)
-   ||original.match(/^([\p{L}\p{M}\p{N}' .-]{2,80})\s+(?:to|spre|până\s+la|pana\s+la)\s+(.+)$/iu);
+   ||original.match(/^([\p{L}\p{M}\p{N}' .,-]{2,100})\s+(?:to|spre|până\s+la|pana\s+la)\s+(.+)$/iu);
  if(pair)return {raw:original,origin_query:pair[1].trim(),destination_query:cleanSuffix(pair[2]),preferred_mode};
  const first=original.match(/^(?:du[- ]?mă(?:\s+te\s+rog)?(?:\s+la)?|du[- ]?ma(?:\s+te\s+rog)?(?:\s+la)?|vreau\s+să\s+(?:ajung|merg)\s+(?:la|spre)|vreau\s+sa\s+(?:ajung|merg)\s+(?:la|spre)|cum\s+(?:pot\s+)?ajung\s+(?:la|spre)|navighează\s+(?:la|spre)|navigheaza\s+(?:la|spre)|arată[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|arata[- ]?mi\s+(?:drumul|traseul)\s+(?:la|spre)|traseu\s+(?:la|spre|către|catre|până\s+la|pana\s+la)|deplasare\s+spre|take\s+me\s+to|how\s+(?:do|can)\s+i\s+get\s+to|directions\s+to|route\s+to|navigate\s+to|drive\s+to|walk\s+to|go\s+to|bring\s+me\s+to|itinéraire\s+vers|route\s+nach|ruta\s+a|percorso\s+per)\s+(.+)$/iu);
  const destination=cleanSuffix(first?first[1]:original);
@@ -75,7 +85,7 @@ export function assistantJourneyHandoff(raw){
    &&barePairMatch[2].trim().split(/\s+/).length<=4
    &&!/\b(?:cook|make|learn|know|see|buy|do|be|have|use|read|play|work|sleep|eat|speak|romana|engleza|franceza|germana|spaniola|italiana|english|french|german|spanish|italian|romanian|\d+)\b/u.test(fold);
  const intent=/\b(?:traseu(?:l|ri|e)?|ruta|rute|route\s+to|directions\s+to|navigate\s+to|navigatie|navigheaza|deplasare\s+spre|transport\s+mixt|itineraire\s+vers|percorso\s+per)\b/u.test(fold)
-   ||/^(?:du[- ]?ma|vreau sa (?:ajung|merg)\s+(?:la|spre|in)\b|cum (?:pot )?ajung\s+(?:la|spre|in)\b|arata[- ]?mi drumul|take me to|how (?:do|can) i get to|drive to|walk to|go to|from [a-z\p{L}][\p{L}\p{M}' .-]{1,50} to [a-z\p{L}]|de la [a-z\p{L}][\p{L}\p{M}' .-]{1,50} (?:la|spre|pana la) [a-z\p{L}]|din [a-z\p{L}][\p{L}\p{M}' .-]{1,50} spre [a-z\p{L}])/iu.test(fold)
+   ||/^(?:du[- ]?ma|vreau sa (?:ajung|merg)\s+(?:la|spre|in)\b|cum (?:pot )?ajung\s+(?:la|spre|in)\b|arata[- ]?mi drumul|take me to|how (?:do|can) i get to|drive to|walk to|go to|from [a-z\p{L}\p{N}][\p{L}\p{M}\p{N}' .,-]{1,90} to [a-z\p{L}\p{N}]|de la [a-z\p{L}\p{N}][\p{L}\p{M}\p{N}' .,-]{1,90} (?:la|spre|pana la) [a-z\p{L}\p{N}]|din [a-z\p{L}\p{N}][\p{L}\p{M}\p{N}' .,-]{1,90} spre [a-z\p{L}\p{N}])/iu.test(fold)
    ||/^\S.+\s*(?:→|->|➜)\s*\S/u.test(text)
    ||validBarePair;
  return intent?parseJourneyExpression(text):null;

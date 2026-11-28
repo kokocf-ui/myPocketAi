@@ -7,7 +7,17 @@
 
 ## 1. Reguli permanente de lucru cu utilizatorul
 
-**ULTIMA ETAPĂ — ORADEA DIAGNOSTIC READ-ONLY (NUfix/NUdeploy):**
+**ULTIMA ETAPĂ — RAFINARE CĂUTARE ADRESE, POI ȘI „DE LA A LA B” ÎN „DEPLASARE SPRE…”:**
+Branch activ `arena/9d2fdd81-mypocketai` (fast-forward din `5a48632` cu acordul utilizatorului).
+Rezolvat în `backend.js` (`journey_suggest`), `journey_suggestion_rank.mjs`, `one_field_journey_ui.mjs`, `assistant_bare_destination.mjs`:
+1) POI + localitate explicită (`Muzeul Țării Crișurilor, Oradea`) și POI cu diacritice fără localitate (`Muzeul Țării Crișurilor`): `/v1/geocode/search` + retry UTF-8 + fallback strict Geoapify `/v2/places` în cerc 15 km filtrat pe localitate (zero apeluri AI/Exa; nu substituie cu *Beiuș* sau *Sântandrei*).
+2) Eliminat wrapperele metropolitane (`Oradea Metropolitan Area` / `Zona Metropolitană`) din `candidates`, `completions` și etichete (`isSupraLocalLocality`, `specificLocality`, `stripSupraLocal`).
+3) Suprimat completările redundante când localitatea tastată este deja confirmată exact (`Strada Nufărului 12, Oradea`), păstrând prefixele parțiale (`O`..`Orade` → `Oradea`).
+4) Deduplicat `stradă + număr + localitate` (clădire pură preferată față de magazine de la parter; coduri poștale contradictorii eliminate când nu s-a căutat după cod poștal).
+5) În UI, destinațiile verificate sunt afișate înaintea completărilor și diferențiate vizual; fluxul „de la A la B” păstrează expresia la completare/editare și rezolvă coordonatele verificate ale plecării (inclusiv când GPS-ul telefonului este în UK).
+PASS `tests_journey_search_refinements.mjs` + 16 suite regresie journey/adresă/transport/UI + `npm run check`.
+
+**ETAPA ANTERIOARĂ — ORADEA DIAGNOSTIC READ-ONLY (NUfix/NUdeploy):**
 User „Ok, continuăm” aprobă diagnosticul Oradea înainte de schimbări.
 Raport ORADEA_READONLY_DIAGNOSTIC.md. Workflow existent mixed-live-diagnostic
 inputnou probe_oradea_readonly → jobizolatfărăsecrets; live-mixed SKIPPED,

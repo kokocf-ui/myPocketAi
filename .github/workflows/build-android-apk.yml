@@ -148,6 +148,7 @@ jobs:
           node --check index.js
           node tests_android_ui_preview.mjs
           node tests_frontend_boot_syntax.mjs
+          node tests_journey_search_refinements.mjs
           node tests_education_exercise_tutor.mjs
           node tests_education_review_2026.mjs
           node tests_education_input_tools.mjs
